@@ -1,5 +1,4 @@
 import "../../styles/globals.css";
-import "../../styles/auth.css";
 import Image from "next/image";
 
 export default function RootLayout({
