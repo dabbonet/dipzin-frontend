@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-[data-nextjs-scroll-focus-boundary] {
+#__next {
   display: contents;
 }
