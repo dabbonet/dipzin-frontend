@@ -4,6 +4,13 @@ import { AppProps } from "next/app";
 import { useState } from "react";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
+import { Poppins } from '@next/font/google'
+
+const poppins = Poppins({
+  style: ['normal'],
+  subsets: ['latin'],
+  weight: ['100', '300', '400', '500', '700']
+})
 
 import "../styles/globals.css";
 
@@ -31,7 +38,13 @@ export default function MyApp({
       supabaseClient={supabase}
       initialSession={pageProps.initialSession}
     >
-      {getLayout(<Component {...pageProps} />)}
+
+      {getLayout(
+        <main className={poppins.className}>
+          <Component {...pageProps} />
+        </main>
+      )}
+
     </SessionContextProvider>
   );
 }
