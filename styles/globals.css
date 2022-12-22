@@ -5,3 +5,9 @@
 #__next {
   display: contents;
 }
+
+html,
+body {
+  background: #0d1019;
+}
+
