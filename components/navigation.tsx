@@ -26,7 +26,8 @@ function Navigation() {
 
       <div className="flex items-center border-l border-slate-200 ml-6 pl-6 dark:border-slate-800 h-8 mr-4">
         <a
-          href="#"
+          href="https://twitter.com/dipzincom"
+          target="_blank"
           className="block fill-slate-400 hover:fill-slate-500 dark:hover:fill-slate-300"
         >
           <span className="sr-only">Twitter</span>
@@ -41,7 +42,8 @@ function Navigation() {
         </a>
 
         <a
-          href="#"
+          href="https://www.instagram.com/dipzincom/"
+          target="_blank"
           className="block ml-6 fill-slate-400 hover:fill-slate-500 dark:hover:fill-slate-300"
         >
           <span className="sr-only">Instagram</span>
@@ -57,7 +59,8 @@ function Navigation() {
         </a>
 
         <a
-          href="#"
+          href="https://www.linkedin.com/company/dipzin/"
+          target="_blank"
           className="block ml-6 fill-slate-400 hover:fill-slate-500 dark:hover:fill-slate-300"
         >
           <span className="sr-only">Linkedin</span>
