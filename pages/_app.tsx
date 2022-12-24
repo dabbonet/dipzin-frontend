@@ -5,6 +5,8 @@ import { useState } from "react";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import { Poppins } from '@next/font/google'
+import { DefaultSeo } from 'next-seo';
+import SEO from '../next-seo.config';
 
 const poppins = Poppins({
   style: ['normal'],
@@ -38,7 +40,7 @@ export default function MyApp({
       supabaseClient={supabase}
       initialSession={pageProps.initialSession}
     >
-
+      <DefaultSeo {...SEO} />
       {getLayout(
         <main className={poppins.className}>
           <Component {...pageProps} />
