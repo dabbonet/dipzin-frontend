@@ -24,8 +24,8 @@ export default {
             },
             {
                 url: 'https://www.dipzin.com/images/og/og-image-fb.jpg',
-                width: 680,
-                height: 355,
+                width: 1200,
+                height: 630,
                 alt: 'Your Go-To Source for Digital Inspiration',
                 type: 'image/jpeg',
             }

@@ -1,6 +1,7 @@
 import { AppProps } from "next/app";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Background from "../backgound";
 import Navigation from "../navigation";
 
 function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -21,7 +22,8 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
   }, [currentImage]);
 
   return (
-    <div className="min-h-full bg-[url('/images/auth_bg.jpg')] bg-cover bg-slate-900">
+    <div className="min-h-full bg-slate-900">
+      <Background />
       <Navigation />
       <main className="flex lg:flex-row flex-col h-[calc(100vh-74px)] overflow-auto lg:rounded-tl-3xl">
         <div className="flex-1 flex flex-col justify-center items-center px-4 lg:px-20 xl:px-24">
