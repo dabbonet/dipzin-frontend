@@ -7,11 +7,11 @@ import Navigation from "../navigation";
 function AuthLayout({ children }: { children: React.ReactNode }) {
   const [currentImage, setCurrentImage] = useState(0);
   const images = [
-    "",
-    "/images/screen-1.png",
-    "/images/screen-2.png",
-    "/images/screen-3.png",
-    "/images/screen-4.png",
+    "/images/hand/screen-1.png",
+    "/images/hand/screen-2.png",
+    "/images/hand/screen-3.png",
+    "/images/hand/screen-4.png",
+    "/images/hand/screen-5.png",
   ];
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
   }, [currentImage]);
 
   return (
-    <div className="min-h-full bg-slate-900">
+    <div className="min-h-full ">
       <Background />
       <Navigation />
       <main className="flex lg:flex-row flex-col h-[calc(100vh-74px)] overflow-auto lg:rounded-tl-3xl">
@@ -30,20 +30,20 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
           {children}
         </div>
         <div className="relative lg:block lg:w-0 w-full mx-auto lg:flex-1 flex-auto sm:ml-5">
+          <Image
+            className="absolute inset-0 h-full object-contain z-10 lg:pt-24"
+            src="/images/hand/hand.png"
+            fill
+            alt=""
+          />
           {images[currentImage] && (
             <Image
-              className="absolute inset-0 object-contain z-10 h-full lg:pt-24"
+              className="absolute inset-0 object-contain h-full lg:pt-24"
               src={images[currentImage]}
               fill
               alt=""
             />
           )}
-          <Image
-            className="absolute inset-0 h-full object-contain lg:pt-24"
-            src="/images/auth.png"
-            fill
-            alt=""
-          />
         </div>
       </main>
     </div>
