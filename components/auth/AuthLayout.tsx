@@ -27,17 +27,17 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
         <div className="flex-1 flex flex-col justify-center items-center px-4 lg:px-20 xl:px-24">
           {children}
         </div>
-        <div className="relative lg:block lg:w-0 w-80 mx-auto lg:flex-1 flex-auto">
+        <div className="relative lg:block lg:w-0 w-full mx-auto lg:flex-1 flex-auto sm:ml-5">
           {images[currentImage] && (
             <Image
-              className="absolute inset-0 object-contain z-10 h-full pt-24"
+              className="absolute inset-0 object-contain z-10 h-full lg:pt-24"
               src={images[currentImage]}
               fill
               alt=""
             />
           )}
           <Image
-            className="absolute inset-0 h-full object-contain pt-24"
+            className="absolute inset-0 h-full object-contain lg:pt-24"
             src="/images/auth.png"
             fill
             alt=""

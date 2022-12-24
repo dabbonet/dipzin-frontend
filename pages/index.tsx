@@ -34,16 +34,12 @@ const Page: NextPageWithLayout = () => {
 
     const [supabase] = useState(() => createBrowserSupabaseClient());
 
-    const sendEmail = async (email: string) => {
-        console.log(email);
-    };
-
     return (
-        <div className="mx-auto w-full max-w-xl text-2xl subpixel-antialiased">
-            <h1 className="font-bold text-transparent text-5xl bg-clip-text bg-gradient-to-r from-lime-200 to-orange-600">
+        <div className="mx-auto w-full max-w-xl subpixel-antialiased">
+            <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-lime-200 to-orange-600 lg:text-5xl text-3xl">
                 Your Go-To Source for Digital Inspiration
             </h1>
-            <p className="text-white text-base font-light mt-4">
+            <p className="text-white font-light mt-4 lg:text-base text-sm">
                 Sign up to be notified when Dipzin launches and start discovering new
                 ideas and staying up-to-date on the latest Product Design trends. We
                 can't wait to see what you create with Dipzin!
@@ -97,14 +93,14 @@ const Page: NextPageWithLayout = () => {
                     {({ isSubmitting, errors, touched }) => (
                         <Form>
                             <Field
-                                require
+                                require="require"
                                 type="email"
                                 name="email"
                                 className="h-14 text-gray-900 text-sm rounded-lg border-transparent focus:ring-orange-500 focus:border-orange-500 block w-full pl-12 pr-32 p-2.5 bg-slate-900 dark:placeholder-slate-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
                                 placeholder="Your email address..."
                             />
                             {errors.email && touched.email ? (
-                                <span className="text-sm mt-2 absolute text-red-500">
+                                <span className="text-sm mt-2 absolute top-2.5 right-36 text-red-500">
                                     {errors.email}
                                 </span>
                             ) : null}
