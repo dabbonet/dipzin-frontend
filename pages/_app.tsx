@@ -6,7 +6,7 @@ import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import { Poppins } from '@next/font/google'
 import { DefaultSeo } from 'next-seo';
-import SEO from '../next-seo.config';
+import SEO from '../next-seo.config'
 
 const poppins = Poppins({
   style: ['normal'],
