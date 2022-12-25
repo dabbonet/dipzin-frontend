@@ -25,13 +25,13 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
     <div className="min-h-full ">
       <Background />
       <Navigation />
-      <main className="flex lg:flex-row flex-col h-[calc(100vh-74px)] overflow-auto lg:rounded-tl-3xl">
+      <main className="flex lg:flex-row flex-col h-[calc(100vh-60px)] overflow-hidden lg:rounded-tl-3xl">
         <div className="flex-1 flex flex-col justify-center items-center px-4 lg:px-20 xl:px-24">
           {children}
         </div>
         <div className="relative lg:block lg:w-0 w-full mx-auto lg:flex-1 flex-auto sm:ml-5">
           <Image
-            className="absolute inset-0 h-full object-contain z-10 lg:pt-24"
+            className="absolute top-20 right-0 h-full object-contain z-10 lg:pt-24"
             src="/images/hand/hand.png"
             fill
             alt=""
