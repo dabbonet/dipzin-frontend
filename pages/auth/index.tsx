@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { Field, Form, Formik } from "formik";
 import Join from "./join";
 import Login from "./login";
+import OTP from "./otp";
 
 const Page: NextPageWithLayout = () => {
     const session = useSession();
@@ -25,7 +26,7 @@ const Page: NextPageWithLayout = () => {
 
             {status ?
                 <>
-                    <Join />
+                    <OTP />
                     <span className="dark:text-white block mt-4">
                         Already have an account?
                         <a className="ml-1 text-orange-500 font-semibold cursor-pointer" onClick={handeChange}>Sign in</a>

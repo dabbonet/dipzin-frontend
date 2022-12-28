@@ -26,7 +26,7 @@ const Page: NextPage = () => {
     return (
         <>
             <header className="w-full flex justify-between fixed items-center text-white mt-8 px-10 z-10">
-                <div className="text-2xl"><span className="font-normal">dipz<span className="font-light">in</span><span className="text-orange-500">.</span></span></div>
+                <div className="text-2xl"><span className="font-semibold">dipz<span className="font-light">in</span><span className="text-orange-500">.</span></span></div>
                 <div className="w-[180px] h-[35px] bg-[#1B2132] rounded-3xl flex items-center justify-between pl-3 pr-3 text-sm font-light">
                     <span>Paltform <span className="font-normal">{platform}</span></span>
                     <div>
