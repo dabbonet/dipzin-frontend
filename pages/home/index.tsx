@@ -4,24 +4,24 @@ const Page: NextPage = () => {
     const [platform, setPlatform] = useState<any>("IOS");
 
     const handlePlateformUp = () => {
-        if (platform == "IOS") {
+        if(platform == "IOS"){
             setPlatform("Android");
-        } else if (platform == "Android") {
+        } else if(platform == "Android"){
             setPlatform("Web");
-        } else if (platform == "Web") {
+        } else if(platform == "Web"){
             setPlatform("IOS");
         }
-    }
+    } 
 
     const handlePlateformDown = () => {
-        if (platform == "Web") {
+        if(platform == "Web"){
             setPlatform("Android");
-        } else if (platform == "Android") {
+        } else if(platform == "Android"){
             setPlatform("IOS");
-        } else if (platform == "IOS") {
+        } else if(platform == "IOS"){
             setPlatform("Web");
         }
-    }
+    } 
 
     return (
         <>
@@ -50,41 +50,44 @@ const Page: NextPage = () => {
 
                 <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-6 lg:gap-5 gap-5 mb-10 grid-cols-2">
 
-                    <div className="flex justify-center items-center relative">
-                        <div className="rounded-2xl overflow-hidden min-720:gap-16 sm:gap-5 transform transition duration-500 hover:scale-105">
-                            <img className="h-full w-full border-[2px] border-transparent rounded-2xl transform opacity duration-500 hover:border-slate-300" src="https://mobbin.com/_next/image?url=https%3A%2F%2Fujasntkfphywizsdaapi.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcontent%2Fapp_screens%2F4cd2000b-5712-461b-ac15-79d29aae7bf6.png&w=360&q=85" />
-                            <div className="absolute w-[100%] top-8 flex justify-center drop-shadow-xl">
-                                <img src="/images/assets/addpng.svg" />
-                                <img src="/images/assets/addcopy.svg" />
-                                <img src="/images/assets/addcollection.svg" />
-                            </div>
-                        </div>
 
-                    </div>
-
-                    <div className="flex justify-center items-center">
-                        <div className="rounded-2xl overflow-hidden min-720:gap-16 transform transition duration-500 hover:scale-105">
-                            <img className="h-full w-full border-[3px] border-transparent rounded-2xl transform opacity duration-500 hover:border-slate-300" src="https://mobbin.com/_next/image?url=https%3A%2F%2Fujasntkfphywizsdaapi.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcontent%2Fapp_screens%2F6b24531a-10b9-46d8-a5fa-1a87233430cf.png&w=720&q=85" />
-                        </div>
-                    </div>
-
-                    <div className="flex justify-center items-center relative">
+                    <div className="flex justify-center items-center relative group/item">
                         <div className="rounded-2xl overflow-hidden min-720:gap-16 transform transition duration-500 hover:scale-105">
                             <img className="h-full w-full border-[3px] border-transparent rounded-2xl transform opacity duration-500 hover:border-slate-300" src="https://mobbin.com/_next/image?url=https%3A%2F%2Fujasntkfphywizsdaapi.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcontent%2Fapp_screens%2Fece20f10-696c-432b-a2e9-d22116e20344.png&w=1440&q=85" />
                             <div className="absolute w-[100%] top-4 flex justify-center drop-shadow-xl">
-                                <img className=" h-[27%] w-[27%] transform transition duration-500 hover:scale-110 cursor-pointer" src="/images/assets/addpng.svg" />
-                                <img className=" h-[27%] w-[27%] transform transition duration-500 hover:scale-110 cursor-pointer" src="/images/assets/addcopy.svg" />
-                                <img className=" h-[27%] w-[27%] transform transition duration-500 hover:scale-110 cursor-pointer" src="/images/assets/addcollection.svg" />
+                                <img className=" h-[30%] w-[30%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100" src="/images/assets/addpng.svg" />
+                                <img className=" h-[30%] w-[30%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100" src="/images/assets/addcopy.svg" />
+                                <img className=" h-[30%] w-[30%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100" src="/images/assets/addcollection.svg" />
                             </div>
-                            <div className="absolute w-[100%] bottom-5 flex justify-start drop-shadow-xl" >
-                                <img className="h-[20%] w-[20%] ml-[4%] rounded-full cursor-pointer" src="/images/assets/appicon.svg" />
+                            <div className="absolute w-[100%] bottom-5 flex justify-start drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100" >
+                                <img className="h-[20%] w-[25%] ml-[4%] rounded-full" src="/images/assets/appicon.svg" />
                                 <div className="text-white">
-                                    <span className="ml-2 text-[16px] font-semibold">Hollister</span>
-                                    <span className="block text-[8px] font-light ml-2">Fashion & Fitness</span>
+                                    <span className="ml-1 text-[16px] font-semibold">Hollister</span>
+                                    <span className="block text-[8px] font-light ml-1">Fashion & Fitness</span>
                                 </div>
-                                <img className="ml-auto mr-[4%] h-[20%] w-[20%] cursor-pointer" src="/images/assets/screenzome.svg" />
-
+                                <img className="ml-auto mr-[4%] h-[20%] w-[25%]" src="/images/assets/screenzome.svg" />
                             </div>
+                            <div className="absolute bottom-0 w-[100%] h-[30%] bg-gradient-to-t from-slate-800 opacity-60"></div>
+                        </div>
+                    </div>
+
+                    <div className="flex justify-center items-center relative group/item">
+                        <div className="rounded-2xl overflow-hidden min-720:gap-16 transform transition duration-500 hover:scale-105">
+                            <img className="h-full w-full border-[3px] border-transparent rounded-2xl transform opacity duration-500 hover:border-slate-300" src="https://mobbin.com/_next/image?url=https%3A%2F%2Fujasntkfphywizsdaapi.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcontent%2Fapp_screens%2F4cd2000b-5712-461b-ac15-79d29aae7bf6.png&w=360&q=85" />
+                            <div className="absolute w-[100%] top-4 flex justify-center drop-shadow-xl">
+                                <img className=" h-[30%] w-[30%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100" src="/images/assets/addpng.svg" />
+                                <img className=" h-[30%] w-[30%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100" src="/images/assets/addcopy.svg" />
+                                <img className=" h-[30%] w-[30%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100" src="/images/assets/addcollection.svg" />
+                            </div>
+                            <div className="absolute w-[100%] bottom-5 flex justify-start drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100" >
+                                <img className="h-[20%] w-[25%] ml-[4%] rounded-full" src="/images/assets/appicon.svg" />
+                                <div className="text-white">
+                                    <span className="ml-1 text-[16px] font-semibold">Hollister</span>
+                                    <span className="block text-[8px] font-light ml-1">Fashion & Fitness</span>
+                                </div>
+                                <img className="ml-auto mr-[4%] h-[20%] w-[25%]" src="/images/assets/screenzome.svg" />
+                            </div>
+                            <div className="absolute bottom-0 w-[100%] h-[30%] bg-gradient-to-t from-slate-800 opacity-60"></div>
                         </div>
                     </div>
 
