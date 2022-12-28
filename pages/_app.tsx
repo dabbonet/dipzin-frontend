@@ -11,7 +11,7 @@ import SEO from '../next-seo.config'
 const poppins = Poppins({
   style: ['normal'],
   subsets: ['latin'],
-  weight: ['100', '300', '400', '500', '700']
+  weight: ['100', '300', '400', '500', '600', '700']
 })
 
 import "../styles/globals.css";
