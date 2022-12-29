@@ -40,12 +40,12 @@ const Page: NextPage = () => {
     return (
         <>
 
-            {timerBlur && (
+           {timerBlur && (
                 <div className="w-[100%] h-[100%] fixed bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
-                    <div className="w-[40%] h-[50%] bg-slate-900 rounded-3xl border-[1px] border-slate-700 p-10 text-white flex flex-col">
+                    <div className="w-[40%] h-auto bg-slate-900 rounded-3xl border-[1px] border-slate-600 p-10 text-white flex flex-col">
                         <div className="flex justify-between">
                             <div className="flex items-center">
-                                <span className="text-orange-400 text-[48px] mr-10 w-[110px]">00:{countdown}</span>
+                                <span className="text-orange-400 text-[48px] mr-10">00:{countdown}</span>
                                 <span className="h-[60%] bg-gradient-to-b from-orange-500 to-orange-600 flex justify-center items-center p-5 rounded-xl font-medium text-[14px]">Unlock More!</span>
                             </div>
                             <span className="mt-2" onClick={() => { setTimerBlur(false) }}><img src="/images/assets/close.svg" /></span>
@@ -53,7 +53,7 @@ const Page: NextPage = () => {
 
                         <span className="text-[24px] font-medium">Upgrade and get access to exclusive features</span>
 
-                        <div className="mt-5 text-[18px]">
+                        <div className="mt-5 text-[18px] mb-8">
                             <div>
                                 <div className="flex mb-2 items-center ">
                                     <span className="mr-2"><img src="/images/assets/check.svg" alt="check" /></span>
@@ -73,6 +73,27 @@ const Page: NextPage = () => {
                     </div>
                 </div>
             )}
+
+            <div className="fixed w-[100%] bottom-0 flex justify-center z-40">
+                <div className="fixed bottom-12 h-[50px] flex items-center ">
+                    <div className="w-[50px] h-[50px] bg-slate-500 rounded-full mr-5"></div>
+                    <div className="w-[648px] py-2 bg-slate-900 border-[0.5px] border-slate-400 rounded-lg px-4 flex items-center text-white">
+                        <div className="flex items-center bg-slate-800 rounded-3xl px-7 h-[48px] mr-5">
+                            <span className="font-semibold text-[14px]">Menu</span>
+                            <span className="ml-2"><img src="/images/assets/navmenuicon.svg" /></span>
+                        </div>
+                        <div className="flex items-center w-[488px] bg-slate-800 rounded-3xl pl-7 h-[48px]">
+                            <span className="font-semibold text-[14px]"><input className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 w-[300px]" placeholder="Search" /></span>
+                            <div className="h-[100%] flex items-center bg-slate-700 rounded-3xl px-7 ml-auto">
+                                <span className="font-semibold text-[14px]">Fillter</span> 
+                                <span className="ml-2"><img src="/images/assets/navmenuicon.svg" /></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 
             <header className="w-full flex justify-between fixed items-center text-white mt-8 px-10 z-10">
                 <div className="text-2xl"><span className="font-semibold">dipz<span className="font-light">in</span><span className="text-orange-500">.</span></span></div>
