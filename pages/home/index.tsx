@@ -6,9 +6,10 @@ const Page: NextPage = () => {
   const [platform, setPlatform] = useState<any>("IOS");
 
   const [tabStream, setTabStream] = useState<boolean>(true);
-  const [timerBlur, setTimerBlur] = useState<boolean>(false); //true on deploy//
+  const [timerBlur, setTimerBlur] = useState<boolean>(true); //true on deploy//
 
   const [userOpen, setUseropen] = useState<boolean>(false);
+  const [streamOpen, setStreamOpen] = useState<string>("stream");
 
   const [screenOpen, setScreenOpen] = useState<boolean>(false);
   const [webScreenOpen, setWebScreenOpen] = useState<boolean>(false);
@@ -29,6 +30,11 @@ const Page: NextPage = () => {
     }
   }, [countdown]);
 
+  const formattedCountdown = countdown.toLocaleString("en-US", {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
+
   return (
     <>
       {timerBlur && (
@@ -36,8 +42,8 @@ const Page: NextPage = () => {
           <div className="w-[40%] h-auto bg-slate-900 rounded-3xl border-[1px] border-slate-600 p-10 text-white flex flex-col">
             <div className="flex justify-between">
               <div className="flex items-center">
-                <span className="text-orange-400 text-[48px] mr-10">
-                  00:{countdown}
+                <span className="w-[150px] text-orange-400 text-[48px] mr-10">
+                  00:{formattedCountdown}
                 </span>
                 <span className="h-[60%] bg-gradient-to-b from-orange-500 to-orange-600 flex justify-center items-center p-5 rounded-xl font-medium text-[14px]">
                   Unlock More!
@@ -218,28 +224,46 @@ const Page: NextPage = () => {
           />
         </div>
 
-        <div className="min-w-[75%] flex mt-10 mb-[55px] items-end">
-          <a
-            onClick={() => {
-              setTabStream(true);
-            }}
-            className="cursor-pointer flex items-center"
-          >
-            <span className="text-white text-5xl font-light">Stream</span>
-            <img
-              className="ml-3 transorm duration-[600ms] hover:rotate-90"
-              src="/images/assets/refresh.svg"
-            />
+        <div className="w-[75%] flex mt-10 mb-[55px]">
+          <a className="cursor-pointer flex items-center">
+            <span
+              onClick={() => {
+                setStreamOpen("stream");
+              }}
+              className={` ${
+                streamOpen == "stream"
+                  ? "text-white text-5xl font-light"
+                  : "text-gray-400 text-4xl opacity-70 font-light"
+              } transform transition duration-500 `}
+            >
+              Stream
+            </span>
+            {streamOpen == "stream" && (
+              <img
+                className="ml-3 transorm duration-[600ms] hover:rotate-90"
+                src="/images/assets/refresh.svg"
+              />
+            )}
           </a>
-          <a
-            onClick={() => {
-              setTabStream(false);
-            }}
-            className="cursor-pointer"
-          >
-            <span className="text-gray-400 text-4xl ml-12 opacity-70 font-light">
+          <a className="cursor-pointer flex items-center">
+            <span
+              onClick={() => {
+                setStreamOpen("collection");
+              }}
+              className={` ${
+                streamOpen == "collection"
+                  ? "text-white text-5xl font-light"
+                  : "text-gray-400 text-4xl opacity-70 font-light"
+              } transform transition duration-500  ml-12 `}
+            >
               Collections
             </span>
+            {streamOpen == "collection" && (
+              <img
+                className="ml-3 transorm duration-[600ms] hover:rotate-90"
+                src="/images/assets/refresh.svg"
+              />
+            )}
           </a>
         </div>
 
