@@ -2,14 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import BlurImage from "./Image";
 
 type ScreenProps = {
-    src: string;
+    images: string[];
 };
 
-interface ImageHoverProps {
-    imageUrls: string[]
-}
 
-const ImageHover = ({ images }: { images: string[] }) => {
+const ImageHover = ({ images }: ScreenProps) => {
     const [currentImage, setCurrentImage] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
   
@@ -40,18 +37,11 @@ const ImageHover = ({ images }: { images: string[] }) => {
     );
   };
 
-const Screen = ({ src }: ScreenProps) => {
-    const imageUrls = [
-        "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png",
-        "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/619/42855630-fe26-46ae-b248-e09a62f8b8d6.png",
-        "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/731/5769262d-f575-438f-884a-200cef298f6e.png",
-        "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/728/545daa87-efdc-4f92-a970-4ded077805a8.png",
-        "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/e237b8fa-192f-47ad-ac6b-370330b5ba38.png"
-      ]
+const Screen = ({ images }: ScreenProps) => {
     return (
         <div className="flex justify-center items-center relative group/item cursor-pointer">
             <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 transform transition duration-500 hover:scale-105">
-                <ImageHover images={imageUrls} />
+                <ImageHover images={images} />
                 {/* <BlurImage id={1} src={src} platform={1} /> */}
 
                 {/*

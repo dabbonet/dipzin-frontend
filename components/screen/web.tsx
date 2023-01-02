@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import BlurImage from "./Image";
 
 type ScreenProps = {
-    src: string;
+    images: string[];
 };
 
-const ImageHover = ({ images }: { images: string[] }) => {
+const ImageHover = ({ images }: ScreenProps) => {
     const [currentImage, setCurrentImage] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
   
@@ -36,18 +36,11 @@ const ImageHover = ({ images }: { images: string[] }) => {
     );
   };
 
-const Web = ({ src }: ScreenProps) => {
-    const imageUrls = [
-        "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/65692a13-8749-4ccf-8f94-8b62e99d0788.png",
-        "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/ba2780b8-ce7f-4d65-8e18-f6358d544733.png",
-        "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/9d105252-4222-483a-b90d-d4f898e41bd0.png",
-        "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/992731cb-7023-4058-af52-0cd1fad83bea.png",
-        "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/26e8ddc8-fd7f-4364-9a79-950dedb84d3a.png"
-      ]
+const Web = ({ images }: ScreenProps) => {
     return (
         <div className="flex justify-center items-center relative group/item">
             <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 transform transition duration-500 hover:scale-105">
-                <ImageHover images={imageUrls}/>
+                <ImageHover images={images}/>
                 {/*
                     <div className="absolute w-[100%] top-4 flex justify-center drop-shadow-xl ">
                         <img className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100" src="/images/assets/addpng.svg" />
