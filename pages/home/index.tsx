@@ -4,7 +4,7 @@ import Screen from "../../components/screen";
 import cn from "../../components/helpers";
 
 const Page: NextPage = () => {
-  const [platform, setPlatform] = useState<any>("IOS");
+  const [platform, setPlatform] = useState<string>("IOS");
 
   const [tabStream, setTabStream] = useState<boolean>(true);
   const [timerBlur, setTimerBlur] = useState<boolean>(true); //true on deploy//
@@ -266,37 +266,14 @@ const Page: NextPage = () => {
           <>
             {platform == "Web" ? (
               <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-4 lg:gap-5 gap-5 mb-10 grid-cols-2">
+                
                 <div
                   className="flex justify-center items-center relative group/item cursor-pointer"
                   onClick={() => {
                     setWebScreenOpen(true);
                   }}
                 >
-                  <div className="rounded-2xl overflow-hidden min-720:gap-16 transform transition duration-500 hover:scale-105">
-                    <img
-                      className="h-full w-full border-[3px] border-transparent rounded-2xl transform opacity duration-500 hover:border-slate-300"
-                      src="https://mobbin.com/_next/image?url=https%3A%2F%2Fujasntkfphywizsdaapi.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcontent%2Fapp_screens%2Ff13a9dc3-c068-45ee-bc54-2796ead3a7b8.png&w=1920&q=85"
-                    />
-                    <div className="absolute w-[100%] bottom-3 flex justify-start items-center drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100 z-20">
-                      <img
-                        className="h-[15%] w-[15%] ml-[4%] rounded-full"
-                        src="/images/assets/appicon.svg"
-                      />
-                      <div className="text-white">
-                        <span className="ml-2 text-[15px] font-semibold">
-                          Hollister
-                        </span>
-                        <span className="block text-[10px] font-light ml-2">
-                          Fashion & Fitness
-                        </span>
-                      </div>
-                      <img
-                        className="ml-auto mr-[4%] h-[10%] w-[10%]"
-                        src="/images/assets/screenzome.svg"
-                      />
-                    </div>
-                    <div className="absolute bottom-0 w-[100%] h-[30%] bg-gradient-to-t from-black opacity-80 z-10 invisible transform transition duration-500 group-hover/item:visible"></div>
-                  </div>
+                  <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/65692a13-8749-4ccf-8f94-8b62e99d0788.png" />
                 </div>
 
                 <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/65692a13-8749-4ccf-8f94-8b62e99d0788.png" />
@@ -525,7 +502,7 @@ const Page: NextPage = () => {
 
         <div
           className={cn(
-            ' duration-500 w-[110%] h-[100%] transition-all z-40 overflow-y-scroll',
+            ' duration-500 w-[110%] h-[100%] transition-all z-40 overflow-y-scroll pt-40',
             screenOpen
               ? 'backdrop-blur-xl fixed bg-[#0D1018]/70'
               : 'backdrop-blur'
@@ -534,64 +511,84 @@ const Page: NextPage = () => {
             setScreenOpen(false);
           }}
         >
-          <div
-            className={cn(
-              ' duration-1000 transition-all flex flex-col',
-              screenOpen
-                ? 'scale-100'
-                : 'scale-90'
-            )}
-          >
-            <div className="flex w-[100%] h-[25%] mt-5 mb-3 items-center text-white z-50">
-              <img
-                className="h-[40%] ml-[13%] rounded-2xl bg-slate-500"
-                src="/images/assets/appicon.svg"
-              />
-              <div className="ml-12">
-                <span className="text-[32px] font-medium">Hollister</span>
-                <span className="block text-[16px] text-[#8F94A1]">
-                  Fashion & Fitness
-                </span>
+          {screenOpen && (
+            <div
+              className={cn(
+                'duration-1000 transition-all flex flex-col w-[80%] lg:w-[75%] mx-auto',
+                screenOpen
+                  ? 'scale-100'
+                  : 'scale-90'
+              )}
+            >
+              <div className="flex my-8 items-center text-white z-50">
+                <img
+                  className="h-[48px] rounded-2xl bg-slate-500"
+                  src="/images/assets/appicon.svg"
+                />
+                <div className="ml-4">
+                  <span className="text-[32px] font-medium">Hollister</span>
+                  <span className="block text-[16px] text-[#8F94A1]">
+                    Fashion & Fitness
+                  </span>
+                </div>
+              </div>
+              <div className="grid lg:grid-cols-5 lg:gap-10 gap-10 grid-cols-2 ml-auto mr-auto z-50">
+                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/e237b8fa-192f-47ad-ac6b-370330b5ba38.png" />
+                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png" />
+                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/619/42855630-fe26-46ae-b248-e09a62f8b8d6.png" />
+                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/731/5769262d-f575-438f-884a-200cef298f6e.png" />
+                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/728/545daa87-efdc-4f92-a970-4ded077805a8.png" />
               </div>
             </div>
-            <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-5 lg:gap-10 gap-10 grid-cols-2 ml-auto mr-auto z-50">
-              <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/e237b8fa-192f-47ad-ac6b-370330b5ba38.png" />
-              <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png" />
-              <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/619/42855630-fe26-46ae-b248-e09a62f8b8d6.png" />
-              <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/731/5769262d-f575-438f-884a-200cef298f6e.png" />
-              <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/728/545daa87-efdc-4f92-a970-4ded077805a8.png" />
-            </div>
-          </div>
+          )}
         </div>
 
 
-        {webScreenOpen && (
-          <div
-            className="w-[110%] h-[100%] fixed bg-opacity-50 bg-[#0D1018] backdrop-blur-xl z-40 flex flex-col overflow-y-scroll"
+        
+        <div
+            className={cn(
+              ' duration-500 w-[110%] h-[100%] transition-all z-40 overflow-y-scroll pt-40',
+              webScreenOpen
+                ? 'backdrop-blur-xl fixed bg-[#0D1018]/70'
+                : 'backdrop-blur'
+            )}
             onClick={() => {
               setWebScreenOpen(false);
             }}
           >
-            <div className="flex w-[100%] h-[25%] mt-[60px] mb-[60px] items-center text-white z-50">
-              <img
-                className="h-[110%] ml-[12.8%] rounded-2xl bg-slate-500"
-                src="/images/assets/appicon.svg"
-              />
-              <div className="ml-12">
-                <span className="text-[32px] font-medium">Hollister</span>
-                <span className="block text-[16px] text-[#8F94A1]">
-                  Fashion & Fitness
-                </span>
+            {webScreenOpen && (
+              <div
+                className={cn(
+                  ' duration-1000 transition-all flex flex-col w-[80%] lg:w-[75%] mx-auto',
+                  webScreenOpen
+                    ? 'scale-100'
+                    : 'scale-90'
+                )}
+              >
+                <div className="my-8 flex items-center text-white z-50">
+                  <img
+                    className="h-[48px] rounded-2xl bg-slate-500"
+                    src="/images/assets/appicon.svg"
+                  />
+                  <div className="ml-4">
+                    <span className="text-[32px] font-medium">Hollister</span>
+                    <span className="block text-[16px] text-[#8F94A1]">
+                      Fashion & Fitness
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid lg:grid-cols-2 lg:gap-[60px] gap-10 grid-cols-1 z-50">
+                  <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/9d105252-4222-483a-b90d-d4f898e41bd0.png" />
+                  <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/992731cb-7023-4058-af52-0cd1fad83bea.png" />
+                  <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/26e8ddc8-fd7f-4364-9a79-950dedb84d3a.png" />
+                  <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/ca3fd6ba-ef79-403d-8881-2f7ae34b94fc.png" />
+                  <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/38c5342a-812d-4f76-a69b-d568c25f9bcc.png" />
+                </div>
               </div>
-            </div>
-            <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-2 lg:gap-[60px] gap-10 grid-cols-1 ml-auto mr-auto z-50 mb-10">
-              <Screen platform={3} src="https://mobbin.com/_next/image?url=https%3A%2F%2Fujasntkfphywizsdaapi.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcontent%2Fapp_screens%2Ff13a9dc3-c068-45ee-bc54-2796ead3a7b8.png&w=1920&q=85" />
-              <Screen platform={3} src="https://mobbin.com/_next/image?url=https%3A%2F%2Fujasntkfphywizsdaapi.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcontent%2Fapp_screens%2F4afcb257-a0ad-46bf-af8d-f8ba116a90f1.png&w=1280&q=85" />
-              <Screen platform={3} src="https://mobbin.com/_next/image?url=https%3A%2F%2Fujasntkfphywizsdaapi.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcontent%2Fapp_screens%2Ff13a9dc3-c068-45ee-bc54-2796ead3a7b8.png&w=1920&q=85" />
-              <Screen platform={3} src="https://mobbin.com/_next/image?url=https%3A%2F%2Fujasntkfphywizsdaapi.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fcontent%2Fapp_screens%2F025b9446-7ba2-4567-b3ae-3a9cdd604dd8.png&w=1920&q=85" />
-            </div>
-          </div>
-        )}
+             )}
+        </div>
+       
       </main>
     </>
   );
