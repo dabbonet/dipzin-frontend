@@ -36,6 +36,20 @@ const Page: NextPage = () => {
     useGrouping: false,
   });
 
+  const webImages = [
+    "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/65692a13-8749-4ccf-8f94-8b62e99d0788.png",
+    "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/ba2780b8-ce7f-4d65-8e18-f6358d544733.png",
+    "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/9d105252-4222-483a-b90d-d4f898e41bd0.png",
+    "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/992731cb-7023-4058-af52-0cd1fad83bea.png",
+    "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/26e8ddc8-fd7f-4364-9a79-950dedb84d3a.png"
+  ]
+  const mobileImages = [
+    "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png",
+    "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/619/42855630-fe26-46ae-b248-e09a62f8b8d6.png",
+    "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/731/5769262d-f575-438f-884a-200cef298f6e.png",
+    "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/728/545daa87-efdc-4f92-a970-4ded077805a8.png",
+    "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/e237b8fa-192f-47ad-ac6b-370330b5ba38.png"
+  ]
   return (
     <>
       {/* {timerBlur && (
@@ -236,7 +250,7 @@ const Page: NextPage = () => {
             </span>
             {streamOpen == "stream" && (
               <img
-                className="ml-3 transorm duration-[600ms] hover:rotate-90"
+                className="ml-3 transform duration-[600ms] hover:rotate-90"
                 src="/images/assets/refresh.svg"
               />
             )}
@@ -266,26 +280,25 @@ const Page: NextPage = () => {
           <>
             {platform == "Web" ? (
               <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-4 lg:gap-5 gap-5 mb-10 grid-cols-2">
-                
+
                 <div
                   className="flex justify-center items-center relative group/item cursor-pointer"
                   onClick={() => {
                     setWebScreenOpen(true);
                   }}
                 >
-                  <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/65692a13-8749-4ccf-8f94-8b62e99d0788.png" />
+                  <Screen platform={3} list={webImages} />
                 </div>
 
-                <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/65692a13-8749-4ccf-8f94-8b62e99d0788.png" />
-                <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/ba2780b8-ce7f-4d65-8e18-f6358d544733.png" />
-                <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/9d105252-4222-483a-b90d-d4f898e41bd0.png" />
-                <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/992731cb-7023-4058-af52-0cd1fad83bea.png" />
-                <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/26e8ddc8-fd7f-4364-9a79-950dedb84d3a.png" />
-                <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/ca3fd6ba-ef79-403d-8881-2f7ae34b94fc.png" />
-                <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/38c5342a-812d-4f76-a69b-d568c25f9bcc.png" />
-                <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/8842696a-1e4e-4d39-af5e-8c4a4bd402f4.png" />
-                <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/2ce4d4d4-ba09-4766-b638-2efb3c32c5bd.png" />
-                <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/9effb5b6-64f7-4ac7-9e96-e94af0c0f517.png" />
+                <Screen platform={3} list={webImages} />
+                <Screen platform={3} list={webImages} />
+                <Screen platform={3} list={webImages} />
+                <Screen platform={3} list={webImages} />
+                <Screen platform={3} list={webImages} />
+                <Screen platform={3} list={webImages} />
+                <Screen platform={3} list={webImages} />
+                <Screen platform={3} list={webImages} />
+                <Screen platform={3} list={webImages} />
               </div>
             ) : (
               <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-6 lg:gap-5 gap-5 mb-10 grid-cols-2">
@@ -295,22 +308,19 @@ const Page: NextPage = () => {
                     setScreenOpen(true);
                   }}
                 >
-                  <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png" />
+                  <Screen platform={1} list={mobileImages} />
                 </div>
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/619/42855630-fe26-46ae-b248-e09a62f8b8d6.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/731/5769262d-f575-438f-884a-200cef298f6e.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/728/545daa87-efdc-4f92-a970-4ded077805a8.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/e237b8fa-192f-47ad-ac6b-370330b5ba38.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/731/5769262d-f575-438f-884a-200cef298f6e.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/619/42855630-fe26-46ae-b248-e09a62f8b8d6.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/728/545daa87-efdc-4f92-a970-4ded077805a8.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/e237b8fa-192f-47ad-ac6b-370330b5ba38.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/731/5769262d-f575-438f-884a-200cef298f6e.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/619/42855630-fe26-46ae-b248-e09a62f8b8d6.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/728/545daa87-efdc-4f92-a970-4ded077805a8.png" />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
               </div>
             )}
           </>
@@ -504,8 +514,8 @@ const Page: NextPage = () => {
           className={cn(
             ' duration-500 w-[110%] h-[100%] transition-all z-40 overflow-y-scroll pt-40',
             screenOpen
-              ? 'backdrop-blur-xl fixed bg-[#0D1018]/70'
-              : 'backdrop-blur'
+              ? 'backdrop-blur-xl fixed bg-[#0D1018]/70 block'
+              : 'backdrop-blur hidden'
           )}
           onClick={() => {
             setScreenOpen(false);
@@ -533,62 +543,63 @@ const Page: NextPage = () => {
                 </div>
               </div>
               <div className="grid lg:grid-cols-5 lg:gap-10 gap-10 grid-cols-2 ml-auto mr-auto z-50">
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/e237b8fa-192f-47ad-ac6b-370330b5ba38.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/619/42855630-fe26-46ae-b248-e09a62f8b8d6.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/731/5769262d-f575-438f-884a-200cef298f6e.png" />
-                <Screen platform={1} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/728/545daa87-efdc-4f92-a970-4ded077805a8.png" />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
+                <Screen platform={1} list={mobileImages} />
               </div>
             </div>
           )}
         </div>
 
 
-        
-        <div
-            className={cn(
-              ' duration-500 w-[110%] h-[100%] transition-all z-40 overflow-y-scroll pt-40',
-              webScreenOpen
-                ? 'backdrop-blur-xl fixed bg-[#0D1018]/70'
-                : 'backdrop-blur'
-            )}
-            onClick={() => {
-              setWebScreenOpen(false);
-            }}
-          >
-            {webScreenOpen && (
-              <div
-                className={cn(
-                  ' duration-1000 transition-all flex flex-col w-[80%] lg:w-[75%] mx-auto',
-                  webScreenOpen
-                    ? 'scale-100'
-                    : 'scale-90'
-                )}
-              >
-                <div className="my-8 flex items-center text-white z-50">
-                  <img
-                    className="h-[48px] rounded-2xl bg-slate-500"
-                    src="/images/assets/appicon.svg"
-                  />
-                  <div className="ml-4">
-                    <span className="text-[32px] font-medium">Hollister</span>
-                    <span className="block text-[16px] text-[#8F94A1]">
-                      Fashion & Fitness
-                    </span>
-                  </div>
-                </div>
 
-                <div className="grid lg:grid-cols-2 lg:gap-[60px] gap-10 grid-cols-1 z-50">
-                  <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/9d105252-4222-483a-b90d-d4f898e41bd0.png" />
-                  <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/992731cb-7023-4058-af52-0cd1fad83bea.png" />
-                  <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/26e8ddc8-fd7f-4364-9a79-950dedb84d3a.png" />
-                  <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/ca3fd6ba-ef79-403d-8881-2f7ae34b94fc.png" />
-                  <Screen platform={3} src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/38c5342a-812d-4f76-a69b-d568c25f9bcc.png" />
+        <div
+          className={cn(
+            'duration-500 w-[110%] h-[100%] transition-all z-40 overflow-y-scroll pt-40',
+            webScreenOpen
+              ? 'backdrop-blur-xl fixed bg-[#0D1018]/70 block'
+              : 'backdrop-blur hidden'
+          )}
+          onClick={() => {
+            setWebScreenOpen(false);
+          }}
+        >
+          {webScreenOpen && (
+            <div
+              className={cn(
+                ' duration-1000 transition-all flex flex-col w-[80%] lg:w-[75%] mx-auto',
+                webScreenOpen
+                  ? 'scale-100'
+                  : 'scale-90'
+              )}
+            >
+              <div className="my-8 flex items-center text-white z-50">
+                <img
+                  className="h-[48px] rounded-2xl bg-slate-500"
+                  src="/images/assets/appicon.svg"
+                />
+                <div className="ml-4">
+                  <span className="text-[32px] font-medium">Hollister</span>
+                  <span className="block text-[16px] text-[#8F94A1]">
+                    Fashion & Fitness
+                  </span>
                 </div>
               </div>
-             )}
+
+              <div className="grid lg:grid-cols-2 lg:gap-[60px] gap-10 grid-cols-1 z-50">
+                <Screen platform={3} list={webImages} />
+                <Screen platform={3} list={webImages} />
+                <Screen platform={3} list={webImages} />
+                <Screen platform={3} list={webImages} />
+                <Screen platform={3} list={webImages} />
+
+              </div>
+            </div>
+          )}
         </div>
-       
+
       </main>
     </>
   );
