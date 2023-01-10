@@ -1,5 +1,7 @@
 import * as React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useState } from "react";
+import { supabase } from "../../client.js";
 
 interface OTPFormValues {
   otp1: string;
@@ -22,8 +24,19 @@ const OTPForm: React.FC = () => {
         otp5: "",
         otp6: "",
       }}
-      onSubmit={(values: OTPFormValues) => {
-        // submit the form
+      onSubmit={async (values: OTPFormValues) => {
+        const email = "mohamedhoshame@gmail.com";
+        let token = "610452";
+        await supabase.auth
+          .verifyOtp({ email, token, type: "magiclink" })
+          .then((response) => {
+            // The OTP was verified successfully
+            console.log(response);
+          })
+          .catch((error) => {
+            // There was an error verifying the OTP
+            console.error(error);
+          });
       }}
     >
       {({ setFieldValue }) => (
