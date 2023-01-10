@@ -2,39 +2,23 @@ import { ReactElement, useState, useRef, useEffect } from "react";
 import { NextPage } from "next";
 import Screen from "../../components/screen";
 import cn from "../../components/helpers";
+import Navigator from "../../components/navigator";
+import TimedUpgrade from "../../components/modals/timedUpgrade";
+import Collections from "../collection";
 
 const Page: NextPage = () => {
   const [platform, setPlatform] = useState<string>("IOS");
 
   const [tabStream, setTabStream] = useState<boolean>(true);
-  const [timerBlur, setTimerBlur] = useState<boolean>(true); //true on deploy//
 
-  const [userOpen, setUseropen] = useState<boolean>(false);
+
+
   const [streamOpen, setStreamOpen] = useState<string>("stream");
 
   const [screenOpen, setScreenOpen] = useState<boolean>(false);
   const [webScreenOpen, setWebScreenOpen] = useState<boolean>(false);
 
-  const [countdown, setCountdown] = useState(15);
-  const timerId = useRef<any>();
 
-  useEffect(() => {
-    timerId.current = setInterval(() => {
-      setCountdown((prev) => prev - 0.5);
-    }, 1000);
-  }, []);
-
-  useEffect(() => {
-    if (countdown <= 0) {
-      clearInterval(timerId.current);
-      setTimerBlur(false);
-    }
-  }, [countdown]);
-
-  const formattedCountdown = countdown.toLocaleString("en-US", {
-    minimumIntegerDigits: 2,
-    useGrouping: false,
-  });
 
   const webImages = [
     "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/65692a13-8749-4ccf-8f94-8b62e99d0788.png",
@@ -52,136 +36,8 @@ const Page: NextPage = () => {
   ]
   return (
     <>
-      {/* {timerBlur && (
-        <div className="w-[100%] h-[100%] fixed bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
-          <div className="w-[40%] h-auto bg-slate-900 rounded-3xl border-[1px] border-slate-600 p-10 text-white flex flex-col">
-            <div className="flex justify-between">
-              <div className="flex items-center">
-                <span className="w-[150px] text-orange-400 text-[48px] mr-10">
-                  00:{formattedCountdown}
-                </span>
-                <span className="h-[60%] bg-gradient-to-b from-orange-500 to-orange-600 flex justify-center items-center p-5 rounded-xl font-medium text-[14px]">
-                  Unlock More!
-                </span>
-              </div>
-              <span
-                className="mt-2"
-                onClick={() => {
-                  setTimerBlur(false);
-                }}
-              >
-                <img src="/images/assets/close.svg" />
-              </span>
-            </div>
-
-            <span className="text-[24px] font-medium">
-              Upgrade and get access to exclusive features
-            </span>
-
-            <div className="mt-5 text-[18px] mb-8">
-              <div>
-                <div className="flex mb-2 items-center ">
-                  <span className="mr-2">
-                    <img src="/images/assets/check.svg" alt="check" />
-                  </span>
-                  <span>Download in bulk</span>
-                  <span className="mr-2 ml-11">
-                    <img src="/images/assets/check.svg" alt="check" />
-                  </span>
-                  <span>Unlimited Collections</span>
-                </div>
-                <div className="flex">
-                  <span className="mr-2">
-                    <img src="/images/assets/check.svg" alt="check" />
-                  </span>
-                  <span>Select and Copy</span>
-                  <span className="mr-2 ml-12">
-                    <img src="/images/assets/check.svg" alt="check" />
-                  </span>
-                  <span>Unlimited Search & Filters</span>
-                </div>
-              </div>
-            </div>
-            <img
-              className="h-auto w-full mt-auto"
-              src="/images/assets/banner.svg"
-              alt="banner"
-            />
-          </div>
-        </div>
-      )} */}
-
-      <div className="fixed w-[100%] bottom-0 flex justify-center z-40">
-        <div className="fixed bottom-12 h-[50px] flex items-center ">
-          <div
-            className="w-[45px] h-[45px] bg-slate-500 rounded-full mr-2 relative cursor-pointer"
-            onClick={() => {
-              setUseropen(!userOpen);
-            }}
-          >
-            <div className="overflow-hidden w-[45px] h-[45px] bg-slate-500 rounded-full mr-2 relative cursor-pointer border border-slate-400">
-              <img
-                className="w-full rounded-full"
-                src="https://scontent.fcai19-8.fna.fbcdn.net/v/t39.30808-6/320855919_680352113764818_6821951812011273823_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=ON4LQ6NfnoYAX8LbRm_&tn=y_jPnRv_0lLz8Bm4&_nc_ht=scontent.fcai19-8.fna&oh=00_AfC3qSqvMw5Mzr-YuictZqFSpAlZbXnW80x6pc2svjCiEQ&oe=63B49D05"
-              />
-            </div>
-
-            <div
-              className={`opacity-0 ${userOpen ? "opacity-100 scale-[80%]" : "opacity-0 scale-0"
-                } transform-gpu transition duration-400 origin-bottom absolute bottom-[65px] left-[-120px] bg-slate-900/95  rounded-[16px] py-[16px] px-[20px] w-[300px] text-white`}
-            >
-              <div className="flex items-center mb-[20px]">
-                <div className="w-[55px] h-[55px] bg-slate-500 rounded-full mr-2">
-                  <img
-                    className="w-[100%] h-[100%] rounded-full"
-                    src="/images/assets/appicon.svg"
-                  />
-                </div>
-                <div>
-                  <span className="font-bold text-[16px]">Mohamed Hesham</span>
-                  <span className="block font-medium text-[12px] text-slate-400">
-                    @flepooo
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center text-white text-[14px] font-medium  px-3 py-[8px] rounded-[8px] mb-[8px] cursor-pointer transorm duration-[400ms] hover:bg-slate-700">
-                <img className="mr-3" src="/images/assets/usericon1.svg" />
-                <span>Account Settings</span>
-              </div>
-              <div className="flex items-center text-white text-[14px] font-medium px-3 py-[8px] rounded-[8px] mb-[8px] cursor-pointer transorm duration-[400ms] hover:bg-slate-700">
-                <img className="mr-3" src="/images/assets/usericon2.svg" />
-                <span>membership</span>
-              </div>
-              <div className="flex items-center text-white text-[14px] font-medium px-3 py-[8px] rounded-[8px] mb-[8px] cursor-pointer transorm duration-[400ms] hover:bg-slate-700">
-                <img className="mr-3" src="/images/assets/usericon3.svg" />
-                <span>Logout </span>
-              </div>
-            </div>
-          </div>
-          <div className="w-[648px] py-2 bg-slate-900/90 border-[0.5px] border-slate-500 rounded-2xl px-2 flex items-center text-white scale-90">
-            <div className="flex items-center bg-slate-800 rounded-3xl px-7 h-[48px] mr-5">
-              <span className="font-semibold text-[14px]">Menu</span>
-              <span className="ml-2">
-                <img src="/images/assets/navmenuicon.svg" />
-              </span>
-            </div>
-            <div className="flex items-center w-[488px] bg-slate-800 rounded-3xl pl-7 h-[48px]">
-              <span className="font-semibold text-[14px]">
-                <input
-                  className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 w-[300px]"
-                  placeholder="Search"
-                />
-              </span>
-              <div className="h-[100%] flex items-center bg-slate-700 rounded-3xl px-7 ml-auto">
-                <span className="font-semibold text-[14px]">Fillter</span>
-                <span className="ml-2">
-                  <img src="/images/assets/navmenuicon.svg" />
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* <TimedUpgrade /> */}
+      <Navigator />
 
       <header className="w-full flex justify-between fixed items-center text-white mt-8 px-10 z-10">
         <div className="text-2xl">
@@ -235,15 +91,15 @@ const Page: NextPage = () => {
           />
         </div>
 
-        <div className="w-[75%] flex mt-10 mb-[55px]">
+        <div className="w-[75%] flex mt-10 mb-[25px]">
           <a className="cursor-pointer flex items-center">
             <span
               onClick={() => {
                 setStreamOpen("stream");
               }}
               className={` ${streamOpen == "stream"
-                ? "text-white text-5xl font-light"
-                : "text-gray-400 text-4xl opacity-70 font-light"
+                ? "text-white text-[3rem] font-light"
+                : "text-gray-400 text-[2.5rem] opacity-70 font-light"
                 } transform transition duration-500 `}
             >
               Stream
@@ -261,8 +117,8 @@ const Page: NextPage = () => {
                 setStreamOpen("collection");
               }}
               className={` ${streamOpen == "collection"
-                ? "text-white text-5xl font-light"
-                : "text-gray-400 text-4xl opacity-70 font-light"
+                ? "text-white text-[3rem] font-light"
+                : "text-gray-400 text-[2.5rem] opacity-70 font-light"
                 } transform transition duration-500  ml-12 `}
             >
               Collections
@@ -276,7 +132,7 @@ const Page: NextPage = () => {
           </a>
         </div>
 
-        {tabStream ? (
+        {streamOpen == "stream" ? (
           <>
             {platform == "Web" ? (
               <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-4 lg:gap-5 gap-5 mb-10 grid-cols-2">
@@ -325,188 +181,7 @@ const Page: NextPage = () => {
             )}
           </>
         ) : (
-          <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-4 lg:gap-5 gap-5 mb-10 grid-cols-1">
-            <div className="relative mb-7">
-              <div className="grid lg:grid-cols-3 lg:gap-4 bg-slate-800 rounded-2xl p-3  mr-4 ml-4">
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-              </div>
-              <div className="text-white flex flex-col mt-5 pl-5">
-                <span className="font-medium mb-1 text-xl">
-                  Collection Name
-                </span>
-                <span className="font-light">
-                  Modified: <span className="font-medium">1m ago</span>
-                </span>
-              </div>
-            </div>
-            <div className="relative mb-7">
-              <div className="grid lg:grid-cols-3 lg:gap-4 bg-slate-800 rounded-2xl p-3  mr-4 ml-4">
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-              </div>
-              <div className="text-white flex flex-col mt-5 pl-5">
-                <span className="font-medium mb-1 text-xl">
-                  Collection Name
-                </span>
-                <span className="font-light">
-                  Modified: <span className="font-medium">1m ago</span>
-                </span>
-              </div>
-            </div>
-            <div className="relative mb-7">
-              <div className="grid lg:grid-cols-3 lg:gap-4 bg-slate-800 rounded-2xl p-3  mr-4 ml-4">
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-              </div>
-              <div className="text-white flex flex-col mt-5 pl-5">
-                <span className="font-medium mb-1 text-xl">
-                  Collection Name
-                </span>
-                <span className="font-light">
-                  Modified: <span className="font-medium">1m ago</span>
-                </span>
-              </div>
-            </div>
-            <div className="relative mb-7">
-              <div className="grid lg:grid-cols-3 lg:gap-4 bg-slate-800 rounded-2xl p-3  mr-4 ml-4">
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-              </div>
-              <div className="text-white flex flex-col mt-5 pl-5">
-                <span className="font-medium mb-1 text-xl">
-                  Collection Name
-                </span>
-                <span className="font-light">
-                  Modified: <span className="font-medium">1m ago</span>
-                </span>
-              </div>
-            </div>
-            <div className="relative mb-7">
-              <div className="grid lg:grid-cols-3 lg:gap-4 bg-slate-800 rounded-2xl p-3  mr-4 ml-4">
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-                <img
-                  className="h-full w-full rounded-xl"
-                  src="/images/assets/collappicon.svg"
-                />
-              </div>
-              <div className="text-white flex flex-col mt-5 pl-5">
-                <span className="font-medium mb-1 text-xl">
-                  Collection Name
-                </span>
-                <span className="font-light">
-                  Modified: <span className="font-medium">1m ago</span>
-                </span>
-              </div>
-            </div>
-          </div>
+          <Collections />
         )}
 
 
