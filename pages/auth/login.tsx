@@ -1,13 +1,8 @@
-import type { ReactElement } from "react";
-import type { NextPageWithLayout } from "../_app";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
-
-import AuthLayout from "../../components/auth/AuthLayout";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router'
 import { Field, Form, Formik } from "formik";
 
 const Login = () => {
+
   return (
     <div className="mx-auto w-full max-w-xl subpixel-antialiased">
       <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-lime-200 to-orange-600 lg:text-5xl text-3xl">
@@ -26,33 +21,14 @@ const Login = () => {
         <div className="w-full bg-slate-700 mt-3 h-px"></div>
       </div>
       <Formik
+        initialValues={{ email: "" }}
         onSubmit={async (values, actions) => {
-          const { error } = await supabase
-            .from("email_list")
-            .insert({ email: values.email });
-          // if (error) {
-          //     if (error.code === "23505") {
-          //         showNotificationMessage(
-          //             "error",
-          //             "red",
-          //             "This email is already in our database."
-          //         );
-          //     } else {
-          //         showNotificationMessage(
-          //             "error",
-          //             "red",
-          //             "Error submitting email address: " + error.message
-          //         );
-          //     }
-          //     actions.setSubmitting(false);
-          // } else {
-          //     showNotificationMessage(
-          //         "success",
-          //         "green",
-          //         "Email address successfully submitted!"
-          //     );
-          //     actions.setSubmitting(false);
-          // }
+          if (values) {
+            try {
+            } catch (error) {
+              console.error(error)
+            }
+          }
         }}
       >
         {({ isSubmitting, errors, touched }) => (
