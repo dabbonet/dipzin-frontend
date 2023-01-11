@@ -11,8 +11,8 @@ module.exports = {
       sm: { min: '576px', max: '897px' }, // Mobile (matches max: iPhone 11 Pro Max landscape @ 896px).
       md: { min: '898px', max: '1199px' }, // Tablet (matches max: iPad Pro @ 1112px).
       lg: { min: '1200px' }, // Desktop smallest.
-      xl: { min: '1159px' }, // Desktop wide.
-      xxl: { min: '1359px' } // Desktop widescreen.
+      xl: { min: '1600px' }, // Desktop wide.
+      xxl: { min: '2200px' } // Desktop widescreen.
     },
     extend: {
       colors: {

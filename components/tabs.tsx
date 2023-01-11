@@ -1,43 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import clsx from 'clsx'
 
 type Tab = {
   tabs: string[]
-  currentTab: number
-  setCurrentTab: (tab: number) => void
+  currentTab: string
+  setCurrentTab: (tab: string) => void
 
 }
 
 
-const tabs = ({ tabs, currentTab, setCurrentTab }: Tab) => {
-  return (
-    <div>
-      <div className="flex mx-2 mt-2 rounded-md bg-gray-100 relative tabs">
-        {tabs.map((tab) => (
-          <button
-            className={clsx(
-              "tabs-item relative z-10 py-1 my-2 ml-2 text-center rounded-md w-full text-sm cursor-pointer select-none focus:outline-none",
-              {
-                tab === "light"
-                  }
-                )}
-        onClick={() => {
-          setCurrentTab(currentTab)
-        }}
-              >
-        Light
-      </button>
-            )}
+const Tabs = ({ tabs, currentTab, setCurrentTab }:Tab) => {
 
+    return (
+      <>
+        <div className="w-[250px] bg-[#1B2132] rounded-[40px] flex items-center px-1 text-base font-light py-2">
+            {tabs.map((tab, index) => (
+                    <button
+                    onClick={() => {
+                        setCurrentTab(tab);
+                    }}
+                    className={`${currentTab == tab && "bg-slate-700"
+                      }  py-[3px] px-[12px] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+                  >
+                    <span>{tab}</span>
+                  </button>
+                ))}
+          
+        </div>
+      </>
+    );
+  };
 
-      <span
-        className={clsx("tab-item-animate rounded-md bg-white", {
-          active: app === "system"
-        })}
-      ></span>
-    </div>
-    </div >
-  )
-}
-
-export default tabs
+  export default Tabs;

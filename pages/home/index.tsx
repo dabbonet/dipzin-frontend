@@ -2,9 +2,9 @@ import { ReactElement, useState, useRef, useEffect } from "react";
 import { NextPage } from "next";
 import Screen from "../../components/screen";
 import cn from "../../components/helpers";
-import Navigator from "../../components/navigator";
+import Navigator from "../../components/navigator/main";
 import TimedUpgrade from "../../components/modals/timedUpgrade";
-import Collections from "../collection";
+import Collections from "../collection/collections";
 
 const Page: NextPage = () => {
   const [platform, setPlatform] = useState<string>("IOS");
@@ -157,7 +157,7 @@ const Page: NextPage = () => {
                 <Screen platform={3} list={webImages} />
               </div>
             ) : (
-              <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-6 lg:gap-5 gap-5 mb-10 grid-cols-2">
+              <div className="w-[80%] lg:w-[75%] grid gap-4 lg:gap-5 xl:gap-6 xxl:gap-9 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 xxl:grid-cols-7 mb-10 grid-cols-2">
                 <div
                   className="flex justify-center items-center relative group/item cursor-pointer"
                   onClick={() => {
