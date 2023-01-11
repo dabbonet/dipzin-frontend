@@ -3,16 +3,24 @@ import { Field, Form, Formik } from "formik";
 import { EmailAuth } from "@supabase/auth-ui-react";
 import { useState } from "react";
 import { supabase } from "../../client.js";
+import * as EmailValidator from "email-validator";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [email, setEmail] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async () => {
-    try {
-      await supabase.auth.signInWithOtp({ email: email });
-      alert("OTP sent to " + email);
-    } catch (error) {
-      alert(error);
+    if (EmailValidator.validate(email)) {
+      Cookies.set("cokemail", email.toString(), { expires: 365 });
+      try {
+        await supabase.auth.signInWithOtp({ email: email });
+        router.push("auth/otp");
+      } catch (error) {
+        alert(error);
+      }
+    } else {
+      alert("add a valid email");
     }
   };
 
@@ -21,10 +29,10 @@ const Login = () => {
       <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-lime-200 to-orange-600 lg:text-5xl text-3xl">
         Log in to your account
       </h1>
-      <p className="text-white font-light mt-4 lg:text-base text-sm">
+      <p className="text-white font-light mt-4 lg:text-base text-sm mb-7">
         Welcome back! Please enter your details.
       </p>
-      <div className="flex mt-4 space-x-3 mx-auto">
+      {/*      <div className="flex mt-4 space-x-3 mx-auto">
         <a
           href="#"
           className="px-8 py-4 rounded-2xl border border-amber-500 text-white"
@@ -42,7 +50,8 @@ const Login = () => {
       <div className="flex flex-row justify-center my-8 w-[75%] mx-auto">
         <span className="absolute bg-slate-900 px-4 text-gray-500">or</span>
         <div className="w-full bg-slate-700 mt-3 h-px"></div>
-      </div>
+      </div> */}
+
       <input
         type="email"
         name="email"

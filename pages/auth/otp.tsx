@@ -1,6 +1,8 @@
 import type { ReactElement } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
+import AuthLayout from "../../components/auth/AuthLayout";
+import Cookies from "js-cookie";
 
 import { useRouter } from "next/router";
 import { Field, Form, Formik } from "formik";
@@ -19,6 +21,10 @@ const OTP = () => {
       <OTPForm />
     </div>
   );
+};
+
+OTP.getLayout = function getLayout(page: ReactElement) {
+  return <AuthLayout>{page}</AuthLayout>;
 };
 
 export default OTP;
