@@ -11,45 +11,51 @@ import Login from "./login";
 import OTP from "./otp";
 
 const Page: NextPageWithLayout = () => {
-    const session = useSession();
-    const supabase = useSupabaseClient();
-    const [status, setStatus] = useState<Boolean>(false);
+  const session = useSession();
+  const supabase = useSupabaseClient();
+  const [status, setStatus] = useState<Boolean>(false);
 
-    const handeChange = () => {
-        setStatus(!status)
-    }
-    if (session) {
-        return <div>Already logged in</div>;
-    }
-    return (
-        <div className="mx-auto w-full max-w-xl subpixel-antialiased">
-
-            {status ?
-                <>
-                    <Join />
-                    <span className="dark:text-white block mt-4">
-                        Already have an account?
-                        <a className="ml-1 text-orange-500 font-semibold cursor-pointer" onClick={handeChange}>Sign in</a>
-                    </span>
-
-                </>
-                :
-                <>
-                    <Login />
-                    <span className="dark:text-white block mt-4">
-                        Don’t have an account?
-                        <a className="ml-1 text-orange-500 font-semibold cursor-pointer" onClick={handeChange}>Register</a>
-                    </span>
-                </>
-            }
-
-
-        </div>
-    );
+  const handeChange = () => {
+    setStatus(!status);
+  };
+  if (session) {
+    return <div>Already logged in</div>;
+  }
+  return (
+    <div className="mx-auto w-full max-w-xl subpixel-antialiased">
+      {status ? (
+        <>
+          <Join />
+          <span className="dark:text-white block mt-4">
+            Already have an account?
+            <a
+              className="ml-1 text-orange-500 font-semibold cursor-pointer"
+              onClick={handeChange}
+            >
+              Sign in
+            </a>
+          </span>
+        </>
+      ) : (
+        <>
+          <Login />
+          <span className="dark:text-white block mt-4">
+            Don’t have an account?
+            <a
+              className="ml-1 text-orange-500 font-semibold cursor-pointer"
+              onClick={handeChange}
+            >
+              Register
+            </a>
+          </span>
+        </>
+      )}
+    </div>
+  );
 };
 
 Page.getLayout = function getLayout(page: ReactElement) {
-    return <AuthLayout>{page}</AuthLayout>;
+  return <AuthLayout>{page}</AuthLayout>;
 };
 
 export default Page;
