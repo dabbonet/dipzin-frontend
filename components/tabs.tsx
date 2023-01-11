@@ -15,7 +15,7 @@ const Tabs = ({ tabs, currentTab, setCurrentTab }:Tab) => {
       <>
         <div className="w-[250px] bg-[#1B2132] rounded-[40px] flex items-center px-1 text-base font-light py-2">
             {tabs.map((tab, index) => (
-                    <button
+                  <button
                     onClick={() => {
                         setCurrentTab(tab);
                     }}
@@ -24,6 +24,7 @@ const Tabs = ({ tabs, currentTab, setCurrentTab }:Tab) => {
                   >
                     <span>{tab}</span>
                   </button>
+                  
                 ))}
           
         </div>
