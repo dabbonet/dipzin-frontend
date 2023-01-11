@@ -28,6 +28,8 @@ const Screen = ({ platform, list, src }: Props) => {
                 return <Web images={[src]} />
 
         }
+    }else {
+        return null;
     }
 }
 export default Screen

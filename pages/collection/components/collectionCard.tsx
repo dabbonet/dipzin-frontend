@@ -2,7 +2,7 @@ import React from 'react'
 
 const CollectionCard = () => {
     return (
-        <a href="#" className="w-full h-auto relative bg-slate-800 rounded-2xl p-3 hover:scale-105 duration-500">
+        <a href="collection/1" className="w-full h-auto relative bg-slate-800 rounded-2xl p-5 hover:scale-105 duration-500">
             <div className='grid grid-cols-4 gap-1'>
                 {/* <div className="row-span-4 col-span-2 flex space-x-2 bg-red-800">teste</div>
                 <div className="col-span-1 row-span-4 flex flex-col bg-yellow-800">tests</div> */}
@@ -37,7 +37,7 @@ const CollectionCard = () => {
             </div>
 
             <div className="flex flex-col mt-5 mb-2 pl-4 ">
-                <span className="font-medium mb-1 text-xl text-slate-100">
+                <span className="font-medium mb-1 text-2xl text-slate-100">
                     Collection Name
                 </span>
                 <span className="font-light text-sm text-slate-300">
