@@ -11,7 +11,7 @@ type Image = {
 const BlurImage = ({ src, platform }: Image) => {
     const [isLoading, setLoading] = useState(true);
 
-    if (platform == 1 || platform == 2){
+    if (platform == 1 || platform == 2) {
         return (
             <Image
                 alt=""
@@ -27,7 +27,7 @@ const BlurImage = ({ src, platform }: Image) => {
                 onLoadingComplete={() => setLoading(false)}
             />
         )
-    }else{
+    } else {
         return (
             <Image
                 alt=""
