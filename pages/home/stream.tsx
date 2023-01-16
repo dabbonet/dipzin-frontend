@@ -1,7 +1,9 @@
 
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useQuery, UseQueryResult, useInfiniteQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 import Screen from "../../components/screen";
+import Showcase from "./showcase";
 
 
 export const fetchStream = async () => {
@@ -18,6 +20,7 @@ export const fetchStream = async () => {
 
 const Stream = () => {
     const [totalFetched, setTotalFetched] = useState(0);
+    const [selectedId, setSelectedId] = useState(null)
     const { isLoading, isError, data, error, hasNextPage, fetchNextPage, fetchPreviousPage } = useInfiniteQuery(
         'stream',
         () => fetchStream(),
@@ -64,18 +67,25 @@ const Stream = () => {
     if (isError) return <p>Error: {error?.message}</p>;
 
     return (
-        <div className="w-[80%] lg:w-[75%] grid gap-4 lg:gap-5 xl:gap-6 xxl:gap-9 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 xxl:grid-cols-7 mb-10 text-white">
-            {data?.pages.map((page) =>
-                page.map((application: any) => (
-                    <>
+        <>
+            <div className="scrollbar-rounded w-[80%] lg:w-[75%] grid gap-4 lg:gap-5 xl:gap-6 xxl:gap-9 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 xxl:grid-cols-7 mb-10 text-white">
+                {data?.pages.map((page) =>
+                    page.map((application: any) => (
+                        <>
 
-                        <Screen key={application.id} platform={1} app={application} list={application.showcase} />
-                    </>
-                ))
-            )}
-
-
-        </div>
+                            <motion.div layoutId={application.id} onClick={() => setSelectedId(application.id)}>
+                                <Screen key={application.id} platform={1} app={application} list={application.showcase} />
+                            </motion.div>
+                        </>
+                    ))
+                )}
+            </div>
+            <AnimatePresence>
+                {selectedId && (
+                    <Showcase selectedId={selectedId} setSelectedId={setSelectedId} />
+                )}
+            </AnimatePresence>
+        </>
     )
 }
 
