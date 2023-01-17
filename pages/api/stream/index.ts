@@ -5,11 +5,17 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
     const page = parseInt(req.query.page) || 1;
     const perPage = parseInt(req.query.per_page) || 10;
 
+
+
     const getShowcases = async () => {
+        const from = (perPage * (page - 1))
+        const to = perPage * page
+        // console.log('from:', from, 'to: ', to);
+
         const { data, error } = await supabase
             .from('random_showcases')
             .select()
-            .range(perPage * (page - 1), perPage * page)
+            .range(from + 1, to)
 
         if (error) {
             res.status(500).json({ error });
