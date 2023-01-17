@@ -18,7 +18,7 @@ const Showcase = ({ selectedId, setSelectedId }: ShowcaseProps) => {
 
     useEffect(() => {
         if (data) {
-            const selectedData = data?.pages[0].find(item => item.id === selectedId)
+            const selectedData = data?.pages[0].data.find(item => item.id === selectedId)
             setAppData(selectedData)
         }
     }, [data, selectedId])
