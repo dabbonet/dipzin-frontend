@@ -6,10 +6,12 @@ import Screen from "../../components/screen";
 import Showcase from "./showcase";
 
 
-export const fetchStream = async (lastGroup, allGroups) => {
-    const page = lastGroup ? (lastGroup.length / perPage) + 1 : 1;
-    const perPage = 10;
-    const res = await fetch(`/api/stream?page=${page}&per_page=${perPage}`);
+export const fetchStream = async ({ pageParam = 0 }) => {
+    console.log('fetching page:', pageParam);
+
+    const perPage = 11;
+    // const page = lastGroup ? (lastGroup.length / perPage) + 1 : 1;
+    const res = await fetch(`/api/stream?page=${pageParam}&per_page=${perPage}`);
     if (res.ok) {
         return res.json();
     }
@@ -18,58 +20,44 @@ export const fetchStream = async (lastGroup, allGroups) => {
 
 
 const Stream = () => {
-    const [totalFetched, setTotalFetched] = useState(0);
+    // const [totalFetched, setTotalFetched] = useState(0);
     const [selectedId, setSelectedId] = useState(null)
     const [page, setPage] = useState(1);
-const { isLoading, isError, data, error, hasNextPage, fetchNextPage, fetchPreviousPage } = useInfiniteQuery(
-    'stream',
-    () => fetchStream(page, 10),
-    {
-        keepPreviousData: true,
-        refetchOnWindowFocus: false,
-    }
-);
-    // const { isLoading, isError, data, error, hasNextPage, fetchNextPage, fetchPreviousPage } = useInfiniteQuery(
-    //     'stream',
-    //     () => fetchStream(),
-    //     {
-    //         getNextPageParam: (lastGroup, allGroups) => {
-    //             if (totalFetched < 50) {
-    //                 return lastGroup.length;
-    //             }
-    //             return undefined;
-    //         },
-    //         keepPreviousData: true,
-    //         refetchOnWindowFocus: false,
-    //     }
-    // );
+    const { isLoading, isError, data, error, isFetched, fetchNextPage, fetchPreviousPage } = useInfiniteQuery(
+        'stream',
+        ({ pageParam = page }) => fetchStream(pageParam),
+        {
+            getNextPageParam: (lastGroup) => {
+                // console.log('lastGroup', lastGroup)
+                if (page < 50) {
+                    return lastGroup.length;
+                }
+                return undefined;
+            },
+            keepPreviousData: true,
+            refetchOnWindowFocus: false,
+        }
+    );
 
-    // useEffect(() => {
-    //     let fetching = false;
-    //     const onScroll = async (event) => {
+    useEffect(() => {
+        let fetching = false;
+        const onScroll = async (event) => {
+            const { scrollHeight, scrollTop, clientHeight } = event.target.scrollingElement;
+            // check if the user has scrolled to the bottom of the page
+            if (!fetching && scrollTop + clientHeight >= scrollHeight && page < 50) {
+                fetching = true;
+                setPage(page + 1)
+                await fetchNextPage();
+                console.log("page:", page);
+                fetching = false;
+            }
+        };
 
-    //         const { scrollHeight, scrollTop, clientHeight } =
-    //             event.target.scrollingElement;
-
-    //         if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
-    //             if (totalFetched < 50) {
-
-    //                 fetching = true;
-    //                 await fetchNextPage();
-    //                 setTotalFetched(totalFetched + 1);
-    //                 fetching = false;
-
-    //             }
-    //         }
-    //     };
-
-    //     document.addEventListener("scroll", onScroll);
-    //     return () => {
-    //         document.removeEventListener("scroll", onScroll);
-    //     };
-    // }, [totalFetched]);
-
-    // console.log(data.pages[0]);
+        document.addEventListener("scroll", onScroll);
+        return () => {
+            document.removeEventListener("scroll", onScroll);
+        };
+    }, [page]);
 
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error: {error?.message}</p>;
@@ -77,10 +65,9 @@ const { isLoading, isError, data, error, hasNextPage, fetchNextPage, fetchPrevio
     return (
         <>
             <div className="scrollbar-rounded w-[80%] lg:w-[75%] grid gap-4 lg:gap-5 xl:gap-6 xxl:gap-9 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 xxl:grid-cols-7 mb-10 text-white">
-                {data?.pages.map((page) =>
-                    page.map((application: any) => (
+                {data && data.pages.map((page) =>
+                    page.data.map((application: any) => (
                         <>
-
                             <motion.div layoutId={application.id} onClick={() => setSelectedId(application.id)}>
                                 <Screen key={application.id} platform={1} app={application} list={application.showcase} />
                             </motion.div>
