@@ -6,60 +6,68 @@ import Screen from "../../components/screen";
 import Showcase from "./showcase";
 
 
-export const fetchStream = async () => {
-    console.log('fetching...');
-    const res = await fetch('/api/stream');
-
+export const fetchStream = async (lastGroup, allGroups) => {
+    const page = lastGroup ? (lastGroup.length / perPage) + 1 : 1;
+    const perPage = 10;
+    const res = await fetch(`/api/stream?page=${page}&per_page=${perPage}`);
     if (res.ok) {
         return res.json();
     }
     throw new Error('Failed to fetch stream');
-
 };
 
 
 const Stream = () => {
     const [totalFetched, setTotalFetched] = useState(0);
     const [selectedId, setSelectedId] = useState(null)
-    const { isLoading, isError, data, error, hasNextPage, fetchNextPage, fetchPreviousPage } = useInfiniteQuery(
-        'stream',
-        () => fetchStream(),
-        {
-            getNextPageParam: (lastGroup, allGroups) => {
-                if (totalFetched < 50) {
-                    return lastGroup.length;
-                }
-                return undefined;
-            },
-            keepPreviousData: true,
-            refetchOnWindowFocus: false,
-        }
-    );
+    const [page, setPage] = useState(1);
+const { isLoading, isError, data, error, hasNextPage, fetchNextPage, fetchPreviousPage } = useInfiniteQuery(
+    'stream',
+    () => fetchStream(page, 10),
+    {
+        keepPreviousData: true,
+        refetchOnWindowFocus: false,
+    }
+);
+    // const { isLoading, isError, data, error, hasNextPage, fetchNextPage, fetchPreviousPage } = useInfiniteQuery(
+    //     'stream',
+    //     () => fetchStream(),
+    //     {
+    //         getNextPageParam: (lastGroup, allGroups) => {
+    //             if (totalFetched < 50) {
+    //                 return lastGroup.length;
+    //             }
+    //             return undefined;
+    //         },
+    //         keepPreviousData: true,
+    //         refetchOnWindowFocus: false,
+    //     }
+    // );
 
-    useEffect(() => {
-        let fetching = false;
-        const onScroll = async (event) => {
+    // useEffect(() => {
+    //     let fetching = false;
+    //     const onScroll = async (event) => {
 
-            const { scrollHeight, scrollTop, clientHeight } =
-                event.target.scrollingElement;
+    //         const { scrollHeight, scrollTop, clientHeight } =
+    //             event.target.scrollingElement;
 
-            if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
-                if (totalFetched < 50) {
+    //         if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
+    //             if (totalFetched < 50) {
 
-                    fetching = true;
-                    await fetchNextPage();
-                    setTotalFetched(totalFetched + 1);
-                    fetching = false;
+    //                 fetching = true;
+    //                 await fetchNextPage();
+    //                 setTotalFetched(totalFetched + 1);
+    //                 fetching = false;
 
-                }
-            }
-        };
+    //             }
+    //         }
+    //     };
 
-        document.addEventListener("scroll", onScroll);
-        return () => {
-            document.removeEventListener("scroll", onScroll);
-        };
-    }, [totalFetched]);
+    //     document.addEventListener("scroll", onScroll);
+    //     return () => {
+    //         document.removeEventListener("scroll", onScroll);
+    //     };
+    // }, [totalFetched]);
 
     // console.log(data.pages[0]);
 
