@@ -6,8 +6,8 @@ import Screen from "../../components/screen";
 import Showcase from "./showcase";
 
 
-const fetchStream = async (page) => {
-    console.log('fetching page:', page);
+export const fetchStream = async ({ page }: { page: number }) => {
+    // console.log('fetching page:', page);
 
     const perPage = 12;
     // const page = lastGroup ? (lastGroup.length / perPage) + 1 : 1;
@@ -20,9 +20,9 @@ const fetchStream = async (page) => {
 
 
 const Stream = () => {
-    const maxPages = 10;
-    let randomPage = Math.floor(Math.random() * maxPages) + 1;
-    const [loadedPages, setLoadedPages] = useState([randomPage])
+    const [selectedId, setSelectedId] = useState(null)
+    const [page, setPage] = useState<number>(Math.floor(Math.random() * 10) + 1);
+    const [fetchedPages, setFetchedPages] = useState<number[]>([page]);
 
     const {
         isLoading,
@@ -32,35 +32,53 @@ const Stream = () => {
         isFetching,
         isSuccess,
         fetchNextPage,
-        hasNextPage,
     } = useInfiniteQuery(
         ['stream'],
-        ({ pageParam = randomPage }) => fetchStream(pageParam),
+        () => fetchStream({ page }),
         {
-            getNextPageParam: (lastPage, allPages) => {
-
-                if (allPages.length >= maxPages) return undefined;
-                return Math.floor(Math.random() * maxPages) + 1;
-            },
+            keepPreviousData: false,
             refetchOnWindowFocus: false,
+            getNextPageParam: (lastGroup) => {
+                return page
+            },
         }
     );
 
-    const [selectedId, setSelectedId] = useState(null)
+    // change page value in the first app run and add this value to fetchedPages array
+    useEffect(() => {
+        let randomPage = Math.floor(Math.random() * 10) + 1;
+        setPage(randomPage);
+        setFetchedPages([...fetchedPages, randomPage]);
+    }, []);
 
     useEffect(() => {
+        // let fetching = false;
+
+
         const onScroll = async (event) => {
             const { scrollHeight, scrollTop, clientHeight } = event.target.scrollingElement;
-            // console.log(isSuccess)
+            console.log(isSuccess)
             if (!isFetching && isSuccess && clientHeight + scrollTop >= scrollHeight) {
-                if (hasNextPage) {
-                    const maxPages = 10;
-                    let nextPage = Math.floor(Math.random() * maxPages) + 1;
-                    while (loadedPages.includes(nextPage)) {
-                        nextPage = Math.floor(Math.random() * maxPages) + 1;
-                    }
-                    setLoadedPages([...loadedPages, nextPage])
-                    await fetchNextPage({ pageParam: nextPage });
+
+                // fetching = true;
+                console.log('scrolling...');
+                console.log('fetched pages:', fetchedPages);
+                // console.log('page:', page);
+
+
+                let randomPage = Math.floor(Math.random() * 10) + 1;
+                while (fetchedPages.includes(randomPage)) {
+                    randomPage = Math.floor(Math.random() * 10) + 1;
+                }
+                console.log("random page:", randomPage)
+
+
+                try {
+                    setPage(randomPage);
+                    setFetchedPages([...fetchedPages, randomPage]);
+                    await fetchNextPage();
+                } catch (error) {
+                    console.log(error);
                 }
             }
         };
@@ -69,7 +87,7 @@ const Stream = () => {
         return () => {
             document.removeEventListener("scroll", onScroll);
         };
-    }, [isFetching, isSuccess]);
+    }, [page, fetchedPages, isFetching, isSuccess]);
 
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error: {error?.message}</p>;
@@ -89,7 +107,13 @@ const Stream = () => {
             </div>
             <AnimatePresence>
                 {selectedId && (
-                    <Showcase selectedId={selectedId} setSelectedId={setSelectedId} />
+                    <>
+                        <motion.div>
+                            <h1 className='text-white'>{selectedId}</h1>
+                            <Showcase selectedId={selectedId} setSelectedId={setSelectedId} />
+                        </motion.div>
+                    </>
+
                 )}
             </AnimatePresence>
         </>

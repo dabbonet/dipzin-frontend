@@ -19,7 +19,6 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
 
         if (error) {
             res.status(500).json({ error });
-            return
         }
         res.status(200).json({ data });
     }
