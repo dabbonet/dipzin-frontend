@@ -43,16 +43,16 @@ const Stream = () => {
                 return Math.floor(Math.random() * maxPages) + 1;
             },
             refetchOnWindowFocus: false,
+            keepPreviousData: true,
         }
     );
 
-    const [selectedId, setSelectedId] = useState(null)
 
     useEffect(() => {
         const onScroll = async (event) => {
             const { scrollHeight, scrollTop, clientHeight } = event.target.scrollingElement;
             // console.log(isSuccess)
-            if (!isFetching && isSuccess && clientHeight + scrollTop >= scrollHeight) {
+            if (!isFetching && clientHeight + scrollTop >= scrollHeight) {
                 if (hasNextPage) {
                     const maxPages = 10;
                     let nextPage = Math.floor(Math.random() * maxPages) + 1;
@@ -69,7 +69,9 @@ const Stream = () => {
         return () => {
             document.removeEventListener("scroll", onScroll);
         };
-    }, [isFetching, isSuccess]);
+    }, [isFetching]);
+
+    const [selectedId, setSelectedId] = useState(null)
 
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error: {error?.message}</p>;
@@ -80,18 +82,18 @@ const Stream = () => {
                 {data && data.pages.map((page) =>
                     page.data.map((application, index) => (
                         <>
-                            <motion.div key={application.id} layoutId={application.id} onClick={() => setSelectedId(application.id)}>
-                                <Screen key={index} platform={1} app={application} list={application.showcase} />
+                            <motion.div key={index} onClick={() => setSelectedId(index)}>
+                                <Screen platform={1} app={application} list={application.showcase} />
                             </motion.div>
                         </>
                     ))
                 )}
             </div>
-            <AnimatePresence>
-                {selectedId && (
-                    <Showcase selectedId={selectedId} setSelectedId={setSelectedId} />
-                )}
-            </AnimatePresence>
+            {/* <AnimatePresence> */}
+            {selectedId && (
+                <Showcase selectedId={selectedId} setSelectedId={setSelectedId} />
+            )}
+            {/* </AnimatePresence> */}
         </>
     )
 }

@@ -16,17 +16,20 @@ const Showcase = ({ selectedId, setSelectedId }: ShowcaseProps) => {
     const [appData, setAppData] = useState(null)
 
 
-    useEffect(() => {
-        if (data) {
-            const selectedData = data?.pages[0].data.find(item => item.id === selectedId)
-            setAppData(selectedData)
-        }
-    }, [data, selectedId])
+    // useEffect(() => {
+    //     // const onScroll = async (event) => {
+    //     //     event.preventDefault()
+    //     // }
+    //     if (data) {
+    //         const selectedData = data?.pages.flatMap(page => page.data).find(item => item.id === selectedId)
+    //         setAppData(selectedData)
+    //     }
+    // }, [data, selectedId])
 
 
     return (
         <motion.div
-            onClick={() => setSelectedId(null)}
+            onClick={() => setSelectedId}
             layoutId={selectedId?.toString()}
             className={'w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-40 backdrop-blur-lg bg-slate-900/70'}
             initial={{ opacity: 0 }}
