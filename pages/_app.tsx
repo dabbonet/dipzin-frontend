@@ -26,13 +26,7 @@ type AppPropsWithLayout<P> = AppProps<P> & {
   Component: NextPageWithLayout<P>;
 };
 
-const reactQueryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 1000,
-    },
-  },
-});
+const reactQueryClient = new QueryClient();
 
 export default function MyApp({
   Component,
