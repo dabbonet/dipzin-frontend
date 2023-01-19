@@ -112,7 +112,6 @@ const ImageHover = ({ images, app }: HoverScreenProps) => {
   if (!app) {
     return null
   }
-  console.log(images.length)
   return (
     <div
       className="relative h-full w-full"

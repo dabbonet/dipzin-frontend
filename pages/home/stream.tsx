@@ -7,7 +7,7 @@ import Showcase from "./showcase";
 
 
 const fetchStream = async (page: any) => {
-    console.log('fetching page:', page);
+    // console.log('fetching page:', page);
 
     const perPage = 12;
     // const page = lastGroup ? (lastGroup.length / perPage) + 1 : 1;
