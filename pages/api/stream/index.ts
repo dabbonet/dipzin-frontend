@@ -1,9 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import supabase from '../../../lib/supabase';
 
+type GetShowcasesQuery = {
+    page?: number,
+    per_page?: number
+}
+
 export default (req: NextApiRequest, res: NextApiResponse): void => {
-    const page = parseInt(req.query.page) || 1;
-    const perPage = parseInt(req.query.per_page) || 10;
+    const query = req.query as GetShowcasesQuery;
+    const page = query.page || 1;
+    const perPage = query.per_page || 10;
 
 
 

@@ -9,7 +9,7 @@ type Props = {
     src?: string
 }
 const Screen = ({ platform, list, src, app }: Props) => {
-    if (list) {
+    if (app && list) {
         switch (platform) {
             default:
                 return <HoverScreen app={app} images={list} />
