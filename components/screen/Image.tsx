@@ -25,6 +25,7 @@ const BlurImage = ({ src, platform }: Image) => {
                         : 'blur-0 scale-100'
                 )}
                 onLoadingComplete={() => setLoading(false)}
+                quality={60}
             />
         )
     } else {
