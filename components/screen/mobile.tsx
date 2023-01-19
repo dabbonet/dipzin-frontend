@@ -49,7 +49,7 @@ const HoverScreen = ({ images, app }: HoverScreenProps) => {
 
   }, [images]);
 
-  const toStorageUrl = (pathname: string) => process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/application/icons/' + pathname + '?q=60'
+  const toStorageUrl = (pathname: string) => process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/application/icons/' + pathname
   if (!app) {
     return null
   }
@@ -107,7 +107,7 @@ const ImageHover = ({ images, app }: HoverScreenProps) => {
   }, [currentImage, images.length, isHovered]);
 
   // console.log('url'toStorageUrl(app + '/' + images[currentImage]));
-  const toStorageUrl = (pathname: string) => process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/application/screens/' + pathname + '?q=60'
+  const toStorageUrl = (pathname: string) => process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/application/screens/' + pathname
   // console.log(toStorageUrl)
   if (!app) {
     return null
