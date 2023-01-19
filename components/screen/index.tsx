@@ -1,0 +1,36 @@
+import Web from "./web";
+import HoverScreen from "./mobile";
+import { SingleScreen } from "./mobile";
+
+type Props = {
+    platform: number
+    list?: string[]
+    app?: { id: string, name: string, tagline: string, icon: string }
+    src?: string
+}
+const Screen = ({ platform, list, src, app }: Props) => {
+    if (list) {
+        switch (platform) {
+            default:
+                return <HoverScreen app={app} images={list} />
+            case 2:
+                return <HoverScreen app={app} images={list} />
+            case 3:
+                return <Web images={list} />
+
+        }
+    } else if (src) {
+        switch (platform) {
+            default:
+                return <SingleScreen image={src} />
+            case 2:
+                return <SingleScreen image={src} />
+            case 3:
+                return <Web images={[src]} />
+
+        }
+    } else {
+        return null;
+    }
+}
+export default Screen

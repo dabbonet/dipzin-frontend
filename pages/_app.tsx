@@ -11,10 +11,12 @@ import SEO from '../next-seo.config'
 const poppins = Poppins({
   style: ['normal'],
   subsets: ['latin'],
-  weight: ['100', '300', '400', '500', '700']
+  weight: ['100', '300', '400', '500', '600', '700']
 })
 
 import "../styles/globals.css";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -23,6 +25,8 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 type AppPropsWithLayout<P> = AppProps<P> & {
   Component: NextPageWithLayout<P>;
 };
+
+const reactQueryClient = new QueryClient();
 
 export default function MyApp({
   Component,
@@ -40,12 +44,15 @@ export default function MyApp({
       supabaseClient={supabase}
       initialSession={pageProps.initialSession}
     >
-      <DefaultSeo {...SEO} />
-      {getLayout(
-        <main className={poppins.className}>
-          <Component {...pageProps} />
-        </main>
-      )}
+      <QueryClientProvider client={reactQueryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <DefaultSeo {...SEO} />
+        {getLayout(
+          <main className={poppins.className}>
+            <Component {...pageProps} />
+          </main>
+        )}
+      </QueryClientProvider>
 
     </SessionContextProvider>
   );

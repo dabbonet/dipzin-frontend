@@ -22,11 +22,11 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
   }, [currentImage]);
 
   return (
-    <div className="min-h-full ">
-      <Background />
+    <div className="min-h-full bg-gradient-to-r from-[#0D1018] to-[#09132E]">
+
       <Navigation />
       <main className="flex lg:flex-row flex-col h-[calc(100vh-60px)] overflow-hidden lg:rounded-tl-3xl">
-        <div className="flex-1 flex flex-col justify-center items-center px-4 lg:px-20 xl:px-24">
+        <div className="z-10 flex-1 flex flex-col justify-center px-4">
           {children}
         </div>
         <div className="relative lg:block lg:w-0 w-full mx-auto lg:flex-1 flex-auto sm:ml-5">
@@ -46,6 +46,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
           )}
         </div>
       </main>
+      <Background />
     </div>
   );
 }
