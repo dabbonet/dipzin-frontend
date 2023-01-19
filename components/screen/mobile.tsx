@@ -1,6 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import BlurImage from "./Image";
 import { motion } from "framer-motion"
+import _ from 'lodash';
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
 
 type SingleScreenProps = {
   image: string;
@@ -36,6 +41,13 @@ export const SingleScreen = ({ image }: SingleScreenProps) => {
 
 
 const HoverScreen = ({ images, app }: HoverScreenProps) => {
+  const [randomImages, setRandomImages] = useState([]);
+
+  useEffect(() => {
+
+    setRandomImages(shuffle(images));
+  }, [images]);
+
   const toStorageUrl = (pathname: string) => process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/application/icons/' + pathname
   return (
     <div className="flex justify-center items-center relative group/item cursor-pointer">
@@ -46,7 +58,7 @@ const HoverScreen = ({ images, app }: HoverScreenProps) => {
         }}
       >
         <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 transform duration-500 border-[0px] hover:border-[3px] border-transparent hover:border-slate-300">
-          <ImageHover app={app} images={images} />
+          <ImageHover app={app} images={randomImages} />
           <div className="absolute w-[100%] bottom-3 flex justify-start items-center drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100 z-20">
             <img
               className="h-[15%] w-[15%] ml-[4%] rounded-full"
