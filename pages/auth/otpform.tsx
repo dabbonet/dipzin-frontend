@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useState } from "react";
 import { supabase } from "../../client.js";
-import Cookies from "js-cookie";
+import { useCookies } from 'react-cookie';
 
 interface OTPFormValues {
   otp1: string;
@@ -15,7 +15,9 @@ interface OTPFormValues {
 }
 
 const OTPForm: React.FC = () => {
-  let cokemail = Cookies.get("cokemail");
+  const [cookies, setCookie, removeCookie] = useCookies(['cokemail', 'JWT']);
+  let cokemail = cookies.cokemail;
+  let jwt = cookies.JWT;
   const router = useRouter();
 
   return (
@@ -42,11 +44,16 @@ const OTPForm: React.FC = () => {
           .verifyOtp({ email, token, type: "magiclink" })
           .then(async (response) => {
             console.log(response);
-            Cookies.set("JWT", response.data.session?.access_token);
-            if (Cookies.get("JWT") != "undefined") {
+            setCookie('JWT', response.data.session?.access_token);
+
+            if (jwt != "undefined") {
+
               router.push("/home");
+
             } else {
+
               alert("err");
+
             }
           })
           .catch((error) => {

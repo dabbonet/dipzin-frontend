@@ -5,11 +5,13 @@ import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
 import { useRouter } from "next/router";
 import { Field, Form, Formik } from "formik";
 import * as EmailValidator from "email-validator";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import { supabase } from "../../client";
+import { useCookies } from "react-cookie";
 
 const Join = () => {
   const router = useRouter();
+  const [cookies, setCookie, removeCookie] = useCookies(['cokemail']);
 
   return (
     <div className="mx-auto w-full max-w-xl subpixel-antialiased">
@@ -42,9 +44,11 @@ const Join = () => {
         initialValues={{ email: "" }}
         onSubmit={async (values, actions) => {
           if (EmailValidator.validate(values.email)) {
-            Cookies.set("cokemail", values.email.toString(), {
-              expires: 365,
-            });
+
+            const expirationDate = new Date();
+            expirationDate.setMonth(expirationDate.getMonth() + 3);
+            setCookie('cokemail', values.email.toString(), { expires: expirationDate });
+
             try {
               await supabase.auth.signInWithOtp({ email: values.email });
               router.push("auth/otp");

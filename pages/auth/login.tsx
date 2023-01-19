@@ -4,15 +4,20 @@ import { EmailAuth } from "@supabase/auth-ui-react";
 import { useState } from "react";
 import { supabase } from "../../client.js";
 import * as EmailValidator from "email-validator";
-import Cookies from "js-cookie";
+import { useCookies } from "react-cookie";
 
 const Login = () => {
+  const [cookies, setCookie, removeCookie] = useCookies(['cokemail']);
   const [email, setEmail] = useState("");
   const router = useRouter();
 
   const handleSubmit = async () => {
     if (EmailValidator.validate(email)) {
-      Cookies.set("cokemail", email.toString(), { expires: 365 });
+
+      const expirationDate = new Date();
+      expirationDate.setMonth(expirationDate.getMonth() + 3);
+      setCookie('cokemail', email.toString(), { expires: expirationDate });
+
       try {
         await supabase.auth.signInWithOtp({ email: email });
         router.push("auth/otp");

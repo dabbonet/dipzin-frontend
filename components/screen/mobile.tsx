@@ -3,7 +3,7 @@ import BlurImage from "./Image";
 import { motion } from "framer-motion"
 import _ from 'lodash';
 
-function shuffle(array) {
+function shuffle(array: string[]) {
   return array.sort(() => Math.random() - 0.5);
 }
 
@@ -13,7 +13,7 @@ type SingleScreenProps = {
 
 type HoverScreenProps = {
   images: string[];
-  app: { id: string, name: string, tagline: string, icon: string }
+  app?: { id: string, name: string, tagline: string, icon: string }
 }
 
 
@@ -41,14 +41,18 @@ export const SingleScreen = ({ image }: SingleScreenProps) => {
 
 
 const HoverScreen = ({ images, app }: HoverScreenProps) => {
-  const [randomImages, setRandomImages] = useState([]);
+  const [randomImages, setRandomImages] = useState<string[]>(['']);
 
   useEffect(() => {
 
     setRandomImages(shuffle(images));
+
   }, [images]);
 
   const toStorageUrl = (pathname: string) => process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/application/icons/' + pathname
+  if (!app) {
+    return null
+  }
   return (
     <div className="flex justify-center items-center relative group/item cursor-pointer">
       <motion.div
@@ -62,7 +66,7 @@ const HoverScreen = ({ images, app }: HoverScreenProps) => {
           <div className="absolute w-[100%] bottom-3 flex justify-start items-center drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100 z-20">
             <img
               className="h-[15%] w-[15%] ml-[4%] rounded-full"
-              src={toStorageUrl(app.icon)}
+              src={app ? toStorageUrl(app.icon) : ''}
             />
             <div className="text-white">
               <span className="ml-2 text-[15px] font-semibold">{app.name}</span>
@@ -105,7 +109,9 @@ const ImageHover = ({ images, app }: HoverScreenProps) => {
   // console.log('url'toStorageUrl(app + '/' + images[currentImage]));
   const toStorageUrl = (pathname: string) => process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/application/screens/' + pathname
   // console.log(toStorageUrl)
-
+  if (!app) {
+    return null
+  }
   return (
     <div
       className="relative h-full w-full"

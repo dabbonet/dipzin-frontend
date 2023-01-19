@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react';
+import { Key, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import Screen from "../../components/screen";
 
 type ShowcaseProps = {
     selected: any;
-    setSelected: () => void;
+    setSelected: any;
 }
 
 
@@ -52,7 +52,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
                     </div>
                 </div>
                 <div className="grid lg:grid-cols-5 lg:gap-10 gap-10 grid-cols-2 ml-auto mr-auto z-50">
-                    {selected?.showcase?.map((item, index) => (
+                    {selected?.showcase?.map((item: string, index: Key | null | undefined) => (
                         <Screen key={index} platform={1} src={toStorageUrl("/screens/" + selected.id + "/" + item)} />
                     ))}
                 </div>

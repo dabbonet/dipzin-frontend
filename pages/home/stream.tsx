@@ -6,7 +6,7 @@ import Screen from "../../components/screen";
 import Showcase from "./showcase";
 
 
-const fetchStream = async (page) => {
+const fetchStream = async (page: any) => {
     console.log('fetching page:', page);
 
     const perPage = 12;
@@ -49,7 +49,7 @@ const Stream = () => {
 
 
     useEffect(() => {
-        const onScroll = async (event) => {
+        const onScroll = async (event: any) => {
             const { scrollHeight, scrollTop, clientHeight } = event.target.scrollingElement;
             // console.log(isSuccess)
             if (!isFetching && clientHeight + scrollTop >= scrollHeight) {
@@ -73,18 +73,17 @@ const Stream = () => {
 
     const [selected, setSelected] = useState(null);
 
-    function shuffle(array) {
-        return array.sort(() => Math.random() - 0.5);
-    }
-    const shuffledPages = data ? shuffle(data.pages) : null;
+    // function shuffle(array: any[]) {
+    //     return array.sort(() => Math.random() - 0.5);
+    // }
+    // const shuffledPages = data ? shuffle(data.pages) : null;
 
     if (isLoading) return <p>Loading...</p>;
-    if (isError) return <p>Error: {error?.message}</p>;
 
     return (
         <>
             <div className="scrollbar-rounded w-[80%] lg:w-[75%] grid gap-4 lg:gap-5 xl:gap-6 xxl:gap-9 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 xxl:grid-cols-7 mb-10 text-white">
-                {data && shuffledPages.map((page) =>
+                {data && data?.pages.map((page: { data: any[]; }) =>
                     page.data.map((application, index) => {
                         // const shuffledApplication = application ? shuffle(application) : null;
                         return (
