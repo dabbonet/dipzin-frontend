@@ -29,7 +29,7 @@ export default ApplicationPage
 
 
 export const getStaticPaths = async () => {
-    const { data: application, error } = await supabase.from("application").select("*")
+    const { data: application, error } = await supabase.from("application").select("*").eq('is_published', true)
     const paths = application?.map((application: any) => {
         let platform;
         switch (application.platform_id) {
@@ -70,8 +70,11 @@ export const getStaticProps = async (context: { params: { slug: any, platform: a
     const { data: application, error } = await supabase
         .from("application")
         .select(`*, screen(*), app_category(*)`)
-        .match({ slug: slug, platform_id: platform_id })
+        .match({ slug: slug, platform_id: platform_id, is_published: true })
+        .eq('screen.is_published', true)
+        .order('id', { foreignTable: 'screen', ascending: true })
         .single()
+    // console.log(application)
 
     return {
         props: {
