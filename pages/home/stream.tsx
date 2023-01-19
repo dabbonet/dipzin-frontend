@@ -73,20 +73,28 @@ const Stream = () => {
 
     const [selected, setSelected] = useState(null);
 
+    function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+    }
+    const shuffledPages = data ? shuffle(data.pages) : null;
+
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error: {error?.message}</p>;
 
     return (
         <>
             <div className="scrollbar-rounded w-[80%] lg:w-[75%] grid gap-4 lg:gap-5 xl:gap-6 xxl:gap-9 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 xxl:grid-cols-7 mb-10 text-white">
-                {data && data.pages.map((page) =>
-                    page.data.map((application, index) => (
-                        <>
-                            <motion.div key={index} onClick={() => setSelected(application)}>
-                                <Screen platform={1} app={application} list={application.showcase} />
-                            </motion.div>
-                        </>
-                    ))
+                {data && shuffledPages.map((page) =>
+                    page.data.map((application, index) => {
+                        // const shuffledApplication = application ? shuffle(application) : null;
+                        return (
+                            <>
+                                <motion.div key={index} onClick={() => setSelected(application)}>
+                                    <Screen platform={1} app={application} list={application.showcase} />
+                                </motion.div>
+                            </>
+                        )
+                    })
                 )}
             </div>
             <AnimatePresence>
