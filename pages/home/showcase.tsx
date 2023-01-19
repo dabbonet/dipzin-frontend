@@ -4,33 +4,33 @@ import { useQuery } from 'react-query';
 import Screen from "../../components/screen";
 
 type ShowcaseProps = {
-    selectedId: number;
-    setSelectedId: () => void;
+    selected: any;
+    setSelected: () => void;
 }
 
 
-const Showcase = ({ selectedId, setSelectedId }: ShowcaseProps) => {
+const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
     const toStorageUrl = (pathname: string) => process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/application/' + pathname
 
-    const { data } = useQuery(['stream'])
-    const [appData, setAppData] = useState(null)
+    // const { data } = useQuery(['stream'])
+    // const [appData, setAppData] = useState(null)
 
 
     // useEffect(() => {
     //     // const onScroll = async (event) => {
     //     //     event.preventDefault()
     //     // }
-    //     if (data) {
-    //         const selectedData = data?.pages.flatMap(page => page.data).find(item => item.id === selectedId)
-    //         setAppData(selectedData)
-    //     }
-    // }, [data, selectedId])
+    //     // if (selected) {
+    //     //     const selectedData = data?.pages.flatMap(page => page.data).find(item => item.id === selectedId)
+    //     //     setAppData(selectedData)
+    //     // }
+    // }, [appData, selected])
 
 
     return (
         <motion.div
-            onClick={() => setSelectedId}
-            layoutId={selectedId?.toString()}
+            onClick={() => setSelected()}
+            layoutId={selected?.toString()}
             className={'w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-40 backdrop-blur-lg bg-slate-900/70'}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -42,18 +42,18 @@ const Showcase = ({ selectedId, setSelectedId }: ShowcaseProps) => {
                 <div className="flex my-8 items-center text-white z-50">
                     <img
                         className="h-[48px] rounded-2xl bg-slate-500"
-                        src={toStorageUrl("icons/" + appData?.icon)}
+                        src={toStorageUrl("icons/" + selected?.icon)}
                     />
                     <div className="ml-4">
-                        <span className="text-[32px] font-medium">{appData?.name}</span>
+                        <span className="text-[32px] font-medium">{selected?.name}</span>
                         <span className="block text-[16px] text-[#8F94A1]">
-                            {appData?.tagline}
+                            {selected?.tagline}
                         </span>
                     </div>
                 </div>
                 <div className="grid lg:grid-cols-5 lg:gap-10 gap-10 grid-cols-2 ml-auto mr-auto z-50">
-                    {appData?.showcase?.map((item, index) => (
-                        <Screen key={index} platform={1} src={toStorageUrl("/screens/" + appData.id + "/" + item)} />
+                    {selected?.showcase?.map((item, index) => (
+                        <Screen key={index} platform={1} src={toStorageUrl("/screens/" + selected.id + "/" + item)} />
                     ))}
                 </div>
             </motion.div>

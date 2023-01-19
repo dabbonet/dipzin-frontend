@@ -71,7 +71,7 @@ const Stream = () => {
         };
     }, [isFetching]);
 
-    const [selectedId, setSelectedId] = useState(null)
+    const [selected, setSelected] = useState(null);
 
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error: {error?.message}</p>;
@@ -82,18 +82,18 @@ const Stream = () => {
                 {data && data.pages.map((page) =>
                     page.data.map((application, index) => (
                         <>
-                            <motion.div key={index} onClick={() => setSelectedId(index)}>
+                            <motion.div key={index} onClick={() => setSelected(application)}>
                                 <Screen platform={1} app={application} list={application.showcase} />
                             </motion.div>
                         </>
                     ))
                 )}
             </div>
-            {/* <AnimatePresence> */}
-            {selectedId && (
-                <Showcase selectedId={selectedId} setSelectedId={setSelectedId} />
-            )}
-            {/* </AnimatePresence> */}
+            <AnimatePresence>
+                {selected && (
+                    <Showcase selected={selected} setSelected={setSelected} />
+                )}
+            </AnimatePresence>
         </>
     )
 }
