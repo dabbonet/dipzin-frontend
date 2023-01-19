@@ -49,7 +49,7 @@ const HoverScreen = ({ images, app }: HoverScreenProps) => {
 
   }, [images]);
 
-  const toStorageUrl = (pathname: string) => process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/application/icons/' + pathname
+  const toStorageUrl = (pathname: string) => process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/application/icons/' + pathname + '?q=60'
   if (!app) {
     return null
   }
@@ -112,6 +112,7 @@ const ImageHover = ({ images, app }: HoverScreenProps) => {
   if (!app) {
     return null
   }
+  console.log(images.length)
   return (
     <div
       className="relative h-full w-full"
@@ -121,7 +122,9 @@ const ImageHover = ({ images, app }: HoverScreenProps) => {
         setCurrentImage(0);
       }}
     >
-      <BlurImage platform={1} src={toStorageUrl(app.id + '/' + images[currentImage])} />
+      {images[currentImage] && images.length >= 1 &&
+        <BlurImage platform={1} src={toStorageUrl(app.id + '/' + images[currentImage])} />
+      }
     </div>
   );
 };
