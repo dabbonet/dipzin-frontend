@@ -4,7 +4,7 @@ import { useState } from "react";
 
 function Navigation() {
   return (
-    <header className="flex justify-between items-center lg:px-6 pt-4">
+    <header className="z-10 flex justify-between items-center lg:px-6 pt-4">
       <nav className="px-4 lg:px-6 py-2.5">
         <div className="flex flex-wrap justify-between items-center mx-auto">
           <a href="https://dipzin.com" className="flex items-center">

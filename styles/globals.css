@@ -9,5 +9,6 @@
 html,
 body {
   background: #0d1019;
+  -webkit-backface-visibility: hidden;
+  letter-spacing:0.8px;
 }
-
