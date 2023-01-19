@@ -2,7 +2,7 @@ import { ReactElement, useState, useRef, useEffect } from "react";
 import { NextPage } from "next";
 import Screen from "./screen"
 
-const Page: NextPage = () => {
+const Web: NextPage = () => {
     const [platform, setPlatform] = useState<any>("IOS");
 
     const [timerBlur, setTimerBlur] = useState<boolean>(true);
@@ -134,4 +134,4 @@ const Page: NextPage = () => {
         </>
     );
 }
-export default Page;
+export default Web;
