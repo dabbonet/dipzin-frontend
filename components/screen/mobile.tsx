@@ -8,6 +8,7 @@ type SingleScreenProps = {
 
 type HoverScreenProps = {
   images: string[];
+  app: { id: string, name: string, tagline: string, icon: string }
 }
 
 
@@ -22,10 +23,10 @@ export const SingleScreen = ({ image }: SingleScreenProps) => {
         }}
       >
         <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 ">
-        
+
           <BlurImage platform={1} src={image} />
-        
-        
+
+
         </div>
       </motion.div>
     </div>
@@ -34,7 +35,8 @@ export const SingleScreen = ({ image }: SingleScreenProps) => {
 
 
 
-const HoverScreen = ({ images }: HoverScreenProps) => {
+const HoverScreen = ({ images, app }: HoverScreenProps) => {
+  const toStorageUrl = (pathname: string) => process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/application/icons/' + pathname
   return (
     <div className="flex justify-center items-center relative group/item cursor-pointer">
       <motion.div
@@ -44,16 +46,16 @@ const HoverScreen = ({ images }: HoverScreenProps) => {
         }}
       >
         <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 transform duration-500 border-[0px] hover:border-[3px] border-transparent hover:border-slate-300">
-          <ImageHover images={images} />
+          <ImageHover app={app} images={images} />
           <div className="absolute w-[100%] bottom-3 flex justify-start items-center drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100 z-20">
             <img
               className="h-[15%] w-[15%] ml-[4%] rounded-full"
-              src="/images/assets/appicon.svg"
+              src={toStorageUrl(app.icon)}
             />
             <div className="text-white">
-              <span className="ml-2 text-[15px] font-semibold">Hollister</span>
+              <span className="ml-2 text-[15px] font-semibold">{app.name}</span>
               <span className="block text-[10px] font-light ml-2">
-                Fashion & Fitness
+                {app.tagline}
               </span>
             </div>
             <img
@@ -71,7 +73,7 @@ const HoverScreen = ({ images }: HoverScreenProps) => {
 export default HoverScreen;
 
 
-const ImageHover = ({ images }: HoverScreenProps) => {
+const ImageHover = ({ images, app }: HoverScreenProps) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -80,13 +82,17 @@ const ImageHover = ({ images }: HoverScreenProps) => {
     if (isHovered) {
       interval = setInterval(() => {
         setCurrentImage((currentImage + 1) % images.length);
-      }, 1200);
+      }, 600);
     }
 
     return () => {
       clearInterval(interval);
     };
   }, [currentImage, images.length, isHovered]);
+
+  // console.log('url'toStorageUrl(app + '/' + images[currentImage]));
+  const toStorageUrl = (pathname: string) => process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/application/screens/' + pathname
+  // console.log(toStorageUrl)
 
   return (
     <div
@@ -97,7 +103,8 @@ const ImageHover = ({ images }: HoverScreenProps) => {
         setCurrentImage(0);
       }}
     >
-      <BlurImage platform={1} src={images[currentImage]} />
+      <BlurImage platform={1} src={toStorageUrl(app.id + '/' + images[currentImage])} />
     </div>
   );
 };
+

@@ -5,15 +5,16 @@ import { SingleScreen } from "./mobile";
 type Props = {
     platform: number
     list?: string[]
+    app?: { id: string, name: string, tagline: string, icon: string }
     src?: string
 }
-const Screen = ({ platform, list, src }: Props) => {
+const Screen = ({ platform, list, src, app }: Props) => {
     if (list) {
         switch (platform) {
             default:
-                return <HoverScreen images={list} />
+                return <HoverScreen app={app} images={list} />
             case 2:
-                return <HoverScreen images={list} />
+                return <HoverScreen app={app} images={list} />
             case 3:
                 return <Web images={list} />
 
@@ -28,7 +29,7 @@ const Screen = ({ platform, list, src }: Props) => {
                 return <Web images={[src]} />
 
         }
-    }else {
+    } else {
         return null;
     }
 }
