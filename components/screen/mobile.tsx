@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import Image from "next/image";
 import BlurImage from "./Image";
 import { motion } from "framer-motion"
 import _ from 'lodash';
@@ -64,9 +65,12 @@ const HoverScreen = ({ images, app }: HoverScreenProps) => {
         <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 transform duration-500 border-[0px] hover:border-[3px] border-transparent hover:border-slate-300">
           <ImageHover app={app} images={randomImages} />
           <div className="absolute w-[100%] bottom-3 flex justify-start items-center drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100 z-20">
-            <img
+            <Image
               className="h-[15%] w-[15%] ml-[4%] rounded-full"
+              width={48}
+              height={48}
               src={app ? toStorageUrl(app.icon) : ''}
+              alt="icon"
             />
             <div className="text-white">
               <span className="ml-2 text-[15px] font-semibold">{app.name}</span>
