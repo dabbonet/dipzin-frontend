@@ -1,6 +1,7 @@
 import { ReactElement, useState } from "react";
 import type { NextPageWithLayout } from "./_app";
 import * as Yup from "yup";
+import { supabase } from "../lib/supabase";
 
 import AuthLayout from "../components/auth/AuthLayout";
 // import supabase from "../lib/supabase";
@@ -31,8 +32,6 @@ const Page: NextPageWithLayout = () => {
             setNotification({ tag: "", color: "", message: "" });
         }, 3000);
     };
-
-    const [supabase] = useState(() => createBrowserSupabaseClient());
 
     return (
         <div className="mx-auto w-full max-w-xl subpixel-antialiased">

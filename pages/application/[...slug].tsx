@@ -1,7 +1,9 @@
 import Mobile from "./mobile"
 import Web from "./web"
 import { useRouter } from 'next/router';
-import { supabase } from "../../client";
+import { supabase } from "../../lib/supabase";
+import React from "react";
+import { GetStaticPaths, GetStaticProps } from "next";
 
 interface Props {
     application: any
@@ -11,18 +13,18 @@ const ApplicationPage = ({ application }: Props) => {
     const router = useRouter();
     const platform = (router.query.slug as string[])[0] || []
 
-        switch (platform) {
-            default:
-                return 'Not Found'
-            case "android":
-                return <Mobile app={application} />
-            case "ios":
-                return <Mobile app={application} />
-            case "web":
-                return <Web app={application} />
+    switch (platform) {
+        default:
+            return 'Not Found'
+        case "android":
+            return <Mobile app={application} />
+        case "ios":
+            return <Mobile app={application} />
+        case "web":
+            return <Web app={application} />
 
 
-        }
+    }
 }
 
 export default ApplicationPage
