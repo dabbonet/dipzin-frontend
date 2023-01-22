@@ -5,24 +5,40 @@ import { useInfiniteQuery } from "react-query";
 import Screen from "../../components/screen";
 import Showcase from "./showcase";
 
+const perPage = 12;
 
 const fetchStream = async (page: any) => {
-    // console.log('fetching page:', page);
-
-    const perPage = 12;
-    // const page = lastGroup ? (lastGroup.length / perPage) + 1 : 1;
     const res = await fetch(`/api/stream?page=${page}&per_page=${perPage}`);
+
+    const data = await res.json();
+    data.data.sort(() => Math.random() - 0.5);
+
     if (res.ok) {
-        return res.json();
+        return data;
     }
     throw new Error('Failed to fetch stream');
 };
 
 
 const Stream = () => {
-    const maxPages = 10;
+
+    const [maxPages, setMaxPages] = useState(4);
     let randomPage = Math.floor(Math.random() * maxPages) + 1;
     const [loadedPages, setLoadedPages] = useState([randomPage])
+
+    useEffect(() => {
+        const fetchMaxPages = async () => {
+            const res = await fetch(`/api/stream/max`);
+            if (res.ok) {
+                const data = await res.json();
+                const count = Math.ceil(data.count / perPage);
+                console.log('count', count);
+                setMaxPages(count);
+
+            }
+        }
+        fetchMaxPages();
+    }, [])
 
     const {
         isLoading,
@@ -38,7 +54,6 @@ const Stream = () => {
         ({ pageParam = randomPage }) => fetchStream(pageParam),
         {
             getNextPageParam: (lastPage, allPages) => {
-
                 if (allPages.length >= maxPages) return undefined;
                 return Math.floor(Math.random() * maxPages) + 1;
             },
@@ -54,7 +69,6 @@ const Stream = () => {
             // console.log(isSuccess)
             if (!isFetching && clientHeight + scrollTop >= scrollHeight) {
                 if (hasNextPage) {
-                    const maxPages = 10;
                     let nextPage = Math.floor(Math.random() * maxPages) + 1;
                     while (loadedPages.includes(nextPage)) {
                         nextPage = Math.floor(Math.random() * maxPages) + 1;
