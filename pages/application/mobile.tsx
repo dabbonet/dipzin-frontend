@@ -1,4 +1,4 @@
-import Screen from "../../screen"
+import Screen from "./screen"
 
 interface Props {
     app: any

@@ -1,7 +1,7 @@
 import Mobile from "./mobile"
 import Web from "./web"
 import { useRouter } from 'next/router';
-import { supabase } from "../../../../client";
+import { supabase } from "../../client";
 
 interface Props {
     application: any
@@ -9,20 +9,20 @@ interface Props {
 
 const ApplicationPage = ({ application }: Props) => {
     const router = useRouter();
-    const { platform } = router.query;
+    const platform = (router.query.slug as string[])[0] || []
 
-    switch (platform) {
-        default:
-            return 'Not Found'
-        case "android":
-            return <Mobile app={application} />
-        case "ios":
-            return <Mobile app={application} />
-        case "web":
-            return <Web app={application} />
+        switch (platform) {
+            default:
+                return 'Not Found'
+            case "android":
+                return <Mobile app={application} />
+            case "ios":
+                return <Mobile app={application} />
+            case "web":
+                return <Web app={application} />
 
 
-    }
+        }
 }
 
 export default ApplicationPage
@@ -44,14 +44,16 @@ export const getStaticPaths = async () => {
                 break;
         }
         return {
-            params: { platform: platform, id: application.id, slug: application.slug }
+            params: { id: application.id, slug: [platform, application.slug] }
         }
     })
     return { paths, fallback: false }
 }
 
-export const getStaticProps = async (context: { params: { slug: any, platform: any } }) => {
-    const { slug, platform } = context.params;
+
+export const getStaticProps = async (context: { params: { slug: any } }) => {
+    const { slug } = context.params;
+    const platform = slug[0]
 
 
     let platform_id;
@@ -70,16 +72,15 @@ export const getStaticProps = async (context: { params: { slug: any, platform: a
     const { data: application, error } = await supabase
         .from("application")
         .select(`*, screen(*), app_category(*)`)
-        .match({ slug: slug, platform_id: platform_id, is_published: true })
+        .match({ slug: slug[1], platform_id: platform_id, is_published: true })
         .eq('screen.is_published', true)
         .order('id', { foreignTable: 'screen', ascending: true })
         .single()
-    // console.log(application)
 
     return {
         props: {
             application
         },
-        revalidate: 1,
+        revalidate: 60,
     }
 }

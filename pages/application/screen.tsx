@@ -5,6 +5,9 @@ type ScreenProps = {
 
 const Screen = ({ src }: ScreenProps) => {
 
+    if (!src) {
+        return null
+    }
     return (
         <div className="flex justify-center items-center relative group/item">
             <div className="rounded-2xl overflow-hidden min-720:gap-16 transform transition duration-500 hover:scale-105">
