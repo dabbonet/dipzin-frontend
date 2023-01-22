@@ -2,6 +2,7 @@ import Mobile from "./mobile"
 import Web from "./web"
 import { useRouter } from 'next/router';
 import { supabase } from "../../client";
+import React from "react";
 
 interface Props {
     application: any
@@ -9,20 +10,20 @@ interface Props {
 
 const ApplicationPage = ({ application }: Props) => {
     const router = useRouter();
-    const platform = (router.query.slug as string[])[0] || []
+    const platform = (router.query.app as string[])[0] || []
 
-        switch (platform) {
-            default:
-                return 'Not Found'
-            case "android":
-                return <Mobile app={application} />
-            case "ios":
-                return <Mobile app={application} />
-            case "web":
-                return <Web app={application} />
+    switch (platform) {
+        default:
+            return 'Not Found'
+        case "android":
+            return <Mobile app={application} />
+        case "ios":
+            return <Mobile app={application} />
+        case "web":
+            return <Web app={application} />
 
 
-        }
+    }
 }
 
 export default ApplicationPage
@@ -44,16 +45,21 @@ export const getStaticPaths = async () => {
                 break;
         }
         return {
-            params: { id: application.id, slug: [platform, application.slug] }
+            params: { app: [platform, application.slug] }
         }
     })
+    // console.log(paths);
     return { paths, fallback: false }
 }
 
 
-export const getStaticProps = async (context: { params: { slug: any } }) => {
-    const { slug } = context.params;
-    const platform = slug[0]
+export const getStaticProps = async (context) => {
+    const { app } = context.params;
+    console.log('app: ', app);
+    const platform = app[0]
+    const slug = app[1]
+    console.log('platform: ', app);
+    console.log('slug: ', slug);
 
 
     let platform_id;
@@ -72,7 +78,7 @@ export const getStaticProps = async (context: { params: { slug: any } }) => {
     const { data: application, error } = await supabase
         .from("application")
         .select(`*, screen(*), app_category(*)`)
-        .match({ slug: slug[1], platform_id: platform_id, is_published: true })
+        .match({ slug: slug, platform_id: platform_id, is_published: true })
         .eq('screen.is_published', true)
         .order('id', { foreignTable: 'screen', ascending: true })
         .single()
