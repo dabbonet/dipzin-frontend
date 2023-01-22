@@ -53,7 +53,7 @@ export const getStaticPaths = async () => {
 }
 
 
-export const getStaticProps = async (context) => {
+export const getStaticProps = async (context: { params: { app: any } }) => {
     const { app } = context.params;
     console.log('app: ', app);
     const platform = app[0]
