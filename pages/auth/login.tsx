@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { Field, Form, Formik } from "formik";
 import { EmailAuth } from "@supabase/auth-ui-react";
 import { useState } from "react";
-import { supabase } from "../../client.js";
+import { supabase } from "../../lib/supabase";
 import * as EmailValidator from "email-validator";
 import { useCookies } from "react-cookie";
 

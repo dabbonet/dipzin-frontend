@@ -2,7 +2,7 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useState } from "react";
-import { supabase } from "../../client.js";
+import { supabase } from "../../lib/supabase";
 import { useCookies } from 'react-cookie';
 
 interface OTPFormValues {

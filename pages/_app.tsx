@@ -1,7 +1,6 @@
-import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { supabase } from "../lib/supabase";
 import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
 import { AppProps } from "next/app";
-import { useState } from "react";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import { Poppins } from '@next/font/google'
@@ -36,8 +35,6 @@ export default function MyApp({
 }>) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
-
-  const [supabase] = useState(() => createBrowserSupabaseClient());
 
   return (
     <SessionContextProvider
