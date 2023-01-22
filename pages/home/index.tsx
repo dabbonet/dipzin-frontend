@@ -88,7 +88,7 @@ const Page: NextPage = () => {
         <div className="lg:w-[75%] max-w-[75%] mt-[110px] rounded-[42px]">
           <img
             className="h-auto w-full"
-            src="/images/assets/banner.svg"
+            src="/images/assets/banner.png"
             alt="banner"
           />
         </div>
