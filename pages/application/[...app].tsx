@@ -3,6 +3,7 @@ import Web from "./web"
 import { useRouter } from 'next/router';
 import { supabase } from "../../client";
 import React from "react";
+import { GetStaticPaths, GetStaticProps } from "next";
 
 interface Props {
     application: any
@@ -29,7 +30,52 @@ const ApplicationPage = ({ application }: Props) => {
 export default ApplicationPage
 
 
-export const getStaticPaths = async () => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+    const app = params?.app;
+    if (app) {
+        const platform = app[0]
+        const slug = app[1]
+
+
+        let platform_id;
+        switch (platform) {
+            case 'android':
+                platform_id = 1
+                break;
+            case 'ios':
+                platform_id = 2
+                break;
+            case 'web':
+                platform_id = 3
+                break;
+        }
+
+        const { data: application, error } = await supabase
+            .from("application")
+            .select(`*, screen(*), app_category(*)`)
+            .match({ slug: slug, platform_id: platform_id, is_published: true })
+            .eq('screen.is_published', true)
+            .order('id', { foreignTable: 'screen', ascending: true })
+            .single()
+
+        return {
+            props: {
+                application: JSON.parse(JSON.stringify(application))
+            },
+            revalidate: 60,
+        }
+    } else {
+        return {
+            props: {
+                application: null
+            },
+            revalidate: 60,
+        }
+    }
+
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
     const { data: application, error } = await supabase.from("application").select("*").eq('is_published', true)
     const paths = application?.map((application: any) => {
         let platform;
@@ -48,47 +94,10 @@ export const getStaticPaths = async () => {
             params: { app: [platform, application.slug] }
         }
     })
-    // console.log(paths);
-    return { paths, fallback: false }
+    if (paths) {
+        return { paths, fallback: "blocking" };
+    } else {
+        return { paths: [], fallback: "blocking" }
+    }
 }
 
-
-export const getStaticProps = async (context: { params: { app: any } }) => {
-    const { app } = context.params;
-    console.log('app: ', app);
-    const platform = app[0]
-    const slug = app[1]
-    console.log('platform: ', app);
-    console.log('slug: ', slug);
-
-
-    let platform_id;
-    switch (platform) {
-        case 'android':
-            platform_id = 1
-            break;
-        case 'ios':
-            platform_id = 2
-            break;
-        case 'web':
-            platform_id = 3
-            break;
-    }
-
-    const { data: application, error } = await supabase
-        .from("application")
-        .select(`*, screen(*), app_category(*)`)
-        .match({ slug: slug, platform_id: platform_id, is_published: true })
-        .eq('screen.is_published', true)
-        .order('id', { foreignTable: 'screen', ascending: true })
-        .single()
-    if (application) {
-        return {
-            props: {
-                application: JSON.parse(JSON.stringify(application))
-            },
-            revalidate: 60,
-        }
-    }
-    return null;
-}
