@@ -84,25 +84,20 @@
     "hey-listen" "^1.0.8"
     "tslib" "^2.3.1"
 
-"@next/env@13.0.6":
-  "integrity" "sha512-yceT6DCHKqPRS1cAm8DHvDvK74DLIkDQdm5iV+GnIts8h0QbdHvkUIkdOvQoOODgpr6018skbmSQp12z5OWIQQ=="
-  "resolved" "https://registry.npmjs.org/@next/env/-/env-13.0.6.tgz"
-  "version" "13.0.6"
+"@next/env@13.1.4":
+  "integrity" "sha512-x7ydhMpi9/xX7yVK+Fw33OuwwQWVZUFRxenK3z89fmPzQZyUk35Ynb+b7JkrhfRhDIFFvvqpzVSXeseSlBAw7A=="
+  "resolved" "https://registry.npmjs.org/@next/env/-/env-13.1.4.tgz"
+  "version" "13.1.4"
 
 "@next/font@^13.0.7":
   "integrity" "sha512-39SzuoMI6jbrIzPs3KtXdKX03OrVp6Y7kRHcoVmOg69spiBzruPJ5x5DQSfN+OXqznbvVBNZBXnmdnSqs3qXiA=="
   "resolved" "https://registry.npmjs.org/@next/font/-/font-13.0.7.tgz"
   "version" "13.0.7"
 
-"@next/swc-linux-x64-gnu@13.0.6":
-  "integrity" "sha512-kxyEXnYHpOEkFnmrlwB1QlzJtjC6sAJytKcceIyFUHbCaD3W/Qb5tnclcnHKTaFccizZRePXvV25Ok/eUSpKTw=="
-  "resolved" "https://registry.npmjs.org/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-13.0.6.tgz"
-  "version" "13.0.6"
-
-"@next/swc-linux-x64-musl@13.0.6":
-  "integrity" "sha512-N0c6gubS3WW1oYYgo02xzZnNatfVQP/CiJq2ax+DJ55ePV62IACbRCU99TZNXXg+Kos6vNW4k+/qgvkvpGDeyA=="
-  "resolved" "https://registry.npmjs.org/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-13.0.6.tgz"
-  "version" "13.0.6"
+"@next/swc-darwin-x64@13.1.4":
+  "integrity" "sha512-WoApDo8xfafrNc9+Mz5MwGFKUwbDHsGqLleTGZ8upegwVqDyHsYzqJQudf+loqhV58oGTOqP1eWaHn2J7dijXA=="
+  "resolved" "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-13.1.4.tgz"
+  "version" "13.1.4"
 
 "@nodelib/fs.scandir@2.1.5":
   "integrity" "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="
@@ -833,30 +828,30 @@
   "resolved" "https://registry.npmjs.org/next-tick/-/next-tick-1.1.0.tgz"
   "version" "1.1.0"
 
-"next@^8.1.1-canary.54 || >=9.0.0", "next@latest":
-  "integrity" "sha512-COvigvms2LRt1rrzfBQcMQ2GZd86Mvk1z+LOLY5pniFtL4VrTmhZ9salrbKfSiXbhsD01TrDdD68ec3ABDyscA=="
-  "resolved" "https://registry.npmjs.org/next/-/next-13.0.6.tgz"
-  "version" "13.0.6"
+"next@^8.1.1-canary.54 || >=9.0.0", "next@13.1.4":
+  "integrity" "sha512-g0oBUU+tcOPKbXTVdsDO2adc6wd/ggqauHHysPQJxuIKqZ+fwICGJht0C5D5V0A/77eQDF5EFwNdAHkFvBDsog=="
+  "resolved" "https://registry.npmjs.org/next/-/next-13.1.4.tgz"
+  "version" "13.1.4"
   dependencies:
-    "@next/env" "13.0.6"
+    "@next/env" "13.1.4"
     "@swc/helpers" "0.4.14"
     "caniuse-lite" "^1.0.30001406"
     "postcss" "8.4.14"
-    "styled-jsx" "5.1.0"
+    "styled-jsx" "5.1.1"
   optionalDependencies:
-    "@next/swc-android-arm-eabi" "13.0.6"
-    "@next/swc-android-arm64" "13.0.6"
-    "@next/swc-darwin-arm64" "13.0.6"
-    "@next/swc-darwin-x64" "13.0.6"
-    "@next/swc-freebsd-x64" "13.0.6"
-    "@next/swc-linux-arm-gnueabihf" "13.0.6"
-    "@next/swc-linux-arm64-gnu" "13.0.6"
-    "@next/swc-linux-arm64-musl" "13.0.6"
-    "@next/swc-linux-x64-gnu" "13.0.6"
-    "@next/swc-linux-x64-musl" "13.0.6"
-    "@next/swc-win32-arm64-msvc" "13.0.6"
-    "@next/swc-win32-ia32-msvc" "13.0.6"
-    "@next/swc-win32-x64-msvc" "13.0.6"
+    "@next/swc-android-arm-eabi" "13.1.4"
+    "@next/swc-android-arm64" "13.1.4"
+    "@next/swc-darwin-arm64" "13.1.4"
+    "@next/swc-darwin-x64" "13.1.4"
+    "@next/swc-freebsd-x64" "13.1.4"
+    "@next/swc-linux-arm-gnueabihf" "13.1.4"
+    "@next/swc-linux-arm64-gnu" "13.1.4"
+    "@next/swc-linux-arm64-musl" "13.1.4"
+    "@next/swc-linux-x64-gnu" "13.1.4"
+    "@next/swc-linux-x64-musl" "13.1.4"
+    "@next/swc-win32-arm64-msvc" "13.1.4"
+    "@next/swc-win32-ia32-msvc" "13.1.4"
+    "@next/swc-win32-x64-msvc" "13.1.4"
 
 "node-fetch@2.6.7":
   "integrity" "sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ=="
@@ -1125,10 +1120,10 @@
   "resolved" "https://registry.npmjs.org/source-map-js/-/source-map-js-1.0.2.tgz"
   "version" "1.0.2"
 
-"styled-jsx@5.1.0":
-  "integrity" "sha512-/iHaRJt9U7T+5tp6TRelLnqBqiaIT0HsO0+vgyj8hK2KUk7aejFqRrumqPUlAqDwAj8IbS/1hk3IhBAAK/FCUQ=="
-  "resolved" "https://registry.npmjs.org/styled-jsx/-/styled-jsx-5.1.0.tgz"
-  "version" "5.1.0"
+"styled-jsx@5.1.1":
+  "integrity" "sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw=="
+  "resolved" "https://registry.npmjs.org/styled-jsx/-/styled-jsx-5.1.1.tgz"
+  "version" "5.1.1"
   dependencies:
     "client-only" "0.0.1"
 
