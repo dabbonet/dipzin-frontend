@@ -1,7 +1,7 @@
 import Mobile from "./mobile"
 import Web from "./web"
 import { useRouter } from 'next/router';
-import { supabase } from "../../client";
+import { supabase } from "../../../client";
 import React from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 
@@ -11,7 +11,7 @@ interface Props {
 
 const ApplicationPage = ({ application }: Props) => {
     const router = useRouter();
-    const platform = (router.query.app as string[])[0] || []
+    const platform = (router.query.platform) || 'ios'
 
     switch (platform) {
         default:
@@ -30,47 +30,36 @@ const ApplicationPage = ({ application }: Props) => {
 export default ApplicationPage
 
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const app = params?.app;
-    if (app) {
-        const platform = app[0]
-        const slug = app[1]
+export const getStaticProps: GetStaticProps = async (context) => {
+    const platform = context.params?.platform
+    const slug = context.params?.slug
 
+    let platform_id;
+    switch (platform) {
+        case 'android':
+            platform_id = 1
+            break;
+        case 'ios':
+            platform_id = 2
+            break;
+        case 'web':
+            platform_id = 3
+            break;
+    }
 
-        let platform_id;
-        switch (platform) {
-            case 'android':
-                platform_id = 1
-                break;
-            case 'ios':
-                platform_id = 2
-                break;
-            case 'web':
-                platform_id = 3
-                break;
-        }
+    const { data: application, error } = await supabase
+        .from("application")
+        .select(`*, screen(*), app_category(*)`)
+        .match({ slug: slug, platform_id: platform_id, is_published: true })
+        .eq('screen.is_published', true)
+        .order('id', { foreignTable: 'screen', ascending: true })
+        .single()
 
-        const { data: application, error } = await supabase
-            .from("application")
-            .select(`*, screen(*), app_category(*)`)
-            .match({ slug: slug, platform_id: platform_id, is_published: true })
-            .eq('screen.is_published', true)
-            .order('id', { foreignTable: 'screen', ascending: true })
-            .single()
-
-        return {
-            props: {
-                application: JSON.parse(JSON.stringify(application))
-            },
-            revalidate: 60,
-        }
-    } else {
-        return {
-            props: {
-                application: null
-            },
-            revalidate: 60,
-        }
+    return {
+        props: {
+            application: JSON.parse(JSON.stringify(application))
+        },
+        revalidate: 60,
     }
 
 }
@@ -91,9 +80,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
                 break;
         }
         return {
-            params: { app: [platform, application.slug] }
+            params: { slug: application.slug, platform: platform }
         }
     })
+
     if (paths) {
         return { paths, fallback: "blocking" };
     } else {
