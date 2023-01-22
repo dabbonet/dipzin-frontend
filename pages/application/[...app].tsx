@@ -82,11 +82,13 @@ export const getStaticProps = async (context: { params: { app: any } }) => {
         .eq('screen.is_published', true)
         .order('id', { foreignTable: 'screen', ascending: true })
         .single()
-
-    return {
-        props: {
-            application
-        },
-        revalidate: 60,
+    if (application) {
+        return {
+            props: {
+                application: JSON.parse(JSON.stringify(application))
+            },
+            revalidate: 60,
+        }
     }
+    return null;
 }
