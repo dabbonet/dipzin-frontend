@@ -11,17 +11,19 @@ const ApplicationPage = ({ application }: Props) => {
     const router = useRouter();
     const { platform } = router.query;
 
-    switch (platform) {
-        default:
-            return 'Not Found'
-        case "android":
-            return <Mobile app={application} />
-        case "ios":
-            return <Mobile app={application} />
-        case "web":
-            return <Web app={application} />
+    if(application){
+        switch (platform) {
+            default:
+                return 'Not Found'
+            case "android":
+                return <Mobile app={application} />
+            case "ios":
+                return <Mobile app={application} />
+            case "web":
+                return <Web app={application} />
 
 
+        }
     }
 }
 
