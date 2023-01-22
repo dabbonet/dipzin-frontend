@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import { supabase } from "../lib/supabase";
 
 import AuthLayout from "../components/auth/AuthLayout";
-// import supabase from "../lib/supabase";
 
 type Notification = {
     tag: string,
@@ -13,7 +12,6 @@ type Notification = {
 }
 
 import { Field, Form, Formik } from "formik";
-import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const emailSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
@@ -61,6 +59,7 @@ const Page: NextPageWithLayout = () => {
                     initialValues={{ email: "" }}
                     validationSchema={emailSchema}
                     onSubmit={async (values, actions) => {
+
                         const { error } = await supabase
                             .from("email_list")
                             .insert({ email: values.email });

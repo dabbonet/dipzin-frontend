@@ -20,7 +20,7 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
 
         const { data, error } = await supabase
             .from('random_showcases')
-            .select()
+            .select('*')
             .range(from + 1, to)
 
         if (error) {
