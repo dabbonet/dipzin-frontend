@@ -1,4 +1,4 @@
-import Screen from "./screen"
+import Screen from "../../../components/screen";
 
 interface Props {
     app: any
@@ -44,7 +44,7 @@ const Mobile = ({ app }: Props) => {
                     {app && app.screen.map((screen: any) => {
                         // console.log(screen.url)
                         return (
-                            <Screen key={screen.id} src={toStorageUrl(screen.url)} />
+                            <Screen platform={1} key={screen.id} src={toStorageUrl(screen.url)} />
                         )
                     })}
                 </div>
