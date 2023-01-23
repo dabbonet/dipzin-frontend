@@ -25,7 +25,8 @@ const BlurImage = ({ src, platform }: Image) => {
                         : 'blur-0 scale-100'
                 )}
                 onLoadingComplete={() => setLoading(false)}
-                quality={60}
+                quality={100}
+                loading="lazy"
             />
         )
     } else {
@@ -35,6 +36,7 @@ const BlurImage = ({ src, platform }: Image) => {
                 src={src}
                 width={926}
                 height={570}
+                loading="lazy"
                 className={cn(
                     'ease-in-out bg-slate-800 h-full w-full border-[3px] border-transparent rounded-2xl transform opacity duration-500 hover:border-slate-300',
                     isLoading

@@ -174,7 +174,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
 
                     </div>
                 </div>
-                <div className="grid lg:grid-cols-5 lg:gap-10 gap-10 grid-cols-2 ml-auto mr-auto z-50">
+                <div className="grid lg:grid-cols-4 xl:grid-cols-5 lg:gap-10 gap-10 grid-cols-2 ml-auto mr-auto z-50">
                     {selected?.showcase?.map((item: string, index: Key | null | undefined) => (
                         <Screen key={index} platform={1} src={toStorageUrl("/screens/" + selected.id + "/" + item)} />
                     ))}

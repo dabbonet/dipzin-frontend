@@ -6,6 +6,8 @@ import Navigator from "../../components/navigator/main";
 import TimedUpgrade from "../../components/modals/timedUpgrade";
 import Collections from "../collection/collections";
 import Stream from "./stream";
+import { useQuery, useQueryClient } from 'react-query'
+import { motion } from "framer-motion";
 
 const Page: NextPage = () => {
   const [platform, setPlatform] = useState<string>("IOS");
@@ -35,27 +37,31 @@ const Page: NextPage = () => {
     "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/728/545daa87-efdc-4f92-a970-4ded077805a8.png",
     "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/e237b8fa-192f-47ad-ac6b-370330b5ba38.png"
   ]
+  const queryClient = useQueryClient()
+  const handleRefetch = async () => {
+    await queryClient.invalidateQueries('stream');
+  }
 
   return (
     <>
       {/* <TimedUpgrade /> */}
       <Navigator />
 
-      <header className="w-full flex justify-between fixed items-center text-white mt-8 px-10 z-10">
-        <div className="text-2xl">
+      <header className="w-full flex justify-between fixed items-center text-white mt-8 px-5 lg:px-10 z-10">
+        <div className="text-lg lg:text-2xl">
           <span className="font-semibold">
             dipz<span className="font-light">in</span>
             <span className="text-orange-500">.</span>
           </span>
         </div>
 
-        <div className="w-[250px] bg-[#1B2132] rounded-[40px] flex items-center px-1 text-sm font-light py-[8px]">
+        <div className="lg:w-[250px] bg-[#1B2132] rounded-[40px] flex items-center p-2  lg:text-sm text-xs font-light">
           <div
             onClick={() => {
               setPlatform("IOS");
             }}
             className={`${platform == "IOS" && "bg-slate-700"
-              }  py-[3px] px-[12px] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+              }  py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
           >
             <span>IOS</span>
           </div>
@@ -64,7 +70,7 @@ const Page: NextPage = () => {
               setPlatform("Android");
             }}
             className={`${platform == "Android" && "bg-slate-700"
-              }  py-[3px] px-[12px] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+              }  py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
           >
             <span>Android</span>
           </div>
@@ -73,13 +79,13 @@ const Page: NextPage = () => {
               setPlatform("Web");
             }}
             className={`${platform == "Web" && "bg-slate-700"
-              }  py-[3px] px-[12px] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+              }  py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
           >
             <span>Web</span>
           </div>
         </div>
 
-        <div className="w-[65px] h-[35px] bg-slate-300 rounded-full flex items-center justify-center text-sm font-normal text-slate-800">
+        <div className="w-[65px] h-[35px] bg-slate-300 rounded-full flex items-center justify-center md:text-sm text-xs font-normal text-slate-800">
           <a href="/auth">Try it!</a>
         </div>
       </header>
@@ -93,24 +99,34 @@ const Page: NextPage = () => {
           />
         </div>
 
-        <div className="w-[75%] flex mt-10 mb-[25px]">
-          <a className="cursor-pointer flex items-center">
+        <div className="lg:w-[75%] w-[85%] flex mt-10 mb-[25px]">
+          <a className="cursor-pointer duration-500 flex items-center">
             <span
               onClick={() => {
                 setStreamOpen("stream");
               }}
               className={` ${streamOpen == "stream"
-                ? "text-white text-[3rem] font-light"
-                : "text-gray-400 text-[2.5rem] opacity-70 font-light"
+                ? "text-white lg:text-[3rem] text-[2rem] font-light"
+                : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
                 } transform transition duration-500 `}
             >
               Stream
             </span>
             {streamOpen == "stream" && (
-              <img
-                className="ml-3 transform duration-[600ms] hover:rotate-90"
-                src="/images/assets/refresh.svg"
-              />
+              <motion.div
+                onClick={handleRefetch}
+                whileHover={{ rotate: 90 }}
+                whileTap={{
+                  rotate: 360,
+                }}
+                transition={{ type: "spring", stiffness: 50, damping: 20 }}
+                className="ml-3"
+              >
+                <img
+                  className=" w-8"
+                  src="/images/assets/refresh.svg"
+                />
+              </motion.div>
             )}
           </a>
           <a className="cursor-pointer flex items-center">
@@ -119,8 +135,8 @@ const Page: NextPage = () => {
                 setStreamOpen("collection");
               }}
               className={` ${streamOpen == "collection"
-                ? "text-white text-[3rem] font-light"
-                : "text-gray-400 text-[2.5rem] opacity-70 font-light"
+                ? "text-white lg:text-[3rem] text-[2rem] font-light"
+                : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
                 } transform transition duration-500  ml-12 `}
             >
               Collections

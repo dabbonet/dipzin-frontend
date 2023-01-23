@@ -5,7 +5,7 @@ import { useInfiniteQuery } from "react-query";
 import Screen from "../../components/screen";
 import Showcase from "./showcase";
 
-const perPage = 12;
+const perPage = 10;
 
 const fetchStream = async (page: any) => {
     const res = await fetch(`/api/stream?page=${page}&per_page=${perPage}`);
@@ -96,7 +96,7 @@ const Stream = () => {
 
     return (
         <>
-            <div className="scrollbar-rounded w-[80%] lg:w-[75%] grid gap-4 lg:gap-5 xl:gap-6 xxl:gap-9 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 xxl:grid-cols-7 mb-10 text-white">
+            <div className="scrollbar-rounded w-[80%] lg:w-[80%] grid gap-4 lg:gap-5 xl:gap-6 xxl:gap-9 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 xxl:grid-cols-6 mb-10 text-white">
                 {data && data?.pages.map((page: { data: any[]; }) =>
                     page.data.map((application, index) => {
                         // const shuffledApplication = application ? shuffle(application) : null;
