@@ -22,7 +22,7 @@ const fetchStream = async (page: any) => {
 
 const Stream = () => {
 
-    const [maxPages, setMaxPages] = useState(4);
+    const [maxPages, setMaxPages] = useState(6);
     let randomPage = Math.floor(Math.random() * maxPages) + 1;
     const [loadedPages, setLoadedPages] = useState([randomPage])
 
@@ -85,7 +85,7 @@ const Stream = () => {
         };
     }, [isFetching]);
 
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState<any>(null);
 
     // function shuffle(array: any[]) {
     //     return array.sort(() => Math.random() - 0.5);
@@ -102,7 +102,7 @@ const Stream = () => {
                         // const shuffledApplication = application ? shuffle(application) : null;
                         return (
                             <>
-                                <motion.div key={index} onClick={() => setSelected(application)}>
+                                <motion.div layout key={index} layoutId={application.id} onClick={() => setSelected(application)}>
                                     <Screen platform={1} app={application} list={application.showcase} />
                                 </motion.div>
                             </>
@@ -113,6 +113,7 @@ const Stream = () => {
             <AnimatePresence>
                 {selected && (
                     <Showcase selected={selected} setSelected={setSelected} />
+
                 )}
             </AnimatePresence>
         </>
