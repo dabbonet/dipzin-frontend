@@ -16,7 +16,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
     return (
         <motion.div
             onClick={() => setSelected()}
-            layoutId={selected?.toString()}
+            // layoutId={selected.id}
             className={'w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-40 backdrop-blur-lg bg-slate-900/70'}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
