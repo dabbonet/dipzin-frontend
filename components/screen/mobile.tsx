@@ -28,6 +28,13 @@ export const SingleScreen = ({ image }: SingleScreenProps) => {
           transition: { duration: 0.3 },
         }}
       >
+        {/* we are here */}
+        <div className="absolute w-[100%] top-4 flex justify-center drop-shadow-xl z-10">
+          <img className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100" src="/images/assets/addpng.svg" />
+          <img className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100" src="/images/assets/addcopy.svg" />
+          <img className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100" src="/images/assets/addcollection.svg" />
+        </div>
+
         <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 ">
 
           <BlurImage platform={1} src={image} />
@@ -64,6 +71,7 @@ const HoverScreen = ({ images, app }: HoverScreenProps) => {
       >
         <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 transform duration-500 border-[0px] hover:border-[3px] border-transparent hover:border-slate-300">
           <ImageHover app={app} images={randomImages} />
+
           <div className="absolute w-[100%] bottom-3 flex justify-start items-center drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100 z-20">
             <Image
               className="h-[15%] w-[15%] ml-[4%] rounded-full"
