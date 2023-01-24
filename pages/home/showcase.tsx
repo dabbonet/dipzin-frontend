@@ -20,7 +20,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
       onClick={() => setSelected()}
       // layoutId={selected.id}
       className={
-        "w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-[2%] backdrop-blur-lg bg-slate-900/70"
+        "w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-10 backdrop-blur-lg bg-slate-900/70"
       }
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
