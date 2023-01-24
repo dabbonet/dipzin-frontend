@@ -8,7 +8,7 @@ const Header = () => {
   const platform = globalContext?.platform
 
   return (
-    <header className="w-full flex justify-between fixed items-center text-white mt-8 px-5 lg:px-10 z-10">
+    <header className="w-full flex justify-between fixed items-center text-white mt-8 px-5 lg:px-10 z-10 top-0">
       <Link
         href="/home"
         className="text-lg lg:text-2xl"
