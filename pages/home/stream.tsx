@@ -96,7 +96,7 @@ const Stream = () => {
 
     return (
         <>
-            <div className="scrollbar-rounded w-[80%] lg:w-[80%] grid gap-4 lg:gap-5 xl:gap-6 xxl:gap-9 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 xxl:grid-cols-6 mb-10 text-white">
+            <motion.div layoutScroll className="scrollbar-rounded w-[80%] lg:w-[80%] grid gap-4 lg:gap-5 xl:gap-6 xxl:gap-9 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 xxl:grid-cols-6 mb-10 text-white">
                 {data && data?.pages.map((page: { data: any[]; }) =>
                     page.data.map((application, index) => {
                         // const shuffledApplication = application ? shuffle(application) : null;
@@ -109,7 +109,7 @@ const Stream = () => {
                         )
                     })
                 )}
-            </div>
+            </motion.div>
             <AnimatePresence>
                 {selected && (
                     <Showcase selected={selected} setSelected={setSelected} />
