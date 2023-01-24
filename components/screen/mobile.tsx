@@ -22,7 +22,7 @@ export const SingleScreen = ({ image }: SingleScreenProps) => {
   const [menuIco, setMenuIco] = useState("");
 
   const saveFile = () => {
-    saveAs(image, "image.png");
+    saveAs(image, "image.webp");
   };
   return (
     <div className="flex justify-center items-center relative group/item">
