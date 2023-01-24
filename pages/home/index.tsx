@@ -6,34 +6,46 @@ import Navigator from "../../components/navigator/main";
 import TimedUpgrade from "../../components/modals/timedUpgrade";
 import Collections from "../collection/collections";
 import Stream from "./stream";
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from "react-query";
 import { motion } from "framer-motion";
 import { GlobalContext } from "../../lib/globalContext";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const Page: NextPage = () => {
-  const globalContext = useContext(GlobalContext)
+  const globalContext = useContext(GlobalContext);
+  const supabase = useSupabaseClient();
+  const session = useSession();
+  const [user, setUser] = useState();
+  const handeUser = async () => {
+    const { data } = await supabase
+      .from("profiles")
+      .select("id, username, avatar_url, website");
+    console.log(data?.find((e) => e.id == session?.user.id)?.username);
+    let u = data?.find((e) => e.id == session?.user.id)?.username;
+    setUser(u);
+    console.log(session?.user.id);
+  };
   //initialeze the platform
   useEffect(() => {
-    globalContext?.setPlatform("ios")
-  }, [])
-  const platform = globalContext?.platform
+    globalContext?.setPlatform("ios");
+    handeUser();
+  }, [session]);
+  const platform = globalContext?.platform;
   const [streamOpen, setStreamOpen] = useState<string>("stream");
   const [webScreenOpen, setWebScreenOpen] = useState<boolean>(false);
-
-
 
   const webImages = [
     "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/65692a13-8749-4ccf-8f94-8b62e99d0788.png",
     "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/ba2780b8-ce7f-4d65-8e18-f6358d544733.png",
     "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/9d105252-4222-483a-b90d-d4f898e41bd0.png",
     "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/992731cb-7023-4058-af52-0cd1fad83bea.png",
-    "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/26e8ddc8-fd7f-4364-9a79-950dedb84d3a.png"
-  ]
+    "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/26e8ddc8-fd7f-4364-9a79-950dedb84d3a.png",
+  ];
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const handleRefetch = async () => {
-    await queryClient.invalidateQueries('stream');
-  }
+    await queryClient.invalidateQueries("stream");
+  };
 
   return (
     <>
@@ -54,10 +66,11 @@ const Page: NextPage = () => {
               onClick={() => {
                 setStreamOpen("stream");
               }}
-              className={` ${streamOpen == "stream"
-                ? "text-white lg:text-[3rem] text-[2rem] font-light"
-                : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
-                } transform transition duration-500 `}
+              className={` ${
+                streamOpen == "stream"
+                  ? "text-white lg:text-[3rem] text-[2rem] font-light"
+                  : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
+              } transform transition duration-500 `}
             >
               Stream
             </span>
@@ -71,10 +84,7 @@ const Page: NextPage = () => {
                 transition={{ type: "spring", stiffness: 50, damping: 20 }}
                 className="ml-3"
               >
-                <img
-                  className=" w-8"
-                  src="/images/assets/refresh.svg"
-                />
+                <img className=" w-8" src="/images/assets/refresh.svg" />
               </motion.div>
             )}
           </a>
@@ -83,10 +93,11 @@ const Page: NextPage = () => {
               onClick={() => {
                 setStreamOpen("collection");
               }}
-              className={` ${streamOpen == "collection"
-                ? "text-white lg:text-[3rem] text-[2rem] font-light"
-                : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
-                } transform transition duration-500  ml-12 `}
+              className={` ${
+                streamOpen == "collection"
+                  ? "text-white lg:text-[3rem] text-[2rem] font-light"
+                  : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
+              } transform transition duration-500  ml-12 `}
             >
               Collections
             </span>
@@ -103,7 +114,6 @@ const Page: NextPage = () => {
           <>
             {platform == "web" ? (
               <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-4 lg:gap-5 gap-5 mb-10 grid-cols-2">
-
                 <div
                   className="flex justify-center items-center relative group/item cursor-pointer"
                   onClick={() => {
@@ -133,10 +143,10 @@ const Page: NextPage = () => {
 
         <div
           className={cn(
-            'duration-500 w-[110%] h-[100%] transition-all z-40 overflow-y-scroll pt-40',
+            "duration-500 w-[110%] h-[100%] transition-all z-40 overflow-y-scroll pt-40",
             webScreenOpen
-              ? 'backdrop-blur-xl fixed bg-[#0D1018]/70 block'
-              : 'backdrop-blur hidden'
+              ? "backdrop-blur-xl fixed bg-[#0D1018]/70 block"
+              : "backdrop-blur hidden"
           )}
           onClick={() => {
             setWebScreenOpen(false);
@@ -145,10 +155,8 @@ const Page: NextPage = () => {
           {webScreenOpen && (
             <div
               className={cn(
-                ' duration-1000 transition-all flex flex-col w-[80%] lg:w-[75%] mx-auto',
-                webScreenOpen
-                  ? 'scale-100'
-                  : 'scale-90'
+                " duration-1000 transition-all flex flex-col w-[80%] lg:w-[75%] mx-auto",
+                webScreenOpen ? "scale-100" : "scale-90"
               )}
             >
               <div className="my-8 flex items-center text-white z-50">
@@ -170,12 +178,10 @@ const Page: NextPage = () => {
                 <Screen platform={3} list={webImages} />
                 <Screen platform={3} list={webImages} />
                 <Screen platform={3} list={webImages} />
-
               </div>
             </div>
           )}
         </div>
-
       </main>
     </>
   );
