@@ -13,7 +13,9 @@ import { GlobalContext } from "../../lib/globalContext";
 const Page: NextPage = () => {
   const globalContext = useContext(GlobalContext)
   //initialeze the platform
-  globalContext?.setPlatform("ios")
+  useEffect(() => {
+    globalContext?.setPlatform("ios")
+  }, [])
   const platform = globalContext?.platform
   const [streamOpen, setStreamOpen] = useState<string>("stream");
   const [webScreenOpen, setWebScreenOpen] = useState<boolean>(false);
