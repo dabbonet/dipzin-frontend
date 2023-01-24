@@ -52,11 +52,15 @@ export default function MyApp({
         <GlobalProvider>
           <ReactQueryDevtools initialIsOpen={false} />
           <DefaultSeo {...SEO} />
-          <Header />
+
           {getLayout(
-            <main className={poppins.className}>
-              <Component {...pageProps} />
-            </main>
+            <>
+              <Header />
+              <main className={poppins.className}>
+                <Component {...pageProps} />
+              </main>
+            </>
+
           )}
         </GlobalProvider>
       </QueryClientProvider>
