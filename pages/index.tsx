@@ -1,7 +1,7 @@
 import { ReactElement, useState } from "react";
 import type { NextPageWithLayout } from "./_app";
 import * as Yup from "yup";
-import { supabase } from "../client";
+import { supabase } from "../lib/supabase";
 
 import AuthLayout from "../components/auth/AuthLayout";
 
