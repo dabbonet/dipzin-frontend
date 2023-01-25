@@ -1,12 +1,7 @@
-import type { ReactElement } from "react";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
-
 import { useRouter } from "next/router";
 import { Field, Form, Formik } from "formik";
 import * as EmailValidator from "email-validator";
-// import Cookies from "js-cookie";
-import { supabase } from "../../client";
+import { supabase } from "../../lib/supabase";
 import { useCookies } from "react-cookie";
 
 const Join = () => {

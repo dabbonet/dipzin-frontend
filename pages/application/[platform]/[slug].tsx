@@ -1,15 +1,21 @@
 import Mobile from "./mobile"
 import Web from "./web"
 import { useRouter } from 'next/router';
-import { supabase } from "../../../client";
-import React from "react";
+import { supabase } from "../../../lib/supabase";
+import React, { useContext, useEffect } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { GlobalContext } from "../../../lib/globalContext";
 
 interface Props {
     application: any
 }
 
 const ApplicationPage = ({ application }: Props) => {
+    const globalContext = useContext(GlobalContext)
+    //initialeze the platform
+    useEffect(() => {
+        globalContext?.setAvailablePlatforms(["ios", "android"])
+    }, [])
     const router = useRouter();
     const platform = (router.query.platform) || 'ios'
 
