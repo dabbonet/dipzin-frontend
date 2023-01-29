@@ -16,6 +16,7 @@ const Navigator = () => {
     const { data } = await supabase
       .from("profiles")
       .select("id, username, avatar_url, website, full_name");
+
     console.log(data?.find((e) => e.id == session?.user.id)?.username);
     let u = data?.find((e) => e.id == session?.user.id);
     setUser(u);
@@ -37,7 +38,8 @@ const Navigator = () => {
       initial={{ y: 200 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 100 }}
-      className="fixed w-full bottom-0 flex justify-center z-40">
+      className="fixed w-full bottom-0 flex justify-center z-40"
+    >
       <div className="fixed bottom-12 h-[50px] flex items-center ">
         <div
           className="w-[45px] h-[45px] rounded-full mr-4 relative cursor-pointer"
@@ -46,15 +48,13 @@ const Navigator = () => {
           }}
         >
           <div className="overflow-hidden w-[45px] h-[45px] rounded-full mr-2 relative cursor-pointer border-2 border-slate-200 bg-slate-900">
-            <img
-              className="w-full rounded-full"
-              src={user?.avatar_url || ""}
-            />
+            <img className="w-full rounded-full" src={user?.avatar_url || ""} />
           </div>
 
           <div
-            className={`opacity-0 ${userOpen ? "opacity-100 scale-[100%]" : "opacity-0 scale-0"
-              } transform-gpu transition duration-400 origin-bottom absolute bottom-[65px] left-[-120px] bg-slate-900/95  rounded-[16px] py-[18px] px-[20px] w-[260px] text-slate-100`}
+            className={`opacity-0 ${
+              userOpen ? "opacity-100 scale-[100%]" : "opacity-0 scale-0"
+            } transform-gpu transition duration-400 origin-bottom absolute bottom-[65px] left-[-120px] bg-slate-900/95  rounded-[16px] py-[18px] px-[20px] w-[260px] text-slate-100`}
           >
             <div className="flex items-center mb-[20px]">
               <div className="w-[32px] h-[32px] rounded-full mr-2 bg-slate-800">
@@ -74,7 +74,13 @@ const Navigator = () => {
             </div>
             <div className="flex items-center text-white text-[14px] font-medium  px-3 py-[8px] rounded-[8px] mb-[8px] cursor-pointer transorm duration-[400ms] hover:bg-slate-700">
               <img className="mr-3" src="/images/assets/usericon1.svg" />
-              <span>Account Settings</span>
+              <span
+                onClick={() => {
+                  router.push("/profile");
+                }}
+              >
+                Account Settings
+              </span>
             </div>
             <div className="flex items-center text-white text-[14px] font-medium px-3 py-[8px] rounded-[8px] mb-[8px] cursor-pointer transorm duration-[400ms] hover:bg-slate-700">
               <img className="mr-3" src="/images/assets/usericon2.svg" />
