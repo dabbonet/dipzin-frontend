@@ -15,21 +15,33 @@ const Page: NextPage = () => {
   const globalContext = useContext(GlobalContext);
   const supabase = useSupabaseClient();
   const session = useSession();
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<any>();
+  const [loading, setLoading] = useState(true);
+
   const handeUser = async () => {
-    const { data } = await supabase
-      .from("profiles")
-      .select("id, username, avatar_url, website");
-    console.log(data?.find((e) => e.id == session?.user.id)?.username);
-    let u = data?.find((e) => e.id == session?.user.id)?.username;
-    setUser(u);
-    console.log(session?.user.id);
+    try {
+      const { data } = await supabase
+        .from("profiles")
+        .select("id, username, avatar_url, website, full_name")
+        .eq("id", session?.user.id)
+        .single();
+
+      if (data) {
+        setUser(data);
+      }
+    } catch (error) {
+      alert(error);
+    } finally {
+      setLoading(false);
+    }
   };
   //initialeze the platform
   useEffect(() => {
     globalContext?.setPlatform("ios");
+    globalContext?.setAvailablePlatforms(["ios", "android", "web"]);
     handeUser();
   }, [session]);
+
   const platform = globalContext?.platform;
   const [streamOpen, setStreamOpen] = useState<string>("stream");
   const [webScreenOpen, setWebScreenOpen] = useState<boolean>(false);
