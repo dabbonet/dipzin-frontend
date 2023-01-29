@@ -1,18 +1,18 @@
-import Link from 'next/link'
-import React, { useContext } from 'react'
-import { GlobalContext } from '../lib/globalContext'
+import Link from "next/link";
+import React, { useContext, useEffect } from "react";
+import { GlobalContext } from "../lib/globalContext";
 
 const Header = () => {
+  const globalContext = useContext(GlobalContext);
+  const platform = globalContext?.platform;
 
-  const globalContext = useContext(GlobalContext)
-  const platform = globalContext?.platform
+  useEffect(() => {
+    console.log(platform);
+  }, [platform]);
 
   return (
     <header className="w-full flex justify-between fixed items-center text-white mt-8 px-5 lg:px-10 z-10 top-0">
-      <Link
-        href="/home"
-        className="text-lg lg:text-2xl"
-      >
+      <Link href="/home" className="text-lg lg:text-2xl">
         <span className="font-semibold">
           dipz<span className="font-light">in</span>
           <span className="text-orange-500">.</span>
@@ -24,16 +24,15 @@ const Header = () => {
           {globalContext?.availablePlatforms.map((platformAvailable) => (
             <div
               onClick={() => {
-                globalContext.setPlatform(platformAvailable);
+                globalContext.setPlatform(platformAvailable.id);
               }}
-              className={`${platform == platformAvailable && "bg-slate-700"
-                }  py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+              className={`${
+                platform == platformAvailable.id && "bg-slate-700"
+              }  py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
             >
-              <span className='uppercase'>{platformAvailable}</span>
+              <span className="uppercase">{platformAvailable.name}</span>
             </div>
           ))}
-
-
         </div>
       )}
 
@@ -41,7 +40,7 @@ const Header = () => {
         <a href="/auth">Try it!</a>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

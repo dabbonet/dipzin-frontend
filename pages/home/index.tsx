@@ -37,8 +37,21 @@ const Page: NextPage = () => {
   };
   //initialeze the platform
   useEffect(() => {
-    globalContext?.setPlatform("ios");
-    globalContext?.setAvailablePlatforms(["ios", "android", "web"]);
+    globalContext?.setPlatform(2);
+    globalContext?.setAvailablePlatforms([
+      {
+        id: "2",
+        name: "ios",
+      },
+      {
+        id: "1",
+        name: "android",
+      },
+      {
+        id: "3",
+        name: "web",
+      },
+    ]);
     handeUser();
   }, [session]);
 
