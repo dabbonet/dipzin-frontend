@@ -17,10 +17,10 @@ const Navigator = () => {
       .from("profiles")
       .select("id, username, avatar_url, website, full_name");
 
-    console.log(data?.find((e) => e.id == session?.user.id)?.username);
+    // console.log(data?.find((e) => e.id == session?.user.id)?.username);
     let u = data?.find((e) => e.id == session?.user.id);
     setUser(u);
-    console.log(session?.user.id);
+    // console.log(session?.user.id);
   };
 
   const handelLogOut = async () => {
