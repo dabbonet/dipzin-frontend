@@ -68,7 +68,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
                 className="min-w-fit p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
                 href={{
                   pathname: "/application/[platform]/[slug]",
-                  query: { platform: getPlatform(selected.platform_id), slug: selected?.slug },
+                  query: { platform: getPlatform(selected?.platform_id), slug: selected?.slug },
                 }}
               >
                 <svg
@@ -195,7 +195,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
           </div>
         </div>
         <div className="grid lg:grid-cols-4 xl:grid-cols-5 lg:gap-10 gap-10 grid-cols-2 ml-auto mr-auto z-50">
-          {selected.showcase.map((item: string, index: number) => (
+          {selected?.showcase.map((item: string, index: number) => (
             <Screen
               key={index}
               platform={1}
