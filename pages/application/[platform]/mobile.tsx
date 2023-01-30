@@ -84,7 +84,12 @@ const Mobile = ({ app }: Props) => {
   return (
     <>
       <div className="fixed right-10 top-[35%] w-[100px] py-2.5 bg-slate-900/30 border border-slate-800 rounded-2xl flex flex-col justify-between z-50">
-        {liked ? (
+        {!session ? (
+          <div className="w-[82px] h-[70px] opacity-30 mb-3 p-2 m-auto rounded-xl bg-[#0B1321] border-[3px] border-[#0B1321] cursor-pointer">
+            <img className="ml-auto mb-3" src="/images/assets/like.svg" />
+            <span className="text-white text-[12px] mt-auto">Like App</span>
+          </div>
+        ) : liked ? (
           <div
             onClick={handleRemove}
             className="w-[82px] h-[70px] mb-3 p-2 m-auto rounded-xl bg-[#0B1321] border-[3px] border-orange-500 cursor-pointer"
