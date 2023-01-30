@@ -24,17 +24,84 @@ const Mobile = ({ app }: Props) => {
 
   const [save, setSave] = useState<any>(false);
 
+  const supabase = useSupabaseClient();
+  const session = useSession();
+
+  const [liked, setLiked] = useState<boolean>(false);
+
   useEffect(() => {
-    console.log(app);
-  }, []);
+    const checkLiked = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("liked_apps")
+          .select("id")
+          .eq("app_id", app.id)
+          .eq("user_id", session?.user.id)
+          .single();
+
+        if (data) {
+          console.log(data.id);
+          setLiked(true);
+        } else {
+          console.log(error);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    checkLiked();
+  }, [session, app]);
+
+  const handleLike = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("liked_apps")
+        .insert({ app_id: app.id, user_id: session?.user.id })
+        .select();
+      if (data) {
+        //alert("liked");
+        setLiked(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleRemove = async () => {
+    try {
+      await supabase
+        .from("liked_apps")
+        .delete()
+        .eq("app_id", app.id)
+        .eq("user_id", session?.user.id);
+
+      setLiked(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <>
       <div className="fixed right-10 top-[35%] w-[100px] py-2.5 bg-slate-900/30 border border-slate-800 rounded-2xl flex flex-col justify-between z-50">
-        <div className="w-[82px] h-[70px] mb-3 p-2 m-auto rounded-xl bg-[#0B1321] border-[3px] border-[#0B1321] hover:border-slate-700 cursor-pointer">
-          <img className="ml-auto mb-3" src="/images/assets/like.svg" />
-          <span className="text-white text-[12px] mt-auto">Like App</span>
-        </div>
+        {liked ? (
+          <div
+            onClick={handleRemove}
+            className="w-[82px] h-[70px] mb-3 p-2 m-auto rounded-xl bg-[#0B1321] border-[3px] border-orange-500 cursor-pointer"
+          >
+            <img className="ml-auto mb-3" src="/images/assets/like.svg" />
+            <span className="text-white text-[12px] mt-auto">Liked</span>
+          </div>
+        ) : (
+          <div
+            onClick={handleLike}
+            className="w-[82px] h-[70px] mb-3 p-2 m-auto rounded-xl bg-[#0B1321] border-[3px] border-[#0B1321] hover:border-slate-700 cursor-pointer"
+          >
+            <img className="ml-auto mb-3" src="/images/assets/like.svg" />
+            <span className="text-white text-[12px] mt-auto">Like App</span>
+          </div>
+        )}
+
         <div
           onClick={() => {
             window.open(app.storelink, "_blank", "noreferrer");
@@ -52,41 +119,37 @@ const Mobile = ({ app }: Props) => {
         >
           <img className="ml-auto mb-3" src="/images/assets/save.svg" />
           <span className="text-white text-[12px] mt-auto relative">Save</span>
-          {save && (
-            <div className="absolute top-0 right-[100px] bg-slate-900 py-[16px] w-[250px] z-50 px-3 rounded-xl">
-              <div className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer">
-                <img
-                  src="/images/assets/publicIcon.svg"
-                  className="mx-1 mr-2"
-                />
-                <span className="font-medium text-slate-100 text-[12px] mr-2">
-                  Public Collection 2
-                </span>
-              </div>
-              <div className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer">
-                <img
-                  src="/images/assets/publicIcon.svg"
-                  className="mx-1 mr-2"
-                />
-                <span className="font-medium text-slate-100 text-[12px] mr-2">
-                  Public Collection 2
-                </span>
-              </div>
-              <div className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer">
-                <img
-                  src="/images/assets/privateIcon.svg"
-                  className="mx-1 mr-2"
-                />
-                <span className="font-medium text-slate-100 text-[12px] mr-2">
-                  Private Collection
-                </span>
-              </div>
-              <span className="flex items-center justify-center py-2 bg-slate-800 rounded-2xl font- text-[12px] mt-3 text-slate-100">
-                Create Collection
+          <div className="absolute top-0 right-[100px] bg-slate-900 py-[16px] w-[250px] z-50 px-3 rounded-xl">
+            <span className="text-[12px] text-white mb-5">
+              Create a new collection
+            </span>
+          </div>
+        </div>
+        {save && (
+          <div className="absolute top-[19                          0px] right-[110px] bg-slate-900 py-[16px] w-[250px] z-50 px-3 rounded-xl">
+            <div className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer">
+              <img src="/images/assets/publicIcon.svg" className="mx-1 mr-2" />
+              <span className="font-medium text-slate-100 text-[12px] mr-2">
+                Public Collection 2
               </span>
             </div>
-          )}
-        </div>
+            <div className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer">
+              <img src="/images/assets/publicIcon.svg" className="mx-1 mr-2" />
+              <span className="font-medium text-slate-100 text-[12px] mr-2">
+                Public Collection 2
+              </span>
+            </div>
+            <div className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer">
+              <img src="/images/assets/privateIcon.svg" className="mx-1 mr-2" />
+              <span className="font-medium text-slate-100 text-[12px] mr-2">
+                Private Collection
+              </span>
+            </div>
+            <span className="flex items-center justify-center py-2 bg-slate-800 rounded-2xl font- text-[12px] mt-3 text-slate-100">
+              Create Collection
+            </span>
+          </div>
+        )}
         <div
           onClick={async () => {
             await navigator.clipboard.writeText(location.href);
