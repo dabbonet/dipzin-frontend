@@ -1,12 +1,14 @@
 import { supabase } from "../lib/supabase";
 import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
 import { AppProps } from "next/app";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import GlobalProvider from "../lib/globalContext";
 import type { NextPage } from "next";
 import { Poppins } from '@next/font/google'
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config'
+import Router from "next/router";
+import PageLoader from "../components/loader";
 
 import Header from '../components/header'
 
@@ -19,6 +21,7 @@ const poppins = Poppins({
 import "../styles/globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { AnimatePresence } from "framer-motion";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -41,6 +44,24 @@ export default function MyApp({
 }>) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
+  const [loading, setLoading] = useState(false)
+  useEffect(() => {
+    // Used for page transition
+    const start = () => {
+      setLoading(true)
+    }
+    const end = () => {
+      setLoading(false)
+    }
+    Router.events.on("routeChangeStart", start)
+    Router.events.on("routeChangeComplete", end)
+    Router.events.on("routeChangeError", end)
+    return () => {
+      Router.events.off("routeChangeStart", start)
+      Router.events.off("routeChangeComplete", end)
+      Router.events.off("routeChangeError", end)
+    }
+  }, [])
 
 
   return (
@@ -57,7 +78,9 @@ export default function MyApp({
             <>
               <Header />
               <main className={poppins.className}>
+                {/* <AnimatePresence> */}
                 <Component {...pageProps} />
+                {/* </AnimatePresence> */}
               </main>
             </>
 
