@@ -2,31 +2,52 @@ import * as React from "react";
 
 type SetValue = (value: any) => void;
 
-interface GlobalContextInterface {
-    platform: string;
-    setPlatform: SetValue
-    availablePlatforms: string[];
-    setAvailablePlatforms: SetValue
+interface Platform {
+  id: number;
+  name: string;
 }
 
-export const GlobalContext = React.createContext<GlobalContextInterface | null>(null);
+interface GlobalContextInterface {
+  platform: number;
+  setPlatform: SetValue;
+  availablePlatforms: Platform[];
+  setAvailablePlatforms: SetValue;
+}
+
+export const GlobalContext = React.createContext<GlobalContextInterface | null>(
+  null
+);
 
 const GlobalProvider: React.FC<any> = ({ children }) => {
-    const [platform, setPlatform] = React.useState('');
-    const [availablePlatforms, setAvailablePlatforms] = React.useState(['ios', 'android', 'web']);
+  const [platform, setPlatform] = React.useState(2);
+  const platforms = [
+    {
+      id: 2,
+      name: "ios",
+    },
+    {
+      id: 1,
+      name: "android",
+    },
+    {
+      id: 3,
+      name: "web",
+    },
+  ];
+  const [availablePlatforms, setAvailablePlatforms] = React.useState(platforms);
 
-    return (
-        <GlobalContext.Provider
-            value={{
-                platform,
-                setPlatform,
-                availablePlatforms,
-                setAvailablePlatforms
-            }}
-        >
-            {children}
-        </GlobalContext.Provider>
-    );
+  return (
+    <GlobalContext.Provider
+      value={{
+        platform,
+        setPlatform,
+        availablePlatforms,
+        setAvailablePlatforms,
+      }}
+    >
+      {children}
+    </GlobalContext.Provider>
+  );
 };
 
 export default GlobalProvider;

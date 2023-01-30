@@ -7,9 +7,10 @@ import TimedUpgrade from "../../components/modals/timedUpgrade";
 import Collections from "../collection/collections";
 import Stream from "./stream";
 import { useQuery, useQueryClient } from "react-query";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { GlobalContext } from "../../lib/globalContext";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import CollectionCard from "../collection/components/collectionCard";
 
 const Page: NextPage = () => {
   const globalContext = useContext(GlobalContext);
@@ -17,6 +18,11 @@ const Page: NextPage = () => {
   const session = useSession();
   const [user, setUser] = useState<any>();
   const [loading, setLoading] = useState(true);
+
+  const [addColl, setAddColl] = useState<boolean>(false);
+
+  const [collName, setCollName] = useState<any>("");
+  const [collDesc, setCollDesc] = useState<any>("");
 
   const handeUser = async () => {
     try {
@@ -35,11 +41,42 @@ const Page: NextPage = () => {
       setLoading(false);
     }
   };
+
+  const [collections, setCollections] = useState<any>([]);
+
+  const fetchCollections = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("collection")
+        .select()
+        .eq("user_id", session?.user.id);
+
+      setCollections(data);
+      console.log("collections : ", collections);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   //initialeze the platform
   useEffect(() => {
-    globalContext?.setPlatform("ios");
-    globalContext?.setAvailablePlatforms(["ios", "android", "web"]);
+    globalContext?.setPlatform(2);
+    globalContext?.setAvailablePlatforms([
+      {
+        id: 2,
+        name: "ios",
+      },
+      {
+        id: 1,
+        name: "android",
+      },
+      {
+        id: 3,
+        name: "web",
+      },
+    ]);
     handeUser();
+    fetchCollections();
   }, [session]);
 
   const platform = globalContext?.platform;
@@ -57,6 +94,26 @@ const Page: NextPage = () => {
   const queryClient = useQueryClient();
   const handleRefetch = async () => {
     await queryClient.invalidateQueries("stream");
+  };
+
+  const handleAddCollection = async () => {
+    if (collName == "") {
+      alert("add name first");
+    } else {
+      try {
+        await supabase.from("collection").insert({
+          name: collName,
+          user_id: session?.user.id,
+          is_private: true,
+          description: collDesc,
+        });
+        alert("added");
+        setCollName("");
+        setAddColl(false);
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
 
   return (
@@ -78,11 +135,10 @@ const Page: NextPage = () => {
               onClick={() => {
                 setStreamOpen("stream");
               }}
-              className={` ${
-                streamOpen == "stream"
-                  ? "text-white lg:text-[3rem] text-[2rem] font-light"
-                  : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
-              } transform transition duration-500 `}
+              className={` ${streamOpen == "stream"
+                ? "text-white lg:text-[3rem] text-[2rem] font-light"
+                : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
+                } transform transition duration-500 `}
             >
               Stream
             </span>
@@ -105,11 +161,10 @@ const Page: NextPage = () => {
               onClick={() => {
                 setStreamOpen("collection");
               }}
-              className={` ${
-                streamOpen == "collection"
-                  ? "text-white lg:text-[3rem] text-[2rem] font-light"
-                  : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
-              } transform transition duration-500  ml-12 `}
+              className={` ${streamOpen == "collection"
+                ? "text-white lg:text-[3rem] text-[2rem] font-light"
+                : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
+                } transform transition duration-500  ml-12 `}
             >
               Collections
             </span>
@@ -120,11 +175,83 @@ const Page: NextPage = () => {
               />
             )}
           </a>
+
+          {streamOpen == "collection" && (
+            <>
+              <div
+                onClick={() => {
+                  setAddColl(true);
+                }}
+                className="flex items-center ml-auto cursor-pointer"
+              >
+                <img width={18} src="/images/assets/addcoll.svg" />
+                <span className="ml-3 text-slate-300 font-semibold text-[14px]">
+                  Add Collection
+                </span>
+              </div>
+
+              <div className="h-[50px] my-auto ml-10 bg-[#1B2132] rounded-[40px] flex items-center px-3 text-white  lg:text-sm text-xs font-light space-x-4">
+                <div className="bg-slate-700 py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700">
+                  <span className="uppercase">Personal</span>
+                </div>
+                <div className="bg-slate-700 py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700">
+                  <span className="uppercase">Community</span>
+                </div>
+              </div>
+            </>
+          )}
         </div>
+
+        {addColl && (
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed flex items-center justify-center w-[99vw] h-[100vh] backdrop-blur-md z-40"
+            >
+              <div className="flex flex-col w-[550px] py-10 px-10 bg-slate-900 rounded-2xl">
+                <span className="text-white text-[14px]">
+                  Create a new collection
+                </span>
+                <hr className="mt-2 bg-slate-200 opacity-50" />
+                <span className="text-white mt-7">Name</span>
+                <input
+                  type="text"
+                  className="mt-5 rounded-lg bg-slate-200"
+                  value={collName}
+                  onChange={(e) => setCollName(e.target.value)}
+                />
+                <span className="text-white mt-10">Description (optional)</span>
+                <textarea
+                  value={collDesc}
+                  onChange={(e) => setCollDesc(e.target.value)}
+                  className="mt-5 rounded-lg bg-slate-200"
+                />
+                <div className="flex mt-10 text-white text-[14px]">
+                  <span
+                    onClick={handleAddCollection}
+                    className="py-3 px-4 bg-orange-500 rounded-xl mr-5 cursor-pointer"
+                  >
+                    Create Collection
+                  </span>
+                  <span
+                    onClick={() => {
+                      setAddColl(false);
+                    }}
+                    className="py-3 px-4 bg-slate-500 rounded-xl mr-5 cursor-pointer"
+                  >
+                    Cancel
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        )}
 
         {streamOpen == "stream" ? (
           <>
-            {platform == "web" ? (
+            {platform == 3 ? (
               <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-4 lg:gap-5 gap-5 mb-10 grid-cols-2">
                 <div
                   className="flex justify-center items-center relative group/item cursor-pointer"
@@ -150,7 +277,9 @@ const Page: NextPage = () => {
             )}
           </>
         ) : (
-          <Collections />
+          <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-3 xl:grid-cols-4 xl:gap-8 lg:gap-5 gap-5 mb-10 grid-cols-1 pb-32">
+            <CollectionCard />
+          </div>
         )}
 
         <div
