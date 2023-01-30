@@ -25,6 +25,7 @@ const Stream = () => {
     isSuccess,
     fetchNextPage,
     hasNextPage,
+    remove,
     refetch,
   } = useInfiniteQuery(
     ["stream"],
@@ -37,6 +38,7 @@ const Stream = () => {
       refetchOnWindowFocus: false,
       keepPreviousData: false,
       optimisticResults: true,
+      refetchOnMount: false,
     }
   );
 
@@ -59,7 +61,9 @@ const Stream = () => {
   }, [platform]);
 
   useEffect(() => {
-    refetch();
+    // console.log(maxPages)
+    remove()
+    refetch()
   }, [maxPages]);
 
   useEffect(() => {
@@ -74,7 +78,7 @@ const Stream = () => {
             nextPage = Math.floor(Math.random() * maxPages) + 1;
           }
           setLoadedPages([...loadedPages, nextPage]);
-          await fetchNextPage();
+          await fetchNextPage({ pageParam: [nextPage, platform] });
         }
       }
     };
@@ -101,24 +105,22 @@ const Stream = () => {
         className="scrollbar-rounded w-[80%] lg:w-[80%] grid gap-4 lg:gap-5 xl:gap-6 xxl:gap-9 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 xxl:grid-cols-6 mb-10 text-white"
       >
         {data &&
-          data?.pages.map((page: any[]) =>
+          data?.pages.map((page: any[], pageIndex) =>
             page.map((application, index) => {
               // const shuffledApplication = application ? shuffle(application) : null;
               return (
-                <>
-                  <motion.div
-                    layout
-                    key={index}
-                    layoutId={application.id}
-                    onClick={() => setSelected(application)}
-                  >
-                    <Screen
-                      platform={1}
-                      app={application}
-                      list={application.showcase}
-                    />
-                  </motion.div>
-                </>
+                <motion.div
+                  layout
+                  key={application.id}
+                  layoutId={application.id}
+                  onClick={() => setSelected(application)}
+                >
+                  <Screen
+                    platform={1}
+                    app={application}
+                    list={application.showcase}
+                  />
+                </motion.div>
               );
             })
           )}
@@ -133,10 +135,10 @@ const Stream = () => {
 export default Stream;
 
 const fetchStream = async (page: any) => {
-  console.log("page: ", page);
   const from = perPage * (page[0] - 1);
   const to = perPage * page[0];
   // console.log('from:', from, 'to: ', to);
+  // console.log("page: ", page);
 
   const { data, error } = await supabase
     .from("random_showcases")
@@ -145,7 +147,7 @@ const fetchStream = async (page: any) => {
     .range(from + 1, to);
 
   data?.sort(() => Math.random() - 0.5);
-  console.log(data);
+  // console.log(data);
 
   if (data) {
     return data;

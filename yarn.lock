@@ -606,10 +606,10 @@
   "resolved" "https://registry.npmjs.org/fraction.js/-/fraction.js-4.2.0.tgz"
   "version" "4.2.0"
 
-"framer-motion@^8.4.0":
-  "integrity" "sha512-32ECxsAMrhFfpMnA/j3wXku//587kQe29emTGpIQsnh60mFSMTrnpIupAn5Bnk5qq4/OMNgWWCI6mnaFhsIu7w=="
-  "resolved" "https://registry.npmjs.org/framer-motion/-/framer-motion-8.4.0.tgz"
-  "version" "8.4.0"
+"framer-motion@^8.5.4":
+  "integrity" "sha512-xBVovXUIdpKvRvIPsrSTiyXZUYyct9zarzdVeyzv+V6DFsDpHIuppyOjDO8VM1fBspDn+rUU4ZFZ5yJxLmzebQ=="
+  "resolved" "https://registry.npmjs.org/framer-motion/-/framer-motion-8.5.4.tgz"
+  "version" "8.5.4"
   dependencies:
     "@motionone/dom" "^10.15.3"
     "hey-listen" "^1.0.8"

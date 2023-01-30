@@ -63,15 +63,15 @@ const Page: NextPage = () => {
     globalContext?.setPlatform(2);
     globalContext?.setAvailablePlatforms([
       {
-        id: "2",
+        id: 2,
         name: "ios",
       },
       {
-        id: "1",
+        id: 1,
         name: "android",
       },
       {
-        id: "3",
+        id: 3,
         name: "web",
       },
     ]);
@@ -135,11 +135,10 @@ const Page: NextPage = () => {
               onClick={() => {
                 setStreamOpen("stream");
               }}
-              className={` ${
-                streamOpen == "stream"
-                  ? "text-white lg:text-[3rem] text-[2rem] font-light"
-                  : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
-              } transform transition duration-500 `}
+              className={` ${streamOpen == "stream"
+                ? "text-white lg:text-[3rem] text-[2rem] font-light"
+                : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
+                } transform transition duration-500 `}
             >
               Stream
             </span>
@@ -162,11 +161,10 @@ const Page: NextPage = () => {
               onClick={() => {
                 setStreamOpen("collection");
               }}
-              className={` ${
-                streamOpen == "collection"
-                  ? "text-white lg:text-[3rem] text-[2rem] font-light"
-                  : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
-              } transform transition duration-500  ml-12 `}
+              className={` ${streamOpen == "collection"
+                ? "text-white lg:text-[3rem] text-[2rem] font-light"
+                : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
+                } transform transition duration-500  ml-12 `}
             >
               Collections
             </span>

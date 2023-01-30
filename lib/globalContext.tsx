@@ -2,10 +2,15 @@ import * as React from "react";
 
 type SetValue = (value: any) => void;
 
+interface Platform {
+  id: number;
+  name: string;
+}
+
 interface GlobalContextInterface {
   platform: number;
   setPlatform: SetValue;
-  availablePlatforms: object[];
+  availablePlatforms: Platform[];
   setAvailablePlatforms: SetValue;
 }
 
@@ -17,15 +22,15 @@ const GlobalProvider: React.FC<any> = ({ children }) => {
   const [platform, setPlatform] = React.useState(2);
   const platforms = [
     {
-      id: "2",
+      id: 2,
       name: "ios",
     },
     {
-      id: "1",
+      id: 1,
       name: "android",
     },
     {
-      id: "3",
+      id: 3,
       name: "web",
     },
   ];

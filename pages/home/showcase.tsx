@@ -15,20 +15,37 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
     "/storage/v1/object/public/application/" +
     pathname;
 
+  const getPlatform = (platform_id: any) => {
+    let platform;
+    switch (platform_id) {
+      case 1:
+        platform = "android";
+        break;
+      case 2:
+        platform = "ios";
+        break;
+      case 3:
+        platform = "web";
+        break;
+    }
+    return platform;
+  }
+
   return (
     <motion.div
-      onClick={() => setSelected()}
+      // onClick={() => setSelected(null)}
       // layoutId={selected.id}
       className={
         "w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-10 backdrop-blur-lg bg-slate-900/70"
       }
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      exit={{ opacity: 0, y: 300 }}
     >
       <motion.div
         className={
-          "duration-1000 transition-all flex flex-col w-[80%] lg:w-[75%] mx-auto"
+          "flex flex-col w-[80%] lg:w-[75%] mx-auto"
         }
       >
         <div className="flex my-8 items-center justify-between text-white z-50">
@@ -49,7 +66,10 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
             <div className="flex space-x-1.5">
               <Link
                 className="min-w-fit p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
-                href={"/application/ios/" + selected?.slug}
+                href={{
+                  pathname: "/application/[platform]/[slug]",
+                  query: { platform: getPlatform(selected.platform_id), slug: selected?.slug },
+                }}
               >
                 <svg
                   width={16}
@@ -61,8 +81,8 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
                   preserveAspectRatio="none"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M2.30834 2.3103C1.33203 3.2866 1.33203 4.85795 1.33203 8.00065C1.33203 11.1433 1.33203 12.7147 2.30834 13.691C3.28465 14.6673 4.856 14.6673 7.9987 14.6673C11.1414 14.6673 12.7128 14.6673 13.689 13.691C14.6654 12.7147 14.6654 11.1433 14.6654 8.00065C14.6654 4.85795 14.6654 3.2866 13.689 2.3103C12.7128 1.33398 11.1414 1.33398 7.9987 1.33398C4.856 1.33398 3.28465 1.33398 2.30834 2.3103ZM8.83203 4.66732C8.83203 4.94346 9.0559 5.16732 9.33203 5.16732H10.1249L8.64516 6.6471C8.4499 6.84238 8.4499 7.15892 8.64516 7.35418C8.84043 7.54945 9.15696 7.54945 9.35223 7.35418L10.832 5.87442V6.66732C10.832 6.94345 11.0559 7.16732 11.332 7.16732C11.6082 7.16732 11.832 6.94345 11.832 6.66732V4.66732C11.832 4.39118 11.6082 4.16732 11.332 4.16732H9.33203C9.0559 4.16732 8.83203 4.39118 8.83203 4.66732ZM7.35223 9.35419C7.5475 9.15892 7.5475 8.84238 7.35223 8.64712C7.15696 8.45185 6.84043 8.45185 6.64514 8.64712L5.16536 10.1269V9.33398C5.16536 9.05785 4.9415 8.83398 4.66536 8.83398C4.38922 8.83398 4.16536 9.05785 4.16536 9.33398V11.334C4.16536 11.6101 4.38922 11.834 4.66536 11.834H6.66536C6.9415 11.834 7.16536 11.6101 7.16536 11.334C7.16536 11.0579 6.9415 10.834 6.66536 10.834H5.87247L7.35223 9.35419Z"
                     fill="#F1F5F9"
                   />
@@ -83,14 +103,14 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
                   preserveAspectRatio="xMidYMid meet"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M12.8623 13.0813C13.2556 12.4813 13.4023 12.1746 13.7023 11.5013C11.489 10.6613 11.1356 7.50794 13.3223 6.30127C12.6556 5.46127 11.7156 4.97461 10.829 4.97461C10.189 4.97461 9.74895 5.14128 9.35561 5.29462C9.02228 5.42128 8.72228 5.53461 8.34895 5.53461C7.94895 5.53461 7.59562 5.40795 7.22228 5.27462C6.81562 5.12795 6.38895 4.97461 5.85561 4.97461C4.86228 4.97461 3.80228 5.58128 3.12895 6.62128C2.18228 8.08794 2.34895 10.8346 3.87562 13.1813C4.42229 14.0213 5.15562 14.9613 6.10895 14.9746C6.50895 14.9813 6.76895 14.8613 7.05562 14.7346C7.38228 14.588 7.73561 14.4279 8.35561 14.4279C8.97561 14.4213 9.32228 14.588 9.64895 14.7346C9.92895 14.8613 10.1823 14.9813 10.5756 14.9746C11.5423 14.9613 12.3156 13.9213 12.8623 13.0813Z"
                     fill="white"
                   />
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M10.6892 1.64258C10.7959 2.37591 10.4959 3.10259 10.1025 3.60925C9.68253 4.15592 8.94919 4.58257 8.24253 4.55591C8.11586 3.84924 8.44253 3.12257 8.84253 2.6359C9.28919 2.10257 10.0425 1.68924 10.6892 1.64258Z"
                     fill="white"
                   />
@@ -175,14 +195,13 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
           </div>
         </div>
         <div className="grid lg:grid-cols-4 xl:grid-cols-5 lg:gap-10 gap-10 grid-cols-2 ml-auto mr-auto z-50">
-          {selected?.showcase?.map(
-            (item: string, index: Key | null | undefined) => (
-              <Screen
-                key={index}
-                platform={1}
-                src={toStorageUrl("/screens/" + selected.id + "/" + item)}
-              />
-            )
+          {selected.showcase.map((item: string, index: number) => (
+            <Screen
+              key={index}
+              platform={1}
+              src={toStorageUrl("/screens/" + selected.id + "/" + item)}
+            />
+          )
           )}
         </div>
       </motion.div>
