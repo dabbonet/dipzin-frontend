@@ -19,7 +19,10 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
     const { data, error } = await supabase
       .from("random_showcases")
       .select("*")
+      .eq("platform_id", 1)
       .range(from + 1, to);
+
+    console.log(data);
 
     if (error) {
       res.status(500).json({ error });

@@ -10,8 +10,8 @@ export async function middleware(request: NextRequest) {
       request.nextUrl.pathname.startsWith("/profile") ||
       request.nextUrl.pathname.startsWith("/pricing"))
   ) {
-    return NextResponse.redirect(new URL("/auth", request.url));
+    // return NextResponse.redirect(new URL("/auth", request.url));
   } else if (token && request.nextUrl.pathname.startsWith("/auth")) {
-    return NextResponse.redirect(new URL("/home", request.url));
+    // return NextResponse.redirect(new URL("/home", request.url));
   }
 }
