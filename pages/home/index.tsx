@@ -13,6 +13,7 @@ import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import CollectionCard from "../collection/components/collectionCard";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
+import { formatInTimeZone } from "date-fns-tz";
 
 const Page: NextPage = () => {
   const globalContext = useContext(GlobalContext);
@@ -383,7 +384,11 @@ const Page: NextPage = () => {
                             <span className="font-light text-sm text-slate-300">
                               Modified:{" "}
                               <span className="font-medium">
-                                {data.created_at}
+                                {formatInTimeZone(
+                                  data.created_at,
+                                  "Europe/Paris",
+                                  "dd-MM-yyyy"
+                                )}
                               </span>
                             </span>
                           </div>
