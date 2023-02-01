@@ -17,6 +17,7 @@
     "@types/file-saver": "^2.0.5",
     "@types/uuid": "^9.0.0",
     "clsx": "^1.2.1",
+    "date-fns-tz": "^2.0.0",
     "email-validator": "^2.0.4",
     "file-saver": "^2.0.5",
     "formik": "^2.2.9",

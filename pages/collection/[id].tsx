@@ -6,6 +6,7 @@ import Tabs from "../../components/tabs";
 import CollectionSideNavigator from "../../components/navigator/main/side";
 import { useRouter } from "next/router";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { formatInTimeZone } from "date-fns-tz";
 
 const Page: NextPage = () => {
   // const tabs=['tab 1', 'tab 2', 'tab3'];
@@ -67,7 +68,12 @@ const Page: NextPage = () => {
               {collectionGetted.name}
             </span>
             <span className="block text-[16px] text-[#8F94A1]">
-              Modified: {collectionGetted.created_at}
+              Modified:{" "}
+              {formatInTimeZone(
+                collectionGetted.created_at,
+                "Europe/Paris",
+                "dd-MM-yyyy"
+              )}
             </span>
           </div>
           <div className="ml-auto flex flex-col items-center">
