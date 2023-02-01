@@ -52,7 +52,7 @@ const Page: NextPage = () => {
       const { data } = await supabase
         .from("collection")
         .select(
-          "id, created_at, name, user_id, is_private, description, collection_app(*, application(icon))"
+          "id, created_at, name, user_id, is_private, description, collection_app(*, application(icon)), collection_screen(*, screen(url))"
         )
         .eq("user_id", session?.user.id);
 
@@ -340,14 +340,22 @@ const Page: NextPage = () => {
                             {/* <div className="row-span-4 col-span-2 flex space-x-2 bg-red-800">teste</div>
                           <div className="col-span-1 row-span-4 flex flex-col bg-yellow-800">tests</div> */}
                             <div className="row-span-4 col-span-3 flex space-x-3">
-                              <img
-                                className="w-[50%] h-min  rounded-xl"
-                                src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png"
-                              />
-                              <img
-                                className="w-[50%] h-min rounded-xl"
-                                src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png"
-                              />
+                              {data.collection_screen
+                                .slice(0, 2)
+                                .map((ico: any) => {
+                                  return (
+                                    <img
+                                      className="w-[50%] h-min  rounded-xl"
+                                      src={
+                                        process.env.NEXT_PUBLIC_SUPABASE_URL +
+                                        "/storage/v1/object/public/application/screens/" +
+                                        ico.app_id +
+                                        "/" +
+                                        ico.screen.url
+                                      }
+                                    />
+                                  );
+                                })}
                             </div>
                             <div className="row-span-4 col-span-1 space-y-1 pl-2 lg:pl-4">
                               {data.collection_app
