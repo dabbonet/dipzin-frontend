@@ -12,6 +12,7 @@ import { GlobalContext } from "../../lib/globalContext";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import CollectionCard from "../collection/components/collectionCard";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/router";
 
 const Page: NextPage = () => {
   const globalContext = useContext(GlobalContext);
@@ -19,6 +20,8 @@ const Page: NextPage = () => {
   const session = useSession();
   const [user, setUser] = useState<any>();
   const [loading, setLoading] = useState(true);
+
+  const router = useRouter();
 
   const [addColl, setAddColl] = useState<boolean>(false);
 
@@ -320,13 +323,19 @@ const Page: NextPage = () => {
                   .map((data: any) => {
                     return (
                       <motion.div
+                        key={data.id}
                         className="w-full h-auto relative bg-slate-800 rounded-2xl p-5"
                         whileHover={{
                           scale: 1.05,
                           transition: { duration: 0.5 },
                         }}
                       >
-                        <a href="collection/1" className="">
+                        <span
+                          onClick={() => {
+                            router.push("/collection/" + data.id);
+                          }}
+                          className=""
+                        >
                           <div className="grid grid-cols-4 gap-1">
                             {/* <div className="row-span-4 col-span-2 flex space-x-2 bg-red-800">teste</div>
                           <div className="col-span-1 row-span-4 flex flex-col bg-yellow-800">tests</div> */}
@@ -346,6 +355,7 @@ const Page: NextPage = () => {
                                 .map((ico: any) => {
                                   return (
                                     <img
+                                      key={data.id}
                                       className="w-full h-min rounded-xl p-1"
                                       src={
                                         process.env.NEXT_PUBLIC_SUPABASE_URL +
@@ -369,7 +379,7 @@ const Page: NextPage = () => {
                               </span>
                             </span>
                           </div>
-                        </a>
+                        </span>
                       </motion.div>
                     );
                   })
@@ -384,7 +394,12 @@ const Page: NextPage = () => {
                           transition: { duration: 0.5 },
                         }}
                       >
-                        <a href="collection/1" className="">
+                        <span
+                          onClick={() => {
+                            router.push("/collection/1");
+                          }}
+                          className=""
+                        >
                           <div className="grid grid-cols-4 gap-1">
                             {/* <div className="row-span-4 col-span-2 flex space-x-2 bg-red-800">teste</div>
                           <div className="col-span-1 row-span-4 flex flex-col bg-yellow-800">tests</div> */}
@@ -429,7 +444,7 @@ const Page: NextPage = () => {
                               </span>
                             </span>
                           </div>
-                        </a>
+                        </span>
                       </motion.div>
                     );
                   })}

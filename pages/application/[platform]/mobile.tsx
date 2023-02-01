@@ -3,6 +3,9 @@ import { ReactElement, useState, useRef, useEffect } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { v4 as uuidv4 } from "uuid";
+import { saveAs } from "file-saver";
+import _ from "lodash";
+import BlurImage from "../../../components/screen/Image";
 
 interface Props {
   app: any;
@@ -50,6 +53,12 @@ const Mobile = ({ app }: Props) => {
 
   const [handleChange, setHnadleChange] = useState<boolean>(true);
   const [newReq, setNewReq] = useState<boolean>(true);
+
+  const [menuIco, setMenuIco] = useState("");
+
+  const saveFile = (image: any) => {
+    saveAs(image, "image.webp");
+  };
 
   useEffect(() => {
     const checkLiked = async () => {
@@ -114,6 +123,29 @@ const Mobile = ({ app }: Props) => {
       setHnadleChange(!handleChange);
       alert("added");
       setSave(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleAddScreenToCollection = async (
+    collectionId: any,
+    screen: any
+  ) => {
+    try {
+      const { data, error } = await supabase
+        .from("collection_screen")
+        .insert({
+          app_id: app.id,
+          screen_id: screen,
+          collection_id: collectionId,
+        })
+        .select();
+
+      setHnadleChange(!handleChange);
+      alert("added");
+      setSave(false);
+      console.log(data);
     } catch (e) {
       console.log(e);
     }
@@ -317,11 +349,157 @@ const Mobile = ({ app }: Props) => {
             app.screen.map((screen: any) => {
               // console.log(screen.url)
               return (
-                <Screen
-                  platform={1}
-                  key={screen.id}
-                  src={toStorageUrl(screen.url)}
-                />
+                <div className="flex justify-center items-center relative group/item">
+                  <motion.div
+                    layout
+                    whileHover={{
+                      scale: 1.02,
+                      transition: { duration: 0.3 },
+                    }}
+                  >
+                    {/* we are here 
+                  
+                            <img
+                      className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100"
+                      src="/images/assets/addpng.svg"
+                    />
+                    <img
+                      className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100"
+                      src="/images/assets/addcopy.svg"
+                    />
+                    <img
+                      className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100"
+                      src="/images/assets/addcollection.svg"
+                    />*/}
+
+                    <div className="absolute w-[100%] top-4 flex justify-center drop-shadow-xl z-20">
+                      <div
+                        className={`group/copy h-10 w-10 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
+                      >
+                        <img src="/images/assets/copy.svg" />
+                        <span className="absolute top-12 bg-slate-900 flex items-center justify-center py-[2px] px-[6px] rounded-2xl font-medium text-white text-[12px] invisible group-hover/copy:visible">
+                          Copy Image
+                        </span>
+                      </div>
+                      <div
+                        onClick={() => {
+                          if (menuIco == "save") {
+                            setMenuIco("");
+                          } else {
+                            setMenuIco("save");
+                          }
+                        }}
+                        className={`group/copy h-10 w-10 ${
+                          menuIco == "save" ? "bg-orange-500" : "bg-slate-900"
+                        } z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible mx-2`}
+                      >
+                        <img src="/images/assets/addtocoll.svg" />
+                        <span className="absolute top-12 bg-slate-900 flex items-center justify-center py-[2px] px-[6px] rounded-2xl font-medium text-white text-[12px] invisible group-hover/copy:visible">
+                          Save to Collection
+                        </span>
+                      </div>
+                      <div
+                        className={`group/copy h-10 w-10 ${
+                          menuIco == "menu" ? "bg-orange-500" : "bg-slate-900"
+                        } z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
+                        onClick={() => {
+                          if (menuIco == "menu") {
+                            setMenuIco("");
+                          } else {
+                            setMenuIco("menu");
+                          }
+                        }}
+                      >
+                        <img src="/images/assets/threedots.svg" />
+                        <span className="absolute top-12 bg-slate-900 flex items-center justify-center py-[2px] px-[6px] rounded-2xl font-medium text-white text-[12px] invisible group-hover/copy:visible">
+                          Menu
+                        </span>
+                      </div>
+                      {menuIco == "menu" && (
+                        <div className="absolute top-12 bg-slate-900 py-[16px] w-[88%] z-50 px-3 rounded-xl invisible group-hover/item:visible">
+                          <div className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg cursor-pointer">
+                            <img
+                              src="/images/assets/copy.svg"
+                              className="mx-2"
+                            />
+                            <span className="font-medium text-slate-100 text-[12px]">
+                              Copy PNG
+                            </span>
+                          </div>
+                          <div
+                            className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg my-3 cursor-pointer"
+                            onClick={() => saveFile(toStorageUrl(screen.url))}
+                          >
+                            <img
+                              src="/images/assets/downPng.svg"
+                              className="mx-2"
+                            />
+                            <span className="font-medium text-slate-100 text-[12px]">
+                              Download PNG
+                            </span>
+                          </div>
+                          <div
+                            className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg cursor-pointer"
+                            onClick={() =>
+                              navigator.clipboard.writeText(
+                                toStorageUrl(screen.url)
+                              )
+                            }
+                          >
+                            <img
+                              src="/images/assets/copyLink.svg"
+                              className="mx-2"
+                            />
+                            <span className="font-medium text-slate-100 text-[12px]">
+                              Copy Link
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      {menuIco == "save" && (
+                        <div className="absolute top-12 bg-slate-900 py-[16px] w-[88%] z-50 px-3 rounded-xl invisible group-hover/item:visible">
+                          {collectionGetted.map((data: any) => {
+                            return (
+                              <div
+                                onClick={() => {
+                                  handleAddScreenToCollection(
+                                    data.id,
+                                    screen.id
+                                  );
+                                }}
+                                className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer"
+                              >
+                                <img
+                                  src={`${
+                                    data.is_private
+                                      ? "/images/assets/privateIcon.svg"
+                                      : "/images/assets/publicIcon.svg"
+                                  }`}
+                                  className="mx-1 mr-2"
+                                />
+                                <span className="font-medium text-slate-100 text-[12px] mr-2">
+                                  {data.name}
+                                </span>
+                              </div>
+                            );
+                          })}
+                          <span className="flex items-center justify-center py-2 bg-slate-800 rounded-2xl font- text-[12px] mt-3 text-slate-100 cursor-pointer">
+                            Create Collection
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="absolute w-[100%] top-16 flex justify-center drop-shadow-xl z-10">
+                      <span className="bg-slate-900 flex items-center justify-center py-[2px] px-[6px] rounded-2xl font-medium text-white text-[12px] cursor-pointer invisible group-hover/menu:visible ">
+                        Copy Image
+                      </span>
+                    </div>
+
+                    <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 ">
+                      <BlurImage platform={1} src={toStorageUrl(screen.url)} />
+                    </div>
+                  </motion.div>
+                </div>
               );
             })}
         </div>
