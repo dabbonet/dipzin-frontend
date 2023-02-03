@@ -162,7 +162,8 @@ const Mobile = ({ app }: Props) => {
       const { data, error } = await supabase
         .from("application")
         .select("*")
-        .eq("slug", app.slug);
+        .eq("slug", app.slug)
+        .eq("is_published", true);
       //console.log(data?.length);
       setPlats(data?.length);
     } catch (e) {
@@ -365,15 +366,7 @@ const Mobile = ({ app }: Props) => {
         </div>
 
         {plats == 1 ? (
-          <div className="fixed top-5 z-50 h-[50px] my-auto ml-10 bg-[#1B2132] rounded-[40px] flex items-center px-3 text-white  lg:text-sm text-xs font-light space-x-4">
-            <div
-              className={`bg-slate-700 py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
-            >
-              <span className="uppercase">
-                {app.platform_id == 2 ? "Ios" : "Android"}
-              </span>
-            </div>
-          </div>
+          <></>
         ) : app.platform_id == 2 ? (
           <div className="fixed top-5 z-50 h-[50px] my-auto ml-10 bg-[#1B2132] rounded-[40px] flex items-center px-3 text-white  lg:text-sm text-xs font-light space-x-4">
             <div
