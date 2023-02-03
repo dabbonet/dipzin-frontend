@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import { saveAs } from "file-saver";
 import _ from "lodash";
 import BlurImage from "../../../components/screen/Image";
+import { useRouter } from "next/router";
+import { log } from "console";
 
 interface Props {
   app: any;
@@ -31,7 +33,7 @@ const Mobile = ({ app }: Props) => {
 
   const supabase = useSupabaseClient();
   const session = useSession();
-
+  const router = useRouter();
   const [liked, setLiked] = useState<boolean>(false);
 
   const [collectionGetted, setCollectionDetted] = useState<any>([]);
@@ -44,10 +46,10 @@ const Mobile = ({ app }: Props) => {
 
       if (data) {
         setCollectionDetted(data);
-        console.log("coooloo : ", data);
+        //console.log("coooloo : ", data);
       }
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
   };
 
@@ -60,28 +62,32 @@ const Mobile = ({ app }: Props) => {
     saveAs(image, "image.webp");
   };
 
-  useEffect(() => {
-    const checkLiked = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("liked_apps")
-          .select("id")
-          .eq("app_id", app.id)
-          .eq("user_id", session?.user.id)
-          .single();
+  const [plats, setPlats] = useState<any>(1);
 
-        if (data) {
-          console.log(data.id);
-          setLiked(true);
-        } else {
-          console.log(error);
-        }
-      } catch (err) {
-        console.log(err);
+  const checkLiked = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("liked_apps")
+        .select("id")
+        .eq("app_id", app.id)
+        .eq("user_id", session?.user.id)
+        .single();
+
+      if (data) {
+        //console.log(data.id);
+        setLiked(true);
+      } else {
+        //console.log(error);
       }
-    };
+    } catch (err) {
+      //console.log(err);
+    }
+  };
+  useEffect(() => {
     checkLiked();
     getCollections();
+    handlePlatform();
+    //console.log(app);
   }, [session, app, handleChange, newReq]);
 
   const handleLike = async () => {
@@ -95,7 +101,7 @@ const Mobile = ({ app }: Props) => {
         setLiked(true);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -109,7 +115,7 @@ const Mobile = ({ app }: Props) => {
 
       setLiked(false);
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
   };
 
@@ -124,7 +130,7 @@ const Mobile = ({ app }: Props) => {
       alert("added");
       setSave(false);
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
   };
 
@@ -145,9 +151,22 @@ const Mobile = ({ app }: Props) => {
       setHnadleChange(!handleChange);
       alert("added");
       setSave(false);
-      console.log(data);
+      // console.log(data);
     } catch (e) {
-      console.log(e);
+      //console.log(e);
+    }
+  };
+
+  const handlePlatform = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("application")
+        .select("*")
+        .eq("slug", app.slug);
+      //console.log(data?.length);
+      setPlats(data?.length);
+    } catch (e) {
+      //console.log(e);
     }
   };
 
@@ -344,6 +363,52 @@ const Mobile = ({ app }: Props) => {
             <span className="block text-[16px] text-[#8F94A1]">@copyright</span>
           </div>
         </div>
+
+        {plats == 1 ? (
+          <div className="fixed top-5 z-50 h-[50px] my-auto ml-10 bg-[#1B2132] rounded-[40px] flex items-center px-3 text-white  lg:text-sm text-xs font-light space-x-4">
+            <div
+              className={`bg-slate-700 py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+            >
+              <span className="uppercase">
+                {app.platform_id == 2 ? "Ios" : "Android"}
+              </span>
+            </div>
+          </div>
+        ) : app.platform_id == 2 ? (
+          <div className="fixed top-5 z-50 h-[50px] my-auto ml-10 bg-[#1B2132] rounded-[40px] flex items-center px-3 text-white  lg:text-sm text-xs font-light space-x-4">
+            <div
+              className={`bg-slate-700 py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+            >
+              <span className="uppercase">Ios</span>
+            </div>
+            <div
+              className={` py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+              onClick={() => {
+                router.push("/application/android/" + app.slug);
+              }}
+            >
+              <span className="uppercase">
+                <span className="uppercase">Android</span>
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="fixed top-5 z-50 h-[50px] my-auto ml-10 bg-[#1B2132] rounded-[40px] flex items-center px-3 text-white  lg:text-sm text-xs font-light space-x-4">
+            <div
+              className={` py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+              onClick={() => {
+                router.push("/application/ios/" + app.slug);
+              }}
+            >
+              <span className="uppercase">Ios</span>
+            </div>
+            <div
+              className={`bg-slate-700 py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+            >
+              <span className="uppercase">Android</span>
+            </div>
+          </div>
+        )}
         <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-6 lg:gap-5 gap-5 mb-10 grid-cols-2">
           {app &&
             app.screen.map((screen: any) => {
@@ -357,21 +422,6 @@ const Mobile = ({ app }: Props) => {
                       transition: { duration: 0.3 },
                     }}
                   >
-                    {/* we are here 
-                  
-                            <img
-                      className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100"
-                      src="/images/assets/addpng.svg"
-                    />
-                    <img
-                      className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100"
-                      src="/images/assets/addcopy.svg"
-                    />
-                    <img
-                      className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100"
-                      src="/images/assets/addcollection.svg"
-                    />*/}
-
                     <div className="absolute w-[100%] top-4 flex justify-center drop-shadow-xl z-20">
                       <div
                         className={`group/copy h-10 w-10 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
