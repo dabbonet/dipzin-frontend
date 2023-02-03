@@ -18,7 +18,7 @@ const Page: NextPage = () => {
 
   const [collectionGetted, setCollectionDetted] = useState<any>({
     name: "Loading ...",
-    created_at: "Loading ...",
+    created_at: "2023-01-31T03:35:15.939883+00:00",
     is_private: "Loading ...",
     collection_screen: [],
   });
