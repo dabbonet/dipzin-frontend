@@ -2,7 +2,7 @@ import Screen from "../../../components/screen";
 import { ReactElement, useState, useRef, useEffect } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuid } from "uuid";
 import { saveAs } from "file-saver";
 import _ from "lodash";
 import BlurImage from "../../../components/screen/Image";
@@ -181,7 +181,7 @@ const Mobile = ({ app }: Props) => {
       alert("add name first");
     } else {
       try {
-        let uu = uuidv4();
+        let uu = uuid();
         await supabase.from("collection").insert({
           id: uu,
           name: collName,
@@ -304,11 +304,10 @@ const Mobile = ({ app }: Props) => {
                   className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer"
                 >
                   <img
-                    src={`${
-                      data.is_private
-                        ? "/images/assets/privateIcon.svg"
-                        : "/images/assets/publicIcon.svg"
-                    }`}
+                    src={`${data.is_private
+                      ? "/images/assets/privateIcon.svg"
+                      : "/images/assets/publicIcon.svg"
+                      }`}
                     className="mx-1 mr-2"
                   />
                   <span className="font-medium text-slate-100 text-[12px] mr-2">
@@ -407,7 +406,7 @@ const Mobile = ({ app }: Props) => {
             app.screen.map((screen: any) => {
               // console.log(screen.url)
               return (
-                <div className="flex justify-center items-center relative group/item">
+                <div key={screen.id} className="flex justify-center items-center relative group/item">
                   <motion.div
                     layout
                     whileHover={{
@@ -432,9 +431,8 @@ const Mobile = ({ app }: Props) => {
                             setMenuIco("save");
                           }
                         }}
-                        className={`group/copy h-10 w-10 ${
-                          menuIco == "save" ? "bg-orange-500" : "bg-slate-900"
-                        } z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible mx-2`}
+                        className={`group/copy h-10 w-10 ${menuIco == "save" ? "bg-orange-500" : "bg-slate-900"
+                          } z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible mx-2`}
                       >
                         <img src="/images/assets/addtocoll.svg" />
                         <span className="absolute top-12 bg-slate-900 flex items-center justify-center py-[2px] px-[6px] rounded-2xl font-medium text-white text-[12px] invisible group-hover/copy:visible">
@@ -442,9 +440,8 @@ const Mobile = ({ app }: Props) => {
                         </span>
                       </div>
                       <div
-                        className={`group/copy h-10 w-10 ${
-                          menuIco == "menu" ? "bg-orange-500" : "bg-slate-900"
-                        } z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
+                        className={`group/copy h-10 w-10 ${menuIco == "menu" ? "bg-orange-500" : "bg-slate-900"
+                          } z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
                         onClick={() => {
                           if (menuIco == "menu") {
                             setMenuIco("");
@@ -513,11 +510,10 @@ const Mobile = ({ app }: Props) => {
                                 className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer"
                               >
                                 <img
-                                  src={`${
-                                    data.is_private
-                                      ? "/images/assets/privateIcon.svg"
-                                      : "/images/assets/publicIcon.svg"
-                                  }`}
+                                  src={`${data.is_private
+                                    ? "/images/assets/privateIcon.svg"
+                                    : "/images/assets/publicIcon.svg"
+                                    }`}
                                   className="mx-1 mr-2"
                                 />
                                 <span className="font-medium text-slate-100 text-[12px] mr-2">

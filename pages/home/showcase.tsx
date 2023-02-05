@@ -1,7 +1,5 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Key, useEffect, useState } from "react";
-import { useQuery } from "react-query";
 import Screen from "../../components/screen";
 
 type ShowcaseProps = {
