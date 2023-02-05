@@ -1,6 +1,13 @@
 import Screen from "../../../components/screen";
 import { ReactElement, useState, useRef, useEffect } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { v4 as uuid } from "uuid";
+import { saveAs } from "file-saver";
+import _ from "lodash";
+import BlurImage from "../../../components/screen/Image";
+import { useRouter } from "next/router";
+import { log } from "console";
 
 interface Props {
   app: any;
@@ -26,31 +33,62 @@ const Mobile = ({ app }: Props) => {
 
   const supabase = useSupabaseClient();
   const session = useSession();
-
+  const router = useRouter();
   const [liked, setLiked] = useState<boolean>(false);
 
-  useEffect(() => {
-    const checkLiked = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("liked_apps")
-          .select("id")
-          .eq("app_id", app.id)
-          .eq("user_id", session?.user.id)
-          .single();
+  const [collectionGetted, setCollectionDetted] = useState<any>([]);
+  const getCollections = async () => {
+    try {
+      const { data } = await supabase
+        .from("collection")
+        .select("*")
+        .eq("user_id", session?.user.id);
 
-        if (data) {
-          console.log(data.id);
-          setLiked(true);
-        } else {
-          console.log(error);
-        }
-      } catch (err) {
-        console.log(err);
+      if (data) {
+        setCollectionDetted(data);
+        //console.log("coooloo : ", data);
       }
-    };
+    } catch (e) {
+      //console.log(e);
+    }
+  };
+
+  const [handleChange, setHnadleChange] = useState<boolean>(true);
+  const [newReq, setNewReq] = useState<boolean>(true);
+
+  const [menuIco, setMenuIco] = useState("");
+
+  const saveFile = (image: any) => {
+    saveAs(image, "image.webp");
+  };
+
+  const [plats, setPlats] = useState<any>(1);
+
+  const checkLiked = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("liked_apps")
+        .select("id")
+        .eq("app_id", app.id)
+        .eq("user_id", session?.user.id)
+        .single();
+
+      if (data) {
+        //console.log(data.id);
+        setLiked(true);
+      } else {
+        //console.log(error);
+      }
+    } catch (err) {
+      //console.log(err);
+    }
+  };
+  useEffect(() => {
     checkLiked();
-  }, [session, app]);
+    getCollections();
+    handlePlatform();
+    //console.log(app);
+  }, [session, app, handleChange, newReq]);
 
   const handleLike = async () => {
     try {
@@ -63,7 +101,7 @@ const Mobile = ({ app }: Props) => {
         setLiked(true);
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -77,13 +115,140 @@ const Mobile = ({ app }: Props) => {
 
       setLiked(false);
     } catch (e) {
-      console.log(e);
+      //console.log(e);
+    }
+  };
+
+  const handleAddToVollection = async (collectionId: any) => {
+    try {
+      const { data, error } = await supabase
+        .from("collection_app")
+        .insert({ app_id: app.id, collection_id: collectionId })
+        .select();
+
+      setHnadleChange(!handleChange);
+      alert("added");
+      setSave(false);
+    } catch (e) {
+      //console.log(e);
+    }
+  };
+
+  const handleAddScreenToCollection = async (
+    collectionId: any,
+    screen: any
+  ) => {
+    try {
+      const { data, error } = await supabase
+        .from("collection_screen")
+        .insert({
+          app_id: app.id,
+          screen_id: screen,
+          collection_id: collectionId,
+        })
+        .select();
+
+      setHnadleChange(!handleChange);
+      alert("added");
+      setSave(false);
+      // console.log(data);
+    } catch (e) {
+      //console.log(e);
+    }
+  };
+
+  const handlePlatform = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("application")
+        .select("*")
+        .eq("slug", app.slug)
+        .eq("is_published", true);
+      //console.log(data?.length);
+      setPlats(data?.length);
+    } catch (e) {
+      //console.log(e);
+    }
+  };
+
+  const [addColl, setAddColl] = useState<boolean>(false);
+
+  const [collName, setCollName] = useState<any>("");
+  const [collDesc, setCollDesc] = useState<any>("");
+
+  const handleAddCollection = async () => {
+    if (collName == "") {
+      alert("add name first");
+    } else {
+      try {
+        let uu = uuid();
+        await supabase.from("collection").insert({
+          id: uu,
+          name: collName,
+          user_id: session?.user.id,
+          is_private: true,
+          description: collDesc,
+        });
+        alert("added");
+        setCollName("");
+        setCollDesc("");
+        setNewReq(!newReq);
+        setAddColl(false);
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
   return (
     <>
       <div className="fixed right-10 top-[35%] w-[100px] py-2.5 bg-slate-900/30 border border-slate-800 rounded-2xl flex flex-col justify-between z-50">
+        {addColl && (
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed flex top-0 left-0 items-center justify-center w-[99vw] h-[100vh] backdrop-blur-md z-50"
+            >
+              <div className="flex flex-col w-[550px] py-10 px-10 bg-slate-900 rounded-2xl">
+                <span className="text-white text-[14px]">
+                  Create a new collection
+                </span>
+                <hr className="mt-2 bg-slate-200 opacity-50" />
+                <span className="text-white mt-7">Name</span>
+                <input
+                  type="text"
+                  className="mt-5 rounded-lg bg-slate-200"
+                  value={collName}
+                  onChange={(e) => setCollName(e.target.value)}
+                />
+                <span className="text-white mt-10">Description (optional)</span>
+                <textarea
+                  value={collDesc}
+                  onChange={(e) => setCollDesc(e.target.value)}
+                  className="mt-5 rounded-lg bg-slate-200"
+                />
+                <div className="flex mt-10 text-white text-[14px]">
+                  <span
+                    onClick={handleAddCollection}
+                    className="py-3 px-4 bg-orange-500 rounded-xl mr-5 cursor-pointer"
+                  >
+                    Create Collection
+                  </span>
+                  <span
+                    onClick={() => {
+                      setAddColl(false);
+                    }}
+                    className="py-3 px-4 bg-slate-500 rounded-xl mr-5 cursor-pointer"
+                  >
+                    Cancel
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        )}
         {!session ? (
           <div className="w-[82px] h-[70px] opacity-30 mb-3 p-2 m-auto rounded-xl bg-[#0B1321] border-[3px] border-[#0B1321] cursor-pointer">
             <img className="ml-auto mb-3" src="/images/assets/like.svg" />
@@ -124,33 +289,39 @@ const Mobile = ({ app }: Props) => {
         >
           <img className="ml-auto mb-3" src="/images/assets/save.svg" />
           <span className="text-white text-[12px] mt-auto relative">Save</span>
-          <div className="absolute top-0 right-[100px] bg-slate-900 py-[16px] w-[250px] z-50 px-3 rounded-xl">
+          {/*<div className="absolute top-0 right-[100px] bg-slate-900 py-[16px] w-[250px] z-50 px-3 rounded-xl">
             <span className="text-[12px] text-white mb-5">
               Create a new collection
             </span>
-          </div>
+          </div>*/}
         </div>
         {save && (
-          <div className="absolute top-[19                          0px] right-[110px] bg-slate-900 py-[16px] w-[250px] z-50 px-3 rounded-xl">
-            <div className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer">
-              <img src="/images/assets/publicIcon.svg" className="mx-1 mr-2" />
-              <span className="font-medium text-slate-100 text-[12px] mr-2">
-                Public Collection 2
-              </span>
-            </div>
-            <div className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer">
-              <img src="/images/assets/publicIcon.svg" className="mx-1 mr-2" />
-              <span className="font-medium text-slate-100 text-[12px] mr-2">
-                Public Collection 2
-              </span>
-            </div>
-            <div className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer">
-              <img src="/images/assets/privateIcon.svg" className="mx-1 mr-2" />
-              <span className="font-medium text-slate-100 text-[12px] mr-2">
-                Private Collection
-              </span>
-            </div>
-            <span className="flex items-center justify-center py-2 bg-slate-800 rounded-2xl font- text-[12px] mt-3 text-slate-100">
+          <div className="absolute top-[190px] right-[110px] bg-slate-900 py-[16px] w-[250px] z-30 px-3 rounded-xl">
+            {collectionGetted.map((data: any) => {
+              return (
+                <div
+                  onClick={() => handleAddToVollection(data.id)}
+                  className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer"
+                >
+                  <img
+                    src={`${data.is_private
+                      ? "/images/assets/privateIcon.svg"
+                      : "/images/assets/publicIcon.svg"
+                      }`}
+                    className="mx-1 mr-2"
+                  />
+                  <span className="font-medium text-slate-100 text-[12px] mr-2">
+                    {data.name}
+                  </span>
+                </div>
+              );
+            })}
+            <span
+              onClick={() => {
+                setAddColl(true);
+              }}
+              className="flex items-center justify-center py-2 bg-slate-800 rounded-2xl font- text-[12px] mt-3 text-slate-100 cursor-pointer"
+            >
               Create Collection
             </span>
           </div>
@@ -192,16 +363,182 @@ const Mobile = ({ app }: Props) => {
             <span className="block text-[16px] text-[#8F94A1]">@copyright</span>
           </div>
         </div>
+
+        {plats == 1 ? (
+          <></>
+        ) : app.platform_id == 2 ? (
+          <div className="fixed top-5 z-50 h-[50px] my-auto ml-10 bg-[#1B2132] rounded-[40px] flex items-center px-3 text-white  lg:text-sm text-xs font-light space-x-4">
+            <div
+              className={`bg-slate-700 py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+            >
+              <span className="uppercase">Ios</span>
+            </div>
+            <div
+              className={` py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+              onClick={() => {
+                router.push("/application/android/" + app.slug);
+              }}
+            >
+              <span className="uppercase">
+                <span className="uppercase">Android</span>
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="fixed top-5 z-50 h-[50px] my-auto ml-10 bg-[#1B2132] rounded-[40px] flex items-center px-3 text-white  lg:text-sm text-xs font-light space-x-4">
+            <div
+              className={` py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+              onClick={() => {
+                router.push("/application/ios/" + app.slug);
+              }}
+            >
+              <span className="uppercase">Ios</span>
+            </div>
+            <div
+              className={`bg-slate-700 py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+            >
+              <span className="uppercase">Android</span>
+            </div>
+          </div>
+        )}
         <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-6 lg:gap-5 gap-5 mb-10 grid-cols-2">
           {app &&
             app.screen.map((screen: any) => {
               // console.log(screen.url)
               return (
-                <Screen
-                  platform={1}
-                  key={screen.id}
-                  src={toStorageUrl(screen.url)}
-                />
+                <div key={screen.id} className="flex justify-center items-center relative group/item">
+                  <motion.div
+                    layout
+                    whileHover={{
+                      scale: 1.02,
+                      transition: { duration: 0.3 },
+                    }}
+                  >
+                    <div className="absolute w-[100%] top-4 flex justify-center drop-shadow-xl z-20">
+                      <div
+                        className={`group/copy h-10 w-10 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
+                      >
+                        <img src="/images/assets/copy.svg" />
+                        <span className="absolute top-12 bg-slate-900 flex items-center justify-center py-[2px] px-[6px] rounded-2xl font-medium text-white text-[12px] invisible group-hover/copy:visible">
+                          Copy Image
+                        </span>
+                      </div>
+                      <div
+                        onClick={() => {
+                          if (menuIco == "save") {
+                            setMenuIco("");
+                          } else {
+                            setMenuIco("save");
+                          }
+                        }}
+                        className={`group/copy h-10 w-10 ${menuIco == "save" ? "bg-orange-500" : "bg-slate-900"
+                          } z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible mx-2`}
+                      >
+                        <img src="/images/assets/addtocoll.svg" />
+                        <span className="absolute top-12 bg-slate-900 flex items-center justify-center py-[2px] px-[6px] rounded-2xl font-medium text-white text-[12px] invisible group-hover/copy:visible">
+                          Save to Collection
+                        </span>
+                      </div>
+                      <div
+                        className={`group/copy h-10 w-10 ${menuIco == "menu" ? "bg-orange-500" : "bg-slate-900"
+                          } z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
+                        onClick={() => {
+                          if (menuIco == "menu") {
+                            setMenuIco("");
+                          } else {
+                            setMenuIco("menu");
+                          }
+                        }}
+                      >
+                        <img src="/images/assets/threedots.svg" />
+                        <span className="absolute top-12 bg-slate-900 flex items-center justify-center py-[2px] px-[6px] rounded-2xl font-medium text-white text-[12px] invisible group-hover/copy:visible">
+                          Menu
+                        </span>
+                      </div>
+                      {menuIco == "menu" && (
+                        <div className="absolute top-12 bg-slate-900 py-[16px] w-[88%] z-50 px-3 rounded-xl invisible group-hover/item:visible">
+                          <div className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg cursor-pointer">
+                            <img
+                              src="/images/assets/copy.svg"
+                              className="mx-2"
+                            />
+                            <span className="font-medium text-slate-100 text-[12px]">
+                              Copy PNG
+                            </span>
+                          </div>
+                          <div
+                            className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg my-3 cursor-pointer"
+                            onClick={() => saveFile(toStorageUrl(screen.url))}
+                          >
+                            <img
+                              src="/images/assets/downPng.svg"
+                              className="mx-2"
+                            />
+                            <span className="font-medium text-slate-100 text-[12px]">
+                              Download PNG
+                            </span>
+                          </div>
+                          <div
+                            className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg cursor-pointer"
+                            onClick={() =>
+                              navigator.clipboard.writeText(
+                                toStorageUrl(screen.url)
+                              )
+                            }
+                          >
+                            <img
+                              src="/images/assets/copyLink.svg"
+                              className="mx-2"
+                            />
+                            <span className="font-medium text-slate-100 text-[12px]">
+                              Copy Link
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      {menuIco == "save" && (
+                        <div className="absolute top-12 bg-slate-900 py-[16px] w-[88%] z-50 px-3 rounded-xl invisible group-hover/item:visible">
+                          {collectionGetted.map((data: any) => {
+                            return (
+                              <div
+                                onClick={() => {
+                                  handleAddScreenToCollection(
+                                    data.id,
+                                    screen.id
+                                  );
+                                }}
+                                className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer"
+                              >
+                                <img
+                                  src={`${data.is_private
+                                    ? "/images/assets/privateIcon.svg"
+                                    : "/images/assets/publicIcon.svg"
+                                    }`}
+                                  className="mx-1 mr-2"
+                                />
+                                <span className="font-medium text-slate-100 text-[12px] mr-2">
+                                  {data.name}
+                                </span>
+                              </div>
+                            );
+                          })}
+                          <span className="flex items-center justify-center py-2 bg-slate-800 rounded-2xl font- text-[12px] mt-3 text-slate-100 cursor-pointer">
+                            Create Collection
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="absolute w-[100%] top-16 flex justify-center drop-shadow-xl z-10">
+                      <span className="bg-slate-900 flex items-center justify-center py-[2px] px-[6px] rounded-2xl font-medium text-white text-[12px] cursor-pointer invisible group-hover/menu:visible ">
+                        Copy Image
+                      </span>
+                    </div>
+
+                    <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 ">
+                      <BlurImage platform={1} src={toStorageUrl(screen.url)} />
+                    </div>
+                  </motion.div>
+                </div>
               );
             })}
         </div>

@@ -11,6 +11,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { GlobalContext } from "../../lib/globalContext";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import CollectionCard from "../collection/components/collectionCard";
+import { v4 as uuid } from "uuid";
+import { useRouter } from "next/router";
+import { formatInTimeZone } from "date-fns-tz";
 
 const Page: NextPage = () => {
   const globalContext = useContext(GlobalContext);
@@ -18,6 +21,8 @@ const Page: NextPage = () => {
   const session = useSession();
   const [user, setUser] = useState<any>();
   const [loading, setLoading] = useState(true);
+
+  const router = useRouter();
 
   const [addColl, setAddColl] = useState<boolean>(false);
 
@@ -42,21 +47,26 @@ const Page: NextPage = () => {
     }
   };
 
-  const [collections, setCollections] = useState<any>([]);
-
-  const fetchCollections = async () => {
+  const [collectionGetted, setCollectionDetted] = useState<any>([]);
+  const getCollections = async () => {
     try {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("collection")
-        .select()
+        .select(
+          "id, created_at, name, user_id, is_private, description, collection_app(*, application(icon)), collection_screen(*, screen(url))"
+        )
         .eq("user_id", session?.user.id);
 
-      setCollections(data);
-      console.log("collections : ", collections);
+      if (data) {
+        setCollectionDetted(data);
+        console.log("coooloo : ", data);
+      }
     } catch (e) {
       console.log(e);
     }
   };
+
+  const [newReq, setNewReq] = useState<boolean>(true);
 
   //initialeze the platform
   useEffect(() => {
@@ -76,12 +86,14 @@ const Page: NextPage = () => {
       },
     ]);
     handeUser();
-    fetchCollections();
-  }, [session]);
+    getCollections();
+  }, [session, newReq]);
 
   const platform = globalContext?.platform;
   const [streamOpen, setStreamOpen] = useState<string>("stream");
   const [webScreenOpen, setWebScreenOpen] = useState<boolean>(false);
+
+  const [isPersonal, setIsPersonal] = useState<any>(true);
 
   const webImages = [
     "https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/639/65692a13-8749-4ccf-8f94-8b62e99d0788.png",
@@ -101,7 +113,9 @@ const Page: NextPage = () => {
       alert("add name first");
     } else {
       try {
+        let uu = uuid();
         await supabase.from("collection").insert({
+          id: uu,
           name: collName,
           user_id: session?.user.id,
           is_private: true,
@@ -109,6 +123,8 @@ const Page: NextPage = () => {
         });
         alert("added");
         setCollName("");
+        setCollDesc("");
+        setNewReq(!newReq);
         setAddColl(false);
       } catch (e) {
         console.log(e);
@@ -191,11 +207,31 @@ const Page: NextPage = () => {
               </div>
 
               <div className="h-[50px] my-auto ml-10 bg-[#1B2132] rounded-[40px] flex items-center px-3 text-white  lg:text-sm text-xs font-light space-x-4">
-                <div className="bg-slate-700 py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700">
-                  <span className="uppercase">Personal</span>
+                <div
+                  className={`${isPersonal && "bg-slate-700"
+                    } py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+                >
+                  <span
+                    onClick={() => {
+                      setIsPersonal(true);
+                    }}
+                    className="uppercase"
+                  >
+                    Personal
+                  </span>
                 </div>
-                <div className="bg-slate-700 py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700">
-                  <span className="uppercase">Community</span>
+                <div
+                  className={`${!isPersonal && "bg-slate-700"
+                    } py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+                >
+                  <span
+                    onClick={() => {
+                      setIsPersonal(false);
+                    }}
+                    className="uppercase"
+                  >
+                    Community
+                  </span>
                 </div>
               </div>
             </>
@@ -278,7 +314,149 @@ const Page: NextPage = () => {
           </>
         ) : (
           <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-3 xl:grid-cols-4 xl:gap-8 lg:gap-5 gap-5 mb-10 grid-cols-1 pb-32">
-            <CollectionCard />
+            {isPersonal
+              ? collectionGetted
+                .filter((dx: any) => dx.is_private == true)
+                .map((data: any) => {
+                  return (
+                    <motion.div
+                      key={data.id}
+                      className="w-full h-auto relative bg-slate-800 rounded-2xl p-5"
+                      whileHover={{
+                        scale: 1.05,
+                        transition: { duration: 0.5 },
+                      }}
+                    >
+                      <span
+                        onClick={() => {
+                          router.push("/collection/" + data.id);
+                        }}
+                        className=""
+                      >
+                        <div className="grid grid-cols-4 gap-1">
+                          {/* <div className="row-span-4 col-span-2 flex space-x-2 bg-red-800">teste</div>
+                          <div className="col-span-1 row-span-4 flex flex-col bg-yellow-800">tests</div> */}
+                          <div className="row-span-4 col-span-3 flex space-x-3">
+                            {data.collection_screen
+                              .slice(0, 2)
+                              .map((ico: any) => {
+                                return (
+                                  <img
+                                    className="w-[50%] h-min  rounded-xl"
+                                    src={
+                                      process.env.NEXT_PUBLIC_SUPABASE_URL +
+                                      "/storage/v1/object/public/application/screens/" +
+                                      ico.app_id +
+                                      "/" +
+                                      ico.screen.url
+                                    }
+                                  />
+                                );
+                              })}
+                          </div>
+                          <div className="row-span-4 col-span-1 space-y-1 pl-2 lg:pl-4">
+                            {data.collection_app
+                              .slice(0, 4)
+                              .map((ico: any) => {
+                                return (
+                                  <img
+                                    key={data.id}
+                                    className="w-full h-min rounded-xl p-1"
+                                    src={
+                                      process.env.NEXT_PUBLIC_SUPABASE_URL +
+                                      "/storage/v1/object/public/application/icons/" +
+                                      ico.application.icon
+                                    }
+                                  />
+                                );
+                              })}
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col mt-5 mb-2 pl-4 ">
+                          <span className="font-medium mb-1 text-2xl text-slate-100">
+                            {data.name}
+                          </span>
+                          <span className="font-light text-sm text-slate-300">
+                            Modified:{" "}
+                            <span className="font-medium">
+                              {formatInTimeZone(
+                                data.created_at,
+                                "Europe/Paris",
+                                "dd-MM-yyyy"
+                              )}
+                            </span>
+                          </span>
+                        </div>
+                      </span>
+                    </motion.div>
+                  );
+                })
+              : collectionGetted
+                .filter((dx: any) => dx.is_private == false)
+                .map((data: any) => {
+                  return (
+                    <motion.div
+                      className="w-full h-auto relative bg-slate-800 rounded-2xl p-5"
+                      whileHover={{
+                        scale: 1.05,
+                        transition: { duration: 0.5 },
+                      }}
+                    >
+                      <span
+                        onClick={() => {
+                          router.push("/collection/1");
+                        }}
+                        className=""
+                      >
+                        <div className="grid grid-cols-4 gap-1">
+                          {/* <div className="row-span-4 col-span-2 flex space-x-2 bg-red-800">teste</div>
+                          <div className="col-span-1 row-span-4 flex flex-col bg-yellow-800">tests</div> */}
+                          <div className="row-span-4 col-span-3 flex space-x-3">
+                            <img
+                              className="w-[50%] h-min  rounded-xl"
+                              src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png"
+                            />
+                            <img
+                              className="w-[50%] h-min rounded-xl"
+                              src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png"
+                            />
+                          </div>
+                          <div className="row-span-4 col-span-1 space-y-1 pl-2 lg:pl-4">
+                            <img
+                              className="w-full h-min rounded-xl p-1"
+                              src="/images/assets/collappicon.svg"
+                            />
+                            <img
+                              className="w-full h-min rounded-xl p-1"
+                              src="/images/assets/collappicon.svg"
+                            />
+                            <img
+                              className="w-full h-min rounded-xl p-1"
+                              src="/images/assets/collappicon.svg"
+                            />
+                            <img
+                              className="w-full h-min rounded-xl p-1"
+                              src="/images/assets/collappicon.svg"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col mt-5 mb-2 pl-4 ">
+                          <span className="font-medium mb-1 text-2xl text-slate-100">
+                            {data.name}
+                          </span>
+                          <span className="font-light text-sm text-slate-300">
+                            Modified:{" "}
+                            <span className="font-medium">
+                              {data.created_at}
+                            </span>
+                          </span>
+                        </div>
+                      </span>
+                    </motion.div>
+                  );
+                })}
           </div>
         )}
 
