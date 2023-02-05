@@ -48,7 +48,7 @@ export const SingleScreen = ({ image }: SingleScreenProps) => {
             src="/images/assets/addcollection.svg"
           />*/}
 
-        <div className="absolute w-[100%] top-4 flex justify-center drop-shadow-xl z-50">
+        <div className="absolute w-[100%] top-4 flex justify-center drop-shadow-xl z-20">
           <div
             className={`group/copy h-10 w-10 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
           >
