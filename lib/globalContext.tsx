@@ -30,7 +30,7 @@ const GlobalProvider: React.FC<any> = ({ children }) => {
       name: "android",
     },
     {
-      id: 3,
+      id: 4,
       name: "web",
     },
   ];

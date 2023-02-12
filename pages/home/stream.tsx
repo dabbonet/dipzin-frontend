@@ -13,8 +13,7 @@ const Stream = () => {
   let randomPage = Math.floor(Math.random() * maxPages) + 1;
   const [loadedPages, setLoadedPages] = useState([randomPage]);
 
-  const globalContext = useContext(GlobalContext);
-  const platform = globalContext?.platform;
+  const platform = useContext(GlobalContext)?.platform;
 
   const {
     isLoading,
@@ -41,24 +40,45 @@ const Stream = () => {
       refetchOnMount: false,
     }
   );
-
+  
   useEffect(() => {
     const fetchMaxPages = async () => {
-      if (platform) {
-        const { error, count } = await supabase
-          .from("random_showcases")
-          .select("id", { count: "exact" })
-          .eq("platform_id", platform);
+        let count: number | null = null;
+        let error: any = null;
+        switch (platform) {
+          case 1:
+            {
+              ({ error, count } = await supabase
+                .from("android_showcases")
+                .select("id", { count: "exact" }));
+            }
+            break;
+          case 2:
+            {
+              ({ error, count } = await supabase
+                .from("ios_showcases")
+                .select("id", { count: "exact" }));
+            }
+            break;
+          case 4:
+            {
+              ({ error, count } = await supabase
+                .from("web_showcases")
+                .select("id", { count: "exact" }));
+            }
+            break;
+        }
         if (error) console.error("max error: ", error);
 
         if (count) {
           const x = Math.ceil(count / perPage);
           setMaxPages(x);
         }
-      }
     };
     fetchMaxPages();
+    // console.log("platfom: ", platform);
   }, [platform]);
+
 
   useEffect(() => {
     // console.log(maxPages)
@@ -90,12 +110,7 @@ const Stream = () => {
   }, [isFetching]);
 
   const [selected, setSelected] = useState<any>(null);
-
-  // function shuffle(array: any[]) {
-  //     return array.sort(() => Math.random() - 0.5);
-  // }
-  // const shuffledPages = data ? shuffle(data.pages) : null;
-
+  
   if (isLoading) return <p>Loading...</p>;
 
   return (
@@ -137,17 +152,35 @@ export default Stream;
 const fetchStream = async (page: any) => {
   const from = perPage * (page[0] - 1);
   const to = perPage * page[0];
-  // console.log('from:', from, 'to: ', to);
-  // console.log("page: ", page);
-
-  const { data, error } = await supabase
-    .from("random_showcases")
-    .select("*")
-    .eq("platform_id", page[1])
-    .range(from + 1, to);
+  const plat = page[1];
+  
+  let data;
+  let error;
+  
+  switch (plat) {
+    case 1:
+      ({ data, error } = await supabase  
+        .from("android_showcases")
+        .select("*")
+        .range(from + 1, to));
+      break;
+    case 2:
+      ({ data, error } = await supabase
+        .from("ios_showcases")
+        .select("*")
+        .range(from + 1, to));
+      break;
+    case 4:
+      ({ data, error } = await supabase
+        .from("web_showcases")
+        .select("*")
+        .range(from + 1, to));
+      break;
+    default:
+      throw new Error("Invalid platform");
+  }
 
   data?.sort(() => Math.random() - 0.5);
-  // console.log(data);
 
   if (data) {
     return data;

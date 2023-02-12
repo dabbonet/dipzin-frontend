@@ -8,7 +8,7 @@ const Header = () => {
   const platform = globalContext?.platform;
 
   useEffect(() => {
-    console.log(platform);
+    console.log('Header platform: ', platform);
   }, [platform]);
 
   return (
