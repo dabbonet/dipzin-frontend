@@ -11,12 +11,45 @@ interface Props {
 }
 
 const ApplicationPage = ({ application }: Props) => {
+  
   const globalContext = useContext(GlobalContext);
 
-  //initialeze the platform
+  // //initialeze the platform
   useEffect(() => {
-    globalContext?.setAvailablePlatforms(["ios", "android"]);
+    globalContext?.setShow(false);
+    handlePlatform(application);
   }, []);
+
+  const handlePlatform = async (app: any) => {
+    try {
+      const { data, error } = await supabase
+        .from("application")
+        .select("*")
+        .eq("slug", app.slug)
+        .eq("is_published", true);
+        
+        if(data && data.length > 1){
+          console.log(data);
+          const platforms = [
+          {
+            id: 2,
+            name: "ios",
+          },
+          {
+            id: 1,
+            name: "android",
+          }
+        ];
+        globalContext?.setShow(true);
+        globalContext?.setAvailablePlatforms(platforms);
+        globalContext?.setPlatform(app.platform_id);
+        globalContext?.setSingle(true);
+      }
+    } catch (e) {
+      //console.log(e);
+    }
+  };
+
   const router = useRouter();
   const platform = router.query.platform || "ios";
 

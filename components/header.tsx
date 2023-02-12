@@ -1,15 +1,30 @@
 import Link from "next/link";
-import React, { useContext, useEffect } from "react";
+import Router from "next/router";
+import React, { useContext } from "react";
 import { GlobalContext } from "../lib/globalContext";
 
 
 const Header = () => {
   const globalContext = useContext(GlobalContext);
   const platform = globalContext?.platform;
+  const show = globalContext?.show;
+  const single = globalContext?.single;
 
-  useEffect(() => {
-    console.log('Header platform: ', platform);
-  }, [platform]);
+  const getPlatform = (platform_id: any) => {
+    let platform;
+    switch (platform_id) {
+      case 1:
+        platform = "android";
+        break;
+      case 2:
+        platform = "ios";
+        break;
+      case 3:
+        platform = "web";
+        break;
+    }
+    return platform;
+  }
 
   return (
     <header className="w-full flex justify-between fixed items-center text-white mt-8 px-5 lg:px-10 z-10 top-0">
@@ -20,12 +35,21 @@ const Header = () => {
         </span>
       </Link>
 
-      {platform && (
+      {show && (
         <div className="bg-[#1B2132] rounded-[40px] flex items-center p-2  lg:text-sm text-xs font-light space-x-4">
           {globalContext?.availablePlatforms.map((platformAvailable, index) => (
             <div
               onClick={() => {
-                globalContext.setPlatform(platformAvailable.id);
+                if (!single) { 
+                  globalContext.setPlatform(platformAvailable.id);
+                } else {
+                  Router.push({
+                    pathname: "/application/[platform]/[slug]",
+                    query: { platform: getPlatform(platformAvailable.id), slug: Router.query.slug },
+                  }, 
+                  undefined, { shallow: false }
+                  )
+                }
               }}
               key={index}
               className={`${platform == platformAvailable.id && "bg-slate-700"

@@ -12,6 +12,10 @@ interface GlobalContextInterface {
   setPlatform: SetValue;
   availablePlatforms: Platform[];
   setAvailablePlatforms: SetValue;
+  show: boolean;
+  setShow: SetValue;
+  single: boolean;
+  setSingle: SetValue;
 }
 
 export const GlobalContext = React.createContext<GlobalContextInterface | null>(
@@ -35,14 +39,19 @@ const GlobalProvider: React.FC<any> = ({ children }) => {
     },
   ];
   const [availablePlatforms, setAvailablePlatforms] = React.useState(platforms);
+  const [show, setShow] = React.useState(false);
+  const [single, setSingle] = React.useState(false);
 
   return (
     <GlobalContext.Provider
       value={{
+        show,
+        setShow,
         platform,
         setPlatform,
         availablePlatforms,
         setAvailablePlatforms,
+        single, setSingle
       }}
     >
       {children}
