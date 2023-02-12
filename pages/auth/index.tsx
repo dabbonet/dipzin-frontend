@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useContext, useMemo, useState } from "react";
 import type { NextPageWithLayout } from "../_app";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
@@ -9,11 +9,17 @@ import { Field, Form, Formik } from "formik";
 import Join from "./join";
 import Login from "./login";
 import OTP from "./otp";
+import { GlobalContext } from "../../lib/globalContext";
 
 const Page: NextPageWithLayout = () => {
   const session = useSession();
   const supabase = useSupabaseClient();
   const [status, setStatus] = useState<Boolean>(false);
+
+  const globalContext = useContext(GlobalContext);
+  useMemo(() => {
+    globalContext?.setPlatform(null);
+  }, []);
 
   const handeChange = () => {
     setStatus(!status);

@@ -1,4 +1,4 @@
-import Screen from "../../../components/screen";
+// import Screen from "../../../components/screen";
 import { ReactElement, useState, useRef, useEffect } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -7,7 +7,8 @@ import { saveAs } from "file-saver";
 import _ from "lodash";
 import BlurImage from "../../../components/screen/Image";
 import { useRouter } from "next/router";
-import { log } from "console";
+
+// import { log } from "console";
 
 interface Props {
   app: any;
@@ -83,10 +84,10 @@ const Mobile = ({ app }: Props) => {
       //console.log(err);
     }
   };
+
   useEffect(() => {
     checkLiked();
     getCollections();
-    handlePlatform();
     //console.log(app);
   }, [session, app, handleChange, newReq]);
 
@@ -157,19 +158,7 @@ const Mobile = ({ app }: Props) => {
     }
   };
 
-  const handlePlatform = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("application")
-        .select("*")
-        .eq("slug", app.slug)
-        .eq("is_published", true);
-      //console.log(data?.length);
-      setPlats(data?.length);
-    } catch (e) {
-      //console.log(e);
-    }
-  };
+  
 
   const [addColl, setAddColl] = useState<boolean>(false);
 
@@ -364,7 +353,7 @@ const Mobile = ({ app }: Props) => {
           </div>
         </div>
 
-        {plats == 1 ? (
+        {/* {plats == 1 ? (
           <></>
         ) : app.platform_id == 2 ? (
           <div className="fixed top-5 z-50 h-[50px] my-auto ml-10 bg-[#1B2132] rounded-[40px] flex items-center px-3 text-white  lg:text-sm text-xs font-light space-x-4">
@@ -401,6 +390,8 @@ const Mobile = ({ app }: Props) => {
             </div>
           </div>
         )}
+         */}
+         
         <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-6 lg:gap-5 gap-5 mb-10 grid-cols-2">
           {app &&
             app.screen.map((screen: any) => {
