@@ -67,29 +67,31 @@ const Page: NextPage = () => {
   };
 
   const [newReq, setNewReq] = useState<boolean>(true);
-
+ 
   //initialeze the platform
   useEffect(() => {
-    globalContext?.setPlatform(2);
-    globalContext?.setAvailablePlatforms([
-      {
-        id: 2,
-        name: "ios",
-      },
-      {
-        id: 1,
-        name: "android",
-      },
-      {
-        id: 3,
-        name: "web",
-      },
-    ]);
+    // globalContext?.setPlatform(2);
+    // globalContext?.setAvailablePlatforms([
+    //   {
+    //     id: 2,
+    //     name: "ios",
+    //   },
+    //   {
+    //     id: 1,
+    //     name: "android",
+    //   },
+    //   {
+    //     id: 3,
+    //     name: "web",
+    //   },
+    // ]);
     handeUser();
     getCollections();
   }, [session, newReq]);
 
+  
   const platform = globalContext?.platform;
+  
   const [streamOpen, setStreamOpen] = useState<string>("stream");
   const [webScreenOpen, setWebScreenOpen] = useState<boolean>(false);
 
