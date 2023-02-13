@@ -33,7 +33,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
 
   return (
     <motion.div
-      // onClick={() => setSelected(null)}
+      onClick={() => setSelected(null)}
       // layoutId={selected.id}
       className={
         "w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-10 backdrop-blur-lg bg-slate-900/70"
