@@ -87,6 +87,9 @@ const Stream = () => {
   }, [maxPages]);
 
   useEffect(() => {
+    if (hasNextPage == undefined){
+      setLoadedPages([])
+    }
     const onScroll = async (event: any) => {
       const { scrollHeight, scrollTop, clientHeight } =
         event.target.scrollingElement;
@@ -107,7 +110,7 @@ const Stream = () => {
     return () => {
       document.removeEventListener("scroll", onScroll);
     };
-  }, [isFetching]);
+  }, [isFetching, hasNextPage]);
 
   const [selected, setSelected] = useState<any>(null);
   

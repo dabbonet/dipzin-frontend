@@ -112,7 +112,9 @@ const Page: NextPage = () => {
 
   const queryClient = useQueryClient();
   const handleRefetch = async () => {
-    await queryClient.invalidateQueries("stream");
+    await queryClient.resetQueries({
+      queryKey: ['stream'],
+    }, { throwOnError: true, cancelRefetch: true });
   };
 
   const handleAddCollection = async () => {
