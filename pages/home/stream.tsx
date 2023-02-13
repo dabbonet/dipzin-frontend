@@ -1,7 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
 import Screen from "../../components/screen";
+import StreamLoader from "../../components/streamLoader";
 import { GlobalContext } from "../../lib/globalContext";
 import { supabase } from "../../lib/supabase";
 import Showcase from "./showcase";
@@ -18,10 +20,11 @@ const Stream = () => {
   const {
     isLoading,
     isError,
+    status,
     data,
     error,
     isFetching,
-    isSuccess,
+    isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
     remove,
@@ -84,37 +87,41 @@ const Stream = () => {
     // console.log(maxPages)
     remove()
     refetch()
+    
   }, [maxPages]);
 
+  const { ref, inView } = useInView({
+    /* Optional options */
+    threshold: 0.7,
+    root:null,
+    rootMargin: "0px",
+  })
+  
   useEffect(() => {
-    if (hasNextPage == undefined){
-      setLoadedPages([])
+    console.log('data :', data?.pages.length);
+    console.log(isFetching)
+    console.log('loaded Pages: ', loadedPages);
+    if(!hasNextPage){
+      setLoadedPages([]);
     }
-    const onScroll = async (event: any) => {
-      const { scrollHeight, scrollTop, clientHeight } =
-        event.target.scrollingElement;
-      // console.log(isSuccess)
-      if (!isFetching && clientHeight + scrollTop >= scrollHeight) {
-        if (hasNextPage) {
-          let nextPage = Math.floor(Math.random() * maxPages) + 1;
-          while (loadedPages.includes(nextPage)) {
-            nextPage = Math.floor(Math.random() * maxPages) + 1;
-          }
+    if(inView && status == 'success'){
+      if (!isFetching && hasNextPage) {
+        console.log('scroll happend here');
+        const nextPage = Math.floor(Math.random() * maxPages) + 1;
+        if (!loadedPages.includes(nextPage)) {
           setLoadedPages([...loadedPages, nextPage]);
-          await fetchNextPage({ pageParam: [nextPage, platform] });
+          try {
+            fetchNextPage({ pageParam: [nextPage, platform] });
+          } catch (error) {
+            console.error('fetchNextPage Error: ', error);
+          }
         }
       }
-    };
-
-    document.addEventListener("scroll", onScroll);
-    return () => {
-      document.removeEventListener("scroll", onScroll);
-    };
-  }, [isFetching, hasNextPage]);
-
+    }
+  }, [status, isFetching, hasNextPage, inView]);
   const [selected, setSelected] = useState<any>(null);
   
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p className="text-white text-lg">Loading...</p>;
 
   return (
     <>
@@ -143,6 +150,20 @@ const Stream = () => {
             })
           )}
       </motion.div>
+      {data && <div>
+        <button
+          className="mb-[15vh] text-white"
+          ref={ref}
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage || isFetchingNextPage}
+        >
+          {isFetchingNextPage
+            ? <StreamLoader/>
+            : hasNextPage
+            ? 'Load More ...'
+            : 'Nothing more to load'}
+        </button>
+      </div>}
       <AnimatePresence>
         {selected && <Showcase selected={selected} setSelected={setSelected} />}
       </AnimatePresence>
@@ -152,41 +173,53 @@ const Stream = () => {
 
 export default Stream;
 
-const fetchStream = async (page: any) => {
-  const from = perPage * (page[0] - 1);
-  const to = perPage * page[0];
-  const plat = page[1];
+const fetchStream = async (page: any, maxAttempts = 3) => {
+  let data, error;
+  let attempts = 0;
   
-  let data;
-  let error;
-  
-  switch (plat) {
-    case 1:
-      ({ data, error } = await supabase  
-        .from("android_showcases")
-        .select("*")
-        .range(from + 1, to));
+  while (attempts < maxAttempts) {
+    try {
+      const from = perPage * (page[0] - 1);
+      const to = perPage * page[0];
+      const plat = page[1];
+
+      if(plat){
+        switch (plat) {
+          case 1:
+            ({ data, error } = await supabase  
+              .from("android_showcases")
+              .select("*")
+              .range(from + 1, to));
+            break;
+          case 2:
+            ({ data, error } = await supabase
+              .from("ios_showcases")
+              .select("*")
+              .range(from + 1, to));
+            break;
+          case 4:
+            ({ data, error } = await supabase
+              .from("web_showcases")
+              .select("*")
+              .range(from + 1, to));
+            break;
+          default:
+            throw new Error("Invalid platform");
+        }
+      }
       break;
-    case 2:
-      ({ data, error } = await supabase
-        .from("ios_showcases")
-        .select("*")
-        .range(from + 1, to));
-      break;
-    case 4:
-      ({ data, error } = await supabase
-        .from("web_showcases")
-        .select("*")
-        .range(from + 1, to));
-      break;
-    default:
-      throw new Error("Invalid platform");
+    } catch (e) {
+      error = e;
+      attempts++;
+    }
   }
 
   data?.sort(() => Math.random() - 0.5);
 
   if (data) {
     return data;
+  } else if (error) {
+    throw error;
   }
-  throw new Error("Failed to fetch stream");
+  throw new Error("Failed to fetch stream after maximum attempts");
 };
