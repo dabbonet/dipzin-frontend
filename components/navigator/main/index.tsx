@@ -126,7 +126,7 @@ const Navigator = () => {
           </div>
         </div>
       ) : (
-        <div className="fixed bottom-12 h-auto flex items-center bg-orange-600 rounded-[60px] text-white p-3 font-medium text-[20px]">
+        <div className="fixed bottom-12 h-auto flex items-center bg-orange-600 rounded-[60px] text-white p-3 font-medium text-[18px]">
           <img src="/images/assets/verf.svg" className="mr-4" />
           <div className="flex-col">
             <span className="font-bold text-[16px]">
@@ -137,10 +137,20 @@ const Navigator = () => {
             </span>
           </div>
 
-          <span className="py-2 px-5 bg-orange-400 rounded-3xl ml-10">
+          <span
+            className="py-2 px-5 bg-orange-400 rounded-3xl ml-10 cursor-pointer hover:bg-orange-500"
+            onClick={() => {
+              router.push("/auth");
+            }}
+          >
             Login
           </span>
-          <span className="py-2 px-5 bg-orange-100 rounded-3xl text-orange-600 ml-5">
+          <span
+            className="py-2 px-5 bg-orange-100 rounded-3xl text-orange-600 ml-2 cursor-pointer hover:bg-orange-300"
+            onClick={() => {
+              router.push("/auth");
+            }}
+          >
             Try it free
           </span>
         </div>
