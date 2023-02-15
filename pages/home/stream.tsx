@@ -43,84 +43,82 @@ const Stream = () => {
       refetchOnMount: false,
     }
   );
-  
+
   useEffect(() => {
     const fetchMaxPages = async () => {
-        let count: number | null = null;
-        let error: any = null;
-        switch (platform) {
-          case 1:
-            {
-              ({ error, count } = await supabase
-                .from("android_showcases")
-                .select("id", { count: "exact" }));
-            }
-            break;
-          case 2:
-            {
-              ({ error, count } = await supabase
-                .from("ios_showcases")
-                .select("id", { count: "exact" }));
-            }
-            break;
-          case 4:
-            {
-              ({ error, count } = await supabase
-                .from("web_showcases")
-                .select("id", { count: "exact" }));
-            }
-            break;
-        }
-        if (error) console.error("max error: ", error);
+      let count: number | null = null;
+      let error: any = null;
+      switch (platform) {
+        case 1:
+          {
+            ({ error, count } = await supabase
+              .from("android_showcases")
+              .select("id", { count: "exact" }));
+          }
+          break;
+        case 2:
+          {
+            ({ error, count } = await supabase
+              .from("ios_showcases")
+              .select("id", { count: "exact" }));
+          }
+          break;
+        case 4:
+          {
+            ({ error, count } = await supabase
+              .from("web_showcases")
+              .select("id", { count: "exact" }));
+          }
+          break;
+      }
+      if (error) console.error("max error: ", error);
 
-        if (count) {
-          const x = Math.ceil(count / perPage);
-          setMaxPages(x);
-        }
+      if (count) {
+        const x = Math.ceil(count / perPage);
+        setMaxPages(x);
+      }
     };
     fetchMaxPages();
     // console.log("platfom: ", platform);
   }, [platform]);
 
-
   useEffect(() => {
     // console.log(maxPages)
-    remove()
-    refetch()
-    
+    remove();
+    refetch();
   }, [maxPages]);
 
   const { ref, inView } = useInView({
     /* Optional options */
     threshold: 0.7,
-    root:null,
+    root: null,
     rootMargin: "0px",
-  })
-  
+  });
+
   useEffect(() => {
-    console.log('data :', data?.pages.length);
-    console.log(isFetching)
-    console.log('loaded Pages: ', loadedPages);
-    if(!hasNextPage){
+    console.log("data :", data?.pages.length);
+    console.log(isFetching);
+    console.log("loaded Pages: ", loadedPages);
+    if (!hasNextPage) {
       setLoadedPages([]);
     }
-    if(inView && status == 'success'){
+    if (inView && status == "success") {
       if (!isFetching && hasNextPage) {
-        console.log('scroll happend here');
+        console.log("scroll happend here");
         const nextPage = Math.floor(Math.random() * maxPages) + 1;
         if (!loadedPages.includes(nextPage)) {
           setLoadedPages([...loadedPages, nextPage]);
           try {
             fetchNextPage({ pageParam: [nextPage, platform] });
           } catch (error) {
-            console.error('fetchNextPage Error: ', error);
+            console.error("fetchNextPage Error: ", error);
           }
         }
       }
     }
   }, [status, isFetching, hasNextPage, inView]);
   const [selected, setSelected] = useState<any>(null);
-  
+
   if (isLoading) return <p className="text-white text-lg">Loading...</p>;
 
   return (
@@ -150,20 +148,24 @@ const Stream = () => {
             })
           )}
       </motion.div>
-      {data && <div>
-        <button
-          className="mb-[15vh] text-white"
-          ref={ref}
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage}
-        >
-          {isFetchingNextPage
-            ? <StreamLoader/>
-            : hasNextPage
-            ? 'Load More ...'
-            : 'Nothing more to load'}
-        </button>
-      </div>}
+      {data && (
+        <div>
+          <button
+            className="mb-[15vh] text-white"
+            ref={ref}
+            onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetchingNextPage}
+          >
+            {isFetchingNextPage ? (
+              <StreamLoader />
+            ) : hasNextPage ? (
+              "Load More ..."
+            ) : (
+              "Nothing more to load"
+            )}
+          </button>
+        </div>
+      )}
       <AnimatePresence>
         {selected && <Showcase selected={selected} setSelected={setSelected} />}
       </AnimatePresence>
@@ -176,17 +178,17 @@ export default Stream;
 const fetchStream = async (page: any, maxAttempts = 3) => {
   let data, error;
   let attempts = 0;
-  
+
   while (attempts < maxAttempts) {
     try {
       const from = perPage * (page[0] - 1);
       const to = perPage * page[0];
       const plat = page[1];
 
-      if(plat){
+      if (plat) {
         switch (plat) {
           case 1:
-            ({ data, error } = await supabase  
+            ({ data, error } = await supabase
               .from("android_showcases")
               .select("*")
               .range(from + 1, to));

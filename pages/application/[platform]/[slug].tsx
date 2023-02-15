@@ -11,7 +11,6 @@ interface Props {
 }
 
 const ApplicationPage = ({ application }: Props) => {
-  
   const globalContext = useContext(GlobalContext);
 
   // //initialeze the platform
@@ -27,10 +26,10 @@ const ApplicationPage = ({ application }: Props) => {
         .select("*")
         .eq("slug", app.slug)
         .eq("is_published", true);
-        
-        if(data && data.length > 1){
-          console.log(data);
-          const platforms = [
+
+      if (data && data.length > 1) {
+        console.log(data);
+        const platforms = [
           {
             id: 2,
             name: "ios",
@@ -38,7 +37,11 @@ const ApplicationPage = ({ application }: Props) => {
           {
             id: 1,
             name: "android",
-          }
+          },
+          {
+            id: 3,
+            name: "web",
+          },
         ];
         globalContext?.setShow(true);
         globalContext?.setAvailablePlatforms(platforms);

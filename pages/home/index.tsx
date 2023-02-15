@@ -84,19 +84,16 @@ const Page: NextPage = () => {
       {
         id: 4,
         name: "web",
-      }
+      },
     ]);
-
   }, []);
- 
+
   //initialeze the platform
   useEffect(() => {
     handeUser();
     getCollections();
   }, [session, newReq]);
 
-  
-  
   const [streamOpen, setStreamOpen] = useState<string>("stream");
   const [webScreenOpen, setWebScreenOpen] = useState<boolean>(false);
 
@@ -112,9 +109,12 @@ const Page: NextPage = () => {
 
   const queryClient = useQueryClient();
   const handleRefetch = async () => {
-    await queryClient.resetQueries({
-      queryKey: ['stream'],
-    }, { throwOnError: true, cancelRefetch: true });
+    await queryClient.resetQueries(
+      {
+        queryKey: ["stream"],
+      },
+      { throwOnError: true, cancelRefetch: true }
+    );
   };
 
   const handleAddCollection = async () => {
@@ -160,10 +160,11 @@ const Page: NextPage = () => {
               onClick={() => {
                 setStreamOpen("stream");
               }}
-              className={` ${streamOpen == "stream"
-                ? "text-white lg:text-[3rem] text-[2rem] font-light"
-                : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
-                } transform transition duration-500 `}
+              className={` ${
+                streamOpen == "stream"
+                  ? "text-white lg:text-[3rem] text-[2rem] font-light"
+                  : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
+              } transform transition duration-500 `}
             >
               Stream
             </span>
@@ -186,10 +187,11 @@ const Page: NextPage = () => {
               onClick={() => {
                 setStreamOpen("collection");
               }}
-              className={` ${streamOpen == "collection"
-                ? "text-white lg:text-[3rem] text-[2rem] font-light"
-                : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
-                } transform transition duration-500  ml-12 `}
+              className={` ${
+                streamOpen == "collection"
+                  ? "text-white lg:text-[3rem] text-[2rem] font-light"
+                  : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
+              } transform transition duration-500  ml-12 `}
             >
               Collections
             </span>
@@ -217,8 +219,9 @@ const Page: NextPage = () => {
 
               <div className="h-[50px] my-auto ml-10 bg-[#1B2132] rounded-[40px] flex items-center px-3 text-white  lg:text-sm text-xs font-light space-x-4">
                 <div
-                  className={`${isPersonal && "bg-slate-700"
-                    } py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+                  className={`${
+                    isPersonal && "bg-slate-700"
+                  } py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
                 >
                   <span
                     onClick={() => {
@@ -230,8 +233,9 @@ const Page: NextPage = () => {
                   </span>
                 </div>
                 <div
-                  className={`${!isPersonal && "bg-slate-700"
-                    } py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+                  className={`${
+                    !isPersonal && "bg-slate-700"
+                  } py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
                 >
                   <span
                     onClick={() => {
@@ -296,176 +300,153 @@ const Page: NextPage = () => {
 
         {streamOpen == "stream" ? (
           <>
-            {platform == 3 ? (
-              <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-4 lg:gap-5 gap-5 mb-10 grid-cols-2">
-                <div
-                  className="flex justify-center items-center relative group/item cursor-pointer"
-                  onClick={() => {
-                    setWebScreenOpen(true);
-                  }}
-                >
-                  <Screen platform={3} list={webImages} />
-                </div>
-
-                <Screen platform={3} list={webImages} />
-                <Screen platform={3} list={webImages} />
-                <Screen platform={3} list={webImages} />
-                <Screen platform={3} list={webImages} />
-                <Screen platform={3} list={webImages} />
-                <Screen platform={3} list={webImages} />
-                <Screen platform={3} list={webImages} />
-                <Screen platform={3} list={webImages} />
-                <Screen platform={3} list={webImages} />
-              </div>
-            ) : (
-              <Stream />
-            )}
+            <Stream />
           </>
         ) : (
           <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-3 xl:grid-cols-4 xl:gap-8 lg:gap-5 gap-5 mb-10 grid-cols-1 pb-32">
             {isPersonal
               ? collectionGetted
-                .filter((dx: any) => dx.is_private == true)
-                .map((data: any) => {
-                  return (
-                    <motion.div
-                      key={data.id}
-                      className="w-full h-auto relative bg-slate-800 rounded-2xl p-5"
-                      whileHover={{
-                        scale: 1.05,
-                        transition: { duration: 0.5 },
-                      }}
-                    >
-                      <span
-                        onClick={() => {
-                          router.push("/collection/" + data.id);
+                  .filter((dx: any) => dx.is_private == true)
+                  .map((data: any) => {
+                    return (
+                      <motion.div
+                        key={data.id}
+                        className="w-full h-auto relative bg-slate-800 rounded-2xl p-5"
+                        whileHover={{
+                          scale: 1.05,
+                          transition: { duration: 0.5 },
                         }}
-                        className=""
                       >
-                        <div className="grid grid-cols-4 gap-1">
-                          {/* <div className="row-span-4 col-span-2 flex space-x-2 bg-red-800">teste</div>
+                        <span
+                          onClick={() => {
+                            router.push("/collection/" + data.id);
+                          }}
+                          className=""
+                        >
+                          <div className="grid grid-cols-4 gap-1">
+                            {/* <div className="row-span-4 col-span-2 flex space-x-2 bg-red-800">teste</div>
                           <div className="col-span-1 row-span-4 flex flex-col bg-yellow-800">tests</div> */}
-                          <div className="row-span-4 col-span-3 flex space-x-3">
-                            {data.collection_screen
-                              .slice(0, 2)
-                              .map((ico: any) => {
-                                return (
-                                  <img
-                                    className="w-[50%] h-min  rounded-xl"
-                                    src={
-                                      process.env.NEXT_PUBLIC_SUPABASE_URL +
-                                      "/storage/v1/object/public/application/screens/" +
-                                      ico.app_id +
-                                      "/" +
-                                      ico.screen.url
-                                    }
-                                  />
-                                );
-                              })}
+                            <div className="row-span-4 col-span-3 flex space-x-3">
+                              {data.collection_screen
+                                .slice(0, 2)
+                                .map((ico: any) => {
+                                  return (
+                                    <img
+                                      className="w-[50%] h-min  rounded-xl"
+                                      src={
+                                        process.env.NEXT_PUBLIC_SUPABASE_URL +
+                                        "/storage/v1/object/public/application/screens/" +
+                                        ico.app_id +
+                                        "/" +
+                                        ico.screen.url
+                                      }
+                                    />
+                                  );
+                                })}
+                            </div>
+                            <div className="row-span-4 col-span-1 space-y-1 pl-2 lg:pl-4">
+                              {data.collection_app
+                                .slice(0, 4)
+                                .map((ico: any) => {
+                                  return (
+                                    <img
+                                      key={data.id}
+                                      className="w-full h-min rounded-xl p-1"
+                                      src={
+                                        process.env.NEXT_PUBLIC_SUPABASE_URL +
+                                        "/storage/v1/object/public/application/icons/" +
+                                        ico.application.icon
+                                      }
+                                    />
+                                  );
+                                })}
+                            </div>
                           </div>
-                          <div className="row-span-4 col-span-1 space-y-1 pl-2 lg:pl-4">
-                            {data.collection_app
-                              .slice(0, 4)
-                              .map((ico: any) => {
-                                return (
-                                  <img
-                                    key={data.id}
-                                    className="w-full h-min rounded-xl p-1"
-                                    src={
-                                      process.env.NEXT_PUBLIC_SUPABASE_URL +
-                                      "/storage/v1/object/public/application/icons/" +
-                                      ico.application.icon
-                                    }
-                                  />
-                                );
-                              })}
-                          </div>
-                        </div>
 
-                        <div className="flex flex-col mt-5 mb-2 pl-4 ">
-                          <span className="font-medium mb-1 text-2xl text-slate-100">
-                            {data.name}
-                          </span>
-                          <span className="font-light text-sm text-slate-300">
-                            Modified:{" "}
-                            <span className="font-medium">
-                              {formatInTimeZone(
-                                data.created_at,
-                                "Europe/Paris",
-                                "dd-MM-yyyy"
-                              )}
+                          <div className="flex flex-col mt-5 mb-2 pl-4 ">
+                            <span className="font-medium mb-1 text-2xl text-slate-100">
+                              {data.name}
                             </span>
-                          </span>
-                        </div>
-                      </span>
-                    </motion.div>
-                  );
-                })
+                            <span className="font-light text-sm text-slate-300">
+                              Modified:{" "}
+                              <span className="font-medium">
+                                {formatInTimeZone(
+                                  data.created_at,
+                                  "Europe/Paris",
+                                  "dd-MM-yyyy"
+                                )}
+                              </span>
+                            </span>
+                          </div>
+                        </span>
+                      </motion.div>
+                    );
+                  })
               : collectionGetted
-                .filter((dx: any) => dx.is_private == false)
-                .map((data: any) => {
-                  return (
-                    <motion.div
-                      className="w-full h-auto relative bg-slate-800 rounded-2xl p-5"
-                      whileHover={{
-                        scale: 1.05,
-                        transition: { duration: 0.5 },
-                      }}
-                    >
-                      <span
-                        onClick={() => {
-                          router.push("/collection/1");
+                  .filter((dx: any) => dx.is_private == false)
+                  .map((data: any) => {
+                    return (
+                      <motion.div
+                        className="w-full h-auto relative bg-slate-800 rounded-2xl p-5"
+                        whileHover={{
+                          scale: 1.05,
+                          transition: { duration: 0.5 },
                         }}
-                        className=""
                       >
-                        <div className="grid grid-cols-4 gap-1">
-                          {/* <div className="row-span-4 col-span-2 flex space-x-2 bg-red-800">teste</div>
+                        <span
+                          onClick={() => {
+                            router.push("/collection/1");
+                          }}
+                          className=""
+                        >
+                          <div className="grid grid-cols-4 gap-1">
+                            {/* <div className="row-span-4 col-span-2 flex space-x-2 bg-red-800">teste</div>
                           <div className="col-span-1 row-span-4 flex flex-col bg-yellow-800">tests</div> */}
-                          <div className="row-span-4 col-span-3 flex space-x-3">
-                            <img
-                              className="w-[50%] h-min  rounded-xl"
-                              src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png"
-                            />
-                            <img
-                              className="w-[50%] h-min rounded-xl"
-                              src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png"
-                            />
+                            <div className="row-span-4 col-span-3 flex space-x-3">
+                              <img
+                                className="w-[50%] h-min  rounded-xl"
+                                src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png"
+                              />
+                              <img
+                                className="w-[50%] h-min rounded-xl"
+                                src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png"
+                              />
+                            </div>
+                            <div className="row-span-4 col-span-1 space-y-1 pl-2 lg:pl-4">
+                              <img
+                                className="w-full h-min rounded-xl p-1"
+                                src="/images/assets/collappicon.svg"
+                              />
+                              <img
+                                className="w-full h-min rounded-xl p-1"
+                                src="/images/assets/collappicon.svg"
+                              />
+                              <img
+                                className="w-full h-min rounded-xl p-1"
+                                src="/images/assets/collappicon.svg"
+                              />
+                              <img
+                                className="w-full h-min rounded-xl p-1"
+                                src="/images/assets/collappicon.svg"
+                              />
+                            </div>
                           </div>
-                          <div className="row-span-4 col-span-1 space-y-1 pl-2 lg:pl-4">
-                            <img
-                              className="w-full h-min rounded-xl p-1"
-                              src="/images/assets/collappicon.svg"
-                            />
-                            <img
-                              className="w-full h-min rounded-xl p-1"
-                              src="/images/assets/collappicon.svg"
-                            />
-                            <img
-                              className="w-full h-min rounded-xl p-1"
-                              src="/images/assets/collappicon.svg"
-                            />
-                            <img
-                              className="w-full h-min rounded-xl p-1"
-                              src="/images/assets/collappicon.svg"
-                            />
-                          </div>
-                        </div>
 
-                        <div className="flex flex-col mt-5 mb-2 pl-4 ">
-                          <span className="font-medium mb-1 text-2xl text-slate-100">
-                            {data.name}
-                          </span>
-                          <span className="font-light text-sm text-slate-300">
-                            Modified:{" "}
-                            <span className="font-medium">
-                              {data.created_at}
+                          <div className="flex flex-col mt-5 mb-2 pl-4 ">
+                            <span className="font-medium mb-1 text-2xl text-slate-100">
+                              {data.name}
                             </span>
-                          </span>
-                        </div>
-                      </span>
-                    </motion.div>
-                  );
-                })}
+                            <span className="font-light text-sm text-slate-300">
+                              Modified:{" "}
+                              <span className="font-medium">
+                                {data.created_at}
+                              </span>
+                            </span>
+                          </div>
+                        </span>
+                      </motion.div>
+                    );
+                  })}
           </div>
         )}
 
@@ -479,37 +460,7 @@ const Page: NextPage = () => {
           onClick={() => {
             setWebScreenOpen(false);
           }}
-        >
-          {webScreenOpen && (
-            <div
-              className={cn(
-                " duration-1000 transition-all flex flex-col w-[80%] lg:w-[75%] mx-auto",
-                webScreenOpen ? "scale-100" : "scale-90"
-              )}
-            >
-              <div className="my-8 flex items-center text-white z-50">
-                <img
-                  className="h-[48px] rounded-2xl bg-slate-500"
-                  src="/images/assets/appicon.svg"
-                />
-                <div className="ml-4">
-                  <span className="text-[32px] font-medium">Hollister</span>
-                  <span className="block text-[16px] text-[#8F94A1]">
-                    Fashion & Fitness
-                  </span>
-                </div>
-              </div>
-
-              <div className="grid lg:grid-cols-2 lg:gap-[60px] gap-10 grid-cols-1 z-50">
-                <Screen platform={3} list={webImages} />
-                <Screen platform={3} list={webImages} />
-                <Screen platform={3} list={webImages} />
-                <Screen platform={3} list={webImages} />
-                <Screen platform={3} list={webImages} />
-              </div>
-            </div>
-          )}
-        </div>
+        ></div>
       </main>
     </>
   );
