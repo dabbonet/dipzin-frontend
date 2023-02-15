@@ -7,16 +7,15 @@ import * as EmailValidator from "email-validator";
 import { useCookies } from "react-cookie";
 
 const Login = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(['cokemail']);
+  const [cookies, setCookie, removeCookie] = useCookies(["cokemail"]);
   const [email, setEmail] = useState("");
   const router = useRouter();
 
   const handleSubmit = async () => {
     if (EmailValidator.validate(email)) {
-
       const expirationDate = new Date();
       expirationDate.setMonth(expirationDate.getMonth() + 3);
-      setCookie('cokemail', email.toString(), { expires: expirationDate });
+      setCookie("cokemail", email.toString(), { expires: expirationDate });
 
       try {
         await supabase.auth.signInWithOtp({ email: email });
@@ -32,10 +31,10 @@ const Login = () => {
   return (
     <div className="mx-auto w-full max-w-xl subpixel-antialiased">
       <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-lime-200 to-orange-600 lg:text-5xl text-3xl">
-        Log in to your account
+        Log in or sign up
       </h1>
       <p className="text-white font-light mt-4 lg:text-base text-sm mb-7">
-        Welcome back! Please enter your details.
+        Welcome! Please enter your details.
       </p>
       {/*      <div className="flex mt-4 space-x-3 mx-auto">
         <a
