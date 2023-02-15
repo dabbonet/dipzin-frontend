@@ -46,13 +46,13 @@ const Page: NextPageWithLayout = () => {
         <>
           <Login />
           <span className="dark:text-white block mt-4">
-            Don’t have an account?
+            {/* Don’t have an account?
             <a
               className="ml-1 text-orange-500 font-semibold cursor-pointer"
               onClick={handeChange}
             >
               Register
-            </a>
+            </a> */}
           </span>
         </>
       )}
