@@ -10,6 +10,7 @@ type ShowcaseProps = {
 };
 
 const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
+  console.log("selected", selected);
   const toStorageUrl = (pathname: string) =>
     process.env.NEXT_PUBLIC_SUPABASE_URL +
     "/storage/v1/object/public/application/" +
@@ -29,7 +30,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
         break;
     }
     return platform;
-  }
+  };
 
   return (
     <motion.div
@@ -43,11 +44,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
       transition={{ duration: 0.5 }}
       exit={{ opacity: 0, y: 300 }}
     >
-      <motion.div
-        className={
-          "flex flex-col w-[80%] lg:w-[75%] mx-auto"
-        }
-      >
+      <motion.div className={"flex flex-col w-[80%] lg:w-[75%] mx-auto"}>
         <div className="flex my-8 items-center justify-between text-white z-50">
           <div className="flex items-center">
             <img
@@ -68,7 +65,10 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
                 className="min-w-fit p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
                 href={{
                   pathname: "/application/[platform]/[slug]",
-                  query: { platform: getPlatform(selected?.platform_id), slug: selected?.slug },
+                  query: {
+                    platform: getPlatform(selected?.platform_id),
+                    slug: selected?.slug,
+                  },
                 }}
               >
                 <svg
@@ -201,8 +201,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
               platform={1}
               src={toStorageUrl("/screens/" + selected.id + "/" + item)}
             />
-          )
-          )}
+          ))}
         </div>
       </motion.div>
     </motion.div>
