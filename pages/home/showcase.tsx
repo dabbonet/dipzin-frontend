@@ -1,11 +1,12 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { Key, useEffect, useState } from "react";
+import { Key, useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import Screen from "../../components/screen";
 import { saveAs } from "file-saver";
 import { v4 as uuid } from "uuid";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { GlobalContext } from "../../lib/globalContext";
 
 type ShowcaseProps = {
   selected: any;
@@ -45,6 +46,8 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
   const saveFile = (image: any) => {
     saveAs(image, "image.webp");
   };
+
+  const platform = useContext(GlobalContext)?.platform;
 
   const supabase = useSupabaseClient();
   const session = useSession();
@@ -123,7 +126,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
   return (
     <motion.div
       onClick={() => setSelected(null)}
-      // layoutId={selected.id}
+      //layoutId={selected.id}
       className={
         "w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-10 backdrop-blur-lg bg-slate-900/70"
       }
@@ -337,7 +340,14 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
             </div>
           </div>
         </div>
-        <div className="grid lg:grid-cols-4 xl:grid-cols-5 lg:gap-10 gap-10 grid-cols-2 ml-auto mr-auto z-50">
+        {/*-------------------------------------------------------*/}
+        <div
+          className={`grid ${
+            platform == 4
+              ? "lg:grid-cols-2 xl:grid-cols-2 lg:gap-10 gap-10 grid-cols-2"
+              : "lg:grid-cols-4 xl:grid-cols-5 lg:gap-10 gap-10 grid-cols-2"
+          }  ml-auto mr-auto z-50`}
+        >
           {selected?.showcase.map((item: string, index: number) => (
             <Screen
               key={index}
