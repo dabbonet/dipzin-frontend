@@ -1,8 +1,11 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { Key, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import Screen from "../../components/screen";
+import { saveAs } from "file-saver";
+import { v4 as uuid } from "uuid";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 type ShowcaseProps = {
   selected: any;
@@ -14,6 +17,13 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
   const toStorageUrl = (pathname: string) =>
     process.env.NEXT_PUBLIC_SUPABASE_URL +
     "/storage/v1/object/public/application/" +
+    pathname;
+
+  const toStorageUrlScreen = (pathname: string) =>
+    process.env.NEXT_PUBLIC_SUPABASE_URL +
+    "/storage/v1/object/public/application/screens/" +
+    selected.id +
+    "/" +
     pathname;
 
   const getPlatform = (platform_id: any) => {
@@ -32,6 +42,84 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
     return platform;
   };
 
+  const saveFile = (image: any) => {
+    saveAs(image, "image.webp");
+  };
+
+  const supabase = useSupabaseClient();
+  const session = useSession();
+
+  const [addColl, setAddColl] = useState<boolean>(false);
+  const [collName, setCollName] = useState<any>("");
+  const [collDesc, setCollDesc] = useState<any>("");
+
+  const [newReq, setNewReq] = useState<boolean>(true);
+
+  const [save, setSave] = useState<any>(false);
+
+  const handleAddCollection = async () => {
+    if (collName == "") {
+      alert("add name first");
+    } else {
+      try {
+        let uu = uuid();
+        await supabase.from("collection").insert({
+          id: uu,
+          name: collName,
+          user_id: session?.user.id,
+          is_private: true,
+          description: collDesc,
+        });
+        alert("added");
+        setCollName("");
+        setCollDesc("");
+        setNewReq(!newReq);
+        setAddColl(false);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
+
+  const [collectionGetted, setCollectionDetted] = useState<any>([]);
+  const getCollections = async () => {
+    try {
+      const { data } = await supabase
+        .from("collection")
+        .select("*")
+        .eq("user_id", session?.user.id);
+
+      if (data) {
+        setCollectionDetted(data);
+        //console.log("coooloo : ", data);
+      }
+    } catch (e) {
+      //console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getCollections();
+    //console.log(app);
+  }, [session, selected, newReq]);
+
+  const [handleChange, setHnadleChange] = useState<boolean>(true);
+
+  const handleAddToVollection = async (collectionId: any) => {
+    try {
+      const { data, error } = await supabase
+        .from("collection_app")
+        .insert({ app_id: selected.id, collection_id: collectionId })
+        .select();
+
+      setHnadleChange(!handleChange);
+      alert("added");
+      setSave(false);
+    } catch (e) {
+      //console.log(e);
+    }
+  };
+
   return (
     <motion.div
       onClick={() => setSelected(null)}
@@ -44,6 +132,52 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
       transition={{ duration: 0.5 }}
       exit={{ opacity: 0, y: 300 }}
     >
+      {addColl && (
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed flex top-0 left-0 items-center justify-center w-[99vw] h-[100vh] backdrop-blur-md z-[100]"
+          >
+            <div className="flex flex-col w-[550px] py-10 px-10 bg-slate-900 rounded-2xl">
+              <span className="text-white text-[14px]">
+                Create a new collection
+              </span>
+              <hr className="mt-2 bg-slate-200 opacity-50" />
+              <span className="text-white mt-7">Name</span>
+              <input
+                type="text"
+                className="mt-5 rounded-lg bg-slate-200"
+                value={collName}
+                onChange={(e) => setCollName(e.target.value)}
+              />
+              <span className="text-white mt-10">Description (optional)</span>
+              <textarea
+                value={collDesc}
+                onChange={(e) => setCollDesc(e.target.value)}
+                className="mt-5 rounded-lg bg-slate-200"
+              />
+              <div className="flex mt-10 text-white text-[14px]">
+                <span
+                  onClick={handleAddCollection}
+                  className="py-3 px-4 bg-orange-500 rounded-xl mr-5 cursor-pointer"
+                >
+                  Create Collection
+                </span>
+                <span
+                  onClick={() => {
+                    setAddColl(false);
+                  }}
+                  className="py-3 px-4 bg-slate-500 rounded-xl mr-5 cursor-pointer"
+                >
+                  Cancel
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      )}
       <motion.div className={"flex flex-col w-[80%] lg:w-[75%] mx-auto"}>
         <div className="flex my-8 items-center justify-between text-white z-50">
           <div className="flex items-center">
@@ -92,7 +226,12 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
                 </p>
               </Link>
 
-              <div className="min-w-fit p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative">
+              <div
+                className="min-w-fit p-2 h-[70px] bg-slate-900 rounded-xl cursor-pointer flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
+                onClick={() => {
+                  window.open(selected.storelink, "_blank", "noreferrer");
+                }}
+              >
                 <svg
                   width={17}
                   height={17}
@@ -120,31 +259,28 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
                 </p>
               </div>
 
-              <div className="min-w-[80px] p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative">
-                <svg
-                  width={17}
-                  height={17}
-                  viewBox="0 0 17 17"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4 relative left-[78%]"
-                  preserveAspectRatio="xMidYMid meet"
-                >
-                  <path
-                    d="M8.72094 4.12305H3.53427C2.39427 4.12305 1.46094 5.05638 1.46094 6.19638V13.7697C1.46094 14.7364 2.15427 15.1497 3.00094 14.6764L5.62094 13.2164C5.90094 13.063 6.35427 13.063 6.6276 13.2164L9.2476 14.6764C10.1009 15.143 10.7943 14.7364 10.7943 13.7697V6.19638C10.7943 5.05638 9.86094 4.12305 8.72094 4.12305Z"
-                    fill="white"
-                  />
-                  <path
-                    d="M14.7968 3.61044V11.1838C14.7968 12.1504 14.1034 12.5571 13.2568 12.0904L11.9701 11.3704C11.8634 11.3104 11.7968 11.1971 11.7968 11.0771V6.19711C11.7968 4.50378 10.4168 3.12378 8.72344 3.12378H6.0101C5.76344 3.12378 5.5901 2.86378 5.70344 2.65044C6.0501 1.99044 6.74344 1.53711 7.53677 1.53711H12.7234C13.8634 1.53711 14.7968 2.47044 14.7968 3.61044Z"
-                    fill="white"
-                  />
-                </svg>
-                <p className="w-[70%] text-[11px] font-medium text-left text-white">
+              <div
+                onClick={() => {
+                  setSave(!save);
+                }}
+                className="min-w-[80px] p-2 h-[70px] bg-slate-900 cursor-pointer rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
+              >
+                <img className="ml-auto mb-3" src="/images/assets/save.svg" />
+                <span className="w-[70%] text-[11px] font-medium text-left text-white">
                   Save
-                </p>
+                </span>
               </div>
 
-              <div className="min-w-[80px] max-w-[100px] p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative">
+              <div
+                className="min-w-[80px] max-w-[100px] cursor-pointer p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
+                onClick={() => {
+                  saveFile(toStorageUrlScreen(selected?.showcase[0]));
+                  saveFile(toStorageUrlScreen(selected?.showcase[1]));
+                  saveFile(toStorageUrlScreen(selected?.showcase[2]));
+                  saveFile(toStorageUrlScreen(selected?.showcase[3]));
+                  saveFile(toStorageUrlScreen(selected?.showcase[4]));
+                }}
+              >
                 <svg
                   width={17}
                   height={17}
@@ -168,7 +304,14 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
                 </p>
               </div>
 
-              <div className="min-w-[80px] max-w-[100px] p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative">
+              <div
+                className="min-w-[80px] max-w-[100px] p-2 h-[70px] bg-slate-900 rounded-xl cursor-pointer flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    "dipzin.com/application/ios/" + selected.slug //need fix
+                  )
+                }
+              >
                 <svg
                   width={17}
                   height={17}
@@ -203,6 +346,39 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
             />
           ))}
         </div>
+
+        {save && (
+          <div className="fixed right-[300px] top-[160px] bg-slate-900 py-[16px] w-[250px] px-3 rounded-xl z-[60]">
+            {collectionGetted.map((data: any) => {
+              return (
+                <div
+                  onClick={() => handleAddToVollection(data.id)}
+                  className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer"
+                >
+                  <img
+                    src={`${
+                      data.is_private
+                        ? "/images/assets/privateIcon.svg"
+                        : "/images/assets/publicIcon.svg"
+                    }`}
+                    className="mx-1 mr-2"
+                  />
+                  <span className="font-medium text-slate-100 text-[12px] mr-2">
+                    {data.name}
+                  </span>
+                </div>
+              );
+            })}
+            <span
+              onClick={() => {
+                setAddColl(true);
+              }}
+              className="flex items-center justify-center py-2 bg-slate-800 rounded-2xl font- text-[12px] mt-3 text-slate-100 cursor-pointer"
+            >
+              Create Collection
+            </span>
+          </div>
+        )}
       </motion.div>
     </motion.div>
   );
