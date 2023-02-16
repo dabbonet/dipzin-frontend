@@ -7,6 +7,7 @@ import { saveAs } from "file-saver";
 import _ from "lodash";
 import BlurImage from "../../../components/screen/Image";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 // import { log } from "console";
 
@@ -31,6 +32,7 @@ const Mobile = ({ app }: Props) => {
   }
 
   const [save, setSave] = useState<any>(false);
+  const [saveSc, setSaveSc] = useState<any>(false);
 
   const supabase = useSupabaseClient();
   const session = useSession();
@@ -130,6 +132,7 @@ const Mobile = ({ app }: Props) => {
       setHnadleChange(!handleChange);
       alert("added");
       setSave(false);
+      setSaveSc(false);
     } catch (e) {
       //console.log(e);
     }
@@ -152,13 +155,12 @@ const Mobile = ({ app }: Props) => {
       setHnadleChange(!handleChange);
       alert("added");
       setSave(false);
+      setSaveSc(false);
       // console.log(data);
     } catch (e) {
       //console.log(e);
     }
   };
-
-  
 
   const [addColl, setAddColl] = useState<boolean>(false);
 
@@ -187,6 +189,32 @@ const Mobile = ({ app }: Props) => {
         console.log(e);
       }
     }
+  };
+
+  const [openScreen, setOpenScreen] = useState(false);
+  const [scUrl, setScUrl] = useState<any>("");
+
+  // TODO: Extract shimmer & toBase to helper file.
+  const shimmer = (w: number, h: number) => {
+    `
+  <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+      <linearGradient id="g">
+        <stop stop-color="#333" offset="20%" />
+        <stop stop-color="#222" offset="50%" />
+        <stop stop-color="#333" offset="70%" />
+      </linearGradient>
+    </defs>
+    <rect width="${w}" height="${h}" fill="#333" />
+    <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+    <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+  </svg>`;
+  };
+
+  const toBase64 = (str: any) => {
+    typeof window === "undefined"
+      ? Buffer.from(str).toString("base64")
+      : window.btoa(str);
   };
 
   return (
@@ -293,10 +321,11 @@ const Mobile = ({ app }: Props) => {
                   className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer"
                 >
                   <img
-                    src={`${data.is_private
-                      ? "/images/assets/privateIcon.svg"
-                      : "/images/assets/publicIcon.svg"
-                      }`}
+                    src={`${
+                      data.is_private
+                        ? "/images/assets/privateIcon.svg"
+                        : "/images/assets/publicIcon.svg"
+                    }`}
                     className="mx-1 mr-2"
                   />
                   <span className="font-medium text-slate-100 text-[12px] mr-2">
@@ -391,13 +420,16 @@ const Mobile = ({ app }: Props) => {
           </div>
         )}
          */}
-         
+
         <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-6 lg:gap-5 gap-5 mb-10 grid-cols-2">
           {app &&
             app.screen.map((screen: any) => {
               // console.log(screen.url)
               return (
-                <div key={screen.id} className="flex justify-center items-center relative group/item">
+                <div
+                  key={screen.id}
+                  className="flex justify-center items-center relative group/item"
+                >
                   <motion.div
                     layout
                     whileHover={{
@@ -422,8 +454,9 @@ const Mobile = ({ app }: Props) => {
                             setMenuIco("save");
                           }
                         }}
-                        className={`group/copy h-10 w-10 ${menuIco == "save" ? "bg-orange-500" : "bg-slate-900"
-                          } z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible mx-2`}
+                        className={`group/copy h-10 w-10 ${
+                          menuIco == "save" ? "bg-orange-500" : "bg-slate-900"
+                        } z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible mx-2`}
                       >
                         <img src="/images/assets/addtocoll.svg" />
                         <span className="absolute top-12 bg-slate-900 flex items-center justify-center py-[2px] px-[6px] rounded-2xl font-medium text-white text-[12px] invisible group-hover/copy:visible">
@@ -431,8 +464,9 @@ const Mobile = ({ app }: Props) => {
                         </span>
                       </div>
                       <div
-                        className={`group/copy h-10 w-10 ${menuIco == "menu" ? "bg-orange-500" : "bg-slate-900"
-                          } z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
+                        className={`group/copy h-10 w-10 ${
+                          menuIco == "menu" ? "bg-orange-500" : "bg-slate-900"
+                        } z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
                         onClick={() => {
                           if (menuIco == "menu") {
                             setMenuIco("");
@@ -501,10 +535,11 @@ const Mobile = ({ app }: Props) => {
                                 className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer"
                               >
                                 <img
-                                  src={`${data.is_private
-                                    ? "/images/assets/privateIcon.svg"
-                                    : "/images/assets/publicIcon.svg"
-                                    }`}
+                                  src={`${
+                                    data.is_private
+                                      ? "/images/assets/privateIcon.svg"
+                                      : "/images/assets/publicIcon.svg"
+                                  }`}
                                   className="mx-1 mr-2"
                                 />
                                 <span className="font-medium text-slate-100 text-[12px] mr-2">
@@ -525,7 +560,13 @@ const Mobile = ({ app }: Props) => {
                       </span>
                     </div>
 
-                    <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 ">
+                    <div
+                      className="w-full rounded-2xl overflow-hidden min-720:gap-16 "
+                      onClick={() => {
+                        setOpenScreen(true);
+                        setScUrl(screen.url);
+                      }}
+                    >
                       <BlurImage platform={1} src={toStorageUrl(screen.url)} />
                     </div>
                   </motion.div>
@@ -533,6 +574,162 @@ const Mobile = ({ app }: Props) => {
               );
             })}
         </div>
+        {openScreen && (
+          <>
+            <div
+              className="fixed w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-[100] flex items-center justify-center"
+              onClick={() => setOpenScreen(false)}
+            >
+              <img
+                className="w-[400px] rounded-3xl bg-slate-800"
+                placeholder="blur"
+                width={428}
+                height={926}
+                alt="sreen"
+                src={toStorageUrl(scUrl)}
+              />
+            </div>
+
+            <div className="fixed right-10 top-[35%] w-[100px] py-2.5 bg-slate-900/30 border border-slate-800 rounded-2xl flex flex-col justify-between z-[100]">
+              {addColl && (
+                <AnimatePresence>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed flex top-0 left-0 items-center justify-center w-[99vw] h-[100vh] backdrop-blur-md z-50"
+                  >
+                    <div className="flex flex-col w-[550px] py-10 px-10 bg-slate-900 rounded-2xl">
+                      <span className="text-white text-[14px]">
+                        Create a new collection
+                      </span>
+                      <hr className="mt-2 bg-slate-200 opacity-50" />
+                      <span className="text-white mt-7">Name</span>
+                      <input
+                        type="text"
+                        className="mt-5 rounded-lg bg-slate-200"
+                        value={collName}
+                        onChange={(e) => setCollName(e.target.value)}
+                      />
+                      <span className="text-white mt-10">
+                        Description (optional)
+                      </span>
+                      <textarea
+                        value={collDesc}
+                        onChange={(e) => setCollDesc(e.target.value)}
+                        className="mt-5 rounded-lg bg-slate-200"
+                      />
+                      <div className="flex mt-10 text-white text-[14px]">
+                        <span
+                          onClick={handleAddCollection}
+                          className="py-3 px-4 bg-orange-500 rounded-xl mr-5 cursor-pointer"
+                        >
+                          Create Collection
+                        </span>
+                        <span
+                          onClick={() => {
+                            setAddColl(false);
+                          }}
+                          className="py-3 px-4 bg-slate-500 rounded-xl mr-5 cursor-pointer"
+                        >
+                          Cancel
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              )}
+              {!session ? (
+                <div className="w-[82px] h-[70px] opacity-30 mb-3 p-2 m-auto rounded-xl bg-[#0B1321] border-[3px] border-[#0B1321] cursor-pointer">
+                  <img className="ml-auto mb-3" src="/images/assets/like.svg" />
+                  <span className="text-white text-[12px] mt-auto">
+                    Like App
+                  </span>
+                </div>
+              ) : (
+                <div
+                  onClick={handleLike}
+                  className="w-[82px] h-[70px] mb-3 p-2 m-auto rounded-xl bg-[#0B1321] border-[3px] border-[#0B1321] hover:border-slate-700 cursor-pointer"
+                >
+                  <img className="ml-auto mb-3" src="/images/assets/like.svg" />
+                  <span className="text-white text-[12px] mt-auto">Like</span>
+                </div>
+              )}
+
+              <div
+                onClick={() => saveFile(toStorageUrl(scUrl))}
+                className="w-[82px] h-[70px] mb-3 px-1 py-2 m-auto rounded-xl bg-[#0B1321] border-[3px] border-[#0B1321] hover:border-slate-700 cursor-pointer"
+              >
+                <img className="ml-auto mb-3" src="/images/assets/like.svg" />
+                <span className="text-white text-[12px] mt-auto">Download</span>
+              </div>
+              <div
+                onClick={() => {
+                  setSaveSc(!saveSc);
+                }}
+                className={`relative w-[82px] h-[70px] p-2 m-auto rounded-xl mb-3 bg-[#0B1321] border-[3px] border-[#0B1321] hover:border-slate-700 cursor-pointer`}
+              >
+                <img className="ml-auto mb-3" src="/images/assets/save.svg" />
+                <span className="text-white text-[12px] mt-auto relative">
+                  Save
+                </span>
+              </div>
+              {saveSc && (
+                <div className="absolute top-[190px] right-[110px] bg-slate-900 py-[16px] w-[250px] z-30 px-3 rounded-xl">
+                  {collectionGetted.map((data: any) => {
+                    return (
+                      <div
+                        onClick={() => handleAddToVollection(data.id)}
+                        className="flex items-center py-[6px] hover:bg-slate-800 rounded-lg mb-2 cursor-pointer"
+                      >
+                        <img
+                          src={`${
+                            data.is_private
+                              ? "/images/assets/privateIcon.svg"
+                              : "/images/assets/publicIcon.svg"
+                          }`}
+                          className="mx-1 mr-2"
+                        />
+                        <span className="font-medium text-slate-100 text-[12px] mr-2">
+                          {data.name}
+                        </span>
+                      </div>
+                    );
+                  })}
+                  <span
+                    onClick={() => {
+                      setAddColl(true);
+                    }}
+                    className="flex items-center justify-center py-2 bg-slate-800 rounded-2xl font- text-[12px] mt-3 text-slate-100 cursor-pointer"
+                  >
+                    Create Collection
+                  </span>
+                </div>
+              )}
+
+              <div
+                onClick={async () => {
+                  await navigator.clipboard.writeText(location.href);
+                }}
+                className="w-[82px] h-[76px] mb-3 p-2 m-auto rounded-xl bg-[#0B1321] border-[3px] border-[#0B1321] hover:border-slate-700 cursor-pointer"
+              >
+                <img className="ml-auto" src="/images/assets/copyLink2.svg" />
+                <span className="text-white text-[12px] mt-auto">Copy PNG</span>
+              </div>
+              <div
+                onClick={async () => {
+                  await navigator.clipboard.writeText(toStorageUrl(scUrl));
+                }}
+                className="w-[82px] h-[76px] mb-0 p-2 m-auto rounded-xl bg-[#0B1321] border-[3px] border-[#0B1321] hover:border-slate-700 cursor-pointer"
+              >
+                <img className="ml-auto" src="/images/assets/copyLink2.svg" />
+                <span className="text-white text-[12px] mt-auto">
+                  Copy Link
+                </span>
+              </div>
+            </div>
+          </>
+        )}
       </main>
     </>
   );
