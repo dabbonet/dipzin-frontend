@@ -125,7 +125,11 @@ const Stream = () => {
     <>
       <motion.div
         layoutScroll
-        className="scrollbar-rounded w-[80%] lg:w-[80%] grid gap-4 lg:gap-5 xl:gap-6 xxl:gap-9 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 xxl:grid-cols-6 mb-10 text-white"
+        className={`scrollbar-rounded w-[80%] lg:w-[80%] grid gap-4 ${
+          platform == 4
+            ? "grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 xxl:grid-cols-4"
+            : "grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 xxl:grid-cols-6"
+        } lg:gap-5 xl:gap-6 xxl:gap-9 mb-10 text-white`}
       >
         {data &&
           data?.pages.map((page: any[], pageIndex) =>
