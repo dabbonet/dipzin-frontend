@@ -259,7 +259,7 @@ const Page: NextPage = () => {
                 <span className="text-white mt-7">Name</span>
                 <input
                   type="text"
-                  className="mt-5 rounded-lg bg-slate-200"
+                  className="mt-5 rounded-lg bg-slate-800 border-slate-700 text-white"
                   value={collName}
                   onChange={(e) => setCollName(e.target.value)}
                 />
@@ -267,7 +267,7 @@ const Page: NextPage = () => {
                 <textarea
                   value={collDesc}
                   onChange={(e) => setCollDesc(e.target.value)}
-                  className="mt-5 rounded-lg bg-slate-200"
+                  className="mt-5 rounded-lg bg-slate-800 border-slate-700 text-white"
                 />
                 <div className="flex mt-10 text-white text-[14px]">
                   <span
