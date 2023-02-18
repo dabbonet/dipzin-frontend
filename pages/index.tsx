@@ -1,148 +1,458 @@
-import { ReactElement, useState } from "react";
-import type { NextPageWithLayout } from "./_app";
-import * as Yup from "yup";
-import { supabase } from "../lib/supabase";
+import { ReactElement, useState, useRef, useEffect, useContext } from "react";
+import { NextPage } from "next";
+import Screen from "../components/screen";
+import cn from "../components/helpers";
+import Navigator from "../components/navigator/main";
+import TimedUpgrade from "../components/modals/timedUpgrade";
+import Stream from "./stream";
+import { useQuery, useQueryClient } from "react-query";
+import { AnimatePresence, motion } from "framer-motion";
+import { GlobalContext } from "../lib/globalContext";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { v4 as uuid } from "uuid";
+import { useRouter } from "next/router";
+import { formatInTimeZone } from "date-fns-tz";
 
-import AuthLayout from "../components/auth/AuthLayout";
+const Page: NextPage = () => {
+  const globalContext = useContext(GlobalContext);
+  const supabase = useSupabaseClient();
+  const session = useSession();
+  const [user, setUser] = useState<any>();
+  const [loading, setLoading] = useState(true);
 
-type Notification = {
-    tag: string,
-    color: string,
-    message: string
-}
+  const router = useRouter();
 
-import { Field, Form, Formik } from "formik";
+  const [addColl, setAddColl] = useState<boolean>(false);
 
-const emailSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Required"),
-});
+  const [collName, setCollName] = useState<any>("");
+  const [collDesc, setCollDesc] = useState<any>("");
 
-const Page: NextPageWithLayout = () => {
-    const [notification, setNotification] = useState<Notification>();
+  const handeUser = async () => {
+    try {
+      const { data } = await supabase
+        .from("profiles")
+        .select("id, username, avatar_url, website, full_name")
+        .eq("id", session?.user.id)
+        .single();
 
-    const showNotificationMessage = (
-        tag: string,
-        color: string,
-        message: string
-    ) => {
-        setNotification({ tag, color, message });
-        setTimeout(() => {
-            setNotification({ tag: "", color: "", message: "" });
-        }, 3000);
-    };
+      if (data) {
+        setUser(data);
+      }
+    } catch (error) {
+      alert(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return (
-        <div className="mx-auto w-full max-w-xl subpixel-antialiased">
-            <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-lime-200 to-orange-600 lg:text-5xl text-3xl">
-                Your Go-To Source for Digital Inspiration
-            </h1>
-            <p className="text-white font-light mt-4 lg:text-base text-sm">
-                Sign up to be notified when Dipzin launches and start discovering new
-                ideas and staying up-to-date on the latest Product Design trends. We
-                can't wait to see what you create with Dipzin!
-            </p>
+  const [collectionGetted, setCollectionDetted] = useState<any>([]);
+  const getCollections = async () => {
+    try {
+      const { data } = await supabase
+        .from("collection")
+        .select(
+          "id, created_at, name, user_id, is_private, description, collection_app(*, application(icon)), collection_screen(*, screen(url))"
+        )
+        .eq("user_id", session?.user.id);
 
-            <div className="relative w-full mt-6">
-                <div className="absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none">
-                    <svg
-                        className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                    </svg>
-                </div>
+      if (data) {
+        setCollectionDetted(data);
+        console.log("coooloo : ", data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-                <Formik
-                    initialValues={{ email: "" }}
-                    validationSchema={emailSchema}
-                    onSubmit={async (values, actions) => {
+  const [newReq, setNewReq] = useState<boolean>(true);
+  const platform = globalContext?.platform;
 
-                        const { error } = await supabase
-                            .from("email_list")
-                            .insert({ email: values.email });
-                        if (error) {
-                            if (error.code === "23505") {
-                                showNotificationMessage(
-                                    "error",
-                                    "red",
-                                    "This email is already in our database."
-                                );
-                            } else {
-                                showNotificationMessage(
-                                    "error",
-                                    "red",
-                                    "Error submitting email address: " + error.message
-                                );
-                            }
-                            actions.setSubmitting(false);
-                        } else {
-                            showNotificationMessage(
-                                "success",
-                                "green",
-                                "Email address successfully submitted!"
-                            );
-                            actions.setSubmitting(false);
-                        }
-                    }}
-                >
-                    {({ isSubmitting, errors, touched }) => (
-                        <Form>
-                            <Field
-                                require="require"
-                                type="email"
-                                name="email"
-                                className="h-14 text-gray-900 text-sm rounded-lg border-transparent focus:ring-orange-500 focus:border-orange-500 block w-full pl-12 pr-32 p-2.5 bg-slate-900 dark:placeholder-slate-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
-                                placeholder="Your email address..."
-                            />
-                            {errors.email && touched.email ? (
-                                <span className="text-sm mt-2 absolute top-2.5 right-36 text-red-500">
-                                    {errors.email}
-                                </span>
-                            ) : null}
-                            <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className="absolute insety-y-0 top-2.5 right-2.5 py-2 px-3 rounded-md font-medium text-white bg-gradient-to-r from-orange-400 to-orange-600 text-sm"
-                            >
-                                Get Notified!
-                            </button>
-                        </Form>
-                    )}
-                </Formik>
-            </div>
-            {/* <div className={`bg-${notification.type}-500 text-white p-4 rounded-md`}>
-        {notification.message}
-      </div> */}
-            {notification && (
-                <div
-                    className={`bg-${notification.color}-500/30 text-white rounded-full mt-4`}
-                >
-                    <div
-                        className={`p-2 bg-${notification.color}-800 items-center text-${notification.color}-100 leading-none flex lg:inline-flex`}
-                        role="alert"
-                    >
-                        <span
-                            className={`flex rounded-full bg-${notification.color}-500 uppercase px-2 py-1 text-xs mr-3`}
-                        >
-                            {notification.tag}
-                        </span>
-                        <span
-                            className={`font-normal mr-2 text-left flex-auto text-sm text-${notification.color}-100`}
-                        >
-                            {notification.message}
-                        </span>
-                    </div>
-                </div>
-            )}
-        </div>
+  useEffect(() => {
+    globalContext?.setShow(true);
+    globalContext?.setSingle(false);
+    globalContext?.setAvailablePlatforms([
+      {
+        id: 2,
+        name: "ios",
+      },
+      {
+        id: 1,
+        name: "android",
+      },
+      {
+        id: 4,
+        name: "web",
+      },
+    ]);
+  }, []);
+
+  //initialeze the platform
+  useEffect(() => {
+    handeUser();
+    getCollections();
+  }, [session, newReq]);
+
+  const [streamOpen, setStreamOpen] = useState<string>("stream");
+  const [webScreenOpen, setWebScreenOpen] = useState<boolean>(false);
+
+  const [isPersonal, setIsPersonal] = useState<any>(true);
+
+  const queryClient = useQueryClient();
+  const handleRefetch = async () => {
+    await queryClient.resetQueries(
+      {
+        queryKey: ["stream"],
+      },
+      { throwOnError: true, cancelRefetch: true }
     );
-};
+  };
 
-Page.getLayout = function getLayout(page: ReactElement) {
-    return <AuthLayout>{page}</AuthLayout>;
-};
+  const handleAddCollection = async () => {
+    if (collName == "") {
+      alert("add name first");
+    } else {
+      try {
+        let uu = uuid();
+        await supabase.from("collection").insert({
+          id: uu,
+          name: collName,
+          user_id: session?.user.id,
+          is_private: true,
+          description: collDesc,
+        });
+        alert("added");
+        setCollName("");
+        setCollDesc("");
+        setNewReq(!newReq);
+        setAddColl(false);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
 
+  return (
+    <>
+      {/* <TimedUpgrade /> */}
+      <Navigator />
+      <main className="w-full flex flex-col items-center">
+        <div className="lg:w-[75%] max-w-[75%] mt-[110px] rounded-[42px]">
+          <img
+            className="h-auto w-full"
+            src="/images/assets/banner.png"
+            alt="banner"
+          />
+        </div>
+
+        <div className="lg:w-[75%] w-[85%] flex mt-10 mb-[25px]">
+          <a className="cursor-pointer duration-500 flex items-center">
+            <span
+              onClick={() => {
+                setStreamOpen("stream");
+              }}
+              className={` ${
+                streamOpen == "stream"
+                  ? "text-white lg:text-[3rem] text-[2rem] font-light"
+                  : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
+              } transform transition duration-500 `}
+            >
+              Stream
+            </span>
+            {streamOpen == "stream" && (
+              <motion.div
+                onClick={handleRefetch}
+                whileHover={{ rotate: 90 }}
+                whileTap={{
+                  rotate: 360,
+                }}
+                transition={{ type: "spring", stiffness: 50, damping: 20 }}
+                className="ml-3"
+              >
+                <img className=" w-8" src="/images/assets/refresh.svg" />
+              </motion.div>
+            )}
+          </a>
+          <a className="cursor-pointer flex items-center">
+            <span
+              onClick={() => {
+                setStreamOpen("collection");
+              }}
+              className={` ${
+                streamOpen == "collection"
+                  ? "text-white lg:text-[3rem] text-[2rem] font-light"
+                  : "text-gray-400 lg:text-[2.5rem] text-[1.5rem] opacity-70 font-light"
+              } transform transition duration-500  ml-12 `}
+            >
+              Collections
+            </span>
+            {streamOpen == "collection" && (
+              <img
+                className="ml-3 transorm duration-[600ms] hover:rotate-90"
+                src="/images/assets/refresh.svg"
+              />
+            )}
+          </a>
+
+          {streamOpen == "collection" && (
+            <>
+              <div
+                onClick={() => {
+                  setAddColl(true);
+                }}
+                className="flex items-center ml-auto cursor-pointer"
+              >
+                <img width={18} src="/images/assets/addcoll.svg" />
+                <span className="ml-3 text-slate-300 font-semibold text-[14px]">
+                  Add Collection
+                </span>
+              </div>
+
+              <div className="h-[50px] my-auto ml-10 bg-[#1B2132] rounded-[40px] flex items-center px-3 text-white  lg:text-sm text-xs font-light space-x-4">
+                <div
+                  className={`${
+                    isPersonal && "bg-slate-700"
+                  } py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+                >
+                  <span
+                    onClick={() => {
+                      setIsPersonal(true);
+                    }}
+                    className="uppercase"
+                  >
+                    Personal
+                  </span>
+                </div>
+                <div
+                  className={`${
+                    !isPersonal && "bg-slate-700"
+                  } py-[0.3rem] px-[0.7rem] rounded-[16px] mx-auto cursor-pointer transform transition duration-400 hover:bg-slate-700`}
+                >
+                  <span
+                    onClick={() => {
+                      setIsPersonal(false);
+                    }}
+                    className="uppercase"
+                  >
+                    Community
+                  </span>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
+        {addColl && (
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed flex items-center justify-center w-[99vw] h-[100vh] backdrop-blur-md z-40"
+            >
+              <div className="flex flex-col w-[550px] py-10 px-10 bg-slate-900 rounded-2xl">
+                <span className="text-white text-[14px]">
+                  Create a new collection
+                </span>
+                <hr className="mt-2 bg-slate-200 opacity-50" />
+                <span className="text-white mt-7">Name</span>
+                <input
+                  type="text"
+                  className="mt-5 rounded-lg bg-slate-800 border-slate-700 text-white"
+                  value={collName}
+                  onChange={(e) => setCollName(e.target.value)}
+                />
+                <span className="text-white mt-10">Description (optional)</span>
+                <textarea
+                  value={collDesc}
+                  onChange={(e) => setCollDesc(e.target.value)}
+                  className="mt-5 rounded-lg bg-slate-800 border-slate-700 text-white"
+                />
+                <div className="flex mt-10 text-white text-[14px]">
+                  <span
+                    onClick={handleAddCollection}
+                    className="py-3 px-4 bg-orange-500 rounded-xl mr-5 cursor-pointer"
+                  >
+                    Create Collection
+                  </span>
+                  <span
+                    onClick={() => {
+                      setAddColl(false);
+                    }}
+                    className="py-3 px-4 bg-slate-500 rounded-xl mr-5 cursor-pointer"
+                  >
+                    Cancel
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        )}
+
+        {streamOpen == "stream" ? (
+          <>
+            <Stream />
+          </>
+        ) : (
+          <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-3 xl:grid-cols-4 xl:gap-8 lg:gap-5 gap-5 mb-10 grid-cols-1 pb-32">
+            {isPersonal
+              ? collectionGetted
+                  .filter((dx: any) => dx.is_private == true)
+                  .map((data: any) => {
+                    return (
+                      <motion.div
+                        key={data.id}
+                        className="w-full h-auto relative bg-slate-800 rounded-2xl p-5"
+                        whileHover={{
+                          scale: 1.05,
+                          transition: { duration: 0.5 },
+                        }}
+                      >
+                        <span
+                          onClick={() => {
+                            router.push("/collection/" + data.id);
+                          }}
+                          className=""
+                        >
+                          <div className="grid grid-cols-4 gap-1">
+                            {/* <div className="row-span-4 col-span-2 flex space-x-2 bg-red-800">teste</div>
+                          <div className="col-span-1 row-span-4 flex flex-col bg-yellow-800">tests</div> */}
+                            <div className="row-span-4 col-span-3 flex space-x-3">
+                              {data.collection_screen
+                                .slice(0, 2)
+                                .map((ico: any) => {
+                                  return (
+                                    <img
+                                      className="w-[50%] h-min  rounded-xl"
+                                      src={
+                                        process.env.NEXT_PUBLIC_SUPABASE_URL +
+                                        "/storage/v1/object/public/application/screens/" +
+                                        ico.app_id +
+                                        "/" +
+                                        ico.screen.url
+                                      }
+                                    />
+                                  );
+                                })}
+                            </div>
+                            <div className="row-span-4 col-span-1 space-y-1 pl-2 lg:pl-4">
+                              {data.collection_app
+                                .slice(0, 4)
+                                .map((ico: any) => {
+                                  return (
+                                    <img
+                                      key={data.id}
+                                      className="w-full h-min rounded-xl p-1"
+                                      src={
+                                        process.env.NEXT_PUBLIC_SUPABASE_URL +
+                                        "/storage/v1/object/public/application/icons/" +
+                                        ico.application.icon
+                                      }
+                                    />
+                                  );
+                                })}
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col mt-5 mb-2 pl-4 ">
+                            <span className="font-medium mb-1 text-2xl text-slate-100">
+                              {data.name}
+                            </span>
+                            <span className="font-light text-sm text-slate-300">
+                              Modified:{" "}
+                              <span className="font-medium">
+                                {formatInTimeZone(
+                                  data.created_at,
+                                  "Europe/Paris",
+                                  "dd-MM-yyyy"
+                                )}
+                              </span>
+                            </span>
+                          </div>
+                        </span>
+                      </motion.div>
+                    );
+                  })
+              : collectionGetted
+                  .filter((dx: any) => dx.is_private == false)
+                  .map((data: any) => {
+                    return (
+                      <motion.div
+                        className="w-full h-auto relative bg-slate-800 rounded-2xl p-5"
+                        whileHover={{
+                          scale: 1.05,
+                          transition: { duration: 0.5 },
+                        }}
+                      >
+                        <span
+                          onClick={() => {
+                            router.push("/collection/1");
+                          }}
+                          className=""
+                        >
+                          <div className="grid grid-cols-4 gap-1">
+                            {/* <div className="row-span-4 col-span-2 flex space-x-2 bg-red-800">teste</div>
+                          <div className="col-span-1 row-span-4 flex flex-col bg-yellow-800">tests</div> */}
+                            <div className="row-span-4 col-span-3 flex space-x-3">
+                              <img
+                                className="w-[50%] h-min  rounded-xl"
+                                src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png"
+                              />
+                              <img
+                                className="w-[50%] h-min rounded-xl"
+                                src="https://megwwpcxnmhjjtxlcvqy.supabase.co/storage/v1/object/public/application/screens/525/5064be39-8584-4bfc-ad7e-b9d0a06cd5b9.png"
+                              />
+                            </div>
+                            <div className="row-span-4 col-span-1 space-y-1 pl-2 lg:pl-4">
+                              <img
+                                className="w-full h-min rounded-xl p-1"
+                                src="/images/assets/collappicon.svg"
+                              />
+                              <img
+                                className="w-full h-min rounded-xl p-1"
+                                src="/images/assets/collappicon.svg"
+                              />
+                              <img
+                                className="w-full h-min rounded-xl p-1"
+                                src="/images/assets/collappicon.svg"
+                              />
+                              <img
+                                className="w-full h-min rounded-xl p-1"
+                                src="/images/assets/collappicon.svg"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col mt-5 mb-2 pl-4 ">
+                            <span className="font-medium mb-1 text-2xl text-slate-100">
+                              {data.name}
+                            </span>
+                            <span className="font-light text-sm text-slate-300">
+                              Modified:{" "}
+                              <span className="font-medium">
+                                {data.created_at}
+                              </span>
+                            </span>
+                          </div>
+                        </span>
+                      </motion.div>
+                    );
+                  })}
+          </div>
+        )}
+
+        <div
+          className={cn(
+            "duration-500 w-[110%] h-[100%] transition-all z-40 overflow-y-scroll pt-40",
+            webScreenOpen
+              ? "backdrop-blur-xl fixed bg-[#0D1018]/70 block"
+              : "backdrop-blur hidden"
+          )}
+          onClick={() => {
+            setWebScreenOpen(false);
+          }}
+        ></div>
+      </main>
+    </>
+  );
+};
 export default Page;
