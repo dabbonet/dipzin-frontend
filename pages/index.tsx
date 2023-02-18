@@ -27,6 +27,21 @@ const Page: NextPage = () => {
   const [collName, setCollName] = useState<any>("");
   const [collDesc, setCollDesc] = useState<any>("");
 
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: currentUser, error } = await supabase.auth.getUser();
+      if (error) {
+        console.error(error);
+        console.log("user", currentUser.user);
+      } else {
+        console.log("user", currentUser.user);
+      }
+    };
+    fetchUser();
+  }, []);
+
   const handeUser = async () => {
     try {
       const { data } = await supabase

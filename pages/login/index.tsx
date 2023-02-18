@@ -1,39 +1,28 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import type { NextPageWithLayout } from "../_app";
-import { useSession } from "@supabase/auth-helpers-react";
-import { supabase } from "../../lib/supabase";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import * as EmailValidator from "email-validator";
 import AuthLayout from "../../components/auth/AuthLayout";
 import { useRouter } from "next/router";
-import { useCookies } from "react-cookie";
 
 const Page: NextPageWithLayout = () => {
-  const session = useSession();
+  const supabase = useSupabaseClient();
   const router = useRouter();
 
   const [email, setEmail] = useState("");
-  const [cookies, setCookie] = useCookies(["cokemail"]);
 
   const handleSubmit = async () => {
     if (EmailValidator.validate(email)) {
-      const expirationDate = new Date();
-      expirationDate.setMonth(expirationDate.getMonth() + 3);
-      setCookie("cokemail", email.toString(), { expires: expirationDate });
-
-      try {
-        await supabase.auth.signInWithOtp({ email: email });
-        router.push("login/otp");
-      } catch (error) {
-        alert(error);
-      }
+      await supabase.auth.signInWithOtp({ email: email });
+      router.push({
+        pathname: "/login/otp",
+        query: { email: email },
+      });
     } else {
       alert("add a valid email");
     }
   };
 
-  if (session) {
-    router.push("/home");
-  }
   return (
     <div className="mx-auto w-full max-w-xl subpixel-antialiased">
       <div className="mx-auto w-full max-w-xl subpixel-antialiased">
