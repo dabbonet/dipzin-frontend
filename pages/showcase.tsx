@@ -2,11 +2,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { Key, useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import Screen from "../../components/screen";
+import Screen from "../components/screen";
 import { saveAs } from "file-saver";
 import { v4 as uuid } from "uuid";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { GlobalContext } from "../../lib/globalContext";
+import { GlobalContext } from "../lib/globalContext";
 
 type ShowcaseProps = {
   selected: any;

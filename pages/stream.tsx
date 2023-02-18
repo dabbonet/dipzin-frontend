@@ -2,10 +2,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
-import Screen from "../../components/screen";
-import StreamLoader from "../../components/streamLoader";
-import { GlobalContext } from "../../lib/globalContext";
-import { supabase } from "../../lib/supabase";
+import Screen from "../components/screen";
+import StreamLoader from "../components/streamLoader";
+import { GlobalContext } from "../lib/globalContext";
+import { supabase } from "../lib/supabase";
 import Showcase from "./showcase";
 
 const perPage = 10;
