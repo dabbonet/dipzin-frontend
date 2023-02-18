@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { useCookies } from "react-cookie";
 
@@ -14,10 +13,7 @@ interface OTPFormValues {
   otp6: string;
 }
 
-const OTPForm: React.FC = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["cokemail", "JWT"]);
-  let cokemail = cookies.cokemail;
-  let jwt = cookies.JWT;
+const OTPForm = ({ sendEmail }: any) => {
   const router = useRouter();
 
   return (
@@ -32,7 +28,7 @@ const OTPForm: React.FC = () => {
         otp6: "",
       }}
       onSubmit={async (values: OTPFormValues) => {
-        const email = cokemail;
+        const email = sendEmail;
         let token =
           values.otp1 +
           values.otp2 +
@@ -42,16 +38,7 @@ const OTPForm: React.FC = () => {
           values.otp6;
         await supabase.auth
           .verifyOtp({ email, token, type: "magiclink" })
-          .then(async (response) => {
-            // console.log(response);
-            setCookie("JWT", response.data.session?.access_token);
-
-            if (jwt != "undefined") {
-              router.push("/home");
-            } else {
-              alert("err");
-            }
-          })
+          .then(async (response) => {})
           .catch((error) => {
             console.error(error);
             alert(error);
