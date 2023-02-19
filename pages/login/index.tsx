@@ -23,6 +23,23 @@ const Page: NextPageWithLayout = () => {
     }
   };
 
+  // const [user, setUser] = useState<any>(null);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const { data: currentUser, error } = await supabase.auth.getUser();
+  //     if (error) {
+  //       console.error(error);
+  //     } else if (currentUser) {
+  //       setUser(currentUser.user);
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
+
+  // if (user) {
+  //   router.push("/");
+  // }
+
   return (
     <div className="mx-auto w-full max-w-xl subpixel-antialiased">
       <div className="mx-auto w-full max-w-xl subpixel-antialiased">

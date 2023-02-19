@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
-import type { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import AuthLayout from "../../components/auth/AuthLayout";
+import { supabase } from "../../lib/supabase";
 
 import OTPForm from "./otpform";
 
