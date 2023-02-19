@@ -1,8 +1,7 @@
 import * as React from "react";
 import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { supabase } from "../../lib/supabase";
-import { useCookies } from "react-cookie";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 interface OTPFormValues {
   otp1: string;
@@ -15,6 +14,7 @@ interface OTPFormValues {
 
 const OTPForm = ({ sendEmail }: any) => {
   const router = useRouter();
+  const supabase = useSupabaseClient();
 
   return (
     <Formik
@@ -38,7 +38,13 @@ const OTPForm = ({ sendEmail }: any) => {
           values.otp6;
         await supabase.auth
           .verifyOtp({ email, token, type: "magiclink" })
-          .then(async (response) => {})
+          .then(async (response) => {
+            if (response.data.user) {
+              router.push("/");
+            } else {
+              alert("wrong Otp");
+            }
+          })
           .catch((error) => {
             console.error(error);
             alert(error);
