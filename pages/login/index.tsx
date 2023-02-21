@@ -23,6 +23,7 @@ const Page: NextPageWithLayout = () => {
     }
   };
 
+
   // const [user, setUser] = useState<any>(null);
   // useEffect(() => {
   //   const fetchUser = async () => {
@@ -85,6 +86,7 @@ const Page: NextPageWithLayout = () => {
           Send code
         </button>
       </div>
+
     </div>
   );
 };
