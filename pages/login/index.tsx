@@ -4,6 +4,8 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import * as EmailValidator from "email-validator";
 import AuthLayout from "../../components/auth/AuthLayout";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Page: NextPageWithLayout = () => {
   const supabase = useSupabaseClient();
@@ -19,10 +21,9 @@ const Page: NextPageWithLayout = () => {
         query: { email: email },
       });
     } else {
-      alert("add a valid email");
+      toast.error("add a valid email");
     }
   };
-
 
   // const [user, setUser] = useState<any>(null);
   // useEffect(() => {
@@ -86,7 +87,6 @@ const Page: NextPageWithLayout = () => {
           Send code
         </button>
       </div>
-
     </div>
   );
 };
