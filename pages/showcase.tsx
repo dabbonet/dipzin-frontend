@@ -7,6 +7,7 @@ import { saveAs } from "file-saver";
 import { v4 as uuid } from "uuid";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { GlobalContext } from "../lib/globalContext";
+import JSZip from "jszip";
 
 type ShowcaseProps = {
   selected: any;
@@ -126,9 +127,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
   return (
     <motion.div
       //layoutId={selected.id}
-      className={
-        "w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-10"
-      }
+      className={"w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-10"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -276,11 +275,33 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
               <div
                 className="min-w-[80px] max-w-[100px] cursor-pointer p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
                 onClick={() => {
-                  saveFile(toStorageUrlScreen(selected?.showcase[0]));
-                  saveFile(toStorageUrlScreen(selected?.showcase[1]));
-                  saveFile(toStorageUrlScreen(selected?.showcase[2]));
-                  saveFile(toStorageUrlScreen(selected?.showcase[3]));
-                  saveFile(toStorageUrlScreen(selected?.showcase[4]));
+                  const imageUrls = [
+                    toStorageUrlScreen(selected?.showcase[0]),
+                    toStorageUrlScreen(selected?.showcase[1]),
+                    toStorageUrlScreen(selected?.showcase[2]),
+                    toStorageUrlScreen(selected?.showcase[3]),
+                    toStorageUrlScreen(selected?.showcase[4]),
+                  ];
+
+                  const zip = new JSZip();
+                  const folder = zip.folder(selected.name);
+
+                  Promise.all(
+                    imageUrls.map((url, index) =>
+                      fetch(url)
+                        .then((response) => response.blob())
+                        .then((blob) => {
+                          const filename = `${selected?.name}-${
+                            index + 1
+                          }.webp`;
+                          folder?.file(filename, blob, { binary: true });
+                        })
+                    )
+                  ).then(() => {
+                    zip.generateAsync({ type: "blob" }).then((blob) => {
+                      saveAs(blob, selected.name + ".zip");
+                    });
+                  });
                 }}
               >
                 <svg
@@ -412,11 +433,12 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
           </div>
         )}
       </motion.div>
-      <motion.div 
+      <motion.div
         onClick={() => setSelected(null)}
         className={
-        "w-[100%] h-[100%] backdrop-blur-lg absolute top-0 bg-slate-900/70"
-      }></motion.div>
+          "w-[100%] h-[100%] backdrop-blur-lg absolute top-0 bg-slate-900/70"
+        }
+      ></motion.div>
     </motion.div>
   );
 };
