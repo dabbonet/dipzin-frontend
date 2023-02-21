@@ -2,6 +2,8 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface OTPFormValues {
   otp1: string;
@@ -17,102 +19,111 @@ const OTPForm = ({ sendEmail }: any) => {
   const supabase = useSupabaseClient();
 
   return (
-    <Formik
-      className=""
-      initialValues={{
-        otp1: "",
-        otp2: "",
-        otp3: "",
-        otp4: "",
-        otp5: "",
-        otp6: "",
-      }}
-      onSubmit={async (values: OTPFormValues) => {
-        const email = sendEmail;
-        let token =
-          values.otp1 +
-          values.otp2 +
-          values.otp3 +
-          values.otp4 +
-          values.otp5 +
-          values.otp6;
-        await supabase.auth
-          .verifyOtp({ email, token, type: "magiclink" })
-          .then(async (response) => {
-            if (response.data.user) {
-              router.push("/");
-            } else {
-              alert("wrong Otp");
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            alert(error);
-          });
-      }}
-    >
-      {({ setFieldValue }) => (
-        <Form className="flex flex-col mt-10">
-          <div className="flex ">
-            <Field
-              className="w-[82px] h-[82px] bg-[#27262F] rounded-[16px] flex items-center justify-center text-center text-slate-200 font-medium text-[28px] mr-auto"
-              name="otp1"
-              maxLength={1}
-              onKeyUp={moveToNext}
-              onPaste={handlePaste(setFieldValue)}
-            />
-            <Field
-              className="w-[82px] h-[82px] bg-[#27262F] rounded-[16px] flex items-center justify-center text-center text-slate-200 font-medium text-[28px] mr-auto"
-              name="otp2"
-              maxLength={1}
-              onKeyUp={moveToNext}
-              onPaste={handlePaste(setFieldValue)}
-            />
-            <Field
-              className="w-[82px] h-[82px] bg-[#27262F] rounded-[16px] flex items-center justify-center text-center text-slate-200 font-medium text-[28px] mr-auto"
-              name="otp3"
-              maxLength={1}
-              onKeyUp={moveToNext}
-              onPaste={handlePaste(setFieldValue)}
-            />
-            <Field
-              className="w-[82px] h-[82px] bg-[#27262F] rounded-[16px] flex items-center justify-center text-center text-slate-200 font-medium text-[28px] mr-auto"
-              name="otp4"
-              maxLength={1}
-              onKeyUp={moveToNext}
-              onPaste={handlePaste(setFieldValue)}
-            />
-            <Field
-              className="w-[82px] h-[82px] bg-[#27262F] rounded-[16px] flex items-center justify-center text-center text-slate-200 font-medium text-[28px] mr-auto"
-              name="otp5"
-              maxLength={1}
-              onKeyUp={moveToNext}
-              onPaste={handlePaste(setFieldValue)}
-            />
-            <Field
-              className="w-[82px] h-[82px] bg-[#27262F] rounded-[16px] flex items-center justify-center text-center text-slate-200 font-medium text-[28px] "
-              name="otp6"
-              maxLength={1}
-              onKeyUp={moveToNext}
-              onPaste={handlePaste(setFieldValue)}
-            />
-            <ErrorMessage name="otp1" />
-            <ErrorMessage name="otp2" />
-            <ErrorMessage name="otp3" />
-            <ErrorMessage name="otp4" />
-            <ErrorMessage name="otp5" />
-            <ErrorMessage name="otp6" />
-          </div>
+    <>
+      <Formik
+        className=""
+        initialValues={{
+          otp1: "",
+          otp2: "",
+          otp3: "",
+          otp4: "",
+          otp5: "",
+          otp6: "",
+        }}
+        onSubmit={async (values: OTPFormValues) => {
+          const email = sendEmail;
+          let token =
+            values.otp1 +
+            values.otp2 +
+            values.otp3 +
+            values.otp4 +
+            values.otp5 +
+            values.otp6;
+          await supabase.auth
+            .verifyOtp({ email, token, type: "magiclink" })
+            .then(async (response) => {
+              if (response.data.user) {
+                router.push("/");
+              } else {
+                toast.info("Wrong OTP!");
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+              alert(error);
+            });
+        }}
+      >
+        {({ setFieldValue }) => (
+          <Form className="flex flex-col mt-10">
+            <div className="flex ">
+              <Field
+                className="w-[82px] h-[82px] bg-[#27262F] rounded-[16px] flex items-center justify-center text-center text-slate-200 font-medium text-[28px] mr-auto"
+                name="otp1"
+                maxLength={1}
+                onKeyUp={moveToNext}
+                onPaste={handlePaste(setFieldValue)}
+              />
+              <Field
+                className="w-[82px] h-[82px] bg-[#27262F] rounded-[16px] flex items-center justify-center text-center text-slate-200 font-medium text-[28px] mr-auto"
+                name="otp2"
+                maxLength={1}
+                onKeyUp={moveToNext}
+                onPaste={handlePaste(setFieldValue)}
+              />
+              <Field
+                className="w-[82px] h-[82px] bg-[#27262F] rounded-[16px] flex items-center justify-center text-center text-slate-200 font-medium text-[28px] mr-auto"
+                name="otp3"
+                maxLength={1}
+                onKeyUp={moveToNext}
+                onPaste={handlePaste(setFieldValue)}
+              />
+              <Field
+                className="w-[82px] h-[82px] bg-[#27262F] rounded-[16px] flex items-center justify-center text-center text-slate-200 font-medium text-[28px] mr-auto"
+                name="otp4"
+                maxLength={1}
+                onKeyUp={moveToNext}
+                onPaste={handlePaste(setFieldValue)}
+              />
+              <Field
+                className="w-[82px] h-[82px] bg-[#27262F] rounded-[16px] flex items-center justify-center text-center text-slate-200 font-medium text-[28px] mr-auto"
+                name="otp5"
+                maxLength={1}
+                onKeyUp={moveToNext}
+                onPaste={handlePaste(setFieldValue)}
+              />
+              <Field
+                className="w-[82px] h-[82px] bg-[#27262F] rounded-[16px] flex items-center justify-center text-center text-slate-200 font-medium text-[28px] "
+                name="otp6"
+                maxLength={1}
+                onKeyUp={moveToNext}
+                onPaste={handlePaste(setFieldValue)}
+              />
+              <ErrorMessage name="otp1" />
+              <ErrorMessage name="otp2" />
+              <ErrorMessage name="otp3" />
+              <ErrorMessage name="otp4" />
+              <ErrorMessage name="otp5" />
+              <ErrorMessage name="otp6" />
+            </div>
 
-          <button
-            className="w-[100%] py-5 px-3 rounded-xl mt-6 font-semibold text-lg text-white bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500"
-            type="submit"
-          >
-            Submit
-          </button>
-        </Form>
-      )}
-    </Formik>
+            <button
+              className="w-[100%] py-5 px-3 rounded-xl mt-6 font-semibold text-lg text-white bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500"
+              type="submit"
+            >
+              Submit
+            </button>
+          </Form>
+        )}
+      </Formik>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        theme="dark"
+        className="z[100]" />
+
+    </>
+
   );
 };
 
