@@ -29,7 +29,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
         </div>
         <div className="relative lg:block lg:w-0 w-full mx-auto lg:flex-1 flex-auto sm:ml-5">
           <Image
-            className="absolute top-20 right-0 h-full object-contain z-10 lg:pt-24"
+            className="absolute top-20 right-0 h-full object-contain z-0 lg:pt-24"
             src="/images/hand/hand.png"
             fill
             alt=""

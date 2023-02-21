@@ -4,23 +4,27 @@ import { AppProps } from "next/app";
 import { ReactElement, ReactNode, useEffect, useState } from "react";
 import GlobalProvider from "../lib/globalContext";
 import type { NextPage } from "next";
-import { Poppins } from '@next/font/google'
-import { DefaultSeo } from 'next-seo';
-import SEO from '../next-seo.config'
+import { Poppins } from "@next/font/google";
+import { DefaultSeo } from "next-seo";
+import SEO from "../next-seo.config";
 import Router from "next/router";
 import PageLoader from "../components/loader";
 
-import Header from '../components/header'
+//import NotificationProvider from "../context/notficationContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Header from "../components/header";
 
 const poppins = Poppins({
-  style: ['normal'],
-  subsets: ['latin'],
-  weight: ['100', '300', '400', '500', '600', '700']
-})
+  style: ["normal"],
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "600", "700"],
+});
 
 import "../styles/globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from 'react-query/devtools'
+import { ReactQueryDevtools } from "react-query/devtools";
 import { AnimatePresence } from "framer-motion";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -44,25 +48,24 @@ export default function MyApp({
 }>) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     // Used for page transition
     const start = () => {
-      setLoading(true)
-    }
+      setLoading(true);
+    };
     const end = () => {
-      setLoading(false)
-    }
-    Router.events.on("routeChangeStart", start)
-    Router.events.on("routeChangeComplete", end)
-    Router.events.on("routeChangeError", end)
+      setLoading(false);
+    };
+    Router.events.on("routeChangeStart", start);
+    Router.events.on("routeChangeComplete", end);
+    Router.events.on("routeChangeError", end);
     return () => {
-      Router.events.off("routeChangeStart", start)
-      Router.events.off("routeChangeComplete", end)
-      Router.events.off("routeChangeError", end)
-    }
-  }, [])
-
+      Router.events.off("routeChangeStart", start);
+      Router.events.off("routeChangeComplete", end);
+      Router.events.off("routeChangeError", end);
+    };
+  }, []);
 
   return (
     <SessionContextProvider
@@ -81,13 +84,17 @@ export default function MyApp({
                 {/* <AnimatePresence> */}
                 <Component {...pageProps} />
                 {/* </AnimatePresence> */}
+                <ToastContainer
+                  position="bottom-right"
+                  autoClose={5000}
+                  theme="dark"
+                  className="z[200]"
+                />
               </main>
             </>
-
           )}
         </GlobalProvider>
       </QueryClientProvider>
-
     </SessionContextProvider>
   );
 }
