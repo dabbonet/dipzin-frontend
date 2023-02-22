@@ -169,11 +169,11 @@ export const SingleScreen = ({ image }: SingleScreenProps) => {
 };
 
 const HoverScreen = ({ images, app }: HoverScreenProps) => {
-  const [randomImages, setRandomImages] = useState<string[]>([""]);
+  // const [randomImages, setRandomImages] = useState<string[]>([""]);
 
-  useEffect(() => {
-    setRandomImages(shuffle(images));
-  }, [images]);
+  // useEffect(() => {
+  //   setRandomImages(shuffle(images));
+  // }, [images]);
 
   const toStorageUrl = (pathname: string) =>
     process.env.NEXT_PUBLIC_SUPABASE_URL +
@@ -191,7 +191,7 @@ const HoverScreen = ({ images, app }: HoverScreenProps) => {
         }}
       >
         <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 transform duration-500 border-[0px] hover:border-[3px] border-transparent hover:border-slate-300">
-          <ImageHover app={app} images={randomImages} />
+          <ImageHover app={app} images={images} />
 
           <div className="absolute w-[100%] bottom-3 flex justify-start items-center drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100 z-20">
             <Image
@@ -249,7 +249,7 @@ const ImageHover = ({ images, app }: HoverScreenProps) => {
   }
   return (
     <div
-      className="relative h-full w-full"
+      className="relative h-full w-full bg-slate-800"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
