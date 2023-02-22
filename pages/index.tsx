@@ -12,6 +12,7 @@ import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { v4 as uuid } from "uuid";
 import { useRouter } from "next/router";
 import { formatInTimeZone } from "date-fns-tz";
+import RecycledStream from "./recycle";
 
 const Page: NextPage = () => {
   const globalContext = useContext(GlobalContext);
@@ -305,7 +306,7 @@ const Page: NextPage = () => {
 
         {streamOpen == "stream" ? (
           <>
-            <Stream />
+            <RecycledStream />
           </>
         ) : (
           <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-3 xl:grid-cols-4 xl:gap-8 lg:gap-5 gap-5 mb-10 grid-cols-1 pb-32">
