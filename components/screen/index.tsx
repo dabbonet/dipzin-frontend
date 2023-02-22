@@ -15,7 +15,7 @@ const Screen = ({ platform, list, src, app }: Props) => {
         return <HoverScreen app={app} images={list} />;
       case 2:
         return <HoverScreen app={app} images={list} />;
-      case 3:
+      case 4:
         return <Web images={list} />;
     }
   } else if (src) {
@@ -24,7 +24,7 @@ const Screen = ({ platform, list, src, app }: Props) => {
         return <SingleScreen image={src} />;
       case 2:
         return <SingleScreen image={src} />;
-      case 3:
+      case 4:
         return <Web images={[src]} />;
     }
   } else {
