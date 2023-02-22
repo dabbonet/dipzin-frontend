@@ -2,11 +2,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { Key, useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import Screen from "../../components/screen";
+import Screen from "../components/screen";
 import { saveAs } from "file-saver";
 import { v4 as uuid } from "uuid";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { GlobalContext } from "../../lib/globalContext";
+import { GlobalContext } from "../lib/globalContext";
+import JSZip from "jszip";
 
 type ShowcaseProps = {
   selected: any;
@@ -125,15 +126,12 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
 
   return (
     <motion.div
-      onClick={() => setSelected(null)}
       //layoutId={selected.id}
-      className={
-        "w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-10 backdrop-blur-lg bg-slate-900/70"
-      }
+      className={"w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-10"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      exit={{ opacity: 0, y: 300 }}
+      exit={{ opacity: 0 }}
     >
       {addColl && (
         <AnimatePresence>
@@ -277,11 +275,33 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
               <div
                 className="min-w-[80px] max-w-[100px] cursor-pointer p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
                 onClick={() => {
-                  saveFile(toStorageUrlScreen(selected?.showcase[0]));
-                  saveFile(toStorageUrlScreen(selected?.showcase[1]));
-                  saveFile(toStorageUrlScreen(selected?.showcase[2]));
-                  saveFile(toStorageUrlScreen(selected?.showcase[3]));
-                  saveFile(toStorageUrlScreen(selected?.showcase[4]));
+                  const imageUrls = [
+                    toStorageUrlScreen(selected?.showcase[0]),
+                    toStorageUrlScreen(selected?.showcase[1]),
+                    toStorageUrlScreen(selected?.showcase[2]),
+                    toStorageUrlScreen(selected?.showcase[3]),
+                    toStorageUrlScreen(selected?.showcase[4]),
+                  ];
+
+                  const zip = new JSZip();
+                  const folder = zip.folder(selected.name);
+
+                  Promise.all(
+                    imageUrls.map((url, index) =>
+                      fetch(url)
+                        .then((response) => response.blob())
+                        .then((blob) => {
+                          const filename = `${selected?.name}-${
+                            index + 1
+                          }.webp`;
+                          folder?.file(filename, blob, { binary: true });
+                        })
+                    )
+                  ).then(() => {
+                    zip.generateAsync({ type: "blob" }).then((blob) => {
+                      saveAs(blob, selected.name + ".zip");
+                    });
+                  });
                 }}
               >
                 <svg
@@ -337,6 +357,29 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
                   Copy Link
                 </p>
               </div>
+
+              <div
+                className="min-w-[80px] max-w-[100px] p-2 h-[70px] bg-slate-900 rounded-xl cursor-pointer flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
+                onClick={() => setSelected(null)}
+              >
+                <svg
+                  width={16}
+                  height={16}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-4 h-4 relative left-[82%]"
+                  preserveAspectRatio="xMidYMid meet"
+                >
+                  <path
+                    d="M8 1.5C4.41594 1.5 1.5 4.41594 1.5 8C1.5 11.5841 4.41594 14.5 8 14.5C11.5841 14.5 14.5 11.5841 14.5 8C14.5 4.41594 11.5841 1.5 8 1.5ZM10.3534 9.64656C10.4018 9.69253 10.4405 9.74772 10.4672 9.80888C10.494 9.87003 10.5082 9.93592 10.509 10.0027C10.5099 10.0694 10.4974 10.1356 10.4722 10.1974C10.4471 10.2593 10.4098 10.3154 10.3626 10.3626C10.3154 10.4098 10.2593 10.4471 10.1974 10.4722C10.1356 10.4974 10.0694 10.5099 10.0027 10.509C9.93592 10.5082 9.87003 10.494 9.80888 10.4672C9.74772 10.4405 9.69253 10.4018 9.64656 10.3534L8 8.70719L6.35344 10.3534C6.25891 10.4432 6.13303 10.4926 6.00265 10.4909C5.87227 10.4892 5.7477 10.4367 5.6555 10.3445C5.5633 10.2523 5.51076 10.1277 5.50909 9.99735C5.50742 9.86697 5.55675 9.74109 5.64656 9.64656L7.29281 8L5.64656 6.35344C5.55675 6.25891 5.50742 6.13303 5.50909 6.00265C5.51076 5.87227 5.5633 5.7477 5.6555 5.6555C5.7477 5.5633 5.87227 5.51076 6.00265 5.50909C6.13303 5.50742 6.25891 5.55675 6.35344 5.64656L8 7.29281L9.64656 5.64656C9.74109 5.55675 9.86697 5.50742 9.99735 5.50909C10.1277 5.51076 10.2523 5.5633 10.3445 5.6555C10.4367 5.7477 10.4892 5.87227 10.4909 6.00265C10.4926 6.13303 10.4432 6.25891 10.3534 6.35344L8.70719 8L10.3534 9.64656Z"
+                    fill="#F8FAFC"
+                  />
+                </svg>
+                <p className="w-[70%] text-[11px] font-medium text-left text-white">
+                  Close Showcase
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -390,6 +433,12 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
           </div>
         )}
       </motion.div>
+      <motion.div
+        onClick={() => setSelected(null)}
+        className={
+          "w-[100%] h-[100%] backdrop-blur-lg absolute top-0 bg-slate-900/70"
+        }
+      ></motion.div>
     </motion.div>
   );
 };
