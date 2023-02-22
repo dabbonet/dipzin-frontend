@@ -8,6 +8,7 @@ import { supabase } from '../lib/supabase'
 import { useInfiniteQuery } from 'react-query'
 import { motion } from 'framer-motion'
 import Screen from '../components/screen'
+import { GlobalContext } from '../lib/globalContext'
 
 interface Column {
   key: string
@@ -18,19 +19,67 @@ interface Column {
 function GridVirtualizerDynamic() {
 
   const parentRef = React.useRef<HTMLDivElement | null>(null)
-
   const parentOffsetRef = React.useRef(0)
 
+
+  const [maxPages, setMaxPages] = React.useState(2);
+//   let randomPage = Math.floor(Math.random() * maxPages) + 1;
+//   const [loadedPages, setLoadedPages] = React.useState([randomPage]);
+  const platform = React.useContext(GlobalContext)?.platform;
+
+  // get MaxPages
+//   React.useEffect(() => {
+//     const fetchMaxPages = async () => {
+//       let count: number | null = null;
+//       let error: any = null;
+//       switch (platform) {
+//         case 1:
+//           {
+//             ({ error, count } = await supabase
+//               .from("android_showcases")
+//               .select("id", { count: "exact" }));
+//           }
+//           break;
+//         case 2:
+//           {
+//             ({ error, count } = await supabase
+//               .from("ios_showcases")
+//               .select("id", { count: "exact" }));
+//           }
+//           break;
+//         case 4:
+//           {
+//             ({ error, count } = await supabase
+//               .from("web_showcases")
+//               .select("id", { count: "exact" }));
+//           }
+//           break;
+//       }
+//       if (error) console.error("max error: ", error);
+
+//       if (count) {
+//         const x = Math.ceil(count / 5);
+//         setMaxPages(x);
+//       }
+//     };
+//     fetchMaxPages();
+//     // console.log("platfom: ", platform);
+//   }, [platform]);
+
+  
+  
   const { 
-     status,
-     data, 
-     error, 
-     hasNextPage, 
-     isFetchingNextPage,
-     fetchNextPage 
+      status,
+      data, 
+      error, 
+      hasNextPage, 
+      isFetchingNextPage,
+      remove,
+      refetch,
+      fetchNextPage 
     } = useInfiniteQuery(
-    ['stream'],
-    (ctx) => fetchServerPage(5, ctx.pageParam),
+        ['stream'],
+        (ctx) => fetchServerPage(5,ctx.pageParam, platform),
         {
             getNextPageParam: (_lastGroup, groups) => {
                 return  _lastGroup.nextOffset? _lastGroup.nextOffset : false
@@ -40,8 +89,33 @@ function GridVirtualizerDynamic() {
             optimisticResults: true,
             refetchOnMount: false,
         },
-    )
+        )
 
+    React.useEffect(() => {
+        remove();
+        refetch();
+    }, [platform]);
+    
+        // const { 
+            //     status,
+    //     data, 
+    //     error, 
+    //     hasNextPage, 
+    //     isFetchingNextPage,
+    //     fetchNextPage 
+    //    } = useInfiniteQuery(
+    //    ['stream'],
+    //    (ctx) => fetchServerPage(5, ctx.pageParam),
+    //        {
+    //            getNextPageParam: (_lastGroup, groups) => {
+    //                return  _lastGroup.nextOffset? _lastGroup.nextOffset : false
+    //            },
+    //            refetchOnWindowFocus: false,
+    //            keepPreviousData: false,
+    //            optimisticResults: true,
+    //            refetchOnMount: false,
+    //        },
+    //    )
     
 
   const getColumnWidth = (index: number) => 400
@@ -80,13 +154,12 @@ function GridVirtualizerDynamic() {
         if (!lastItem) {
         return
         }
-    
         if (
             lastItem.index >= allRows.length - 1 &&
             hasNextPage &&
             !isFetchingNextPage
         ) {
-            fetchNextPage()
+            fetchNextPage();
         }
     }, [
         hasNextPage,
@@ -144,9 +217,9 @@ function GridVirtualizerDynamic() {
                         layout
                     >
                         <Screen
-                        platform={1}
-                        app={application}
-                        list={application.showcase}
+                            platform={platform ?? 1}
+                            app={application}
+                            list={application.showcase}
                         />
                     </motion.div>
                     </div>
@@ -164,21 +237,50 @@ function GridVirtualizerDynamic() {
 async function fetchServerPage(
     limit: number = 5,
     offset: number = 0,
+    platform: number = 1,
     ): Promise<{ data: string[]; nextOffset: number | null }> {
-        const { data, error } = await supabase
-        .from('ios_showcases')
-        .select('*')
-      .range(offset, (offset + limit))
-      
-      // console.log('dataaa3', data)
-      if (error) {
-            throw new Error(error.message)
-        }
-        if( data.length === 0) {
-            return { data , nextOffset: null }
+        let data, error: any;
+        try {
+            switch (platform) {
+                case 1:
+                    ({ data, error } = await supabase
+                    .from("android_showcases")
+                    .select("*")
+                    .range(offset, (offset + limit) - 1));
+                    break;
+                case 2:
+                    ({ data, error } = await supabase
+                    .from("ios_showcases")
+                    .select("*")
+                    .range(offset, (offset + limit) - 1));
+                    break;
+                case 4:
+                    ({ data, error } = await supabase
+                    .from("web_showcases")
+                    .select("*")
+                    .range(offset, (offset + limit) - 1));
+                    break;
+                default:
+                    throw new Error("Invalid platform");
+                }
+
+        } catch (e) {
+            error = e;
         }
 
-        return { data, nextOffset: offset + limit }
+      // console.log('dataaa3', data)
+        if (error) {
+            throw new Error(error.message)
+        }
+        if( data && data.length === 0) {
+            return { data , nextOffset: null }
+        }
+        
+        data?.sort(() => Math.random() - 0.5);
+        if(data){
+            return { data, nextOffset: offset + limit }
+        }
+        return { data: [], nextOffset: null }
     }
         
 const RecycledStream = () => {
