@@ -21,6 +21,11 @@
   "resolved" "https://registry.npmjs.org/@emotion/memoize/-/memoize-0.7.4.tgz"
   "version" "0.7.4"
 
+"@faker-js/faker@^7.6.0":
+  "integrity" "sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw=="
+  "resolved" "https://registry.npmjs.org/@faker-js/faker/-/faker-7.6.0.tgz"
+  "version" "7.6.0"
+
 "@gradin/tailwindcss-scrollbar@^3.0.1":
   "integrity" "sha512-diXlxbgX4JU/uUJsL54SWpL7Ek3FdZmL/QyBBk6wSSVcd4zQL8Jk6CgpPyY7qy1jymAS6E/P+YY1rs6coiSWAA=="
   "resolved" "https://registry.npmjs.org/@gradin/tailwindcss-scrollbar/-/tailwindcss-scrollbar-3.0.1.tgz"
@@ -89,9 +94,9 @@
   "resolved" "https://registry.npmjs.org/@next/font/-/font-13.0.7.tgz"
   "version" "13.0.7"
 
-"@next/swc-win32-x64-msvc@13.1.4":
-  "integrity" "sha512-bygNjmnq+F9NqJXh7OfhJgqu6LGU29GNKQYVyZkxY/h5K0WWUvAE/VL+TdyMwbvQr9KByx5XLwORwetLxXCo4g=="
-  "resolved" "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-13.1.4.tgz"
+"@next/swc-darwin-x64@13.1.4":
+  "integrity" "sha512-WoApDo8xfafrNc9+Mz5MwGFKUwbDHsGqLleTGZ8upegwVqDyHsYzqJQudf+loqhV58oGTOqP1eWaHn2J7dijXA=="
+  "resolved" "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-13.1.4.tgz"
   "version" "13.1.4"
 
 "@nodelib/fs.scandir@2.1.5":
@@ -214,6 +219,18 @@
   "version" "0.5.3"
   dependencies:
     "mini-svg-data-uri" "^1.2.3"
+
+"@tanstack/react-virtual@^3.0.0-beta.49":
+  "integrity" "sha512-bd7WBHu1LUBbs3qYZnvWSo4AhcSysc/QyBoHpGK2XOMTXzP9D4FVISMfCvdIbi+JoTqdZqhtaV7c1WY5gzZRlQ=="
+  "resolved" "https://registry.npmjs.org/@tanstack/react-virtual/-/react-virtual-3.0.0-beta.49.tgz"
+  "version" "3.0.0-beta.49"
+  dependencies:
+    "@tanstack/virtual-core" "3.0.0-beta.49"
+
+"@tanstack/virtual-core@3.0.0-beta.49":
+  "integrity" "sha512-tPmuUiQwUW3PdQirBjlqeZD1JMn7bcyNE6stS50RUu5vyopzLFALnN0uTBftrZOcHpkRtYVa0ifz9fB9yKKJYw=="
+  "resolved" "https://registry.npmjs.org/@tanstack/virtual-core/-/virtual-core-3.0.0-beta.49.tgz"
+  "version" "3.0.0-beta.49"
 
 "@tsndr/cloudflare-worker-jwt@^2.1.4":
   "integrity" "sha512-9gXeP0SawNucJNfsmACN2xTNPi2JuMS49KRX9CVs8qXOH+qj9JrMoSExUbEI0JdouQhrRD96SL88wfbtcRRDHw=="
