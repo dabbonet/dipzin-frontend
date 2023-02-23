@@ -1,50 +1,37 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { useContext, useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
-import { useInfiniteQuery } from "react-query";
-import Screen from "../components/screen";
-import StreamLoader from "../components/streamLoader";
-import { GlobalContext } from "../lib/globalContext";
-import { supabase } from "../lib/supabase";
-import Showcase from "./showcase";
+import * as React from 'react'
+import { createRoot } from 'react-dom/client'
+import { faker } from '@faker-js/faker'
 
-const perPage = 10;
+import { useVirtualizer, useWindowVirtualizer } from '@tanstack/react-virtual'
+import BlurImage from '../components/screen/Image'
+import { supabase } from '../lib/supabase'
+import { useInfiniteQuery } from 'react-query'
+import { AnimatePresence, motion } from 'framer-motion'
+import Screen from '../components/screen'
+import { GlobalContext } from '../lib/globalContext'
+import Showcase from './showcase'
 
-const Stream = () => {
-  const [maxPages, setMaxPages] = useState(2);
-  let randomPage = Math.floor(Math.random() * maxPages) + 1;
-  const [loadedPages, setLoadedPages] = useState([randomPage]);
+interface Column {
+  key: string
+  name: string
+  width: number
+}
+const perPage = 5;
+let randomPage = Math.floor(Math.random() * 10) + 1;
 
-  const platform = useContext(GlobalContext)?.platform;
+const Stream = ({refetched}: any) => {
+    
+  const [maxPages, setMaxPages] = React.useState(10);
+  const parentRef = React.useRef<HTMLDivElement | null>(null)
+  const parentOffsetRef = React.useRef(0)
 
-  const {
-    isLoading,
-    isError,
-    status,
-    data,
-    error,
-    isFetching,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-    remove,
-    refetch,
-  } = useInfiniteQuery(
-    ["stream"],
-    ({ pageParam = [randomPage, platform] }) => fetchStream(pageParam),
-    {
-      getNextPageParam: (lastPage, allPages) => {
-        if (allPages.length >= maxPages) return undefined;
-        return Math.floor(Math.random() * maxPages) + 1;
-      },
-      refetchOnWindowFocus: false,
-      keepPreviousData: false,
-      optimisticResults: true,
-      refetchOnMount: false,
-    }
-  );
 
-  useEffect(() => {
+  const [loadedPages, setLoadedPages] = React.useState([randomPage]);
+  const platform = React.useContext(GlobalContext)?.platform;
+  const [selected, setSelected] = React.useState<any>(null);
+
+  // get MaxPages
+  React.useEffect(() => {
     const fetchMaxPages = async () => {
       let count: number | null = null;
       let error: any = null;
@@ -80,152 +67,228 @@ const Stream = () => {
     };
     fetchMaxPages();
     // console.log("platfom: ", platform);
-  }, [platform]);
-
-  useEffect(() => {
-    // console.log(maxPages)
     remove();
     refetch();
-  }, [maxPages]);
+  }, [platform]);
 
-  const { ref, inView } = useInView({
-    /* Optional options */
-    threshold: 0.7,
-    root: null,
-    rootMargin: "0px",
-  });
-
-  useEffect(() => {
-    console.log("data :", data?.pages.length);
-    console.log(isFetching);
-    console.log("loaded Pages: ", loadedPages);
-    if (!hasNextPage) {
-      setLoadedPages([]);
+  React.useEffect(() => {
+    if(refetched){
+        setLoadedPages([]);
     }
-    if (inView && status == "success") {
-      if (!isFetching && hasNextPage) {
-        console.log("scroll happend here");
-        const nextPage = Math.floor(Math.random() * maxPages) + 1;
-        if (!loadedPages.includes(nextPage)) {
-          setLoadedPages([...loadedPages, nextPage]);
-          try {
-            fetchNextPage({ pageParam: [nextPage, platform] });
-          } catch (error) {
-            console.error("fetchNextPage Error: ", error);
-          }
+  },[refetched]);
+
+  
+  
+  const { 
+      status,
+      data, 
+      error, 
+      hasNextPage, 
+      isFetchingNextPage,
+      remove,
+      refetch,
+      fetchNextPage 
+    } = useInfiniteQuery(
+        ['stream'],
+        (ctx) => fetchServerPage(perPage,ctx.pageParam, platform),
+        {
+            getNextPageParam: (_lastPage, _allPages) => {
+                return  _lastPage.nextPage? _lastPage.nextPage : false
+            },
+            refetchOnWindowFocus: false,
+            keepPreviousData: false,
+            optimisticResults: true,
+            refetchOnMount: false,
+        },
+        )
+    
+
+  const getColumnWidth = (index: number) => 400
+  const getRowHeight = (index: number) => 200
+
+  const allRows = data ? data.pages : []
+
+  const rowVirtualizer = useWindowVirtualizer({
+    count: allRows.length,
+    estimateSize: getRowHeight,
+    overscan: 1,
+    scrollMargin: parentOffsetRef.current,
+    
+  })
+
+  const columnVirtualizer = useVirtualizer({
+    horizontal: true,
+    count: 5,
+    getScrollElement: () => parentRef.current,
+    estimateSize: getColumnWidth,
+    overscan: 0,
+  })
+
+  const columnItems = columnVirtualizer.getVirtualItems()
+  const [before, after] =
+    columnItems.length > 0
+      ? [
+          columnItems[0].start,
+          columnVirtualizer.getTotalSize() -
+            columnItems[columnItems.length - 1].end,
+        ]
+      : [0, 0]
+
+    React.useEffect(() => {
+        const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse()
+        if (!lastItem) {
+        return
         }
-      }
-    }
-  }, [status, isFetching, hasNextPage, inView]);
-  const [selected, setSelected] = useState<any>(null);
-
-  if (isLoading) return <p className="text-white text-lg">Loading...</p>;
+        if (
+            lastItem.index >= allRows.length - 1 &&
+            hasNextPage &&
+            !isFetchingNextPage
+        ) {
+            if (loadedPages.length >= maxPages) {
+            // All pages have been loaded, do not fetch more.
+            return;
+            }
+            let nextPage;
+            let counter = 0;
+            do {
+                nextPage = Math.floor(Math.random() * maxPages) + 1;
+                counter++;
+            } while (loadedPages.includes(nextPage));
+                setLoadedPages([...loadedPages, nextPage]);
+            try {
+                fetchNextPage({ pageParam: nextPage });
+            } catch (error) {
+                console.error("fetchNextPage Error: ", error);
+            }
+            // fetchNextPage();
+        }
+    }, [
+        hasNextPage,
+        fetchNextPage,
+        allRows.length,
+        isFetchingNextPage,
+        rowVirtualizer.getVirtualItems(),
+    ])
 
   return (
-    <>
-      <motion.div
-        layoutScroll
-        className={`scrollbar-rounded w-[80%] lg:w-[80%] grid gap-4 ${
-          platform == 4
-            ? "grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 xxl:grid-cols-4"
-            : "grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 xxl:grid-cols-6"
-        } lg:gap-5 xl:gap-6 xxl:gap-9 mb-10 text-white`}
+    <div
+      ref={parentRef}
+      className='text-white w-[85%] pt-4'
+    >
+      <div
+        style={{
+          height: rowVirtualizer.getTotalSize(),
+          position: 'relative',
+        }}
       >
-        {data &&
-          data?.pages.map((page: any[], pageIndex) =>
-            page.map((application, index) => {
-              // const shuffledApplication = application ? shuffle(application) : null;
-              return (
-                <motion.div
-                  layout
-                  key={application.id}
-                  layoutId={application.id}
-                  onClick={() => setSelected(application)}
-                >
-                  <Screen
-                    platform={1}
-                    app={application}
-                    list={application.showcase}
-                  />
-                </motion.div>
-              );
-            })
-          )}
-      </motion.div>
-      {data && (
-        <div>
-          <button
-            className="mb-[15vh] text-white"
-            ref={ref}
-            onClick={() => fetchNextPage()}
-            disabled={!hasNextPage || isFetchingNextPage}
-          >
-            {isFetchingNextPage ? (
-              <StreamLoader />
-            ) : hasNextPage ? (
-              "Load More ..."
-            ) : (
-              "Nothing more to load"
-            )}
-          </button>
-        </div>
-      )}
-      <AnimatePresence>
-        {selected && <Showcase selected={selected} setSelected={setSelected} />}
-      </AnimatePresence>
-    </>
-  );
-};
+        {rowVirtualizer.getVirtualItems().map((row) => {
+          return (
+            <div
+              key={row.key}
+              data-index={row.index}
+              ref={rowVirtualizer.measureElement}
+              style={{
+                position: 'absolute',
+                top: 0,
+                justifyContent: 'center',
+                transform: `translateY(${
+                  row.start - rowVirtualizer.options.scrollMargin
+                }px)`,
+                display: 'flex',
+                width: '100%',
+              }}
+            >
+              <div style={{ width: `${before}px` }} />
+              {columnItems.map((column) => {
+                const application: any = data?.pages[row.index]?.data?.[column.index];
+                // console.log('data test:', row.index , data?.pages[row.index])
+                if (!application) return null;
 
-export default Stream;
+                return (
+                    <div
+                    key={column.key}
+                    style={{
+                        minHeight: row.index === 0 ? 50 : row.size,
+                        width: getColumnWidth(column.index),
+                        padding: '16px',
+                    }}
+                    >
+                    <motion.div
+                        layout
+                        onClick={() => setSelected(application)}
+                    >
+                        <Screen
+                            platform={platform ?? 1}
+                            app={application}
+                            list={application.showcase}
+                        />
+                    </motion.div>
+                    
+                    </div>
+                );
+                })}
+              <div style={{ width: `${after}px` }} />
+            </div>
+          )
+        })}
+        <AnimatePresence>
+            {selected && <Showcase selected={selected} setSelected={setSelected} />}
+        </AnimatePresence>
+      </div>
+    </div>
+  )
+}
 
-const fetchStream = async (page: any, maxAttempts = 3) => {
-  let data, error;
-  let attempts = 0;
+async function fetchServerPage(
+    limit: number = 5,
+    page: number = randomPage,
+    platform: number = 1,
+    ): Promise<{ data: string[]; nextPage: number | null }> {
+        const from = limit * (page - 1) + 1;
+        const to = limit * page;
 
-  while (attempts < maxAttempts) {
-    try {
-      const from = perPage * (page[0] - 1);
-      const to = perPage * page[0];
-      const plat = page[1];
+        let data, error: any;
+        try {
+            switch (platform) {
+                case 1:
+                    ({ data, error } = await supabase
+                    .from("android_showcases")
+                    .select("*")
+                    .range(from, to));
+                    break;
+                case 2:
+                    ({ data, error } = await supabase
+                    .from("ios_showcases")
+                    .select("*")
+                    .range(from, to));
+                    break;
+                case 4:
+                    ({ data, error } = await supabase
+                    .from("web_showcases")
+                    .select("*")
+                    .range(from, to));
+                    break;
+                default:
+                    throw new Error("Invalid platform");
+                }
 
-      if (plat) {
-        switch (plat) {
-          case 1:
-            ({ data, error } = await supabase
-              .from("android_showcases")
-              .select("*")
-              .range(from + 1, to));
-            break;
-          case 2:
-            ({ data, error } = await supabase
-              .from("ios_showcases")
-              .select("*")
-              .range(from + 1, to));
-            break;
-          case 4:
-            ({ data, error } = await supabase
-              .from("web_showcases")
-              .select("*")
-              .range(from + 1, to));
-            break;
-          default:
-            throw new Error("Invalid platform");
+        } catch (e) {
+            error = e;
         }
-      }
-      break;
-    } catch (e) {
-      error = e;
-      attempts++;
+
+      // console.log('dataaa3', data)
+        if (error) {
+            throw new Error(error.message)
+        }
+        if( data && data.length === 0) {
+            return { data , nextPage: null }
+        }
+        
+        data?.sort(() => Math.random() - 0.5);
+        if(data){
+            return { data, nextPage: (page+1) * limit }
+        }
+        return { data: [], nextPage: null }
     }
-  }
-
-  data?.sort(() => Math.random() - 0.5);
-
-  if (data) {
-    return data;
-  } else if (error) {
-    throw error;
-  }
-  throw new Error("Failed to fetch stream after maximum attempts");
-};
+        
+export default Stream

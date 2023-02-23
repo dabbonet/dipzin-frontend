@@ -4,7 +4,6 @@ import Screen from "../components/screen";
 import cn from "../components/helpers";
 import Navigator from "../components/navigator/main";
 import TimedUpgrade from "../components/modals/timedUpgrade";
-import Stream from "./stream";
 import { useQuery, useQueryClient } from "react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { GlobalContext } from "../lib/globalContext";
@@ -12,7 +11,7 @@ import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { v4 as uuid } from "uuid";
 import { useRouter } from "next/router";
 import { formatInTimeZone } from "date-fns-tz";
-import RecycledStream from "./recycle";
+import Stream from "./stream";
 
 const Page: NextPage = () => {
   const globalContext = useContext(GlobalContext);
@@ -112,15 +111,19 @@ const Page: NextPage = () => {
   const [webScreenOpen, setWebScreenOpen] = useState<boolean>(false);
 
   const [isPersonal, setIsPersonal] = useState<any>(true);
-
+  
   const queryClient = useQueryClient();
+
+  const [refetched, setRefetched] = useState<boolean>(false);
   const handleRefetch = async () => {
+    setRefetched(true);
     await queryClient.resetQueries(
       {
         queryKey: ["stream"],
       },
       { throwOnError: true, cancelRefetch: true }
     );
+    setRefetched(false);
   };
 
   const handleAddCollection = async () => {
@@ -306,7 +309,7 @@ const Page: NextPage = () => {
 
         {streamOpen == "stream" ? (
           <>
-            <RecycledStream />
+            <Stream refetched={refetched} />
           </>
         ) : (
           <div className="w-[80%] lg:w-[75%] grid lg:grid-cols-3 xl:grid-cols-4 xl:gap-8 lg:gap-5 gap-5 mb-10 grid-cols-1 pb-32">
