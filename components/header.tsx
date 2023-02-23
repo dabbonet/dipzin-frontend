@@ -72,7 +72,7 @@ const Header = () => {
       )}
 
       <div className="w-[65px] h-[35px] bg-slate-300 rounded-full flex items-center justify-center md:text-sm text-xs font-normal text-slate-800">
-        <a href="/auth">Try it!</a>
+        <a href="/login">Try it!</a>
       </div>
     </header>
   );

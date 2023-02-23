@@ -33,21 +33,6 @@ export const SingleScreen = ({ image }: SingleScreenProps) => {
           transition: { duration: 0.3 },
         }}
       >
-        {/* we are here 
-        
-                  <img
-            className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100"
-            src="/images/assets/addpng.svg"
-          />
-          <img
-            className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100"
-            src="/images/assets/addcopy.svg"
-          />
-          <img
-            className=" h-[25%] w-[25%] transform transition duration-500 hover:scale-110 cursor-pointer opacity-0 group-hover/item:opacity-100"
-            src="/images/assets/addcollection.svg"
-          />*/}
-
         <div className="absolute w-[100%] top-4 flex justify-center drop-shadow-xl z-20">
           <div
             className={`group/copy h-10 w-10 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
@@ -195,7 +180,7 @@ const HoverScreen = ({ images, app }: HoverScreenProps) => {
 
           <div className="absolute w-[100%] bottom-3 flex justify-start items-center drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100 z-20">
             <Image
-              className="h-[15%] w-[15%] ml-[4%] rounded-full"
+              className="h-[15%] w-[15%] ml-[4%] rounded-full bg-slate-700"
               width={48}
               height={48}
               src={app ? toStorageUrl(app.icon) : ""}
