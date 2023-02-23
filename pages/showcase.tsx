@@ -15,7 +15,7 @@ type ShowcaseProps = {
 };
 
 const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
-  console.log("selected", selected);
+  // console.log("selected", selected);
   const toStorageUrl = (pathname: string) =>
     process.env.NEXT_PUBLIC_SUPABASE_URL +
     "/storage/v1/object/public/application/" +
@@ -127,7 +127,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
   return (
     <motion.div
       //layoutId={selected.id}
-      className={"w-[100%] h-[100%] z-40 fixed inset-0 overflow-y-scroll pt-10"}
+      className={"w-[100%] h-[100%] z-40 fixed inset-0 overflow-y-scroll py-16 xl:py-28"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -394,7 +394,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
           {selected?.showcase.map((item: string, index: number) => (
             <Screen
               key={index}
-              platform={1}
+              platform={4}
               src={toStorageUrl("/screens/" + selected.id + "/" + item)}
             />
           ))}

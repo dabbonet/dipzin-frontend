@@ -17,11 +17,11 @@ interface Column {
   width: number
 }
 const perPage = 5;
-let randomPage = Math.floor(Math.random() * 10) + 1;
+let randomPage = Math.floor(Math.random() * 2) + 1;
 
 const Stream = ({refetched}: any) => {
     
-  const [maxPages, setMaxPages] = React.useState(10);
+  const [maxPages, setMaxPages] = React.useState(2);
   const parentRef = React.useRef<HTMLDivElement | null>(null)
   const parentOffsetRef = React.useRef(0)
 
@@ -67,8 +67,6 @@ const Stream = ({refetched}: any) => {
     };
     fetchMaxPages();
     // console.log("platfom: ", platform);
-    remove();
-    refetch();
   }, [platform]);
 
   React.useEffect(() => {
@@ -76,6 +74,12 @@ const Stream = ({refetched}: any) => {
         setLoadedPages([]);
     }
   },[refetched]);
+
+  React.useEffect(() => {
+    remove();
+    refetch();
+    setLoadedPages([]);
+  },[maxPages]);
 
   
   
@@ -103,22 +107,23 @@ const Stream = ({refetched}: any) => {
         )
     
 
-  const getColumnWidth = (index: number) => 400
-  const getRowHeight = (index: number) => 200
+  const getColumnWidth = (index: number) => platform == 4 ? 500 : 400
+  const getRowHeight = (index: number) => platform == 4 ? 50 : 200
 
   const allRows = data ? data.pages : []
+  
 
   const rowVirtualizer = useWindowVirtualizer({
     count: allRows.length,
     estimateSize: getRowHeight,
-    overscan: 1,
+    overscan: platform == 4 ? 5 : 1,
     scrollMargin: parentOffsetRef.current,
     
   })
 
   const columnVirtualizer = useVirtualizer({
     horizontal: true,
-    count: 5,
+    count: platform == 4 ? 4 : 5,
     getScrollElement: () => parentRef.current,
     estimateSize: getColumnWidth,
     overscan: 0,
@@ -134,6 +139,8 @@ const Stream = ({refetched}: any) => {
         ]
       : [0, 0]
 
+
+    // Fetch next page when scrolling to the bottom
     React.useEffect(() => {
         const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse()
         if (!lastItem) {
@@ -149,10 +156,8 @@ const Stream = ({refetched}: any) => {
             return;
             }
             let nextPage;
-            let counter = 0;
             do {
                 nextPage = Math.floor(Math.random() * maxPages) + 1;
-                counter++;
             } while (loadedPages.includes(nextPage));
                 setLoadedPages([...loadedPages, nextPage]);
             try {
@@ -160,7 +165,6 @@ const Stream = ({refetched}: any) => {
             } catch (error) {
                 console.error("fetchNextPage Error: ", error);
             }
-            // fetchNextPage();
         }
     }, [
         hasNextPage,
@@ -201,14 +205,12 @@ const Stream = ({refetched}: any) => {
               <div style={{ width: `${before}px` }} />
               {columnItems.map((column) => {
                 const application: any = data?.pages[row.index]?.data?.[column.index];
-                // console.log('data test:', row.index , data?.pages[row.index])
                 if (!application) return null;
 
                 return (
                     <div
                     key={column.key}
                     style={{
-                        minHeight: row.index === 0 ? 50 : row.size,
                         width: getColumnWidth(column.index),
                         padding: '16px',
                     }}
@@ -242,7 +244,7 @@ const Stream = ({refetched}: any) => {
 async function fetchServerPage(
     limit: number = 5,
     page: number = randomPage,
-    platform: number = 1,
+    platform: number | undefined,
     ): Promise<{ data: string[]; nextPage: number | null }> {
         const from = limit * (page - 1) + 1;
         const to = limit * page;
