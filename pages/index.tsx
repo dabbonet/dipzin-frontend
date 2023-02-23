@@ -1,7 +1,7 @@
 import { ReactElement, useState, useRef, useEffect, useContext } from "react";
 import { NextPage } from "next";
 import Screen from "../components/screen";
-import cn from "../components/helpers";
+import clsx from "clsx";
 import Navigator from "../components/navigator/main";
 import TimedUpgrade from "../components/modals/timedUpgrade";
 import { useQuery, useQueryClient } from "react-query";
@@ -460,7 +460,7 @@ const Page: NextPage = () => {
         )}
 
         <div
-          className={cn(
+          className={clsx(
             "duration-500 w-[110%] h-[100%] transition-all z-40 overflow-y-scroll pt-40",
             webScreenOpen
               ? "backdrop-blur-xl fixed bg-[#0D1018]/70 block"
