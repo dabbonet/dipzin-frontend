@@ -50,12 +50,15 @@ const BlurImage = ({ src, platform }: Image) => {
         src={src}
         width={926}
         height={570}
-        loading="lazy"
         className={cn(
-          "ease-in-out bg-slate-800 h-full w-full border-[3px] border-transparent rounded-2xl transform opacity duration-500 hover:border-slate-300",
+          "ease-in-out",
           isLoading ? "blur-xl scale-150" : "blur-0 scale-100"
         )}
+        placeholder="blur"
+        blurDataURL={rgbDataURL(30, 41, 59)}
         onLoadingComplete={() => setLoading(false)}
+        quality={60}
+        loading="lazy"
       />
     );
   }
