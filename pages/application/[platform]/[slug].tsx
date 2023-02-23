@@ -21,7 +21,7 @@ const ApplicationPage = ({ application }: Props) => {
 
   const handlePlatform = async (app: any) => {
     try {
-      const { data, error } = await supabase
+      const { data, error }: any = await supabase
         .from("application")
         .select("*")
         .eq("slug", app.slug)
