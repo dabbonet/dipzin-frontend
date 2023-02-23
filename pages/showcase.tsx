@@ -127,7 +127,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
   return (
     <motion.div
       //layoutId={selected.id}
-      className={"w-[100%] h-[100%] z-40 fixed overflow-y-scroll pt-10"}
+      className={"w-[100%] h-[100%] z-40 fixed inset-0 overflow-y-scroll pt-10"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -436,7 +436,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
       <motion.div
         onClick={() => setSelected(null)}
         className={
-          "w-[100%] h-[100%] backdrop-blur-lg absolute top-0 bg-slate-900/70"
+          "w-[100%] h-[100%] backdrop-blur-lg fixed top-0 bg-slate-900/70"
         }
       ></motion.div>
     </motion.div>
