@@ -2,7 +2,6 @@ import saveAs from "file-saver";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { rgbDataURL } from "../helpers";
 import BlurImage from "./Image";
 
 type SingleScreenProps = {
@@ -91,8 +90,6 @@ const WebHoverScreen = ({ images, app }: HoverScreenProps) => {
               className="h-[10%] w-[10%] ml-[4%] rounded-full bg-slate-700"
               width={32}
               height={32}
-              placeholder="blur"
-              blurDataURL={rgbDataURL(30, 41, 59)}
               src={app ? toStorageUrl(app.icon) : ""}
               alt="icon"
             />
@@ -131,7 +128,7 @@ const WebSingleScreen = ({ image }: SingleScreenProps) => {
           transition: { duration: 0.3 },
         }}
       >
-        <div className="absolute w-[100%] top-4 right-4 flex justify-end drop-shadow-xl z-20">
+        <div className="absolute w-[40%] top-4 right-4 flex justify-end drop-shadow-xl z-20">
           <div
             className={`group/copy h-10 w-10 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
           >
