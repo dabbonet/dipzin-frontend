@@ -8,6 +8,8 @@ import { v4 as uuid } from "uuid";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { GlobalContext } from "../lib/globalContext";
 import JSZip from "jszip";
+import { rgbDataURL } from "../components/helpers";
+import Image  from "next/image"
 
 type ShowcaseProps = {
   selected: any;
@@ -15,7 +17,7 @@ type ShowcaseProps = {
 };
 
 const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
-  console.log("selected", selected);
+  // console.log("selected", selected);
   const toStorageUrl = (pathname: string) =>
     process.env.NEXT_PUBLIC_SUPABASE_URL +
     "/storage/v1/object/public/application/" +
@@ -127,7 +129,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
   return (
     <motion.div
       //layoutId={selected.id}
-      className={"w-[100%] h-[100%] z-40 fixed inset-0 overflow-y-scroll pt-10"}
+      className={"w-[100%] h-[100%] z-40 fixed inset-0 overflow-y-scroll py-16 xl:py-28"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -182,9 +184,14 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
       <motion.div className={"flex flex-col w-[80%] lg:w-[75%] mx-auto"}>
         <div className="flex my-8 items-center justify-between text-white z-50">
           <div className="flex items-center">
-            <img
-              className="h-[48px] rounded-2xl bg-slate-500"
+            <Image
+              className="ml-3 rounded-2xl bg-slate-700"
+              width={56}
+              height={56}
+              placeholder="blur"
+              blurDataURL={rgbDataURL(30, 41, 59)}
               src={toStorageUrl("icons/" + selected?.icon)}
+              alt="icon"
             />
             <div className="ml-4">
               <span className="text-[32px] font-medium">{selected?.name}</span>
@@ -394,7 +401,7 @@ const Showcase = ({ selected, setSelected }: ShowcaseProps) => {
           {selected?.showcase.map((item: string, index: number) => (
             <Screen
               key={index}
-              platform={1}
+              platform={platform || 1}
               src={toStorageUrl("/screens/" + selected.id + "/" + item)}
             />
           ))}

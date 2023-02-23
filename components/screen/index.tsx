@@ -1,4 +1,4 @@
-import Web from "./web";
+import { WebHoverScreen, WebSingleScreen } from "./web";
 import HoverScreen from "./mobile";
 import { SingleScreen } from "./mobile";
 
@@ -16,7 +16,7 @@ const Screen = ({ platform, list, src, app }: Props) => {
       case 2:
         return <HoverScreen app={app} images={list} />;
       case 4:
-        return <Web images={list} />;
+        return <WebHoverScreen app={app} images={list} />;
     }
   } else if (src) {
     switch (platform) {
@@ -25,7 +25,7 @@ const Screen = ({ platform, list, src, app }: Props) => {
       case 2:
         return <SingleScreen image={src} />;
       case 4:
-        return <Web images={[src]} />;
+        return <WebSingleScreen image={src} />;
     }
   } else {
     return null;
