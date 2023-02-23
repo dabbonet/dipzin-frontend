@@ -1,26 +1,12 @@
 import Image from "next/image";
 import { useState } from "react";
-import cn from "../helpers";
+import { rgbDataURL } from "../helpers";
+import clsx from "clsx";
 
 type Image = {
   platform: number;
   src: string;
 };
-
-// Pixel GIF code adapted from https://stackoverflow.com/a/33919020/266535
-const keyStr =
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
-
-const triplet = (e1: number, e2: number, e3: number) =>
-  keyStr.charAt(e1 >> 2) +
-  keyStr.charAt(((e1 & 3) << 4) | (e2 >> 4)) +
-  keyStr.charAt(((e2 & 15) << 2) | (e3 >> 6)) +
-  keyStr.charAt(e3 & 63)
-
-const rgbDataURL = (r: number, g: number, b: number) =>
-  `data:image/gif;base64,R0lGODlhAQABAPAA${
-    triplet(0, r, g) + triplet(b, 255, 255)
-  }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`
 
 const BlurImage = ({ src, platform }: Image) => {
   const [isLoading, setLoading] = useState(true);
@@ -32,7 +18,7 @@ const BlurImage = ({ src, platform }: Image) => {
         src={src}
         width={428}
         height={926}
-        className={cn(
+        className={clsx(
           "ease-in-out",
           isLoading ? "blur-xl scale-150" : "blur-0 scale-100"
         )}
@@ -50,7 +36,7 @@ const BlurImage = ({ src, platform }: Image) => {
         src={src}
         width={926}
         height={570}
-        className={cn(
+        className={clsx(
           "ease-in-out",
           isLoading ? "blur-xl scale-150" : "blur-0 scale-100"
         )}

@@ -4,6 +4,7 @@ import BlurImage from "./Image";
 import { motion } from "framer-motion";
 import _ from "lodash";
 import { saveAs } from "file-saver";
+import { rgbDataURL } from "../helpers";
 
 function shuffle(array: string[]) {
   return array.sort(() => Math.random() - 0.5);
@@ -180,9 +181,11 @@ const HoverScreen = ({ images, app }: HoverScreenProps) => {
 
           <div className="absolute w-[100%] bottom-3 flex justify-start items-center drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100 z-20">
             <Image
-              className="h-[15%] w-[15%] ml-[4%] rounded-full"
+              className="h-[15%] w-[15%] ml-[4%] rounded-full bg-slate-700"
               width={48}
               height={48}
+              placeholder="blur"
+              blurDataURL={rgbDataURL(30, 41, 59)}
               src={app ? toStorageUrl(app.icon) : ""}
               alt="icon"
             />
