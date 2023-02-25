@@ -29,18 +29,18 @@ const Page: NextPage = () => {
 
   const [userId, setUserId] = useState(null);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data: currentUser, error } = await supabase.auth.getUser();
-      if (error) {
-        console.error(error);
-        console.log("user", currentUser.user);
-      } else {
-        console.log("user", currentUser.user);
-      }
-    };
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const { data: currentUser, error } = await supabase.auth.getUser();
+  //     if (error) {
+  //       console.error(error);
+  //       console.log("user", currentUser.user);
+  //     } else {
+  //       console.log("user", currentUser.user);
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
 
   const handeUser = async () => {
     try {
@@ -102,10 +102,10 @@ const Page: NextPage = () => {
   }, []);
 
   //initialeze the platform
-  useEffect(() => {
-    handeUser();
-    getCollections();
-  }, [session, newReq]);
+  // useEffect(() => {
+  //   handeUser();
+  //   getCollections();
+  // }, [session, newReq]);
 
   const [streamOpen, setStreamOpen] = useState<string>("stream");
   const [webScreenOpen, setWebScreenOpen] = useState<boolean>(false);

@@ -17,11 +17,11 @@ interface Column {
   width: number
 }
 const perPage = 5;
-let randomPage = Math.floor(Math.random() * 2) + 1;
+let randomPage = Math.floor(Math.random() * 10) + 1;
 
 const Stream = ({refetched}: any) => {
     
-  const [maxPages, setMaxPages] = React.useState(2);
+  const [maxPages, setMaxPages] = React.useState(10);
   const parentRef = React.useRef<HTMLDivElement | null>(null)
   const parentOffsetRef = React.useRef(0)
 

@@ -4,8 +4,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import * as EmailValidator from "email-validator";
 import AuthLayout from "../../components/auth/AuthLayout";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'sonner'
 
 const Page: NextPageWithLayout = () => {
   const supabase = useSupabaseClient();
@@ -17,30 +16,13 @@ const Page: NextPageWithLayout = () => {
     if (EmailValidator.validate(email)) {
       await supabase.auth.signInWithOtp({ email: email });
       router.push({
-        pathname: "/login/otp",
+        pathname: "/access/otp",
         query: { email: email },
       });
     } else {
-      toast.error("add a valid email");
+      toast.error("Add a valid email");
     }
   };
-
-  // const [user, setUser] = useState<any>(null);
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const { data: currentUser, error } = await supabase.auth.getUser();
-  //     if (error) {
-  //       console.error(error);
-  //     } else if (currentUser) {
-  //       setUser(currentUser.user);
-  //     }
-  //   };
-  //   fetchUser();
-  // }, []);
-
-  // if (user) {
-  //   router.push("/");
-  // }
 
   return (
     <div className="mx-auto w-full max-w-xl subpixel-antialiased">
@@ -74,7 +56,7 @@ const Page: NextPageWithLayout = () => {
         <input
           type="email"
           name="email"
-          className="h-14 text-gray-900 text-sm rounded-lg border-slate-700 focus:ring-orange-500 focus:border-orange-500 block w-full pl-6 pr-32 p-2.5 bg-slate-900 dark:placeholder-slate-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
+          className="h-14 text-white text-sm rounded-lg border-slate-700 focus:ring-orange-500 focus:border-orange-500 block w-full pl-6 pr-32 p-2.5 bg-slate-900 dark:placeholder-slate-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
           placeholder="Email Address"
           onChange={(e) => setEmail(e.target.value)}
           value={email}

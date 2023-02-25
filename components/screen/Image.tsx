@@ -6,9 +6,10 @@ import clsx from "clsx";
 type Image = {
   platform: number;
   src: string;
+  className?: string;
 };
 
-const BlurImage = ({ src, platform }: Image) => {
+const BlurImage = ({ src, platform, className }: Image) => {
   const [isLoading, setLoading] = useState(true);
 
   if (platform == 1 || platform == 2) {
@@ -19,6 +20,7 @@ const BlurImage = ({ src, platform }: Image) => {
         width={428}
         height={926}
         className={clsx(
+          className,
           "ease-in-out",
           isLoading ? "blur-xl scale-150" : "blur-0 scale-100"
         )}
@@ -37,6 +39,7 @@ const BlurImage = ({ src, platform }: Image) => {
         width={926}
         height={570}
         className={clsx(
+          className,
           "ease-in-out",
           isLoading ? "blur-xl scale-150" : "blur-0 scale-100"
         )}
