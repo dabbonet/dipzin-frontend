@@ -11,8 +11,7 @@ import Router from "next/router";
 import PageLoader from "../components/loader";
 
 //import NotificationProvider from "../context/notficationContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from 'sonner'
 
 import Header from "../components/header";
 
@@ -48,24 +47,6 @@ export default function MyApp({
 }>) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    // Used for page transition
-    const start = () => {
-      setLoading(true);
-    };
-    const end = () => {
-      setLoading(false);
-    };
-    Router.events.on("routeChangeStart", start);
-    Router.events.on("routeChangeComplete", end);
-    Router.events.on("routeChangeError", end);
-    return () => {
-      Router.events.off("routeChangeStart", start);
-      Router.events.off("routeChangeComplete", end);
-      Router.events.off("routeChangeError", end);
-    };
-  }, []);
 
   return (
     <SessionContextProvider
@@ -84,11 +65,14 @@ export default function MyApp({
                 {/* <AnimatePresence> */}
                 <Component {...pageProps} />
                 {/* </AnimatePresence> */}
-                <ToastContainer
-                  position="bottom-right"
-                  autoClose={5000}
-                  theme="dark"
-                  className="z[200]"
+                <Toaster
+                  richColors
+                  toastOptions={{ 
+                    style: { background: '#1E293B', border: '0' },
+                    }}
+                    position="bottom-right"
+                    theme="dark"
+                    className="z[200"
                 />
               </main>
             </>

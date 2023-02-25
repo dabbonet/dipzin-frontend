@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import Screen from "../../components/screen";
 import clsx from "clsx";
 import Tabs from "../../components/tabs";
-import CollectionSideNavigator from "../../components/navigator/main/side";
+import CollectionSideNavigator from "../../components/navigator/side";
 import { useRouter } from "next/router";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { formatInTimeZone } from "date-fns-tz";

@@ -2,8 +2,7 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'sonner'
 
 interface OTPFormValues {
   otp1: string;
@@ -45,7 +44,7 @@ const OTPForm = ({ sendEmail }: any) => {
               if (response.data.user) {
                 router.push("/");
               } else {
-                toast.info("Wrong OTP!");
+                toast.error("Wrong OTP!");
               }
             })
             .catch((error) => {
@@ -116,11 +115,6 @@ const OTPForm = ({ sendEmail }: any) => {
           </Form>
         )}
       </Formik>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        theme="dark"
-        className="z[100]" />
 
     </>
 

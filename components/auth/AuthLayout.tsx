@@ -23,16 +23,17 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-full bg-gradient-to-r from-[#0D1018] to-[#09132E]">
-      <main className="flex lg:flex-row flex-col h-[calc(100vh-60px)] overflow-hidden lg:rounded-tl-3xl">
+      <main className="flex lg:flex-row flex-col h-[100vh] overflow-hidden lg:rounded-tl-3xl">
         <div className="z-10 flex-1 flex flex-col justify-center px-4">
           {children}
         </div>
-        <div className="relative lg:block lg:w-0 w-full mx-auto lg:flex-1 flex-auto sm:ml-5">
+        <div className="relative h-full w-full bottom-0 lg:block lg:w-0  mx-auto lg:flex-1 flex-auto sm:ml-5">
           <Image
-            className="absolute top-20 right-0 h-full object-contain z-0 lg:pt-24"
+            className="absolute right-0 object-contain z-0 lg:pt-24"
             src="/images/hand/hand.png"
             fill
             alt=""
+            sizes="100%"
           />
           {images[currentImage] && (
             <Image
@@ -40,6 +41,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
               src={images[currentImage]}
               fill
               alt=""
+              sizes="100%"
             />
           )}
         </div>
