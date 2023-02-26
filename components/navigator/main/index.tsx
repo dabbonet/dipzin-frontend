@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import GuestNavigator from "./guest";
 import MainNavigator from "./main";
 
-const Navigator = () => {
+const Navigator = ({type}:any) => {
   const session = useSession();
 
   return (
@@ -17,7 +17,7 @@ const Navigator = () => {
       className="fixed w-full bottom-0 flex justify-center z-40"
     >
       {session ? (
-        <MainNavigator />
+        <MainNavigator type={type}/>
       ) : (
         <GuestNavigator />
       )}
