@@ -6,13 +6,13 @@ import BlurImage from "../../screen/Image"
 const NotFound = () => {
   return (
     <motion.div 
-        className="absolute left-6 right-6 top-4 h-[85%]"
+        className="mb-2 p-2 max-w-[1400px]"
         initial={{ opacity: 0, y:100 }}
         animate={{ opacity: 1, y:0 }}
         transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
         >
         <p className='uppercase text-sm text-slate-400'>Search Results</p>
-        <div className='flex space-x-4 mt-2 h-[90%] '>
+        <div className='flex space-x-4 mt-2 max-h-[400px] '>
 
             <div className='w-[30%] flex-col rounded-2xl bg-slate-800 py-2 px-2 space-y-2 relative'>
               <div className="absolute top-0 left-0 rounded-2xl z-1 bg-gradient-to-b from-slate-900/10 to-slate-900/90 w-full h-full"></div>
