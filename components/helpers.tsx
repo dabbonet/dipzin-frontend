@@ -14,5 +14,9 @@ const rgbDataURL = (r: number, g: number, b: number) =>
   }/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`
 
 
+  const toStorageUrl = (pathname: string) =>
+  process.env.NEXT_PUBLIC_SUPABASE_URL +
+  "/storage/v1/object/public/application/" +
+  pathname;
 
-export { rgbDataURL }
+export { rgbDataURL, toStorageUrl }
