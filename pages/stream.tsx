@@ -17,7 +17,7 @@ interface Column {
   width: number
 }
 const perPage = 5;
-let randomPage = Math.floor(Math.random() * 10) + 1;
+let randomPage = Math.floor(Math.random() * 5) + 1;
 
 const Stream = ({refetched}: any) => {
     
@@ -245,7 +245,7 @@ async function fetchServerPage(
     limit: number = 5,
     page: number = randomPage,
     platform: number | undefined,
-    ): Promise<{ data: string[]; nextPage: number | null }> {
+    ): Promise<{ data: any; nextPage: number | null }> {
         const from = limit * (page - 1) + 1;
         const to = limit * page;
 

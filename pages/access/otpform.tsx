@@ -38,8 +38,15 @@ const OTPForm = ({ sendEmail }: any) => {
             values.otp4 +
             values.otp5 +
             values.otp6;
+
+          // Check if the user is signing up or signing in
+          let type:any = "magiclink";
+          if (router.query.signup) {
+            type = "signup";
+          }
+
           await supabase.auth
-            .verifyOtp({ email, token, type: "magiclink" })
+            .verifyOtp({ email, token, type: type })
             .then(async (response) => {
               if (response.data.user) {
                 router.push("/");
@@ -51,6 +58,7 @@ const OTPForm = ({ sendEmail }: any) => {
               console.error(error);
               alert(error);
             });
+            
         }}
       >
         {({ setFieldValue }) => (

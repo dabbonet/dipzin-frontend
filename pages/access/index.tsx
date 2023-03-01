@@ -1,24 +1,56 @@
-import { ReactElement, useEffect, useState } from "react";
+import React from "react";
 import type { NextPageWithLayout } from "../_app";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import * as EmailValidator from "email-validator";
 import AuthLayout from "../../components/auth/AuthLayout";
 import { useRouter } from "next/router";
 import { toast } from 'sonner'
+import { GlobalContext } from "../../lib/globalContext";
 
 const Page: NextPageWithLayout = () => {
   const supabase = useSupabaseClient();
   const router = useRouter();
 
-  const [email, setEmail] = useState("");
+  const globalContext = React.useContext(GlobalContext);
+
+  React.useEffect(() => {
+    globalContext?.setShow(false)
+  }, []);
+
+  const [email, setEmail] = React.useState("");
 
   const handleSubmit = async () => {
-    if (EmailValidator.validate(email)) {
-      await supabase.auth.signInWithOtp({ email: email });
-      router.push({
-        pathname: "/access/otp",
-        query: { email: email },
-      });
+    if (EmailValidator.validate(email)) { 
+      const {
+        data, error
+      } = await supabase.auth
+          .signInWithOtp({ 
+            email: email,
+            options: {
+              shouldCreateUser: false
+            }
+          });
+          // Check if the user is signing up or signing in
+          if (!error) {
+            router.push({
+              pathname: "/access/otp",
+              query: { email: email },
+            });
+          }else{
+            const {
+              data, error
+            } = await supabase.auth
+                .signInWithOtp({ 
+                  email: email,
+                  options: {
+                    shouldCreateUser: true
+                  }
+                });
+              router.push({
+                pathname: "/access/otp",
+                query: { email: email, signup: true },
+              });
+          }
     } else {
       toast.error("Add a valid email");
     }
@@ -73,7 +105,7 @@ const Page: NextPageWithLayout = () => {
   );
 };
 
-Page.getLayout = function getLayout(page: ReactElement) {
+Page.getLayout = function getLayout(page: React.ReactElement) {
   return <AuthLayout>{page}</AuthLayout>;
 };
 

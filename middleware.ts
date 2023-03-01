@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
       request.nextUrl.pathname.startsWith("/pricing"))
   ) {
     // return NextResponse.redirect(new URL("/auth", request.url));
-  } else if (token && request.nextUrl.pathname.startsWith("/auth")) {
+  } else if (token && request.nextUrl.pathname.startsWith("/access")) {
     // return NextResponse.redirect(new URL("/home", request.url));
   }
 }
