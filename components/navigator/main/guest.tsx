@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import router from 'next/router';
 
 const GuestNavigator = () => {
@@ -13,22 +14,18 @@ const GuestNavigator = () => {
         </span>
       </div>
 
-      <span
+      <Link
         className="py-2 px-5 bg-orange-400 rounded-3xl ml-10 cursor-pointer hover:bg-orange-500"
-        onClick={() => {
-          router.push("/access");
-        }}
+        href={'/access'}
       >
         Login
-      </span>
-      <span
+      </Link>
+      <Link
         className="py-2 px-5 bg-orange-100 rounded-3xl text-orange-600 ml-2 cursor-pointer hover:bg-orange-300"
-        onClick={() => {
-          router.push("/access");
-        }}
+        href={'/access'}
       >
         Try it free
-      </span>
+      </Link>
     </div>
   )
 }

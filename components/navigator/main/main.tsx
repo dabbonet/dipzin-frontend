@@ -9,7 +9,6 @@ import Link from 'next/link';
 import { SingleScreen } from '../../screen/mobile';
 import BlurImage from '../../screen/Image';
 import Search from './search';
-import NotFound from './notFound';
 import Menu from './menu';
 import Filters from './filters';
 
@@ -35,7 +34,7 @@ const MainNavigator = ({type}:any) => {
     const handelLogOut = async () => {
         removeCookie("JWT");
         await supabase.auth.signOut();
-        router.push("/auth");
+        router.push("/access");
     };
 
     useEffect(() => {
@@ -159,7 +158,6 @@ const MainNavigator = ({type}:any) => {
                 >
                 {navOpen && !menuOpen && (
                     <Search search={search}/>
-                    // <NotFound />
                 )}
                 {menuOpen && (  
                     <Menu />

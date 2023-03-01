@@ -27,7 +27,7 @@ const Page: NextPage = () => {
   const [collName, setCollName] = useState<any>("");
   const [collDesc, setCollDesc] = useState<any>("");
 
-  const [userId, setUserId] = useState(null);
+  // const [userId, setUserId] = useState(null);
 
   // useEffect(() => {
   //   const fetchUser = async () => {
@@ -40,25 +40,8 @@ const Page: NextPage = () => {
   //     }
   //   };
   //   fetchUser();
+
   // }, []);
-
-  const handeUser = async () => {
-    try {
-      const { data } = await supabase
-        .from("profiles")
-        .select("id, username, avatar_url, website, full_name")
-        .eq("id", session?.user.id)
-        .single();
-
-      if (data) {
-        setUser(data);
-      }
-    } catch (error) {
-      alert(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const [collectionGetted, setCollectionDetted] = useState<any>([]);
   const getCollections = async () => {
@@ -82,6 +65,8 @@ const Page: NextPage = () => {
   const [newReq, setNewReq] = useState<boolean>(true);
   const platform = globalContext?.platform;
 
+
+  // Platform Switcher settings and initializations
   useEffect(() => {
     globalContext?.setShow(true);
     globalContext?.setSingle(false);
@@ -458,18 +443,6 @@ const Page: NextPage = () => {
                   })}
           </div>
         )}
-
-        <div
-          className={clsx(
-            "duration-500 w-[110%] h-[100%] transition-all z-40 overflow-y-scroll pt-40",
-            webScreenOpen
-              ? "backdrop-blur-xl fixed bg-[#0D1018]/70 block"
-              : "backdrop-blur hidden"
-          )}
-          onClick={() => {
-            setWebScreenOpen(false);
-          }}
-        ></div>
       </main>
     </>
   );
