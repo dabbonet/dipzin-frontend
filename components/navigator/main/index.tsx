@@ -1,12 +1,9 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useCookies } from "react-cookie";
-import { useRouter } from "next/router";
+import { useSession } from "@supabase/auth-helpers-react";
 import GuestNavigator from "./guest";
 import MainNavigator from "./main";
 
-const Navigator = ({type}:any) => {
+const Navigator = ({ type }: any) => {
   const session = useSession();
 
   return (
@@ -17,7 +14,7 @@ const Navigator = ({type}:any) => {
       className="fixed w-full bottom-0 flex justify-center z-40"
     >
       {session ? (
-        <MainNavigator type={type}/>
+        <MainNavigator type={type} />
       ) : (
         <GuestNavigator />
       )}

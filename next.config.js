@@ -5,4 +5,5 @@ module.exports = {
     domains: ['megwwpcxnmhjjtxlcvqy.supabase.co'],
     minimumCacheTTL: 120,
   },
+  output: 'standalone'
 };
