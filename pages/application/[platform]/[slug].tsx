@@ -16,114 +16,114 @@ const ApplicationPage = ({ application }: Props) => {
   // //initialeze the platform
   useEffect(() => {
     globalContext?.setShow(false);
-    handlePlatform(application);
+    // handlePlatform(application);
   }, []);
 
-  const handlePlatform = async (app: any) => {
-    try {
-      const { data, error }: any = await supabase
-        .from("application")
-        .select("*")
-        .eq("slug", app.slug)
-        .eq("is_published", true);
+  // const handlePlatform = async (app: any) => {
+  //   try {
+  //     const { data, error }: any = await supabase
+  //       .from("application")
+  //       .select("*")
+  //       .eq("slug", app.slug)
+  //       .eq("is_published", true);
 
-      if (
-        (data &&
-          data.length == 2 &&
-          data[0].platform_id == 3 &&
-          data[1].platform_id == 1) ||
-        (data[0].platform_id == 1 && data[1].platform_id == 3)
-      ) {
-        console.log(data);
-        const platforms = [
-          {
-            id: 1,
-            name: "android",
-          },
-          {
-            id: 3,
-            name: "web",
-          },
-        ];
-        globalContext?.setShow(true);
-        globalContext?.setAvailablePlatforms(platforms);
-        globalContext?.setPlatform(app.platform_id);
-        globalContext?.setSingle(true);
-      }
+  //     if (
+  //       (data &&
+  //         data.length == 2 &&
+  //         data[0].platform_id == 3 &&
+  //         data[1].platform_id == 1) ||
+  //       (data[0].platform_id == 1 && data[1].platform_id == 3)
+  //     ) {
+  //       console.log(data);
+  //       const platforms = [
+  //         {
+  //           id: 1,
+  //           name: "android",
+  //         },
+  //         {
+  //           id: 3,
+  //           name: "web",
+  //         },
+  //       ];
+  //       globalContext?.setShow(true);
+  //       globalContext?.setAvailablePlatforms(platforms);
+  //       globalContext?.setPlatform(app.platform_id);
+  //       globalContext?.setSingle(true);
+  //     }
 
-      if (
-        (data &&
-          data.length == 2 &&
-          data[0].platform_id == 3 &&
-          data[1].platform_id == 2) ||
-        (data[0].platform_id == 2 && data[1].platform_id == 3)
-      ) {
-        console.log(data);
-        const platforms = [
-          {
-            id: 2,
-            name: "ios",
-          },
-          {
-            id: 3,
-            name: "web",
-          },
-        ];
-        globalContext?.setShow(true);
-        globalContext?.setAvailablePlatforms(platforms);
-        globalContext?.setPlatform(app.platform_id);
-        globalContext?.setSingle(true);
-      }
+  //     if (
+  //       (data &&
+  //         data.length == 2 &&
+  //         data[0].platform_id == 3 &&
+  //         data[1].platform_id == 2) ||
+  //       (data[0].platform_id == 2 && data[1].platform_id == 3)
+  //     ) {
+  //       console.log(data);
+  //       const platforms = [
+  //         {
+  //           id: 2,
+  //           name: "ios",
+  //         },
+  //         {
+  //           id: 3,
+  //           name: "web",
+  //         },
+  //       ];
+  //       globalContext?.setShow(true);
+  //       globalContext?.setAvailablePlatforms(platforms);
+  //       globalContext?.setPlatform(app.platform_id);
+  //       globalContext?.setSingle(true);
+  //     }
 
-      if (
-        (data &&
-          data.length == 2 &&
-          data[0].platform_id == 1 &&
-          data[1].platform_id == 2) ||
-        (data[0].platform_id == 2 && data[1].platform_id == 1)
-      ) {
-        console.log(data);
-        const platforms = [
-          {
-            id: 2,
-            name: "ios",
-          },
-          {
-            id: 1,
-            name: "android",
-          },
-        ];
-        globalContext?.setShow(true);
-        globalContext?.setAvailablePlatforms(platforms);
-        globalContext?.setPlatform(app.platform_id);
-        globalContext?.setSingle(true);
-      }
+  //     if (
+  //       (data &&
+  //         data.length == 2 &&
+  //         data[0].platform_id == 1 &&
+  //         data[1].platform_id == 2) ||
+  //       (data[0].platform_id == 2 && data[1].platform_id == 1)
+  //     ) {
+  //       console.log(data);
+  //       const platforms = [
+  //         {
+  //           id: 2,
+  //           name: "ios",
+  //         },
+  //         {
+  //           id: 1,
+  //           name: "android",
+  //         },
+  //       ];
+  //       globalContext?.setShow(true);
+  //       globalContext?.setAvailablePlatforms(platforms);
+  //       globalContext?.setPlatform(app.platform_id);
+  //       globalContext?.setSingle(true);
+  //     }
 
-      if (data && data.length == 3) {
-        console.log(data);
-        const platforms = [
-          {
-            id: 2,
-            name: "ios",
-          },
-          {
-            id: 1,
-            name: "android",
-          },
-          {
-            id: 3,
-            name: "web",
-          },
-        ];
-        globalContext?.setShow(true);
-        globalContext?.setAvailablePlatforms(platforms);
-        globalContext?.setPlatform(app.platform_id);
-        globalContext?.setSingle(true);
-      }
-    } catch (e) {
-      //console.log(e);
-    }
-  };
+  //     if (data && data.length == 3) {
+  //       console.log(data);
+  //       const platforms = [
+  //         {
+  //           id: 2,
+  //           name: "ios",
+  //         },
+  //         {
+  //           id: 1,
+  //           name: "android",
+  //         },
+  //         {
+  //           id: 3,
+  //           name: "web",
+  //         },
+  //       ];
+  //       globalContext?.setShow(true);
+  //       globalContext?.setAvailablePlatforms(platforms);
+  //       globalContext?.setPlatform(app.platform_id);
+  //       globalContext?.setSingle(true);
+  //     }
+  //   } catch (e) {
+  //     //console.log(e);
+  //   }
+  // };
 
   const router = useRouter();
   const platform = router.query.platform || "ios";

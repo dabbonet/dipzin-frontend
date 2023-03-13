@@ -1,9 +1,6 @@
-import { ReactElement, useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { NextPage } from "next";
-import { motion } from "framer-motion";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useCookies } from "react-cookie";
-import { useRouter } from "next/router";
 
 const Page: NextPage = () => {
   const supabase = useSupabaseClient();

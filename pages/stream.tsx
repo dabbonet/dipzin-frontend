@@ -1,9 +1,5 @@
 import * as React from 'react'
-import { createRoot } from 'react-dom/client'
-import { faker } from '@faker-js/faker'
-
 import { useVirtualizer, useWindowVirtualizer } from '@tanstack/react-virtual'
-import BlurImage from '../components/screen/Image'
 import { supabase } from '../lib/supabase'
 import { useInfiniteQuery } from 'react-query'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -19,8 +15,8 @@ interface Column {
 const perPage = 5;
 let randomPage = Math.floor(Math.random() * 5) + 1;
 
-const Stream = ({refetched}: any) => {
-    
+const Stream = ({ refetched }: any) => {
+
   const [maxPages, setMaxPages] = React.useState(10);
   const parentRef = React.useRef<HTMLDivElement | null>(null)
   const parentOffsetRef = React.useRef(0)
@@ -70,55 +66,55 @@ const Stream = ({refetched}: any) => {
   }, [platform]);
 
   React.useEffect(() => {
-    if(refetched){
-        setLoadedPages([]);
+    if (refetched) {
+      setLoadedPages([]);
     }
-  },[refetched]);
+  }, [refetched]);
 
   React.useEffect(() => {
     remove();
     refetch();
     setLoadedPages([]);
-  },[maxPages]);
+  }, [maxPages]);
 
-  
-  
-  const { 
-      status,
-      data, 
-      error, 
-      hasNextPage, 
-      isFetchingNextPage,
-      remove,
-      refetch,
-      fetchNextPage 
-    } = useInfiniteQuery(
-        ['stream'],
-        (ctx) => fetchServerPage(perPage,ctx.pageParam, platform),
-        {
-            getNextPageParam: (_lastPage, _allPages) => {
-                return  _lastPage.nextPage? _lastPage.nextPage : false
-            },
-            refetchOnWindowFocus: false,
-            keepPreviousData: false,
-            optimisticResults: true,
-            refetchOnMount: false,
-        },
-        )
-    
+
+
+  const {
+    status,
+    data,
+    error,
+    hasNextPage,
+    isFetchingNextPage,
+    remove,
+    refetch,
+    fetchNextPage
+  } = useInfiniteQuery(
+    ['stream'],
+    (ctx) => fetchServerPage(perPage, ctx.pageParam, platform),
+    {
+      getNextPageParam: (_lastPage, _allPages) => {
+        return _lastPage.nextPage ? _lastPage.nextPage : false
+      },
+      refetchOnWindowFocus: false,
+      keepPreviousData: false,
+      optimisticResults: true,
+      refetchOnMount: false,
+    },
+  )
+
 
   const getColumnWidth = (index: number) => platform == 4 ? 500 : 400
   const getRowHeight = (index: number) => platform == 4 ? 50 : 200
 
   const allRows = data ? data.pages : []
-  
+
 
   const rowVirtualizer = useWindowVirtualizer({
     count: allRows.length,
     estimateSize: getRowHeight,
     overscan: platform == 4 ? 5 : 1,
     scrollMargin: parentOffsetRef.current,
-    
+
   })
 
   const columnVirtualizer = useVirtualizer({
@@ -133,46 +129,46 @@ const Stream = ({refetched}: any) => {
   const [before, after] =
     columnItems.length > 0
       ? [
-          columnItems[0].start,
-          columnVirtualizer.getTotalSize() -
-            columnItems[columnItems.length - 1].end,
-        ]
+        columnItems[0].start,
+        columnVirtualizer.getTotalSize() -
+        columnItems[columnItems.length - 1].end,
+      ]
       : [0, 0]
 
 
-    // Fetch next page when scrolling to the bottom
-    React.useEffect(() => {
-        const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse()
-        if (!lastItem) {
-        return
-        }
-        if (
-            lastItem.index >= allRows.length - 1 &&
-            hasNextPage &&
-            !isFetchingNextPage
-        ) {
-            if (loadedPages.length >= maxPages) {
-            // All pages have been loaded, do not fetch more.
-            return;
-            }
-            let nextPage;
-            do {
-                nextPage = Math.floor(Math.random() * maxPages) + 1;
-            } while (loadedPages.includes(nextPage));
-                setLoadedPages([...loadedPages, nextPage]);
-            try {
-                fetchNextPage({ pageParam: nextPage });
-            } catch (error) {
-                console.error("fetchNextPage Error: ", error);
-            }
-        }
-    }, [
-        hasNextPage,
-        fetchNextPage,
-        allRows.length,
-        isFetchingNextPage,
-        rowVirtualizer.getVirtualItems(),
-    ])
+  // Fetch next page when scrolling to the bottom
+  React.useEffect(() => {
+    const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse()
+    if (!lastItem) {
+      return
+    }
+    if (
+      lastItem.index >= allRows.length - 1 &&
+      hasNextPage &&
+      !isFetchingNextPage
+    ) {
+      if (loadedPages.length >= maxPages) {
+        // All pages have been loaded, do not fetch more.
+        return;
+      }
+      let nextPage;
+      do {
+        nextPage = Math.floor(Math.random() * maxPages) + 1;
+      } while (loadedPages.includes(nextPage));
+      setLoadedPages([...loadedPages, nextPage]);
+      try {
+        fetchNextPage({ pageParam: nextPage });
+      } catch (error) {
+        console.error("fetchNextPage Error: ", error);
+      }
+    }
+  }, [
+    hasNextPage,
+    fetchNextPage,
+    allRows.length,
+    isFetchingNextPage,
+    rowVirtualizer.getVirtualItems(),
+  ])
 
   return (
     <div
@@ -195,9 +191,8 @@ const Stream = ({refetched}: any) => {
                 position: 'absolute',
                 top: 0,
                 justifyContent: 'center',
-                transform: `translateY(${
-                  row.start - rowVirtualizer.options.scrollMargin
-                }px)`,
+                transform: `translateY(${row.start - rowVirtualizer.options.scrollMargin
+                  }px)`,
                 display: 'flex',
                 width: '100%',
               }}
@@ -208,33 +203,33 @@ const Stream = ({refetched}: any) => {
                 if (!application) return null;
 
                 return (
-                    <div
+                  <div
                     key={column.key}
                     style={{
-                        width: getColumnWidth(column.index),
-                        padding: '16px',
+                      width: getColumnWidth(column.index),
+                      padding: '16px',
                     }}
-                    >
+                  >
                     <motion.div
-                        layout
-                        onClick={() => setSelected(application)}
+                      layout
+                      onClick={() => setSelected(application)}
                     >
-                        <Screen
-                            platform={platform ?? 1}
-                            app={application}
-                            list={application.showcase}
-                        />
+                      <Screen
+                        platform={platform ?? 1}
+                        app={application}
+                        list={application.showcase}
+                      />
                     </motion.div>
-                    
-                    </div>
+
+                  </div>
                 );
-                })}
+              })}
               <div style={{ width: `${after}px` }} />
             </div>
           )
         })}
         <AnimatePresence>
-            {selected && <Showcase selected={selected} setSelected={setSelected} />}
+          {selected && <Showcase selected={selected} setSelected={setSelected} />}
         </AnimatePresence>
       </div>
     </div>
@@ -242,55 +237,55 @@ const Stream = ({refetched}: any) => {
 }
 
 async function fetchServerPage(
-    limit: number = 5,
-    page: number = randomPage,
-    platform: number | undefined,
-    ): Promise<{ data: any; nextPage: number | null }> {
-        const from = limit * (page - 1) + 1;
-        const to = limit * page;
+  limit: number = 5,
+  page: number = randomPage,
+  platform: number | undefined,
+): Promise<{ data: any; nextPage: number | null }> {
+  const from = limit * (page - 1) + 1;
+  const to = limit * page;
 
-        let data, error: any;
-        try {
-            switch (platform) {
-                case 1:
-                    ({ data, error } = await supabase
-                    .from("android_showcases")
-                    .select("*")
-                    .range(from, to));
-                    break;
-                case 2:
-                    ({ data, error } = await supabase
-                    .from("ios_showcases")
-                    .select("*")
-                    .range(from, to));
-                    break;
-                case 4:
-                    ({ data, error } = await supabase
-                    .from("web_showcases")
-                    .select("*")
-                    .range(from, to));
-                    break;
-                default:
-                    throw new Error("Invalid platform");
-                }
-
-        } catch (e) {
-            error = e;
-        }
-
-      // console.log('dataaa3', data)
-        if (error) {
-            throw new Error(error.message)
-        }
-        if( data && data.length === 0) {
-            return { data , nextPage: null }
-        }
-        
-        data?.sort(() => Math.random() - 0.5);
-        if(data){
-            return { data, nextPage: (page+1) * limit }
-        }
-        return { data: [], nextPage: null }
+  let data, error: any;
+  try {
+    switch (platform) {
+      case 1:
+        ({ data, error } = await supabase
+          .from("android_showcases")
+          .select("*")
+          .range(from, to));
+        break;
+      case 2:
+        ({ data, error } = await supabase
+          .from("ios_showcases")
+          .select("*")
+          .range(from, to));
+        break;
+      case 4:
+        ({ data, error } = await supabase
+          .from("web_showcases")
+          .select("*")
+          .range(from, to));
+        break;
+      default:
+        throw new Error("Invalid platform");
     }
-        
+
+  } catch (e) {
+    error = e;
+  }
+
+  // console.log('dataaa3', data)
+  if (error) {
+    throw new Error(error.message)
+  }
+  if (data && data.length === 0) {
+    return { data, nextPage: null }
+  }
+
+  data?.sort(() => Math.random() - 0.5);
+  if (data) {
+    return { data, nextPage: (page + 1) * limit }
+  }
+  return { data: [], nextPage: null }
+}
+
 export default Stream
