@@ -21,7 +21,7 @@ export default function Layout({
             setCurrentImage((currentImage + 1) % images.length);
         }, 1000);
         return () => clearInterval(interval);
-    }, [currentImage]);
+    }, [currentImage, images.length]);
 
     return (
         <main className="flex lg:flex-row flex-col h-auto overflow-hidden lg:rounded-tl-3xl">

@@ -3,11 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import { FC, useState } from 'react'
 import AuthCode from 'react-auth-code-input';
 
-interface otpProps {
-
-}
-
-const otp: FC<otpProps> = ({ }) => {
+const Otp: FC = () => {
     const searchParams = useSearchParams();
     const email = searchParams.get('email')
     const [otp, setOtp] = useState<string>('');
@@ -39,4 +35,4 @@ const otp: FC<otpProps> = ({ }) => {
         </div>)
 }
 
-export default otp
+export default Otp
