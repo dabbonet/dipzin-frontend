@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
-  reactStrictMode: true,
-  images: {
-    domains: ['megwwpcxnmhjjtxlcvqy.supabase.co'],
-    minimumCacheTTL: 120,
+const nextConfig = {
+  experimental: {
+    appDir: true,
   },
-  output: 'standalone'
-};
+}
+
+module.exports = nextConfig
