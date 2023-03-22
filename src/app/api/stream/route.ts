@@ -1,7 +1,6 @@
-import { request } from "http";
 const qs = require('qs');
 
-export const getStream = () => {
+export async function GET(request: Request) {
     const query = qs.stringify(
         {
             filters: {
@@ -32,17 +31,16 @@ export const getStream = () => {
             encodeValuesOnly: true, // prettify URL
         }
     )
-    console.log(query)
-    const req = request(`https://rah.dipzin.com/api/apps?${query}`, (res) => {
-        let data = '';
-        res.on('data', (chunk) => {
-            data += chunk;
-        });
-        res.on('end', () => {
-            console.log(data); // log the response data
-            return data;
-        });
-    });
 
-    req.end();
+    const req = await fetch(`https://rah.dipzin.com/api/apps?${query}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    return new Response(req.body)
+}
+
+export async function POST(request: Request) {
+    return new Response('Hello, POST api!')
 }

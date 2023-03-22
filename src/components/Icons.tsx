@@ -1,4 +1,4 @@
-import { Moon, Sun, Laptop } from 'lucide-react'
+import { Moon, Sun, Laptop, Maximize } from 'lucide-react'
 
 const FacebookIcon = () => {
     return (
@@ -29,8 +29,8 @@ const GoogleIcon = () => {
     return (
         <svg
             width={24}
-            height={25}
-            viewBox="0 0 24 25"
+            height={24}
+            viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
             className="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
             preserveAspectRatio="xMidYMid meet"
@@ -68,7 +68,8 @@ const Icons = {
     FacebookIcon,
     Moon,
     Sun,
-    Laptop
+    Laptop,
+    Maximize
 }
 
 export default Icons
