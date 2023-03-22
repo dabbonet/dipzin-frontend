@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-export default function Layout({
+export default function AccessLayout({
     children,
 }: {
     children: React.ReactNode

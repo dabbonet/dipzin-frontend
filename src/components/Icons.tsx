@@ -1,6 +1,4 @@
-
-
-
+import { Moon, Sun, Laptop } from 'lucide-react'
 
 const FacebookIcon = () => {
     return (
@@ -67,7 +65,10 @@ const GoogleIcon = () => {
 
 const Icons = {
     GoogleIcon,
-    FacebookIcon
+    FacebookIcon,
+    Moon,
+    Sun,
+    Laptop
 }
 
 export default Icons

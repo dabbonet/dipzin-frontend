@@ -1,3 +1,4 @@
+'use client'
 import { FC } from 'react'
 import Image from 'next/image'
 import Link from 'next/link';
@@ -12,8 +13,15 @@ const Navbar: FC = () => {
                 className="text-lg lg:text-2xl"
             >
                 <Image
-                    className="mr-3 h-6 sm:h-9"
+                    className="mr-3 h-6 sm:h-9 dark:block hidden"
                     src="/images/assets/light-logo.svg"
+                    alt="Dipzin Logo"
+                    width={110}
+                    height={39}
+                />
+                <Image
+                    className="mr-3 h-6 sm:h-9 block dark:hidden"
+                    src="/images/assets/dark-logo.svg"
                     alt="Dipzin Logo"
                     width={110}
                     height={39}
@@ -22,7 +30,7 @@ const Navbar: FC = () => {
 
             <PlatformSwitcher />
 
-            <div className="w-[65px] h-[35px] bg-slate-300 rounded-full flex items-center justify-center md:text-sm text-xs font-normal text-slate-800">
+            <div className="px-4 py-2 bg-slate-800 text-slate-100 dark:bg-slate-300 dark:text-slate-900 rounded-full flex items-center justify-center md:text-sm text-xs font-medium tracking-wider">
                 <Link href="/access" shallow>Try it!</Link>
             </div>
         </header>
