@@ -31,7 +31,7 @@ export default function RootLayout({
       <body className={cn('bg-fixed bg-gradient-to-tr from-slate-200 to-slate-300 dark:from-[#0D1018] dark:to-[#09132E] min-h-screen w-full h-screen')}>
         <Providers>
           <Navbar />
-          <main className='pt-24 max-w-[75%]  mx-auto'>
+          <main className='pt-24 max-w-[82%]  mx-auto'>
             <Banner />
             <HomeNavigator />
             {children}
