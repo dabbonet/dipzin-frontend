@@ -8,20 +8,20 @@ const Otp: FC = () => {
     const email = searchParams.get('email')
     const [otp, setOtp] = useState<string>('');
 
-    // TODO: Send OTP to server to verify
+    // TODO: Verify otp with email
 
     return (
         <div className="mx-auto w-full max-w-xl subpixel-antialiased">
-            <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-lime-200 to-orange-600 lg:text-5xl text-3xl">
+            <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-300 lg:text-5xl text-3xl">
                 Account Verification
             </h1>
-            <p className="text-white font-light mt-4 lg:text-base text-sm">
+            <p className="text-slate-600 dark:text-white font-light mt-4 lg:text-base text-sm">
                 Please enter the otp number sent to <b>{email}</b>.
             </p>
             <AuthCode
                 allowedCharacters='numeric'
                 containerClassName="flex mt-4 "
-                inputClassName="w-[56px] h-[56px] xl:w-[82px] xl:h-[82px] bg-slate-800 rounded-xl flex items-center justify-center text-center text-slate-200 font-medium text-[28px] mx-auto"
+                inputClassName="w-[56px] h-[56px] xl:w-[82px] xl:h-[82px] rounded-xl flex items-center justify-center text-center font-medium text-[28px] mx-auto bg-slate-300 text-slate-800 dark:bg-slate-800 dark:text-slate-200 outline-0 border-2 border-transparent focus:border-orange-500"
                 onChange={(e) => setOtp(e)}
                 placeholder="_"
                 ariaLabel="Enter your OTP"
