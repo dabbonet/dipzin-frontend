@@ -1,15 +1,15 @@
 'use client'
 import { ReactNode } from "react"
 import { ThemeProvider } from "next-themes"
-import GlobalProvider from "@/lib/globalContext"
+import PlatformProvider from "@/lib/platforms"
 
 const Providers = ({ children }: { children: ReactNode }) => {
     return (
-        <GlobalProvider>
+        <PlatformProvider>
             <ThemeProvider attribute='class' defaultTheme="system" enableSystem>
                 {children}
             </ThemeProvider>
-        </GlobalProvider>
+        </PlatformProvider>
     )
 }
 

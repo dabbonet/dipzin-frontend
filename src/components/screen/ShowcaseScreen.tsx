@@ -42,4 +42,6 @@ const ShowcaseScreen: FC<ShowcaseScreenProps> = ({ src }) => {
     )
 }
 
+ShowcaseScreen.displayName = "ShowcaseScreen"
+
 export default ShowcaseScreen
