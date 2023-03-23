@@ -10,7 +10,7 @@ const Access: FC = () => {
         //TODO: Send email to user and go to OTP page
         router.push(`/access/otp?email=${email}`)
 
-        console.log(email)
+        // console.log(email)
     }
     return (
         <div className="mx-auto w-full subpixel-antialiased">
