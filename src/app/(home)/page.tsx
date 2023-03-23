@@ -1,14 +1,14 @@
 import Stream from "@/components/Stream";
 import { usePlatform } from "@/lib/platforms";
 
-async function getStream() {
-  const res = await fetch("http://localhost:3000/api/stream");
-  if (!res.ok) throw new Error("Failed to fetch stream");
-  return res.json();
-}
+// async function getStream() {
+//   const res = await fetch("http://localhost:3000/api/stream");
+//   if (!res.ok) throw new Error("Failed to fetch stream");
+//   return res.json();
+// }
 
 export default async function Home() {
-  const stream = await getStream();
+  // const stream = await getStream();
   // console.log(stream.data);
 
   let items = [
