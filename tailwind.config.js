@@ -22,6 +22,10 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['var(--font-poppins)', ...fontFamily.sans],
+        
+      },
+      rotate: {
+        '-15':'-15deg'
       },
     },
   },
