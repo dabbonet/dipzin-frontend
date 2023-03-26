@@ -83,94 +83,128 @@ const Page: NextPage = () => {
         </div>
 
         {/* plan compareson */}
-        <div className=" mt-32 flex flex-wrap flex-row gap-28 items-center w-[90%]">
+        {/* <div className=" mt-32 flex flex-wrap flex-row gap-28 items-center w-[90%]">
           <div className="flex flex-col w-full lg:w-fit items-center lg:items-start">
             <span className="font-[600] text-4xl">Plan Comparison</span>
             <span className="font-[400] text-lg text-[#94A3B8] mt-2">
               Find your best subscription.
             </span>
           </div>
-          <div className="flex flex-wrap flex-row justify-center gap-48 ">
+          <div className="flex flex-row justify-center gap-48 m-auto">
             <Plans type="Free" cost={"Free"} />
             <Plans type="Personal" cost={49} />
             <Plans type="Team" cost={"Coming Soon..."} />
           </div>
         </div>
-        {/* table */}
         <div className="mt-20 w-[90%]">
           <span className="font-[600] text-2xl mb-8 block">Features</span>
           <div className="flex flex-col">
-            <div className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
-              <span className="flex-[.85] flex justify-between">
-                <span className="font-[500] lg:text-lg text-sm sm:text-base">
-                  All Apps Access
+            
+          </div>
+        </div> */}
+          <table className=" mt-32">
+            <thead>
+              <tr className=" flex lg:gap-48 md:gap-24 sm:gap-12">
+                <td>
+                  <div className="flex flex-col w-full lg:w-fit items-center lg:items-start">
+                    <span className="font-[600] lg:text-4xl md:text-2xl">
+                      Plan Comparison
+                    </span>
+                    <span className="font-[400] lg:text-lg md:text-base sm:text-sm text-xs text-[#94A3B8] mt-2">
+                      Find your best subscription.
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <Plans type="Free" cost={"Free"} />
+                </td>
+                <td>
+                  <Plans type="Personal" cost={49} />
+                </td>
+                <td>
+                  <Plans type="Team" cost={"Coming Soon..."} />
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span className="font-[600] text-2xl mb-8 block">
+                    Features
+                  </span>
+                </td>
+              </tr>
+              <tr className="flex flex-row  py-7 border-t border-solid border-[#1E293B]">
+                <td className="flex-[.85] flex justify-between">
+                  <span className="font-[500] lg:text-lg text-sm sm:text-base">
+                    All Apps Access
+                  </span>
+                  <img src="/images/assets/svg.svg" alt="" />
+                </td>
+                <td className="flex-1 justify-center items-center flex">
+                  <img src="/images/assets/Frame-check.svg" alt="" />
+                </td>
+                <td className="flex-1 justify-center items-center flex">
+                  <img src="/images/assets/Frame-check.svg" alt="" />
+                </td>
+                <td className="flex-1 justify-center items-center flex">
+                  <img src="/images/assets/Frame-check.svg" alt="" />
+                </td>
+              </tr>
+              <tr className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
+                <span className="flex-[.85] flex justify-between">
+                  <span className="font-[500] lg:text-lg text-sm sm:text-base">
+                    Latest Version
+                  </span>
+                  <img src="/images/assets/svg.svg" alt="" />
                 </span>
-                <img src="/images/assets/svg.svg" alt="" />
-              </span>
-              <span className="flex-1 justify-center items-center flex">
-                <img src="/images/assets/Frame-check.svg" alt="" />
-              </span>
-              <span className="flex-1 justify-center items-center flex">
-                <img src="/images/assets/Frame-check.svg" alt="" />
-              </span>
-              <span className="flex-1 justify-center items-center flex">
-                <img src="/images/assets/Frame-check.svg" alt="" />
-              </span>
-            </div>
-            <div className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
-              <span className="flex-[.85] flex justify-between">
-                <span className="font-[500] lg:text-lg text-sm sm:text-base">
-                  Latest Version
+                <span className="flex-1 justify-center items-center flex">
+                  <img src="/images/assets/Frame-check.svg" alt="" />
                 </span>
-                <img src="/images/assets/svg.svg" alt="" />
-              </span>
-              <span className="flex-1 justify-center items-center flex">
-                <img src="/images/assets/Frame-check.svg" alt="" />
-              </span>
-              <span className="flex-1 justify-center items-center flex">
-                <img src="/images/assets/Frame-check.svg" alt="" />
-              </span>
-              <span className="flex-1 justify-center items-center flex">
-                <img src="/images/assets/Frame-check.svg" alt="" />
-              </span>
-            </div>
-            <div className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
-              <span className="flex-[.85] flex justify-between">
-                <span className="font-[500] lg:text-lg text-sm sm:text-base">
-                  Image Copy & Download
+                <span className="flex-1 justify-center items-center flex">
+                  <img src="/images/assets/Frame-check.svg" alt="" />
                 </span>
-                <img src="/images/assets/svg.svg" alt="" />
-              </span>
-              <span className="flex-1 justify-center items-center flex">
-                <img src="/images/assets/Frame-check.svg" alt="" />
-              </span>
-              <span className="flex-1 justify-center items-center flex">
-                <img src="/images/assets/Frame-check.svg" alt="" />
-              </span>
-              <span className="flex-1 justify-center items-center flex">
-                <img src="/images/assets/Frame-check.svg" alt="" />
-              </span>
-            </div>
-            <div className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
-              <span className="flex-[.85] flex justify-between">
-                <span className="font-[500] lg:text-lg text-sm sm:text-base">
-                  Bulk download
+                <span className="flex-1 justify-center items-center flex">
+                  <img src="/images/assets/Frame-check.svg" alt="" />
                 </span>
-                <img src="/images/assets/svg.svg" alt="" />
-              </span>
-              <span className="flex-1 justify-center items-center flex">
-                <span className="font-[500] lg:text-lg text-sm sm:text-base">
-                  Limited
+              </tr>
+              <tr className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
+                <span className="flex-[.85] flex justify-between">
+                  <span className="font-[500] lg:text-lg text-sm sm:text-base">
+                    Image Copy & Download
+                  </span>
+                  <img src="/images/assets/svg.svg" alt="" />
                 </span>
-              </span>
-              <span className="flex-1 justify-center items-center flex">
-                <img src="/images/assets/Frame-check.svg" alt="" />
-              </span>
-              <span className="flex-1 justify-center items-center flex">
-                <img src="/images/assets/Frame-check.svg" alt="" />
-              </span>
-            </div>
-            <div className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
+                <span className="flex-1 justify-center items-center flex">
+                  <img src="/images/assets/Frame-check.svg" alt="" />
+                </span>
+                <span className="flex-1 justify-center items-center flex">
+                  <img src="/images/assets/Frame-check.svg" alt="" />
+                </span>
+                <span className="flex-1 justify-center items-center flex">
+                  <img src="/images/assets/Frame-check.svg" alt="" />
+                </span>
+              </tr>
+              <tr className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
+                <span className="flex-[.85] flex justify-between">
+                  <span className="font-[500] lg:text-lg text-sm sm:text-base">
+                    Bulk download
+                  </span>
+                  <img src="/images/assets/svg.svg" alt="" />
+                </span>
+                <span className="flex-1 justify-center items-center flex">
+                  <span className="font-[500] lg:text-lg text-sm sm:text-base">
+                    Limited
+                  </span>
+                </span>
+                <span className="flex-1 justify-center items-center flex">
+                  <img src="/images/assets/Frame-check.svg" alt="" />
+                </span>
+                <span className="flex-1 justify-center items-center flex">
+                  <img src="/images/assets/Frame-check.svg" alt="" />
+                </span>
+            </tr>
+            <tr className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
               <span className="flex-[.85] flex justify-between">
                 <div className="flex flex-col md:flex-row lg:gap-5 gap-1 justify-center items-center">
                   <span className="font-[500] lg:text-lg text-sm sm:text-base">
@@ -197,8 +231,8 @@ const Page: NextPage = () => {
                   Unlimited
                 </span>
               </span>
-            </div>
-            <div className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
+            </tr>
+            <tr className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
               <span className="flex-[.85] flex justify-between">
                 <span className="font-[500] lg:text-lg text-sm sm:text-base">
                   Search and Filters
@@ -220,8 +254,8 @@ const Page: NextPage = () => {
                   Unlimited
                 </span>
               </span>
-            </div>
-            <div className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
+            </tr>
+            <tr className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
               <span className="flex-[.85] flex justify-between">
                 <span className="font-[500] lg:text-lg text-sm sm:text-base">
                   Collections
@@ -243,8 +277,8 @@ const Page: NextPage = () => {
                   Unlimited
                 </span>
               </span>
-            </div>
-            <div className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
+            </tr>
+            <tr className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
               <span className="flex-[.85] flex justify-between">
                 <span className="font-[500] lg:text-lg text-sm sm:text-base">
                   Team Members
@@ -260,8 +294,8 @@ const Page: NextPage = () => {
               <span className="flex-1 justify-center items-center flex">
                 <img src="/images/assets/Frame-check.svg" alt="" />
               </span>
-            </div>
-            <div className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
+            </tr>
+            <tr className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
               <span className="flex-[.85] flex justify-between">
                 <span className="font-[500] lg:text-lg text-sm sm:text-base">
                   Team Collections
@@ -277,8 +311,8 @@ const Page: NextPage = () => {
               <span className="flex-1 justify-center items-center flex">
                 <img src="/images/assets/Frame-check.svg" alt="" />
               </span>
-            </div>
-            <div className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
+            </tr>
+            <tr className="flex flex-row py-7 border-t border-solid border-[#1E293B]">
               <span className="flex-[.85] flex justify-between">
                 <span className="font-[500] lg:text-lg text-sm sm:text-base">
                   Centeralized Billing
@@ -294,8 +328,8 @@ const Page: NextPage = () => {
               <span className="flex-1 justify-center items-center flex">
                 <img src="/images/assets/Frame-check.svg" alt="" />
               </span>
-            </div>
-            <div className="flex flex-row py-7 border-y border-solid border-[#1E293B]">
+            </tr>
+            <tr className="flex flex-row py-7 border-y border-solid border-[#1E293B]">
               <span className="flex-[.85] flex justify-between">
                 <span className="font-[500] lg:text-lg text-sm sm:text-base">
                   Seat-based Pricing
@@ -311,9 +345,10 @@ const Page: NextPage = () => {
               <span className="flex-1 justify-center items-center flex">
                 <img src="/images/assets/Frame-check.svg" alt="" />
               </span>
-            </div>
-          </div>
-        </div>
+            </tr>
+            </tbody>
+          </table>
+
 
         <div className=" mt-20">
           <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -376,3 +411,17 @@ const Page: NextPage = () => {
   );
 };
 export default Page;
+
+{
+  /* 
+           
+            
+           
+            
+            
+            
+            
+            
+            
+             */
+}
