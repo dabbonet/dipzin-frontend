@@ -4,6 +4,8 @@ import { Components, VirtuosoGrid } from 'react-virtuoso';
 import ShowcaseScreen from './screen/ShowcaseScreen';
 import { usePlatform } from "@/lib/platforms";
 import { cn, shuffle } from '@/lib/utils';
+import { AnimatePresence } from 'framer-motion';
+import Showcase from './Showcase';
 
 interface StreamProps {
     streamCount: any;
@@ -14,6 +16,7 @@ const Stream: FC<StreamProps> = ({ streamCount }) => {
     const { platforms, setPlatforms, selected } = usePlatform();
     const [stream, setStream] = useState<any>({});
     const [loadedPages, setLoadedPages] = useState<number[]>([]);
+    const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
 
     const getMaxCount = () => {
         if (streamCount.length == 0 && !selected) return
@@ -70,10 +73,18 @@ const Stream: FC<StreamProps> = ({ streamCount }) => {
                 endReached={loadMore}
                 listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4")}
                 itemContent={(index, data) => (
-                    <ShowcaseScreen app={data} />
+                    <div onClick={() => setSelectedShowcase(data)}>
+                        <ShowcaseScreen app={data} />
+                    </div>
                 )}
-
             />
+            <AnimatePresence>
+                {
+                    selectedShowcase && (
+                        <Showcase selectedShowcase={selectedShowcase} setSelectedShowcase={setSelectedShowcase} />
+                    )
+                }
+            </AnimatePresence>
         </>
     );
 };
