@@ -89,7 +89,7 @@ interface StreamRequestProps {
 }
 
 async function getStream({ platform, page }: StreamRequestProps) {
-    const res = await fetch("http://localhost:3000/api/stream?platform=" + platform + "&page=" + page);
+    const res = await fetch("/api/stream?platform=" + platform + "&page=" + page);
     if (!res.ok) throw new Error("Failed to fetch stream");
     return res.json();
 }
