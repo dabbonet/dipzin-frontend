@@ -13,7 +13,7 @@ const Navbar: FC = () => {
                 className="text-lg lg:text-2xl"
             >
                 <Image
-                    className="mr-3 h-6 sm:h-9 dark:block hidden"
+                    className="mr-3 h-6 sm:h-9 w-auto dark:block hidden"
                     src="/images/assets/light-logo.svg"
                     alt="Dipzin Logo"
                     width={110}

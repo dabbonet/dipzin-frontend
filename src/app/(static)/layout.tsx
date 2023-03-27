@@ -11,7 +11,7 @@ const poppins = Poppins({
   display: 'swap',
   weight: ["100", "300", "500", "700", "900"],
   variable: '--font-poppins',
-  fallback: ['Poppins']
+  fallback: ['"Poppins"']
 });
 
 export const metadata = {

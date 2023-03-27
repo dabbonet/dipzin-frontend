@@ -1,38 +1,16 @@
 const qs = require('qs');
 
 export async function GET(request: Request) {
-    const query = qs.stringify(
-        {
-            filters: {
-                is_published: {
-                    $eq: true
-                }
-            },
-            populate: {
-                screens: {
-                    populate: {
-                        screen: {
-                            fields: ['formats']
-                        }
-                    },
-                    filters: {
-                        is_showcase: {
-                            $eq: true,
-                        },
-                    },
-                },
-            },
-            pagination: {
-                page: 1,
-                pageSize: 10
-            }
-        },
-        {
-            encodeValuesOnly: true, // prettify URL
-        }
-    )
+    const { searchParams } = new URL(request.url);
+    const platform = searchParams.get('platform');
+    const page = searchParams.get('page');
 
-    const req = await fetch(`https://rah.dipzin.com/api/apps?${query}`, {
+    const params = new URLSearchParams({
+        platform: platform ?? '',
+        page: page ?? '',
+    });
+
+    const req = await fetch(`https://rah.dipzin.com/api/stream?${params}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
