@@ -22,12 +22,12 @@ const Stream: FC<StreamProps> = ({ streamCount }) => {
     }
 
     const randomPage = () => {
-        const max = getMaxCount();
+        const max = getMaxCount() / 10;
         if (loadedPages.length >= max) return
-        let randomPage = getRandomPageNumber(max);
-        while (loadedPages.includes(randomPage)) {
+        let randomPage: number, attempts = 0;
+        do {
             randomPage = getRandomPageNumber(max);
-        }
+        } while (loadedPages.includes(randomPage));
         setLoadedPages((pages) => [...pages, randomPage]);
         return randomPage;
     }
@@ -46,7 +46,6 @@ const Stream: FC<StreamProps> = ({ streamCount }) => {
     }, [selected]);
 
     const loadMore = useCallback(() => {
-        console.log('loaded', loadedPages)
         return setTimeout(async () => {
             // Return if all pages have been loaded
             const max = getMaxCount() / 10
@@ -54,9 +53,10 @@ const Stream: FC<StreamProps> = ({ streamCount }) => {
 
             // Load more stream items
             const more = await getStream({ platform: selected!, page: randomPage()! });
-            setStream((stream: any) => [...stream, ...shuffle(more.stream)])
-        }, 200)
-    }, [setStream, selected, loadedPages])
+            const shuffledData = shuffle(more.stream);
+            setStream((stream: any) => [...stream, ...shuffledData])
+        }, 300)
+    }, [getMaxCount, setStream, loadedPages])
 
     return (
         <>
@@ -64,9 +64,9 @@ const Stream: FC<StreamProps> = ({ streamCount }) => {
                 className="mt-6"
                 useWindowScroll
                 data={stream}
-                style={{ minHeight: 100, width: '100%', height: 'fit' }}
+                style={{ minHeight: 100, width: '100%' }}
                 totalCount={stream.length}
-                overscan={2}
+                overscan={10}
                 endReached={loadMore}
                 listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4")}
                 itemContent={(index, data) => (
@@ -83,6 +83,14 @@ Stream.displayName = "Stream"
 export default Stream
 
 
+
+
+
+
+
+
+
+
 interface StreamRequestProps {
     platform: number;
     page: number;
@@ -95,8 +103,7 @@ async function getStream({ platform, page }: StreamRequestProps) {
 }
 
 function getRandomPageNumber(max: number): number {
-    const randomPage = Math.round(Math.random() * (max / 10));
-    console.log(randomPage)
+    const randomPage = Math.round(Math.random() * max);
     return randomPage === 0 ? 1 : randomPage; // Ensure page number is at least 1
 }
 
