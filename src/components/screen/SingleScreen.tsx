@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { FC } from 'react'
 import Image from 'next/image'
 import { rgbDataURL } from '@/lib/utils';
+import Screen from '@/ui/Screen';
 
 interface SingleScreenProps {
     src: string
@@ -50,18 +51,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ src }) => {
                 </div> */}
 
                 <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 ">
-                    <Image
-                        alt=""
-                        src={src}
-                        width={428}
-                        height={926}
-                        className="ease-in-out"
-                        placeholder="blur"
-                        blurDataURL={rgbDataURL(30, 41, 59)}
-                        // onLoadingComplete={() => setLoading(false)}
-                        quality={60}
-                        loading="lazy"
-                    />
+                    <Screen src={src} />
                 </div>
             </motion.div>
         </div>
