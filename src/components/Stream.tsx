@@ -8,33 +8,14 @@ import { AnimatePresence } from 'framer-motion';
 import Showcase from './Showcase';
 
 interface StreamProps {
-    streamCount: any;
 }
 
-const Stream: FC<StreamProps> = ({ streamCount }) => {
+const Stream: FC<StreamProps> = () => {
 
-    const { platforms, setPlatforms, selected } = usePlatform();
+    const { setPlatforms, selected } = usePlatform();
     const [stream, setStream] = useState<any>({});
     const [loadedPages, setLoadedPages] = useState<number[]>([]);
     const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
-
-    const getMaxCount = () => {
-        if (streamCount.length == 0 && !selected) return
-        const platform = getPlatformName(selected!)
-        return streamCount[platform!];
-    }
-
-    const randomPage = () => {
-        const max = getMaxCount() / 10;
-        if (loadedPages.length >= max) return
-        let randomPage: number, attempts = 0;
-        do {
-            randomPage = getRandomPageNumber(max);
-        } while (loadedPages.includes(randomPage));
-        setLoadedPages((pages) => [...pages, randomPage]);
-        return randomPage;
-    }
-
 
     // 1. Initialize Stream and Page Platforms.
     // 2. Refetch Stream on Platform Change.
@@ -42,7 +23,9 @@ const Stream: FC<StreamProps> = ({ streamCount }) => {
         setPlatforms([2, 1, 3]);
         setLoadedPages([]);
         const updateStream = async () => {
-            const data = await getStream({ platform: selected!, page: randomPage()! });
+            const data = await getStream({ platform: selected!, limit: 13, previousIds: [] });
+            const streamIds = data.stream.map((streamItem: any) => streamItem.id);
+            setLoadedPages((prevLoadedPages) => [...prevLoadedPages, ...streamIds]);
             setStream(shuffle(data.stream));
         }
         updateStream();
@@ -50,16 +33,15 @@ const Stream: FC<StreamProps> = ({ streamCount }) => {
 
     const loadMore = useCallback(() => {
         return setTimeout(async () => {
-            // Return if all pages have been loaded
-            const max = getMaxCount() / 10
-            if (loadedPages.length >= max) return
-
             // Load more stream items
-            const more = await getStream({ platform: selected!, page: randomPage()! });
+            const more = await getStream({ platform: selected!, limit: 13, previousIds: loadedPages });
+            const streamIds = more.stream.map((streamItem: any) => streamItem.id);
+            setLoadedPages((prevLoadedPages) => [...prevLoadedPages, ...streamIds]);
+
             const shuffledData = shuffle(more.stream);
             setStream((stream: any) => [...stream, ...shuffledData])
         }, 300)
-    }, [getMaxCount, setStream, loadedPages])
+    }, [setStream, loadedPages])
 
     return (
         <>
@@ -93,38 +75,14 @@ Stream.displayName = "Stream"
 
 export default Stream
 
-
-
-
-
-
-
-
-
-
 interface StreamRequestProps {
     platform: number;
-    page: number;
+    limit: number;
+    previousIds: number[];
 }
 
-async function getStream({ platform, page }: StreamRequestProps) {
-    const res = await fetch("/api/stream?platform=" + platform + "&page=" + page);
+async function getStream({ platform, limit, previousIds }: StreamRequestProps) {
+    const res = await fetch("/api/stream?platform=" + platform + "&limit=" + limit + "&previousIds=" + previousIds);
     if (!res.ok) throw new Error("Failed to fetch stream");
     return res.json();
-}
-
-function getRandomPageNumber(max: number): number {
-    const randomPage = Math.round(Math.random() * max);
-    return randomPage === 0 ? 1 : randomPage; // Ensure page number is at least 1
-}
-
-function getPlatformName(platform: number) {
-    switch (platform) {
-        case 1:
-            return 'android'
-        case 2:
-            return 'ios'
-        case 3:
-            return 'web'
-    }
 }
