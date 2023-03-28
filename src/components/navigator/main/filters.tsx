@@ -8,7 +8,7 @@ const Filters = () => {
     const [tab, setTab] = React.useState<number>(1)
     return (
         <motion.div
-            className="mb-2 py-2 px-4 max-w-[1400px]"
+            className="mb-2 py-2 px-4"
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 100 }}
