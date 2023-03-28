@@ -21,10 +21,9 @@ const MainNavigator = ({ type }: any) => {
         useEffect(() => {
             function handleClickOutside(event: any) {
                 if (ref.current && !ref.current.contains(event.target)) {
-                    if (menuOpen || navOpen) {
-                        setMenuOpen(false)
-                        setNavOpen(false)
-                    }
+                    setFilterOpen(false)
+                    setMenuOpen(false)
+                    setNavOpen(false)
                 }
             }
             // Bind the event listener
@@ -43,8 +42,8 @@ const MainNavigator = ({ type }: any) => {
     const [search, setSearch] = useState<string>("");
 
     return (
-        <div className="fixed left-0 right-0 bottom-12 max-w-[80%] mx-auto flex justify-center z-50">
-            <motion.div layoutRoot className='relative flex items-end' ref={wrapperRef}>
+        <div ref={wrapperRef} className="fixed left-0 right-0 bottom-12 max-w-[80%] mx-auto flex justify-center z-20">
+            <motion.div layoutRoot className='relative flex items-end'>
                 {/* User Avatar area */}
                 <motion.div
                     layout="position"
@@ -169,14 +168,14 @@ const MainNavigator = ({ type }: any) => {
                             />
                             <motion.div
                                 layout="position"
-                                className="h-full flex items-center bg-slate-700 hover:bg-slate-600 cursor-pointer rounded-full px-6 ml-auto"
+                                className="h-full flex items-center bg-gradient-to-br from-slate-700 to-slate-700/60  hover:bg-slate-600 cursor-pointer rounded-full space-x-2 px-6 ml-auto"
                                 onClick={() => {
                                     setFilterOpen(!filterOpen);
                                     setNavOpen(false);
                                     setMenuOpen(false);
                                 }}>
-                                <Icons.Grip className='w-4 h-4 text-slate-400' />
-                                <span className="font-medium text-sm">Fillter</span>
+                                <Icons.Filter className='w-4 h-4 text-slate-400' />
+                                <span className="font-medium text-sm mt-0.5">Fillter</span>
                             </motion.div>
                         </motion.div>
                     </motion.div>
