@@ -11,7 +11,7 @@ const Page: NextPage = () => {
       {/* full page */}
       <main className=" pt-20 flex flex-col items-center">
         {/* header */}
-        {/* <div className=" container w-[75%] mx-auto flex flex-col">
+        <div className=" container w-[75%] mx-auto flex flex-col">
           <span className="text-[#F97316] font-[600] text-base">
             Beta Pricing
           </span>
@@ -22,15 +22,15 @@ const Page: NextPage = () => {
             We believe Dipzin should be accessible to all companies, no matter
             the size.
           </span>
-        </div> */}
+        </div>
         {/* pills */}
-        {/* <div className=" container w-[75%] flex justify-center mt-20">
+        <div className=" container w-[75%] flex justify-center mt-20">
           <div className=" w-fit flex flex-wrap justify-center gap-6 bg-slate-800 py-3 px-4 rounded-3xl">
             <Pills pillType="MONTHLY" />
             <Pills pillType="QUARTERLY" sale="35%" />
             <Pills pillType="ANNUALLY" sale="35%" />
           </div>
-        </div> */}
+        </div>
         {/* cards */}
         <div className=" container w-[75%] flex flex-wrap gap-8 justify-center">
           <Card
