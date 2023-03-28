@@ -3,6 +3,7 @@ import { FC } from 'react'
 import Image from 'next/image'
 import Link from 'next/link';
 import PlatformSwitcher from '@/components/PlatformSwitcher';
+import SparkleButton from './ui/SparkleButton';
 
 const Navbar: FC = () => {
     return (
@@ -30,9 +31,10 @@ const Navbar: FC = () => {
 
             <PlatformSwitcher />
 
-            <div className="px-4 py-2 bg-slate-800 text-slate-100 dark:bg-slate-300 dark:text-slate-900 rounded-full flex items-center justify-center md:text-sm text-xs font-medium tracking-wider">
+            {/* <div className="px-4 py-2 bg-slate-800 text-slate-100 dark:bg-slate-300 dark:text-slate-900 rounded-full flex items-center justify-center md:text-sm text-xs font-medium tracking-wider">
                 <Link href="/access" shallow>Try it!</Link>
-            </div>
+            </div> */}
+            <SparkleButton />
         </header>
     )
 }

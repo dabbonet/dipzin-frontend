@@ -211,7 +211,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                     className={cn("grid ml-auto mr-auto z-50 w-full", platform === 3 ? "grid-cols-2 lg:grid-cols-2 xl:grid-cols-2  gap-10 " : "grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-10")}
                 >
                     {selectedShowcase?.screens.map((item: any, index: number) => (
-                        <SingleScreen src={item.large?.url} />
+                        <SingleScreen key={index} src={item.large?.url} />
                     ))}
                 </div>
 

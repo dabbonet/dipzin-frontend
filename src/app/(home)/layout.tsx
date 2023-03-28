@@ -7,13 +7,14 @@ import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
 import Banner from '@/components/Banner';
 import HomeNavigator from '@/components/HomeNavigator';
+import MainNavigator from '@/components/navigator/main/main';
 
 const poppins = Poppins({
   subsets: ["devanagari"],
   display: 'swap',
   weight: ["100", "300", "500", "700", "900"],
   variable: '--font-poppins',
-  fallback: ['poppins']
+  fallback: ['Poppins']
 });
 
 export const metadata = {
@@ -35,6 +36,7 @@ export default function RootLayout({
             <Banner />
             <HomeNavigator />
             {children}
+            <MainNavigator />
           </main>
           <Footer />
           <Background />
