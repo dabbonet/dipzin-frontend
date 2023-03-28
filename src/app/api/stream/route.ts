@@ -4,11 +4,13 @@ export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
         const platform = searchParams.get('platform');
-        const page = searchParams.get('page');
+        const limit = searchParams.get('limit');
+        const previousIds = searchParams.get('previousIds');
 
         const params = new URLSearchParams({
             platform: platform ?? '',
-            page: page ?? '',
+            limit: limit ?? '',
+            previousIds: previousIds ?? '',
         });
 
         const req = await fetch(`https://rah.dipzin.com/api/stream?${params}`, {
