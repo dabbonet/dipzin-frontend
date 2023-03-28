@@ -294,9 +294,9 @@ const PreviewCard = ({ selected }: any) => {
                     </Link>
                 </div>
                 <div className='flex space-x-2 overflow-x-scroll px-2 pt-2 scrollbar-hide'>
-                    {selected.platform && showcase.map((item: any, index: any) => (
+                    {/* {selected.platform && showcase.map((item: any, index: any) => (
                         <Screen src={""} />
-                    ))}
+                    ))} */}
                 </div>
             </div>
         )
