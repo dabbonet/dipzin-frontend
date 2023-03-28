@@ -35,22 +35,23 @@ const Menu = () => {
 
                         <div className='flex space-x-2 touch-pan-x overflow-x-scroll w-[100%] h-full scrollbar-hide'>
                             <div className='flex-shrink-0 w-[300px] bg-slate-800 rounded-2xl p-4'>
-                                <img src="/images/soon/Screen.png" className='w-full h-auto mb-2' alt="coming soon" />
+
+                                {/* <img src="/images/soon/Screen.png" className='w-full h-auto mb-2' alt="coming soon" /> */}
                                 <h3 className='text-slate-200 font-semibold'>Figma Plugin</h3>
                                 <p className='text-slate-400 text-xs'>Work from your browser with our lightweight extension.</p>
                             </div>
                             <div className='flex-shrink-0 w-[300px] bg-slate-800 rounded-2xl p-4'>
-                                <img src="/images/soon/Screen.png" className='w-full h-auto mb-2' alt="coming soon" />
+                                {/* <img src="/images/soon/Screen.png" className='w-full h-auto mb-2' alt="coming soon" /> */}
                                 <h3 className='text-slate-200 font-semibold'>Figma Plugin</h3>
                                 <p className='text-slate-400 text-xs'>Work from your browser with our lightweight extension.</p>
                             </div>
                             <div className='flex-shrink-0 w-[300px] bg-slate-800 rounded-2xl p-4'>
-                                <img src="/images/soon/Screen.png" className='w-full h-auto mb-2' alt="coming soon" />
+                                {/* <img src="/images/soon/Screen.png" className='w-full h-auto mb-2' alt="coming soon" /> */}
                                 <h3 className='text-slate-200 font-semibold'>Figma Plugin</h3>
                                 <p className='text-slate-400 text-xs'>Work from your browser with our lightweight extension.</p>
                             </div>
                             <div className='flex-shrink-0 w-[300px] bg-slate-800 rounded-2xl p-4'>
-                                <img src="/images/soon/Screen.png" className='w-full h-auto mb-2' alt="coming soon" />
+                                {/* <img src="/images/soon/Screen.png" className='w-full h-auto mb-2' alt="coming soon" /> */}
                                 <h3 className='text-slate-200 font-semibold'>Figma Plugin</h3>
                                 <p className='text-slate-400 text-xs'>Work from your browser with our lightweight extension.</p>
                             </div>
