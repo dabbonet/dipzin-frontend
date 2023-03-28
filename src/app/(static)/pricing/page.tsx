@@ -11,7 +11,7 @@ const Page: NextPage = () => {
       {/* full page */}
       <main className=" pt-20 flex flex-col items-center">
         {/* header */}
-        <div className=" container w-[75%] mx-auto flex flex-col">
+        {/* <div className=" container w-[75%] mx-auto flex flex-col">
           <span className="text-[#F97316] font-[600] text-base">
             Beta Pricing
           </span>
@@ -22,15 +22,15 @@ const Page: NextPage = () => {
             We believe Dipzin should be accessible to all companies, no matter
             the size.
           </span>
-        </div>
+        </div> */}
         {/* pills */}
-        <div className=" container w-[75%] flex justify-center mt-20">
+        {/* <div className=" container w-[75%] flex justify-center mt-20">
           <div className=" w-fit flex flex-wrap justify-center gap-6 bg-slate-800 py-3 px-4 rounded-3xl">
             <Pills pillType="MONTHLY" />
             <Pills pillType="QUARTERLY" sale="35%" />
             <Pills pillType="ANNUALLY" sale="35%" />
           </div>
-        </div>
+        </div> */}
         {/* cards */}
         <div className=" container w-[75%] flex flex-wrap gap-8 justify-center">
           <Card
@@ -132,6 +132,8 @@ const Page: NextPage = () => {
                 src="/images/assets/svg.svg"
                 title="All Apps Access"
                 alt=""
+                width={24}
+                height={24}
               />
             </td>
             <td className="flex-1 flex justify-center">
@@ -139,6 +141,8 @@ const Page: NextPage = () => {
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
+                width={24}
+                height={24}
               />
             </td>
             <td className="flex-1 flex justify-center">
@@ -146,6 +150,8 @@ const Page: NextPage = () => {
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
+                width={24}
+                height={24}
               />
             </td>
             <td className="flex-1 flex justify-center">
@@ -153,6 +159,8 @@ const Page: NextPage = () => {
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
+                width={24}
+                height={24}
               />
             </td>
           </tr>
@@ -161,12 +169,11 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Latest Version
               </span>
-              <Image src="/images/assets/svg.svg" title="Latest Version" alt="" />
-            </td>
-            <td className="flex-1 flex justify-center">
               <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-check.svg"
+                src="/images/assets/svg.svg"
+                width={24}
+                height={24}
+                title="Latest Version"
                 alt=""
               />
             </td>
@@ -174,6 +181,8 @@ const Page: NextPage = () => {
               <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
+                width={24}
+                height={24}
                 alt=""
               />
             </td>
@@ -181,6 +190,17 @@ const Page: NextPage = () => {
               <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
+                width={24}
+                height={24}
+                alt=""
+              />
+            </td>
+            <td className="flex-1 flex justify-center">
+              <Image
+                className=" w-6 h-6"
+                src="/images/assets/Frame-check.svg"
+                width={24}
+                height={24}
                 alt=""
               />
             </td>
@@ -194,12 +214,16 @@ const Page: NextPage = () => {
                 src="/images/assets/svg.svg"
                 title="Image Copy & Download"
                 alt=""
+                width={24}
+                height={24}
               />
             </td>
             <td className="flex-1 flex justify-center">
               <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
+                width={24}
+                height={24}
                 alt=""
               />
             </td>
@@ -207,6 +231,8 @@ const Page: NextPage = () => {
               <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
+                width={24}
+                height={24}
                 alt=""
               />
             </td>
@@ -214,6 +240,8 @@ const Page: NextPage = () => {
               <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
+                width={24}
+                height={24}
                 alt=""
               />
             </td>
@@ -223,7 +251,13 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Bulk download
               </span>
-              <Image src="/images/assets/svg.svg" title="Bulk download" alt="" />
+              <Image
+                src="/images/assets/svg.svg"
+                width={24}
+                height={24}
+                title="Bulk download"
+                alt=""
+              />
             </td>
             <td className="flex-1 flex justify-center">
               <span className=" lg:text-base md:text-sm text-xs">Limited</span>
@@ -232,6 +266,8 @@ const Page: NextPage = () => {
               <img
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
+                width={24}
+                height={24}
                 alt=""
               />
             </td>
@@ -239,6 +275,8 @@ const Page: NextPage = () => {
               <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
+                width={24}
+                height={24}
                 alt=""
               />
             </td>
@@ -251,7 +289,13 @@ const Page: NextPage = () => {
                   Soon
                 </span>
               </div>
-              <Image src="/images/assets/svg.svg" title="Flows" alt="" />
+              <Image
+                src="/images/assets/svg.svg"
+                width={24}
+                height={24}
+                title="Flows"
+                alt=""
+              />
             </td>
             <td className="flex-1 flex justify-center">
               <span className=" lg:text-base md:text-sm text-xs">Limited</span>
@@ -273,6 +317,8 @@ const Page: NextPage = () => {
                 Search and Filters
               </span>
               <Image
+                width={24}
+                height={24}
                 src="/images/assets/svg.svg"
                 title="Search and Filters"
                 alt=""
@@ -297,7 +343,13 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Collections
               </span>
-              <Image src="/images/assets/svg.svg" title="Collections" alt="" />
+              <Image
+                src="/images/assets/svg.svg"
+                width={24}
+                height={24}
+                title="Collections"
+                alt=""
+              />
             </td>
             <td className="flex-1 flex justify-center">
               <span className=" lg:text-base md:text-sm text-xs">Limited</span>
@@ -318,12 +370,11 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Team Members
               </span>
-              <Image src="/images/assets/svg.svg" title="Team Members" alt="" />
-            </td>
-            <td className="flex-1 flex justify-center">
               <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
+                src="/images/assets/svg.svg"
+                width={24}
+                height={24}
+                title="Team Members"
                 alt=""
               />
             </td>
@@ -331,12 +382,25 @@ const Page: NextPage = () => {
               <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
+                width={24}
+                height={24}
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
               <Image
                 className=" w-6 h-6"
+                src="/images/assets/Frame-False.svg"
+                width={24}
+                height={24}
+                alt=""
+              />
+            </td>
+            <td className="flex-1 flex justify-center">
+              <Image
+                className=" w-6 h-6"
+                width={24}
+                height={24}
                 src="/images/assets/Frame-False.svg"
                 alt=""
               />
@@ -347,12 +411,11 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Team Collections
               </span>
-              <Image src="/images/assets/svg.svg" title="Team Collections" alt="" />
-            </td>
-            <td className="flex-1 flex justify-center">
               <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
+                src="/images/assets/svg.svg"
+                width={24}
+                height={24}
+                title="Team Collections"
                 alt=""
               />
             </td>
@@ -361,6 +424,8 @@ const Page: NextPage = () => {
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
+                width={24}
+                height={24}
               />
             </td>
             <td className="flex-1 flex justify-center">
@@ -368,6 +433,17 @@ const Page: NextPage = () => {
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
+                width={24}
+                height={24}
+              />
+            </td>
+            <td className="flex-1 flex justify-center">
+              <Image
+                className=" w-6 h-6"
+                src="/images/assets/Frame-False.svg"
+                alt=""
+                width={24}
+                height={24}
               />
             </td>
           </tr>
@@ -376,12 +452,11 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Centeralized Billing
               </span>
-              <Image src="/images/assets/svg.svg" title="Centeralized Billing" alt="" />
-            </td>
-            <td className="flex-1 flex justify-center">
               <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
+                src="/images/assets/svg.svg"
+                width={24}
+                height={24}
+                title="Centeralized Billing"
                 alt=""
               />
             </td>
@@ -389,6 +464,8 @@ const Page: NextPage = () => {
               <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
+                width={24}
+                height={24}
                 alt=""
               />
             </td>
@@ -396,6 +473,17 @@ const Page: NextPage = () => {
               <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
+                width={24}
+                height={24}
+                alt=""
+              />
+            </td>
+            <td className="flex-1 flex justify-center">
+              <Image
+                className=" w-6 h-6"
+                src="/images/assets/Frame-False.svg"
+                width={24}
+                height={24}
                 alt=""
               />
             </td>
@@ -405,12 +493,11 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Seat-based Pricing
               </span>
-              <Image src="/images/assets/svg.svg" title="Seat-based Pricing" alt="" />
-            </td>
-            <td className="flex-1 flex justify-center">
               <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
+                src="/images/assets/svg.svg"
+                width={24}
+                height={24}
+                title="Seat-based Pricing"
                 alt=""
               />
             </td>
@@ -418,6 +505,8 @@ const Page: NextPage = () => {
               <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
+                width={24}
+                height={24}
                 alt=""
               />
             </td>
@@ -425,6 +514,17 @@ const Page: NextPage = () => {
               <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
+                width={24}
+                height={24}
+                alt=""
+              />
+            </td>
+            <td className="flex-1 flex justify-center">
+              <Image
+                className=" w-6 h-6"
+                src="/images/assets/Frame-False.svg"
+                width={24}
+                height={24}
                 alt=""
               />
             </td>
@@ -437,7 +537,12 @@ const Page: NextPage = () => {
             <div className="bg-slate-800 bg-opacity-50 col-span-1 lg:col-span-2 rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3"></div>
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
               <div className=" mt-16">
-                <Image src="/images/assets/image.svg" alt="" />
+                <Image
+                  src="/images/assets/image.svg"
+                  width={342}
+                  height={213.02}
+                  alt=""
+                />
               </div>
               <span className="font-[500] lg:text-3xl md:text-xl text-base my-4">
                 Customizable Collections
@@ -450,7 +555,12 @@ const Page: NextPage = () => {
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
               <div className=" mt-16">
-                <Image src="/images/assets/image.svg" alt="" />
+                <Image
+                  src="/images/assets/image.svg"
+                  width={342}
+                  height={213.02}
+                  alt=""
+                />
               </div>
               <span className="font-[500] lg:text-3xl md:text-xl text-base my-4">
                 Search capability for easy navigation
@@ -463,7 +573,12 @@ const Page: NextPage = () => {
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
               <div className=" mt-16">
-                <Image src="/images/assets/image.svg" alt="" />
+                <Image
+                  src="/images/assets/image.svg"
+                  width={342}
+                  height={213.02}
+                  alt=""
+                />
               </div>
               <span className="font-[500] lg:text-3xl md:text-xl text-base my-4">
                 Categorized patterns
@@ -475,7 +590,12 @@ const Page: NextPage = () => {
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
               <div className=" mt-16">
-                <Image src="/images/assets/image.svg" alt="" />
+                <Image
+                  src="/images/assets/image.svg"
+                  width={342}
+                  height={213.02}
+                  alt=""
+                />
               </div>
               <span className="font-[500] lg:text-3xl md:text-xl text-base my-4">
                 User-friendly interface
