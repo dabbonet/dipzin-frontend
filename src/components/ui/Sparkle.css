@@ -233,7 +233,7 @@ svg {
 	letter-spacing: 0.15ch;
 }
 
-button svg {
+.button svg {
 	inline-size: 1.25em;
 	translate: -25% -5%;
 }
