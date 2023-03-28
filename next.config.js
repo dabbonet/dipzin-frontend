@@ -7,6 +7,7 @@ const nextConfig = {
     appDir: true,
   },
   optimizeFonts: true,
+  
 }
 
 module.exports = nextConfig
