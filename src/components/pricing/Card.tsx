@@ -18,39 +18,57 @@ const Card = ({
   price_per,
   overSale,
 }: card) => {
+  let betaPrice: any;
+  let rectAngle: any;
+  let overSaleSpan: any;
+  let priceUi: any;
+  let priceDolarUi: any;
+
+  if (sale) {
+    betaPrice = (
+      <div className=" absolute lg:right-12 lg:top-3 md:right-2 sm:right-0 -right-4">
+        <p className=" -rotate-12 text-orange-600 font-bold text-lg">
+          Beta Pricing
+        </p>
+        <img src="/images/assets/Frame.svg" alt="" />
+      </div>
+    );
+    rectAngle = (
+      <img
+        src="images/assets/Rectangle.svg"
+        className=" max-w-full absolute top-[50%] translate-y-[-50%]"
+      />
+    );
+    overSaleSpan = (
+      <span className=" text-orange-600 font-bold text-3xl">{overSale}</span>
+    );
+  }
+  if (typeof price === `number`) {
+    priceUi = <span>{price}</span>;
+    priceDolarUi = (
+      <span className=" text-slate-300 font-bold lg:text-5xl md:text-4xl sm:text-3xl text-2xl ml-2">
+        $
+      </span>
+    );
+  } else {
+    priceUi = (
+      <span>
+        Coming <br /> Soon
+      </span>
+    );
+  }
+
   return (
     <div className=" pl-8 pt-6 pr-14 pb-8 bg-slate-800 rounded-3xl mt-14 flex flex-col">
       <h2 className="font-[500] text-3xl">{subscribeName}</h2>
       <span className=" text-slate-300 font-medium">Great for freelancers</span>
       <div className="  mt-5 flex flex-col relative">
-        {sale && (
-          <div className=" absolute lg:right-12 lg:top-3 md:right-2 sm:right-0 -right-4">
-            <p className=" -rotate-12 text-orange-600 font-bold text-lg">
-              Beta Pricing
-            </p>
-            <img src="/images/assets/Frame.svg" alt="" />
-          </div>
-        )}
+        {betaPrice}
         <div className=" relative w-fit">
-          {sale && (
-            <img
-              src="images/assets/Rectangle.svg"
-              className=" max-w-full absolute top-[50%] translate-y-[-50%]"
-            />
-          )}
+          {rectAngle}
           <h3 className="lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-bold inline">
-            {typeof price === `number` ? (
-              `${price}`
-            ) : (
-              <span>
-                Coming <br /> Soon
-              </span>
-            )}
-            {typeof price === `number` && (
-              <span className=" text-slate-300 font-bold lg:text-5xl md:text-4xl sm:text-3xl text-2xl ml-2">
-                $
-              </span>
-            )}
+            {priceUi}
+            {priceDolarUi}
           </h3>
         </div>
         {/* for sale */}
@@ -58,11 +76,7 @@ const Card = ({
           <span className="font-medium text-lg text-slate-300">
             {price_per}
           </span>
-          {sale && (
-            <span className=" text-orange-600 font-bold text-3xl">
-              {overSale}
-            </span>
-          )}
+          {overSaleSpan}
         </div>
       </div>
       <div className=" mt-5 mb-7">
