@@ -1,5 +1,5 @@
 // import { ReactElement, useState, useRef, useEffect } from "react";
-
+import Image from "next/image";
 import Card from "@/components/pricing/Card";
 import Pills from "@/components/pricing/Pills";
 import { NextPage } from "next";
@@ -128,28 +128,28 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 All Apps Access
               </span>
-              <img
+              <Image
                 src="/images/assets/svg.svg"
                 title="All Apps Access"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
@@ -161,24 +161,24 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Latest Version
               </span>
-              <img src="/images/assets/svg.svg" title="Latest Version" alt="" />
+              <Image src="/images/assets/svg.svg" title="Latest Version" alt="" />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
@@ -190,28 +190,28 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Image Copy & Download
               </span>
-              <img
+              <Image
                 src="/images/assets/svg.svg"
                 title="Image Copy & Download"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
@@ -223,7 +223,7 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Bulk download
               </span>
-              <img src="/images/assets/svg.svg" title="Bulk download" alt="" />
+              <Image src="/images/assets/svg.svg" title="Bulk download" alt="" />
             </td>
             <td className="flex-1 flex justify-center">
               <span className=" lg:text-base md:text-sm text-xs">Limited</span>
@@ -236,7 +236,7 @@ const Page: NextPage = () => {
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-check.svg"
                 alt=""
@@ -251,7 +251,7 @@ const Page: NextPage = () => {
                   Soon
                 </span>
               </div>
-              <img src="/images/assets/svg.svg" title="Flows" alt="" />
+              <Image src="/images/assets/svg.svg" title="Flows" alt="" />
             </td>
             <td className="flex-1 flex justify-center">
               <span className=" lg:text-base md:text-sm text-xs">Limited</span>
@@ -272,7 +272,7 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Search and Filters
               </span>
-              <img
+              <Image
                 src="/images/assets/svg.svg"
                 title="Search and Filters"
                 alt=""
@@ -297,7 +297,7 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Collections
               </span>
-              <img src="/images/assets/svg.svg" title="Collections" alt="" />
+              <Image src="/images/assets/svg.svg" title="Collections" alt="" />
             </td>
             <td className="flex-1 flex justify-center">
               <span className=" lg:text-base md:text-sm text-xs">Limited</span>
@@ -318,24 +318,24 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Team Members
               </span>
-              <img src="/images/assets/svg.svg" title="Team Members" alt="" />
+              <Image src="/images/assets/svg.svg" title="Team Members" alt="" />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
@@ -347,24 +347,24 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Team Collections
               </span>
-              <img src="/images/assets/svg.svg" title="Team Collections" alt="" />
+              <Image src="/images/assets/svg.svg" title="Team Collections" alt="" />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
@@ -376,24 +376,24 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Centeralized Billing
               </span>
-              <img src="/images/assets/svg.svg" title="Centeralized Billing" alt="" />
+              <Image src="/images/assets/svg.svg" title="Centeralized Billing" alt="" />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
@@ -405,24 +405,24 @@ const Page: NextPage = () => {
               <span className=" lg:text-base md:text-sm text-xs">
                 Seat-based Pricing
               </span>
-              <img src="/images/assets/svg.svg" title="Seat-based Pricing" alt="" />
+              <Image src="/images/assets/svg.svg" title="Seat-based Pricing" alt="" />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
               />
             </td>
             <td className="flex-1 flex justify-center">
-              <img
+              <Image
                 className=" w-6 h-6"
                 src="/images/assets/Frame-False.svg"
                 alt=""
@@ -437,7 +437,7 @@ const Page: NextPage = () => {
             <div className="bg-slate-800 bg-opacity-50 col-span-1 lg:col-span-2 rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3"></div>
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
               <div className=" mt-16">
-                <img src="/images/assets/image.svg" alt="" />
+                <Image src="/images/assets/image.svg" alt="" />
               </div>
               <span className="font-[500] lg:text-3xl md:text-xl text-base my-4">
                 Customizable Collections
@@ -450,7 +450,7 @@ const Page: NextPage = () => {
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
               <div className=" mt-16">
-                <img src="/images/assets/image.svg" alt="" />
+                <Image src="/images/assets/image.svg" alt="" />
               </div>
               <span className="font-[500] lg:text-3xl md:text-xl text-base my-4">
                 Search capability for easy navigation
@@ -463,7 +463,7 @@ const Page: NextPage = () => {
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
               <div className=" mt-16">
-                <img src="/images/assets/image.svg" alt="" />
+                <Image src="/images/assets/image.svg" alt="" />
               </div>
               <span className="font-[500] lg:text-3xl md:text-xl text-base my-4">
                 Categorized patterns
@@ -475,7 +475,7 @@ const Page: NextPage = () => {
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
               <div className=" mt-16">
-                <img src="/images/assets/image.svg" alt="" />
+                <Image src="/images/assets/image.svg" alt="" />
               </div>
               <span className="font-[500] lg:text-3xl md:text-xl text-base my-4">
                 User-friendly interface

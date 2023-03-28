@@ -1,6 +1,6 @@
 import React from "react";
 import Featuers from "./Featuers";
-
+import Image from "next/image";
 type card = {
   subscribeName: string;
   price?: number;
@@ -30,11 +30,12 @@ const Card = ({
         <p className=" -rotate-12 text-orange-600 font-bold text-lg">
           Beta Pricing
         </p>
-        <img src="/images/assets/Frame.svg" alt="" />
+        <Image src="/images/assets/Frame.svg" alt="" />
       </div>
     );
     rectAngle = (
-      <img
+      <Image
+        alt=""
         src="images/assets/Rectangle.svg"
         className=" max-w-full absolute top-[50%] translate-y-[-50%]"
       />
