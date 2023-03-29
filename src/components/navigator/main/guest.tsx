@@ -4,7 +4,7 @@ import router from 'next/router';
 const GuestNavigator = () => {
   return (
     <div className="fixed bottom-12 h-auto flex items-center bg-orange-600 rounded-[60px] text-white p-3 font-medium text-[18px]">
-      <img src="/images/assets/verf.svg" className="mr-4" />
+      <img src="/images/assets/verf.svg" className="mr-4" alt="dipzin" />
       <div className="flex-col">
         <span className="font-bold text-[16px]">
           Join the Dipzin Community Today

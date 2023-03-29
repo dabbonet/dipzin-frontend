@@ -32,7 +32,7 @@ const MainNavigator = ({ type }: any) => {
                 // Unbind the event listener on clean up
                 document.removeEventListener("mousedown", handleClickOutside);
             };
-        }, [ref, menuOpen, navOpen]);
+        }, [ref]);
     }
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
@@ -55,6 +55,7 @@ const MainNavigator = ({ type }: any) => {
                                 <img
                                     className="w-full rounded-full"
                                     src={"http://localhost:3000/_next/image?url=https%3A%2F%2Fdipzinapplications.s3.us-west-1.amazonaws.com%2Fthumbnail_82f58fa7_9f57_45c8_b882_0c520c43eedf_a63e322d65.png&w=96&q=75"}
+                                    alt='avatar'
                                 />
                             </div>
                         </DropdownMenuTrigger>
@@ -67,6 +68,7 @@ const MainNavigator = ({ type }: any) => {
                                         <img
                                             className="rounded-full"
                                             src={"http://localhost:3000/_next/image?url=https%3A%2F%2Fdipzinapplications.s3.us-west-1.amazonaws.com%2Fthumbnail_82f58fa7_9f57_45c8_b882_0c520c43eedf_a63e322d65.png&w=96&q=75"}
+                                            alt='avatar'
                                         />
                                     </div>
                                     <div>

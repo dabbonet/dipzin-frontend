@@ -48,13 +48,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                         <div className="flex space-x-1.5">
                             <Link
                                 className="min-w-fit p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
-                                href={{
-                                    // pathname: "/application/[platform]/[slug]",
-                                    // query: {
-                                    //     platform: getPlatform(selected?.platform_id),
-                                    //     slug: selected?.slug,
-                                    // },
-                                }}
+                                href={"/app/" + getPlatformById(selectedShowcase.platform) + "/" + selectedShowcase.slug}
                             >
                                 <svg
                                     width={16}
@@ -80,7 +74,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                             <div
                                 className="min-w-fit p-2 h-[70px] bg-slate-900 rounded-xl cursor-pointer flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
                                 onClick={() => {
-                                    // window.open(selected.storelink, "_blank", "noreferrer");
+                                    window.open(selectedShowcase.store_link, "_blank", "noreferrer");
                                 }}
                             >
                                 <svg
@@ -116,7 +110,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                                 }}
                                 className="min-w-[80px] p-2 h-[70px] bg-slate-900 cursor-pointer rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
                             >
-                                <img className="ml-auto mb-3" src="/images/assets/save.svg" />
+                                <img className="ml-auto mb-3" src="/images/assets/save.svg" alt="Save" />
                                 <span className="w-[70%] text-[11px] font-medium text-left text-white">
                                     Save
                                 </span>
@@ -153,9 +147,9 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                             <div
                                 className="min-w-[80px] max-w-[100px] p-2 h-[70px] bg-slate-900 rounded-xl cursor-pointer flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
                                 onClick={() => {
-                                    // navigator.clipboard.writeText(
-                                    //     "dipzin.com/application/ios/" + selected.slug //need fix
-                                    // )
+                                    navigator.clipboard.writeText(
+                                        window.location.origin + "/app/" + getPlatformById(selectedShowcase.platform) + "/" + selectedShowcase.slug //need fix
+                                    )
                                 }}
                             >
                                 <svg
@@ -227,3 +221,20 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
 }
 
 export default Showcase
+
+
+const getPlatformById = (platform_id: any) => {
+    let platform;
+    switch (platform_id) {
+        case "1":
+            platform = "android";
+            break;
+        case "2":
+            platform = "ios";
+            break;
+        case "3":
+            platform = "web";
+            break;
+    }
+    return platform;
+};

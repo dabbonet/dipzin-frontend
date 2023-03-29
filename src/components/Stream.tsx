@@ -22,6 +22,7 @@ const Stream: FC<StreamProps> = () => {
     useEffect(() => {
         setPlatforms([2, 1, 3]);
         setLoadedPages([]);
+        setStream({});
         const updateStream = async () => {
             const data = await getStream({ platform: selected!, limit: 13, previousIds: [] });
             const streamIds = data.stream.map((streamItem: any) => streamItem.id);
@@ -41,7 +42,7 @@ const Stream: FC<StreamProps> = () => {
             const shuffledData = shuffle(more.stream);
             setStream((stream: any) => [...stream, ...shuffledData])
         }, 300)
-    }, [setStream, loadedPages])
+    }, [setStream, loadedPages, selected])
 
     return (
         <>

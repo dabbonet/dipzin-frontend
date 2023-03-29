@@ -24,7 +24,7 @@ const HomeNavigator: FC = () => {
                     transition={{ type: "spring", stiffness: 50, damping: 20 }}
                     className={cn("ml-3 transition-opacity", path === "/" ? "opacity-100" : "opacity-25")}
                 >
-                    <img className=" w-8" src="/images/assets/refresh.svg" />
+                    <img className=" w-8" src="/images/assets/refresh.svg" alt="refresh" />
                 </motion.div>
             </Link>
             <Link href="/collections" className="mt-1">
