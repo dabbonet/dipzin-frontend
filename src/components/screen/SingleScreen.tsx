@@ -9,6 +9,9 @@ interface SingleScreenProps {
 }
 
 const SingleScreen: FC<SingleScreenProps> = ({ src }) => {
+    if (!src) return (
+        <div>Empty Screen</div>
+    )
     return (
         <div className="flex justify-center items-center relative group/item">
             <motion.div

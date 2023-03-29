@@ -1,37 +1,31 @@
-const qs = require('qs');
-
+import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
-    try {
-        const { searchParams } = new URL(request.url);
-        const platform = searchParams.get('platform');
-        const limit = searchParams.get('limit');
-        const previousIds = searchParams.get('previousIds');
+    const { searchParams } = new URL(request.url);
+    const platform = searchParams.get('platform');
+    const limit = searchParams.get('limit');
+    const previousIds = searchParams.get('previousIds');
 
-        const params = new URLSearchParams({
-            platform: platform ?? '',
-            limit: limit ?? '',
-            previousIds: previousIds ?? '',
-        });
+    const params = new URLSearchParams({
+        platform: platform ?? '',
+        limit: limit ?? '',
+        previousIds: previousIds ?? '',
+    });
 
-        const req = await fetch(`https://rah.dipzin.com/api/stream?${params}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+    const res = await fetch(`https://rah.dipzin.com/api/stream?${params}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
 
-        if (!req.ok) {
-            // Handle non-2xx HTTP response status codes
-            const errorResponse = await req.json();
-            throw new Error(errorResponse.message);
-        }
-
-        return new Response(req.body);
-    } catch (error: any) {
-        // Handle any errors that occur during the fetch request
-        console.error(error);
-        return new Response('Error: ' + error.message, { status: 500 });
+    if (!res.ok) {
+        // Handle non-2xx HTTP response status codes
+        const errorResponse = await res.json();
+        throw new Error(errorResponse.message);
     }
+
+    const stream = await res.json();
+    return NextResponse.json(stream);
 }
 
 export async function POST(request: Request) {

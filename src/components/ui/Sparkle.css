@@ -1,19 +1,6 @@
 .button {
 	--cut: 0.1em;
 	--active: 0;
-	/* --bg:
-		radial-gradient(
-			40% 50% at center 100%,
-			hsl(270 calc(var(--active) * 97%) 72% / var(--active)),
-			transparent
-		),
-		radial-gradient(
-			80% 100% at center 120%,
-			hsl(260 calc(var(--active) * 97%) 70% / var(--active)),
-			transparent
-		),
-		hsl(260 calc(var(--active) * 97%) calc((var(--active) * 44%) + 12%)); */
-	background: var(--bg);
 	font-weight: 500;
 	border: 0;
 	cursor: pointer;
