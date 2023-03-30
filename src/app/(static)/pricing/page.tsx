@@ -32,7 +32,7 @@ const Page: NextPage = () => {
           </div>
         </div>
         {/* cards */}
-        <div className=" container w-[75%] flex flex-wrap gap-8 justify-center">
+        <div className=" container w-[75%] grid lg:grid-cols-3 gap-3 md:grid-cols-2 grid-cols-1">
           <Card
             subscribeName="Free"
             price={0}
