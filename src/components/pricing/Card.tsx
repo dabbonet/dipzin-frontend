@@ -25,7 +25,7 @@ const Card = ({
 
   if (sale) {
     betaPrice = (
-      <div className=" absolute lg:right-12 lg:top-3 md:right-2 sm:right-0 -right-4">
+      <div className=" absolute lg:top-3 -right-24">
         <p className=" -rotate-12 text-orange-600 font-bold text-lg">
           Beta Pricing
         </p>
@@ -59,10 +59,10 @@ const Card = ({
   }
 
   return (
-    <div className=" pl-8 pt-6 pr-14 pb-8 bg-slate-800 rounded-3xl mt-14 flex flex-col">
+    <div className=" pl-4 pt-3 pr-5 pb-4 bg-slate-800 rounded-3xl mt-14 flex flex-col">
       <h2 className="font-[500] text-3xl">{subscribeName}</h2>
       <span className=" text-slate-300 font-medium">Great for freelancers</span>
-      <div className="  mt-5 flex flex-col relative">
+      <div className="  mt-5 flex flex-col relative w-fit">
         {betaPrice}
         <div className=" relative w-fit">
           {rectAngle}
@@ -84,7 +84,7 @@ const Card = ({
           <Featuers key={el} feature={el} />
         ))}
       </div>
-      <button className="mt-auto bg-slate-900 rounded-3xl py-2 lg:px-32 px-20 md:px-24 text-lg font-medium ">
+      <button className="mt-auto bg-slate-900 rounded-3xl py-2 w-full">
         Get Started
       </button>
     </div>
