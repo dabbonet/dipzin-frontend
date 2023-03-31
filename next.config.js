@@ -1,12 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['dipzinapplications.s3.us-west-1.amazonaws.com']
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "dipzinapplications.s3.us-west-1.amazonaws.com",
+      }
+    ],
   },
+  output: "standalone",
   experimental: {
     appDir: true,
+    isrMemoryCacheSize: 5000,
+    enableUndici: true
   },
-  optimizeFonts: true,
+  optimizeFonts: false,
 }
 
 module.exports = nextConfig
