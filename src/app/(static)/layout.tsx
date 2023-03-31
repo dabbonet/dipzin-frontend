@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={cn('subpixel-antialiased font-sans', poppins.variable)}>
-      <body className={cn('bg-gradient-to-tr from-slate-200 to-slate-300 dark:from-[#0D1018] dark:to-[#09132E] min-h-screen w-full h-screen')}>
+      <body className={cn('bg-fixed bg-gradient-to-tr from-slate-200 to-slate-300 dark:from-[#0D1018] dark:to-[#09132E] min-h-screen w-full h-screen')}>
         <Providers>
           <Navbar />
           <main className='pt-24 max-w-full mx-10'>

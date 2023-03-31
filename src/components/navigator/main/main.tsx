@@ -21,10 +21,9 @@ const MainNavigator = ({ type }: any) => {
         useEffect(() => {
             function handleClickOutside(event: any) {
                 if (ref.current && !ref.current.contains(event.target)) {
-                    if (menuOpen || navOpen) {
-                        setMenuOpen(false)
-                        setNavOpen(false)
-                    }
+                    setFilterOpen(false)
+                    setMenuOpen(false)
+                    setNavOpen(false)
                 }
             }
             // Bind the event listener
@@ -33,7 +32,7 @@ const MainNavigator = ({ type }: any) => {
                 // Unbind the event listener on clean up
                 document.removeEventListener("mousedown", handleClickOutside);
             };
-        }, [ref, menuOpen, navOpen]);
+        }, [ref]);
     }
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
@@ -43,8 +42,8 @@ const MainNavigator = ({ type }: any) => {
     const [search, setSearch] = useState<string>("");
 
     return (
-        <div className="fixed left-0 right-0 bottom-12 max-w-[80%] mx-auto flex justify-center z-50">
-            <motion.div layoutRoot className='relative flex items-end' ref={wrapperRef}>
+        <div ref={wrapperRef} className="fixed left-0 right-0 bottom-12 max-w-[80%] mx-auto flex justify-center z-20">
+            <motion.div layoutRoot className='relative flex items-end'>
                 {/* User Avatar area */}
                 <motion.div
                     layout="position"
@@ -55,7 +54,8 @@ const MainNavigator = ({ type }: any) => {
                             <div className="overflow-hidden w-[45px] h-[45px] rounded-full mr-2 relative cursor-pointer border-2 border-slate-200 bg-slate-900">
                                 <img
                                     className="w-full rounded-full"
-                                    src={"http://localhost:3000/_next/image?url=https%3A%2F%2Fdipzinapplications.s3.us-west-1.amazonaws.com%2Fthumbnail_82f58fa7_9f57_45c8_b882_0c520c43eedf_a63e322d65.png&w=96&q=75"}
+                                    src={"/_next/image?url=https%3A%2F%2Fdipzinapplications.s3.us-west-1.amazonaws.com%2Fthumbnail_82f58fa7_9f57_45c8_b882_0c520c43eedf_a63e322d65.png&w=96&q=75"}
+                                    alt='avatar'
                                 />
                             </div>
                         </DropdownMenuTrigger>
@@ -67,7 +67,8 @@ const MainNavigator = ({ type }: any) => {
                                     <div className="w-10 h-10 rounded-full mr-2 bg-slate-800">
                                         <img
                                             className="rounded-full"
-                                            src={"http://localhost:3000/_next/image?url=https%3A%2F%2Fdipzinapplications.s3.us-west-1.amazonaws.com%2Fthumbnail_82f58fa7_9f57_45c8_b882_0c520c43eedf_a63e322d65.png&w=96&q=75"}
+                                            src={"/_next/image?url=https%3A%2F%2Fdipzinapplications.s3.us-west-1.amazonaws.com%2Fthumbnail_82f58fa7_9f57_45c8_b882_0c520c43eedf_a63e322d65.png&w=96&q=75"}
+                                            alt='avatar'
                                         />
                                     </div>
                                     <div>
@@ -169,14 +170,14 @@ const MainNavigator = ({ type }: any) => {
                             />
                             <motion.div
                                 layout="position"
-                                className="h-full flex items-center bg-slate-700 hover:bg-slate-600 cursor-pointer rounded-full px-6 ml-auto"
+                                className="h-full flex items-center bg-gradient-to-br from-slate-700 to-slate-700/60  hover:bg-slate-600 cursor-pointer rounded-full space-x-2 px-6 ml-auto"
                                 onClick={() => {
                                     setFilterOpen(!filterOpen);
                                     setNavOpen(false);
                                     setMenuOpen(false);
                                 }}>
-                                <Icons.Grip className='w-4 h-4 text-slate-400' />
-                                <span className="font-medium text-sm">Fillter</span>
+                                <Icons.Filter className='w-4 h-4 text-slate-400' />
+                                <span className="font-medium text-sm mt-0.5">Fillter</span>
                             </motion.div>
                         </motion.div>
                     </motion.div>

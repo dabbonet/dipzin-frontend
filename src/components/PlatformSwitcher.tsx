@@ -6,6 +6,8 @@ import { useContext, useEffect } from "react";
 
 const PlatformSwitcher = () => {
     const { platforms, singleApp, selected, setSelected } = usePlatform();
+
+    if (platforms.length === 0) return null; // hide if there is no platforms
     return (
         <div className="bg-[#1B2132] rounded-[40px] flex items-center p-2  lg:text-sm text-xs font-light space-x-4">
             {platforms.map((platformAvailable, index) => (
