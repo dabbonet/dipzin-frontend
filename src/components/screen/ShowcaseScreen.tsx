@@ -30,7 +30,7 @@ const ShowcaseScreen: FC<ShowcaseScreenProps> = ({ app }) => {
                             className="h-[15%] w-[15%] ml-[4%] rounded-full bg-slate-700"
                             width={48}
                             height={48}
-                            src={app?.icon?.thumbnail?.url}
+                            src={app?.icon}
                             alt="icon"
                         />
                         <div className="text-white -space-y-1">

@@ -24,20 +24,20 @@ const Stream: FC<StreamProps> = () => {
         setLoadedPages([]);
         setStream({});
         const updateStream = async () => {
-            const data = await getStream({ platform: selected!, limit: 13, previousIds: [] });
-            const streamIds = data.stream.map((streamItem: any) => streamItem.id);
-            setLoadedPages((prevLoadedPages) => [...prevLoadedPages, ...streamIds]);
+            const data = await getStream({ platform: selected!, previousPages: [] });
+            setLoadedPages((prevLoadedPages) => [...prevLoadedPages, data.page]);
             setStream(shuffle(data.stream));
         }
         updateStream();
     }, [selected]);
 
     const loadMore = useCallback(() => {
+        console.log(loadedPages)
         return setTimeout(async () => {
             // Load more stream items
-            const more = await getStream({ platform: selected!, limit: 13, previousIds: loadedPages });
-            const streamIds = more.stream.map((streamItem: any) => streamItem.id);
-            setLoadedPages((prevLoadedPages) => [...prevLoadedPages, ...streamIds]);
+            const more = await getStream({ platform: selected!, previousPages: loadedPages });
+            if (more.status == 404) return
+            setLoadedPages((prevLoadedPages) => [...prevLoadedPages, more.page]);
 
             const shuffledData = shuffle(more.stream);
             setStream((stream: any) => [...stream, ...shuffledData])
@@ -78,12 +78,11 @@ export default Stream
 
 interface StreamRequestProps {
     platform: number;
-    limit: number;
-    previousIds: number[];
+    previousPages: number[];
 }
 
-async function getStream({ platform, limit, previousIds }: StreamRequestProps) {
-    const res = await fetch("/api/stream?platform=" + platform + "&limit=" + limit + "&previousIds=" + previousIds);
-    if (!res.ok) throw new Error("Failed to fetch stream");
+async function getStream({ platform, previousPages }: StreamRequestProps) {
+    const res = await fetch("/api/stream?platform=" + platform + "&previousPages=" + previousPages);
+    if (!res.ok) return { message: "No more apps", status: 404 }
     return res.json();
 }
