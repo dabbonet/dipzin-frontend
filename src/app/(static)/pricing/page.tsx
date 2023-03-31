@@ -69,6 +69,7 @@ const Page: NextPage = () => {
         {/* table */}
 
         <table className="container w-[75%] mt-32">
+          <thead>
           <tr className=" flex flex-row justify-between items-center">
             <td>
               <h2 className=" font-[600] lg:text-3xl md:text-lg sm:text-base text-sm mb-2">
@@ -115,420 +116,431 @@ const Page: NextPage = () => {
               </button>
             </td>
           </tr>
-          <tr className="">
-            <td>
-              <h3 className=" mb-8 text-slate-100 lg:text-2xl md:text-lg sm:text-base text-xs">
-                Features
-              </h3>
-            </td>
-          </tr>
+          </thead>
+          <tbody>
+            <tr className="">
+              <td>
+                <h3 className=" mb-8 text-slate-100 lg:text-2xl md:text-lg sm:text-base text-xs">
+                  Features
+                </h3>
+              </td>
+            </tr>
 
-          <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-            <td className=" flex justify-between flex-1">
-              <span className=" lg:text-base md:text-sm text-xs">
-                All Apps Access
-              </span>
-              <Image
-                src="/images/assets/svg.svg"
-                title="All Apps Access"
-                alt=""
-                width={24}
-                height={24}
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-check.svg"
-                alt=""
-                width={24}
-                height={24}
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-check.svg"
-                alt=""
-                width={24}
-                height={24}
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-check.svg"
-                alt=""
-                width={24}
-                height={24}
-              />
-            </td>
-          </tr>
-          <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-            <td className=" flex justify-between flex-1">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Latest Version
-              </span>
-              <Image
-                src="/images/assets/svg.svg"
-                width={24}
-                height={24}
-                title="Latest Version"
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-check.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-check.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-check.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-          </tr>
-          <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-            <td className=" flex justify-between flex-1">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Image Copy & Download
-              </span>
-              <Image
-                src="/images/assets/svg.svg"
-                title="Image Copy & Download"
-                alt=""
-                width={24}
-                height={24}
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-check.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-check.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-check.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-          </tr>
-          <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-            <td className=" flex justify-between flex-1">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Bulk download
-              </span>
-              <Image
-                src="/images/assets/svg.svg"
-                width={24}
-                height={24}
-                title="Bulk download"
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <span className=" lg:text-base md:text-sm text-xs">Limited</span>
-            </td>
-            <td className="flex-1 flex justify-center">
-              <img
-                className=" w-6 h-6"
-                src="/images/assets/Frame-check.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-check.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-          </tr>
-          <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-            <td className=" flex justify-between flex-1">
-              <div className=" lg:text-base md:text-sm text-xs flex flex-wrap gap-4">
-                Flows
-                <span className=" py-1 px-2 bg-[#FCEED9] rounded text-[#383B3D]">
-                  Soon
+            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+              <td className=" flex justify-between flex-1">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  All Apps Access
                 </span>
-              </div>
-              <Image
-                src="/images/assets/svg.svg"
-                width={24}
-                height={24}
-                title="Flows"
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <span className=" lg:text-base md:text-sm text-xs">Limited</span>
-            </td>
-            <td className="flex-1 flex justify-center">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Unlimited
-              </span>
-            </td>
-            <td className="flex-1 flex justify-center">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Unlimited
-              </span>
-            </td>
-          </tr>
-          <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-            <td className=" flex justify-between flex-1">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Search and Filters
-              </span>
-              <Image
-                width={24}
-                height={24}
-                src="/images/assets/svg.svg"
-                title="Search and Filters"
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <span className=" lg:text-base md:text-sm text-xs">Limited</span>
-            </td>
-            <td className="flex-1 flex justify-center">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Unlimited
-              </span>
-            </td>
-            <td className="flex-1 flex justify-center">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Unlimited
-              </span>
-            </td>
-          </tr>
-          <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-            <td className=" flex justify-between flex-1">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Collections
-              </span>
-              <Image
-                src="/images/assets/svg.svg"
-                width={24}
-                height={24}
-                title="Collections"
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <span className=" lg:text-base md:text-sm text-xs">Limited</span>
-            </td>
-            <td className="flex-1 flex justify-center">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Unlimited
-              </span>
-            </td>
-            <td className="flex-1 flex justify-center">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Unlimited
-              </span>
-            </td>
-          </tr>
-          <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-            <td className=" flex justify-between flex-1">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Team Members
-              </span>
-              <Image
-                src="/images/assets/svg.svg"
-                width={24}
-                height={24}
-                title="Team Members"
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                width={24}
-                height={24}
-                src="/images/assets/Frame-False.svg"
-                alt=""
-              />
-            </td>
-          </tr>
-          <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-            <td className=" flex justify-between flex-1">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Team Collections
-              </span>
-              <Image
-                src="/images/assets/svg.svg"
-                width={24}
-                height={24}
-                title="Team Collections"
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
-                alt=""
-                width={24}
-                height={24}
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
-                alt=""
-                width={24}
-                height={24}
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
-                alt=""
-                width={24}
-                height={24}
-              />
-            </td>
-          </tr>
-          <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-            <td className=" flex justify-between flex-1">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Centeralized Billing
-              </span>
-              <Image
-                src="/images/assets/svg.svg"
-                width={24}
-                height={24}
-                title="Centeralized Billing"
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-          </tr>
-          <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-            <td className=" flex justify-between flex-1">
-              <span className=" lg:text-base md:text-sm text-xs">
-                Seat-based Pricing
-              </span>
-              <Image
-                src="/images/assets/svg.svg"
-                width={24}
-                height={24}
-                title="Seat-based Pricing"
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-            <td className="flex-1 flex justify-center">
-              <Image
-                className=" w-6 h-6"
-                src="/images/assets/Frame-False.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-            </td>
-          </tr>
+                <Image
+                  src="/images/assets/svg.svg"
+                  title="All Apps Access"
+                  alt=""
+                  width={24}
+                  height={24}
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-check.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-check.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-check.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                />
+              </td>
+            </tr>
+            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+              <td className=" flex justify-between flex-1">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Latest Version
+                </span>
+                <Image
+                  src="/images/assets/svg.svg"
+                  width={24}
+                  height={24}
+                  title="Latest Version"
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-check.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-check.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-check.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+            </tr>
+            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+              <td className=" flex justify-between flex-1">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Image Copy & Download
+                </span>
+                <Image
+                  src="/images/assets/svg.svg"
+                  title="Image Copy & Download"
+                  alt=""
+                  width={24}
+                  height={24}
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-check.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-check.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-check.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+            </tr>
+            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+              <td className=" flex justify-between flex-1">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Bulk download
+                </span>
+                <Image
+                  src="/images/assets/svg.svg"
+                  width={24}
+                  height={24}
+                  title="Bulk download"
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Limited
+                </span>
+              </td>
+              <td className="flex-1 flex justify-center">
+                <img
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-check.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-check.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+            </tr>
+            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+              <td className=" flex justify-between flex-1">
+                <div className=" lg:text-base md:text-sm text-xs flex flex-wrap gap-4">
+                  Flows
+                  <span className=" py-1 px-2 bg-[#FCEED9] rounded text-[#383B3D]">
+                    Soon
+                  </span>
+                </div>
+                <Image
+                  src="/images/assets/svg.svg"
+                  width={24}
+                  height={24}
+                  title="Flows"
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Limited
+                </span>
+              </td>
+              <td className="flex-1 flex justify-center">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Unlimited
+                </span>
+              </td>
+              <td className="flex-1 flex justify-center">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Unlimited
+                </span>
+              </td>
+            </tr>
+            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+              <td className=" flex justify-between flex-1">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Search and Filters
+                </span>
+                <Image
+                  width={24}
+                  height={24}
+                  src="/images/assets/svg.svg"
+                  title="Search and Filters"
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Limited
+                </span>
+              </td>
+              <td className="flex-1 flex justify-center">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Unlimited
+                </span>
+              </td>
+              <td className="flex-1 flex justify-center">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Unlimited
+                </span>
+              </td>
+            </tr>
+            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+              <td className=" flex justify-between flex-1">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Collections
+                </span>
+                <Image
+                  src="/images/assets/svg.svg"
+                  width={24}
+                  height={24}
+                  title="Collections"
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Limited
+                </span>
+              </td>
+              <td className="flex-1 flex justify-center">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Unlimited
+                </span>
+              </td>
+              <td className="flex-1 flex justify-center">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Unlimited
+                </span>
+              </td>
+            </tr>
+            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+              <td className=" flex justify-between flex-1">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Team Members
+                </span>
+                <Image
+                  src="/images/assets/svg.svg"
+                  width={24}
+                  height={24}
+                  title="Team Members"
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-False.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-False.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  width={24}
+                  height={24}
+                  src="/images/assets/Frame-False.svg"
+                  alt=""
+                />
+              </td>
+            </tr>
+            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+              <td className=" flex justify-between flex-1">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Team Collections
+                </span>
+                <Image
+                  src="/images/assets/svg.svg"
+                  width={24}
+                  height={24}
+                  title="Team Collections"
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-False.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-False.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-False.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                />
+              </td>
+            </tr>
+            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+              <td className=" flex justify-between flex-1">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Centeralized Billing
+                </span>
+                <Image
+                  src="/images/assets/svg.svg"
+                  width={24}
+                  height={24}
+                  title="Centeralized Billing"
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-False.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-False.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-False.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+            </tr>
+            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+              <td className=" flex justify-between flex-1">
+                <span className=" lg:text-base md:text-sm text-xs">
+                  Seat-based Pricing
+                </span>
+                <Image
+                  src="/images/assets/svg.svg"
+                  width={24}
+                  height={24}
+                  title="Seat-based Pricing"
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-False.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-False.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+              <td className="flex-1 flex justify-center">
+                <Image
+                  className=" w-6 h-6"
+                  src="/images/assets/Frame-False.svg"
+                  width={24}
+                  height={24}
+                  alt=""
+                />
+              </td>
+            </tr>
+          </tbody>
         </table>
 
         {/* grid */}

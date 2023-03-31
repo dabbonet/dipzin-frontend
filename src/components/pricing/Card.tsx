@@ -25,8 +25,8 @@ const Card = ({
 
   if (sale) {
     betaPrice = (
-      <div className=" absolute lg:top-3 -right-24">
-        <p className=" -rotate-12 text-orange-600 font-bold text-lg">
+      <div className=" absolute lg:top-3 -right-20">
+        <p className=" -rotate-12 text-orange-600 font-bold text-sm">
           Beta Pricing
         </p>
         <img src="/images/assets/Frame.svg" alt="" />
@@ -66,13 +66,13 @@ const Card = ({
         {betaPrice}
         <div className=" relative w-fit">
           {rectAngle}
-          <h3 className="lg:text-6xl md:text-5xl sm:text-4xl text-3xl font-bold inline">
+          <h3 className="lg:text-5xl md:text-4xl sm:text-3xl text-2xl font-bold inline">
             {priceUi}
             {priceDolarUi}
           </h3>
         </div>
         {/* for sale */}
-        <div className=" mt-3 flex items-center lg:gap-12 md:gap-6 sm:gap-3 gap-2 w-fit">
+        <div className=" mt-3 flex items-center lg:gap-2 md:gap-4 sm:gap-2 gap-1 w-fit">
           <span className="font-medium text-lg text-slate-300">
             {price_per}
           </span>
@@ -92,3 +92,5 @@ const Card = ({
 };
 
 export default Card;
+
+
