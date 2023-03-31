@@ -14,7 +14,7 @@ interface ShowcaseProps {
 const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) => {
 
     const { selected: platform } = usePlatform()
-    console.log(selectedShowcase)
+    // console.log(selectedShowcase)
     return (
         <motion.div
             //layoutId={selected.id}
@@ -33,7 +33,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                             height={56}
                             placeholder="blur"
                             blurDataURL={rgbDataURL(30, 41, 59)}
-                            src={selectedShowcase?.icon?.thumbnail?.url}
+                            src={selectedShowcase?.icon}
                             alt="icon"
                         />
                         <div className="ml-4">
@@ -211,7 +211,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                     className={cn("grid ml-auto mr-auto z-50 w-full", platform === 3 ? "grid-cols-2 lg:grid-cols-2 xl:grid-cols-2  gap-10 " : "grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-10")}
                 >
                     {selectedShowcase?.screens.map((item: any, index: number) => (
-                        <SingleScreen key={index} src={item.large?.url} />
+                        <SingleScreen key={index} src={item} />
                     ))}
                 </div>
 

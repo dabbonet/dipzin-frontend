@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['dipzinapplications.s3.us-west-1.amazonaws.com']
+    domains: ['dipzinapplications.s3.us-west-1.amazonaws.com'],
+    loader: 'custom',
+    loaderFile: './src/lib/imageLoader.ts',
   },
   experimental: {
     appDir: true,
