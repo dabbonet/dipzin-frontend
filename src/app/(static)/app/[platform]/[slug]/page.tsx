@@ -56,7 +56,7 @@ async function getApp({ slug, platform }: appProps) {
                     },
                     populate: {
                         screen: {
-                            fields: ["url", "formats"]
+                            fields: ["hash", "ext", "url"]
                         }
                     }
                 },
@@ -64,7 +64,7 @@ async function getApp({ slug, platform }: appProps) {
                     fields: ["name"]
                 },
                 icon: {
-                    fields: ["formats"]
+                    fields: ["hash", "ext"]
                 }
             }
         },
