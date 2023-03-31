@@ -1,39 +1,25 @@
-const qs = require('qs');
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-    try {
-        const { searchParams } = new URL(request.url);
-        const platform = searchParams.get('platform');
-        const limit = searchParams.get('limit');
-        const previousIds = searchParams.get('previousIds');
+    const { searchParams } = new URL(request.url);
+    const platform = searchParams.get('platform');
+    const previousPages = searchParams.get('previousPages');
 
-        const params = new URLSearchParams({
-            platform: platform ?? '',
-            limit: limit ?? '',
-            previousIds: previousIds ?? '',
-        });
+    const params = new URLSearchParams({
+        platform: platform ?? '',
+        previousPages: previousPages ?? '',
+    });
 
-        const req = await fetch(`https://rah.dipzin.com/api/stream?${params}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+    const res = await fetch(`https://rah.dipzin.com/api/stream?${params}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        next: { revalidate: 300 }
+    });
 
-        if (!req.ok) {
-            // Handle non-2xx HTTP response status codes
-            const errorResponse = await req.json();
-            throw new Error(errorResponse.message);
-        }
-
-        return new Response(req.body);
-    } catch (error: any) {
-        // Handle any errors that occur during the fetch request
-        console.error(error);
-        return new Response('Error: ' + error.message, { status: 500 });
+    if (!res.ok) {
+        return NextResponse.json({ error: 'Error fetching stream' }, { status: res.status })
     }
-}
-
-export async function POST(request: Request) {
-    return new Response('Hello, POST api!')
+    return NextResponse.json(await res.json());
 }
