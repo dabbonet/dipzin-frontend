@@ -54,7 +54,7 @@ const MainNavigator = ({ type }: any) => {
                             <div className="overflow-hidden w-[45px] h-[45px] rounded-full mr-2 relative cursor-pointer border-2 border-slate-200 bg-slate-900">
                                 <img
                                     className="w-full rounded-full"
-                                    src={"http://localhost:3000/_next/image?url=https%3A%2F%2Fdipzinapplications.s3.us-west-1.amazonaws.com%2Fthumbnail_82f58fa7_9f57_45c8_b882_0c520c43eedf_a63e322d65.png&w=96&q=75"}
+                                    src={"/_next/image?url=https%3A%2F%2Fdipzinapplications.s3.us-west-1.amazonaws.com%2Fthumbnail_82f58fa7_9f57_45c8_b882_0c520c43eedf_a63e322d65.png&w=96&q=75"}
                                     alt='avatar'
                                 />
                             </div>
@@ -67,7 +67,7 @@ const MainNavigator = ({ type }: any) => {
                                     <div className="w-10 h-10 rounded-full mr-2 bg-slate-800">
                                         <img
                                             className="rounded-full"
-                                            src={"http://localhost:3000/_next/image?url=https%3A%2F%2Fdipzinapplications.s3.us-west-1.amazonaws.com%2Fthumbnail_82f58fa7_9f57_45c8_b882_0c520c43eedf_a63e322d65.png&w=96&q=75"}
+                                            src={"/_next/image?url=https%3A%2F%2Fdipzinapplications.s3.us-west-1.amazonaws.com%2Fthumbnail_82f58fa7_9f57_45c8_b882_0c520c43eedf_a63e322d65.png&w=96&q=75"}
                                             alt='avatar'
                                         />
                                     </div>

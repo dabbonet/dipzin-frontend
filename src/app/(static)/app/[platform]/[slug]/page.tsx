@@ -1,12 +1,12 @@
 import { notFound } from 'next/navigation';
 import Content from './content'
 const qs = require('qs');
-export const dynamicParams = true;
 
 interface appProps {
     slug: string;
     platform: string;
 }
+
 
 export default async function AppPage({
     params: { slug, platform }
@@ -72,12 +72,13 @@ async function getApp({ slug, platform }: appProps) {
             encodeValuesOnly: true, // prettify URL
         });
 
+    let THREE_DAYS_IN_SECONDS = 259200;
     const res = await fetch(`https://rah.dipzin.com/api/apps?${query}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
-        cache: 'no-cache',
+        next: { revalidate: THREE_DAYS_IN_SECONDS }
     });
 
     return res.json();
