@@ -19,6 +19,7 @@ const Navbar: FC = () => {
                     alt="Dipzin Logo"
                     width={110}
                     height={39}
+                    loader={({ src }) => src}
                 />
                 <Image
                     className="mr-3 h-6 sm:h-9 block dark:hidden"
@@ -26,6 +27,7 @@ const Navbar: FC = () => {
                     alt="Dipzin Logo"
                     width={110}
                     height={39}
+                    loader={({ src }) => src}
                 />
             </Link>
 

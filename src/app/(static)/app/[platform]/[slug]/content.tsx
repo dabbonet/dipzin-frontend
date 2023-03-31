@@ -6,13 +6,13 @@ import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { VirtuosoGrid } from "react-virtuoso"
+import Image from "next/image"
 
 interface ContentProps {
     app: any
 }
 
 export default function Content({ app }: ContentProps) {
-
     const { selected, setSelected } = usePlatform();
     const [openScreen, setOpenScreen] = useState<string | null>();
 
@@ -22,7 +22,7 @@ export default function Content({ app }: ContentProps) {
     //     setSelected(3)
     // }, [])
 
-    const iconUrl = app.icon.data.attributes.formats.thumbnail.url
+    const icon = app.icon.data.attributes.hash + app.icon.data.attributes.ext
     const categoryName = app.categories.data[0].attributes.name
     const screens = app.screens.data
 
@@ -31,9 +31,11 @@ export default function Content({ app }: ContentProps) {
         <main className="w-full flex flex-col items-center">
             <div className="flex w-full mt-10 mb-4 justify-between items-center text-slate-100 z-10">
                 <div className="flex space-x-6">
-                    <img
+                    <Image
                         className="h-20 rounded-2xl bg-slate-600"
-                        src={iconUrl}
+                        src={icon}
+                        width={80}
+                        height={80}
                         alt="App Icon"
                     />
                     <div>
@@ -68,11 +70,14 @@ export default function Content({ app }: ContentProps) {
                 totalCount={screens.length}
                 overscan={10}
                 listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4")}
-                itemContent={(index, data) => (
-                    <div className="cursor-pointer" onClick={() => setOpenScreen(data.attributes.screen.data?.attributes.url)}>
-                        <SingleScreen src={data.attributes.screen.data?.attributes.formats.medium.url} />
-                    </div>
-                )}
+                itemContent={(index, data) => {
+                    const screen = data?.attributes.screen.data.attributes.hash + data?.attributes.screen.data.attributes.ext
+                    return (
+                        <div className="cursor-pointer" onClick={() => setOpenScreen(screen)}>
+                            <SingleScreen src={screen} />
+                        </div>
+                    )
+                }}
             />
             <AnimatePresence>
                 {openScreen && (
@@ -84,7 +89,7 @@ export default function Content({ app }: ContentProps) {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                         >
-                            <Screen src={openScreen} className='rounded-2xl h-[90%] w-auto' />
+                            <Screen src={openScreen} quality={50} className='rounded-2xl h-[90%] w-auto' />
                         </motion.div>
                     </>
                 )}
