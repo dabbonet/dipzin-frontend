@@ -6,6 +6,7 @@ import { usePlatform } from '@/lib/platforms'
 interface ScreenProps {
     src: any
     className?: any
+    quality?: number
 }
 
 const Screen: FC<ScreenProps> = forwardRef(({ src, ...props }, ref) => {
@@ -24,7 +25,6 @@ const Screen: FC<ScreenProps> = forwardRef(({ src, ...props }, ref) => {
                     // onLoadingComplete={() => setLoading(false)}
                     quality={60}
                     loading="lazy"
-                    unoptimized
                     {...props}
                 />
             )
@@ -39,9 +39,8 @@ const Screen: FC<ScreenProps> = forwardRef(({ src, ...props }, ref) => {
                     placeholder="blur"
                     blurDataURL={rgbDataURL(30, 41, 59)}
                     // onLoadingComplete={() => setLoading(false)}
-                    quality={60}
+                    quality={30}
                     loading="lazy"
-                    unoptimized
                     {...props}
                 />
             )
