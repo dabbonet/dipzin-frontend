@@ -72,13 +72,12 @@ async function getApp({ slug, platform }: appProps) {
             encodeValuesOnly: true, // prettify URL
         });
 
-    let THREE_DAYS_IN_SECONDS = 259200;
     const res = await fetch(`https://rah.dipzin.com/api/apps?${query}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
-        next: { revalidate: THREE_DAYS_IN_SECONDS }
+        next: { revalidate: 300 }
     });
 
     return res.json();
