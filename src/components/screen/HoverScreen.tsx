@@ -32,7 +32,7 @@ const HoverScreen: FC<HoverScreenProps> = ({ images }) => {
             }}
         >
             {images[currentImage] && images.length >= 1 && (
-                <Screen src={images[currentImage]?.medium?.url} />
+                <Screen src={images[currentImage]} />
             )}
         </div>
     );
