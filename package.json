@@ -6,35 +6,37 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "clean": "rm -rf node_modules",
+    "reinstall": "npm run clean && npm install",
+    "rebuild": "npm run clean && npm install && npm run build",
+    "proda": "next build && next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@kmariappan/strapi-client-js": "^1.4.0",
     "@radix-ui/react-dropdown-menu": "^2.0.4",
-    "@types/node": "18.15.5",
-    "@types/react": "18.0.28",
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.31",
     "@types/react-dom": "18.0.11",
-    "axios": "^0.26.1",
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
-    "eslint": "8.36.0",
+    "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
-    "framer-motion": "^10.6.1",
-    "lucide-react": "^0.127.0",
+    "framer-motion": "^10.10.0",
+    "lucide-react": "^0.129.0",
     "next": "13.2.4",
     "next-themes": "^0.2.1",
     "qs": "^6.11.1",
     "react": "18.2.0",
     "react-auth-code-input": "^3.2.1",
     "react-dom": "18.2.0",
-    "react-virtuoso": "^4.1.0",
-    "typescript": "4.9.5"
+    "react-virtuoso": "^4.1.1"
   },
   "devDependencies": {
+    "typescript": "4.9.5",
     "@gradin/tailwindcss-scrollbar": "^3.0.1",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
-    "tailwind-merge": "^1.10.0",
-    "tailwindcss": "^3.2.7"
+    "tailwind-merge": "^1.11.0",
+    "tailwindcss": "^3.3.1"
   }
 }
