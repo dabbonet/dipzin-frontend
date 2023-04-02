@@ -173,7 +173,7 @@ const PreviewCard = ({ selected }: any) => {
                 {showcase.length > 0 && showcase.map((screen: any, index: any) => {
                     const name = screen?.hash + screen?.ext
                     return (
-                        <Screen className={'w-auto rounded-2xl'} src={name} />
+                        <Screen key={index} className={'w-auto rounded-2xl'} src={name} />
                     )
                 }
                 )}
