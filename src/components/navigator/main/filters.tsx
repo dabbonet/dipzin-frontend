@@ -8,66 +8,68 @@ const Filters = () => {
     const [tab, setTab] = React.useState<number>(1)
     return (
         <motion.div
-            className="mb-2 py-2 px-4"
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 100 }}
-            transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
+            layout
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+        // transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
         >
-            <div className='flex items-center text-sm mb-2'>
-                <p className='flex-1 uppercase text-sm text-slate-400'>Available Filters</p>
-                <ul className='inline-flex space-x-2 text-xs'>
-                    <div className={clsx(tab == 1 ? 'bg-slate-500' : 'bg-slate-700', ' py-2 px-3 rounded-full text-slate-200 cursor-pointer')} onClick={() => setTab(1)}>App Categories</div>
-                    <div className={clsx(tab == 2 ? 'bg-slate-500' : 'bg-slate-700', ' py-2 px-3 rounded-full text-slate-200 cursor-pointer')} onClick={() => setTab(2)}>Screen Patterns</div>
-                </ul>
-            </div>
-            <div className='grid grid-rows-5 grid-flow-col gap-3 p-4 mt-2 rounded-2xl bg-slate-800'>
-                {tab === 1 && (
-                    <>
-                        <Tag text="Business" selected />
-                        <Tag text="Education" />
-                        <Tag text="Entertainment" />
-                        <Tag text="Finance" />
-                        <Tag text="Food & Drink" />
-                        <Tag text="Health & Fitness" />
-                        <Tag text="Lifestyle" />
-                        <Tag text="Medical" />
-                        <Tag text="Music" />
-                        <Tag text="Navigation" />
-                        <Tag text="News" />
-                        <Tag text="Photo & Video" />
-                        <Tag text="Productivity" />
-                        <Tag text="Reference" />
-                        <Tag text="Shopping" />
-                        <Tag text="Social Networking" />
-                        <Tag text="Sports" />
-                        <Tag text="Travel" />
-                        <Tag text="Utilities" />
-                    </>
-                )}
-                {tab === 2 && (
-                    <>
-                        <Tag text="Business" selected />
-                        <Tag text="Education" />
-                        <Tag text="Entertainment" />
-                        <Tag text="Finance" />
-                        <Tag text="Food & Drink" />
-                        <Tag text="Health & Fitness" />
-                        <Tag text="Lifestyle" />
-                        <Tag text="Medical" />
-                        <Tag text="Music" />
-                        <Tag text="Navigation" />
-                        <Tag text="News" />
-                        <Tag text="Photo & Video" />
-                        <Tag text="Productivity" />
-                        <Tag text="Reference" />
-                        <Tag text="Shopping" />
-                        <Tag text="Social Networking" />
-                        <Tag text="Sports" />
-                        <Tag text="Travel" />
-                        <Tag text="Utilities" />
-                    </>
-                )}
+            <div className="mb-2 py-2 px-4">
+                <div className='flex items-center text-sm mb-2'>
+                    <p className='flex-1 uppercase text-sm text-slate-400'>Available Filters</p>
+                    <ul className='inline-flex space-x-2 text-xs'>
+                        <div className={clsx(tab == 1 ? 'bg-slate-500' : 'bg-slate-700', ' py-2 px-3 rounded-full text-slate-200 cursor-pointer')} onClick={() => setTab(1)}>App Categories</div>
+                        <div className={clsx(tab == 2 ? 'bg-slate-500' : 'bg-slate-700', ' py-2 px-3 rounded-full text-slate-200 cursor-pointer')} onClick={() => setTab(2)}>Screen Patterns</div>
+                    </ul>
+                </div>
+                <div className='grid grid-rows-5 grid-flow-col gap-3 p-4 mt-2 rounded-2xl bg-slate-800'>
+                    {tab === 1 && (
+                        <>
+                            <Tag text="Business" selected />
+                            <Tag text="Education" />
+                            <Tag text="Entertainment" />
+                            <Tag text="Finance" />
+                            <Tag text="Food & Drink" />
+                            <Tag text="Health & Fitness" />
+                            <Tag text="Lifestyle" />
+                            <Tag text="Medical" />
+                            <Tag text="Music" />
+                            <Tag text="Navigation" />
+                            <Tag text="News" />
+                            <Tag text="Photo & Video" />
+                            <Tag text="Productivity" />
+                            <Tag text="Reference" />
+                            <Tag text="Shopping" />
+                            <Tag text="Social Networking" />
+                            <Tag text="Sports" />
+                            <Tag text="Travel" />
+                            <Tag text="Utilities" />
+                        </>
+                    )}
+                    {tab === 2 && (
+                        <>
+                            <Tag text="Business" selected />
+                            <Tag text="Education" />
+                            <Tag text="Entertainment" />
+                            <Tag text="Finance" />
+                            <Tag text="Food & Drink" />
+                            <Tag text="Health & Fitness" />
+                            <Tag text="Lifestyle" />
+                            <Tag text="Medical" />
+                            <Tag text="Music" />
+                            <Tag text="Navigation" />
+                            <Tag text="News" />
+                            <Tag text="Photo & Video" />
+                            <Tag text="Productivity" />
+                            <Tag text="Reference" />
+                            <Tag text="Shopping" />
+                            <Tag text="Social Networking" />
+                            <Tag text="Sports" />
+                            <Tag text="Travel" />
+                            <Tag text="Utilities" />
+                        </>
+                    )}
+                </div>
             </div>
         </motion.div>
     )
