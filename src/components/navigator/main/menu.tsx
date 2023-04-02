@@ -5,12 +5,15 @@ import Image from 'next/image'
 const Menu = () => {
     return (
         <motion.div
-            className="mb-2 p-2 px-4"
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
+            layout
+            key="menu"
+            className='overflow-x-hidden'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, height: 0, width: 0 }}
+        // transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
         >
-            <div className='flex space-x-4 mt-2 h-[90%] '>
+            <div className='flex space-x-4 h-[90%] p-2 px-4 min-w-[1000px] '>
                 <div className='w-[30%]'>
                     <p className='uppercase text-sm text-slate-400 mb-2'>Main Menu</p>
                     <div className='flex-col rounded-2xl bg-slate-800 p-6 space-y-2 relative'>
