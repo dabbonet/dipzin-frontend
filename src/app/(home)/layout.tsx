@@ -9,12 +9,14 @@ import Banner from '@/components/Banner';
 import HomeNavigator from '@/components/HomeNavigator';
 import MainNavigator from '@/components/navigator/main/main';
 
+
 const poppins = Poppins({
-  subsets: ["devanagari"],
+  subsets: ["latin"],
   display: 'swap',
   weight: ["100", "300", "500", "700", "900"],
+  style: ["normal"],
   variable: '--font-poppins',
-  fallback: ['Poppins']
+  fallback: ['"poppins"'],
 });
 
 export const metadata = {
