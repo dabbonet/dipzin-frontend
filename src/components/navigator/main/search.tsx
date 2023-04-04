@@ -8,6 +8,7 @@ import clsx from "clsx"
 import { NotFoundPreview, NotFoundResults } from "./notFound"
 import Loading from "./loading"
 import useMeasure from "react-use-measure"
+import Icon from './icon'
 
 const Search = ({ search }: any) => {
 
@@ -16,11 +17,11 @@ const Search = ({ search }: any) => {
 
     useEffect(() => {
         const handleSearch = async () => {
-            const res = await fetch(`/api/search?keyword=${search}`);
+            setResults([]);
+            const res = await fetch(`/api/search?keyword=${search}`, { cache: 'no-cache' });
             const data = await res.json();
-            // console.log(data.search.apps);
-            setResults(data.search.tags);
-            setSelected(data.search.tags[0]);
+            setResults(data.search.result);
+            setSelected(data.search.result[0]);
         }
 
         handleSearch();
@@ -49,40 +50,39 @@ const Search = ({ search }: any) => {
                             <div className='w-[30%] px-2 py-2  flex-col rounded-2xl bg-slate-800 scroll-py-2 snap-y scroll-smooth overflow-y-scroll scrollbar-hide'>
                                 {results.map((result: any) => (
                                     <motion.div
-                                        key={result.id}
-                                        className={clsx(selected.id == result.id && 'bg-slate-900', 'flex items-center cursor-pointer p-2 hover:bg-slate-900 rounded-xl space-x-3')}
+                                        key={result.item.id}
+                                        className={clsx(selected.item.id == result.item.id && 'bg-slate-900', 'flex items-center cursor-pointer p-2 hover:bg-slate-900 rounded-xl space-x-3')}
                                         onHoverStart={() => setSelected(result)}
                                     >
-
-                                        <Image
-                                            className="rounded-2xl bg-slate-700"
-                                            width={48}
-                                            height={48}
-                                            src={"f57f3855_4c01_477a_81c1_ad83c6814489_d1ee475bcd.webp"}
-                                            alt="icon"
-                                        />
+                                        <Icon result={result.item.icon?.url} type={result.item.type} />
 
 
                                         <div className="text-white">
-                                            <span className="text-[15px] font-semibold">{result.name}</span>
-                                            <span className="block text-[10px] font-light">
-                                                {result.tag_line && (
-                                                    <span className="block text-[10px] font-light">{result.tag_line}</span>
+                                            <span className="text-[15px] font-semibold">{result.item.name}</span>
+                                            <span className="block text-[10px] font-light text-slate-300">
+                                                {result.item.type === 'app' && (
+                                                    <span className="block text-[10px]">{result.item.tag_line}</span>
+                                                )}
+                                                {result.item.type === 'tag' && (
+                                                    <span className="block text-[10px]">Filter by <b className="font-semibold">Tags</b></span>
+                                                )}
+                                                {result.item.type === 'category' && (
+                                                    <span className="block text-[10px]">Filter by <b className="font-semibold">App Category</b></span>
                                                 )}
                                             </span>
                                         </div>
                                     </motion.div>
                                 ))}
                             </div>
-                            <PreviewCard selected={selected} />
+                            <PreviewCard selected={selected.item} />
                         </>
                     )}
-                    {/* {!results.length && (
+                    {!results.length && (
                         <>
                             <NotFoundResults />
                             <NotFoundPreview />
                         </>
-                    )} */}
+                    )}
 
                 </div>
             </div>
@@ -105,8 +105,8 @@ const PreviewCard = ({ selected }: any) => {
         // Get App Showcase
         setShowcase([])
         const Preview = async () => {
-            const preview = await getTagPreview({ id: selected.id })
-            // console.log(preview)
+            let res = await fetch(`/api/search/preview?id=${selected.id}&type=${selected.type}`)
+            let preview = await res.json()
             setShowcase(preview);
         }
         Preview()
@@ -128,18 +128,18 @@ const PreviewCard = ({ selected }: any) => {
             <div className='w-full flex justify-between'>
                 <div className='flex items-center p-2 rounded-xl space-x-3' >
 
-                    <Image
-                        className="rounded-2xl bg-slate-700"
-                        width={48}
-                        height={48}
-                        src={"f57f3855_4c01_477a_81c1_ad83c6814489_d1ee475bcd.webp"}
-                        alt="icon"
-                    />
+                    <Icon result={selected.icon?.url} type={selected.type} />
                     <div className="text-white">
                         <span className="text-[15px] font-semibold">{selected.name}</span>
-                        <span className="block text-[10px] font-light">
-                            {selected.tag_line && (
-                                <span className="block text-[10px] font-light">{selected.tag_line}</span>
+                        <span className="block text-[10px] font-light text-slate-300">
+                            {selected.type === 'app' && (
+                                <span className="block text-[10px]">{selected.tag_line}</span>
+                            )}
+                            {selected.type === 'tag' && (
+                                <span className="block text-[10px]">Filter by <b className="font-semibold">Tags</b></span>
+                            )}
+                            {selected.type === 'category' && (
+                                <span className="block text-[10px]">Filter by <b className="font-semibold">App Category</b></span>
                             )}
                         </span>
                     </div>
@@ -183,120 +183,4 @@ const PreviewCard = ({ selected }: any) => {
             </div>
         </div>
     )
-}
-
-
-const getAppPreview = async ({ id }: { id: number }) => {
-    const qs = require('qs');
-    const query = qs.stringify(
-        {
-            fields: ['screen'],
-            filters: {
-                app: {
-                    id: {
-                        $eq: id
-                    }
-                },
-                is_showcase: {
-                    $eq: true
-                }
-            },
-            populate: {
-                screen: {
-                    fields: ['hash', 'ext']
-                }
-            }
-        }
-    )
-    const res = await fetch(`https://rah.dipzin.com/api/screens?${query}`)
-    const data = await res.json()
-    const screens = data.data.flatMap(item => ({
-        hash: item.attributes.screen.data?.attributes.hash,
-        ext: item.attributes.screen.data?.attributes.ext
-    }));
-    return screens
-}
-
-const getCategoryPreview = async ({ id }: { id: number }) => {
-    const qs = require('qs');
-    const query = qs.stringify(
-        {
-            fields: ['id'],
-            filters: {
-                categories: {
-                    id: {
-                        $eq: id
-                    }
-                },
-                is_published: {
-                    $eq: true
-                }
-            },
-            populate: {
-                screens: {
-                    fields: ['id'],
-                    filters: {
-                        is_published: {
-                            $eq: true
-                        }
-                    },
-                    populate: {
-                        screen: {
-                            fields: ['hash', 'ext']
-                        }
-                    }
-                }
-            },
-            pagination: {
-                start: 0,
-                limit: 5,
-            }
-        }
-    )
-    const res = await fetch(`https://rah.dipzin.com/api/apps?${query}`)
-    const data = await res.json()
-
-    const screens = data.data.flatMap((item) => {
-        return item.attributes.screens.data.map((screen) => ({
-            hash: screen.attributes.screen.data?.attributes.hash,
-            ext: screen.attributes.screen.data?.attributes.ext,
-        }));
-    });
-    return screens
-}
-
-const getTagPreview = async ({ id }: { id: number }) => {
-    const qs = require('qs');
-    const query = qs.stringify(
-        {
-            fields: ['screen'],
-            filters: {
-                tags: {
-                    id: {
-                        $eq: id
-                    }
-                },
-                is_published: {
-                    $eq: true
-                }
-            },
-            populate: {
-                screen: {
-                    fields: ['hash', 'ext']
-                }
-            },
-            pagination: {
-                page: 0,
-                pageSize: 5,
-            }
-        }
-    )
-    const res = await fetch(`https://rah.dipzin.com/api/screens?${query}`)
-    const data = await res.json()
-
-    const screens = data.data.flatMap(item => ({
-        hash: item.attributes.screen.data?.attributes.hash,
-        ext: item.attributes.screen.data?.attributes.ext
-    }));
-    return screens
 }
