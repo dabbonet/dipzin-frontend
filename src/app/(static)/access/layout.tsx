@@ -28,7 +28,7 @@ export default function AccessLayout({
             <div className="z-10 flex-1 flex flex-col justify-center px-4">
                 {children}
             </div>
-            <div className="relative h-[50vh] lg:h-[90vh] lg:mt-4 xl:mt-2 w-full lg:block lg:w-0 mx-auto lg:flex-1 flex-auto sm:ml-5">
+            {/* <div className="relative h-[50vh] lg:h-[90vh] lg:mt-4 xl:mt-2 w-full lg:block lg:w-0 mx-auto lg:flex-1 flex-auto sm:ml-5">
                 <Image
                     className="absolute right-0 object-contain z-0 lg:pt-24"
                     src="/images/hand/hand.png"
@@ -45,7 +45,7 @@ export default function AccessLayout({
                         sizes="100%"
                     />
                 )}
-            </div>
+            </div> */}
         </main>
     )
 }
