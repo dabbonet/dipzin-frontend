@@ -45,7 +45,7 @@ const MainNavigator = ({ type }: any) => {
     const debouncedSearch = useDebounce(search, 200);
 
     return (
-        <div ref={wrapperRef} className="fixed left-0 right-0 bottom-12 mx-auto flex justify-center z-20">
+        <div ref={wrapperRef} className="fixed left-32 right-32 bottom-12 mx-auto flex justify-center z-20">
             <div className='relative flex items-end'>
 
                 {/* User Avatar area */}
