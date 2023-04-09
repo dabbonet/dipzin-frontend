@@ -3,7 +3,6 @@ import Icons from "@/components/Icons";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 
-
 const Access: FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -14,22 +13,13 @@ const Access: FC = () => {
     if (!email.match(regextMatchEmail))
       return alert("please enter valid email");
     //TODO: Send email to user and go to OTP page
-    await fetch("https://rah.dipzin.com/api/otps", {
-      method: "POST",
-      headers: {
-        'Content-Type' : 'application/json'
-      },
-      body: JSON.stringify({
-        'data': {
-          email
-        }
-      }),
-    })
-      .then((res) => {
-        router.push(`/access/otp?email=${email}`);
+    getOtp(email)
+      .then(res => {
+        console.log(res)
+        router.push(`/access/otp?email=${email}`)
       })
-      .catch((err) => console.log(err));
-
+      .catch((err) => console.log(err))
+      
   };
   return (
     <div className="mx-auto w-full subpixel-antialiased">
@@ -87,4 +77,18 @@ const Access: FC = () => {
 
 export default Access;
 
-
+export async function getOtp(e: string) {
+  const req = await fetch("/api/otp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      data: {
+        email: e,
+      },
+    }),
+  });
+  if (!req.ok) return { message: "something went wrong", status: req.status };
+  return await req.json();
+}
