@@ -1,22 +1,23 @@
 'use client'
 import React, { useRef } from 'react'
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { AnimatePresence, motion, MotionConfig, useAnimationControls } from 'framer-motion';
-import Image from "next/image";
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import Link from 'next/link';
 import Search from './search';
 import Menu from './menu';
 import Filters from './filters';
 import Icons from '@/components/Icons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/DropdownMenu';
-import useMeasure from 'react-use-measure';
-import useDebounce from '@/lib/debounce';
+import { useContentDiscovery } from '@/context/useContentDiscovery';
+import { cn } from '@/lib/utils';
 
 const MainNavigator = ({ type }: any) => {
     const [navOpen, setNavOpen] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
     const [filterOpen, setFilterOpen] = useState(false)
+    const [filterPlaceholder, setFilterPlaceholder] = useState()
+
+
 
     // Logic to handle if user clicks outside of the navigator
     function useOutsideAlerter(ref: any) {
@@ -39,11 +40,24 @@ const MainNavigator = ({ type }: any) => {
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
 
+    const { filters, setFilters, searchKeyword, setSearchKeyword } = useContentDiscovery();
+
+    useEffect(() => {
+        if (!searchKeyword) {
+            setNavOpen(false)
+        }
+    }, [filters, searchKeyword])
 
 
-    const [search, setSearch] = useState<string>("");
-    const debouncedSearch = useDebounce(search, 200);
-
+    const removeTag = (type, indexToRemove) => {
+        if (type === 'category') {
+            const categories = filters.categories.filter((_, index) => index !== indexToRemove);
+            setFilters({ ...filters, categories: categories })
+        } else {
+            const tags = filters.tags.filter((_, index) => index !== indexToRemove);
+            setFilters({ ...filters, tags: tags })
+        }
+    }
     return (
         <div ref={wrapperRef} className="fixed left-32 right-32 bottom-12 mx-auto flex justify-center z-20">
             <div className='relative flex items-end'>
@@ -121,14 +135,14 @@ const MainNavigator = ({ type }: any) => {
                     {/* Navigator Area */}
                     <motion.div
                         layoutRoot
-                        className="relative w-full h-full rounded-3xl bg-slate-900/90 border-[0.5px] border-slate-800 p-2 flex-col items-end text-slate-100 tracking-[.07rem]"
+                        className="relative w-full h-full rounded-3xl bg-slate-950/90 border-[0.5px] border-slate-800 p-2 flex-col items-end text-slate-100 tracking-[.07rem]"
                         transition={{ type: "spring", duration: 0.6, delay: 0.1 }}
                         initial={{ borderRadius: 30 }}
                     >
 
                         <AnimatePresence mode='wait'>
                             {navOpen && (
-                                <Search search={debouncedSearch} />
+                                <Search />
                             )}
 
                             {filterOpen && (
@@ -152,16 +166,31 @@ const MainNavigator = ({ type }: any) => {
                                 <span className="font-medium text-sm mt-0.5">Menu</span>
                             </motion.div>
 
-                            <motion.div layout className="flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full pl-7">
+                            <motion.div layout className={cn("flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full", filters?.tags || filters?.categories ? 'pl-3' : 'pl-7')}>
+                                {/* TODO: Reduce size and add selected tags/categories in circles like ui */}
+                                {filters && (filters?.tags?.length > 0 || filters?.categories?.length > 0) && (
+                                    <div className='relative rounded-md'>
+                                        <div className='w-[7%] h-full absolute left-0 bg-gradient-to-r from-slate-800 to-slate-800/0'></div>
+                                        <div className='w-[7%] h-full absolute right-0 bg-gradient-to-l from-slate-800 to-slate-800/0'></div>
+                                        <ul className='flex space-x-2 mr-2 w-fit max-w-[20vw] overflow-x-scroll scrollbar-none ml-2'>
+                                            {filters?.categories?.map((category, index) => (
+                                                <TagItem key={index} title={category} onClick={() => removeTag('category', index)} />
+                                            ))}
+                                            {filters?.tags?.map((tag, index) => (
+                                                <TagItem key={index} title={tag} onClick={() => removeTag('tag', index)} />
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
                                 <motion.input
                                     layout
-                                    className="appearance-none h-[100%] bg-inherit border-[0px] outline-0"
-                                    placeholder="Search"
+                                    className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 text-sm rounded-full"
+                                    placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
                                     transition={{ duration: 0.4 }}
                                     animate={{ width: navOpen ? "40vw" : "18vw" }}
                                     onChange={(e) => {
                                         if (e.target.value.length > 0) {
-                                            setSearch(e.target.value);
+                                            setSearchKeyword(e.target.value);
                                             setNavOpen(true);
                                             setMenuOpen(false);
                                             setFilterOpen(false);
@@ -203,3 +232,12 @@ const MainNavigator = ({ type }: any) => {
 export default MainNavigator
 
 
+
+const TagItem = ({ title, onClick }) => {
+    return (
+        <li onClick={onClick} className='text-slate-400 hover:text-slate-200 cursor-pointer flex items-center space-x-1 border border-slate-500 rounded-full font-light text-sm py-0.5 pl-2 pr-1.5'>
+            <span className='w-max'>{title}</span>
+            <Icons.XCircle size={15} className='hover:text-orange-500' />
+        </li>
+    )
+}

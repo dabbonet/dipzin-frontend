@@ -3,10 +3,10 @@ import { FC, useEffect } from 'react'
 import './Sparkle.css'
 
 interface SparkleButtonProps {
-
+    href: string
 }
 
-const SparkleButton: FC<SparkleButtonProps> = ({ }) => {
+const SparkleButton: FC<SparkleButtonProps> = ({ href }) => {
 
     // JavaScript used to set randomness for particles.
     // Could be done via SSR
@@ -29,9 +29,9 @@ const SparkleButton: FC<SparkleButtonProps> = ({ }) => {
     }, [])
 
     return (
-        <Link href={'/access'} className="sparkle-button">
+        <Link href={href} className="sparkle-button">
 
-            <button className='py-2 px-4 bg-orange-500 text-orange-100 text-sm font-bold max-w-sm button'>
+            <button className='py-2 px-3 bg-orange-500 text-orange-100 text-sm font-semibold max-w-sm button'>
                 <span className="spark"></span>
                 {/* <!-- <span className="spark"></span> --> */}
                 <svg className="sparkle text-orange-100" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
