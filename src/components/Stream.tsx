@@ -27,11 +27,13 @@ const Stream: FC<StreamProps> = () => {
         setStreamData(shuffle(data.stream));
     }
 
+    // @ts-ignore
     useEffect(() => {
         setPlatforms([2, 1, 3]);
         setLoadedPages([]);
         setStreamData({});
         updateStream();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selected]);
 
     // Dump Loaded Pages when stream refetch
@@ -40,7 +42,7 @@ const Stream: FC<StreamProps> = () => {
             updateStream();
             setLoadedPages([]);
         }
-    }, [streamData])
+    }, [streamData, loadedPages])
 
     const loadMore = useCallback(() => {
         return setTimeout(async () => {

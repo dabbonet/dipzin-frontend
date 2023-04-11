@@ -42,8 +42,6 @@ export async function POST(request: Request) {
             encodeValuesOnly: true, // prettify URL
         });
 
-    console.log(query)
-
     const res = await fetch(`https://rah.dipzin.com/api/screens?${query}`, {
         method: 'GET',
         headers: {
