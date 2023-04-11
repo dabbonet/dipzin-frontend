@@ -9,15 +9,15 @@ type props = {
 };
 
 const AuthProvider: FC<props> = ({ children }) => {
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState<any>();
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      setAuth(true);
+      setAuth(localStorage.getItem('token'));
     } else {
       setAuth(false);
     }
-  }, []);
+  }, [auth]);
 
   return (
     <IsAuth.Provider value={{ auth, setAuth }}>{children}</IsAuth.Provider>

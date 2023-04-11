@@ -24,11 +24,13 @@
     "framer-motion": "^10.10.0",
     "lucide-react": "^0.129.0",
     "next": "13.2.4",
+    "next-auth": "^4.22.0",
     "next-themes": "^0.2.1",
     "qs": "^6.11.1",
     "react": "18.2.0",
     "react-auth-code-input": "^3.2.1",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.0",
     "react-use-measure": "^2.1.1",
     "react-virtuoso": "^4.1.1"
   },
