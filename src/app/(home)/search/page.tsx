@@ -20,6 +20,7 @@ const Search: FC<pageProps> = ({ }) => {
     const categories = searchParams.get('categories')?.split(",")
     const [page, setPage] = useState(1);
 
+    // @ts-ignore
     useEffect(() => {
         setPlatforms([2, 1, 3]);
         setStreamData([])
@@ -44,6 +45,7 @@ const Search: FC<pageProps> = ({ }) => {
         return () => {
             setFilters(null)
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [platform]);
 
 
@@ -72,7 +74,7 @@ const Search: FC<pageProps> = ({ }) => {
             router.push('/');
         }
 
-    }, [filters])
+    }, [filters, router, pathname, setStreamData])
 
     const loadMore = useCallback(() => {
         return setTimeout(async () => {
@@ -83,7 +85,9 @@ const Search: FC<pageProps> = ({ }) => {
             const shuffledData = shuffle(more);
             setStreamData((streamData: any) => [...streamData, ...shuffledData])
         }, 300)
-    }, [setStreamData, tags, categories]);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [setStreamData, tags, page, categories]);
 
 
     if (!streamData) return

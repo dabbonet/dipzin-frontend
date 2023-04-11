@@ -174,10 +174,10 @@ const MainNavigator = ({ type }: any) => {
                                         <div className='w-[7%] h-full absolute right-0 bg-gradient-to-l from-slate-800 to-slate-800/0'></div>
                                         <ul className='flex space-x-2 mr-2 w-fit max-w-[20vw] overflow-x-scroll scrollbar-none ml-2'>
                                             {filters?.categories?.map((category, index) => (
-                                                <TagItem title={category} onClick={() => removeTag('category', index)} />
+                                                <TagItem key={index} title={category} onClick={() => removeTag('category', index)} />
                                             ))}
                                             {filters?.tags?.map((tag, index) => (
-                                                <TagItem title={tag} onClick={() => removeTag('tag', index)} />
+                                                <TagItem key={index} title={tag} onClick={() => removeTag('tag', index)} />
                                             ))}
                                         </ul>
                                     </div>

@@ -26,7 +26,6 @@ const Search = () => {
             const res = await fetch(`/api/search?keyword=${searchKeyword}`, { cache: 'no-cache' });
             const data = await res.json();
             setIsLoading(false)
-            console.log(data.search.result)
             if (data.search?.result?.length > 0) {
                 setResults(data.search.result);
                 setSelected(data.search.result[0]);
@@ -35,8 +34,8 @@ const Search = () => {
             }
         }
         handleSearch();
-        console.log('results', results);
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchKeyword]);
 
     let [ref, bounds] = useMeasure();
@@ -70,9 +69,9 @@ const Search = () => {
                     {results && !isLoading && (
                         <>
                             <div className='w-[30%] px-2 py-2  flex-col rounded-2xl bg-slate-800 scroll-py-2 snap-y scroll-smooth overflow-y-scroll scrollbar-hide'>
-                                {results.map((result: any) => (
+                                {results.map((result: any, index: number) => (
                                     <motion.div
-                                        key={result.item.id}
+                                        key={index}
                                         className={clsx(selected.item.id == result.item.id && 'bg-slate-900', 'flex items-center cursor-pointer p-2 hover:bg-slate-900 rounded-xl space-x-3')}
                                         onHoverStart={() => setSelected(result)}
                                     >
@@ -174,7 +173,6 @@ const PreviewCard = ({ selected }: any) => {
             categories = categoryList.join(',');
             searchParams.set('categories', categories);
         }
-        // console.log(searchParams.toString(), link)
         return '/search?' + searchParams;
     }
 
