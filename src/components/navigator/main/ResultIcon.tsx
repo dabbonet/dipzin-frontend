@@ -6,7 +6,7 @@ interface iconProps {
     type: string,
 }
 
-const Icon: React.FC<iconProps> = ({ result, type }) => {
+const ResultIcon: React.FC<iconProps> = ({ result, type }) => {
 
     if (!result && type === 'category') {
         return (
@@ -96,4 +96,4 @@ const Icon: React.FC<iconProps> = ({ result, type }) => {
 
 }
 
-export default Icon 
+export default ResultIcon 

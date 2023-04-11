@@ -11,7 +11,7 @@ const nextConfig = {
     // isrMemoryCacheSize: 5000,
     // enableUndici: true
   },
-  optimizeFonts: false,
+  // optimizeFonts: false,
 }
 
 module.exports = nextConfig

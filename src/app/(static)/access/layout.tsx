@@ -35,6 +35,7 @@ export default function AccessLayout({
                     fill
                     alt=""
                     sizes="100%"
+                    unoptimized
                 />
                 {images[currentImage] && (
                     <Image
@@ -43,6 +44,7 @@ export default function AccessLayout({
                         fill
                         alt=""
                         sizes="100%"
+                        unoptimized
                     />
                 )}
             </div>

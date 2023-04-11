@@ -2,22 +2,14 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer';
 import Background from '@/ui/Background'
 import '../globals.css'
-import { Poppins } from 'next/font/google'
+import { Outfit } from 'next/font/google'
 import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
 import Banner from '@/components/Banner';
 import HomeNavigator from '@/components/HomeNavigator';
 import MainNavigator from '@/components/navigator/main/main';
 
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  display: 'swap',
-  weight: ["100", "300", "500", "700", "900"],
-  style: ["normal"],
-  variable: '--font-poppins',
-  fallback: ['"poppins"'],
-});
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
 export const metadata = {
   title: 'Dipzin | Home',
@@ -30,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={cn('subpixel-antialiased font-sans', poppins.variable)}>
+    <html lang="en" className={cn('subpixel-antialiased font-sans', outfit.variable)}>
       <body className={cn('bg-fixed bg-gradient-to-tr from-slate-200 to-slate-300 dark:from-[#0D1018] dark:to-[#09132E] min-h-screen w-full h-screen')}>
         <Providers>
           <Navbar />
