@@ -1,49 +1,18 @@
 "use client";
 import { useSearchParams, useRouter } from "next/navigation";
-import Link from "next/link";
 import { FC, useState } from "react";
 import AuthCode from "react-auth-code-input";
+import { getOtp } from "../page";
 
 const Otp: FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const email = searchParams.get("email");
-  const [otp, setOtp] = useState<string>("");
+  const [otp, setOtp] = useState<number>();
   const [failedMessage, setFailedMessage] = useState(false);
   // TODO: Verify otp with email
   const handleClick = async () => {
-    try {
-      const req = await fetch("https://rah.dipzin.com/api/otps/verify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: {
-            email: email,
-            otp: otp,
-          },
-        }),
-      });
-
-      if (!req.ok) {
-        setFailedMessage(true);
-        return
-      }
-
-      const res = await req.json();
-
-      localStorage.setItem("token", JSON.stringify(res.token));
-
-      router.push("/");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleResend = async () => {
-    //TODO: Send email to user and go to OTP page
-    await fetch("https://rah.dipzin.com/api/otps", {
+    const req = await fetch("/api/otp/verifyOtp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,9 +20,27 @@ const Otp: FC = () => {
       body: JSON.stringify({
         data: {
           email,
+          otp
         },
       }),
-    }).catch((err) => console.log(err));
+    });
+    if (!req.ok)  {
+      setFailedMessage(true)
+      return
+    }
+    const data = await req.json()
+
+    if(data.token){
+      localStorage.setItem('token' , JSON.stringify(data.token))
+      router.push('/')
+    }else{
+      setFailedMessage(true)
+    }
+  };
+
+  const handleResend = async () => {
+    //TODO: Send email to user and go to OTP page
+    return await getOtp(email)
   };
 
   return (
@@ -68,7 +55,7 @@ const Otp: FC = () => {
         allowedCharacters="numeric"
         containerClassName="flex mt-4 "
         inputClassName="w-[56px] h-[56px] xl:w-[82px] xl:h-[82px] rounded-xl flex items-center justify-center text-center font-medium text-[28px] mx-auto bg-slate-300 text-slate-800 dark:bg-slate-800 dark:text-slate-200 outline-0 border-2 border-transparent focus:border-orange-500"
-        onChange={(e) => setOtp(e)}
+        onChange={(e) => setOtp(+e)}
         placeholder="_"
         ariaLabel="Enter your OTP"
       />
@@ -92,3 +79,21 @@ const Otp: FC = () => {
 };
 
 export default Otp;
+
+
+async function verifyOtp(email:string , otp: number) {
+  const req = await fetch("/api/otp/verifyOtp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      data: {
+        email,
+        otp
+      },
+    }),
+  });
+  if (!req.ok) return { message: "something went wrong 1", status: 404 }
+  return await req.json()
+}

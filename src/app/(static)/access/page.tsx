@@ -2,6 +2,7 @@
 import Icons from "@/components/Icons";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
+import { toast , Toaster} from "react-hot-toast";
 
 const Access: FC = () => {
   const router = useRouter();
@@ -11,18 +12,22 @@ const Access: FC = () => {
       /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 
     if (!email.match(regextMatchEmail))
-      return alert("please enter valid email");
-    //TODO: Send email to user and go to OTP page
-    getOtp(email)
-      .then(res => {
-        console.log(res)
-        router.push(`/access/otp?email=${email}`)
-      })
-      .catch((err) => console.log(err))
-      
+      return toast.error('please enter a valid email', {
+        style: {
+          backgroundColor: 'orange',
+          color:'white'
+        }
+      });
+
+      //TODO: Send email to user and go to OTP page
+    return await getOtp(email).then(res => {
+      router.push(`/access/otp?email=${email}`);
+    })
+  
   };
   return (
     <div className="mx-auto w-full subpixel-antialiased">
+      <Toaster position="top-center"/>
       <div className="mx-auto w-[70%] max-w-2xl subpixel-antialiased">
         <h1 className="font-bold h-auto !leading-normal text-transparent  bg-clip-text  bg-gradient-to-r from-orange-600 to-amber-300 lg:text-5xl text-3xl">
           Log in or sign up
@@ -77,7 +82,7 @@ const Access: FC = () => {
 
 export default Access;
 
-export async function getOtp(e: string) {
+export async function getOtp(email: string) {
   const req = await fetch("/api/otp", {
     method: "POST",
     headers: {
@@ -85,10 +90,11 @@ export async function getOtp(e: string) {
     },
     body: JSON.stringify({
       data: {
-        email: e,
+        email,
       },
     }),
   });
-  if (!req.ok) return { message: "something went wrong", status: req.status };
-  return await req.json();
+  if (!req.ok) return { message: "something went wrong", status: 404 }
+  console.log(req.status)
+  return await req.json()
 }
