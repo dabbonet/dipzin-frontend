@@ -22,7 +22,7 @@ const Search: FC<pageProps> = ({ }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     async function getResults() {
-        const results = await getSearchResults({ tags, categories, page: page, platform: selected })
+        const results = await getSearchResults({ tags, categories, page: 1, platform: selected })
         setIsLoading(false)
         setPage((page) => page + 1)
         setStreamData(results);
@@ -71,7 +71,6 @@ const Search: FC<pageProps> = ({ }) => {
             style={{ minHeight: 100, width: '100%' }}
             totalCount={streamData.length}
             overscan={1}
-            onLoadCapture={() => <div className='bg-red-500 h-screen w-screen absolute inset-0'>EMPTAYYY</div>}
             endReached={loadMore}
             listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
             itemContent={(index, data) => (
@@ -96,6 +95,7 @@ async function getSearchResults({ tags, categories, page, platform }) {
             page: page,
             platform: platform
         }),
+        cache: 'no-cache'
     });
     if (!req.ok) return { message: "something went wrong", status: req.status }
 
