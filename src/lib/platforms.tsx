@@ -9,7 +9,7 @@ interface Platform {
 
 interface PlatformContextInterface {
     platforms: Platform[]
-    selected?: number | null
+    selected: number
     setSelected: (selected: number) => void
     setPlatforms: (ids: any) => void
     singleApp: boolean

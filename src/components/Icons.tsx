@@ -1,4 +1,4 @@
-import { Moon, Sun, Laptop, Maximize, Grip, Filter, XCircle } from 'lucide-react'
+import { Moon, Sun, Laptop, Maximize, Grip, Filter, XCircle, Image } from 'lucide-react'
 
 const FacebookIcon = () => {
     return (
@@ -91,7 +91,7 @@ const Icons = {
     Sun,
     Laptop,
     Maximize,
-    Grip, Filter, Expand, XCircle
+    Grip, Filter, Expand, XCircle, Image
 }
 
 export default Icons
