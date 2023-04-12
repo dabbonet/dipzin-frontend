@@ -7,6 +7,8 @@ import { cn, shuffle } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import Showcase from './Showcase';
 import { useContentDiscovery } from '@/context/useContentDiscovery';
+import Icons from './Icons';
+import StreamLoader from './StreamLoader';
 
 interface StreamProps {
 }
@@ -18,11 +20,13 @@ const Stream: FC<StreamProps> = () => {
     const { streamData, setStreamData } = useContentDiscovery()
     const [loadedPages, setLoadedPages] = useState<number[]>([]);
     const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     // 1. Initialize Stream and Page Platforms.
     // 2. Refetch Stream on Platform Change.
     const updateStream = async () => {
         const data = await getStream({ platform: selected!, previousPages: [] });
+        setIsLoading(false)
         setLoadedPages((prevLoadedPages) => [...prevLoadedPages, data.page]);
         setStreamData(shuffle(data.stream));
     }
@@ -56,6 +60,7 @@ const Stream: FC<StreamProps> = () => {
         }, 300)
     }, [setStreamData, loadedPages, selected])
 
+    if (isLoading) return <StreamLoader />
     if (!streamData) return
     return (
         <>
