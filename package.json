@@ -30,9 +30,9 @@
     "react": "18.2.0",
     "react-auth-code-input": "^3.2.1",
     "react-dom": "18.2.0",
-    "react-hot-toast": "^2.4.0",
     "react-use-measure": "^2.1.1",
-    "react-virtuoso": "^4.2.0"
+    "react-virtuoso": "^4.2.0",
+    "sonner": "^0.3.0"
   },
   "devDependencies": {
     "@gradin/tailwindcss-scrollbar": "^3.0.1",
