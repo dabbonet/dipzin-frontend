@@ -166,22 +166,23 @@ const PreviewCard = ({ selected }: any) => {
         const categoryList = categories ? categories.split(',') : [];
         const name = selected.name
 
+        setFilters({ categories: categoryList, tags: tagList })
+        setSearchKeyword('')
         if (selected.type === 'tag') {
             !tagList.includes(name) && tagList.push(name)
             tags = tagList.join(',');
             params.set('tags', tags);
-        }
-        if (selected.type === 'category') {
+            router.push('/search?' + params)
+        } else if (selected.type === 'category') {
             !categoryList.includes(name) && categoryList.push(name);
             categories = categoryList.join(',');
             params.set('categories', categories);
+            router.push('/search?' + params)
+        } else {
+            link = `/app/${platName}/${selected.slug}`
+            router.push(link)
         }
 
-        link = '/search?' + params
-        setFilters({ categories: categoryList, tags: tagList })
-        setSearchKeyword('')
-        router.push(link)
-        router.refresh()
 
     }, [searchParams, router])
 
