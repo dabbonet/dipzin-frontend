@@ -5,6 +5,9 @@ import { FC } from 'react'
 import { cn, rgbDataURL } from '@/lib/utils'
 import SingleScreen from './screen/SingleScreen'
 import { usePlatform } from '@/lib/platforms'
+import Icons from './Icons'
+import { ImageDownloader } from '@/lib/ImageDownloader'
+import { toast } from 'react-hot-toast'
 
 interface ShowcaseProps {
     selectedShowcase: any
@@ -47,7 +50,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                     <div className=" p-1.5 relative bg-slate-900/40 rounded-2xl">
                         <div className="flex space-x-1.5">
                             <Link
-                                className="min-w-fit p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
+                                className="min-w-fit p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-end relative border-transparent border-2 hover:border-orange-500"
                                 href={"/app/" + getPlatformById(selectedShowcase.platform) + "/" + selectedShowcase.slug}
                             >
                                 <svg
@@ -56,7 +59,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                                     viewBox="0 0 16 16"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="w-4 h-4 relative left-[85%]"
+                                    className="w-5 h-5 absolute right-2 top-2"
                                     preserveAspectRatio="none"
                                 >
                                     <path
@@ -66,68 +69,90 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                                         fill="#F1F5F9"
                                     />
                                 </svg>
-                                <p className="w-[60%] text-[11px] font-medium text-left text-white">
+                                <p className="w-[70%] text-[13px] leading-4 tracking-wider font-normal text-left text-white">
                                     Open Application
                                 </p>
                             </Link>
 
-                            <div
-                                className="min-w-fit p-2 h-[70px] bg-slate-900 rounded-xl cursor-pointer flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
-                                onClick={() => {
-                                    window.open(selectedShowcase.store_link, "_blank", "noreferrer");
-                                }}
-                            >
-                                <svg
-                                    width={17}
-                                    height={17}
-                                    viewBox="0 0 17 17"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-4 h-4 relative left-[78%]"
-                                    preserveAspectRatio="xMidYMid meet"
+                            {selectedShowcase.store_link &&
+                                <div
+                                    className="min-w-fit p-2 h-[70px] bg-slate-900 rounded-xl cursor-pointer flex flex-col justify-end relative border-transparent border-2 hover:border-orange-500"
+                                    onClick={() => {
+                                        window.open(selectedShowcase.store_link, "_blank", "noreferrer");
+                                    }}
                                 >
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M12.8623 13.0813C13.2556 12.4813 13.4023 12.1746 13.7023 11.5013C11.489 10.6613 11.1356 7.50794 13.3223 6.30127C12.6556 5.46127 11.7156 4.97461 10.829 4.97461C10.189 4.97461 9.74895 5.14128 9.35561 5.29462C9.02228 5.42128 8.72228 5.53461 8.34895 5.53461C7.94895 5.53461 7.59562 5.40795 7.22228 5.27462C6.81562 5.12795 6.38895 4.97461 5.85561 4.97461C4.86228 4.97461 3.80228 5.58128 3.12895 6.62128C2.18228 8.08794 2.34895 10.8346 3.87562 13.1813C4.42229 14.0213 5.15562 14.9613 6.10895 14.9746C6.50895 14.9813 6.76895 14.8613 7.05562 14.7346C7.38228 14.588 7.73561 14.4279 8.35561 14.4279C8.97561 14.4213 9.32228 14.588 9.64895 14.7346C9.92895 14.8613 10.1823 14.9813 10.5756 14.9746C11.5423 14.9613 12.3156 13.9213 12.8623 13.0813Z"
-                                        fill="white"
-                                    />
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M10.6892 1.64258C10.7959 2.37591 10.4959 3.10259 10.1025 3.60925C9.68253 4.15592 8.94919 4.58257 8.24253 4.55591C8.11586 3.84924 8.44253 3.12257 8.84253 2.6359C9.28919 2.10257 10.0425 1.68924 10.6892 1.64258Z"
-                                        fill="white"
-                                    />
-                                </svg>
-                                <p className="w-[70%] text-[11px] font-medium text-left text-white">
-                                    App Store
-                                </p>
-                            </div>
+                                    <svg
+                                        width={16}
+                                        height={16}
+                                        viewBox="0 0 16 16"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="w-5 h-5 absolute right-1 top-1"
+                                        preserveAspectRatio="xMidYMid meet"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            clipRule="evenodd"
+                                            d="M12.8623 13.0813C13.2556 12.4813 13.4023 12.1746 13.7023 11.5013C11.489 10.6613 11.1356 7.50794 13.3223 6.30127C12.6556 5.46127 11.7156 4.97461 10.829 4.97461C10.189 4.97461 9.74895 5.14128 9.35561 5.29462C9.02228 5.42128 8.72228 5.53461 8.34895 5.53461C7.94895 5.53461 7.59562 5.40795 7.22228 5.27462C6.81562 5.12795 6.38895 4.97461 5.85561 4.97461C4.86228 4.97461 3.80228 5.58128 3.12895 6.62128C2.18228 8.08794 2.34895 10.8346 3.87562 13.1813C4.42229 14.0213 5.15562 14.9613 6.10895 14.9746C6.50895 14.9813 6.76895 14.8613 7.05562 14.7346C7.38228 14.588 7.73561 14.4279 8.35561 14.4279C8.97561 14.4213 9.32228 14.588 9.64895 14.7346C9.92895 14.8613 10.1823 14.9813 10.5756 14.9746C11.5423 14.9613 12.3156 13.9213 12.8623 13.0813Z"
+                                            fill="white"
+                                        />
+                                        <path
+                                            fillRule="evenodd"
+                                            clipRule="evenodd"
+                                            d="M10.6892 1.64258C10.7959 2.37591 10.4959 3.10259 10.1025 3.60925C9.68253 4.15592 8.94919 4.58257 8.24253 4.55591C8.11586 3.84924 8.44253 3.12257 8.84253 2.6359C9.28919 2.10257 10.0425 1.68924 10.6892 1.64258Z"
+                                            fill="white"
+                                        />
+                                    </svg>
+                                    <p className="w-[70%] text-[13px] leading-4 tracking-wider font-normal text-left text-white">
+                                        App Store
+                                    </p>
+                                </div>
+                            }
 
-                            <div
+                            {/* TODO: Add Save When Collections Done. */}
+                            {/* <div
                                 onClick={() => {
 
                                 }}
                                 className="min-w-[80px] p-2 h-[70px] bg-slate-900 cursor-pointer rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
                             >
-                                <img className="ml-auto mb-3" src="/images/assets/save.svg" alt="Save" />
-                                <span className="w-[70%] text-[11px] font-medium text-left text-white">
+                                <svg
+                                    width={16}
+                                    height={16}
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="w-5 h-5 relative left-[82%]"
+                                    preserveAspectRatio="xMidYMid meet"
+                                >
+                                    <path
+                                        d="M8.72094 4.12305H3.53427C2.39427 4.12305 1.46094 5.05638 1.46094 6.19638V13.7697C1.46094 14.7364 2.15427 15.1497 3.00094 14.6764L5.62094 13.2164C5.90094 13.063 6.35427 13.063 6.6276 13.2164L9.2476 14.6764C10.1009 15.143 10.7943 14.7364 10.7943 13.7697V6.19638C10.7943 5.05638 9.86094 4.12305 8.72094 4.12305Z"
+                                        fill="currentColor"
+                                    />
+                                    <path
+                                        d="M14.7968 3.61044V11.1838C14.7968 12.1504 14.1034 12.5571 13.2568 12.0904L11.9701 11.3704C11.8634 11.3104 11.7968 11.1971 11.7968 11.0771V6.19711C11.7968 4.50378 10.4168 3.12378 8.72344 3.12378H6.0101C5.76344 3.12378 5.5901 2.86378 5.70344 2.65044C6.0501 1.99044 6.74344 1.53711 7.53677 1.53711H12.7234C13.8634 1.53711 14.7968 2.47044 14.7968 3.61044Z"
+                                        fill="currentColor"
+                                    />
+                                </svg>
+                                <span className="w-[70%] text-[13px] leading-4 tracking-wider font-normal text-left text-white">
                                     Save
                                 </span>
-                            </div>
+                            </div> */}
+
 
                             <div
                                 className="min-w-[80px] max-w-[100px] cursor-pointer p-2 h-[70px] bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
                                 onClick={() => {
+                                    ImageDownloader(selectedShowcase.name + ' Showcase', selectedShowcase.screens)
                                 }}
                             >
                                 <svg
-                                    width={17}
-                                    height={17}
-                                    viewBox="0 0 17 17"
+                                    width={16}
+                                    height={16}
+                                    viewBox="0 0 16 16"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="w-4 h-4 relative left-[82%]"
+                                    className="w-5 h-5 relative left-[82%]"
                                     preserveAspectRatio="xMidYMid meet"
                                 >
                                     <path
@@ -139,26 +164,27 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                                         fill="white"
                                     />
                                 </svg>
-                                <p className="w-[70%] text-[11px] font-medium text-left text-white">
+                                <p className="w-[70%] text-[13px] leading-4 tracking-wider font-normal text-left text-white">
                                     Download Showcase
                                 </p>
                             </div>
 
                             <div
-                                className="min-w-[80px] max-w-[100px] p-2 h-[70px] bg-slate-900 rounded-xl cursor-pointer flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
+                                className="min-w-[80px] max-w-[100px] p-2 h-[70px] bg-slate-900 rounded-xl cursor-pointer flex flex-col justify-end relative border-transparent border-2 hover:border-orange-500"
                                 onClick={() => {
                                     navigator.clipboard.writeText(
                                         window.location.origin + "/app/" + getPlatformById(selectedShowcase.platform) + "/" + selectedShowcase.slug //need fix
                                     )
+                                    toast.success('App Link Copied.');
                                 }}
                             >
                                 <svg
-                                    width={17}
-                                    height={17}
-                                    viewBox="0 0 17 17"
+                                    width={16}
+                                    height={16}
+                                    viewBox="0 0 16 16"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="w-4 h-4 relative left-[82%]"
+                                    className="w-5 h-5 absolute right-1 top-1"
                                     preserveAspectRatio="xMidYMid meet"
                                 >
                                     <path
@@ -170,13 +196,13 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                                         fill="white"
                                     />
                                 </svg>
-                                <p className="w-[70%] text-[11px] font-medium text-left text-white">
+                                <p className="w-[70%] text-[13px] leading-4 tracking-wider font-normal text-left text-white">
                                     Copy Link
                                 </p>
                             </div>
 
                             <div
-                                className="min-w-[80px] max-w-[100px] p-2 h-[70px] bg-slate-900 rounded-xl cursor-pointer flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
+                                className="min-w-[80px] max-w-[100px] p-2 h-[70px] bg-slate-900 rounded-xl cursor-pointer flex flex-col justify-end relative border-transparent border-2 hover:border-orange-500"
                                 onClick={() => setSelectedShowcase(null)}
                             >
                                 <svg
@@ -185,7 +211,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                                     viewBox="0 0 16 16"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="w-4 h-4 relative left-[82%]"
+                                    className="w-5 h-5 absolute right-1 top-1"
                                     preserveAspectRatio="xMidYMid meet"
                                 >
                                     <path
@@ -193,7 +219,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                                         fill="#F8FAFC"
                                     />
                                 </svg>
-                                <p className="w-[70%] text-[11px] font-medium text-left text-white">
+                                <p className="w-[70%] text-[13px] leading-4 tracking-wider font-normal text-left text-white">
                                     Close Showcase
                                 </p>
                             </div>
