@@ -7,7 +7,7 @@ import SingleScreen from './screen/SingleScreen'
 import { usePlatform } from '@/lib/platforms'
 import Icons from './Icons'
 import { ImageDownloader } from '@/lib/ImageDownloader'
-import { toast } from 'react-hot-toast'
+import { toast } from 'sonner'
 
 interface ShowcaseProps {
     selectedShowcase: any
