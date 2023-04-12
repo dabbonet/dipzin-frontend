@@ -1,10 +1,10 @@
 'use client'
 import JSZip from 'jszip';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 export async function ImageDownloader(zipName: string, imageNames: string[]) {
     const zip = new JSZip();
-    toast.loading('Images getting ready.')
+    // toast.loading('Images getting ready.')
 
     // Make HTTP requests to download the images
     const imagePromises = imageNames.map(async (imageName, index) => {
@@ -19,6 +19,13 @@ export async function ImageDownloader(zipName: string, imageNames: string[]) {
     // Wait for all requests to complete
     const images = await Promise.all(imagePromises);
 
+    toast.promise(Promise.resolve(images), {
+        loading: 'Loading...',
+        success: (data) => {
+            return `Images Downloaded Successfuly`;
+        },
+        error: 'Error',
+    });
     // Add the downloaded images to the zip file
     images.forEach(({ name, buffer }) => {
         zip.file(name, buffer);
@@ -32,8 +39,6 @@ export async function ImageDownloader(zipName: string, imageNames: string[]) {
     link.href = URL.createObjectURL(zipBlob);
     link.download = `${zipName}.zip`;
     link.click();
-    toast.dismiss()
-    toast.success('Images Downloaded Successfuly')
 
     console.log(`Zip file "${zipName}.zip" created.`);
 }

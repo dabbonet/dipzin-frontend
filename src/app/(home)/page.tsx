@@ -1,13 +1,14 @@
 'use client'
 import Stream from "@/components/Stream";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from 'sonner'
+
 
 export default async function Home() {
 
   return (
     <>
       <Stream />
-      <Toaster />
+      <Toaster position="top-center" />
     </>
   );
 }
