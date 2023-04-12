@@ -7,7 +7,6 @@ import SingleScreen from './screen/SingleScreen'
 import { usePlatform } from '@/lib/platforms'
 import Icons from './Icons'
 import { ImageDownloader } from '@/lib/ImageDownloader'
-import { toast } from 'sonner'
 
 interface ShowcaseProps {
     selectedShowcase: any
@@ -175,7 +174,6 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                                     navigator.clipboard.writeText(
                                         window.location.origin + "/app/" + getPlatformById(selectedShowcase.platform) + "/" + selectedShowcase.slug //need fix
                                     )
-                                    toast.success('App Link Copied.');
                                 }}
                             >
                                 <svg
