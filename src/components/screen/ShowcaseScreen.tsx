@@ -1,79 +1,93 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Icons from '@/components/Icons'
 import Screen from '@/ui/Screen'
-import { usePlatform } from '@/lib/platforms'
 
 interface ShowcaseScreenProps {
     app: any
 }
 
 const ShowcaseScreen: FC<ShowcaseScreenProps> = ({ app }) => {
-    const { selected: platform } = usePlatform()
-    const [currentImage, setCurrentImage] = useState(0);
-    const [isHovered, setIsHovered] = useState(false);
+    const [currentScreenIndex, setCurrentScreenIndex] = useState(0)
+    const [isHovered, setIsHovered] = useState(false)
+    const [screens, setScreens] = useState(app?.screens ? [app.screens[0]] : [])
 
     useEffect(() => {
-        let interval: any;
-        if (isHovered) {
-            interval = setInterval(() => {
-                setCurrentImage((currentImage + 1) % app.screens.length);
-            }, 600);
+        // Prefetch screens on hover
+        if (app && isHovered && screens.length === 1) {
+            setScreens(app.screens)
+        }
+    }, [app, isHovered, screens])
+
+    useEffect(() => {
+        let intervalId
+
+        if (isHovered && screens.length > 1) {
+            intervalId = setInterval(() => {
+                setCurrentScreenIndex((prevIndex) =>
+                    prevIndex === screens.length - 1 ? 0 : prevIndex + 1
+                )
+            }, 600)
+        } else {
+            clearInterval(intervalId)
         }
 
-        return () => {
-            clearInterval(interval);
-        };
-    }, [currentImage, app, isHovered]);
+        return () => clearInterval(intervalId)
+    }, [isHovered, screens])
 
     if (!app) return null
     return (
-        <div className="flex justify-center items-center relative group/item cursor-pointer">
+        <div
+            className="flex justify-center items-center relative group/item cursor-pointer"
+            onMouseEnter={() => {
+                setIsHovered(true);
+            }}
+            onMouseLeave={() => setIsHovered(false)}
+        >
             <motion.div
+                key={app.id}
                 whileHover={{
                     scale: 1.05,
                     transition: { duration: 0.4 },
                 }}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => {
-                    setIsHovered(false);
-                    setCurrentImage(0);
-                }}
             >
-                <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 transform duration-500 border-[0px] hover:border-[3px] border-transparent hover:border-slate-300">
-                    {app?.screens && (
-                        <div
-                            className="relative h-full w-full bg-slate-800"
-                        >
-                            {app.screens[currentImage] && app.screens.length >= 1 && (
-                                <Screen src={app.screens[currentImage]} />
-                            )}
-                        </div>
-                    )}
+                {app?.screens && (
+                    <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 transform duration-500 border-[0px] hover:border-[3px] border-transparent hover:border-slate-300">
 
-                    <div className="absolute w-[100%] bottom-4 px-4 flex flex-col space-y-1 drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100 z-20">
-                        <Image
-                            className="h-[15%] w-[15%] rounded-md bg-slate-700"
-                            width={48}
-                            height={48}
-                            src={app?.icon}
-                            alt="icon"
-                        />
-                        <div className='flex justify-between'>
+                        {screens.map((screen, index) => (
+                            screen &&
+                            <Screen
+                                key={index}
+                                src={screen}
+                                className={index === currentScreenIndex ? "visible" : "hidden"}
+                            />
+                        ))}
 
-                            <div className="text-white -space-y-1">
-                                <span className="text-md tracking-wider font-medium">{app?.name}</span>
-                                <span className="block text-[13px] font-light tracking-widest">
-                                    {app?.tag_line}
-                                </span>
+                        <div className="absolute w-[100%] bottom-4 px-4 flex flex-col space-y-1 drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100 z-20">
+                            <Image
+                                className="h-[15%] w-[15%] rounded-md bg-slate-700"
+                                width={48}
+                                height={48}
+                                src={app?.icon}
+                                alt="icon"
+                            />
+
+                            <div className='flex justify-between'>
+
+                                <div className="text-white -space-y-1">
+                                    <span className="text-md tracking-wider font-medium">{app?.name}</span>
+                                    <span className="block text-[13px] font-light tracking-widest">
+                                        {app?.tag_line}
+                                    </span>
+                                </div>
+                                <Icons.Maximize size={24} className="hover:text-orange-500" />
                             </div>
-                            <Icons.Maximize size={24} className="hover:text-orange-500" />
                         </div>
-                    </div>
-                    <div className="absolute bottom-0 w-[100%] h-[40%] bg-gradient-to-t from-slate-950 to-slate-950/0 opacity-90 invisible transform transition duration-500 group-hover/item:visible"></div>
+                        <div className="absolute bottom-0 w-[100%] h-[40%] bg-gradient-to-t from-slate-950 to-slate-950/0 opacity-90 invisible transform transition duration-500 group-hover/item:visible"></div>
 
-                </div>
+                    </div>
+                )}
             </motion.div>
         </div>
     )

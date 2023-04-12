@@ -31,7 +31,7 @@ const SparkleButton: FC<SparkleButtonProps> = ({ href }) => {
     return (
         <Link href={href} className="sparkle-button">
 
-            <button className='py-2 px-3 bg-orange-500 text-orange-100 text-sm font-semibold max-w-sm button'>
+            <button className='py-2 px-3 bg-gradient-to-bl from-orange-500 to-orange-600 text-orange-100 text-sm font-semibold max-w-sm button'>
                 <span className="spark"></span>
                 {/* <!-- <span className="spark"></span> --> */}
                 <svg className="sparkle text-orange-100" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

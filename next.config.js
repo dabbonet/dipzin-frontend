@@ -8,7 +8,8 @@ const nextConfig = {
   output: "standalone",
   experimental: {
     appDir: true,
-    // isrMemoryCacheSize: 5000,
+    isrMemoryCacheSize: 5000,
+
     // enableUndici: true
   },
   // optimizeFonts: false,
