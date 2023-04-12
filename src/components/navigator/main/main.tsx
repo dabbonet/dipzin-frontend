@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import Link from 'next/link';
@@ -10,13 +10,14 @@ import Icons from '@/components/Icons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/DropdownMenu';
 import { useContentDiscovery } from '@/context/useContentDiscovery';
 import { cn } from '@/lib/utils';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const MainNavigator = ({ type }: any) => {
     const [navOpen, setNavOpen] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
     const [filterOpen, setFilterOpen] = useState(false)
-    const [filterPlaceholder, setFilterPlaceholder] = useState()
-
+    const searchParams = useSearchParams()!;
+    const router = useRouter();
 
 
     // Logic to handle if user clicks outside of the navigator
@@ -49,15 +50,24 @@ const MainNavigator = ({ type }: any) => {
     }, [filters, searchKeyword])
 
 
-    const removeTag = (type, indexToRemove) => {
-        if (type === 'category') {
-            const categories = filters.categories.filter((_, index) => index !== indexToRemove);
-            setFilters({ ...filters, categories: categories })
+    const removeTag = useCallback((type, indexToRemove) => {
+        let params = new URLSearchParams(searchParams);
+        let categories, tags;
+        if (type === 'tag') {
+            const tagList = filters.tags.filter((_, index) => index !== indexToRemove);
+            tags = tagList.join(',');
+            tagList.length > 0 ? params.set('tags', tags) : params.delete('tags');
+            setFilters({ ...filters, tags: tagList })
         } else {
-            const tags = filters.tags.filter((_, index) => index !== indexToRemove);
-            setFilters({ ...filters, tags: tags })
+            const categoryList = filters.categories.filter((_, index) => index !== indexToRemove);
+            categories = categoryList.join(',');
+            categoryList.length > 0 ? params.set('categories', categories) : params.delete('categories');
+            setFilters({ ...filters, categories: categoryList })
         }
-    }
+        router.push('/search?' + params)
+
+    }, [searchParams, router, filters])
+
     return (
         <div ref={wrapperRef} className="fixed left-32 right-32 bottom-12 mx-auto flex justify-center z-20">
             <div className='relative flex items-end'>
@@ -176,7 +186,7 @@ const MainNavigator = ({ type }: any) => {
                                             {filters?.categories?.map((category, index) => (
                                                 <TagItem key={index} title={category} onClick={() => removeTag('category', index)} />
                                             ))}
-                                            {filters?.tags?.map((tag, index) => (
+                                            {filters?.tags?.map((tag, index) => tag && (
                                                 <TagItem key={index} title={tag} onClick={() => removeTag('tag', index)} />
                                             ))}
                                         </ul>
@@ -188,9 +198,10 @@ const MainNavigator = ({ type }: any) => {
                                     placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
                                     transition={{ duration: 0.4 }}
                                     animate={{ width: navOpen ? "40vw" : "18vw" }}
+                                    value={searchKeyword}
                                     onChange={(e) => {
+                                        setSearchKeyword(e.target.value);
                                         if (e.target.value.length > 0) {
-                                            setSearchKeyword(e.target.value);
                                             setNavOpen(true);
                                             setMenuOpen(false);
                                             setFilterOpen(false);

@@ -1,8 +1,7 @@
 
 import { motion } from "framer-motion"
-import Link from "next/link"
 import Screen from "@/ui/Screen"
-import { useEffect, useLayoutEffect, useState } from "react"
+import { useCallback, useEffect, useLayoutEffect, useState } from "react"
 import clsx from "clsx"
 import { NotFoundPreview } from "./notFound"
 import { PreviewSkeleton, ResultsSekelton, ScreensSkeleton } from "./loading"
@@ -10,11 +9,12 @@ import useMeasure from "react-use-measure"
 import ResultIcon from './ResultIcon'
 import { useContentDiscovery } from "@/context/useContentDiscovery"
 import Icons from "@/components/Icons"
+import { useRouter, useSearchParams } from "next/navigation"
 
 
 const Search = () => {
 
-    const { searchKeyword } = useContentDiscovery();
+    const { searchKeyword, filters } = useContentDiscovery();
     const [results, setResults] = useState<any>(null);
     const [selected, setSelected] = useState<any>({});
     const [isLoading, setIsLoading] = useState(true);
@@ -26,22 +26,33 @@ const Search = () => {
             const res = await fetch(`/api/search?keyword=${searchKeyword}`, { cache: 'no-cache' });
             const data = await res.json();
             setIsLoading(false)
-            if (data.search?.result?.length > 0) {
-                setResults(data.search.result);
-                setSelected(data.search.result[0]);
+
+            // Filter results that's in filters object.
+            const results = data.search.result.filter((result) => {
+                if (filters?.tags?.includes(result.item.name) && result.item.type === 'tag') {
+                    return false;
+                }
+                if (filters?.categories?.includes(result.item.name) && result.item.type === 'category') {
+                    return false;
+                }
+                return true;
+            });
+
+            if (results?.length > 0) {
+                setResults(results);
+                setSelected(results[0]);
             } else {
                 setResults(null);
             }
+
         }
         handleSearch();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchKeyword]);
+    }, [searchKeyword, setResults, setSelected, setIsLoading]);
 
     let [ref, bounds] = useMeasure();
-    // if (isLoading) {
-    //     return <p className='h-[400px] w-[200px] bg-red-500'>Loading Search...</p>;
-    // }
+
     return (
 
         <motion.div
@@ -127,7 +138,9 @@ const PreviewCard = ({ selected }: any) => {
 
     //TODO: Show App Icon 
     const [showcase, setShowcase] = useState<any>([]);
-    const { setSearchKeyword } = useContentDiscovery();
+    const { setSearchKeyword, setFilters } = useContentDiscovery();
+    const router = useRouter();
+    const searchParams = useSearchParams()!;
     // const data = await getPreview({ id: selected.id })
 
     useEffect(() => {
@@ -142,38 +155,44 @@ const PreviewCard = ({ selected }: any) => {
 
     }, [selected])
 
-    if (!selected) {
-        return (
-            <div className='w-[70%] p-2 rounded-2xl bg-slate-800'>
-                Nothing here.
-            </div>
-        )
-    }
-
-    const searchLink = (selected) => {
-        let searchParams = new URLSearchParams(window.location.search);
-        let tags = searchParams.get('tags');
-        let categories = searchParams.get('categories');
+    const handleSearchClick = useCallback((selected) => {
+        let params = new URLSearchParams(searchParams);
+        let tags = params.get('tags');
+        let categories = params.get('categories');
 
         let link = '';
         const platName = selected.platform?.name.toLowerCase()
-        const tagList = tags ? tags.split(',') : [];
+        const tagList = tags ? tags.split(',') : []; tags = tagList.join(',');
         const categoryList = categories ? categories.split(',') : [];
         const name = selected.name
 
-        if (selected.type === 'app') {
-            link = `/app/${platName}/${selected.slug}`
-            return link
-        } else if (selected.type === 'tag') {
-            !tagList.includes(name) && tagList.push(name);
+        if (selected.type === 'tag') {
+            !tagList.includes(name) && tagList.push(name)
             tags = tagList.join(',');
-            searchParams.set('tags', tags);
-        } else {
+            params.set('tags', tags);
+        }
+        if (selected.type === 'category') {
             !categoryList.includes(name) && categoryList.push(name);
             categories = categoryList.join(',');
-            searchParams.set('categories', categories);
+            params.set('categories', categories);
         }
-        return '/search?' + searchParams;
+
+        link = '/search?' + params
+        setFilters({ categories: categoryList, tags: tagList })
+        setSearchKeyword('')
+        router.push(link)
+        router.refresh()
+
+    }, [searchParams, router])
+
+
+
+    if (!selected) {
+        return (
+            <div className='w-[70%] p-2 rounded-2xl bg-slate-800'>
+                Nothing Selected!
+            </div>
+        )
     }
 
     return (
@@ -199,16 +218,15 @@ const PreviewCard = ({ selected }: any) => {
                         </span>
                     </div>
                 </div>
-                <Link
+                <button
                     className="min-w-fit h-full p-2  bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
-                    href={searchLink(selected)}
-                    onClick={() => setSearchKeyword('')}
+                    onClick={() => handleSearchClick(selected)}
                 >
                     <Icons.Expand />
                     <p className="w-[80%] text-[10px] font-medium text-left text-white">
                         {selected.type === 'app' ? 'Open Application' : selected.type == 'tag' ? 'Search by Tag' : 'Search by Category'}
                     </p>
-                </Link>
+                </button>
 
             </div>
             <div className='w-full flex flex-row h-[420px] space-x-4 overflow-x-scroll px-2 pt-2 scrollbar-hide'>

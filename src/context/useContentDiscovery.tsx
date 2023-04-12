@@ -32,7 +32,6 @@ export const ContentDiscoveryProvider = ({ children }: { children: React.ReactNo
     const [streamData, setStreamData] = useState<any>(null);
     const [filters, setFilters] = useState<Filter>(null);
     const [searchKeyword, setSearchKeyword] = useState<string>('');
-    const debouncedSearch = useDebounce(searchKeyword, 200);
 
     return (
         <ContentDiscoveryContext.Provider
@@ -41,7 +40,7 @@ export const ContentDiscoveryProvider = ({ children }: { children: React.ReactNo
                 setStreamData,
                 filters,
                 setFilters,
-                searchKeyword: debouncedSearch,
+                searchKeyword,
                 setSearchKeyword
             }}
         >
