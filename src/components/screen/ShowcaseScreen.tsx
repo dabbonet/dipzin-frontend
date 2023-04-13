@@ -1,8 +1,10 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Icons from '@/components/Icons'
 import Screen from '@/ui/Screen'
+import { usePlatform } from '@/lib/platforms'
+import { cn } from '@/lib/utils'
 
 interface ShowcaseScreenProps {
     app: any
@@ -12,6 +14,7 @@ const ShowcaseScreen: FC<ShowcaseScreenProps> = ({ app }) => {
     const [currentScreenIndex, setCurrentScreenIndex] = useState(0)
     const [isHovered, setIsHovered] = useState(false)
     const [screens, setScreens] = useState(app?.screens ? [app.screens[0]] : [])
+    const { selected } = usePlatform();
 
     useEffect(() => {
         // Prefetch screens on hover
@@ -66,7 +69,7 @@ const ShowcaseScreen: FC<ShowcaseScreenProps> = ({ app }) => {
 
                         <div className="absolute w-[100%] bottom-4 px-4 flex flex-col space-y-1 drop-shadow-xl opacity-0 transform transition duration-500 group-hover/item:opacity-100 z-20">
                             <Image
-                                className="h-[15%] w-[15%] rounded-md bg-slate-700"
+                                className={cn('rounded-md bg-slate-700', selected === 3 ? 'h-[10%] w-[10%]' : 'h-[15%] w-[15%]')}
                                 width={48}
                                 height={48}
                                 src={app?.icon}
