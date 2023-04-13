@@ -3,10 +3,11 @@ import SingleScreen from '@/components/screen/SingleScreen';
 import { useContentDiscovery } from '@/context/useContentDiscovery'
 import { usePlatform } from '@/lib/platforms';
 import { cn, shuffle } from '@/lib/utils';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { FC, useCallback, useEffect, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso';
 import StreamLoader from '@/components/StreamLoader';
+
 
 interface pageProps {
 
@@ -20,6 +21,7 @@ const Search: FC<pageProps> = ({ }) => {
     const categories = searchParams.get('categories')?.split(",")
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
 
     async function getResults() {
         const results = await getSearchResults({ tags, categories, page: 1, platform: selected })
@@ -29,6 +31,7 @@ const Search: FC<pageProps> = ({ }) => {
     }
 
     useEffect(() => {
+        if (searchParams.toString().length === 0) router.push('/') // go back if there is no search Params.
         setPlatforms([2, 1, 3]);
         setFilters({ tags: tags, categories: categories })
         getResults()
@@ -43,7 +46,7 @@ const Search: FC<pageProps> = ({ }) => {
         return () => {
             setFilters(null)
         };
-    }, [searchParams])
+    }, [searchParams, router])
 
     const loadMore = useCallback(() => {
         return setTimeout(async () => {
