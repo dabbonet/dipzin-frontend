@@ -246,9 +246,9 @@ export default MainNavigator
 
 const TagItem = ({ title, onClick }) => {
     return (
-        <li onClick={onClick} className='text-slate-400 hover:text-slate-200 cursor-pointer flex items-center space-x-1 border border-slate-500 rounded-full font-light text-sm py-0.5 pl-2 pr-1.5'>
+        <li onClick={onClick} className='text-slate-400 hover:text-slate-200 cursor-pointer flex items-center space-x-1 border border-slate-500 rounded-full font-light text-sm py-[0.25rem] pl-2 pr-1.5'>
             <span className='w-max'>{title}</span>
-            <Icons.XCircle size={15} className='hover:text-orange-500' />
+            <Icons.XCircle className='w-5 h-5 hover:text-orange-500' />
         </li>
     )
 }
