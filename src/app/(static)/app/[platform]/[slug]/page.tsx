@@ -13,33 +13,27 @@ export default async function AppPage({
 }: {
     params: appProps;
 }) {
-    let appData = await getApp({ slug, platform });
-    let app = appData.data[0].attributes;
-    if (!app) {
+    let apps = await getApps({ slug });
+
+    // Filter apps to get the selected app
+    const app = apps.data.filter(data => data.attributes.platform.data.attributes.name.toLowerCase() === platform.toLowerCase())[0].attributes;
+
+    if (!apps) {
         notFound();
     }
     return (
-        <Content app={app} />
+        <Content apps={apps} selectedApp={app} />
     );
 }
 
 
-interface ResponseData {
-    data: any;
-}
-
-async function getApp({ slug, platform }: appProps) {
+async function getApps({ slug }: any) {
     const query = qs.stringify(
         {
             fields: ["name", "slug", "tag_line", "store_link", "copy_right"],
             filters: {
                 slug: {
                     $eq: slug
-                },
-                platform: {
-                    name: {
-                        $containsi: platform
-                    }
                 },
                 is_published: {
                     $eq: true
@@ -61,6 +55,9 @@ async function getApp({ slug, platform }: appProps) {
                     }
                 },
                 categories: {
+                    fields: ["name"]
+                },
+                platform: {
                     fields: ["name"]
                 },
                 icon: {

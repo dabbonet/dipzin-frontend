@@ -17,7 +17,7 @@ interface ShowcaseProps {
 const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) => {
 
     const { selected: platform } = usePlatform()
-    // console.log(selectedShowcase)
+
     return (
         <motion.div
             //layoutId={selected.id}
