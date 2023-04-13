@@ -21,9 +21,10 @@ const Screen: FC<ScreenProps> = forwardRef(({ src, ...props }, ref) => {
                     width={926}
                     height={570}
                     placeholder="blur"
-                    blurDataURL={rgbDataURL(30, 41, 59)}
+                    className='bg-slate-900/80'
+                    // blurDataURL={rgbDataURL(9, 16, 33)}
                     // onLoadingComplete={() => setLoading(false)}
-                    quality={60}
+                    quality={30}
                     loading="lazy"
                     {...props}
                 />
@@ -36,8 +37,9 @@ const Screen: FC<ScreenProps> = forwardRef(({ src, ...props }, ref) => {
                     src={src}
                     width={428}
                     height={926}
-                    placeholder="blur"
-                    blurDataURL={rgbDataURL(30, 41, 59)}
+                    // placeholder="blur"
+                    className='bg-slate-900/80'
+                    // blurDataURL={rgbDataURL(9, 16, 33)}
                     // onLoadingComplete={() => setLoading(false)}
                     quality={30}
                     loading="lazy"

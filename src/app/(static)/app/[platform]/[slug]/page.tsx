@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Content from './content'
+import AppActions from './AppActions';
 const qs = require('qs');
 
 interface appProps {
@@ -22,7 +23,10 @@ export default async function AppPage({
         notFound();
     }
     return (
-        <Content apps={apps} selectedApp={app} />
+        <>
+            <Content apps={apps} selectedApp={app} />
+            <AppActions app={app} />
+        </>
     );
 }
 
