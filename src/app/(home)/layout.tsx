@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={cn('subpixel-antialiased font-sans', outfit.variable)}>
-      <body className={cn('bg-fixed bg-gradient-to-tr from-slate-200 to-slate-300 dark:from-[#0D1018] dark:to-[#09132E] min-h-screen w-full h-screen')}>
+      <body className={cn('bg-fixed bg-gradient-to-tr from-slate-200 to-slate-300 dark:from-slate-950 dark:to-slate-950 min-h-screen w-full h-screen')}>
         <Providers>
           <Navbar />
           <main className='pt-24 max-w-[82%]  mx-auto'>

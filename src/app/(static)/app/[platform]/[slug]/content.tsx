@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { VirtuosoGrid } from "react-virtuoso"
 import Image from "next/image"
+import { Toaster } from "react-hot-toast"
 
 interface ContentProps {
     apps: any,
@@ -33,6 +34,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
 
     return (
         <main className="w-full flex flex-col items-center">
+            <Toaster position="bottom-right" />
             <div className="flex w-full mt-10 mb-4 justify-between items-center text-slate-100 z-10">
                 <div className="flex space-x-6">
                     <Image
@@ -75,7 +77,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
                 overscan={10}
                 listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4")}
                 itemContent={(index, data) => {
-                    const screen = data?.attributes.screen.data.attributes.hash + data?.attributes.screen.data.attributes.ext
+                    const screen = data?.attributes.screen.data?.attributes.hash + data?.attributes.screen.data?.attributes.ext
                     return (
                         <div className="cursor-pointer" onClick={() => setOpenScreen(screen)}>
                             <SingleScreen src={screen} />
@@ -93,7 +95,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                         >
-                            <Screen src={openScreen} quality={50} className='rounded-2xl h-[90%] w-auto' />
+                            <Screen src={openScreen} quality={50} className='rounded-2xl h-[90%] w-auto bg-slate-900/80' />
                         </motion.div>
                     </>
                 )}
