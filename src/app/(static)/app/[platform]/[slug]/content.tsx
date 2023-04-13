@@ -9,18 +9,22 @@ import { VirtuosoGrid } from "react-virtuoso"
 import Image from "next/image"
 
 interface ContentProps {
-    app: any
+    apps: any,
+    selectedApp: any
 }
 
-export default function Content({ app }: ContentProps) {
-    const { selected, setSelected } = usePlatform();
+export default function Content({ apps, selectedApp: app }: ContentProps) {
+    const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
     const [openScreen, setOpenScreen] = useState<string | null>();
 
-    // TODO: Check other platforms available from this app and set 'platforms' and 'selected'.
-
-    // useEffect(() => {
-    //     setSelected(3)
-    // }, [])
+    // Create an array of platform IDs
+    const platformIds = apps.data.map(app => app.attributes.platform.data.id);
+    // Platform Switcher initialization.
+    useEffect(() => {
+        setPlatforms(platformIds)
+        setSelected(app.platform.data.id)
+        setSingleApp(true)
+    }, [app])
 
     const icon = app.icon.data.attributes.hash + app.icon.data.attributes.ext
     const categoryName = app.categories.data[0].attributes.name
@@ -36,7 +40,7 @@ export default function Content({ app }: ContentProps) {
                         src={icon}
                         width={80}
                         height={80}
-                        alt="App Icon"
+                        alt="apps Icon"
                     />
                     <div>
                         <span className="text-[32px] font-medium">{app.name}</span>
