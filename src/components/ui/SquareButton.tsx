@@ -25,9 +25,11 @@ const SquareButton: React.FC<ActionButtonProps> & {
 SquareButton.Title = ({ children, className }: { children: React.ReactNode, className?: string }) => (
   <div className={cn("text-[13px] leading-4 tracking-wider font-normal text-left text-white absolute bottom-2 left-2 ", className)}>{children}</div>
 );
+SquareButton.Title.displayName = 'SquareButton.Title'
 
 SquareButton.Icon = ({ children, className }: { children: React.ReactNode, className?: string }) => (
   <div className={cn("w-5 h-5 absolute right-2 top-2 group-focus:text-orange-500", className)}>{children}</div>
 );
+SquareButton.Icon.displayName = 'SquareButton.Icon'
 
 export default SquareButton;
