@@ -1,4 +1,3 @@
-'use client'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso';
 import ShowcaseScreen from './screen/ShowcaseScreen';
