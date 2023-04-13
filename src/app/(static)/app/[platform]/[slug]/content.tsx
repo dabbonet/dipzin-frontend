@@ -7,20 +7,25 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { VirtuosoGrid } from "react-virtuoso"
 import Image from "next/image"
+import { Toaster } from "react-hot-toast"
 
 interface ContentProps {
-    app: any
+    apps: any,
+    selectedApp: any
 }
 
-export default function Content({ app }: ContentProps) {
-    const { selected, setSelected } = usePlatform();
+export default function Content({ apps, selectedApp: app }: ContentProps) {
+    const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
     const [openScreen, setOpenScreen] = useState<string | null>();
 
-    // TODO: Check other platforms available from this app and set 'platforms' and 'selected'.
-
-    // useEffect(() => {
-    //     setSelected(3)
-    // }, [])
+    // Create an array of platform IDs
+    const platformIds = apps.data.map(app => app.attributes.platform.data.id);
+    // Platform Switcher initialization.
+    useEffect(() => {
+        setPlatforms(platformIds)
+        setSelected(app.platform.data.id)
+        setSingleApp(true)
+    }, [app])
 
     const icon = app.icon.data.attributes.hash + app.icon.data.attributes.ext
     const categoryName = app.categories.data[0].attributes.name
@@ -29,6 +34,7 @@ export default function Content({ app }: ContentProps) {
 
     return (
         <main className="w-full flex flex-col items-center">
+            <Toaster position="bottom-right" />
             <div className="flex w-full mt-10 mb-4 justify-between items-center text-slate-100 z-10">
                 <div className="flex space-x-6">
                     <Image
@@ -36,7 +42,7 @@ export default function Content({ app }: ContentProps) {
                         src={icon}
                         width={80}
                         height={80}
-                        alt="App Icon"
+                        alt="apps Icon"
                     />
                     <div>
                         <span className="text-[32px] font-medium">{app.name}</span>
@@ -71,7 +77,7 @@ export default function Content({ app }: ContentProps) {
                 overscan={10}
                 listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4")}
                 itemContent={(index, data) => {
-                    const screen = data?.attributes.screen.data.attributes.hash + data?.attributes.screen.data.attributes.ext
+                    const screen = data?.attributes.screen.data?.attributes.hash + data?.attributes.screen.data?.attributes.ext
                     return (
                         <div className="cursor-pointer" onClick={() => setOpenScreen(screen)}>
                             <SingleScreen src={screen} />
@@ -89,7 +95,7 @@ export default function Content({ app }: ContentProps) {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                         >
-                            <Screen src={openScreen} quality={50} className='rounded-2xl h-[90%] w-auto' />
+                            <Screen src={openScreen} quality={50} className='rounded-2xl h-[90%] w-auto bg-slate-900/80' />
                         </motion.div>
                     </>
                 )}
