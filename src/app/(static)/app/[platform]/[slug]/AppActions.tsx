@@ -23,16 +23,18 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
                 </SquareButton.Icon>
             </SquareButton>
 
-            <SquareButton
-                onClick={() => {
-                    window.open(app.store_link, "_blank", "noreferrer");
-                }}
-            >
-                <SquareButton.Title className='w-[70%]'>App Store</SquareButton.Title>
-                <SquareButton.Icon>
-                    <Icons.Apple />
-                </SquareButton.Icon>
-            </SquareButton>
+            {app.store_link &&
+                <SquareButton
+                    onClick={() => {
+                        window.open(app.store_link, "_blank", "noreferrer");
+                    }}
+                >
+                    <SquareButton.Title className='w-[70%]'>App Store</SquareButton.Title>
+                    <SquareButton.Icon>
+                        <Icons.Apple />
+                    </SquareButton.Icon>
+                </SquareButton>
+            }
 
             {/* TODO: Add Save When Collections is Done. */}
             {/* <SquareButton>
@@ -59,7 +61,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
             >
                 <SquareButton.Title className='w-[70%]'>Copy Link</SquareButton.Title>
                 <SquareButton.Icon>
-                    <Icons.Copy />
+                    <Icons.CopyFilled />
                 </SquareButton.Icon>
             </SquareButton>
         </ActionBar>
