@@ -1,46 +1,25 @@
-const qs = require('qs');
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-    const query = qs.stringify(
-        {
-            filters: {
-                is_published: {
-                    $eq: true
-                }
-            },
-            populate: {
-                screens: {
-                    populate: {
-                        screen: {
-                            fields: ['formats']
-                        }
-                    },
-                    filters: {
-                        is_showcase: {
-                            $eq: true,
-                        },
-                    },
-                },
-            },
-            pagination: {
-                page: 1,
-                pageSize: 10
-            }
-        },
-        {
-            encodeValuesOnly: true, // prettify URL
-        }
-    )
+    const { searchParams } = new URL(request.url);
+    const platform = searchParams.get('platform');
+    const previousPages = searchParams.get('previousPages');
 
-    const req = await fetch(`https://rah.dipzin.com/api/apps?${query}`, {
+    const params = new URLSearchParams({
+        platform: platform ?? '',
+        previousPages: previousPages ?? '',
+    });
+
+    const res = await fetch(`https://rah.dipzin.com/api/stream?${params}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
+        next: { revalidate: 300 }
     });
-    return new Response(req.body)
-}
 
-export async function POST(request: Request) {
-    return new Response('Hello, POST api!')
+    if (!res.ok) {
+        return NextResponse.json({ error: 'Error fetching stream' }, { status: res.status })
+    }
+    return NextResponse.json(await res.json());
 }
