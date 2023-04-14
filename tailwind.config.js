@@ -12,20 +12,9 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    fontWeight: {
-      thin: '100',
-      light: '300',
-      medium: '500',
-      bold: '700',
-      black: '900',
-    },
     extend: {
       fontFamily: {
-        sans: ['var(--font-poppins)', ...fontFamily.sans],
-        
-      },
-      rotate: {
-        '-15':'-15deg'
+        sans: ['var(--font-outfit)', ...fontFamily.sans],
       },
     },
   },

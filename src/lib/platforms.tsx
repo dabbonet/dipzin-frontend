@@ -9,7 +9,7 @@ interface Platform {
 
 interface PlatformContextInterface {
     platforms: Platform[]
-    selected?: number
+    selected: number
     setSelected: (selected: number) => void
     setPlatforms: (ids: any) => void
     singleApp: boolean
@@ -30,7 +30,7 @@ const PlatformProvider: FC<any> = ({ children }) => {
         },
         {
             id: 2,
-            name: "iOS"
+            name: "IOS"
         },
         {
             id: 3,
@@ -39,7 +39,7 @@ const PlatformProvider: FC<any> = ({ children }) => {
     ];
     const [platforms, setPlatforms] = useState<Platform[]>([]);
     const [selected, setSelected] = useState<number>(2);
-    const [singleApp, setSingleApp] = useState<boolean>(true);
+    const [singleApp, setSingleApp] = useState<boolean>(false);
 
     const setPlatformsWithIds = (ids: number[]) => {
         const selectedPlatforms = ids.map((id) => allPlatforms.find((platform) => platform.id === id));
