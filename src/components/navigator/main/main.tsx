@@ -73,7 +73,7 @@ const MainNavigator = ({ type }: any) => {
             <div className='relative flex items-end'>
 
                 {/* User Avatar area */}
-                <motion.div
+                {/* <motion.div
                     layout="position"
                     className="mr-4 mb-2 cursor-pointer"
                 >
@@ -118,9 +118,9 @@ const MainNavigator = ({ type }: any) => {
                             <DropdownMenuItem>
                                 <Icons.Sun className='mr-2 h-4 w-4'></Icons.Sun>
                                 <span
-                                // onClick={() => {
-                                //     router.push("/profile");
-                                // }}
+                                onClick={() => {
+                                    router.push("/profile");
+                                }}
                                 >
                                     Membership
                                 </span>
@@ -128,96 +128,96 @@ const MainNavigator = ({ type }: any) => {
                             <DropdownMenuItem>
                                 <Icons.Sun className='mr-2 h-4 w-4'></Icons.Sun>
                                 <span
-                                // onClick={() => {
-                                //     router.push("/profile");
-                                // }}
+                                onClick={() => {
+                                    router.push("/profile");
+                                }}
                                 >
                                     Logout
                                 </span>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
 
-                    </DropdownMenu>
-                </motion.div>
+                    </DropdownMenu> 
+            </motion.div >*/}
 
-                <MotionConfig transition={{ duration: .5 }}>
+                {/* < MotionConfig transition={{ duration: .5 }}> */}
 
-                    {/* Navigator Area */}
-                    <motion.div
-                        layoutRoot
-                        className="relative w-full h-full rounded-3xl bg-slate-950/90 border-[0.5px] border-slate-800 p-2 flex-col items-end text-slate-100 tracking-[.07rem]"
-                        transition={{ type: "spring", duration: 0.6, delay: 0.1 }}
-                        initial={{ borderRadius: 30 }}
-                    >
+                {/* Navigator Area */}
+                <motion.div
+                    layoutRoot
+                    className="relative w-full h-full rounded-3xl bg-slate-950/90 border-[0.5px] border-slate-800 p-2 flex-col items-end text-slate-100 tracking-[.07rem]"
+                    transition={{ type: "spring", duration: 0.6, delay: 0.1 }}
+                    initial={{ borderRadius: 30 }}
+                >
 
-                        <AnimatePresence mode='wait'>
-                            {navOpen && (
-                                <Search />
+                    <AnimatePresence mode='wait'>
+                        {navOpen && (
+                            <Search />
+                        )}
+
+                        {filterOpen && (
+                            <Filters />
+                        )}
+                        {menuOpen && (
+                            <Menu />
+                        )}
+                    </AnimatePresence>
+                    <motion.div className="flex w-full h-[48px] relative z-30">
+
+                        <motion.div
+                            layout="position"
+                            className="flex items-center bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-3xl px-7 space-x-2 mr-5"
+                            onClick={() => {
+                                setMenuOpen(!menuOpen);
+                                setNavOpen(false);
+                                setFilterOpen(false);
+                            }}>
+                            <Icons.Grip className='w-4 h-4 text-slate-400' />
+                            <span className="font-medium text-sm mt-0.5">Menu</span>
+                        </motion.div>
+
+                        <motion.div layout className={cn("flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full", filters?.tags || filters?.categories ? 'pl-3' : 'pl-7')}>
+                            {/* TODO: Reduce size and add selected tags/categories in circles like ui */}
+                            {filters && (filters?.tags?.length > 0 || filters?.categories?.length > 0) && (
+                                <div className='relative rounded-md'>
+                                    <div className='w-[7%] h-full absolute left-0 bg-gradient-to-r from-slate-800 to-slate-800/0'></div>
+                                    <div className='w-[7%] h-full absolute right-0 bg-gradient-to-l from-slate-800 to-slate-800/0'></div>
+                                    <ul className='flex space-x-2 mr-2 w-fit max-w-[20vw] overflow-x-scroll scrollbar-none ml-2'>
+                                        {filters?.categories?.map((category, index) => (
+                                            <TagItem key={index} title={category} onClick={() => removeTag('category', index)} />
+                                        ))}
+                                        {filters?.tags?.map((tag, index) => tag && (
+                                            <TagItem key={index} title={tag} onClick={() => removeTag('tag', index)} />
+                                        ))}
+                                    </ul>
+                                </div>
                             )}
-
-                            {filterOpen && (
-                                <Filters />
-                            )}
-                            {menuOpen && (
-                                <Menu />
-                            )}
-                        </AnimatePresence>
-                        <motion.div className="flex w-full h-[48px] relative z-30">
-
-                            <motion.div
-                                layout="position"
-                                className="flex items-center bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-3xl px-7 space-x-2 mr-5"
-                                onClick={() => {
-                                    setMenuOpen(!menuOpen);
-                                    setNavOpen(false);
-                                    setFilterOpen(false);
-                                }}>
-                                <Icons.Grip className='w-4 h-4 text-slate-400' />
-                                <span className="font-medium text-sm mt-0.5">Menu</span>
-                            </motion.div>
-
-                            <motion.div layout className={cn("flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full", filters?.tags || filters?.categories ? 'pl-3' : 'pl-7')}>
-                                {/* TODO: Reduce size and add selected tags/categories in circles like ui */}
-                                {filters && (filters?.tags?.length > 0 || filters?.categories?.length > 0) && (
-                                    <div className='relative rounded-md'>
-                                        <div className='w-[7%] h-full absolute left-0 bg-gradient-to-r from-slate-800 to-slate-800/0'></div>
-                                        <div className='w-[7%] h-full absolute right-0 bg-gradient-to-l from-slate-800 to-slate-800/0'></div>
-                                        <ul className='flex space-x-2 mr-2 w-fit max-w-[20vw] overflow-x-scroll scrollbar-none ml-2'>
-                                            {filters?.categories?.map((category, index) => (
-                                                <TagItem key={index} title={category} onClick={() => removeTag('category', index)} />
-                                            ))}
-                                            {filters?.tags?.map((tag, index) => tag && (
-                                                <TagItem key={index} title={tag} onClick={() => removeTag('tag', index)} />
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
-                                <motion.input
-                                    layout
-                                    className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 text-sm rounded-full"
-                                    placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
-                                    transition={{ duration: 0.4 }}
-                                    animate={{ width: navOpen ? "40vw" : "18vw" }}
-                                    value={searchKeyword}
-                                    onChange={(e) => {
-                                        setSearchKeyword(e.target.value);
-                                        if (e.target.value.length > 0) {
-                                            setNavOpen(true);
-                                            setMenuOpen(false);
-                                            setFilterOpen(false);
-                                        } else {
-                                            setNavOpen(false);
-                                        }
-                                    }}
-                                    onFocus={(e) => {
-                                        if (e.target.value.length > 0) {
-                                            setNavOpen(true);
-                                            setMenuOpen(false);
-                                            setFilterOpen(false);
-                                        }
-                                    }}
-                                />
-                                <motion.div
+                            <motion.input
+                                layout
+                                className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 text-sm rounded-2xl"
+                                placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
+                                transition={{ duration: 0.4 }}
+                                animate={{ width: navOpen ? "40vw" : "18vw" }}
+                                value={searchKeyword}
+                                onChange={(e) => {
+                                    setSearchKeyword(e.target.value);
+                                    if (e.target.value.length > 0) {
+                                        setNavOpen(true);
+                                        setMenuOpen(false);
+                                        setFilterOpen(false);
+                                    } else {
+                                        setNavOpen(false);
+                                    }
+                                }}
+                                onFocus={(e) => {
+                                    if (e.target.value.length > 0) {
+                                        setNavOpen(true);
+                                        setMenuOpen(false);
+                                        setFilterOpen(false);
+                                    }
+                                }}
+                            />
+                            {/* <motion.div
                                     layout="position"
                                     className="h-full flex items-center bg-gradient-to-br from-slate-700 to-slate-700/60  hover:bg-slate-600 cursor-pointer rounded-full space-x-2 px-6 ml-auto"
                                     onClick={() => {
@@ -227,15 +227,15 @@ const MainNavigator = ({ type }: any) => {
                                     }}>
                                     <Icons.Filter className='w-4 h-4 text-slate-400' />
                                     <span className="font-medium text-sm mt-0.5">Fillter</span>
-                                </motion.div>
-                            </motion.div>
-
+                                </motion.div> */}
                         </motion.div>
 
                     </motion.div>
-                </MotionConfig>
 
-            </div>
+                </motion.div >
+                {/* </MotionConfig > */}
+
+            </div >
         </div >
     )
 }

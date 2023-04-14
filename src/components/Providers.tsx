@@ -7,7 +7,7 @@ import { ContentDiscoveryProvider } from "@/context/useContentDiscovery"
 const Providers = ({ children }: { children: ReactNode }) => {
     return (
         <PlatformProvider>
-            <ThemeProvider attribute='class' defaultTheme="dark" enableSystem>
+            <ThemeProvider attribute='class' defaultTheme="dark" forcedTheme="dark">
                 <ContentDiscoveryProvider>
                     {children}
                 </ContentDiscoveryProvider>
