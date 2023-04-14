@@ -41,9 +41,9 @@ const Background2 = () => {
     let x = useTransform(scrollYProgress, [0, 1], ['-20%', '10%'])
 
     return (
-        <div className=''>
+        <>
             {/* Noise */}
-            <svg className="top-0 contrast-[10] w-full h-full fixed dark:opacity-[0.05] " xmlns='http://www.w3.org/2000/svg'>
+            <svg className="top-0 -z-50 contrast-[10] w-full h-full fixed dark:opacity-[0.05] " xmlns='http://www.w3.org/2000/svg'>
                 <filter id='noiseFilter'>
                     <feTurbulence
                         type='fractalNoise'
@@ -76,7 +76,7 @@ const Background2 = () => {
                     <ellipse rx="147.5" ry="149" cx="278.2445971104487" cy="267.4624342993292" fill="#0284c7"></ellipse>
                 </g>
             </motion.svg>
-        </div>
+        </>
     )
 }
 

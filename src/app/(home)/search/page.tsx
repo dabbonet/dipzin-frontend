@@ -32,7 +32,7 @@ const Search: FC<pageProps> = ({ }) => {
 
     useEffect(() => {
         if (searchParams.toString().length === 0) router.push('/') // go back if there is no search Params.
-        setPlatforms([2, 1, 3]);
+        setPlatforms([2, 1]);
         setFilters({ tags: tags, categories: categories })
         getResults()
         setTimeout(() => {
