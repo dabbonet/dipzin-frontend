@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { VirtuosoGrid } from "react-virtuoso"
 import Image from "next/image"
 import { Toaster } from "react-hot-toast"
+import ScreenActions from "./ScreenActions"
 
 interface ContentProps {
     apps: any,
@@ -79,9 +80,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
                 itemContent={(index, data) => {
                     const screen = data?.attributes.screen.data?.attributes.hash + data?.attributes.screen.data?.attributes.ext
                     return (
-                        <div className="cursor-pointer" onClick={() => setOpenScreen(screen)}>
-                            <SingleScreen src={screen} />
-                        </div>
+                        <SingleScreen src={screen} setOpen={setOpenScreen} />
                     )
                 }}
             />
@@ -96,6 +95,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
                             exit={{ opacity: 0 }}
                         >
                             <Screen src={openScreen} quality={50} className='rounded-2xl h-[90%] w-auto bg-slate-900/80' />
+                            <ScreenActions />
                         </motion.div>
                     </>
                 )}
