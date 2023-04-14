@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer';
-import Background from '@/ui/Background'
+import { Background1 } from '@/ui/Backgrounds'
 import '../globals.css'
 import { Outfit } from 'next/font/google'
 import { cn } from '@/lib/utils';
@@ -33,7 +33,7 @@ export default function RootLayout({
             <MainNavigator />
           </main>
           <Footer />
-          <Background />
+          <Background1 />
         </Providers>
       </body>
     </html>
