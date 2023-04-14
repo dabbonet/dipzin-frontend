@@ -102,7 +102,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                         >
                             <SquareButton.Title className='w-[70%]'>Copy Link</SquareButton.Title>
                             <SquareButton.Icon>
-                                <Icons.Copy />
+                                <Icons.CopyFilled />
                             </SquareButton.Icon>
                         </SquareButton>
 
