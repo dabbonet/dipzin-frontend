@@ -12,7 +12,7 @@ const nextConfig = {
 
     // enableUndici: true
   },
-  // optimizeFonts: false,
+  optimizeFonts: true,
 }
 
 module.exports = nextConfig
