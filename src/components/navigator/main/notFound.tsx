@@ -16,17 +16,4 @@ const NotFoundPreview = () => {
   )
 }
 
-const NotFoundResults = () => {
-  return (
-    <div className='w-[30%] flex-col rounded-2xl bg-slate-800 py-2 px-2 space-y-2 relative'>
-      <div className="absolute top-0 left-0 rounded-2xl z-1 bg-gradient-to-b from-slate-900/10 to-slate-900/90 w-full h-full"></div>
-      <div className='flex items-center p-2 bg-slate-700 rounded-xl space-x-3 h-[64px]'></div>
-      <div className='flex items-center p-2 bg-slate-700 rounded-xl space-x-3 h-[64px]'></div>
-      <div className='flex items-center p-2 bg-slate-700 rounded-xl space-x-3 h-[64px]'></div>
-      <div className='flex items-center p-2 bg-slate-700 rounded-xl space-x-3 h-[64px]'></div>
-      <div className='flex items-center p-2 bg-slate-700 rounded-xl space-x-3 h-[64px]'></div>
-    </div>
-  );
-}
-
-export { NotFoundPreview, NotFoundResults }
+export { NotFoundPreview }

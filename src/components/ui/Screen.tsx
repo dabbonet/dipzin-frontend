@@ -1,6 +1,6 @@
 import { FC, forwardRef } from 'react'
 import Image from 'next/image'
-import { rgbDataURL } from '@/lib/utils'
+import { cn, rgbDataURL } from '@/lib/utils'
 import { usePlatform } from '@/lib/platforms'
 
 interface ScreenProps {
@@ -20,12 +20,13 @@ const Screen: FC<ScreenProps> = forwardRef(({ src, ...props }, ref) => {
                     src={src}
                     width={926}
                     height={570}
-                    placeholder="blur"
-                    blurDataURL={rgbDataURL(30, 41, 59)}
+                    // placeholder="blur"
+                    // blurDataURL={rgbDataURL(9, 16, 33)}
                     // onLoadingComplete={() => setLoading(false)}
-                    quality={60}
+                    quality={30}
                     loading="lazy"
                     {...props}
+                    className={cn('bg-slate-900/80', props.className)}
                 />
             )
         }
@@ -36,12 +37,13 @@ const Screen: FC<ScreenProps> = forwardRef(({ src, ...props }, ref) => {
                     src={src}
                     width={428}
                     height={926}
-                    placeholder="blur"
-                    blurDataURL={rgbDataURL(30, 41, 59)}
+                    // placeholder="blur"
+                    // blurDataURL={rgbDataURL(9, 16, 33)}
                     // onLoadingComplete={() => setLoading(false)}
                     quality={30}
                     loading="lazy"
                     {...props}
+                    className={cn('bg-slate-900/80', props.className)}
                 />
             )
         }

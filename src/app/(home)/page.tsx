@@ -1,18 +1,13 @@
+'use client'
 import Stream from "@/components/Stream";
+import { Toaster } from "react-hot-toast"
 
-// async function getInitial() {
-//   const res = await fetch('https://rah.dipzin.com/api/init');
-//   if (!res.ok) {
-//     throw new Error('Failed to fetch data');
-//   }
-
-//   return res.json();
-// }
-
-export default async function Home() {
-  // const initial = await getInitial();
+export default function Home() {
 
   return (
-    <Stream />
+    <>
+      <Stream />
+      <Toaster position="top-center" />
+    </>
   );
 }

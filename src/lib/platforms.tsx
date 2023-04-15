@@ -8,12 +8,12 @@ interface Platform {
 }
 
 interface PlatformContextInterface {
-  platforms: Platform[];
-  selected?: number;
-  setSelected: (selected: number) => void;
-  setPlatforms: (ids: any) => void;
-  singleApp: boolean;
-  setSingleApp: (single: boolean) => void;
+  platforms: Platform[]
+  selected: number
+  setSelected: (selected: number) => void
+  setPlatforms: (ids: any) => void
+  singleApp: boolean
+  setSingleApp: (single: boolean) => void
 }
 
 const PlatformContext = createContext<PlatformContextInterface>(null!);
