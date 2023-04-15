@@ -14,6 +14,7 @@ export async function POST(request: Request) {
       { error: "something went wrong" },
       { status: req.status }
     );
-    }
-  return NextResponse.json(await req.json());
+  }
+  const data = await req.json()
+  return NextResponse.json(data);
 }
