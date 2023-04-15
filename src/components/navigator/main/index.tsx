@@ -7,9 +7,9 @@ import MainNavigator from "./main";
 const Navigator = ({ type }: any) => {
   return (
     <motion.div
-      initial={{ y: 200 }}
-      animate={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 100 }}
+      // initial={{ y: 200 }}
+      // animate={{ y: 0 }}
+      // transition={{ type: "spring", stiffness: 100 }}
       className="fixed w-full bottom-0 flex justify-center z-40"
     >
 
