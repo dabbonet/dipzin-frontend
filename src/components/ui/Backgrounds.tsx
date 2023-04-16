@@ -38,7 +38,7 @@ const Background1 = () => {
 const Background2 = () => {
 
     let { scrollYProgress } = useScroll()
-    let x = useTransform(scrollYProgress, [0, 1], ['-20%', '10%'])
+    let x = useTransform(scrollYProgress, [0, 1], ['-20%', '35%'])
 
     return (
         <>
@@ -60,22 +60,25 @@ const Background2 = () => {
 
 
             {/* Blur Shape */}
-
-            <motion.svg
-                style={{ x }}
-                viewBox="0 0 800 800"
-                className="absolute top-0 -z-20 opacity-0 dark:opacity-[0.45] max-h-[170vh]"
-            >
-                <defs>
-                    <filter id="bbblurry-filter" x="-100%" y="-100%" width="400%" height="400%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                        <feGaussianBlur stdDeviation="85" x="0%" y="0%" width="100%" height="100%" in="SourceGraphic" edgeMode="none" result="blur"></feGaussianBlur>
-                    </filter>
-                </defs>
-                <g filter="url(#bbblurry-filter)">
-                    <ellipse rx="147.5" ry="149" cx="526.1347029920648" cy="539.6641832920894" fill="#1e40af"></ellipse>
-                    <ellipse rx="147.5" ry="149" cx="278.2445971104487" cy="267.4624342993292" fill="#0284c7"></ellipse>
-                </g>
-            </motion.svg>
+            <div className="overflow-hidden">
+                <motion.svg
+                    // style={{  }}
+                    viewBox="0 0 800 800"
+                    className="-z-50 absolute top-0 opacity-0 dark:opacity-[0.45]"
+                    initial={{ x: '-20%' }}
+                    style={{ x, position: "fixed", height: "100%", scale: 3 }}
+                >
+                    <defs>
+                        <filter id="bbblurry-filter" x="-100%" y="-100%" width="400%" height="400%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                            <feGaussianBlur stdDeviation="85" x="0%" y="0%" width="100%" height="100%" in="SourceGraphic" edgeMode="none" result="blur"></feGaussianBlur>
+                        </filter>
+                    </defs>
+                    <g filter="url(#bbblurry-filter)">
+                        <ellipse rx="147.5" ry="149" cx="526.1347029920648" cy="539.6641832920894" fill="#1e40af"></ellipse>
+                        <ellipse rx="147.5" ry="149" cx="278.2445971104487" cy="267.4624342993292" fill="#0284c7"></ellipse>
+                    </g>
+                </motion.svg>
+            </div>
         </>
     )
 }

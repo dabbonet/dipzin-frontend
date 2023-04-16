@@ -1,6 +1,8 @@
 'use client'
 import { ActionBar, SquareButton } from '@/components/ActionBar'
 import Icons from '@/components/Icons'
+import SoonToast from '@/components/SoonToast'
+import { ImageDownloader } from '@/lib/ImageDownloader'
 import { FC } from 'react'
 import toast from 'react-hot-toast'
 
@@ -9,12 +11,15 @@ interface navigatorProps {
 }
 
 const AppActions: FC<navigatorProps> = ({ app }) => {
+    const screensArray = app.screens.data.map(screen => screen.attributes.screen.data.attributes.hash + screen.attributes.screen.data.attributes.ext);
+
     const platform = app.platform.data.attributes.name.toLowerCase();
     return (
         <ActionBar className='flex flex-col fixed right-10 top-[32%] w-auto h-auto'>
             <SquareButton
                 onClick={() => {
-                    toast.error('Please Login to access this feature...')
+                    toast.remove();
+                    toast.custom(<SoonToast />, { duration: 2000 });
                 }}
             >
                 <SquareButton.Title>Like App</SquareButton.Title>
@@ -44,7 +49,11 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
                 </SquareButton.Icon>
             </SquareButton> */}
 
-            <SquareButton>
+            <SquareButton
+                onClick={() => {
+                    ImageDownloader(app.name + ' Screens', screensArray)
+                }}
+            >
                 <SquareButton.Title className='w-[80%]'>Bulk Download</SquareButton.Title>
                 <SquareButton.Icon>
                     <Icons.Download />
