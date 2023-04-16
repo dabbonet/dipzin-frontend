@@ -1,14 +1,21 @@
 'use client'
 import { ActionBar, SquareButton } from '@/components/ActionBar'
 import Icons from '@/components/Icons'
+import { copyImagesToClipboard } from '@/lib/ImageCopier'
+import { downloadImage } from '@/lib/ImageDownloader'
+import { getAssetsURL } from '@/lib/utils'
 import { FC } from 'react'
 import toast from 'react-hot-toast'
 
 interface navigatorProps {
+    appName: string
+    screen: any
 }
 
-const ScreenActions: FC<navigatorProps> = () => {
-    // const platform = app.platform.data.attributes.name.toLowerCase();
+const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
+    const name = screen.attributes.screen.data.attributes.hash + screen.attributes.screen.data.attributes.ext;
+    const fileName = appName + ' ' + screen.attributes.order;
+    const screenURL = getAssetsURL(name)
     return (
         <ActionBar className='z-50 flex flex-col fixed right-10 top-[32%] w-auto h-auto'>
 
@@ -31,7 +38,11 @@ const ScreenActions: FC<navigatorProps> = () => {
                 </SquareButton.Icon>
             </SquareButton> */}
 
-            <SquareButton>
+            <SquareButton
+                onClick={async () => {
+                    name && downloadImage(fileName, name);
+                }}
+            >
                 <SquareButton.Title className='w-[80%]'>Download</SquareButton.Title>
                 <SquareButton.Icon>
                     <Icons.Download />
@@ -39,12 +50,9 @@ const ScreenActions: FC<navigatorProps> = () => {
             </SquareButton>
 
             <SquareButton
-            // onClick={() => {
-            //     navigator.clipboard.writeText(
-            //         window.location.origin + "/app/" + platform + "/" + app.slug //need fix
-            //     )
-            //     toast.success('App Link Copied.');
-            // }}
+                onClick={async () => {
+                    await copyImagesToClipboard([screenURL]);
+                }}
             >
                 <SquareButton.Title className='w-[70%]'>Copy PNG</SquareButton.Title>
                 <SquareButton.Icon>
@@ -52,12 +60,10 @@ const ScreenActions: FC<navigatorProps> = () => {
                 </SquareButton.Icon>
             </SquareButton>
             <SquareButton
-            // onClick={() => {
-            //     navigator.clipboard.writeText(
-            //         window.location.origin + "/app/" + platform + "/" + app.slug //need fix
-            //     )
-            //     toast.success('App Link Copied.');
-            // }}
+                onClick={() => {
+                    navigator.clipboard.writeText(screenURL)
+                    toast.success('App Link Copied.');
+                }}
             >
                 <SquareButton.Title className='w-[70%]'>Copy Link</SquareButton.Title>
                 <SquareButton.Icon>

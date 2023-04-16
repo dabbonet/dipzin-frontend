@@ -41,9 +41,9 @@ const Background2 = () => {
     let x = useTransform(scrollYProgress, [0, 1], ['-20%', '10%'])
 
     return (
-        <div className=''>
+        <>
             {/* Noise */}
-            <svg className="top-0 contrast-[10] w-full h-full fixed dark:opacity-[0.05] " xmlns='http://www.w3.org/2000/svg'>
+            <svg className="-z-50 top-0 contrast-[10] w-full h-full fixed dark:opacity-[0.05] " xmlns='http://www.w3.org/2000/svg'>
                 <filter id='noiseFilter'>
                     <feTurbulence
                         type='fractalNoise'
@@ -64,7 +64,7 @@ const Background2 = () => {
             <motion.svg
                 style={{ x }}
                 viewBox="0 0 800 800"
-                className="absolute top-0 -z-20 opacity-0 dark:opacity-[0.45] max-h-[170vh]"
+                className="-z-50 absolute top-0 opacity-0 dark:opacity-[0.45] max-h-[170vh]"
             >
                 <defs>
                     <filter id="bbblurry-filter" x="-100%" y="-100%" width="400%" height="400%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
@@ -76,7 +76,7 @@ const Background2 = () => {
                     <ellipse rx="147.5" ry="149" cx="278.2445971104487" cy="267.4624342993292" fill="#0284c7"></ellipse>
                 </g>
             </motion.svg>
-        </div>
+        </>
     )
 }
 
