@@ -19,6 +19,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
     const router = useRouter()
     const { selected: platform } = usePlatform()
 
+    console.log(selectedShowcase)
     return (
         <motion.div
             //layoutId={selected.id}

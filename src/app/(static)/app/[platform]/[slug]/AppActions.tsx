@@ -1,6 +1,7 @@
 'use client'
 import { ActionBar, SquareButton } from '@/components/ActionBar'
 import Icons from '@/components/Icons'
+import SoonToast from '@/components/SoonToast'
 import { ImageDownloader } from '@/lib/ImageDownloader'
 import { FC } from 'react'
 import toast from 'react-hot-toast'
@@ -17,7 +18,8 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
         <ActionBar className='flex flex-col fixed right-10 top-[32%] w-auto h-auto'>
             <SquareButton
                 onClick={() => {
-                    toast.error('Please Login to access this feature...')
+                    toast.remove();
+                    toast.custom(<SoonToast />, { duration: 2000 });
                 }}
             >
                 <SquareButton.Title>Like App</SquareButton.Title>

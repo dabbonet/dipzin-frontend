@@ -12,6 +12,7 @@ const Featuers = ({ feature }: Props) => {
         height={12}
         src="/images/assets/check.svg"
         alt="check"
+        unoptimized
       />
       <p>{feature}</p>
     </div>

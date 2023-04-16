@@ -13,7 +13,7 @@ interface SingleScreenProps {
     screen: any
     setOpen?: any
 }
-const mergeScreenUrl = (data) => data.attributes?.screen.data?.attributes.hash + data.attributes?.screen.data?.attributes.ext
+const mergeScreenUrl = (data) => data.attributes ? data.attributes?.screen.data?.attributes.hash + data.attributes?.screen.data?.attributes.ext : data
 
 const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
     // const src = screen.attributes ? screen?.attributes.screen.data?.attributes.hash + screen?.attributes.screen.data?.attributes.ext : screen
