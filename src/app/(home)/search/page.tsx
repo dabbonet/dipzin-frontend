@@ -77,7 +77,7 @@ const Search: FC<pageProps> = ({ }) => {
             endReached={loadMore}
             listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
             itemContent={(index, data) => (
-                <SingleScreen src={data?.hash + data?.ext} />
+                <SingleScreen screen={data?.hash + data?.ext} />
             )}
         />
     )

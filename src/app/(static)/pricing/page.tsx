@@ -70,52 +70,52 @@ const Page: NextPage = () => {
 
         <table className="container w-[75%] mt-32">
           <thead>
-          <tr className=" flex flex-row justify-between items-center">
-            <td>
-              <h2 className=" font-[600] lg:text-3xl md:text-lg sm:text-base text-sm mb-2">
-                Plan Comparison
-              </h2>
-              <span className=" text-slate-400 font-medium lg:text-base md:text-start text-xs">
-                Find your best subscription.
-              </span>
-            </td>
-            <td>
-              <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs">
-                Free
-              </h5>
-              <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
-                Free
-              </h4>
-              <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-orange-500 rounded-xl">
-                Get Started
-              </button>
-            </td>
-            <td>
-              <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs ">
-                Personal
-              </h5>
-              <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
-                $49
-                <span className=" text-slate-400 lg:text-base md:text-sm text-xs">
-                  /month
+            <tr className=" flex flex-row justify-between items-center">
+              <td>
+                <h2 className=" font-[600] lg:text-3xl md:text-lg sm:text-base text-sm mb-2">
+                  Plan Comparison
+                </h2>
+                <span className=" text-slate-400 font-medium lg:text-base md:text-start text-xs">
+                  Find your best subscription.
                 </span>
-              </h4>
-              <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-orange-500 rounded-xl">
-                Get Started
-              </button>
-            </td>
-            <td>
-              <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs ">
-                Team
-              </h5>
-              <h4 className=" text-slate-100 font-[600] lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
-                Coming Soon...
-              </h4>
-              <button className=" text-xs lg:text-base py-3 lg:px-8 md:px-4 sm:px-2 px-1 bg-orange-500 rounded-xl">
-                Get Started
-              </button>
-            </td>
-          </tr>
+              </td>
+              <td>
+                <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs">
+                  Free
+                </h5>
+                <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
+                  Free
+                </h4>
+                <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-orange-500 rounded-xl">
+                  Get Started
+                </button>
+              </td>
+              <td>
+                <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs ">
+                  Personal
+                </h5>
+                <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
+                  $49
+                  <span className=" text-slate-400 lg:text-base md:text-sm text-xs">
+                    /month
+                  </span>
+                </h4>
+                <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-orange-500 rounded-xl">
+                  Get Started
+                </button>
+              </td>
+              <td>
+                <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs ">
+                  Team
+                </h5>
+                <h4 className=" text-slate-100 font-[600] lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
+                  Coming Soon...
+                </h4>
+                <button className=" text-xs lg:text-base py-3 lg:px-8 md:px-4 sm:px-2 px-1 bg-orange-500 rounded-xl">
+                  Get Started
+                </button>
+              </td>
+            </tr>
           </thead>
           <tbody>
             <tr className="">
@@ -132,6 +132,7 @@ const Page: NextPage = () => {
                   All Apps Access
                 </span>
                 <Image
+                  unoptimized
                   src="/images/assets/svg.svg"
                   title="All Apps Access"
                   alt=""
@@ -141,6 +142,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-check.svg"
                   alt=""
@@ -150,6 +152,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-check.svg"
                   alt=""
@@ -159,6 +162,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-check.svg"
                   alt=""
@@ -173,6 +177,7 @@ const Page: NextPage = () => {
                   Latest Version
                 </span>
                 <Image
+                  unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
@@ -182,6 +187,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-check.svg"
                   width={24}
@@ -191,6 +197,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-check.svg"
                   width={24}
@@ -200,6 +207,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-check.svg"
                   width={24}
@@ -214,6 +222,7 @@ const Page: NextPage = () => {
                   Image Copy & Download
                 </span>
                 <Image
+                  unoptimized
                   src="/images/assets/svg.svg"
                   title="Image Copy & Download"
                   alt=""
@@ -223,6 +232,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-check.svg"
                   width={24}
@@ -232,6 +242,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-check.svg"
                   width={24}
@@ -241,6 +252,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-check.svg"
                   width={24}
@@ -255,6 +267,7 @@ const Page: NextPage = () => {
                   Bulk download
                 </span>
                 <Image
+                  unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
@@ -278,6 +291,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-check.svg"
                   width={24}
@@ -295,6 +309,7 @@ const Page: NextPage = () => {
                   </span>
                 </div>
                 <Image
+                  unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
@@ -324,6 +339,7 @@ const Page: NextPage = () => {
                   Search and Filters
                 </span>
                 <Image
+                  unoptimized
                   width={24}
                   height={24}
                   src="/images/assets/svg.svg"
@@ -353,6 +369,7 @@ const Page: NextPage = () => {
                   Collections
                 </span>
                 <Image
+                  unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
@@ -382,6 +399,7 @@ const Page: NextPage = () => {
                   Team Members
                 </span>
                 <Image
+                  unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
@@ -391,6 +409,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-False.svg"
                   width={24}
@@ -400,6 +419,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-False.svg"
                   width={24}
@@ -409,6 +429,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   width={24}
                   height={24}
@@ -423,6 +444,7 @@ const Page: NextPage = () => {
                   Team Collections
                 </span>
                 <Image
+                  unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
@@ -432,6 +454,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-False.svg"
                   alt=""
@@ -441,6 +464,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-False.svg"
                   alt=""
@@ -450,6 +474,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-False.svg"
                   alt=""
@@ -464,6 +489,7 @@ const Page: NextPage = () => {
                   Centeralized Billing
                 </span>
                 <Image
+                  unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
@@ -473,6 +499,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-False.svg"
                   width={24}
@@ -482,6 +509,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-False.svg"
                   width={24}
@@ -491,6 +519,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-False.svg"
                   width={24}
@@ -505,6 +534,7 @@ const Page: NextPage = () => {
                   Seat-based Pricing
                 </span>
                 <Image
+                  unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
@@ -514,6 +544,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-False.svg"
                   width={24}
@@ -523,6 +554,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-False.svg"
                   width={24}
@@ -532,6 +564,7 @@ const Page: NextPage = () => {
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
+                  unoptimized
                   className=" w-6 h-6"
                   src="/images/assets/Frame-False.svg"
                   width={24}
@@ -550,6 +583,7 @@ const Page: NextPage = () => {
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
               <div className=" mt-16">
                 <Image
+                  unoptimized
                   src="/images/assets/image.svg"
                   width={342}
                   height={213.02}
@@ -568,6 +602,7 @@ const Page: NextPage = () => {
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
               <div className=" mt-16">
                 <Image
+                  unoptimized
                   src="/images/assets/image.svg"
                   width={342}
                   height={213.02}
@@ -586,6 +621,7 @@ const Page: NextPage = () => {
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
               <div className=" mt-16">
                 <Image
+                  unoptimized
                   src="/images/assets/image.svg"
                   width={342}
                   height={213.02}
@@ -603,6 +639,7 @@ const Page: NextPage = () => {
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
               <div className=" mt-16">
                 <Image
+                  unoptimized
                   src="/images/assets/image.svg"
                   width={342}
                   height={213.02}
