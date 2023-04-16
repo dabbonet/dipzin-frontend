@@ -26,7 +26,7 @@ export default function RootLayout({
           <main className='pt-24 max-w-full mx-10'>
             {children}
           </main>
-          <Footer />
+          {/* <Footer /> */}
           <Background2 />
         </Providers>
       </body>

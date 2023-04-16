@@ -43,7 +43,7 @@ const Background2 = () => {
     return (
         <>
             {/* Noise */}
-            <svg className="-z-50 top-0 contrast-[10] w-full h-full fixed dark:opacity-[0.05] " xmlns='http://www.w3.org/2000/svg'>
+            <svg className="top-0 -z-50 contrast-[10] w-full h-full fixed dark:opacity-[0.05] " xmlns='http://www.w3.org/2000/svg'>
                 <filter id='noiseFilter'>
                     <feTurbulence
                         type='fractalNoise'
