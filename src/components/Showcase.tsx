@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import Image from 'next/image'
 import { FC } from 'react'
 import { cn, rgbDataURL } from '@/lib/utils'
@@ -20,6 +19,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
     const router = useRouter()
     const { selected: platform } = usePlatform()
 
+    console.log(selectedShowcase)
     return (
         <motion.div
             //layoutId={selected.id}
@@ -79,7 +79,8 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                             <SquareButton.Icon>
                                 <Icons.Save />
                             </SquareButton.Icon>
-                        </SquareButton>
+                        </SquareButton> */}
+
                         <SquareButton
                             className='w-28'
                             onClick={() => {
@@ -90,7 +91,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                             <SquareButton.Icon>
                                 <Icons.Download />
                             </SquareButton.Icon>
-                        </SquareButton> */}
+                        </SquareButton>
 
                         <SquareButton
                             onClick={() => {
@@ -123,7 +124,7 @@ const Showcase: FC<ShowcaseProps> = ({ selectedShowcase, setSelectedShowcase }) 
                     className={cn("grid ml-auto mr-auto z-50 w-full", platform === 3 ? "grid-cols-2 lg:grid-cols-2 xl:grid-cols-2  gap-10 " : "grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-10")}
                 >
                     {selectedShowcase?.screens.map((item: any, index: number) => (
-                        <SingleScreen key={index} src={item} />
+                        <SingleScreen key={index} screen={item} />
                     ))}
                 </div>
 

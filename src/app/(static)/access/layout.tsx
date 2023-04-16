@@ -24,11 +24,11 @@ export default function AccessLayout({
     }, [currentImage, images.length]);
 
     return (
-        <main className="flex lg:flex-row flex-col h-auto overflow-hidden lg:rounded-tl-3xl">
+        <main className="flex lg:flex-row flex-col h-full lg:rounded-tl-3xl max-h-screen overflow-hidden">
             <div className="z-10 flex-1 flex flex-col justify-center px-4">
                 {children}
             </div>
-            <div className="relative h-[50vh] lg:h-[90vh] lg:mt-4 xl:mt-2 w-full lg:block lg:w-0 mx-auto lg:flex-1 flex-auto sm:ml-5">
+            <div className="relative h-[50vh] lg:h-[85vh] lg:mt-4 xl:mt-2 w-full lg:block lg:w-0 mx-auto lg:flex-1 flex-auto sm:ml-5">
                 <Image
                     className="absolute right-0 object-contain z-0 lg:pt-24"
                     src="/images/hand/hand.png"
