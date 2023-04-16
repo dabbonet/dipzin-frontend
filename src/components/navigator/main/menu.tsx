@@ -20,15 +20,18 @@ const Menu = () => {
                         <ul className='text-slate-200 text-2xl font-semibold space-y-2'>
                             <li><Link href={'/'} className="hover:text-orange-500">Stream</Link></li>
                             <li><Link href={'/pricing'} className="hover:text-orange-500">Pricing</Link></li>
-                            <li><Link href={'/'} className="hover:text-orange-500">Collections</Link></li>
-                            <li><Link href={'/'} className="hover:text-orange-500">Blog</Link></li>
-                            <li><Link href={'/'} className="hover:text-orange-500">About</Link></li>
-                            <li><Link href={'/'} className="hover:text-orange-500">Contact us</Link></li>
+                            <li><Link href={'/collections'} className="hover:text-orange-500">Collections</Link></li>
+                            <li className='flex justify-between'>
+                                <Link href={'/'} className="hover:text-orange-500">Blog</Link>
+                                <span className='text-sm bg-slate-500 text-slate-200 py-1 h-fit px-2 rounded-full'>SOON</span>
+                            </li>
+                            {/* <li><Link href={'/'} className="hover:text-orange-500">About</Link></li> */}
+                            {/* <li><Link href={'/'} className="hover:text-orange-500">Contact us</Link></li> */}
                         </ul>
                     </div>
                 </div>
                 <div className='w-[70%] max-w-[1000px]'>
-                    <div className='flex flex-row-reverse text-sm mb-2'>
+                    <div className='flex flex-row-reverse mb-2'>
                         <SocialActions />
                     </div>
                     <div className='overflow-hidden relative rounded-2xl'>
@@ -39,22 +42,22 @@ const Menu = () => {
                         <div className='flex space-x-2 touch-pan-x overflow-x-scroll w-[100%] h-full scrollbar-hide'>
                             <div className='flex-shrink-0 w-[300px] bg-slate-800 rounded-2xl p-4'>
 
-                                {/* <img src="/images/soon/Screen.png" className='w-full h-auto mb-2' alt="coming soon" /> */}
+                                <img src="/images/assets/soon.png" className='w-full h-auto mb-2' alt="coming soon" />
                                 <h3 className='text-slate-200 font-semibold'>Figma Plugin</h3>
                                 <p className='text-slate-400 text-xs'>Work from your browser with our lightweight extension.</p>
                             </div>
                             <div className='flex-shrink-0 w-[300px] bg-slate-800 rounded-2xl p-4'>
-                                {/* <img src="/images/soon/Screen.png" className='w-full h-auto mb-2' alt="coming soon" /> */}
+                                <img src="/images/assets/soon.png" className='w-full h-auto mb-2' alt="coming soon" />
                                 <h3 className='text-slate-200 font-semibold'>Figma Plugin</h3>
                                 <p className='text-slate-400 text-xs'>Work from your browser with our lightweight extension.</p>
                             </div>
                             <div className='flex-shrink-0 w-[300px] bg-slate-800 rounded-2xl p-4'>
-                                {/* <img src="/images/soon/Screen.png" className='w-full h-auto mb-2' alt="coming soon" /> */}
+                                <img src="/images/assets/soon.png" className='w-full h-auto mb-2' alt="coming soon" />
                                 <h3 className='text-slate-200 font-semibold'>Figma Plugin</h3>
                                 <p className='text-slate-400 text-xs'>Work from your browser with our lightweight extension.</p>
                             </div>
                             <div className='flex-shrink-0 w-[300px] bg-slate-800 rounded-2xl p-4'>
-                                {/* <img src="/images/soon/Screen.png" className='w-full h-auto mb-2' alt="coming soon" /> */}
+                                <img src="/images/assets/soon.png" className='w-full h-auto mb-2' alt="coming soon" />
                                 <h3 className='text-slate-200 font-semibold'>Figma Plugin</h3>
                                 <p className='text-slate-400 text-xs'>Work from your browser with our lightweight extension.</p>
                             </div>
@@ -72,16 +75,16 @@ export default Menu
 
 const SocialActions = () => {
     return (
-        <ul className='inline-flex ml-2 space-x-2'>
+        <ul className='inline-flex ml-2 my-1 space-x-2'>
             <li>
-                <Link href={''} className='text-slate-400 hover:text-slate-300'>
+                <Link href={''} className='text-slate-400 hover:text-slate-200'>
                     <svg
                         width={16}
                         height={16}
                         viewBox="0 0 16 16"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="flex-grow-0 flex-shrink-0 w-5 h-5 relative"
+                        className="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
                         preserveAspectRatio="xMidYMid meet"
                     >
                         <path
@@ -92,14 +95,14 @@ const SocialActions = () => {
                 </Link>
             </li>
             <li>
-                <Link href={''} className='text-slate-400 hover:text-slate-300'>
+                <Link href={''} className='text-slate-400 hover:text-slate-200'>
                     <svg
                         width={16}
                         height={16}
                         viewBox="0 0 16 16"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="flex-grow-0 flex-shrink-0 w-5 h-5 relative"
+                        className="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
                         preserveAspectRatio="xMidYMid meet"
                     >
                         <path
@@ -110,14 +113,14 @@ const SocialActions = () => {
                 </Link>
             </li>
             <li>
-                <Link href={''} className='text-slate-400 hover:text-slate-300'>
+                <Link href={''} className='text-slate-400 hover:text-slate-200'>
                     <svg
                         width={16}
                         height={16}
                         viewBox="0 0 16 16"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="flex-grow-0 flex-shrink-0 w-5 h-5 relative"
+                        className="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
                         preserveAspectRatio="xMidYMid meet"
                     >
                         <path
@@ -128,14 +131,14 @@ const SocialActions = () => {
                 </Link>
             </li>
             <li>
-                <Link href={''} className='text-slate-400 hover:text-slate-300'>
+                <Link href={''} className='text-slate-400 hover:text-slate-200'>
                     <svg
                         width={16}
                         height={16}
                         viewBox="0 0 16 16"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        className="flex-grow-0 flex-shrink-0 w-5 h-5 relative"
+                        className="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
                         preserveAspectRatio="xMidYMid meet"
                     >
                         <path
