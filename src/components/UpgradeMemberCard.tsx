@@ -1,10 +1,12 @@
+import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import Icons from "./Icons";
 const UpgradeMemberCard = () => {
-  const [closeButton, setCloseButton] = useState(false);
+  const [activeButton, setActiveButton] = useState(false);
   const [removeComp, setRemoveComp] = useState(false);
   const handleClose = () => {
-    if (closeButton) {
+    if (activeButton) {
       setRemoveComp(true);
     }
   };
@@ -23,21 +25,14 @@ const UpgradeMemberCard = () => {
                 isPlaying
                 strokeWidth={5}
                 children={renderTime}
-                onComplete={() => setCloseButton(true)}
+                onComplete={() => setActiveButton(true)}
               />
               <button className=" bg-orange-600 text-slate-100 rounded-lg py-2 px-6">
                 Unlock More!
               </button>
             </div>
             <button onClick={handleClose}>
-              <img
-                src={
-                  closeButton
-                    ? "/images/assets/X.svg"
-                    : "images/assets/xFalse.svg"
-                }
-                alt=""
-              />
+              <Icons.XCircle className={cn(activeButton) } />
             </button>
           </div>
           <h3 className=" text-slate-200 text-2xl font-medium">

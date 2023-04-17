@@ -1,8 +1,10 @@
 "use client";
+import { setToken, user, userLogin } from "@/lib/auth";
 import { useSearchParams, useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import AuthCode from "react-auth-code-input";
-import { getOtp } from "../page";
+import { toast, Toaster } from "react-hot-toast";
+import { getOtp } from "@/lib/auth";
 
 const Otp: FC = () => {
   const searchParams = useSearchParams();
@@ -10,29 +12,44 @@ const Otp: FC = () => {
   const email = searchParams.get("email");
   const [otp, setOtp] = useState<number>();
   const [failedMessage, setFailedMessage] = useState(false);
-  if (localStorage.getItem('token')) {
-    router.push('/')
-    return
-  }
+  const [disabelButton, setDisabelButton] = useState(false)
+  userLogin().then((res) => {
+    if (res) {
+      router.push("/");
+      return;
+    }
+  });
+
   // TODO: Verify otp with email
   const handleClick = async () => {
-    const data = verifyOtp(email, otp)
-    data.then(res => {
+    const data = verifyOtp(email, otp);
+    data.then((res) => {
       if (res.token) {
-        localStorage.setItem('token', JSON.stringify(res.token))
-      router.push('/')
+        setToken(res.token);
+        router.push("/");
       } else {
-        setFailedMessage(true)
+        toast.error("invalid code , you can resend after 30 seconds", {
+          style: {
+            backgroundColor: "orange",
+            color: "white",
+          },
+        });
+        setDisabelButton(true)
+        setTimeout(() => {
+          setFailedMessage(true);
+        }, 30000);
       }
-    })
+    });
   };
 
   const handleResend = async () => {
-    getOtp(email)
+    getOtp(email);
+    setFailedMessage(false);
   };
 
   return (
     <div className="mx-auto w-full max-w-xl subpixel-antialiased">
+      <Toaster position="top-center" />
       <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-300 lg:text-5xl text-3xl">
         Account Verification
       </h1>
@@ -68,8 +85,7 @@ const Otp: FC = () => {
 
 export default Otp;
 
-
-async function verifyOtp(email:string , otp: number) {
+async function verifyOtp(email: string, otp: number) {
   const req = await fetch("/api/otp/verifyOtp", {
     method: "POST",
     headers: {
@@ -78,12 +94,12 @@ async function verifyOtp(email:string , otp: number) {
     body: JSON.stringify({
       data: {
         email,
-        otp
+        otp,
       },
     }),
   });
-  if (!req.ok) return { message: "something went wrong 1", status: 404 }
-  const data = await req.json()
-  
-  return data
+  if (!req.ok) return { message: "something went wrong 1", status: 404 };
+  const data = await req.json();
+
+  return data;
 }
