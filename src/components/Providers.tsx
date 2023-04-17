@@ -4,14 +4,16 @@ import { ThemeProvider } from "next-themes"
 import PlatformProvider from "@/lib/platforms"
 import { ContentDiscoveryProvider } from "@/context/useContentDiscovery"
 import AuthProvider from "@/lib/auth";
+import { DialogProvider } from "@/context/useDialog"
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <PlatformProvider>
       <ThemeProvider attribute='class' defaultTheme="dark" forcedTheme="dark">
         <AuthProvider>
           <ContentDiscoveryProvider>
-
-            {children}
+            <DialogProvider>
+              {children}
+            </DialogProvider>
           </ContentDiscoveryProvider>
         </AuthProvider>
       </ThemeProvider>
