@@ -14,6 +14,20 @@ export const metadata = {
   description: 'Your Go-To Source for digital inspiration.',
   twitter: {
     card: 'summary_large_image',
+    images: ['https://dipzinapplications.s3.us-west-1.amazonaws.com/opengraph_image_c497db254d.jpg'],
+  },
+  openGraph: {
+    url: 'https://dipzin.com',
+    siteName: 'Dipzin',
+    images: [
+      {
+        url: 'https://dipzinapplications.s3.us-west-1.amazonaws.com/opengraph_image_c497db254d.jpg',
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: 'en-US',
+    type: 'website',
   },
 }
 

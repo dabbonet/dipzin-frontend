@@ -12,10 +12,24 @@ import MainNavigator from '@/components/navigator/main/main';
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
 export const metadata = {
-  title: 'Dipzin | Home',
+  title: 'Dipzin',
   description: 'Your Go-To Source for digital inspiration.',
   twitter: {
     card: 'summary_large_image',
+    images: ['https://dipzinapplications.s3.us-west-1.amazonaws.com/opengraph_image_c497db254d.jpg'],
+  },
+  openGraph: {
+    url: 'https://dev.dipzin.com',
+    siteName: 'Dipzin',
+    images: [
+      {
+        url: 'https://dipzinapplications.s3.us-west-1.amazonaws.com/opengraph_image_c497db254d.jpg',
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: 'en-US',
+    type: 'website',
   },
 }
 
