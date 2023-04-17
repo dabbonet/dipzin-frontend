@@ -1,5 +1,6 @@
 "use client";
 import Icons from "@/components/Icons";
+import { getOtp, userLogin } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
@@ -7,10 +8,17 @@ import { toast, Toaster } from "react-hot-toast";
 const Access: FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
-  if (localStorage.getItem('token')) {
-    router.push('/')
-    return
-  }
+  // if (userLogin()) {
+  //   router.push('/')
+  //   return
+  // }
+  userLogin().then(res => {
+    if (res) {
+      router.push('/')
+      return
+    }
+  })
+
   const handleSubmit = async () => {
     const regextMatchEmail =
       /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
@@ -93,20 +101,3 @@ const Access: FC = () => {
 
 export default Access;
 
-export async function getOtp(email: string) {
-  const req = await fetch("/api/otp", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      data: {
-        email,
-      },
-    }),
-  });
-  if (!req.ok) return { message: "something went wrong", status: 404 };
-  const data = await req.json();
-
-  return data;
-}
