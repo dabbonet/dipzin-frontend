@@ -1,85 +1,83 @@
-import React, { useState } from "react";
-import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import React, { useEffect, useState } from "react";
+import Icons from "./Icons";
+import { cn } from "@/lib/utils";
+import { useDialog } from "@/context/useDialog";
+
+function time_convert(num) {
+  const milliseconds = num % 1000;
+  const totalSeconds = Math.floor(num / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${seconds}:${milliseconds}`;
+}
+
 const UpgradeMemberCard = () => {
-  const [closeButton, setCloseButton] = useState(false);
-  const [removeComp, setRemoveComp] = useState(false);
-  const handleClose = () => {
-    if (closeButton) {
-      setRemoveComp(true);
-    }
-  };
-  const renderTime = ({ remainingTime }) => {
-    return <div className=" text-orange-600 text-5xl">{remainingTime}</div>;
-  };
+  const { setVisible, setTimes, setIncremental, counter, visible } = useDialog();
+
+  useEffect(() => {
+    setIncremental(true)
+    setVisible(true)
+  }, [])
+
+  if (!visible) return
   return (
-    !removeComp && (
-      <div>
-        <div className=" bg-slate-900 rounded-3xl p-10 flex flex-col gap-5">
-          <div className=" flex justify-between items-start">
-            <div className=" flex gap-14 flex-wrap items-center">
-              <CountdownCircleTimer
-                duration={10}
-                colors="#FB923C"
-                isPlaying
-                strokeWidth={5}
-                children={renderTime}
-                onComplete={() => setCloseButton(true)}
-              />
-              <button className=" bg-orange-600 text-slate-100 rounded-lg py-2 px-6">
-                Unlock More!
-              </button>
-            </div>
-            <button onClick={handleClose}>
-              <img
-                src={
-                  closeButton
-                    ? "/images/assets/X.svg"
-                    : "images/assets/xFalse.svg"
-                }
-                alt=""
-              />
+    <div onClick={() => setTimes((prev) => prev + 1)}>
+      <div className=" bg-slate-900 rounded-3xl p-10 flex flex-col gap-5">
+        <div className=" flex justify-between items-start">
+          <div className=" flex gap-14 flex-wrap items-center">
+            <button className=" bg-orange-600 text-slate-100 rounded-lg py-2 px-6">
+              Unlock More!
             </button>
           </div>
-          <h3 className=" text-slate-200 text-2xl font-medium">
-            Upgrade and get access to exclusive features
-          </h3>
-          <div className=" flex gap-14 flex-wrap">
-            <div className=" flex gap-2">
-              <img src="/images/assets/Vector.svg" alt="" />
-              <p className=" text-white font-medium text-3xl">
-                Download in Bulk
-              </p>
-            </div>
-            <div className=" flex gap-2">
-              <img src="/images/assets/Vector.svg" alt="" />
-              <p className=" text-white font-medium text-3xl">
-                Download in Bulk
-              </p>
-            </div>
+          <div>
+            {time_convert(counter)}
           </div>
-          <div className=" flex gap-14 flex-wrap">
-            <div className=" flex gap-2">
-              <img src="/images/assets/Vector.svg" alt="" />
-              <p className=" text-white font-medium text-3xl">
-                Download in Bulk
-              </p>
-            </div>
-            <div className=" flex gap-2">
-              <img src="/images/assets/Vector.svg" alt="" />
-              <p className=" text-white font-medium text-3xl">
-                Download in Bulk
-              </p>
-            </div>
-          </div>
-          <img
-            src="/images/assets/banner.png"
-            className=" rounded-2xl"
-            alt=""
-          />
+          <button>
+            {/* <Icons.XCircle className={cn('w-6 h-6', activeButton ? 'text-slate-100 hover:text-slate-300' : 'text-slate-700')} /> */}
+          </button>
         </div>
+        <h3 className=" text-slate-200 text-2xl font-medium">
+          Upgrade and get access to exclusive features
+        </h3>
+
+        <div className=" flex gap-14 flex-wrap">
+          <div className=" flex gap-2">
+            <img src="/images/assets/Vector.svg" alt="" />
+            <p className=" text-white font-medium text-lg">
+              Download in Bulk
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <img src="/images/assets/Vector.svg" alt="" />
+            <p className=" text-white font-medium text-lg">
+              Download in Bulk
+            </p>
+          </div>
+        </div>
+
+        <div className=" flex gap-14 flex-wrap">
+          <div className=" flex gap-2">
+            <img src="/images/assets/Vector.svg" alt="" />
+            <p className=" text-white font-medium text-lg">
+              Download in Bulk
+            </p>
+          </div>
+          <div className=" flex gap-2">
+            <img src="/images/assets/Vector.svg" alt="" />
+            <p className=" text-white font-medium text-lg">
+              Download in Bulk
+            </p>
+          </div>
+        </div>
+
+        <img
+          src="/images/assets/banner.png"
+          className=" rounded-2xl"
+          alt=""
+        />
       </div>
-    )
-  );
+    </div>
+  )
 };
 
-export default UpgradeMemberCard;
+export { UpgradeMemberCard };
