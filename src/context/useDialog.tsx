@@ -6,7 +6,6 @@ interface DialogState {
     counter: number,
     setTimes: (times) => void,
     setIncremental: (incremental) => void,
-    setVisible: (visible) => void,
 }
 
 const defaultState: DialogState = {
@@ -15,7 +14,6 @@ const defaultState: DialogState = {
     counter: 0,
     setTimes: () => { },
     setIncremental: () => { },
-    setVisible: () => { },
 
 };
 
@@ -26,15 +24,15 @@ const DialogContext = createContext<DialogState>(
 
 export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     const baseCounter = 5;
-    const [times, setTimes] = useState<number>(
-        parseInt(localStorage.getItem('dialogTimes') || '1', 10)
-    );
-    const [incremental, setIncremental] = useState<boolean>(true)
+    const [times, setTimes] = useState<number>(0);
+    const [incremental, setIncremental] = useState<boolean>(false)
     const [counter, setCounter] = useState<number>(baseCounter)
     const [visible, setVisible] = useState<boolean>(false);
 
+
+    // Change visibility based on times
     useEffect(() => {
-        localStorage.setItem('dialogTimes', times.toString());
+        // localStorage.setItem('dialogTimes', times.toString());
         if (times > 0) {
             setVisible(true);
         } else {
@@ -42,26 +40,30 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }, [times]);
 
+
+    // If incremental set/change calc new counter value
     useEffect(() => {
         if (incremental) {
             const group = Math.floor(times / 3);
-            const additionalTime = 5000 * group;
+            const additionalTime = 5 * group;
             const newCounter = baseCounter + additionalTime;
 
             // Limit counter to a maximum of 30
-            if (newCounter > 30000) {
-                setCounter(30000);
+            if (newCounter > 30) {
+                setCounter(30);
             } else {
                 setCounter(newCounter);
             }
         }
     }, [incremental, times]);
 
+
+    // Control visability of the dialog based on the counter time.
     useEffect(() => {
         let timer: NodeJS.Timeout | undefined;
         if (visible && counter > 0) {
             timer = setTimeout(() => {
-                setCounter((prevCounter) => prevCounter - 1000);
+                setCounter((prevCounter) => prevCounter - 1);
             }, counter * 1000);
         } else if (counter === 0) {
             setVisible(false);
@@ -82,7 +84,6 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
                 counter,
                 setTimes,
                 setIncremental,
-                setVisible,
             }}
         >
             {children}
