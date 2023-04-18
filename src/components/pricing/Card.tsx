@@ -7,6 +7,7 @@ type card = {
   overSale?: number;
   features: string[];
   price_per?: string;
+  pricing?: Boolean
 };
 
 const Card = ({
@@ -16,6 +17,7 @@ const Card = ({
   features,
   price_per,
   overSale,
+  pricing
 }: card) => {
   let betaPrice: any;
   let rectAngle: any;
@@ -59,7 +61,7 @@ const Card = ({
   }
 
   return (
-    <div className=" pl-8 pt-6 pr-10 pb-4 bg-slate-800 rounded-3xl mt-14 flex flex-col">
+    <div className={` pl-8 pt-6 pr-10 pb-4 ${pricing ? ' bg-slate-700' : ' bg-slate-800'} rounded-3xl mt-14 flex flex-col`}>
       <h2 className="font-[500] text-3xl">{subscribeName}</h2>
       <span className=" text-slate-300 font-medium">Great for freelancers</span>
       <div className="  mt-5 flex flex-col relative w-fit">

@@ -30,7 +30,7 @@ const Pills = ({ pillType, sale }: PillsType) => {
   }
   return (
     <div
-      className={` py-2 px-6 ${pillBg} rounded-2xl lg:text-base text-xs flex flex-wrap justify-center items-center`}
+      className={` py-2 px-6 ${pillBg} rounded-full lg:text-base text-xs flex flex-wrap justify-center items-center`}
     >
       <span>{pillType}</span>
       {saleOn}
