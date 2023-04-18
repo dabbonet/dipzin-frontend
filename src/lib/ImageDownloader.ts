@@ -4,11 +4,13 @@ import toast from 'react-hot-toast';
 
 export async function ImageDownloader(zipName: string, imageNames: string[]) {
     const zip = new JSZip();
+    const downloadImages = imageNames.slice(0, 5);
     try {
+        var rand = '?' + Math.random();
         toast.loading('Images getting ready...')
         // Make HTTP requests to download the images
-        const imagePromises = imageNames.map(async (imageName, index) => {
-            const url = `https://dipzinapplications.s3.us-west-1.amazonaws.com/${imageName}`;
+        const imagePromises = downloadImages.map(async (imageName, index) => {
+            const url = `https://dipzinapplications.s3.us-west-1.amazonaws.com/${imageName}${rand}`;
             const response = await fetch(url);
             const buffer = await response.arrayBuffer();
             const ext = imageName.slice(imageName.lastIndexOf('.'));
@@ -40,4 +42,23 @@ export async function ImageDownloader(zipName: string, imageNames: string[]) {
         toast.error('Error Downloading Screens');
     }
 
+}
+
+
+export async function downloadImage(fileName: string, imageName: string) {
+    try {
+        var rand = '?' + Math.random();
+        const url = `https://dipzinapplications.s3.us-west-1.amazonaws.com/${imageName}${rand}`;
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${fileName}.png`;
+        link.click();
+        toast.success('Image Downloaded Successfully');
+    } catch (error) {
+        // Handle error
+        console.log(error)
+        toast.error('Error Downloading Image');
+    }
 }

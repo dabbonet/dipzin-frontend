@@ -1,15 +1,14 @@
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
-import { FC } from "react";
-import { cn, rgbDataURL } from "@/lib/utils";
-import SingleScreen from "./screen/SingleScreen";
-import { usePlatform } from "@/lib/platforms";
-import Icons from "./Icons";
-import { ImageDownloader } from "@/lib/ImageDownloader";
-import { toast } from "react-hot-toast";
-import { ActionBar, SquareButton } from "./ActionBar";
-import { useRouter } from "next/navigation";
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import { FC } from 'react'
+import { cn, rgbDataURL } from '@/lib/utils'
+import SingleScreen from './screen/SingleScreen'
+import { usePlatform } from '@/lib/platforms'
+import Icons from './Icons'
+import { ImageDownloader } from '@/lib/ImageDownloader'
+import { toast } from 'react-hot-toast'
+import { ActionBar, SquareButton } from './ActionBar'
+import { useRouter } from 'next/navigation'
 
 interface ShowcaseProps {
   selectedShowcase: any;
@@ -26,9 +25,7 @@ const Showcase: FC<ShowcaseProps> = ({
   return (
     <motion.div
       //layoutId={selected.id}
-      className={
-        "w-[100%] h-[100%] z-40 fixed inset-0 overflow-y-scroll py-16 xl:py-28 backdrop-blur-lg bg-slate-900/70"
-      }
+      className={"w-[100%] h-[100%] z-40 fixed inset-0 overflow-y-scroll py-16 xl:py-28 backdrop-blur-lg bg-slate-900/70"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -47,29 +44,15 @@ const Showcase: FC<ShowcaseProps> = ({
               alt="icon"
             />
             <div className="ml-4">
-              <span className="text-[32px] font-medium">
-                {selectedShowcase?.name}
-              </span>
+              <span className="text-[32px] font-medium">{selectedShowcase?.name}</span>
               <span className="block text-[16px] text-[#8F94A1]">
                 {selectedShowcase?.tag_line}
               </span>
             </div>
           </div>
-          <ActionBar className="flex space-x-1.5">
-            <SquareButton
-              className="w-32"
-              onClick={() =>
-                router.push(
-                  "/app/" +
-                    getPlatformById(selectedShowcase.platform) +
-                    "/" +
-                    selectedShowcase.slug
-                )
-              }
-            >
-              <SquareButton.Title className="w-[70%]">
-                Open Application
-              </SquareButton.Title>
+          <ActionBar className='flex space-x-1.5'>
+            <SquareButton className='w-32' onClick={() => router.push("/app/" + getPlatformById(selectedShowcase.platform) + "/" + selectedShowcase.slug)}>
+              <SquareButton.Title className='w-[70%]'>Open Application</SquareButton.Title>
               <SquareButton.Icon>
                 <Icons.Open />
               </SquareButton.Icon>
@@ -104,27 +87,28 @@ const Showcase: FC<ShowcaseProps> = ({
                             <SquareButton.Icon>
                                 <Icons.Save />
                             </SquareButton.Icon>
-                        </SquareButton>
-                        <SquareButton
-                            className='w-28'
-                            onClick={() => {
-                                ImageDownloader(selectedShowcase.name + ' Showcase', selectedShowcase.screens)
-                            }}
-                        >
-                            <SquareButton.Title>Download Showcase</SquareButton.Title>
-                            <SquareButton.Icon>
-                                <Icons.Download />
-                            </SquareButton.Icon>
                         </SquareButton> */}
+
+            <SquareButton
+              className='w-28'
+              onClick={() => {
+                ImageDownloader(selectedShowcase.name + ' Showcase', selectedShowcase.screens)
+              }}
+            >
+              <SquareButton.Title>Download Showcase</SquareButton.Title>
+              <SquareButton.Icon>
+                <Icons.Download />
+              </SquareButton.Icon>
+            </SquareButton>
 
             <SquareButton
               onClick={() => {
                 navigator.clipboard.writeText(
                   window.location.origin +
-                    "/app/" +
-                    getPlatformById(selectedShowcase.platform) +
-                    "/" +
-                    selectedShowcase.slug //need fix
+                  "/app/" +
+                  getPlatformById(selectedShowcase.platform) +
+                  "/" +
+                  selectedShowcase.slug //need fix
                 );
                 toast.success("App Link Copied.");
               }}
@@ -138,41 +122,38 @@ const Showcase: FC<ShowcaseProps> = ({
             </SquareButton>
 
             <SquareButton
-              className="w-24"
+              className='w-24'
               onClick={() => setSelectedShowcase(null)}
             >
-              <SquareButton.Title className="w-[70%]">
-                Close Showcase
-              </SquareButton.Title>
+              <SquareButton.Title className='w-[70%]'>Close Showcase</SquareButton.Title>
               <SquareButton.Icon>
                 <Icons.XCircle />
               </SquareButton.Icon>
             </SquareButton>
+
           </ActionBar>
         </div>
         {/*-------------------------------------------------------*/}
         <div
-          className={cn(
-            "grid ml-auto mr-auto z-50 w-full",
-            platform === 3
-              ? "grid-cols-2 lg:grid-cols-2 xl:grid-cols-2  gap-10 "
-              : "grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-10"
-          )}
+          className={cn("grid ml-auto mr-auto z-50 w-full", platform === 3 ? "grid-cols-2 lg:grid-cols-2 xl:grid-cols-2  gap-10 " : "grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-10")}
         >
           {selectedShowcase?.screens.map((item: any, index: number) => (
-            <SingleScreen key={index} src={item} />
+            <SingleScreen key={index} screen={item} />
           ))}
         </div>
+
       </motion.div>
       <motion.div
         onClick={() => setSelectedShowcase(null)}
-        className={"w-[100%] h-[100%] fixed top-0 bg-transparent"}
+        className={
+          "w-[100%] h-[100%] fixed top-0 bg-transparent"
+        }
       ></motion.div>
     </motion.div>
-  );
-};
+  )
+}
 
-export default Showcase;
+export default Showcase
 
 const getPlatformById = (platform_id: any) => {
   let platform;

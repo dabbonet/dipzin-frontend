@@ -1,23 +1,29 @@
 import { motion } from 'framer-motion';
 import { FC, ReactNode, useEffect, useState } from 'react'
 import Image from 'next/image'
-import { cn, rgbDataURL } from '@/lib/utils';
+import { cn, getAssetsURL, rgbDataURL } from '@/lib/utils';
 import Screen from '@/ui/Screen';
 import Icons from '../Icons';
+import { copyImagesToClipboard } from '@/lib/ImageCopier'
+import toast from 'react-hot-toast';
+import { downloadImage } from '@/lib/ImageDownloader';
+
 
 interface SingleScreenProps {
-    src: string
+    screen: any
     setOpen?: any
 }
+const mergeScreenUrl = (data) => data.attributes ? data.attributes?.screen.data?.attributes.hash + data.attributes?.screen.data?.attributes.ext : data
 
-const SingleScreen: FC<SingleScreenProps> = ({ src, setOpen }) => {
+const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
+    // const src = screen.attributes ? screen?.attributes.screen.data?.attributes.hash + screen?.attributes.screen.data?.attributes.ext : screen
     const [hovered, setHovered] = useState(false)
 
     // TODO: Checked here should be working with the select images context.
     // Keep in mind that react-virtoso is removing the checkmark on scroll.
     const [checked, setChecked] = useState(false);
 
-    if (!src) return (
+    if (!mergeScreenUrl(screen)) return (
         <div className='w-full h-full bg-slate-900/70 rounded-2xl flex items-center justify-center'>
             <Icons.ImageOff className='text-slate-800 w-14 h-14' />
         </div>
@@ -60,14 +66,14 @@ const SingleScreen: FC<SingleScreenProps> = ({ src, setOpen }) => {
                     }
                 </motion.div>
                 {hovered &&
-                    <Actions />
+                    <Actions screen={screen} />
                 }
 
                 <div
                     className={cn("w-full rounded-2xl overflow-hidden border-4 border-transparent min-720:gap-16 cursor-pointer", checked && " border-orange-500")}
-                    onClick={() => setOpen && setOpen(src)}
+                    onClick={() => setOpen && setOpen(mergeScreenUrl(screen))}
                 >
-                    <Screen src={src} />
+                    <Screen src={mergeScreenUrl(screen)} />
                 </div>
             </motion.div>
         </div>
@@ -78,14 +84,16 @@ export default SingleScreen
 
 
 
-const Actions = () => {
+const Actions = ({ screen: screen }) => {
     const [showMenu, setShowMenu] = useState(false);
     const [showCollection, setShowCollection] = useState(false);
-
     return (
         <div className="absolute w-[100%] pt-4 pb-12 flex justify-end px-4 drop-shadow-xl z-20 bg-gradient-to-b from-slate-900/90 to-slate-900/0 rounded-[0.9rem]">
             <div
                 className={`group/copy h-10 w-10 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
+                onClick={async () => {
+                    await copyImagesToClipboard([getAssetsURL(mergeScreenUrl(screen))]);
+                }}
             >
                 <Icons.Copy className='w-5 h-5' />
                 <span className="absolute top-16 bg-slate-900 flex items-center justify-center py-1 px-3 rounded-2xl font-normal tracking-wider text-white text-sm invisible group-hover/copy:visible z-50">
@@ -116,21 +124,21 @@ const Actions = () => {
                     Menu
                 </span>
             </div>
-            {showMenu && <MenuDropdown />}
+            {showMenu && <MenuDropdown screen={screen} />}
             {showCollection && <CollectionDropdown />}
         </div>
     )
 }
 
 
-const MenuDropdown = () => {
-
+const MenuDropdown = ({ screen: screen }) => {
+    const image = mergeScreenUrl(screen);
     return (
         <div className="absolute top-16 right-4 bg-slate-900 py-[16px] w-[14rem] z-50 px-3 rounded-xl invisible group-hover/item:visible">
 
             <DropdownCell
-                onClick={() => {
-
+                onClick={async () => {
+                    await copyImagesToClipboard([image]);
                 }}
             >
                 <Icons.Thumbnail className='w-5 h-5' />
@@ -138,19 +146,28 @@ const MenuDropdown = () => {
                     Copy PNG
                 </span>
             </DropdownCell>
-            <DropdownCell>
+            <DropdownCell
+                onClick={async () => {
+                    image && downloadImage('image ' + screen.attributes.order, image);
+                }}
+            >
                 <Icons.Download className='w-5 h-5' />
                 <span className="font-medium text-slate-100 text-sm">
                     Download PNG
                 </span>
             </DropdownCell>
-            <DropdownCell onClick={() => navigator.clipboard.writeText('tatatatat')}>
+            <DropdownCell
+                onClick={() => {
+                    navigator.clipboard.writeText(getAssetsURL(image))
+                    toast.success('App Link Copied.');
+                }}
+            >
                 <Icons.CopyFilled className='w-5 h-5' />
                 <span className="font-medium text-slate-100 text-sm">
                     Copy Link
                 </span>
             </DropdownCell>
-        </div>
+        </div >
     )
 }
 const CollectionDropdown = () => {
