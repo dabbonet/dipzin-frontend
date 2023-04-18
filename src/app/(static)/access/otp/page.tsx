@@ -1,10 +1,9 @@
 "use client";
-import { setToken, user, userLogin } from "@/lib/auth";
+import { SignIn, setToken, verifyOtp } from "@/lib/auth";
 import { useSearchParams, useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import AuthCode from "react-auth-code-input";
 import { toast, Toaster } from "react-hot-toast";
-import { getOtp } from "@/lib/auth";
 
 const Otp: FC = () => {
   const searchParams = useSearchParams();
@@ -13,12 +12,7 @@ const Otp: FC = () => {
   const [otp, setOtp] = useState<number>();
   const [failedMessage, setFailedMessage] = useState(false);
   const [disabelButton, setDisabelButton] = useState(false)
-  userLogin().then((res) => {
-    if (res) {
-      router.push("/");
-      return;
-    }
-  });
+
 
   // TODO: Verify otp with email
   const handleClick = async () => {
@@ -43,7 +37,7 @@ const Otp: FC = () => {
   };
 
   const handleResend = async () => {
-    getOtp(email);
+    SignIn(email);
     setFailedMessage(false);
   };
 
@@ -84,22 +78,3 @@ const Otp: FC = () => {
 };
 
 export default Otp;
-
-async function verifyOtp(email: string, otp: number) {
-  const req = await fetch("/api/otp/verifyOtp", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      data: {
-        email,
-        otp,
-      },
-    }),
-  });
-  if (!req.ok) return { message: "something went wrong 1", status: 404 };
-  const data = await req.json();
-
-  return data;
-}

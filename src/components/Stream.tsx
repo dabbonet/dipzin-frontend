@@ -6,9 +6,7 @@ import { cn, shuffle } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import Showcase from './Showcase';
 import { useContentDiscovery } from '@/context/useContentDiscovery';
-import Icons from './Icons';
 import StreamLoader from './StreamLoader';
-import { UpgradeMemberCard } from '@/components/UpgradeMemberCard'
 
 interface StreamProps { }
 
@@ -62,7 +60,6 @@ const Stream: FC<StreamProps> = () => {
   if (!streamData) return
   return (
     <>
-      <UpgradeMemberCard />
       <VirtuosoGrid
         className="mt-6"
         useWindowScroll
