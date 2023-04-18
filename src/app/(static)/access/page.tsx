@@ -40,14 +40,14 @@ const Access: FC = () => {
 
       <div className="flex flex-col xl:flex-row mt-4 w-full space-y-3 xl:space-y-0 xl:space-x-3 mx-auto font-medium">
         <a
-          href="https://rah.dipzin.com/api/connect/google/callback"
+          href="/api/user/connect?provider=google"
           className="w-full flex items-center tracking-wider space-x-2 px-7 py-4 rounded-2xl border border-slate-900 dark:border-orange-500 text-slate-800 dark:text-white hover:bg-slate-500/10 hover:text-orange-500"
         >
           <Icons.GoogleIcon />
           <span>Continue with Google</span>
         </a>
         <a
-          href="https://rah.dipzin.com/api/connect/facebook/callback"
+          href="/api/user/connect?provider=facebook"
           className="w-full flex items-center tracking-wider space-x-2 px-7 py-4 rounded-2xl border border-slate-900 dark:border-orange-500 text-slate-800  dark:text-white hover:bg-slate-500/10 hover:text-orange-500"
         >
           <Icons.FacebookIcon />

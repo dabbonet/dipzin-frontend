@@ -1,6 +1,6 @@
 import { createContext, useContext, FC, useState, useEffect } from "react";
 import Router from "next/router";
-import { toast } from "react-hot-toast";
+import { useSearchParams } from "next/navigation";
 const IsAuth = createContext(null!);
 
 export const useAuth = () => useContext(IsAuth);
@@ -10,15 +10,28 @@ type props = {
 };
 
 const AuthProvider: FC<props> = ({ children }) => {
-  const [user, setUser] = useState<any>();
+  const searchParams = useSearchParams()
+  const provider = searchParams.get('provider')
+  const token = searchParams.get('?id_token') || searchParams.get('?access_token')
+
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    // Send Provider Token to get User Data and strapi JWT Token.
+    if (token) {
+      const getUserData = async () => {
+        const userData = await redirectToken(provider, token)
+        setUser(userData.user)
+        setToken(userData.jwt)
+      }
+      getUserData()
+    }
 
     const checkUser = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
-        setUser({});
+        setUser(null);
         setLoading(false);
         return;
       }
@@ -114,5 +127,14 @@ export async function verifyOtp(email: string, otp: number) {
 
   return data;
 }
+
+
+export async function redirectToken(provider: string, token: string) {
+  const req = await fetch(`/api/user/redirect?provider=${provider}&token=${token}`);
+  const data = await req.json();
+  return data;
+
+}
+
 
 export default AuthProvider;
