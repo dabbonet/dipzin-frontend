@@ -17,7 +17,7 @@ interface ContentProps {
 
 export default function Content({ apps, selectedApp: app }: ContentProps) {
     const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
-    const [openScreen, setOpenScreen] = useState<string | null>();
+    const [openScreen, setOpenScreen] = useState<any | null>();
 
     // Create an array of platform IDs
     const platformIds = apps.data.map(app => app.attributes.platform.data.id);
@@ -78,24 +78,24 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
                 overscan={10}
                 listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4")}
                 itemContent={(index, data) => {
-                    const screen = data?.attributes.screen.data?.attributes.hash + data?.attributes.screen.data?.attributes.ext
+
                     return (
-                        <SingleScreen src={screen} setOpen={setOpenScreen} />
+                        <SingleScreen screen={data} setOpen={() => setOpenScreen(data)} />
                     )
                 }}
             />
             <AnimatePresence>
                 {openScreen && (
                     <>
+                        <ScreenActions appName={app.name} screen={openScreen} />
                         <motion.div
-                            className="fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-[100] flex items-center justify-center"
+                            className="fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-[20] flex items-center justify-center"
                             onClick={() => setOpenScreen(null)}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                         >
-                            <Screen src={openScreen} quality={50} className='rounded-2xl h-[90%] w-auto bg-slate-900/80' />
-                            <ScreenActions />
+                            <Screen src={mergeScreenUrl(openScreen)} quality={50} className='rounded-2xl h-[90%] w-auto bg-slate-900/80' />
                         </motion.div>
                     </>
                 )}
@@ -103,3 +103,5 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
         </main>
     );
 }
+
+const mergeScreenUrl = (data) => data.attributes.screen.data?.attributes.hash + data.attributes.screen.data?.attributes.ext
