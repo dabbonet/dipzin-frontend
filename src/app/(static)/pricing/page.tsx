@@ -11,7 +11,7 @@ const Page: NextPage = () => {
       {/* full page */}
       <main className=" pt-20 flex flex-col items-center">
         {/* header */}
-        <div className=" container w-[75%] mx-auto flex flex-col">
+        <div className=" container w-[90%] mx-auto flex flex-col">
           <span className="text-[#F97316] font-[600] text-base">
             Beta Pricing
           </span>
@@ -24,15 +24,15 @@ const Page: NextPage = () => {
           </span>
         </div>
         {/* pills */}
-        <div className=" container w-[75%] flex justify-center mt-20">
-          <div className=" w-fit flex flex-wrap justify-center gap-6 bg-slate-800 py-3 px-4 rounded-3xl">
+        <div className=" container w-[90%] flex justify-center mt-20">
+          <div className=" w-fit flex flex-wrap gap-x-28 justify-center gap-y-3 bg-slate-800 py-3 px-4 rounded-2xl">
             <Pills pillType="MONTHLY" />
             <Pills pillType="QUARTERLY" sale="35%" />
             <Pills pillType="ANNUALLY" sale="35%" />
           </div>
         </div>
         {/* cards */}
-        <div className=" container w-[75%] grid lg:grid-cols-3 gap-3 md:grid-cols-2 grid-cols-1">
+        <div className=" container w-[90%] grid lg:grid-cols-3 gap-3 md:grid-cols-2 grid-cols-1">
           <Card
             subscribeName="Free"
             price={0}
@@ -68,7 +68,7 @@ const Page: NextPage = () => {
         </div>
         {/* table */}
 
-        <table className="container w-[75%] mt-32">
+        <table className="container w-[90%] mt-32">
           <thead>
             <tr className=" flex flex-row justify-between items-center">
               <td>
@@ -577,7 +577,7 @@ const Page: NextPage = () => {
         </table>
 
         {/* grid */}
-        <div className=" mt-20 container w-[75%]">
+        <div className=" mt-20 container w-[90%]">
           <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-slate-800 bg-opacity-50 col-span-1 lg:col-span-2 rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3"></div>
             <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">

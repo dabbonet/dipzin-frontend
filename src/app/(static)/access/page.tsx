@@ -30,7 +30,7 @@ const Access: FC = () => {
   };
 
   return (
-    <div className="mx-auto w-[70%] max-w-2xl subpixel-antialiased">
+    <div className="mx-auto subpixel-antialiased">
       <h1 className="font-bold h-auto !leading-normal text-transparent  bg-clip-text  bg-gradient-to-r from-orange-600 to-amber-300 lg:text-5xl text-3xl">
         Log in or sign up
       </h1>
@@ -41,17 +41,17 @@ const Access: FC = () => {
       <div className="flex flex-col xl:flex-row mt-4 w-full space-y-3 xl:space-y-0 xl:space-x-3 mx-auto font-medium">
         <a
           href="/api/user/connect?provider=google"
-          className="w-full flex items-center tracking-wider space-x-2 px-7 py-4 rounded-2xl border border-slate-900 dark:border-orange-500 text-slate-800 dark:text-white hover:bg-slate-500/10 hover:text-orange-500"
+          className="w-full flex  items-center tracking-wider space-x-2 px-7 py-4 rounded-2xl border border-slate-900 dark:border-orange-500 text-slate-800 dark:text-white hover:bg-slate-500/10 hover:text-orange-500"
         >
           <Icons.GoogleIcon />
-          <span>Continue with Google</span>
+          <p>Continue with Google</p>
         </a>
         <a
           href="/api/user/connect?provider=facebook"
           className="w-full flex items-center tracking-wider space-x-2 px-7 py-4 rounded-2xl border border-slate-900 dark:border-orange-500 text-slate-800  dark:text-white hover:bg-slate-500/10 hover:text-orange-500"
         >
           <Icons.FacebookIcon />
-          <span>Continue with Facebook</span>
+          <p>Continue with Facebook</p>
         </a>
       </div>
 
