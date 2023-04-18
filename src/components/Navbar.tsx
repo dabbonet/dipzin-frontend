@@ -8,6 +8,7 @@ import { useAuth } from '@/lib/auth';
 
 const Navbar: FC = () => {
     const { user, loading } = useAuth();
+    console.log(user)
     return (
         <header className="w-full flex justify-between fixed items-center text-white pt-8 px-5 lg:px-10 z-10 top-0 cursor-pointer bg-gradient-to-b from-slate-950/80 to-slate-950/0">
             <Link
