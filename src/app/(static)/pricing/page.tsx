@@ -25,7 +25,7 @@ const Page: NextPage = () => {
         </div>
         {/* pills */}
         <div className=" container w-[90%] flex justify-center mt-20">
-          <div className=" w-fit flex flex-wrap gap-x-28 justify-center gap-y-3 bg-slate-700 py-3 px-4 rounded-full">
+          <div className=" w-fit flex flex-wrap gap-x-6 justify-center gap-y-3 bg-slate-700 py-3 px-4 rounded-full">
             <Pills pillType="MONTHLY" />
             <Pills pillType="QUARTERLY" sale="35%" />
             <Pills pillType="ANNUALLY" sale="35%" />
