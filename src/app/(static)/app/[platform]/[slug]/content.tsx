@@ -32,7 +32,6 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
     const categoryName = app.categories.data[0].attributes.name
     const screens = app.screens.data
 
-
     return (
         <main className="w-full flex flex-col items-center">
             <Toaster position="bottom-right" />
@@ -78,7 +77,6 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
                 overscan={10}
                 listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4")}
                 itemContent={(index, data) => {
-
                     return (
                         <SingleScreen screen={data} setOpen={() => setOpenScreen(data)} />
                     )

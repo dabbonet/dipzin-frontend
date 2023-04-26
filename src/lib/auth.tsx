@@ -1,6 +1,7 @@
 import { createContext, useContext, FC, useState, useEffect } from "react";
 import Router from "next/router";
 import { useSearchParams } from "next/navigation";
+
 const IsAuth = createContext(null!);
 
 export const useAuth = () => useContext(IsAuth);

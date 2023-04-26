@@ -9,11 +9,7 @@ interface appProps {
 }
 
 
-export default async function AppPage({
-    params: { slug, platform }
-}: {
-    params: appProps;
-}) {
+export default async function AppPage({params: { slug, platform }}: {params: appProps;}) {
     let apps = await getApps({ slug });
 
     // Filter apps to get the selected app
