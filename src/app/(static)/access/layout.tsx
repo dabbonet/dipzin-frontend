@@ -29,7 +29,7 @@ export default function AccessLayout({
       </div>    
       <div className="relative h-[50vh] lg:h-[85vh] xl:mt-2 w-full mx-auto lg:flex-1 overflow-hidden">
         <img
-          className=" max-w-[100%] z-50 mx-auto max-h-[100%]"
+          className=" max-w-[100%] z-50 mx-auto h-[100%]"
           src="/images/assets/phoneAuth.svg"
           alt=""
           

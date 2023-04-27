@@ -21,11 +21,12 @@ const mergeScreenUrl = (data) =>
 
 const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
   // const src = screen.attributes ? screen?.attributes.screen.data?.attributes.hash + screen?.attributes.screen.data?.attributes.ext : screen
+  const {id} = screen
   const { selectedImages, setSelectedImages } = useSelcetedImages();
   const ref = useRef();
   useEffect(() => {
-    const index = ref.current.parentNode.dataset.index;
-    if (selectedImages.includes(+index)) {
+    
+    if (selectedImages.includes(id)) {
       setChecked(true);
     }
   }, []);
@@ -36,16 +37,13 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
   // Keep in mind that react-virtoso is removing the checkmark on scroll.
   const [checked, setChecked] = useState(false);
     const addToChecked = (e) => {
-      console.log(e.target)
-    const { index } =
-      e.target.parentNode.parentNode.parentNode.dataset ||
-      e.target.parentNode.parentNode.parentNode.parentNode.dataset; 
+
     setChecked(!checked);
-    if (!selectedImages.includes(+index)) {
-      setSelectedImages((prev) => [...prev, +index]);
+    if (!selectedImages.includes(id)) {
+      setSelectedImages((prev) => [...prev, id]);
     } else {
       setSelectedImages((prev) => {
-        return prev.filter((el) => el !== +index);
+        return prev.filter((el) => el !== id);
       });
       return
     }
