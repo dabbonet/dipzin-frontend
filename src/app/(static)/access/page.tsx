@@ -41,14 +41,14 @@ const Access: FC = () => {
       <div className="flex flex-col xl:flex-row mt-4 w-full space-y-3 xl:space-y-0 xl:space-x-3 mx-auto font-medium">
         <a
           href="/api/user/connect?provider=google"
-          className="w-full flex  items-center tracking-wider space-x-2 px-7 py-4 rounded-2xl border bg-slate-900 dark:border-orange-500 "
+          className="w-max flex  items-center tracking-wider space-x-2 px-4 py-4 rounded-2xl border bg-slate-900 hover:bg-slate-800 dark:border-orange-500 "
         >
           <Icons.GoogleIcon />
           <p>Continue with Google</p>
         </a>
         <a
           href="/api/user/connect?provider=facebook"
-          className="w-full flex items-center tracking-wider space-x-2 px-7 py-4 rounded-2xl border bg-slate-900 dark:border-orange-500 "
+          className="w-max flex items-center tracking-wider space-x-2 px-4 py-4 rounded-2xl border bg-slate-900 hover:bg-slate-800 dark:border-orange-500 "
         >
           <Icons.FacebookIcon />
           <p>Continue with Facebook</p>
