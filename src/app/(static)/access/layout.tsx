@@ -23,11 +23,11 @@ export default function AccessLayout({
   }, [currentImage, images.length]);
 
   return (
-    <main className="flex flex-wrap w-[85%] mx-auto justify-center items-center align-middle h-full max-h-screen">
-      <div className="bg-slate-900/50 w-[40%] h-fit z-10 flex flex-col justify-center p-10 px-12 rounded-s-3xl">
+    <main className="flex flex-wrap w-[85%] mx-auto justify-center items-center gap-y-10 h-full max-h-screen">
+      <div className="bg-slate-900/50 w-fit h-fit z-10 flex flex-col justify-center p-20 px-12  rounded-3xl">
         {children}
       </div>
-      <div className="relative h-[50vh] lg:h-[75vh] xl:mt-2 w-auto overflow-hidden">
+      <div className="relative h-[50vh] lg:h-[75vh] xl:mt-2">
         <img
           className=" max-w-[100%] z-50 h-[100%]"
           src="/images/hand/phone.png"

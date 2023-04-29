@@ -28,9 +28,10 @@ const Otp: FC = () => {
             color: "white",
           },
         });
+        setFailedMessage(true);
         setDisabelButton(true)
         setTimeout(() => {
-          setFailedMessage(true);
+          setDisabelButton(false)
         }, 30000);
       }
     });
@@ -59,7 +60,7 @@ const Otp: FC = () => {
         ariaLabel="Enter your OTP"
       />
       <button
-        className="w-full py-5 px-3 rounded-xl mt-6 font-semibold text-lg text-white bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500"
+        className={`w-full py-5 px-3 rounded-xl mt-6 font-semibold text-lg text-white bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500 ${disabelButton && ' cursor-not-allowed pointer-events-none'}`}
         type="submit"
         onClick={handleClick}
       >
@@ -67,7 +68,7 @@ const Otp: FC = () => {
       </button>
       {failedMessage && (
         <div className=" mt-8">
-          Unvalide Code
+          invalid code
           <button className=" ml-1 text-orange-600" onClick={handleResend}>
             Resend Code
           </button>

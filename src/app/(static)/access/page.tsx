@@ -7,9 +7,12 @@ import { toast } from "react-hot-toast";
 
 const Access: FC = () => {
   const router = useRouter();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
+  const [disableProcess, setDisableProcess] = useState(false)
 
   const handleSubmit = async () => {
+    if (disableProcess) return
+    setDisableProcess(true)
     const regextMatchEmail =
       /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 
@@ -21,18 +24,26 @@ const Access: FC = () => {
         },
       });
 
-    SignIn(email).then((res) => {
+    // SignIn(email)
+    //   .then((res) => {
+    //     router.push(`/access/otp?email=${email}`);
+    //   })
+    //   .catch((error) => {
+    //     return toast.error("Something Went wrong");
+    //   });
+    const res = await SignIn(email)
+    if (res) {
       router.push(`/access/otp?email=${email}`);
-    }).catch(error => {
+    } else {
       return toast.error("Something Went wrong");
-    });
-
+    }
+    setDisableProcess(true)
   };
 
   return (
     <div className="mx-auto subpixel-antialiased">
       <h1 className="font-bold h-auto !leading-normal bg-clip-text  lg:text-5xl text-3xl">
-        Log in or sign up
+        Log in to your account
       </h1>
       <p className=" text-[#D8D3C0] dark:text-white font-light lg:text-base text-sm mb-7">
         Welcome! Please enter your details.
@@ -56,9 +67,7 @@ const Access: FC = () => {
       </div>
 
       <div className="flex flex-row justify-center my-8 w-[75%] mx-auto">
-        <span className="absolute  text-slate-400">
-          OR
-        </span>
+        <span className="absolute  text-slate-400">OR</span>
         <div className="w-[50%] mt-3 h-px bg-slate-400 dark:bg-slate-700"></div>
       </div>
 
@@ -81,4 +90,3 @@ const Access: FC = () => {
 };
 
 export default Access;
-
