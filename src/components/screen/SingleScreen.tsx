@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import { FC, ReactNode, useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { cn, getAssetsURL, rgbDataURL } from "@/lib/utils";
+import { FC,  useEffect, useRef, useState } from "react";
+import { cn, getAssetsURL } from "@/lib/utils";
 import Screen from "@/ui/Screen";
 import Icons from "../Icons";
 import { copyImagesToClipboard } from "@/lib/ImageCopier";
