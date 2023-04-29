@@ -16,6 +16,8 @@ const Otp: FC = () => {
 
   // TODO: Verify otp with email
   const handleClick = async () => {
+    setDisabelButton(true)
+    setFailedMessage(false)
     const data = verifyOtp(email, otp);
     data.then((res) => {
       if (res.token) {
@@ -28,9 +30,8 @@ const Otp: FC = () => {
             color: "white",
           },
         });
-        setFailedMessage(true);
-        setDisabelButton(true)
         setTimeout(() => {
+          setFailedMessage(true);
           setDisabelButton(false)
         }, 30000);
       }

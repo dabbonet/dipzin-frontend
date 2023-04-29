@@ -24,13 +24,6 @@ const Access: FC = () => {
         },
       });
 
-    // SignIn(email)
-    //   .then((res) => {
-    //     router.push(`/access/otp?email=${email}`);
-    //   })
-    //   .catch((error) => {
-    //     return toast.error("Something Went wrong");
-    //   });
     const res = await SignIn(email)
     if (res) {
       router.push(`/access/otp?email=${email}`);
@@ -74,7 +67,7 @@ const Access: FC = () => {
       <input
         type="email"
         name="email"
-        className="subpixel-antialiased h-14 text-sm rounded-lg  outline-none block w-full pl-6 pr-32 p-2.5 tracking-wider bg-slate-300 text-slate-800  placeholder-slate-600 focus:ring-orange-500 dark:bg-slate-800 dark:placeholder-slate-500 dark:text-slate-300 "
+        className="subpixel-antialiased h-14 text-sm rounded-lg  outline-none block w-full md:pl-6 pl-3 p-2.5 tracking-wider bg-slate-300 text-slate-800  placeholder-slate-600 focus:ring-orange-500 dark:bg-slate-800 dark:placeholder-slate-500 dark:text-slate-300 "
         placeholder="Email Address"
         onChange={(e) => setEmail(e.target.value)}
       />
