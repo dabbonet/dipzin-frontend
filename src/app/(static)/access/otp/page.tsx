@@ -24,7 +24,7 @@ const Otp: FC = () => {
       if (data.status === 200) {
         router.push("/");
       } else {
-        router.push("/profile");
+        router.push("/account");
       }
     } else {
       toast.error("invalid code , you can resend after 30 seconds", {
