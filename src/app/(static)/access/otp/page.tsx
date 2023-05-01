@@ -11,41 +11,59 @@ const Otp: FC = () => {
   const email = searchParams.get("email");
   const [otp, setOtp] = useState<number>();
   const [failedMessage, setFailedMessage] = useState(false);
-  const [disabelButton, setDisabelButton] = useState(false)
-
+  const [disabelButton, setDisabelButton] = useState(false);
 
   // TODO: Verify otp with email
   const handleClick = async () => {
-    setDisabelButton(true)
-    setFailedMessage(false)
-    const data = verifyOtp(email, otp);
-    data.then((res) => {
-      if (res.token) {
-        setToken(res.token);
+    setDisabelButton(true);
+    setFailedMessage(false);
+    const data = await verifyOtp(email, otp);
+    const { token } = await data.json();
+    if (token) {
+      setToken(token);
+      if (data.status === 200) {
         router.push("/");
       } else {
-        toast.error("invalid code , you can resend after 30 seconds", {
-          style: {
-            backgroundColor: "orange",
-            color: "white",
-          },
-        });
-        setTimeout(() => {
-          setFailedMessage(true);
-          setDisabelButton(false)
-        }, 30000);
+        router.push("/profile");
       }
-    });
+    } else {
+      toast.error("invalid code , you can resend after 30 seconds", {
+        style: {
+          backgroundColor: "orange",
+          color: "white",
+        },
+      });
+      setTimeout(() => {
+        setFailedMessage(true);
+        setDisabelButton(false);
+      }, 30000);
+    }
+
+    // data.then((res) => {
+    //   if (res.token) {
+    //     setToken(res.token);
+    //     router.push("/");
+    //   } else {
+    //     toast.error("invalid code , you can resend after 30 seconds", {
+    //       style: {
+    //         backgroundColor: "orange",
+    //         color: "white",
+    //       },
+    //     });
+    //     setTimeout(() => {
+    //       setFailedMessage(true);
+    //       setDisabelButton(false)
+    //     }, 5000);
+    //   }
+    // });
   };
 
   const handleResend = async () => {
     SignIn(email);
     setFailedMessage(false);
   };
-
   return (
     <div className="mx-auto w-full max-w-xl subpixel-antialiased">
-      <Toaster position="top-center" />
       <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-300 lg:text-5xl text-3xl">
         Account Verification
       </h1>
@@ -61,7 +79,9 @@ const Otp: FC = () => {
         ariaLabel="Enter your OTP"
       />
       <button
-        className={`w-full py-5 px-3 rounded-xl mt-6 font-semibold text-lg text-white bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500 ${disabelButton && ' cursor-not-allowed pointer-events-none'}`}
+        className={`w-full py-5 px-3 rounded-xl mt-6 font-semibold text-lg text-white ${
+          disabelButton ? " cursor-not-allowed pointer-events-none bg-gray-500" : ' bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500'
+        }`}
         type="submit"
         onClick={handleClick}
       >

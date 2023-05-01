@@ -111,7 +111,23 @@ export async function SignIn(email: string) {
 }
 
 export async function verifyOtp(email: string, otp: number) {
-  const req = await fetch("/api/user/verify", {
+  // const req = await fetch("/api/user/verify", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({
+  //     data: {
+  //       email,
+  //       otp,
+  //     },
+  //   }),
+  // });
+  // if (!req.ok) return { message: "something went wrong 1", status: 404 };
+  // const data = await req.json();
+
+  // return data;
+  return fetch("/api/user/verify", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -123,10 +139,6 @@ export async function verifyOtp(email: string, otp: number) {
       },
     }),
   });
-  if (!req.ok) return { message: "something went wrong 1", status: 404 };
-  const data = await req.json();
-
-  return data;
 }
 
 

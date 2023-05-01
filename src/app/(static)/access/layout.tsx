@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { Toaster } from "react-hot-toast";
 
 export default function AccessLayout({
   children,
@@ -24,6 +25,7 @@ export default function AccessLayout({
 
   return (
     <main className="flex flex-wrap w-[85%] mx-auto justify-center items-center gap-y-10 h-full max-h-screen">
+      <Toaster position="top-center"/>
       <div className="bg-slate-900/50 w-fit h-fit z-10 flex flex-col justify-center p-20 px-12  rounded-3xl">
         {children}
       </div>

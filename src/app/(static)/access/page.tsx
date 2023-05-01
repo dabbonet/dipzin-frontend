@@ -11,26 +11,30 @@ const Access: FC = () => {
   const [disableProcess, setDisableProcess] = useState(false)
 
   const handleSubmit = async () => {
-    if (disableProcess) return
     setDisableProcess(true)
     const regextMatchEmail =
       /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 
-    if (!email.match(regextMatchEmail))
+    if (!email.match(regextMatchEmail)) {
+      setTimeout(() => {
+        setDisableProcess(false)
+      }, 2000);
       return toast.error("please enter a valid email", {
         style: {
           backgroundColor: "orange",
           color: "white",
         },
+        duration: 2000
       });
+    }
 
     const res = await SignIn(email)
     if (res) {
       router.push(`/access/otp?email=${email}`);
     } else {
+      setDisableProcess(false)
       return toast.error("Something Went wrong");
     }
-    setDisableProcess(true)
   };
 
   return (
@@ -74,7 +78,7 @@ const Access: FC = () => {
       <button
         type="submit"
         onClick={handleSubmit}
-        className="w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-widest text-white bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500"
+        className={`w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-widest text-white  ${disableProcess ? ' bg-gray-500 cursor-none pointer-events-none' : 'bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500'}`}
       >
         Send code
       </button>
