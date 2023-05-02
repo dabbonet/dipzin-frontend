@@ -1,21 +1,21 @@
 'use client'
-
 import { ActionBar, SquareButton } from "@/components/ActionBar";
 import Icons from "@/components/Icons";
 import Card from "@/components/pricing/Card";
 import Pills from "@/components/pricing/Pills";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 interface pageProps {}
 
 const Account: FC<pageProps> = ({}) => {
   const searchParams = useSearchParams()
+  const buttonRef = useRef(null)
   const firstTime = searchParams.get('firstTime')
   const [userDetails, setUserDetails] = useState({
     firstName: '',
-    userName: null,
+    userName: '',
     email: "",
     country: "",
     bio: "",
@@ -62,8 +62,12 @@ const Account: FC<pageProps> = ({}) => {
     }
     
   }
+  const handleClick = () => { 
+    buttonRef.current.click();
+  }
   // post request to save it 
-  const handlePost = async () => {
+  const handlePost = async (e) => {
+    e.preventDefault();
     try {
       const response = await fetch("example", {
         method: "POST",
@@ -76,7 +80,6 @@ const Account: FC<pageProps> = ({}) => {
     } catch (error) {
       console.log(error);
     }
-    window.location.reload()
   }
 
   return (
@@ -112,7 +115,7 @@ const Account: FC<pageProps> = ({}) => {
             </p>
           </div>
         </div>
-        <ActionBar className="h-fit mx-auto md:mx-0" onClick={handlePost}>
+        <ActionBar className="h-fit mx-auto md:mx-0" onClick={handleClick}>
           <SquareButton className="w-32">
             <SquareButton.Title className="w-[70%]">save</SquareButton.Title>
             <SquareButton.Icon>
@@ -123,7 +126,7 @@ const Account: FC<pageProps> = ({}) => {
       </div>
 
       {/* Account Details Area */}
-      <div className="bg-slate-900 bg-opacity-50 mt-8 rounded-2xl w-full grid gap-4 px-8 py-8 md:grid-cols-2 grid-cols-1">
+      <form className="bg-slate-900 bg-opacity-50 mt-8 rounded-2xl w-full grid gap-4 px-8 py-8 md:grid-cols-2 grid-cols-1">
         <div className="">
           <label htmlFor="first_name" className="block mb-2 text-sm font-normal text-gray-900 dark:text-slate-400">
             First name
@@ -186,7 +189,7 @@ const Account: FC<pageProps> = ({}) => {
             Email Address
           </label>
           <input
-            type="text"
+            type="email"
             id="email_adress"
             className="bg-slate-100 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
             placeholder="ex:jhonDoe@example.com"
@@ -226,7 +229,8 @@ const Account: FC<pageProps> = ({}) => {
             onChange={(e)=> handleChange(e)}
           />
         </div>
-      </div>
+        <button className=" hidden" ref={buttonRef} onClick={(e)=>handlePost}></button>
+      </form>
 
       {/* Account Details Area */}
       <div className="bg-slate-900 bg-opacity-50 mt-8 rounded-2xl w-full px-8 py-8 min-h-[600px]">
