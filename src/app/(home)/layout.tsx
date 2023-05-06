@@ -1,3 +1,4 @@
+
 import Navbar from '@/components/Navbar'
 // import Footer from '@/components/Footer';
 import { Background1 } from '@/ui/Backgrounds'
@@ -45,7 +46,7 @@ export default function RootLayout({
           <Navbar />
           <main className='pt-24 max-w-[82%]  mx-auto'>
             <Banner />
-            <HomeNavigator />
+            <HomeNavigator/>
             {children}
             <MainNavigator />
           </main>
