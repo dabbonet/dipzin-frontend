@@ -17,9 +17,9 @@ export default async function AppPage({
     let apps = await getApps({ slug });
 
     // Filter apps to get the selected app
-    const app = apps.data.filter(data => data.attributes.platform.data.attributes.name.toLowerCase() === platform.toLowerCase())[0].attributes;
+    const app = apps.data.filter(data => data.attributes?.platform?.data?.attributes?.name?.toLowerCase() === platform.toLowerCase())[0]?.attributes;
 
-    if (!apps) {
+    if (!apps || !app) {
         notFound();
     }
     return (
