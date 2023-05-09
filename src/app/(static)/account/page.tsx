@@ -1,4 +1,5 @@
 'use client'
+
 import { ActionBar, SquareButton } from "@/components/ActionBar";
 import Icons from "@/components/Icons";
 import Card from "@/components/pricing/Card";
@@ -233,6 +234,7 @@ const Account: FC<pageProps> = ({}) => {
       </form>
 
       {/* Account Details Area */}
+
       <div className="bg-slate-900 bg-opacity-50 mt-8 rounded-2xl w-full px-8 py-8 min-h-[600px]">
         {/* <div className=" bg-slate-900 pt-6 px-8 pb-10 rounded-3xl"> */}
           <div className=" flex flex-wrap justify-between items-center gap-y-3">
