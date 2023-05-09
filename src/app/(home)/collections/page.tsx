@@ -41,4 +41,6 @@ const Collections: FC = () => {
   );
 };
 
+
 export default Collections;
+

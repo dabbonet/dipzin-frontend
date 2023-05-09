@@ -2,14 +2,15 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 import ShowcaseScreen from "./screen/ShowcaseScreen";
 import { usePlatform } from "@/lib/platforms";
-import { cn, shuffle } from "@/lib/utils";
-import { AnimatePresence } from "framer-motion";
-import Showcase from "./Showcase";
-import { useContentDiscovery } from "@/context/useContentDiscovery";
-import Icons from "./Icons";
-import StreamLoader from "./StreamLoader";
 
-interface StreamProps {}
+import { cn, shuffle } from '@/lib/utils';
+import { AnimatePresence } from 'framer-motion';
+import Showcase from './Showcase';
+import { useContentDiscovery } from '@/context/useContentDiscovery';
+import StreamLoader from './StreamLoader';
+
+interface StreamProps { }
+
 
 const Stream: FC<StreamProps> = () => {
   const { setPlatforms, selected } = usePlatform();
@@ -18,14 +19,20 @@ const Stream: FC<StreamProps> = () => {
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const { setPlatforms, selected } = usePlatform();
+  const { streamData, setStreamData } = useContentDiscovery()
+  const [loadedPages, setLoadedPages] = useState<number[]>([]);
+  const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   // 1. Initialize Stream and Page Platforms.
   // 2. Refetch Stream on Platform Change.
   const updateStream = async () => {
     const data = await getStream({ platform: selected!, previousPages: [] });
-    setIsLoading(false);
+    setIsLoading(false)
     setLoadedPages((prevLoadedPages) => [...prevLoadedPages, data.page]);
     setStreamData(shuffle(data.stream));
-  };
+  }
 
   // @ts-ignore
   useEffect(() => {
@@ -42,41 +49,36 @@ const Stream: FC<StreamProps> = () => {
       updateStream();
       setLoadedPages([]);
     }
-  }, [streamData, loadedPages]);
+  }, [streamData, loadedPages])
 
   const loadMore = useCallback(() => {
     return setTimeout(async () => {
       // Load more stream items
-      const more = await getStream({
-        platform: selected!,
-        previousPages: loadedPages,
-      });
-      if (more.status == 404) return;
+      const more = await getStream({ platform: selected!, previousPages: loadedPages });
+      if (more.status == 404) return
       setLoadedPages((prevLoadedPages) => [...prevLoadedPages, more.page]);
 
       const shuffledData = shuffle(more.stream);
-      setStreamData((streamData: any) => [...streamData, ...shuffledData]);
-    }, 300);
-  }, [setStreamData, loadedPages, selected]);
+      setStreamData((streamData: any) => [...streamData, ...shuffledData])
+    }, 300)
+  }, [setStreamData, loadedPages, selected])
 
-  if (isLoading) return <StreamLoader />;
-  if (!streamData) return;
+  if (isLoading) return <StreamLoader />
+  if (!streamData) return
+
   return (
     <>
       <VirtuosoGrid
         className="mt-6"
         useWindowScroll
         data={streamData}
-        style={{ minHeight: 100, width: "100%" }}
+
+        style={{ minHeight: 100, width: '100%' }}
         totalCount={streamData.length}
         overscan={1}
         endReached={loadMore}
-        listClassName={cn(
-          "grid content-center gap-6 pt-0 grid-cols-2",
-          selected == 3
-            ? "2xl:grid-cols-4 md:grid-cols-3"
-            : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4"
-        )}
+        listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
+
         itemContent={(index, data) => (
           <div onClick={() => setSelectedShowcase(data)}>
             <ShowcaseScreen app={data} />
@@ -84,12 +86,13 @@ const Stream: FC<StreamProps> = () => {
         )}
       />
       <AnimatePresence>
-        {selectedShowcase && (
-          <Showcase
-            selectedShowcase={selectedShowcase}
-            setSelectedShowcase={setSelectedShowcase}
-          />
-        )}
+
+        {
+          selectedShowcase && (
+            <Showcase selectedShowcase={selectedShowcase} setSelectedShowcase={setSelectedShowcase} />
+          )
+        }
+
       </AnimatePresence>
     </>
   );

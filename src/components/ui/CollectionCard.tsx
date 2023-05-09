@@ -18,7 +18,9 @@ const CollectionCard = ({ name, description }) => {
           <h2 className="text-2xl font-bold">{name}</h2>
           <p className="text-gray-600">Modified:{description}</p>
         </div>
+
         <div className=" bg-slate-300 text-slate-800 rounded-md px-2 py-3">ooo</div>
+
       </div>
     </div>
   );
