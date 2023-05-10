@@ -34,19 +34,19 @@ export const CollectionCardMobile = ({ name, description }) => {
             {clicked && <>
               
               <div className="px-4 py-5 bg-slate-900 rounded-2xl absolute -top-60 -left-52 flex flex-col w-60">
-                <Link href='' className=" flex text-white items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
+                <Link href='/collection/1' className=" flex text-white items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
                   <Icons.Thumbnail className=" w-[17.5px] h-[17.5px]"></Icons.Thumbnail>
                   <span className=" text-slate-100 font-medium" >rename</span>
                 </Link>
-                <Link href='' className=" flex text-white items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
+                <Link href='/collection/1' className=" flex text-white items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
                   <Icons.Thumbnail className=" w-[17.5px] h-[17.5px]"></Icons.Thumbnail>
                   <span className=" text-slate-100 font-medium" >Publish Collection</span>
                 </Link>
-                <Link href='' className=" flex text-white items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
+                <Link href='/collection/1' className=" flex text-white items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
                   <Icons.Thumbnail className=" w-[17.5px] h-[17.5px]"></Icons.Thumbnail>
                   <span className=" text-slate-100 font-medium" >Copy Link</span>
                 </Link>
-                <Link href='' className=" flex text-red-500 items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
+                <Link href='/collection/1' className=" flex text-red-500 items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
                   <Icons.Thumbnail className=" w-[17.5px] h-[17.5px]"></Icons.Thumbnail>
                   <span className=" font-medium" >Delete Collection</span>
                 </Link>
@@ -89,19 +89,19 @@ export const CollectionCardWeb = ({ name, description }) => {
             {clicked && <>
               
               <div className="px-4 py-5 bg-slate-900 rounded-2xl absolute -top-60 -left-52 flex flex-col w-60">
-                <Link href='' className=" flex text-white items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
+                <Link href='/collection/1' className=" flex text-white items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
                   <Icons.Thumbnail className=" w-[17.5px] h-[17.5px]"></Icons.Thumbnail>
                   <span className=" text-slate-100 font-medium" >rename</span>
                 </Link>
-                <Link href='' className=" flex text-white items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
+                <Link href='/collection/1' className=" flex text-white items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
                   <Icons.Thumbnail className=" w-[17.5px] h-[17.5px]"></Icons.Thumbnail>
                   <span className=" text-slate-100 font-medium" >Publish Collection</span>
                 </Link>
-                <Link href='' className=" flex text-white items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
+                <Link href='/collection/1' className=" flex text-white items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
                   <Icons.Thumbnail className=" w-[17.5px] h-[17.5px]"></Icons.Thumbnail>
                   <span className=" text-slate-100 font-medium" >Copy Link</span>
                 </Link>
-                <Link href='' className=" flex text-red-500 items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
+                <Link href='/collection/1' className=" flex text-red-500 items-center gap-3 py-2 hover:bg-slate-800 rounded-lg pl-2">
                   <Icons.Thumbnail className=" w-[17.5px] h-[17.5px]"></Icons.Thumbnail>
                   <span className=" font-medium" >Delete Collection</span>
                 </Link>
