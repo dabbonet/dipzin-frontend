@@ -1,8 +1,11 @@
 "use client";
-import CollectionCard from "@/components/ui/CollectionCard";
+import Icons from "@/components/Icons";
+import {CollectionCardMobile, CollectionCardWeb} from "@/components/ui/CollectionCard";
 import { FC, useEffect, useState } from "react";
 
 const Collections: FC = () => {
+  const [personal, setPersonal] = useState(false)
+  const [webCollections, setWebCollections] = useState(true);
   // const [data, setData] = useState(null);
 
   // useEffect(() => {
@@ -26,16 +29,34 @@ const Collections: FC = () => {
 
   return (
     <div className=" mt-4">
-      <div className=" w-fit bg-slate-800 flex p-2 items-center rounded-3xl ml-auto mb-4">
-        <div className=" py-1 px-3">Personal</div>
-        <div className=" py-1 px-3 bg-slate-700 rounded-3xl">Community</div>
+      <div className=" flex items-center gap-x-36 gap-y-10 justify-end flex-wrap">
+        {personal &&
+          <button className=" w-fit">
+            <Icons.Image className=" w-4 h-4 text-slate-400"></Icons.Image>
+          </button>}
+        <div className=" w-fit bg-slate-800 flex p-2 items-center rounded-3xl mb-4">
+          <button className={` py-1 px-3 hover:bg-slate-700 ${personal && 'bg-slate-700'} rounded-3xl`} onClick={()=> setPersonal(true)}>Personal</button>
+          <button className={` py-1 px-3 ${!personal && 'bg-slate-700'}  rounded-3xl hover:bg-slate-700`} onClick={()=> setPersonal(false)}>Community</button>
+        </div>
       </div>
-      <div className=" grid lg:grid-cols-3 gap-8 md:grid-cols-2 grid-cols-1">
-        <CollectionCard name='colllection name' description='1m' />
-        <CollectionCard name='colllection name' description='1m' />
-        <CollectionCard name='colllection name' description='1m' />
-        <CollectionCard name='colllection name' description='1m' />
-        <CollectionCard name='colllection name' description='1m' />
+      <div className=" grid lg:grid-cols-3 gap-8 md:grid-cols-2 grid-cols-1 items-center">
+        {webCollections ? <>
+          <CollectionCardWeb name='colllection name' description='1m' />
+        <CollectionCardWeb name='colllection name' description='1m' />
+        <CollectionCardWeb name='colllection name' description='1m' />
+        <CollectionCardWeb name='colllection name' description='1m' />
+        <CollectionCardWeb name='colllection name' description='1m' />
+        
+        </> : <>
+        
+        <CollectionCardMobile name='colllection name' description='1m' />
+        <CollectionCardMobile name='colllection name' description='1m' />
+        <CollectionCardMobile name='colllection name' description='1m' />
+        <CollectionCardMobile name='colllection name' description='1m' />
+        <CollectionCardMobile name='colllection name' description='1m' />
+        
+        </>}
+        
       </div>
     </div>
   );

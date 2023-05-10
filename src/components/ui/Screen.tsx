@@ -4,7 +4,7 @@ import { cn, rgbDataURL } from '@/lib/utils'
 import { usePlatform } from '@/lib/platforms'
 
 interface ScreenProps {
-    src: any
+    src?: any
     className?: any
     quality?: number
 }
