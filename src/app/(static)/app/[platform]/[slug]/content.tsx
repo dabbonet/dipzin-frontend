@@ -34,7 +34,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   const screens = app.screens.data;
 
   if (!icon || !screens || !categoryName || !app) {
-    return <h1>app not found</h1>
+    notFound()
   }
 
   return (
