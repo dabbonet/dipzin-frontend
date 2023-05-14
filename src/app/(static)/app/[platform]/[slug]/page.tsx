@@ -9,11 +9,13 @@ interface appProps {
 }
 
 
-export default async function AppPage({params: { slug, platform }}: {params: appProps;}) {
+export default async function AppPage({ params: { slug, platform } }: { params: appProps; }) {
     let apps = await getApps({ slug });
 
     // Filter apps to get the selected app
-    const app = apps.data.filter(data => data.attributes?.platform?.data?.attributes?.name?.toLowerCase() === platform.toLowerCase())[0]?.attributes;
+
+    const app = apps.data.filter(data => data.attributes.platform.data.attributes.name.toLowerCase() === platform.toLowerCase())[0]?.attributes;
+
 
     if (!apps || !app) {
         notFound();
