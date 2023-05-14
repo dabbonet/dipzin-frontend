@@ -11,7 +11,7 @@ export async function POST(request: Request) {
       body: JSON.stringify(reqBody),
     });
     const data = await req.json();
-    return NextResponse.json(data);
+    return NextResponse.json(data , {status: req.status});
 
   } catch (error) {
     return NextResponse.json({ message: error.message }, { status: error.status });

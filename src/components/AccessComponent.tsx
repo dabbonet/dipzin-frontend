@@ -1,42 +1,19 @@
 "use client";
 import React from "react";
 import Icons from "@/components/Icons";
-import { SignIn } from "@/lib/auth";
-import { useRouter } from "next/navigation";
-import { FC, useState } from "react";
-import { toast } from "react-hot-toast";
-const AccessComponent = () => {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [disableProcess, setDisableProcess] = useState(false);
 
-  const handleSubmit = async () => {
-    setDisableProcess(true);
-    const regextMatchEmail =
-      /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
 
-    if (!email.match(regextMatchEmail)) {
-      setTimeout(() => {
-        setDisableProcess(false);
-      }, 2000);
-      return toast.error("please enter a valid email", {
-        style: {
-          backgroundColor: "orange",
-          color: "white",
-        },
-        duration: 2000,
-      });
-    }
+type Props = {
+  handleChange?: any
+  handleSubmit?: any
+  disableProcess?: boolean
 
-    const res = await SignIn(email);
-    if (res) {
-      router.push(`/access/otp?email=${email}`);
-    } else {
-      setDisableProcess(false);
-      return toast.error("Something Went wrong");
-    }
-  };
+}
 
+
+
+const AccessComponent = ({handleChange , handleSubmit , disableProcess}:Props) => {
+  
   return (
     <div className="mx-auto subpixel-antialiased">
       <h1 className="font-bold h-auto !leading-normal bg-clip-text  lg:text-5xl text-3xl">
@@ -73,7 +50,7 @@ const AccessComponent = () => {
         name="email"
         className="subpixel-antialiased h-14 text-sm rounded-lg  outline-none block w-full md:pl-6 pl-3 p-2.5 tracking-wider bg-slate-300 text-slate-800  placeholder-slate-600 focus:ring-orange-500 dark:bg-slate-800 dark:placeholder-slate-500 dark:text-slate-300 "
         placeholder="Email Address"
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => handleChange(e as any)}
       />
       <button
         type="submit"
