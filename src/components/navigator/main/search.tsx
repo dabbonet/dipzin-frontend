@@ -156,7 +156,7 @@ const PreviewCard = ({ selected }: any) => {
     }, [selected])
 
     const handleSearchClick = useCallback((selected) => {
-        let params = new URLSearchParams(searchParams);
+        let params = new URLSearchParams(searchParams.toString());
         let tags = params.get('tags');
         let categories = params.get('categories');
 

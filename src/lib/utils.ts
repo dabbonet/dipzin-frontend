@@ -36,7 +36,7 @@ function shuffle<T>(array: T[] = []) {
 }
 
 
-const getAssetsURL = (src) => 'https://dipzinapplications.s3.us-west-1.amazonaws.com/medium_' + src
+const getAssetsURL = (src) => 'https://dipzin.s3.us-east-1.amazonaws.com/medium_' + src
 
 
 
