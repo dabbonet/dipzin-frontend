@@ -15,7 +15,7 @@ function formatTime(seconds: number): string {
 }
 
 
-export const Component = () => {
+export const AccessOrUpgradeCard = () => {
   if (localStorage.getItem('token')) { 
     return  <UpgradeMemberCard/>
   }
