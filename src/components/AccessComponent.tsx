@@ -15,7 +15,7 @@ type Props = {
 const AccessComponent = ({handleChange , handleSubmit , disableProcess}:Props) => {
   
   return (
-    <div className="mx-auto subpixel-antialiased">
+    <div className="mx-auto subpixel-antialiased ">
       <h1 className="font-bold h-auto !leading-normal bg-clip-text  lg:text-5xl text-3xl">
         Log in to your account
       </h1>
