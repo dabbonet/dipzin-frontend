@@ -1,10 +1,9 @@
 "use client";
 import { SignIn, setToken, verifyOtp } from "@/lib/auth";
 import { useSearchParams, useRouter } from "next/navigation";
-import {  useState } from "react";
+import {  useEffect, useState , FC} from "react";
 import OtpAccessComponent from "@/components/OtpAccessComponent";
-import { FC } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 const Otp: FC = () => {
   const searchParams = useSearchParams();
@@ -12,7 +11,19 @@ const Otp: FC = () => {
     const email = searchParams.get("email");
     const [otp, setOtp] = useState<number>();
     const [failedMessage, setFailedMessage] = useState(false);
-    const [disabelButton, setDisabelButton] = useState(false);
+    const [disabelButton, setDisabelButton] = useState(true);
+    useEffect(() => {
+      const otpAsStrnig = `${otp}`
+      console.log(otpAsStrnig)
+      if (otpAsStrnig.length === 6) {
+        console.log(otpAsStrnig.length)
+        setDisabelButton(false);
+      } else {
+        
+        setDisabelButton(true);
+      }
+    }, [otp])
+  
   const handleClick = async () => {
     setDisabelButton(true);
     setFailedMessage(false);
