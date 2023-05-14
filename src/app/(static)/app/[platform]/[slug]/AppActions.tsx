@@ -3,10 +3,12 @@ import { ActionBar, SquareButton } from "@/components/ActionBar";
 import Icons from "@/components/Icons";
 import SoonToast from "@/components/SoonToast";
 import { ImageDownloader } from "@/lib/ImageDownloader";
+import { notFound } from "next/navigation";
 import { FC } from "react";
 import toast from "react-hot-toast";
 
 interface navigatorProps {
+
   app?: any;
 }
 
@@ -50,11 +52,13 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
 
         {/* TODO: Add Save When Collections is Done. */}
         {/* <SquareButton>
+
                 <SquareButton.Title>Save</SquareButton.Title>
                 <SquareButton.Icon>
                     <Icons.Save />
                 </SquareButton.Icon>
             </SquareButton> */}
+
 
         <SquareButton
           onClick={() => {
@@ -124,6 +128,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
       <SquareButton
         onClick={() => {
           //need f;
+
           toast.success("App Link Copied.");
         }}
       >

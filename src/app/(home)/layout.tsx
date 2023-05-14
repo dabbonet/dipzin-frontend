@@ -19,14 +19,14 @@ export const metadata = {
   description: 'Your Go-To Source for digital inspiration.',
   twitter: {
     card: 'summary_large_image',
-    images: ['https://dipzinapplications.s3.us-west-1.amazonaws.com/opengraph_image_c497db254d.jpg'],
+    images: ['https://dipzin.s3.us-east-1.amazonaws.com/opengraph_image_c497db254d.jpg'],
   },
   openGraph: {
     url: 'https://dev.dipzin.com',
     siteName: 'Dipzin',
     images: [
       {
-        url: 'https://dipzinapplications.s3.us-west-1.amazonaws.com/opengraph_image_c497db254d.jpg',
+        url: 'https://dipzin.s3.us-east-1.amazonaws.com/opengraph_image_c497db254d.jpg',
         width: 800,
         height: 600,
       },
@@ -50,7 +50,7 @@ export default function RootLayout({
           <Navbar />
           <main className='pt-24 max-w-[82%]  mx-auto'>
             <Banner />
-            <HomeNavigator/>
+            <HomeNavigator />
             {children}
             <MainNavigator />
           </main>
