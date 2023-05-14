@@ -1,49 +1,22 @@
 "use client";
-import { SignIn, setToken, verifyOtp } from "@/lib/auth";
-import { useSearchParams, useRouter } from "next/navigation";
-import { FC, useState } from "react";
-import AuthCode from "react-auth-code-input";
-import { toast, Toaster } from "react-hot-toast";
 
-const OtpAccessComponent = () => {
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const email = searchParams.get("email");
-    const [otp, setOtp] = useState<number>();
-    const [failedMessage, setFailedMessage] = useState(false);
-    const [disabelButton, setDisabelButton] = useState(false);
+import AuthCode from "react-auth-code-input";
+
+type props = {
+  email?: string;
+  setOtp?: (e)=> void;
+  disabelButton?: boolean
+  handleClick?: ()=> void
+  failedMessage?: boolean
+  handleResend?: ()=> void
+}
+
+
+const OtpAccessComponent = ({email , setOtp , disabelButton , handleClick , failedMessage , handleResend}:props) => {
+    
   
     // TODO: Verify otp with email
-    const handleClick = async () => {
-      setDisabelButton(true);
-      setFailedMessage(false);
-      const data = await verifyOtp(email, otp);
-      const { token } = await data.json();
-      if (token) {
-        setToken(token);
-        if (data.status === 200) {
-          router.push("/");
-        } else {
-          router.push("/account");
-        }
-      } else {
-        toast.error("invalid code , you can resend after 30 seconds", {
-          style: {
-            backgroundColor: "orange",
-            color: "white",
-          },
-        });
-        setTimeout(() => {
-          setFailedMessage(true);
-          setDisabelButton(false);
-        }, 30000);
-      }
-    };
-  
-    const handleResend = async () => {
-      SignIn(email);
-      setFailedMessage(false);
-    };
+    
     return (
       <div className="mx-auto w-full max-w-xl subpixel-antialiased">
         <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-300 lg:text-5xl text-3xl">
