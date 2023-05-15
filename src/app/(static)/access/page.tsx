@@ -1,13 +1,38 @@
 "use client";
 import AccessComponent from "@/components/AccessComponent";
 
-import { SignIn } from "@/lib/auth";
+import { setToken, SignIn } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useGoogleOneTapLogin } from 'react-google-one-tap-login'
 
 const Access: FC = () => {
   const router = useRouter();
+
+  // react google one-tap
+  useGoogleOneTapLogin({
+    onSuccess: async (response) => {
+      console.log(response)
+      const req = await fetch('/api/user/google-one-tap', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(response)
+      })
+      const res = await req.json()
+      if (req.ok) {
+        setToken(res.token)
+        router.push('/')
+      }
+    },
+    onError: (error) => console.log(error),
+    googleAccountConfigs: {
+      client_id: '',
+    }
+  })
+
   const [email, setEmail] = useState("");
   const [disableProcess, setDisableProcess] = useState(false);
   const handleChange = (event: any) => {
