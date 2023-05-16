@@ -3,10 +3,12 @@ import { ActionBar, SquareButton } from "@/components/ActionBar";
 import Icons from "@/components/Icons";
 import SoonToast from "@/components/SoonToast";
 import { ImageDownloader } from "@/lib/ImageDownloader";
+import { notFound } from "next/navigation";
 import { FC } from "react";
 import toast from "react-hot-toast";
 
 interface navigatorProps {
+
   app?: {
     categories: {},
     screens:{
@@ -66,6 +68,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
               <Icons.Heart />
             </SquareButton.Icon>
           </SquareButton>
+
   
           {showAppStoreLink(app)}
   
@@ -99,6 +102,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
         </ActionBar>
       );
     }
+
   }
   return (
     <ActionBar className="flex flex-col fixed right-10 top-[32%] w-auto h-auto">
@@ -127,6 +131,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
 
       <SquareButton
         onClick={() => {
+
           toast.success("App Link Copied.");
         }}
       >
