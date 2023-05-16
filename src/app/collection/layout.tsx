@@ -1,6 +1,5 @@
 
 import Navbar from '@/components/Navbar'
-// import Footer from '@/components/Footer';
 import { Background1 } from '@/ui/Backgrounds'
 import '../globals.css'
 import { Outfit } from 'next/font/google'

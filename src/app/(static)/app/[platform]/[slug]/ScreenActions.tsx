@@ -9,22 +9,39 @@ import toast from "react-hot-toast";
 
 interface navigatorProps {
   appName?: string;
-  screen?: any;
+  screen?: {
+    id: number;
+    attributes: {
+      screen: {
+        data: {
+          attributes: {
+            hash: string,
+            ext: string,
+          }
+        }
+      }
+      order: string,
+    }
+  };
 }
 
 const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
   if (appName && screen) {
-    const name =
+    let name;
+    if (screen.attributes.screen.data.attributes.hash && screen.attributes.screen.data.attributes.ext) {
+      name = 
       screen.attributes.screen.data.attributes.hash +
       screen.attributes.screen.data.attributes.ext;
-    const fileName = appName + " " + screen.attributes.order;
+    }
+    let fileName 
+    if (appName && screen.attributes.order) {
+      fileName = appName + " " + screen.attributes.order;
+    }
     const screenURL = getAssetsURL(name);
     return (
       <ActionBar className="z-50 flex flex-col fixed right-10 top-[32%] w-auto h-auto">
         <SquareButton
-          onClick={() => {
-            toast.error("Comming Soon...");
-          }}
+          onClick={handleLikeScreen}
         >
           <SquareButton.Title className="w-[70%]">
             Like Screen
@@ -34,18 +51,8 @@ const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
           </SquareButton.Icon>
         </SquareButton>
 
-        {/* TODO: Add Save When Collections is Done. */}
-        {/* <SquareButton>
-                <SquareButton.Title>Save Screen</SquareButton.Title>
-                <SquareButton.Icon>
-                    <Icons.Save />
-                </SquareButton.Icon>
-            </SquareButton> */}
-
         <SquareButton
-          onClick={async () => {
-            name && downloadImage(fileName, name);
-          }}
+          onClick={()=>handleDownloadScreen(name , fileName)}
         >
           <SquareButton.Title className="w-[80%]">Download</SquareButton.Title>
           <SquareButton.Icon>
@@ -54,9 +61,7 @@ const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
         </SquareButton>
 
         <SquareButton
-          onClick={async () => {
-            await copyImagesToClipboard([screenURL]);
-          }}
+          onClick={()=>handleCopyPng(screenURL)}
         >
           <SquareButton.Title className="w-[70%]">Copy PNG</SquareButton.Title>
           <SquareButton.Icon>
@@ -64,10 +69,7 @@ const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
           </SquareButton.Icon>
         </SquareButton>
         <SquareButton
-          onClick={() => {
-            navigator.clipboard.writeText(screenURL);
-            toast.success("App Link Copied.");
-          }}
+          onClick={()=>handleCopyLink(screenURL)}
         >
           <SquareButton.Title className="w-[70%]">Copy Link</SquareButton.Title>
           <SquareButton.Icon>
@@ -80,9 +82,7 @@ const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
     return  (
         <ActionBar className="z-50 flex flex-col fixed right-10 top-[32%] w-auto h-auto">
           <SquareButton
-            onClick={() => {
-              toast.error("Comming Soon...");
-            }}
+            onClick={() => handleLikeScreen()}
           >
             <SquareButton.Title className="w-[70%]">
               Like Screen
@@ -92,18 +92,10 @@ const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
             </SquareButton.Icon>
           </SquareButton>
   
-          {/* TODO: Add Save When Collections is Done. */}
-          {/* <SquareButton>
-                  <SquareButton.Title>Save Screen</SquareButton.Title>
-                  <SquareButton.Icon>
-                      <Icons.Save />
-                  </SquareButton.Icon>
-              </SquareButton> */}
+
   
           <SquareButton
-            onClick={async () => {
-
-            }}
+            onClick={async () => handleDownloadScreen}
           >
             <SquareButton.Title className="w-[80%]">Download</SquareButton.Title>
             <SquareButton.Icon>
@@ -112,9 +104,7 @@ const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
           </SquareButton>
   
           <SquareButton
-            onClick={async () => {
-
-            }}
+            onClick={async () => handleCopyPng}
           >
             <SquareButton.Title className="w-[70%]">Copy PNG</SquareButton.Title>
             <SquareButton.Icon>
@@ -122,10 +112,7 @@ const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
             </SquareButton.Icon>
           </SquareButton>
           <SquareButton
-            onClick={() => {
-
-              toast.success("App Link Copied.");
-            }}
+            onClick={() => handleCopyLink}
           >
             <SquareButton.Title className="w-[70%]">Copy Link</SquareButton.Title>
             <SquareButton.Icon>
@@ -137,3 +124,17 @@ const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
 };
 
 export default ScreenActions;
+
+const handleLikeScreen = () => {
+  toast.error("Comming Soon...");
+}
+const handleDownloadScreen =async (name , fileName) => {
+  name && downloadImage(fileName, name);
+}
+const handleCopyPng = async (screenURL) => { 
+  await copyImagesToClipboard([screenURL]);
+}
+const handleCopyLink = async (screenURL) => { 
+  navigator.clipboard.writeText(screenURL);
+  toast.success("App Link Copied.");
+}
