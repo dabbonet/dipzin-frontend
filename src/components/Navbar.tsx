@@ -22,6 +22,7 @@ const Navbar: FC = () => {
                     width={110}
                     height={39}
                     loader={({ src }) => src}
+                    unoptimized
                 />
                 <Image
                     className="mr-3 h-6 sm:h-9 block dark:hidden"
@@ -30,6 +31,7 @@ const Navbar: FC = () => {
                     width={110}
                     height={39}
                     loader={({ src }) => src}
+                    unoptimized
                 />
             </Link>
 

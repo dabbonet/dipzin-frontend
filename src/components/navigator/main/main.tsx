@@ -2,12 +2,10 @@
 import React, { useCallback, useRef } from 'react'
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
-import Link from 'next/link';
 import Search from './search';
 import Menu from './menu';
 import Filters from './filters';
 import Icons from '@/components/Icons';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/DropdownMenu';
 import { useContentDiscovery } from '@/context/useContentDiscovery';
 import { cn } from '@/lib/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -51,7 +49,7 @@ const MainNavigator = ({ type }: any) => {
 
 
     const removeTag = useCallback((type, indexToRemove) => {
-        let params = new URLSearchParams(searchParams);
+        let params = new URLSearchParams(searchParams.toString());
         let categories, tags;
         if (type === 'tag') {
             const tagList = filters.tags.filter((_, index) => index !== indexToRemove);
