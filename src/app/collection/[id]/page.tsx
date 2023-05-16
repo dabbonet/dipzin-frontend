@@ -4,6 +4,12 @@ import React, { useState } from 'react'
 
 const page = () => {
   const [screens, setScreens] = useState(true)
+  const appAndScreensSwitcherButtons = () => {
+    return <>
+      <button className={` py-1 px-3 hover:bg-slate-700 ${screens && 'bg-slate-700'} rounded-3xl`} onClick={() => setScreens(true)}>Screens</button>
+      <button className={` py-1 px-3 ${!screens && 'bg-slate-700'}  rounded-3xl hover:bg-slate-700`} onClick={() => setScreens(false)}>Applications</button>
+    </>
+  }
   return (
     <>
       <AppActions/>
@@ -17,9 +23,8 @@ const page = () => {
               <span className=' text-slate-400 font-normal text-base'>Modified: 1m ago</span>
             </div>
           </div>
-            <div className=" w-fit bg-slate-800 flex p-2 items-center rounded-3xl mb-4">
-              <button className={` py-1 px-3 hover:bg-slate-700 ${screens && 'bg-slate-700'} rounded-3xl`} onClick={()=> setScreens(true)}>Screens</button>
-              <button className={` py-1 px-3 ${!screens && 'bg-slate-700'}  rounded-3xl hover:bg-slate-700`} onClick={()=> setScreens(false)}>Applications</button>
+          <div className=" w-fit bg-slate-800 flex p-2 items-center rounded-3xl mb-4">
+            {appAndScreensSwitcherButtons()}
           </div>
         </div>
         {/* main content */}

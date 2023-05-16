@@ -7,83 +7,98 @@ import { FC } from "react";
 import toast from "react-hot-toast";
 
 interface navigatorProps {
-  app?: any;
+  app?: {
+    categories: {},
+    screens:{
+      data: {
+        id: number,
+        attributes: {
+          order: number,
+          screen: {
+            data: {
+              id: number
+              attributes: {
+                hash: string,
+                ext: string,
+                url: string
+              }
+            }
+          }
+        }
+      }[]
+    },
+    platform: {
+      data: {
+        attributes: {
+          name: string
+        }
+      }
+    },
+    store_link: string,
+    name: string,
+    slug: string,
+    tag_line: string
+  };
 }
 
 const AppActions: FC<navigatorProps> = ({ app }) => {
   if (app) {
-    const screensArray = app.screens.data.map(
-      (screen) =>
-        screen.attributes.screen.data.attributes.hash +
-        screen.attributes.screen.data.attributes.ext
-    )!;
-
-    const platform = app.platform.data.attributes.name.toLowerCase()!;
-    return (
-      <ActionBar className="flex flex-col fixed right-10 top-[32%] w-auto h-auto">
-        <SquareButton
-          onClick={() => {
-            toast.remove();
-            toast.custom(<SoonToast />, { duration: 2000 });
-          }}
-        >
-          <SquareButton.Title>Like App</SquareButton.Title>
-          <SquareButton.Icon>
-            <Icons.Heart />
-          </SquareButton.Icon>
-        </SquareButton>
-
-        {app.store_link && (
+    if (app.screens.data && app.platform.data.attributes.name) {
+      const screensArray = app.screens.data.map(
+        (screen) => {
+          if (screen) {
+            return screen.attributes.screen.data.attributes.hash + screen.attributes.screen.data.attributes.ext
+          }
+        }
+      )!;
+  
+      const platform = app.platform.data.attributes.name.toLowerCase()!;
+      // handle the like on app
+      
+      
+      return (
+        <ActionBar className="flex flex-col fixed right-10 top-[32%] w-auto h-auto">
           <SquareButton
-            onClick={() => {
-              window.open(app.store_link, "_blank", "noreferrer");
-            }}
+            onClick={handleLikeApp}
           >
-            <SquareButton.Title className="w-[70%]">
-              App Store
-            </SquareButton.Title>
+            <SquareButton.Title>Like App</SquareButton.Title>
             <SquareButton.Icon>
-              <Icons.Apple />
+              <Icons.Heart />
             </SquareButton.Icon>
           </SquareButton>
-        )}
-
-        {/* TODO: Add Save When Collections is Done. */}
-        {/* <SquareButton>
-                <SquareButton.Title>Save</SquareButton.Title>
-                <SquareButton.Icon>
-                    <Icons.Save />
-                </SquareButton.Icon>
-            </SquareButton> */}
-
-        <SquareButton
-          onClick={() => {
-            ImageDownloader(app.name + " Screens", screensArray);
-          }}
-        >
-          <SquareButton.Title className="w-[80%]">
-            Bulk Download
-          </SquareButton.Title>
-          <SquareButton.Icon>
-            <Icons.Download />
-          </SquareButton.Icon>
-        </SquareButton>
-
-        <SquareButton
-          onClick={() => {
-            navigator.clipboard.writeText(
-              window.location.origin + "/app/" + platform + "/" + app.slug //need fix
-            );
-            toast.success("App Link Copied.");
-          }}
-        >
-          <SquareButton.Title className="w-[70%]">Copy Link</SquareButton.Title>
-          <SquareButton.Icon>
-            <Icons.CopyFilled />
-          </SquareButton.Icon>
-        </SquareButton>
-      </ActionBar>
-    );
+  
+          {showAppStoreLink(app)}
+  
+          {/* TODO: Add Save When Collections is Done. */}
+          {/* <SquareButton>
+                  <SquareButton.Title>Save</SquareButton.Title>
+                  <SquareButton.Icon>
+                      <Icons.Save />
+                  </SquareButton.Icon>
+              </SquareButton> */}
+  
+          <SquareButton
+            onClick={()=> handleDownloadImages(app , screensArray)}
+          >
+            <SquareButton.Title className="w-[80%]">
+              Bulk Download
+            </SquareButton.Title>
+            <SquareButton.Icon>
+              <Icons.Download />
+            </SquareButton.Icon>
+          </SquareButton>
+  
+          <SquareButton
+            onClick={()=> handleCopyLink(app , platform)}
+          >
+            <SquareButton.Title className="w-[70%]">Copy Link</SquareButton.Title>
+            <SquareButton.Icon>
+              <Icons.CopyFilled />
+            </SquareButton.Icon>
+          </SquareButton>
+        </ActionBar>
+      );
+    }
   }
   return (
     <ActionBar className="flex flex-col fixed right-10 top-[32%] w-auto h-auto">
@@ -99,18 +114,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
         </SquareButton.Icon>
       </SquareButton>
 
-      {app && (
-        <SquareButton
-          onClick={() => {
-            window.open(app.store_link, "_blank", "noreferrer");
-          }}
-        >
-          <SquareButton.Title className="w-[70%]">App Store</SquareButton.Title>
-          <SquareButton.Icon>
-            <Icons.Apple />
-          </SquareButton.Icon>
-        </SquareButton>
-      )}
+      {showAppStoreLink(app)}
 
       <SquareButton onClick={() => {}}>
         <SquareButton.Title className="w-[80%]">
@@ -123,7 +127,6 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
 
       <SquareButton
         onClick={() => {
-          //need f;
           toast.success("App Link Copied.");
         }}
       >
@@ -137,3 +140,37 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
 };
 
 export default AppActions;
+
+
+const handleLikeApp = () => {
+  toast.remove();
+  toast.custom(<SoonToast />, { duration: 2000 });
+}
+// hanlde open the app on app store
+const handleAppStore = (app) => {
+  window.open(app.store_link, "_blank", "noreferrer");
+}
+const handleDownloadImages = (app , screensArray) => {
+  ImageDownloader(app.name + " Screens", screensArray);
+}
+const handleCopyLink = (app , platform) => { 
+  navigator.clipboard.writeText(
+    window.location.origin + "/app/" + platform + "/" + app.slug 
+  );
+  toast.success("App Link Copied.");
+}
+
+const showAppStoreLink = (app) => {
+  if (app?.store_link) {
+    return <SquareButton
+    onClick={()=>handleAppStore(app)}
+  >
+    <SquareButton.Title className="w-[70%]">
+      App Store
+    </SquareButton.Title>
+    <SquareButton.Icon>
+      <Icons.Apple />
+    </SquareButton.Icon>
+  </SquareButton>
+  }
+}
