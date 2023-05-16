@@ -28,76 +28,10 @@ export const AccessOrUpgradeCard = () => {
 
 
 const AccessCard = () => {
-  // global variable for email
-  const [email, setEmail] = useState("");
-  // about otp card
-  const [showOtpCard, setShowOtpCard] = useState(false)
-  const [otp, setOtp] = useState<number>();
-  const [failedMessage, setFailedMessage] = useState(false);
-  const [disabelButton, setDisabelButton] = useState(false);
-  const router = useRouter();
-  const handleResend = async () => {
-    SignIn(email);
-    setFailedMessage(false);
-  };
-  const handleClick = async () => {
-    setDisabelButton(true);
-    setFailedMessage(false);
-    const data = await verifyOtp(email, otp);
-    const { token } = await data.json();
-    if (token) {
-      setToken(token);
-      if (data.status === 200) {
-        router.push("/");
-      } else {
-        router.push("/account");
-      }
-    } else {
-      toast.error("invalid code , you can resend after 30 seconds", {
-        style: {
-          backgroundColor: "orange",
-          color: "white",
-        },
-      });
-      setTimeout(() => {
-        setFailedMessage(true);
-        setDisabelButton(false);
-      }, 30000);
-    }
-  };
-  // about access
-  const [disableProcess, setDisableProcess] = useState(false);
-  const handleChange = (event: any) => {
-    setEmail(event.target.value);
-  };
-  const handleSubmit = async () => {
-    setDisableProcess(true);
-    const regextMatchEmail =
-      /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+  
+  
 
-    if (!email.match(regextMatchEmail)) {
-      setTimeout(() => {
-        setDisableProcess(false);
-      }, 2000);
-      return toast.error("please enter a valid email", {
-        style: {
-          backgroundColor: "orange",
-          color: "white",
-        },
-        duration: 2000,
-      });
-    }
-
-    const res = await SignIn(email);
-    if (res) {
-      setShowOtpCard(true);
-    } else {
-      setDisableProcess(false);
-      return toast.error("Something Went wrong");
-    }
-  };
-  if (showOtpCard) return <OtpAccessComponent email={email} setOtp={setOtp} failedMessage={failedMessage} handleClick={handleClick} handleResend={handleResend} disabelButton={disabelButton} />
-  return <AccessComponent handleChange={handleChange} disableProcess={disableProcess} handleSubmit={handleSubmit} />
+  return <AccessComponent/>
 }
 
 
