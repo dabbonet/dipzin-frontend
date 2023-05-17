@@ -13,7 +13,6 @@ const Access: FC = () => {
   // react google one-tap
   useGoogleOneTapLogin({
     onSuccess: async (response) => {
-      console.log(response)
       const req = await fetch('/api/user/google-one-tap', {
         method: 'POST',
         headers: {
@@ -27,7 +26,6 @@ const Access: FC = () => {
         router.push('/')
       }
     },
-    onError: (error) => console.log(error),
     googleAccountConfigs: {
       client_id: '',
     }

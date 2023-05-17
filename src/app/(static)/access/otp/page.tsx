@@ -6,6 +6,7 @@ import OtpAccessComponent from "@/components/OtpAccessComponent";
 import { toast } from "react-hot-toast";
 
 const Otp: FC = () => {
+  const otpStringLength = 6
   const searchParams = useSearchParams();
     const router = useRouter();
     const email = searchParams.get("email");
@@ -14,9 +15,7 @@ const Otp: FC = () => {
     const [disabelButton, setDisabelButton] = useState(true);
     useEffect(() => {
       const otpAsStrnig = `${otp}`
-      console.log(otpAsStrnig)
-      if (otpAsStrnig.length === 6) {
-        console.log(otpAsStrnig.length)
+      if (otpAsStrnig.length === otpStringLength ) {
         setDisabelButton(false);
       } else {
         

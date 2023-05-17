@@ -3,16 +3,9 @@ import React from "react";
 import Icons from "@/components/Icons";
 
 
-type Props = {
-  handleChange?: any
-  handleSubmit?: any
-  disableProcess?: boolean
-
-}
 
 
-
-const AccessComponent = ({handleChange , handleSubmit , disableProcess}:Props) => {
+const AccessComponent = ({handleChange , handleSubmit , disableProcess}) => {
   
   return (
     <div className="mx-auto subpixel-antialiased">
