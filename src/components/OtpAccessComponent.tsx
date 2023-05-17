@@ -1,5 +1,6 @@
 "use client";
 
+import { useDialog } from "@/context/useDialog";
 import { setToken, SignIn, verifyOtp } from "@/lib/auth";
 import { useSearchParams , usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -99,7 +100,8 @@ const OtpAccessComponent = ({email}:props) => {
         {resendCodeButton()}
       </div>
     );
-  }else{
+  } else {
+    const {setVisibleNoAuth} = useDialog()
     const router = useRouter();
     const handleResend = async () => {
       SignIn(email);
@@ -117,6 +119,7 @@ const OtpAccessComponent = ({email}:props) => {
         } else {
           router.push("/account");
         }
+        setVisibleNoAuth(false);
       } else {
         toast.error("invalid code , you can resend after 30 seconds", {
           style: {
