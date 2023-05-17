@@ -10,15 +10,15 @@ import OtpAccessComponent from "./OtpAccessComponent";
 const AccessComponent = () => {
 
   const path = usePathname()
+  const [email, setEmail] = useState("");
+  const [disableProcess, setDisableProcess] = useState(false);
   if (path === '/access') {
     const router = useRouter();
-    const [email, setEmail] = useState("");
-    const [disableProcess, setDisableProcess] = useState(false);
     const handleChange = (event: any) => {
       setEmail(event.target.value);
     };
 
-    const handleSubmit = async () => {
+    const submitEmail = async () => {
       setDisableProcess(true);
       const regextMatchEmail =
         /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
@@ -43,6 +43,24 @@ const AccessComponent = () => {
         return toast.error("Something Went wrong");
       }
     };
+    const submitEmailButton = () => {
+      if (disableProcess) {
+        return <button
+        type="submit"
+        onClick={submitEmail}
+        className= "w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-widest text-white bg-gray-500 cursor-none pointer-events-none"
+      >
+        Send code
+      </button>
+      }
+      return <button
+      type="submit"
+      onClick={submitEmail}
+      className= "w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-widest text-white bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500"
+    >
+      Send code
+    </button>
+    }
     return (
       <div className="mx-auto subpixel-antialiased ">
         <h1 className="font-bold h-auto !leading-normal bg-clip-text  lg:text-5xl text-3xl">
@@ -79,30 +97,17 @@ const AccessComponent = () => {
           name="email"
           className="subpixel-antialiased h-14 text-sm rounded-lg  outline-none block w-full md:pl-6 pl-3 p-2.5 tracking-wider bg-slate-300 text-slate-800  placeholder-slate-600 focus:ring-orange-500 dark:bg-slate-800 dark:placeholder-slate-500 dark:text-slate-300 "
           placeholder="Email Address"
-          onChange={(e) => handleChange(e as any)}
+          onChange={(e) => handleChange(e as React.ChangeEvent)}
         />
-        <button
-          type="submit"
-          onClick={handleSubmit}
-          className={`w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-widest text-white  ${
-            disableProcess
-              ? " bg-gray-500 cursor-none pointer-events-none"
-              : "bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500"
-          }`}
-        >
-          Send code
-        </button>
+        {submitEmailButton()}
       </div>
     );
-  }
-  if (path === '/') {
-    const [email, setEmail] = useState("");
-    const [disableProcess, setDisableProcess] = useState(false);
+  } else {
     const [showOtpCard, setShowOtpCard] = useState(false)
     const handleChange = (event: any) => {
       setEmail(event.target.value);
     };
-    const handleSubmit = async () => {
+    const submitEmail = async () => {
       setDisableProcess(true);
       const regextMatchEmail =
         /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
@@ -128,6 +133,24 @@ const AccessComponent = () => {
         return toast.error("Something Went wrong");
       }
     };
+    const submitEmailButton = () => {
+      if (disableProcess) {
+        return <button
+        type="submit"
+        onClick={submitEmail}
+        className= "w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-widest text-white bg-gray-500 cursor-none pointer-events-none"
+      >
+        Send code
+      </button>
+      }
+      return <button
+      type="submit"
+      onClick={submitEmail}
+      className= "w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-widest text-white bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500"
+    >
+      Send code
+    </button>
+    }
     if (showOtpCard) return <OtpAccessComponent email={email}  />
     return (
       <div className="mx-auto subpixel-antialiased ">
@@ -165,19 +188,9 @@ const AccessComponent = () => {
           name="email"
           className="subpixel-antialiased h-14 text-sm rounded-lg  outline-none block w-full md:pl-6 pl-3 p-2.5 tracking-wider bg-slate-300 text-slate-800  placeholder-slate-600 focus:ring-orange-500 dark:bg-slate-800 dark:placeholder-slate-500 dark:text-slate-300 "
           placeholder="Email Address"
-          onChange={(e) => handleChange(e as any)}
+          onChange={(e) => handleChange(e as React.ChangeEvent)}
         />
-        <button
-          type="submit"
-          onClick={handleSubmit}
-          className={`w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-widest text-white  ${
-            disableProcess
-              ? " bg-gray-500 cursor-none pointer-events-none"
-              : "bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500"
-          }`}
-        >
-          Send code
-        </button>
+        {submitEmailButton()}
       </div>
     );
   }
