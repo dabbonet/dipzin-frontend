@@ -3,38 +3,23 @@ import { ActionBar, SquareButton } from "@/components/ActionBar";
 import Icons from "@/components/Icons";
 import { copyImagesToClipboard } from "@/lib/ImageCopier";
 import { downloadImage } from "@/lib/ImageDownloader";
+import { navigatorProps } from "@/lib/types/screenActions";
 import { getAssetsURL } from "@/lib/utils";
 import { FC } from "react";
 import toast from "react-hot-toast";
 
-interface navigatorProps {
-  appName?: string;
-  screen?: {
-    id: number;
-    attributes: {
-      screen: {
-        data: {
-          attributes: {
-            hash: string,
-            ext: string,
-          }
-        }
-      }
-      order: string,
-    }
-  };
-}
+
 
 const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
   if (appName && screen) {
     let name;
-    if (screen.attributes.screen.data.attributes.hash && screen.attributes.screen.data.attributes.ext) {
+    if (screen.attributes?.screen?.data?.attributes?.hash && screen?.attributes?.screen?.data?.attributes?.ext) {
       name = 
       screen.attributes.screen.data.attributes.hash +
       screen.attributes.screen.data.attributes.ext;
     }
     let fileName 
-    if (appName && screen.attributes.order) {
+    if (appName && screen?.attributes?.order) {
       fileName = appName + " " + screen.attributes.order;
     }
     const screenURL = getAssetsURL(name);
