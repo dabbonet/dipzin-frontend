@@ -3,45 +3,10 @@ import { ActionBar, SquareButton } from "@/components/ActionBar";
 import Icons from "@/components/Icons";
 import SoonToast from "@/components/SoonToast";
 import { ImageDownloader } from "@/lib/ImageDownloader";
-import { notFound } from "next/navigation";
 import { FC } from "react";
 import toast from "react-hot-toast";
+import {navigatorProps} from "@/lib/types/appactions";
 
-interface navigatorProps {
-
-  app?: {
-    categories: {},
-    screens:{
-      data: {
-        id: number,
-        attributes: {
-          order: number,
-          screen: {
-            data: {
-              id: number
-              attributes: {
-                hash: string,
-                ext: string,
-                url: string
-              }
-            }
-          }
-        }
-      }[]
-    },
-    platform: {
-      data: {
-        attributes: {
-          name: string
-        }
-      }
-    },
-    store_link: string,
-    name: string,
-    slug: string,
-    tag_line: string
-  };
-}
 
 const AppActions: FC<navigatorProps> = ({ app }) => {
   if (app) {
@@ -73,12 +38,6 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
           {showAppStoreLink(app)}
   
           {/* TODO: Add Save When Collections is Done. */}
-          {/* <SquareButton>
-                  <SquareButton.Title>Save</SquareButton.Title>
-                  <SquareButton.Icon>
-                      <Icons.Save />
-                  </SquareButton.Icon>
-              </SquareButton> */}
   
           <SquareButton
             onClick={()=> handleDownloadImages(app , screensArray)}
