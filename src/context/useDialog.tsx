@@ -1,24 +1,26 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-interface DialogState {
-    visible: boolean,
-    times: number,
-    counter: number,
-    setTimes: (times) => void,
-    setIncremental: (incremental) => void,
-}
+// interface DialogState {
+//     visible: boolean,
+//     times: number,
+//     counter: number,
+//     setTimes: (times) => void,
+//     setIncremental: (incremental) => void,
+// }
 
-const defaultState: DialogState = {
-    visible: false,
-    times: 0,
-    counter: 0,
-    setTimes: () => { },
-    setIncremental: () => { },
+// const defaultState: DialogState = {
+//     visible: false,
+//     times: 0,
+//     counter: 0,
+//     setTimes: () => { },
+//     setIncremental: () => { },
 
-};
 
-const DialogContext = createContext<DialogState>(
-    defaultState
+// };
+
+const DialogContext = createContext(
+    // defaultState
+    null
 );
 
 
@@ -28,11 +30,11 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     const [incremental, setIncremental] = useState<boolean>(false)
     const [counter, setCounter] = useState<number>(baseCounter)
     const [visible, setVisible] = useState<boolean>(false);
+    const [visibleNoAuth, setVisibleNoAuth] = useState<boolean>(false);
 
 
     // Change visibility based on times
     useEffect(() => {
-        // localStorage.setItem('dialogTimes', times.toString());
         if (times > 0) {
             setVisible(true);
         } else {
@@ -80,6 +82,9 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
         <DialogContext.Provider
             value={{
                 visible,
+                setVisible,
+                visibleNoAuth,
+                setVisibleNoAuth,
                 times,
                 counter,
                 setTimes,
