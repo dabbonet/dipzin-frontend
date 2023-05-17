@@ -2,17 +2,9 @@
 
 import AuthCode from "react-auth-code-input";
 
-type props = {
-  email?: string;
-  setOtp?: (e)=> void;
-  disabelButton?: boolean
-  handleClick?: ()=> void
-  failedMessage?: boolean
-  handleResend?: ()=> void
-}
 
 
-const OtpAccessComponent = ({email , setOtp , disabelButton , handleClick , failedMessage , handleResend}:props) => {
+const OtpAccessComponent = ({email , setOtp , disabelButton , handleClick , failedMessage , handleResend}) => {
     
   
     // TODO: Verify otp with email
