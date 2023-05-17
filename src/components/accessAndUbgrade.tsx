@@ -1,13 +1,11 @@
+'use client'
 import React, { useEffect, useState } from "react";
 import Icons from "./Icons";
 import { cn } from "@/lib/utils";
 import { useDialog } from "@/context/useDialog";
 import SparkleButton from "@/ui/SparkleButton";
 import AccessComponent from "./AccessComponent";
-import { toast } from "react-hot-toast";
-import { setToken, SignIn, verifyOtp } from "@/lib/auth";
-import OtpAccessComponent from "./OtpAccessComponent";
-import { useRouter } from "next/navigation";
+
 
 function formatTime(seconds: number): string {
   const secs = (seconds % 60).toString().padStart(2, '0');
@@ -19,19 +17,26 @@ export const AccessOrUpgradeCard = () => {
   if (localStorage.getItem('token')) { 
     return  <UpgradeMemberCard/>
   }
-  return <div className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-50">
-    <div className=" w-fit h-fit bg-slate-900 bg-opacity-60 rounded-2xl px-16 py-20">
-      <AccessCard/>
-    </div>
-  </div>
+  return <AccessCard/>
 }
 
 
 const AccessCard = () => {
   
+  const [show, setShow] = useState<boolean>(false)
+  const { counter, visible } = useDialog();
+  useEffect(() => {
+    visible && setShow(visible)
+  }, [visible])
+  if (!show) return
+  return (
+    <div className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-50">
+      <div className=" w-fit h-fit bg-slate-900 bg-opacity-60 rounded-2xl px-16 py-20">
+        <AccessComponent />
+      </div>
+    </div>
+  )
   
-
-  return <AccessComponent/>
 }
 
 
