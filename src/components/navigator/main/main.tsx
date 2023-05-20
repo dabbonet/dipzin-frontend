@@ -22,17 +22,14 @@ const MainNavigator = ({ type }: any) => {
             }
         }
         checkUserAuth()
-    })
-    if (!isUserAuth) {
-        return <NoAuthComponent/>
-    }
+    },[])
     const [navOpen, setNavOpen] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
     const [filterOpen, setFilterOpen] = useState(false)
     const searchParams = useSearchParams()!;
     const router = useRouter();
-
-
+    
+    
     // Logic to handle if user clicks outside of the navigator
     function useOutsideAlerter(ref: any) {
         useEffect(() => {
@@ -80,6 +77,10 @@ const MainNavigator = ({ type }: any) => {
         router.push('/search?' + params)
 
     }, [searchParams, router, filters])
+
+    if (!isUserAuth) {
+        return <NoAuthComponent/>
+    }
 
     return (
         <div ref={wrapperRef} className="fixed left-32 right-32 bottom-12 mx-auto flex justify-center z-20">
@@ -200,15 +201,15 @@ const TagItem = ({ title, onClick }) => {
 
 
 const NoAuthComponent = () => {
-    return <div className=' fixed bg-orange-500 rounded-[60px] bottom-12 py-4 px-4 right-32 left-32 mx-auto flex items-center w-fit'>
-    <div className=' mr-3'>
+    return <div className=' fixed bg-orange-500 rounded-[60px] bottom-12 py-4 px-4 right-32 left-32 mx-auto flex items-center w-fit flex-wrap'>
+    <div className=' mr-3 flex justify-center'>
         <img src="/images/assets/checkSearchBar.svg" alt="" />
     </div>
-    <div className=' flex-col flex mr-20'>
+    <div className=' flex-col flex mr-20 justify-center'>
         <h1 className=' text-orange-50 font-bold text-base'>Join the Dipzin Community Today</h1>
         <p className=' text-orange-50 font-medium text-sm'>Find, Share, and Create Digital Inspiration.</p>
     </div>
-    <div className=' flex gap-2'>
+    <div className=' flex gap-2 mx-auto flex-wrap justify-center'>
         <Link href='/access' className=' w-fit bg-orange-400 py-2 px-8 text-orange-100 rounded-3xl'>LogIn</Link>
         <Link href='/pricing' className='w-fit bg-orange-100 py-2 px-8 text-orange-600 rounded-3xl'>Try it free</Link>
     </div>
