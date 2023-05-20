@@ -35,7 +35,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
       setVisible(true)
       setTimeout(() => {
         ImageDownloader(app.name + " Screens", screensArray);
-      },8000)
+      },5000)
       return
     }
     setVisibleNoAuth(true);

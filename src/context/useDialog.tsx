@@ -1,27 +1,8 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-// interface DialogState {
-//     visible: boolean,
-//     times: number,
-//     counter: number,
-//     setTimes: (times) => void,
-//     setIncremental: (incremental) => void,
-// }
-
-// const defaultState: DialogState = {
-//     visible: false,
-//     times: 0,
-//     counter: 0,
-//     setTimes: () => { },
-//     setIncremental: () => { },
 
 
-// };
-
-const DialogContext = createContext(
-    // defaultState
-    null
-);
+const DialogContext = createContext(null);
 
 
 export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
@@ -62,20 +43,22 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Control visability of the dialog based on the counter time.
     useEffect(() => {
-        let timer: NodeJS.Timeout | undefined;
-        if (visible && counter > 0) {
-            timer = setTimeout(() => {
-                setCounter((prevCounter) => prevCounter - 1);
-            }, counter * 1000);
-        } else if (counter === 0) {
-            setVisible(false);
-        }
-
-        return () => {
-            if (timer) {
-                clearTimeout(timer);
+        if (!incremental) {
+            let timer: NodeJS.Timeout | undefined;
+            if (visible && counter > 0) {
+                timer = setTimeout(() => {
+                    setCounter((prevCounter) => prevCounter - 1);
+                }, 1000);
+            } else if (counter === 0) {
+                setVisible(false);
             }
-        };
+    
+            return () => {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+            };
+        }
     }, [visible, counter]);
 
     return (
@@ -87,6 +70,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
                 setVisibleNoAuth,
                 times,
                 counter,
+                setCounter,
                 setTimes,
                 setIncremental,
             }}

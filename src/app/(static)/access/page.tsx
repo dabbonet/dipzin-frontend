@@ -1,6 +1,9 @@
 "use client";
 import AccessComponent from "@/components/AccessComponent";
+import { setToken } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 import { FC } from "react";
+import { useGoogleOneTapLogin } from "react-google-one-tap-login";
 
 
 
@@ -27,16 +30,6 @@ const Access: FC = () => {
       client_id: '',
     }
   })
-
-  const [email, setEmail] = useState("");
-  const [disableProcess, setDisableProcess] = useState(false);
-  const handleChange = (event: any) => {
-    setEmail(event.target.value);
-  };
-
-
-const Access: FC = () => {
-
 
   return <AccessComponent  />;
 };
