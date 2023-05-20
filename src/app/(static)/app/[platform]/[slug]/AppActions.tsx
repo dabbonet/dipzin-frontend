@@ -2,8 +2,10 @@
 import { ActionBar, SquareButton } from "@/components/ActionBar";
 import Icons from "@/components/Icons";
 import SoonToast from "@/components/SoonToast";
+import { useDialog } from "@/context/useDialog";
+import { getUser } from "@/lib/auth";
 import { ImageDownloader } from "@/lib/ImageDownloader";
-import { notFound } from "next/navigation";
+import { useSelcetedImages } from "@/lib/SelectedToDownload";
 import { FC } from "react";
 import toast from "react-hot-toast";
 
@@ -12,16 +14,31 @@ interface navigatorProps {
 }
 
 const AppActions: FC<navigatorProps> = ({ app }) => {
-  const screensArray = app.screens.data.map(
+  const {setVisibleNoAuth , setVisible} = useDialog()
+  const {selectedImages} = useSelcetedImages()
+  const screensArray =  selectedImages.map(screen => screen?.attributes?.screen?.data?.attributes?.hash + screen?.attributes?.screen?.data?.attributes?.ext) || app.screens.data.map(
     (screen) =>
       screen.attributes.screen.data.attributes.hash +
       screen.attributes.screen.data.attributes.ext
-  );
+  )
 
   const platform = app.platform.data.attributes.name.toLowerCase();
 
   if (!platform || !screensArray || !app) {
     return <h1>app not found</h1>
+  }
+
+  const bulkDownloadImages = async () => {
+    const isUserAuth = await getUser()
+
+    if (isUserAuth) {
+      setVisible(true)
+      setTimeout(() => {
+        ImageDownloader(app.name + " Screens", screensArray);
+      },8000)
+      return
+    }
+    setVisibleNoAuth(true);
   }
 
   return (
@@ -60,9 +77,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
             </SquareButton> */}
 
       <SquareButton
-        onClick={() => {
-          ImageDownloader(app.name + " Screens", screensArray);
-        }}
+        onClick={bulkDownloadImages}
       >
         <SquareButton.Title className="w-[80%]">
           Bulk Download
