@@ -7,6 +7,7 @@ import { useState } from "react";
 import AuthCode from "react-auth-code-input";
 import { toast } from "react-hot-toast";
 
+
 type props = {
   email?: string;
 }
@@ -79,6 +80,7 @@ const OtpAccessComponent = ({email}:props) => {
         Submit
       </button>
     }
+
     return (
       <div className="mx-auto w-full max-w-xl subpixel-antialiased">
         <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-300 lg:text-5xl text-3xl">

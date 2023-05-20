@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import OtpAccessComponent from "./OtpAccessComponent";
 
 
+
 const AccessComponent = () => {
 
   const path = usePathname()
@@ -69,6 +70,7 @@ const AccessComponent = () => {
         <p className=" text-[#D8D3C0] dark:text-white font-light lg:text-base text-sm mb-7">
           Welcome! Please enter your details.
         </p>
+
   
         <div className="flex flex-col xl:flex-row mt-4 w-full space-y-3 xl:space-y-0 xl:space-x-3 mx-auto font-medium">
           <a
