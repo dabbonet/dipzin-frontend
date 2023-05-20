@@ -24,10 +24,14 @@ export const AccessOrUpgradeCard = () => {
 const AccessCard = () => {
   
   const [show, setShow] = useState<boolean>(false)
-  const { counter, visible } = useDialog();
+  const { visibleNoAuth } = useDialog();
   useEffect(() => {
-    visible && setShow(visible)
-  }, [visible])
+    if (visibleNoAuth) {
+      setShow(true);
+    }else{
+      setShow(false);
+    }
+  }, [visibleNoAuth])
   if (!show) return
   return (
     <div className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-50">
