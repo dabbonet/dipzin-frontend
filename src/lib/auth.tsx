@@ -92,7 +92,7 @@ export const SignOut = () => {
   return;
 };
 
-export async function SignIn(email: string) {
+export async function SignIn({ email, referralToken, invitationToken }) {
   const req = await fetch("/api/user/generate", {
     method: "POST",
     headers: {
@@ -101,6 +101,8 @@ export async function SignIn(email: string) {
     body: JSON.stringify({
       data: {
         email,
+        referralToken,
+        invitationToken
       },
     }),
   });

@@ -11,6 +11,10 @@ const Access: FC = () => {
   const [disableProcess, setDisableProcess] = useState(false)
 
   const handleSubmit = async () => {
+    const cookies = document.cookie.split(";").map(x => {
+      const [name, value] = x.trim().split("=");
+      return { name, value };
+    });
     setDisableProcess(true)
     const regextMatchEmail =
       /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
@@ -28,7 +32,10 @@ const Access: FC = () => {
       });
     }
 
-    const res = await SignIn(email)
+    const invitationToken = cookies?.filter(x => x.name == 'invitation-token')[0]?.value ?? null;
+    const referralToken = cookies?.filter(x => x.name == 'referral-token')[0]?.value ?? null;
+
+    const res = await SignIn({ email, invitationToken, referralToken })
     if (res) {
       router.push(`/access/otp?email=${email}`);
     } else {
