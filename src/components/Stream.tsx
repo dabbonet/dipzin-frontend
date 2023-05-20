@@ -19,11 +19,6 @@ const Stream: FC<StreamProps> = () => {
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { setPlatforms, selected } = usePlatform();
-  const { streamData, setStreamData } = useContentDiscovery()
-  const [loadedPages, setLoadedPages] = useState<number[]>([]);
-  const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   // 1. Initialize Stream and Page Platforms.
   // 2. Refetch Stream on Platform Change.
