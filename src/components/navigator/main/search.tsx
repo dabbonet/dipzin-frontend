@@ -10,6 +10,7 @@ import ResultIcon from './ResultIcon'
 import { useContentDiscovery } from "@/context/useContentDiscovery"
 import Icons from "@/components/Icons"
 import { useRouter, useSearchParams } from "next/navigation"
+import { toast } from "react-hot-toast"
 
 
 const Search = () => {
@@ -179,8 +180,19 @@ const PreviewCard = ({ selected }: any) => {
             params.set('categories', categories);
             router.push('/search?' + params)
         } else {
-            link = `/app/${platName}/${selected.slug}`
-            router.push(link)
+            let times = +sessionStorage.getItem('times');
+            if (!times) {
+                sessionStorage.setItem('times',`${1}`)
+            } else if (times >= 20) {
+                toast.remove()
+                toast.error('you have achieved your search times')
+            }
+            else {
+                times++
+                sessionStorage.setItem('times',`${times}`)
+                link = `/app/${platName}/${selected.slug}`
+                router.push(link)
+            }
         }
 
 

@@ -9,6 +9,7 @@ import { ImageDownloader } from '@/lib/ImageDownloader'
 import { toast } from 'react-hot-toast'
 import { ActionBar, SquareButton } from './ActionBar'
 import { useRouter } from 'next/navigation'
+import { useDialog } from '@/context/useDialog'
 
 interface ShowcaseProps {
   selectedShowcase: any;
@@ -21,6 +22,20 @@ const Showcase: FC<ShowcaseProps> = ({
 }) => {
   const router = useRouter();
   const { selected: platform } = usePlatform();
+
+  const {times} = useDialog()
+
+  const navigateToApp = () => {
+    if (times >= 20) {
+      toast.remove();
+      toast.error('You have reached the maximum number of times')
+      return
+    }
+    let time = +sessionStorage.getItem('times');
+    time++
+    sessionStorage.setItem('times',`${time}`)
+    router.push("/app/" + getPlatformById(selectedShowcase.platform) + "/" + selectedShowcase.slug)
+  }
 
   return (
     <motion.div
@@ -51,7 +66,7 @@ const Showcase: FC<ShowcaseProps> = ({
             </div>
           </div>
           <ActionBar className='flex space-x-1.5'>
-            <SquareButton className='w-32' onClick={() => router.push("/app/" + getPlatformById(selectedShowcase.platform) + "/" + selectedShowcase.slug)}>
+            <SquareButton className='w-32' onClick={navigateToApp}>
               <SquareButton.Title className='w-[70%]'>Open Application</SquareButton.Title>
               <SquareButton.Icon>
                 <Icons.Open />

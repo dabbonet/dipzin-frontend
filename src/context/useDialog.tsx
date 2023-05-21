@@ -1,3 +1,4 @@
+import { getUser } from '@/lib/auth';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 
@@ -7,11 +8,22 @@ const DialogContext = createContext(null);
 
 export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     const baseCounter = 5;
-    const [times, setTimes] = useState<number>(0);
+    const [times, setTimes] = useState<number>(+sessionStorage.getItem('times') || 0);
     const [incremental, setIncremental] = useState<boolean>(false)
     const [counter, setCounter] = useState<number>(baseCounter)
     const [visible, setVisible] = useState<boolean>(false);
     const [visibleNoAuth, setVisibleNoAuth] = useState<boolean>(false);
+
+
+    useEffect(() => {
+        async function checkIfUserAuthenticated() {
+            const user = await getUser();
+            if (!user) {
+                setVisibleNoAuth(true)
+            }
+        }
+        checkIfUserAuthenticated();
+    },[])
 
 
     // Change visibility based on times
@@ -43,7 +55,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Control visability of the dialog based on the counter time.
     useEffect(() => {
-        if (!incremental) {
+
             let timer: NodeJS.Timeout | undefined;
             if (visible && counter > 0) {
                 timer = setTimeout(() => {
@@ -58,7 +70,6 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
                     clearTimeout(timer);
                 }
             };
-        }
     }, [visible, counter]);
 
     return (
