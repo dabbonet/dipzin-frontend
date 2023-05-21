@@ -16,12 +16,12 @@ const PlatformSwitcher = () => {
         selectedBackGround = ' bg-slate-800'
       }  
       const switchApps = () => {
-        if (!singleApp) {
-          setSelected(platformAvailable.id);
-        } else {
+        if (singleApp) {
           router.push(
             `/app/${platforms[index].name.toLowerCase()}/${slug}`
           );
+        } else {
+          setSelected(platformAvailable.id);
         }
       }
       return (

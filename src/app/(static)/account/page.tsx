@@ -8,15 +8,15 @@ import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { FC, useEffect, useRef, useState } from "react";
 
-interface pageProps {}
 
-const Account: FC<pageProps> = ({}) => {
+
+const Account: FC = ({}) => {
   const searchParams = useSearchParams()
   const buttonRef = useRef(null)
   const firstTime = searchParams.get('firstTime')
   const [userDetails, setUserDetails] = useState({
     firstName: '',
-    userName: '',
+    userName: "",
     email: "",
     country: "",
     bio: "",
@@ -82,21 +82,36 @@ const Account: FC<pageProps> = ({}) => {
       console.log(error);
     }
   }
-
+  const FirstTimeHeader = () => {
+    if (firstTime) {
+      return <div className="w-[90%]">
+        <h1 className=" lg:text-8xl md:text-4xl text-3xl">
+          Welcome to dipzin,
+        </h1>
+        <p className=" text-sm">
+          Dipzin is a web application aimed for UI/UX designers and product
+          managers.
+        </p>
+      </div>
+    }
+  }
+  const UserNameInput = () => {
+  
+    return <input
+      type="text"
+      id="user_name"
+      className="bg-slate-100 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
+      placeholder="ex:@jhonDoe"
+      required
+      value={userDetails.userName}
+      name='userName'
+      onChange={(e)=> handleChange(e)}
+  />
+  }
   return (
     <div className="max-w-7xl mx-auto tracking-wide">
       {/* Welcome Area */}
-      {firstTime && (
-        <div className="w-[90%]">
-          <h1 className=" lg:text-8xl md:text-4xl text-3xl">
-            Welcome to dipzin,
-          </h1>
-          <p className=" text-sm">
-            Dipzin is a web application aimed for UI/UX designers and product
-            managers.
-          </p>
-        </div>
-      )}
+      <FirstTimeHeader/>
 
       {/* Head Area */}
       <div className="flex justify-between mt-12 items-center flex-wrap gap-y-3">
@@ -147,29 +162,7 @@ const Account: FC<pageProps> = ({}) => {
           <label htmlFor="user_name" className="block mb-2 text-sm font-normal text-gray-900 dark:text-slate-400">
             Username
           </label>
-          {userDetails.userName ? 
-          <input
-          type="text"
-          id="user_name"
-          className="bg-slate-100 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
-          placeholder="ex:@jhonDoe"
-          required
-          value={userDetails.userName}
-          name='userName'
-          readOnly
-        />
-          :
-          <input
-            type="text"
-            id="user_name"
-            className="bg-slate-100 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
-            placeholder="ex:@jhonDoe"
-            required
-            value={userDetails.userName}
-            name='userName'
-            onChange={(e)=> handleChange(e)}
-          />
-          }
+          <UserNameInput/>
         </div>
         <div className="">
           <label htmlFor="bio" className="block mb-2 text-sm font-normal text-gray-900 dark:text-slate-400">
