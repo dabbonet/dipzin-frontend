@@ -11,7 +11,10 @@ const PlatformSwitcher = () => {
   if (platforms.length < 2) return null; // hide if there is no platforms
   const platformsUI = () => {
     return platforms.map((platformAvailable, index) => {
-      const selectedBackGround = selected === platformAvailable.id && ' bg-slate-800'
+      let selectedBackGround
+      if (selected === platformAvailable.id) {
+        selectedBackGround = ' bg-slate-800'
+      }  
       const switchApps = () => {
         if (!singleApp) {
           setSelected(platformAvailable.id);
