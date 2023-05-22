@@ -1,4 +1,5 @@
 "use client";
+
 import Icons from "@/components/Icons";
 import {CollectionCardMobile, CollectionCardWeb} from "@/components/ui/CollectionCard";
 import { FC, useState } from "react";
@@ -6,26 +7,8 @@ import { FC, useState } from "react";
 const Collections: FC = () => {
   const [isPersonalCollection , setIsPersonalCollection] = useState(false)
   const [isWebViewCard , setIsWebViewCard] = useState(false);
-  // const [data, setData] = useState(null);
 
-  // useEffect(() => {
-  //   async function getCollection() {
-  //     try {
-  //       const response = await fetch("https://rah.dipzin.com/api/collections", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       });
-  //       const data = await response.json();
-  //       setData(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   getCollection();
-  // }, []);
+
 
   const handlePresonal = () => {
     setIsPersonalCollection(true)
@@ -80,4 +63,6 @@ const Collections: FC = () => {
   );
 };
 
+
 export default Collections;
+
