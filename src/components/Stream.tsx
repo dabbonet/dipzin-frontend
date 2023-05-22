@@ -1,7 +1,8 @@
-import { FC, useCallback, useEffect, useState } from 'react'
-import { VirtuosoGrid } from 'react-virtuoso';
-import ShowcaseScreen from './screen/ShowcaseScreen';
+import { FC, useCallback, useEffect, useState } from "react";
+import { VirtuosoGrid } from "react-virtuoso";
+import ShowcaseScreen from "./screen/ShowcaseScreen";
 import { usePlatform } from "@/lib/platforms";
+
 import { cn, shuffle } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import Showcase from './Showcase';
@@ -10,13 +11,14 @@ import StreamLoader from './StreamLoader';
 
 interface StreamProps { }
 
-const Stream: FC<StreamProps> = () => {
 
+const Stream: FC<StreamProps> = () => {
   const { setPlatforms, selected } = usePlatform();
-  const { streamData, setStreamData } = useContentDiscovery()
+  const { streamData, setStreamData } = useContentDiscovery();
   const [loadedPages, setLoadedPages] = useState<number[]>([]);
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+
 
   // 1. Initialize Stream and Page Platforms.
   // 2. Refetch Stream on Platform Change.
@@ -58,17 +60,20 @@ const Stream: FC<StreamProps> = () => {
 
   if (isLoading) return <StreamLoader />
   if (!streamData) return
+
   return (
     <>
       <VirtuosoGrid
         className="mt-6"
         useWindowScroll
         data={streamData}
+
         style={{ minHeight: 100, width: '100%' }}
         totalCount={streamData.length}
         overscan={1}
         endReached={loadMore}
         listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
+
         itemContent={(index, data) => (
           <div onClick={() => setSelectedShowcase(data)}>
             <ShowcaseScreen app={data} />
@@ -76,11 +81,13 @@ const Stream: FC<StreamProps> = () => {
         )}
       />
       <AnimatePresence>
+
         {
           selectedShowcase && (
             <Showcase selectedShowcase={selectedShowcase} setSelectedShowcase={setSelectedShowcase} />
           )
         }
+
       </AnimatePresence>
     </>
   );

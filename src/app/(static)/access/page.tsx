@@ -10,6 +10,7 @@ import { useGoogleOneTapLogin } from "react-google-one-tap-login";
 const Access: FC = () => {
   const router = useRouter();
 
+
   // react google one-tap
   useGoogleOneTapLogin({
     onSuccess: async (response) => {
@@ -28,6 +29,39 @@ const Access: FC = () => {
     },
     googleAccountConfigs: {
       client_id: '',
+
+  const handleSubmit = async () => {
+    const cookies = document.cookie.split(";").map(x => {
+      const [name, value] = x.trim().split("=");
+      return { name, value };
+    });
+    setDisableProcess(true)
+    const regextMatchEmail =
+      /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+
+    if (!email.match(regextMatchEmail)) {
+      setTimeout(() => {
+        setDisableProcess(false)
+      }, 2000);
+      return toast.error("please enter a valid email", {
+        style: {
+          backgroundColor: "orange",
+          color: "white",
+        },
+        duration: 2000
+      });
+    }
+
+    const invitationToken = cookies?.filter(x => x.name == 'invitation-token')[0]?.value ?? null;
+    const referralToken = cookies?.filter(x => x.name == 'referral-token')[0]?.value ?? null;
+
+    const res = await SignIn({ email, invitationToken, referralToken })
+    if (res) {
+      router.push(`/access/otp?email=${email}`);
+    } else {
+      setDisableProcess(false)
+      return toast.error("Something Went wrong");
+
     }
   })
 
