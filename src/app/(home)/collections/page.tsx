@@ -1,12 +1,11 @@
 "use client";
 
-import Icons from "@/components/Icons";
 import {CollectionCardMobile, CollectionCardWeb} from "@/components/ui/CollectionCard";
 import { FC, useState } from "react";
 
 const Collections: FC = () => {
   const [isPersonalCollection , setIsPersonalCollection] = useState(false)
-  const [isWebViewCard , setIsWebViewCard] = useState(false);
+  const [isWebViewCard ] = useState(true);
 
 
 
@@ -19,32 +18,42 @@ const Collections: FC = () => {
   const presonalCollection = () => {
     if (isPersonalCollection) {
       return <button className=" w-fit">
-        <Icons.Image className=" w-4 h-4 text-slate-400"></Icons.Image> 
+        <img src="/images/assets/folder-add.svg" alt="" />
       </button>
     }
   }
   const showPresonalOrComunityCollectionsButtons = () => { 
+    if (isPersonalCollection) { 
+      return <>
+        <button className='py-1 px-3 hover:bg-slate-700 bg-slate-700 rounded-3xl' onClick={handlePresonal}>Personal</button>
+        <button className='py-1 px-3 rounded-3xl hover:bg-slate-700' onClick={handleComunity}>Community</button>
+      </>
+    } else {
     return <>
-      <button className={` py-1 px-3 hover:bg-slate-700 ${isPersonalCollection && 'bg-slate-700'} rounded-3xl`} onClick={handlePresonal}>Personal</button>
-      <button className={` py-1 px-3 ${!isPersonalCollection && 'bg-slate-700'}  rounded-3xl hover:bg-slate-700`} onClick={handleComunity}>Community</button>
+      <button className='py-1 px-3 hover:bg-slate-700 rounded-3xl' onClick={handlePresonal}>Personal</button>
+      <button className='py-1 px-3 bg-slate-700  rounded-3xl hover:bg-slate-700' onClick={handleComunity}>Community</button>
     </>
+    }
   }
 
   const showCards = () => { 
-    return isWebViewCard  ? <>
-    <CollectionCardWeb name='colllection name' description='1m' />
-    <CollectionCardWeb name='colllection name' description='1m' />
-    <CollectionCardWeb name='colllection name' description='1m' />
-    <CollectionCardWeb name='colllection name' description='1m' />
-    <CollectionCardWeb name='colllection name' description='1m' />
-  
-  </> : <>
-      <CollectionCardMobile name='colllection name' description='1m' />
-      <CollectionCardMobile name='colllection name' description='1m' />
-      <CollectionCardMobile name='colllection name' description='1m' />
-      <CollectionCardMobile name='colllection name' description='1m' />
-      <CollectionCardMobile name='colllection name' description='1m' />
-  </>
+    if (isWebViewCard) {
+      return <>
+        <CollectionCardWeb name='colllection name' description='1m' />
+        <CollectionCardWeb name='colllection name' description='1m' />
+        <CollectionCardWeb name='colllection name' description='1m' />
+        <CollectionCardWeb name='colllection name' description='1m' />
+        <CollectionCardWeb name='colllection name' description='1m' />
+      </>
+    } else {
+      return <>
+        <CollectionCardMobile name='colllection name' description='1m' />
+        <CollectionCardMobile name='colllection name' description='1m' />
+        <CollectionCardMobile name='colllection name' description='1m' />
+        <CollectionCardMobile name='colllection name' description='1m' />
+        <CollectionCardMobile name='colllection name' description='1m' />
+      </>
+    }
   }
 
 

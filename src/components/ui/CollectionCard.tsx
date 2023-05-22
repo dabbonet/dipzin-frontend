@@ -97,12 +97,16 @@ export const CollectionCardWeb = ({ name, description }) => {
   return (
     <div className=" bg-slate-800 p-4 border-solid border border-slate-700 rounded-3xl">
       <div className=" grid grid-cols-3 gap-3">
-        <div className=" col-span-2 flex flex-col gap-2">
-          <img src="/images/assets/collection-web1.svg" alt="" className=" object-fill w-full h-full" />
-          <img src="/images/assets/collection-web2.svg" alt="" className=" object-fill w-full h-full" />
+        <div className=" col-span-2 flex flex-col justify-between gap-2">
+          <div className=" flex-1 rounded-lg overflow-hidden">
+            <img src="/images/assets/collection-web1.svg" alt="" className=" object-cover w-full h-full" />
+          </div>
+          <div className=" flex-1 rounded-lg overflow-hidden">
+            <img src="/images/assets/collection-web2.svg" alt="" className=" object-cover w-full h-full" />
+          </div>
         </div>
 
-        <div className=" flex flex-col gap-3 items-center">
+        <div className=" flex flex-col gap-3 items-center justify-between">
           <img src="/images/assets/collection-app1.svg" alt="" className="" />
           <img src="/images/assets/collection-app2.svg" alt="" className="" />
           <img src="/images/assets/collection-app3.svg" alt="" className="" />
