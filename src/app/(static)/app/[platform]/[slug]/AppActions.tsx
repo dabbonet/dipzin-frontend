@@ -10,16 +10,15 @@ import {navigatorProps} from "@/lib/types/appactions";
 
 const AppActions: FC<navigatorProps> = ({ app }) => {
   if (app) {
-    if (app.screens.data && app.platform.data.attributes.name) {
-      const screensArray = app.screens.data.map(
+    const screenData = app.screens.data
+    const platform = app.platform.data.attributes.name.toLowerCase();
+    if (screenData && platform) {
+      const screensArray = screenData.map(
         (screen) => {
-          if (screen) {
-            return screen.attributes.screen.data.attributes.hash + screen.attributes.screen.data.attributes.ext
-          }
+            return screen.attributes.screen?.data?.attributes?.hash + screen.attributes.screen?.data?.attributes?.ext
         }
-      )!;
+      );
   
-      const platform = app.platform.data.attributes.name.toLowerCase()!;
       // handle the like on app
       
       

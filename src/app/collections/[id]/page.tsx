@@ -1,14 +1,17 @@
 'use client'
 import AppActions from '@/app/(static)/app/[platform]/[slug]/AppActions'
 import React, { useState } from 'react'
-
 const page = () => {
-  const [screens, setScreens] = useState(true)
-  const appAndScreensSwitcherButtons = () => {
-    return <>
-      <button className={` py-1 px-3 hover:bg-slate-700 ${screens && 'bg-slate-700'} rounded-3xl`} onClick={() => setScreens(true)}>Screens</button>
-      <button className={` py-1 px-3 ${!screens && 'bg-slate-700'}  rounded-3xl hover:bg-slate-700`} onClick={() => setScreens(false)}>Applications</button>
-    </>
+  const [isScreens, setIsScreens] = useState(true)
+  let buttonStyle1
+  let buttonStyle2
+  if (isScreens) {
+    buttonStyle1 = 'bg-slate-700'
+    buttonStyle2 = ''
+  } else {
+    console.log('fffffffffffffffffff')
+    buttonStyle1 = ''
+    buttonStyle2 = 'bg-slate-700'
   }
   return (
     <>
@@ -24,7 +27,8 @@ const page = () => {
             </div>
           </div>
           <div className=" w-fit bg-slate-800 flex p-2 items-center rounded-3xl mb-4">
-            {appAndScreensSwitcherButtons()}
+            <button className={` py-1 px-3 hover:bg-slate-700 ${buttonStyle1} rounded-3xl`} onClick={() => setIsScreens(true)}>Screens</button>
+            <button className={` py-1 px-3 ${buttonStyle2}  rounded-3xl hover:bg-slate-700`} onClick={() => setIsScreens(false)}>Applications</button>
           </div>
         </div>
         {/* main content */}
