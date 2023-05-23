@@ -36,7 +36,7 @@ const AccessComponent = () => {
           duration: 2000,
         });
       }
-      const res = await SignIn(email);
+      const res = await SignIn({email});
       if (res) {
         router.push(`/access/otp?email=${email}`);
       } else {
@@ -127,7 +127,7 @@ const AccessComponent = () => {
         });
       }
   
-      const res = await SignIn(email);
+      const res = await SignIn({email});
       if (res) {
         setShowOtpCard(true);
       } else {
