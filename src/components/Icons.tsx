@@ -1,3 +1,4 @@
+'use client'
 import { cn } from '@/lib/utils'
 import { Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2 } from 'lucide-react'
 import { FC, SVGProps } from 'react'
