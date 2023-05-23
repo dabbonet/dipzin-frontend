@@ -79,7 +79,7 @@ const MainNavigator = ({ type }: any) => {
     }, [searchParams, router, filters])
 
     if (!isUserAuth) {
-        return <NoAuthComponent/>
+        return <NoAuthSearchBarComponent/>
     }
 
     return (
@@ -200,18 +200,20 @@ const TagItem = ({ title, onClick }) => {
 }
 
 
-const NoAuthComponent = () => {
-    return <div className=' fixed bg-orange-500 rounded-[60px] bottom-12 py-4 px-4 right-32 left-32 mx-auto flex items-center w-fit flex-wrap'>
-    <div className=' mr-3 flex justify-center'>
-        <img src="/images/assets/checkSearchBar.svg" alt="" />
-    </div>
-    <div className=' flex-col flex mr-20 justify-center'>
-        <h1 className=' text-orange-50 font-bold text-base'>Join the Dipzin Community Today</h1>
-        <p className=' text-orange-50 font-medium text-sm'>Find, Share, and Create Digital Inspiration.</p>
+const NoAuthSearchBarComponent = () => {
+    return <div className=' fixed bg-orange-500 rounded-[60px] bottom-12 py-4 px-4 right-32 left-32 mx-auto flex items-center w-fit flex-wrap gap-x-20 gap-y-2'>
+    <div className='flex justify-center gap-x-3 mx-auto flex-wrap'>
+        <div className=''>
+            <img src="/images/assets/checkSearchBar.svg" alt="" />
+        </div>
+        <div className=' flex-col'>
+            <h1 className=' text-orange-50 font-bold text-xs md:text-sm lg:text-base '>Join the Dipzin Community Today</h1>
+            <p className=' text-orange-50 font-medium text-xs md:text-sm '>Find, Share, and Create Digital Inspiration.</p>
+        </div>
     </div>
     <div className=' flex gap-2 mx-auto flex-wrap justify-center'>
-        <Link href='/access' className=' w-fit bg-orange-400 py-2 px-8 text-orange-100 rounded-3xl'>LogIn</Link>
-        <Link href='/pricing' className='w-fit bg-orange-100 py-2 px-8 text-orange-600 rounded-3xl'>Try it free</Link>
+        <Link href='/access' className=' w-fit bg-orange-400 py-2 px-2 text-orange-100 rounded-3xl md:px-4 lg:px-8 text-xs md:text-sm lg:text-base'>LogIn</Link>
+        <Link href='/pricing' className='w-fit bg-orange-100 py-2 px-2 text-orange-600 rounded-3xl md:px-4 lg:px-8 text-xs md:text-sm lg:text-base'>Try it free</Link>
     </div>
 </div>
 }
