@@ -6,6 +6,7 @@ import OtpAccessComponent from "@/components/OtpAccessComponent";
 import { toast } from "react-hot-toast";
 
 const Otp: FC = () => {
+
   const otpStringLength = 6
   const searchParams = useSearchParams();
     const router = useRouter();
@@ -22,38 +23,10 @@ const Otp: FC = () => {
         setDisabelButton(true);
       }
     }, [otp])
-  
-  const handleClick = async () => {
-    setDisabelButton(true);
-    setFailedMessage(false);
-    const data = await verifyOtp(email, otp);
-    const { token } = await data.json();
-    if (token) {
-      setToken(token);
-      if (data.status === 200) {
-        router.push("/");
-      } else {
-        router.push("/account");
-      }
-    } else {
-      toast.error("invalid code , you can resend after 30 seconds", {
-        style: {
-          backgroundColor: "orange",
-          color: "white",
-        },
-      });
-      setTimeout(() => {
-        setFailedMessage(true);
-        setDisabelButton(false);
-      }, 30000);
-    }
-  };
 
-  const handleResend = async () => {
-    SignIn(email);
-    setFailedMessage(false);
-  };
-  return <OtpAccessComponent handleResend={handleResend} setOtp={setOtp} handleClick={handleClick} failedMessage={failedMessage} disabelButton={disabelButton} />
+  
+  return <OtpAccessComponent />
+
 };
 
 export default Otp;
