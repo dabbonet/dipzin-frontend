@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useDialog } from "@/context/useDialog";
 import SparkleButton from "@/ui/SparkleButton";
 import AccessComponent from "./AccessComponent";
+import { getUser } from "@/lib/auth";
 
 
 function formatTime(seconds: number): string {
@@ -14,7 +15,16 @@ function formatTime(seconds: number): string {
 
 
 export const AccessOrUpgradeCard = () => {
-  if (localStorage.getItem('token')) { 
+  const [isUserAuth, setisUserAuth] = useState(false)
+  useEffect(() => {
+    async function isUserAuthenticated() {
+      if (await getUser()) { 
+        setisUserAuth(true);
+      }
+    }
+    isUserAuthenticated()
+  },[])
+  if (isUserAuth) { 
     return  <UpgradeMemberCard/>
   }
   return <AccessCard/>

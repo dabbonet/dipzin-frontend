@@ -94,8 +94,8 @@ export const SignOut = () => {
 
 type SignInParams = {
   email: string,
-  referralToken?: any,
-  invitationToken?: any,
+  referralToken?: string,
+  invitationToken?: string,
 }
 
 export async function SignIn({ email, referralToken, invitationToken }:SignInParams) {
