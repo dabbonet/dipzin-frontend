@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FC,  useEffect, useRef, useState } from "react";
+import { FC,  useEffect, useState } from "react";
 import { cn, getAssetsURL } from "@/lib/utils";
 import Screen from "@/ui/Screen";
 import Icons from "../Icons";
@@ -7,6 +7,8 @@ import { copyImagesToClipboard } from "@/lib/ImageCopier";
 import toast from "react-hot-toast";
 import { downloadImage } from "@/lib/ImageDownloader";
 import { useSelcetedImages } from "@/lib/SelectedToDownload";
+import { useDialog } from "@/context/useDialog";
+import { getUser } from "@/lib/auth";
 
 interface SingleScreenProps {
   screen: any;
