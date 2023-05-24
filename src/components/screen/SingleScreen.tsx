@@ -163,7 +163,20 @@ const Actions = ({ screen: screen }) => {
 };
 
 const MenuDropdown = ({ screen: screen }) => {
+  const {setVisible , setVisibleNoAuth} = useDialog()
   const image = mergeScreenUrl(screen);
+  const downloadScreen = async() => {
+    const isUserAuth = await getUser()
+
+    if (isUserAuth) {
+      setVisible(true)
+      setTimeout(() => {
+        image && downloadImage("image " + screen.attributes.order, image);
+      },5000)
+      return
+    }
+    setVisibleNoAuth(true);
+  }
   return (
     <div className="absolute top-16 right-4 bg-slate-900 py-[16px] w-[14rem] z-50 px-3 rounded-xl invisible group-hover/item:visible">
       <DropdownCell
@@ -175,9 +188,7 @@ const MenuDropdown = ({ screen: screen }) => {
         <span className="font-medium text-slate-100 text-sm">Copy PNG</span>
       </DropdownCell>
       <DropdownCell
-        onClick={async () => {
-          image && downloadImage("image " + screen.attributes.order, image);
-        }}
+        onClick={downloadScreen}
       >
         <Icons.Download className="w-5 h-5" />
         <span className="font-medium text-slate-100 text-sm">Download PNG</span>

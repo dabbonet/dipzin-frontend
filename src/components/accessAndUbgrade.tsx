@@ -62,11 +62,19 @@ const AccessCard = () => {
 
 const UpgradeMemberCard = () => {
   const [show, setShow] = useState<boolean>(false)
-  const { counter, visible } = useDialog();
+  const { counter, visible , setCounter } = useDialog();
 
   useEffect(() => {
     visible && setShow(visible)
   }, [visible])
+
+  const onCloseFunction = () => {
+    const baseCounter = 5
+    if (!visible) {
+      setShow(false)
+      setCounter(baseCounter)
+    } 
+  }
 
   if (!show) return
   return (
@@ -86,9 +94,7 @@ const UpgradeMemberCard = () => {
           </div>
 
           <button
-            onClick={() => {
-              if (!visible) setShow(false)
-            }}
+            onClick={onCloseFunction}
             className={cn(visible ? 'text-slate-700 pointer-events-none' : 'text-slate-100 hover:text-orange-500')}
           >
             <Icons.XCircle className='w-6 h-6' />
