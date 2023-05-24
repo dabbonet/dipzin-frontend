@@ -5,10 +5,8 @@ import SoonToast from "@/components/SoonToast";
 import { ImageDownloader } from "@/lib/ImageDownloader";
 import { FC } from "react";
 import toast from "react-hot-toast";
+import {navigatorProps} from "@/lib/types/appactions";
 
-interface navigatorProps {
-  app: any;
-}
 
 const AppActions: FC<navigatorProps> = ({ app }) => {
   if (app) {
@@ -27,6 +25,9 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
       return (
         <ActionBar className="flex flex-col fixed right-10 top-[32%] w-auto h-auto">
           <SquareButton
+
+            onClick={handleLikeApp}
+
           >
             <SquareButton.Title>Like App</SquareButton.Title>
             <SquareButton.Icon>
@@ -137,4 +138,6 @@ const showAppStoreLink = (app) => {
     </SquareButton.Icon>
   </SquareButton>
   }
+
 }
+
