@@ -92,7 +92,13 @@ export const SignOut = () => {
   return;
 };
 
-export async function SignIn({ email, referralToken, invitationToken }) {
+type SignInParams = {
+  email: string,
+  referralToken?: string,
+  invitationToken?: string,
+}
+
+export async function SignIn({ email, referralToken, invitationToken }:SignInParams) {
   const req = await fetch("/api/user/generate", {
     method: "POST",
     headers: {
@@ -113,22 +119,6 @@ export async function SignIn({ email, referralToken, invitationToken }) {
 }
 
 export async function verifyOtp(email: string, otp: number) {
-  // const req = await fetch("/api/user/verify", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     data: {
-  //       email,
-  //       otp,
-  //     },
-  //   }),
-  // });
-  // if (!req.ok) return { message: "something went wrong 1", status: 404 };
-  // const data = await req.json();
-
-  // return data;
   return fetch("/api/user/verify", {
     method: "POST",
     headers: {

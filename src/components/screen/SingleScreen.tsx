@@ -19,10 +19,11 @@ const mergeScreenUrl = (data) =>
     : data;
 
 const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
-  // const src = screen.attributes ? screen?.attributes.screen.data?.attributes.hash + screen?.attributes.screen.data?.attributes.ext : screen
-  const {id} = screen
+  
+
+  const { id } = screen
   const { selectedImages, setSelectedImages } = useSelcetedImages();
-  const ref = useRef();
+
   useEffect(() => {
     
     if (selectedImages.includes(id)) {
@@ -35,20 +36,21 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
   // TODO: Checked here should be working with the select images context.
   // Keep in mind that react-virtoso is removing the checkmark on scroll.
   const [checked, setChecked] = useState(false);
-    const addToChecked = (e) => {
-
+  const addToChecked =  () => {
     setChecked(!checked);
-    if (!selectedImages.includes(id)) {
-      setSelectedImages((prev) => [...prev, id]);
+    const selectedImagesIDS = selectedImages.map(el => el.id)
+    if (!selectedImagesIDS.includes(id)) {
+      setSelectedImages((prev) => [...prev, screen]);
     } else {
       setSelectedImages((prev) => {
-        return prev.filter((el) => el !== id);
+        return prev.filter((el) => el.id !== id);
       });
       return
     }
     if (selectedImages.length >= 5) {
       setChecked(false);
       setSelectedImages((prev) => prev.slice(0, 5));
+      toast.remove();
       return toast.error("you cannot download more than 5 images");
     }
   };
@@ -64,7 +66,6 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
       className="flex justify-center items-center relative group/item"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      ref={ref}
     >
       <motion.div
         layout
@@ -74,9 +75,8 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
           transition: { duration: 0.3 },
         }}
       >
-        {/* Checkbox -  Screen */}
         <motion.div
-          onClick={(e) => addToChecked(e)}
+          onClick={() => addToChecked()}
           animate={{ scale: checked ? 1.1 : 1 }}
           className={cn(
             "absolute top-4 left-4 group/copy h-9 w-9 border-4 border-slate-200 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible",
