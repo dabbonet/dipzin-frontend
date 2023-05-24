@@ -23,6 +23,7 @@
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "framer-motion": "^10.12.10",
+    "google-one-tap": "^1.0.6",
     "jszip": "^3.10.1",
     "lucide-react": "^0.216.0",
     "next": "13.4.2",
@@ -32,7 +33,6 @@
     "react-auth-code-input": "^3.2.1",
     "react-countdown-circle-timer": "^3.2.1",
     "react-dom": "18.2.0",
-    "react-google-one-tap-login": "^0.1.1",
     "react-hot-toast": "^2.4.1",
     "react-use-measure": "^2.1.1",
     "react-virtuoso": "^4.3.6"
