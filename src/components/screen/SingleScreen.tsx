@@ -7,8 +7,6 @@ import { copyImagesToClipboard } from "@/lib/ImageCopier";
 import toast from "react-hot-toast";
 import { downloadImage } from "@/lib/ImageDownloader";
 import { useSelcetedImages } from "@/lib/SelectedToDownload";
-import { getUser } from "@/lib/auth";
-import { useDialog } from "@/context/useDialog";
 
 interface SingleScreenProps {
   screen: any;
@@ -21,8 +19,7 @@ const mergeScreenUrl = (data) =>
     : data;
 
 const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
-  // const src = screen.attributes ? screen?.attributes.screen.data?.attributes.hash + screen?.attributes.screen.data?.attributes.ext : screen
-  // console.log(screen)
+  
 
   const { id } = screen
   const { selectedImages, setSelectedImages } = useSelcetedImages();
@@ -78,7 +75,6 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
           transition: { duration: 0.3 },
         }}
       >
-        {/* Checkbox -  Screen */}
         <motion.div
           onClick={() => addToChecked()}
           animate={{ scale: checked ? 1.1 : 1 }}
