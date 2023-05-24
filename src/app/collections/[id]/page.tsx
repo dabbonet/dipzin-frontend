@@ -9,13 +9,12 @@ const page = () => {
     buttonStyle1 = 'bg-slate-700'
     buttonStyle2 = ''
   } else {
-    console.log('fffffffffffffffffff')
     buttonStyle1 = ''
     buttonStyle2 = 'bg-slate-700'
   }
   return (
     <>
-      <AppActions/>
+      <AppActions isFromCollection/>
       <div className=' mt-20'>
         {/* header */}
         <div className=' flex justify-between items-center'>
