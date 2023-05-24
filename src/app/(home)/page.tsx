@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast"
 import googleOneTap from 'google-one-tap';
 import { useRouter } from "next/navigation";
 const options = {
-	client_id: '652241927504-ti2o2h9q70j22g9h1pag8d6r259vksrb.apps.googleusercontent.com', 
+	client_id: '', 
 	auto_select: false, 
 	cancel_on_tap_outside: false, 
 	context: 'signin', 
