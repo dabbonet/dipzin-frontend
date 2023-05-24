@@ -278,7 +278,7 @@ const CreateCollection = () => {
   );
 };
 
-const DropdownCell = ({ children, className, onClick, props }: any) => {
+export const DropdownCell = ({ children, className, onClick, props }: any) => {
   return (
     <div
       className={cn(
