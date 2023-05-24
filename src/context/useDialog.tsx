@@ -2,9 +2,9 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 
 
-const DialogContext = createContext(
-    null
-);
+
+const DialogContext = createContext(null);
+
 
 
 export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
@@ -45,20 +45,22 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
 
 
     useEffect(() => {
-        let timer: NodeJS.Timeout | undefined;
-        if (visible && counter > 0) {
-            timer = setTimeout(() => {
-                setCounter((prevCounter) => prevCounter - 1);
-            }, counter * 1000);
-        } else if (counter === 0) {
-            setVisible(false);
-        }
-
-        return () => {
-            if (timer) {
-                clearTimeout(timer);
+        if (!incremental) {
+            let timer: NodeJS.Timeout | undefined;
+            if (visible && counter > 0) {
+                timer = setTimeout(() => {
+                    setCounter((prevCounter) => prevCounter - 1);
+                }, 1000);
+            } else if (counter === 0) {
+                setVisible(false);
             }
-        };
+    
+            return () => {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+            };
+        }
     }, [visible, counter]);
 
     return (
@@ -70,6 +72,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
                 setVisibleNoAuth,
                 times,
                 counter,
+                setCounter,
                 setTimes,
                 setIncremental,
             }}
