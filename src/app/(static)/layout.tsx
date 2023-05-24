@@ -5,6 +5,7 @@ import '../globals.css'
 import { Outfit } from 'next/font/google'
 import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
+import { AccessOrUpgradeCard } from '@/components/accessAndUbgrade';
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
@@ -41,6 +42,7 @@ export default function RootLayout({
       <body className={cn('bg-fixed bg-gradient-to-tr from-slate-200 to-slate-300 dark:from-slate-950 dark:to-slate-950 min-h-screen w-full h-screen overflow-x-clip')}>
         <Providers>
           <Navbar />
+          <AccessOrUpgradeCard/>
           <main className='pt-24 max-w-full mx-10'>
             {children}
           </main>

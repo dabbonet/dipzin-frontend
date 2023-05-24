@@ -11,6 +11,7 @@ import Providers from '@/components/Providers';
 import Banner from '@/components/Banner';
 import HomeNavigator from '@/components/HomeNavigator';
 import MainNavigator from '@/components/navigator/main/main';
+import { AccessOrUpgradeCard } from '@/components/accessAndUbgrade';
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
@@ -48,6 +49,7 @@ export default function RootLayout({
       <body className={cn('bg-fixed bg-gradient-to-tr from-slate-200 to-slate-300 dark:from-slate-950 dark:to-slate-950 min-h-screen w-full h-screen')}>
         <Providers>
           <Navbar />
+          <AccessOrUpgradeCard />
           <main className='pt-24 max-w-[82%]  mx-auto'>
             <Banner />
             <HomeNavigator />

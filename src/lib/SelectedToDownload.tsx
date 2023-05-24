@@ -3,10 +3,10 @@ import { createContext, useContext, useEffect, useState } from "react";
 const SelectedImagesContext = createContext(null!);
 
 const SelectedProvider = ({ children }) => {
-  const [selectedImages, setSelectedImages] = useState<number[]>([]);
+  const [selectedImages, setSelectedImages] = useState([null]);
   useEffect(() => {
-    if (selectedImages.includes(NaN)) {
-      setSelectedImages(selectedImages.filter((el) => !Number.isNaN(el)));
+    if (selectedImages.includes(null)) {
+      setSelectedImages(selectedImages.filter((el) => el !== null));
     }
   }, [selectedImages]);
 

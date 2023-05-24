@@ -25,7 +25,9 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
       return (
         <ActionBar className="flex flex-col fixed right-10 top-[32%] w-auto h-auto">
           <SquareButton
+
             onClick={handleLikeApp}
+
           >
             <SquareButton.Title>Like App</SquareButton.Title>
             <SquareButton.Icon>
@@ -136,4 +138,6 @@ const showAppStoreLink = (app) => {
     </SquareButton.Icon>
   </SquareButton>
   }
+
 }
+
