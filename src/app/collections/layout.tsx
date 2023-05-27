@@ -1,19 +1,11 @@
 
-
-
 import Navbar from '@/components/Navbar'
-// import Footer from '@/components/Footer';
 import { Background1 } from '@/ui/Backgrounds'
 import '../globals.css'
 import { Outfit } from 'next/font/google'
 import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
-import Banner from '@/components/Banner';
-import HomeNavigator from '@/components/HomeNavigator';
 import MainNavigator from '@/components/navigator/main/main';
-
-import { AccessOrUpgradeCard } from '@/components/accessAndUbgrade';
-
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
@@ -22,14 +14,14 @@ export const metadata = {
   description: 'Your Go-To Source for digital inspiration.',
   twitter: {
     card: 'summary_large_image',
-    images: ['https://dipzin.s3.us-east-1.amazonaws.com/opengraph_image_c497db254d.jpg'],
+    images: ['https://dipzinapplications.s3.us-west-1.amazonaws.com/opengraph_image_c497db254d.jpg'],
   },
   openGraph: {
     url: 'https://dev.dipzin.com',
     siteName: 'Dipzin',
     images: [
       {
-        url: 'https://dipzin.s3.us-east-1.amazonaws.com/opengraph_image_c497db254d.jpg',
+        url: 'https://dipzinapplications.s3.us-west-1.amazonaws.com/opengraph_image_c497db254d.jpg',
         width: 800,
         height: 600,
       },
@@ -51,12 +43,7 @@ export default function RootLayout({
       <body className={cn('bg-fixed bg-gradient-to-tr from-slate-200 to-slate-300 dark:from-slate-950 dark:to-slate-950 min-h-screen w-full h-screen')}>
         <Providers>
           <Navbar />
-
-          <AccessOrUpgradeCard />
-
           <main className='pt-24 max-w-[82%]  mx-auto'>
-            <Banner />
-            <HomeNavigator />
             {children}
             <MainNavigator />
           </main>

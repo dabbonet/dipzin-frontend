@@ -8,33 +8,28 @@ import { ImageDownloader } from "@/lib/ImageDownloader";
 import { useSelcetedImages } from "@/lib/SelectedToDownload";
 import { FC } from "react";
 import toast from "react-hot-toast";
+import {navigatorProps} from "@/lib/types/appactions";
 
-interface navigatorProps {
-  app: any;
-}
 
-const AppActions: FC<navigatorProps> = ({ app }) => {
+const AppActions: FC<navigatorProps> = ({ app, isFromCollection }) => {
   const {setVisibleNoAuth , setVisible} = useDialog()
-  const {selectedImages} = useSelcetedImages()
-  const screensArray =  selectedImages.map(screen => screen?.attributes?.screen?.data?.attributes?.hash + screen?.attributes?.screen?.data?.attributes?.ext) || app.screens.data.map(
+  const { selectedImages } = useSelcetedImages()
+  const platform = app?.platform.data.attributes.name.toLowerCase() ?? null
+  const screensArray =  selectedImages.map(screen => screen?.attributes?.screen?.data?.attributes?.hash + screen?.attributes?.screen?.data?.attributes?.ext) || app?.screens.data.map(
     (screen) =>
       screen.attributes.screen.data.attributes.hash +
-      screen.attributes.screen.data.attributes.ext
-  )
-
-  const platform = app.platform.data.attributes.name.toLowerCase();
-
-  if (!platform || !screensArray || !app) {
-    return <h1>app not found</h1>
-  }
-
+      screen.attributes.screen.data.attributes.ext) 
+  
   const bulkDownloadImages = async () => {
+    if (isFromCollection) {
+      return 
+    }
     const isUserAuth = await getUser()
 
     if (isUserAuth) {
       setVisible(true)
       setTimeout(() => {
-        ImageDownloader(app.name + " Screens", screensArray);
+        handleDownloadImages(app , screensArray)
       },5000)
       return
     }
@@ -44,10 +39,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
   return (
     <ActionBar className="flex flex-col fixed right-10 top-[32%] w-auto h-auto">
       <SquareButton
-        onClick={() => {
-          toast.remove();
-          toast.custom(<SoonToast />, { duration: 2000 });
-        }}
+        onClick={handleLikeApp}
       >
         <SquareButton.Title>Like App</SquareButton.Title>
         <SquareButton.Icon>
@@ -55,30 +47,9 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
         </SquareButton.Icon>
       </SquareButton>
 
-      {app.store_link && (
-        <SquareButton
-          onClick={() => {
-            window.open(app.store_link, "_blank", "noreferrer");
-          }}
-        >
-          <SquareButton.Title className="w-[70%]">App Store</SquareButton.Title>
-          <SquareButton.Icon>
-            <Icons.Apple />
-          </SquareButton.Icon>
-        </SquareButton>
-      )}
+      {showAppStoreLink(app)}
 
-      {/* TODO: Add Save When Collections is Done. */}
-      {/* <SquareButton>
-                <SquareButton.Title>Save</SquareButton.Title>
-                <SquareButton.Icon>
-                    <Icons.Save />
-                </SquareButton.Icon>
-            </SquareButton> */}
-
-      <SquareButton
-        onClick={bulkDownloadImages}
-      >
+      <SquareButton onClick={bulkDownloadImages}>
         <SquareButton.Title className="w-[80%]">
           Bulk Download
         </SquareButton.Title>
@@ -88,12 +59,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
       </SquareButton>
 
       <SquareButton
-        onClick={() => {
-          navigator.clipboard.writeText(
-            window.location.origin + "/app/" + platform + "/" + app.slug //need fix
-          );
-          toast.success("App Link Copied.");
-        }}
+        onClick={()=> handleCopyLink(app , platform)}
       >
         <SquareButton.Title className="w-[70%]">Copy Link</SquareButton.Title>
         <SquareButton.Icon>
@@ -105,3 +71,43 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
 };
 
 export default AppActions;
+
+
+const handleLikeApp = () => {
+  toast.remove();
+  toast.custom(<SoonToast />, { duration: 2000 });
+}
+// hanlde open the app on app store
+const handleAppStore = (app) => {
+  window.open(app.store_link, "_blank", "noreferrer");
+}
+const handleDownloadImages = (app , screensArray) => {
+  ImageDownloader(app.name + " Screens", screensArray);
+}
+const handleCopyLink = (app, platform) => { 
+  if (!app) {
+    return 
+  }
+  navigator.clipboard.writeText(
+    window.location.origin + "/app/" + platform + "/" + app.slug 
+  );
+  toast.success("App Link Copied.");
+}
+
+const showAppStoreLink = (app) => {
+  if (app?.store_link) {
+    return <SquareButton
+    onClick={()=>handleAppStore(app)}
+  >
+    <SquareButton.Title className="w-[70%]">
+      App Store
+    </SquareButton.Title>
+    <SquareButton.Icon>
+      <Icons.Apple />
+    </SquareButton.Icon>
+  </SquareButton>
+  }
+
+}
+
+

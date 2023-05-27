@@ -21,8 +21,7 @@ const mergeScreenUrl = (data) =>
     : data;
 
 const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
-  // const src = screen.attributes ? screen?.attributes.screen.data?.attributes.hash + screen?.attributes.screen.data?.attributes.ext : screen
-  // console.log(screen)
+
 
   const { id } = screen
   const { selectedImages, setSelectedImages } = useSelcetedImages();
@@ -78,7 +77,6 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
           transition: { duration: 0.3 },
         }}
       >
-        {/* Checkbox -  Screen */}
         <motion.div
           onClick={() => addToChecked()}
           animate={{ scale: checked ? 1.1 : 1 }}
@@ -293,7 +291,7 @@ const CreateCollection = () => {
   );
 };
 
-const DropdownCell = ({ children, className, onClick, props }: any) => {
+export const DropdownCell = ({ children, className, onClick, props }: any) => {
   return (
     <div
       className={cn(

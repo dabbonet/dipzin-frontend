@@ -6,6 +6,9 @@ import { useDialog } from "@/context/useDialog";
 import SparkleButton from "@/ui/SparkleButton";
 import AccessComponent from "./AccessComponent";
 
+import { getUser } from "@/lib/auth";
+
+
 
 function formatTime(seconds: number): string {
   const secs = (seconds % 60).toString().padStart(2, '0');
@@ -14,7 +17,18 @@ function formatTime(seconds: number): string {
 
 
 export const AccessOrUpgradeCard = () => {
-  if (localStorage.getItem('token')) { 
+
+  const [isUserAuth, setisUserAuth] = useState(false)
+  useEffect(() => {
+    async function isUserAuthenticated() {
+      if (await getUser()) { 
+        setisUserAuth(true);
+      }
+    }
+    isUserAuthenticated()
+  },[])
+  if (isUserAuth) { 
+
     return  <UpgradeMemberCard/>
   }
   return <AccessCard/>
@@ -52,11 +66,14 @@ const AccessCard = () => {
 
 const UpgradeMemberCard = () => {
   const [show, setShow] = useState<boolean>(false)
+
   const { counter, visible , setCounter } = useDialog();
+
 
   useEffect(() => {
     visible && setShow(visible)
   }, [visible])
+
 
   const onCloseFunction = () => {
     const baseCounter = 5
@@ -84,7 +101,11 @@ const UpgradeMemberCard = () => {
           </div>
 
           <button
-            onClick={onCloseFunction}
+
+            onClick={() => {
+              if (!visible) setShow(false)
+            }}
+
             className={cn(visible ? 'text-slate-700 pointer-events-none' : 'text-slate-100 hover:text-orange-500')}
           >
             <Icons.XCircle className='w-6 h-6' />

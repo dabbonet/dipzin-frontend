@@ -3,7 +3,9 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 
 
+
 const DialogContext = createContext(null);
+
 
 
 export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
@@ -15,6 +17,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     const [visibleNoAuth, setVisibleNoAuth] = useState<boolean>(false);
 
 
+
     useEffect(() => {
         async function checkIfUserAuthenticated() {
             const user = await getUser();
@@ -24,9 +27,8 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
         }
         checkIfUserAuthenticated();
     },[])
+=
 
-
-    // Change visibility based on times
     useEffect(() => {
         if (times > 0) {
             setVisible(true);
@@ -36,14 +38,14 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     }, [times]);
 
 
-    // If incremental set/change calc new counter value
+
     useEffect(() => {
         if (incremental) {
             const group = Math.floor(times / 3);
             const additionalTime = 5 * group;
             const newCounter = baseCounter + additionalTime;
 
-            // Limit counter to a maximum of 30
+
             if (newCounter > 30) {
                 setCounter(30);
             } else {
@@ -53,7 +55,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     }, [incremental, times]);
 
 
-    // Control visability of the dialog based on the counter time.
+
     useEffect(() => {
 
             let timer: NodeJS.Timeout | undefined;

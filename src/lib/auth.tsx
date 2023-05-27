@@ -92,7 +92,13 @@ export const SignOut = () => {
   return;
 };
 
-export async function SignIn({ email, referralToken, invitationToken }) {
+type SignInParams = {
+  email: string,
+  referralToken?: string,
+  invitationToken?: string,
+}
+
+export async function SignIn({ email, referralToken, invitationToken }:SignInParams) {
   const req = await fetch("/api/user/generate", {
     method: "POST",
     headers: {
