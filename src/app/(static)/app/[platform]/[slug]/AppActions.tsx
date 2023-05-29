@@ -137,14 +137,14 @@ const handleCopyLink = (app , platform) => {
 const showAppStoreLink = (app) => {
   if (app?.store_link) {
     return <SquareButton
-    onClick={()=>handleAppStore(app)}
-  >
-    <SquareButton.Title className="w-[70%]">
-      App Store
-    </SquareButton.Title>
-    <SquareButton.Icon>
-      <Icons.Apple />
-    </SquareButton.Icon>
-  </SquareButton>
+      onClick={() => handleAppStore(app)}
+    >
+      <SquareButton.Title className="w-[70%]">
+        App Store
+      </SquareButton.Title>
+      <SquareButton.Icon>
+        <Icons.Apple />
+      </SquareButton.Icon>
+    </SquareButton>
   }
-
+}
