@@ -16,7 +16,6 @@ type props = {
 
 const OtpAccessComponent = ({email}:props) => {
   const path = usePathname()
-  console.log(path);
   const [otp, setOtp] = useState<number>();
   const [failedMessage, setFailedMessage] = useState(false);
   const [disabelButton, setDisabelButton] = useState(false);

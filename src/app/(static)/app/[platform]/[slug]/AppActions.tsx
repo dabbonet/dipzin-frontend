@@ -2,11 +2,8 @@
 import { ActionBar, SquareButton } from "@/components/ActionBar";
 import Icons from "@/components/Icons";
 import SoonToast from "@/components/SoonToast";
-import { useDialog } from "@/context/useDialog";
-import { getUser } from "@/lib/auth";
 import { ImageDownloader } from "@/lib/ImageDownloader";
 
-import { useSelcetedImages } from "@/lib/SelectedToDownload";
 
 import { FC } from "react";
 import toast from "react-hot-toast";
@@ -31,7 +28,10 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
       return (
         <ActionBar className="flex flex-col fixed right-10 top-[32%] w-auto h-auto">
           <SquareButton
+
+
             onClick={handleLikeApp}
+
           >
             <SquareButton.Title>Like App</SquareButton.Title>
             <SquareButton.Icon>
@@ -68,22 +68,8 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
       );
     }
 
+
   }
-
-
-  const bulkDownloadImages = async () => {
-    const isUserAuth = await getUser()
-
-    if (isUserAuth) {
-      setVisible(true)
-      setTimeout(() => {
-        ImageDownloader(app.name + " Screens", screensArray);
-      },8000)
-      return
-    }
-    setVisibleNoAuth(true);
-  }
-
 
   return (
     <ActionBar className="flex flex-col fixed right-10 top-[32%] w-auto h-auto">
@@ -102,17 +88,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
       {showAppStoreLink(app)}
 
 
-      {/* TODO: Add Save When Collections is Done. */}
-      {/* <SquareButton>
-                <SquareButton.Title>Save</SquareButton.Title>
-                <SquareButton.Icon>
-                    <Icons.Save />
-                </SquareButton.Icon>
-            </SquareButton> */}
-
-      <SquareButton
-        onClick={bulkDownloadImages}
-      >
+      <SquareButton onClick={() => {}}>
 
         <SquareButton.Title className="w-[80%]">
           Bulk Download
@@ -171,4 +147,4 @@ const showAppStoreLink = (app) => {
     </SquareButton.Icon>
   </SquareButton>
   }
-}
+
