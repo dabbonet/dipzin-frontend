@@ -17,7 +17,7 @@ const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
     if (appName && screen) {
       const screenName = screen.attributes.screen.data.attributes
       if (screenName) {
-        if (appName && screen?.attributes?.order) {
+        if (appName || screen?.attributes?.order) {
           const name = screenName.hash + screenName.ext;
           return <SquareButton
           onClick={() => {
