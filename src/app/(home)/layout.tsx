@@ -12,6 +12,7 @@ import Banner from '@/components/Banner';
 import HomeNavigator from '@/components/HomeNavigator';
 import MainNavigator from '@/components/navigator/main/main';
 import { AccessOrUpgradeCard } from '@/components/accessAndUbgrade';
+import GoogleOneTap from '@/components/GoogleOneTap';
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
@@ -51,10 +52,12 @@ export default function RootLayout({
           <Navbar />
           <AccessOrUpgradeCard />
           <main className='pt-24 max-w-[82%]  mx-auto'>
-            <Banner />
-            <HomeNavigator />
-            {children}
-            <MainNavigator />
+            <GoogleOneTap>
+              <Banner />
+              <HomeNavigator />
+              {children}
+              <MainNavigator />
+            </GoogleOneTap>
           </main>
           {/* <Footer /> */}
           <Background1 />
