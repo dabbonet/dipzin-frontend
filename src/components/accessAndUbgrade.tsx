@@ -41,9 +41,8 @@ export const AccessOrUpgradeCard = () => {
   if (isUserAuth) { 
     return  <UpgradeMemberCard/>
   }
-  return <div ref={ref} className="z-[100] fixed w-full h-full">
-      <AccessCard/>
-    </div>
+  return <AccessCard/>
+    
 }
 
 
