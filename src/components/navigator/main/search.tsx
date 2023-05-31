@@ -10,6 +10,7 @@ import ResultIcon from './ResultIcon'
 import { useContentDiscovery } from "@/context/useContentDiscovery"
 import Icons from "@/components/Icons"
 import { useRouter, useSearchParams } from "next/navigation"
+import { useDialog } from "@/context/useDialog"
 
 
 const Search = () => {
@@ -137,6 +138,7 @@ export default Search
 const PreviewCard = ({ selected }: any) => {
 
     //TODO: Show App Icon 
+    const {setVisible} = useDialog()
     const [showcase, setShowcase] = useState<any>([]);
     const { setSearchKeyword, setFilters } = useContentDiscovery();
     const router = useRouter();
@@ -180,7 +182,10 @@ const PreviewCard = ({ selected }: any) => {
             router.push('/search?' + params)
         } else {
             link = `/app/${platName}/${selected.slug}`
-            router.push(link)
+            setVisible(true)
+            setTimeout(() => {
+                router.push(link)
+            }, 5000);
         }
 
 

@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import Icons from "./Icons";
 import { cn } from "@/lib/utils";
 import { useDialog } from "@/context/useDialog";
@@ -16,6 +16,7 @@ function formatTime(seconds: number): string {
 
 export const AccessOrUpgradeCard = () => {
   const [isUserAuth, setisUserAuth] = useState(false)
+  const ref = useRef()
   useEffect(() => {
     async function isUserAuthenticated() {
       if (await getUser()) { 
@@ -23,11 +24,26 @@ export const AccessOrUpgradeCard = () => {
       }
     }
     isUserAuthenticated()
-  },[])
+  }, [])
+  let in_dom = document.body.contains(ref.current);
+  let observer = new MutationObserver(()=> {
+    if (document.body.contains(ref.current)) {
+        if (!in_dom) {
+            console.log("element inserted");
+        }
+        in_dom = true;
+    } else if (in_dom) {
+        in_dom = false;
+        window.location.reload()
+    }
+  });
+  observer.observe(document.body, {childList: true});
   if (isUserAuth) { 
     return  <UpgradeMemberCard/>
   }
-  return <AccessCard/>
+  return <div ref={ref} className="z-[100] fixed w-full h-full">
+      <AccessCard/>
+    </div>
 }
 
 
@@ -60,7 +76,7 @@ const AccessCard = () => {
 
 
 
-const UpgradeMemberCard = () => {
+const UpgradeMemberCard = ({}) => {
   const [show, setShow] = useState<boolean>(false)
   const { counter, visible , setCounter } = useDialog();
 

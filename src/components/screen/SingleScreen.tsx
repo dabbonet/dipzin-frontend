@@ -22,7 +22,7 @@ const mergeScreenUrl = (data) =>
 
 const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
   
-
+  const {setVisible , setVisibleNoAuth} = useDialog()
   const { id } = screen
   const { selectedImages, setSelectedImages } = useSelcetedImages();
 
@@ -38,7 +38,12 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
   // TODO: Checked here should be working with the select images context.
   // Keep in mind that react-virtoso is removing the checkmark on scroll.
   const [checked, setChecked] = useState(false);
-  const addToChecked =  () => {
+  const addToChecked = async () => {
+    const isUserAuth = await getUser()
+    if (!isUserAuth) {
+      setVisibleNoAuth(true)
+      return
+    }
     setChecked(!checked);
     const selectedImagesIDS = selectedImages.map(el => el.id)
     if (!selectedImagesIDS.includes(id)) {
@@ -167,13 +172,14 @@ const Actions = ({ screen: screen }) => {
 const MenuDropdown = ({ screen: screen }) => {
   const {setVisible , setVisibleNoAuth} = useDialog()
   const image = mergeScreenUrl(screen);
+  console.log(image)
   const downloadScreen = async() => {
     const isUserAuth = await getUser()
 
     if (isUserAuth) {
       setVisible(true)
       setTimeout(() => {
-        image && downloadImage("image " + screen.attributes.order, image);
+        image && downloadImage("image " + screen, image);
       },5000)
       return
     }
