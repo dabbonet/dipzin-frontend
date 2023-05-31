@@ -11,6 +11,7 @@ import { useContentDiscovery } from "@/context/useContentDiscovery"
 import Icons from "@/components/Icons"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useDialog } from "@/context/useDialog"
+import { setTimeout } from "timers"
 
 
 const Search = () => {
@@ -171,15 +172,21 @@ const PreviewCard = ({ selected }: any) => {
         setFilters({ categories: categoryList, tags: tagList })
         setSearchKeyword('')
         if (selected.type === 'tag') {
+            setVisible(true)
             !tagList.includes(name) && tagList.push(name)
             tags = tagList.join(',');
             params.set('tags', tags);
-            router.push('/search?' + params)
+            setTimeout(() => {
+                router.push('/search?' + params)
+            }, 5000);
         } else if (selected.type === 'category') {
+            setVisible(true)
             !categoryList.includes(name) && categoryList.push(name);
             categories = categoryList.join(',');
             params.set('categories', categories);
-            router.push('/search?' + params)
+            setTimeout(() => {
+                router.push('/search?' + params)
+            }, 5000);
         } else {
             link = `/app/${platName}/${selected.slug}`
             setVisible(true)
