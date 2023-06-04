@@ -16,7 +16,6 @@ function formatTime(seconds: number): string {
 
 export const AccessOrUpgradeCard = () => {
   const [isUserAuth, setisUserAuth] = useState(false)
-  const ref = useRef()
   useEffect(() => {
     async function isUserAuthenticated() {
       if (await getUser()) { 
@@ -25,6 +24,25 @@ export const AccessOrUpgradeCard = () => {
     }
     isUserAuthenticated()
   }, [])
+  if (isUserAuth) { 
+    return  <UpgradeMemberCard/>
+  }
+  return <AccessCard />
+    
+}
+
+
+const AccessCard = () => {
+  const ref = useRef()
+  const [show, setShow] = useState<boolean>(false)
+  const { visibleNoAuth } = useDialog();
+  useEffect(() => {
+    if (visibleNoAuth) {
+      setShow(true);
+    }else{
+      setShow(false);
+    }
+  }, [visibleNoAuth])
   let in_dom = document.body.contains(ref.current);
   let observer = new MutationObserver(()=> {
     if (document.body.contains(ref.current)) {
@@ -38,28 +56,9 @@ export const AccessOrUpgradeCard = () => {
     }
   });
   observer.observe(document.body, {childList: true});
-  if (isUserAuth) { 
-    return  <UpgradeMemberCard/>
-  }
-  return <AccessCard/>
-    
-}
-
-
-const AccessCard = () => {
-  
-  const [show, setShow] = useState<boolean>(false)
-  const { visibleNoAuth } = useDialog();
-  useEffect(() => {
-    if (visibleNoAuth) {
-      setShow(true);
-    }else{
-      setShow(false);
-    }
-  }, [visibleNoAuth])
   if (!show) return
   return (
-    <div className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-50">
+    <div ref={ref} className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-50">
       <div className=" w-fit h-fit bg-slate-900 bg-opacity-60 rounded-2xl px-16 py-20">
         <AccessComponent />
       </div>
@@ -75,7 +74,8 @@ const AccessCard = () => {
 
 
 
-const UpgradeMemberCard = ({}) => {
+const UpgradeMemberCard = ({ }) => {
+  const ref = useRef()
   const [show, setShow] = useState<boolean>(false)
   const { counter, visible , setCounter } = useDialog();
 
@@ -90,10 +90,22 @@ const UpgradeMemberCard = ({}) => {
       setCounter(baseCounter)
     } 
   }
-
+  let in_dom = document.body.contains(ref.current);
+  let observer = new MutationObserver(()=> {
+    if (document.body.contains(ref.current)) {
+        if (!in_dom) {
+            console.log("element inserted");
+        }
+        in_dom = true;
+    } else if (in_dom) {
+        in_dom = false;
+        window.location.reload()
+    }
+  });
+  observer.observe(document.body, {childList: true});
   if (!show) return
   return (
-    <div className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
+    <div ref={ref} className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
       <div className="max-w-2xl bg-slate-900 rounded-3xl p-10 flex flex-col gap-5">
         <div className="flex justify-between items-start">
 
