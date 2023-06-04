@@ -7,6 +7,7 @@ import Pills from "@/components/pricing/Pills";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { FC, useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 
 
 
@@ -15,29 +16,33 @@ const Account: FC = ({}) => {
   const buttonRef = useRef(null)
   const firstTime = searchParams.get('firstTime')
   const [userDetails, setUserDetails] = useState({
-    firstName: '',
-    userName: "",
+    name: '',
+    username: "",
     email: "",
     country: "",
     bio: "",
     image: null,
-    title: "",
+    job_title: "",
+    id: null
   })
   // get user details to display it
   useEffect(() => {
     async function getUserDetails() { 
       try {
-        const response = await fetch("example", {
-          method: "GET",
+        const response = await fetch("/api/account/info", {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
           },
+          body: JSON.stringify({
+            auth: localStorage.getItem('token')
+          })
         });
         const data = await response.json();
-        setUserDetails(data)
+        if(response.ok) setUserDetails(data.data)
       } catch (error) {
-        console.log(error);
+        toast.remove()
+        toast.error('error fetch data')
       }
     }
     getUserDetails();
@@ -48,7 +53,6 @@ const Account: FC = ({}) => {
     if (name === "image") {
       const reader = new FileReader();
       reader.onload = (e) => {
-        console.log(e.target.result)
         setUserDetails({
           ...userDetails,
           [name]: e.target.result
@@ -70,16 +74,32 @@ const Account: FC = ({}) => {
   const handlePost = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("example", {
+      const response = await fetch(`/api/account/update`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userDetails)
+        body: JSON.stringify({
+            auth: localStorage.getItem("token"),
+            id: userDetails.id,
+            username: userDetails.username,
+            country: userDetails.country,
+            bio:  userDetails.bio,
+            name: userDetails.name,
+            job_title: userDetails.job_title
+        })
       });
       const data = await response.json();
+      if (!response.ok) {
+        toast.remove()
+        toast.error(data.message)
+      } else {
+        toast.remove()
+        toast.success(data.message)
+      }
     } catch (error) {
-      console.log(error);
+      toast.remove()
+      toast.error('something went wrong')
     }
   }
   const FirstTimeHeader = () => {
@@ -94,19 +114,6 @@ const Account: FC = ({}) => {
         </p>
       </div>
     }
-  }
-  const UserNameInput = () => {
-  
-    return <input
-      type="text"
-      id="user_name"
-      className="bg-slate-100 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
-      placeholder="ex:@jhonDoe"
-      required
-      value={userDetails.userName}
-      name='userName'
-      onChange={(e)=> handleChange(e)}
-  />
   }
   return (
     <div className="max-w-7xl mx-auto tracking-wide">
@@ -153,8 +160,8 @@ const Account: FC = ({}) => {
             className="bg-slate-100 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
             placeholder="ex:John"
             required
-            value={userDetails.firstName}
-            name='firstName'
+            value={userDetails.name}
+            name='name'
             onChange={(e)=> handleChange(e)}
           />
         </div>
@@ -162,7 +169,16 @@ const Account: FC = ({}) => {
           <label htmlFor="user_name" className="block mb-2 text-sm font-normal text-gray-900 dark:text-slate-400">
             Username
           </label>
-          <UserNameInput/>
+          <input
+            type="text"
+            id="user_name"
+            className="bg-slate-100 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
+            placeholder="ex:@jhonDoe"
+            required
+            value={userDetails.username}
+            name='username'
+            onChange={(e)=> handleChange(e)}
+          />
         </div>
         <div className="">
           <label htmlFor="bio" className="block mb-2 text-sm font-normal text-gray-900 dark:text-slate-400">
@@ -187,7 +203,6 @@ const Account: FC = ({}) => {
             id="email_adress"
             className="bg-slate-100 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
             placeholder="ex:jhonDoe@example.com"
-            required
             value={userDetails.email}
             name='email'
             onChange={(e)=> handleChange(e)}
@@ -203,8 +218,8 @@ const Account: FC = ({}) => {
             className="bg-slate-100 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
             placeholder="ex:the great title"
             required
-            value={userDetails.title}
-            name='title'
+            value={userDetails.job_title}
+            name='job_title'
             onChange={(e)=> handleChange(e)}
           />
         </div>
@@ -223,7 +238,7 @@ const Account: FC = ({}) => {
             onChange={(e)=> handleChange(e)}
           />
         </div>
-        <button className=" hidden" ref={buttonRef} onClick={(e)=>handlePost}></button>
+        <button className=" hidden" ref={buttonRef} onClick={(e)=>handlePost(e)}></button>
       </form>
 
       {/* Account Details Area */}
