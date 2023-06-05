@@ -13,7 +13,7 @@ type props = {
 const AuthProvider: FC<props> = ({ children }) => {
   const searchParams = useSearchParams()
   const provider = searchParams.get('provider')
-  const token = searchParams.get('?id_token') || searchParams.get('?access_token')
+  const token = searchParams.get('id_token') || searchParams.get('access_token')
 
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -67,6 +67,9 @@ export const setToken = (token: string) => {
   localStorage.setItem("token", token);
   return;
 };
+export const getToken = () => {
+  return localStorage.getItem("token");
+};
 
 export const getUser = async () => {
   if (localStorage.getItem("token")) {
@@ -98,7 +101,7 @@ type SignInParams = {
   invitationToken?: string,
 }
 
-export async function SignIn({ email, referralToken, invitationToken }:SignInParams) {
+export async function SignIn({ email, referralToken, invitationToken }: SignInParams) {
   const req = await fetch("/api/user/generate", {
     method: "POST",
     headers: {

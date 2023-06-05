@@ -31,7 +31,7 @@ const Showcase: FC<ShowcaseProps> = ({
       transition={{ duration: 0.5 }}
       exit={{ opacity: 0 }}
     >
-      <motion.div className={"flex flex-col w-[80%] lg:w-[75%] mx-auto"}>
+      <motion.div className={"flex flex-col w-[80%] lg:w-[80%] mx-auto"}>
         <div className="flex my-8 items-center justify-between text-white z-50">
           <div className="flex items-center">
             <Image
