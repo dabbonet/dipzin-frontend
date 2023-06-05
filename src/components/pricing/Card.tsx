@@ -28,7 +28,7 @@ const Card = ({
   if (sale) {
     betaPrice = (
       <div className=" absolute lg:top-3 -right-20">
-        <p className=" -rotate-12 text-orange-600 font-bold text-sm">
+        <p className=" -rotate-12 text-[#00B390] font-bold text-sm">
           Beta Pricing
         </p>
         <img src="/images/assets/Frame.svg" alt="" />
@@ -42,7 +42,7 @@ const Card = ({
       />
     );
     overSaleSpan = (
-      <span className=" text-orange-600 font-bold text-3xl">{overSale}</span>
+      <span className=" text-[#00B390] font-bold text-3xl">{overSale}</span>
     );
   }
   if (typeof price === `number`) {
@@ -61,7 +61,7 @@ const Card = ({
   }
 
   return (
-    <div className={` pl-8 pt-6 pr-10 pb-4 ${pricing ? ' bg-slate-700' : ' bg-slate-800'}  rounded-3xl mt-14 flex flex-col`}>
+    <div className={` pl-8 pt-6 pr-10 pb-4 ${pricing ? ' bg-slate-700' : ' bg-slate-800'}  rounded-3xl mt-14 flex flex-col bg-opacity-50`}>
       <h2 className="font-[500] text-3xl">{subscribeName}</h2>
       <span className=" text-slate-300 font-medium">Great for freelancers</span>
       <div className="  mt-5 flex flex-col relative w-fit">

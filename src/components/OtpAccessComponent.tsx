@@ -60,7 +60,7 @@ const OtpAccessComponent = ({email}:props) => {
       if(failedMessage) {
         return  <div className=" mt-8">
             invalid code
-            <button className=" ml-1 text-orange-600" onClick={handleResend}>
+            <button className=" ml-1 text-[#00DBAE]" onClick={handleResend}>
               Resend Code
             </button>
           </div>
@@ -80,7 +80,7 @@ const OtpAccessComponent = ({email}:props) => {
         </button>
       }
       return <button
-        className='w-full py-5 px-3 rounded-xl mt-6 font-semibold text-lg text-white bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500'
+        className='w-full py-5 px-3 rounded-xl mt-6 font-semibold text-lg text-white bg-gradient-to-br from-[#14F3C5] to-[#00B390]'
         type="submit"
         onClick={submitOtpAndEmail}
       >
@@ -89,16 +89,16 @@ const OtpAccessComponent = ({email}:props) => {
     }
     return (
       <div className="mx-auto w-full max-w-xl subpixel-antialiased">
-        <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-300 lg:text-5xl text-3xl">
+        <h1 className="font-bold text-white lg:text-5xl text-3xl">
           Account Verification
         </h1>
-        <p className="text-slate-600 dark:text-white font-light mt-4 lg:text-base text-sm">
+        <p className="text-slate-600 dark:text-[#D8D3C0] font-light mt-4 lg:text-base text-sm">
           Please enter the otp number sent to <b>{emailString}</b>.
         </p>
         <AuthCode
           allowedCharacters="numeric"
           containerClassName="flex mt-4 "
-          inputClassName="w-[56px] h-[56px] xl:w-[82px] xl:h-[82px] rounded-xl flex items-center justify-center text-center font-medium text-[28px] mx-auto bg-slate-300 text-slate-800 dark:bg-slate-800 dark:text-slate-200 outline-0 border-2 border-transparent focus:border-orange-500"
+          inputClassName="w-[56px] h-[56px] xl:w-[82px] xl:h-[82px] rounded-xl flex items-center justify-center text-center font-medium text-[28px] mx-auto bg-slate-300 text-slate-800 dark:bg-slate-800 dark:text-slate-200 outline-0 border-2 border-transparent focus:border-[#37FFCF]"
           onChange={(e) => changeCodeInput(e)}
           placeholder="_"
           ariaLabel="Enter your OTP"

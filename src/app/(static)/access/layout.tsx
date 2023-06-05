@@ -26,7 +26,7 @@ export default function AccessLayout({
   return (
     <main className="flex flex-wrap w-[85%] mx-auto justify-center items-center gap-y-10 h-full max-h-screen">
       <Toaster position="top-center"/>
-      <div className="bg-slate-900/50 w-fit h-fit z-10 flex flex-col justify-center p-20 px-12  rounded-3xl">
+      <div className=" bg-black w-fit h-fit z-10 flex flex-col justify-center p-20 px-12  rounded-3xl">
         {children}
       </div>
       <div className="relative h-[50vh] lg:h-[75vh] xl:mt-2">

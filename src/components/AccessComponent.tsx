@@ -16,14 +16,14 @@ const AccessComponent = () => {
   const [showOtpCard, setShowOtpCard] = useState(false)
   const router = useRouter();
   const SubmitEmailButton = () => {
-    let buttonStyle = ' bg-gradient-to-br from-orange-600 to-amber-600 hover:to-amber-500'
+    let buttonStyle = ' bg-gradient-to-br from-[#14F3C5] to-[#00B390]'
     if (disableProcess) {
       buttonStyle = 'bg-gray-500 cursor-none pointer-events-none'
     }
     return <button
     type="submit"
     onClick={submitEmail}
-    className= {`w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-widest text-white ${buttonStyle}`}
+    className= {`w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-widest text-[#00342E] ${buttonStyle}`}
   >
     Send code
   </button>
@@ -83,14 +83,14 @@ const AccessComponent = () => {
         <div className="flex flex-col xl:flex-row mt-4 w-full space-y-3 xl:space-y-0 xl:space-x-3 mx-auto font-medium">
           <a
             href="/api/user/connect?provider=google"
-            className="w-max flex  items-center tracking-wider space-x-2 px-4 py-4 rounded-2xl border bg-slate-900 hover:bg-slate-800 dark:border-orange-500 "
+            className="w-max flex  items-center tracking-wider space-x-2 px-4 py-4 rounded-2xl border bg-slate-950 hover:bg-slate-800 dark:border-[#37FFCF] "
           >
             <Icons.GoogleIcon />
             <p>Continue with Google</p>
           </a>
           <a
             href="/api/user/connect?provider=facebook"
-            className="w-max flex items-center tracking-wider space-x-2 px-4 py-4 rounded-2xl border bg-slate-900 hover:bg-slate-800 dark:border-orange-500 "
+            className="w-max flex items-center tracking-wider space-x-2 px-4 py-4 rounded-2xl border bg-slate-950 hover:bg-slate-800 dark:border-[#37FFCF] "
           >
             <Icons.FacebookIcon />
             <p>Continue with Facebook</p>

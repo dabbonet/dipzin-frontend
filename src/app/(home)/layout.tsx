@@ -46,7 +46,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={cn('subpixel-antialiased font-sans', outfit.variable)}>
-      <body className={cn('bg-fixed bg-gradient-to-tr from-slate-200 to-slate-300 dark:from-slate-950 dark:to-slate-950 min-h-screen w-full h-screen')}>
+      <body className={cn('bg-fixed bg-[#030304] min-h-screen w-full h-screen')}>
         <Providers>
           <Navbar />
           <AccessOrUpgradeCard />

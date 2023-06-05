@@ -15,7 +15,7 @@ const Navbar: FC = () => {
                 shallow
                 className="text-lg lg:text-2xl"
             >
-                <Image
+                {/* <Image
                     className="mr-3 h-6 sm:h-9 w-auto dark:block hidden"
                     src="/images/assets/light-logo.svg"
                     alt="Dipzin Logo"
@@ -23,9 +23,9 @@ const Navbar: FC = () => {
                     height={39}
                     loader={({ src }) => src}
                     unoptimized
-                />
+                /> */}
                 <Image
-                    className="mr-3 h-6 sm:h-9 block dark:hidden"
+                    className="mr-3 h-6 sm:h-9 block "
                     src="/images/assets/dark-logo.svg"
                     alt="Dipzin Logo"
                     width={110}

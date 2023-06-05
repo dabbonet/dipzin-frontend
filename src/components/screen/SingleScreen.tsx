@@ -87,7 +87,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
           animate={{ scale: checked ? 1.1 : 1 }}
           className={cn(
             "absolute top-4 left-4 group/copy h-9 w-9 border-4 border-slate-200 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible",
-            checked && "visible border-orange-500 text-orange-500 bg-transparent"
+            checked && "visible border-[#00DBAE] bg-[#00DBAE] text-orange-100"
           )}
         >
           {checked && (
@@ -110,7 +110,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
         <div
           className={cn(
             "w-full rounded-2xl overflow-hidden border-4 border-transparent min-720:gap-16 cursor-pointer",
-            checked && " border-orange-500"
+            checked && " border-[#00DBAE]"
           )}
           onClick={() => setOpen && setOpen(mergeScreenUrl(screen))}
         >
@@ -172,7 +172,6 @@ const Actions = ({ screen: screen }) => {
 const MenuDropdown = ({ screen: screen }) => {
   const {setVisible , setVisibleNoAuth} = useDialog()
   const image = mergeScreenUrl(screen);
-  console.log(image)
   const downloadScreen = async() => {
     const isUserAuth = await getUser()
 
@@ -233,42 +232,42 @@ const CollectionDropdown = () => {
               <span className="font-normal text-slate-100 tracking-wider text-sm">
                 Public Collection
               </span>
-              <Icons.Check className="text-orange-500" />
+              <Icons.Check className="text-slate-900 bg-[#00DBAE] rounded-full p-1" />
             </DropdownCell>
             <DropdownCell className="rounded-xl">
               <Icons.Globe2 className="w-7 h-7 text-slate-200 bg-slate-700 py-1 rounded-full" />
               <span className="font-normal text-slate-100 tracking-wider text-sm">
                 Public Collection
               </span>
-              <Icons.Check className="text-orange-500" />
+              <Icons.Check className="text-slate-900 bg-[#00DBAE] rounded-full p-1" />
             </DropdownCell>
             <DropdownCell className="rounded-xl">
               <Icons.Globe2 className="w-7 h-7 text-slate-200 bg-slate-700 py-1 rounded-full" />
               <span className="font-normal text-slate-100 tracking-wider text-sm">
                 Private Collection
               </span>
-              <Icons.Check className="text-orange-500" />
+              <Icons.Check className="text-slate-900 bg-[#00DBAE] rounded-full p-1" />
             </DropdownCell>
             <DropdownCell className="rounded-xl">
               <Icons.Globe2 className="w-7 h-7 text-slate-200 bg-slate-700 py-1 rounded-full" />
               <span className="font-normal text-slate-100 tracking-wider text-sm">
                 Private Collection
               </span>
-              <Icons.Check className="text-orange-500" />
+              <Icons.Check className="text-slate-900 bg-[#00DBAE] rounded-full p-1" />
             </DropdownCell>
             <DropdownCell className="rounded-xl">
               <Icons.Globe2 className="w-7 h-7 text-slate-200 bg-slate-700 py-1 rounded-full" />
               <span className="font-normal text-slate-100 tracking-wider text-sm">
                 Private Collection
               </span>
-              <Icons.Check className="text-orange-500" />
+              <Icons.Check className="text-slate-900 bg-[#00DBAE] rounded-full p-1" />
             </DropdownCell>
             <DropdownCell className="rounded-xl">
               <Icons.Globe2 className="w-7 h-7 text-slate-200 bg-slate-700 py-1 rounded-full" />
               <span className="font-normal text-slate-100 tracking-wider text-sm">
                 Private Collection
               </span>
-              <Icons.Check className="text-orange-500" />
+              <Icons.Check className="text-slate-900 bg-[#00DBAE] rounded-full p-1" />
             </DropdownCell>
           </div>
         </>

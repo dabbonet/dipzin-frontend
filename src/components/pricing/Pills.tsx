@@ -11,9 +11,9 @@ const Pills = ({ pillType, sale }: PillsType) => {
   let saveText = "";
   let saleOn: any;
   if (pillType === "QUARTERLY") {
-    pillBg = "bg-orange-500";
-    saveBg = "bg-orange-200";
-    saveText = "text-orange-700";
+    pillBg = "bg-[#00DBAE]";
+    saveBg = "bg-[#98FFE1]";
+    saveText = "text-[#008F77]";
   }
   if (pillType === "ANNUALLY") {
     saveBg = "bg-emerald-200";

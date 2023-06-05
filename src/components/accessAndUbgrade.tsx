@@ -59,7 +59,7 @@ const AccessCard = () => {
   if (!show) return
   return (
     <div ref={ref} className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-50">
-      <div className=" w-fit h-fit bg-slate-900 bg-opacity-60 rounded-2xl px-16 py-20">
+      <div className=" w-fit h-fit bg-slate-950 bg-opacity-60 rounded-2xl px-16 py-20">
         <AccessComponent />
       </div>
     </div>
@@ -106,68 +106,64 @@ const UpgradeMemberCard = ({ }) => {
   if (!show) return
   return (
     <div ref={ref} className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
-      <div className="max-w-2xl bg-slate-900 rounded-3xl p-10 flex flex-col gap-5">
-        <div className="flex justify-between items-start">
-
-          <div className="flex space-x-4">
-            <h1 className="text-orange-500 text-3xl">
-              Please Wait {formatTime(counter)} <b className="text-white mx-4">or</b>
-            </h1>
-            <div className=" flex gap-14 flex-wrap items-center">
-              <SparkleButton href="/pricing">
-                Unlock More!
-              </SparkleButton>
-            </div>
-          </div>
-
-          <button
-            onClick={onCloseFunction}
-            className={cn(visible ? 'text-slate-700 pointer-events-none' : 'text-slate-100 hover:text-orange-500')}
-          >
-            <Icons.XCircle className='w-6 h-6' />
-          </button>
-
-        </div>
-
-        <h3 className=" text-slate-200 text-2xl font-medium">
-          Upgrade and get access to exclusive features
-        </h3>
-
-        <div className=" flex gap-14 flex-wrap">
-          <div className=" flex gap-2">
-            <img src="/images/assets/Vector.svg" alt="" />
-            <p className=" text-white font-medium text-lg">
-              Download in Bulk
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <img src="/images/assets/Vector.svg" alt="" />
-            <p className=" text-white font-medium text-lg">
-              Download in Bulk
-            </p>
-          </div>
-        </div>
-
-        <div className=" flex gap-14 flex-wrap">
-          <div className=" flex gap-2">
-            <img src="/images/assets/Vector.svg" alt="" />
-            <p className=" text-white font-medium text-lg">
-              Download in Bulk
-            </p>
-          </div>
-          <div className=" flex gap-2">
-            <img src="/images/assets/Vector.svg" alt="" />
-            <p className=" text-white font-medium text-lg">
-              Download in Bulk
-            </p>
-          </div>
-        </div>
-
+      <div className="max-w-2xl bg-slate-900 rounded-3xl  flex flex-col gap-5">
         <img
           src="/images/assets/banner.png"
           className=" rounded-2xl"
           alt=""
         />
+
+        <h3 className=" text-slate-200 text-2xl font-medium px-10">
+          Upgrade and get access to exclusive features
+        </h3>
+        <div className=" px-10">
+          <div className=" flex gap-14 flex-wrap">
+            <div className=" flex gap-2">
+              <img src="/images/assets/Vector.svg" alt="" />
+              <p className=" text-white font-medium text-lg">
+                Download in Bulk
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <img src="/images/assets/Vector.svg" alt="" />
+              <p className=" text-white font-medium text-lg">
+                Download in Bulk
+              </p>
+            </div>
+          </div>
+
+          <div className=" flex gap-14 flex-wrap">
+            <div className=" flex gap-2">
+              <img src="/images/assets/Vector.svg" alt="" />
+              <p className=" text-white font-medium text-lg">
+                Download in Bulk
+              </p>
+            </div>
+            <div className=" flex gap-2">
+              <img src="/images/assets/Vector.svg" alt="" />
+              <p className=" text-white font-medium text-lg">
+                Download in Bulk
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-start px-10">
+          <div className="flex space-x-4">
+            <span className="text-[#C9FFED] text-sm">
+              Invite to Dipzin 💰
+            </span>
+          </div>
+
+          <button
+            onClick={onCloseFunction}
+            className={cn(visible ? 'bg-opacity-60' : ' bg-opacity-100' , ' py-2 px-12 bg-gradient-to-tr from-[#14F3C5] to-[#00B390] rounded-lg !bg-opacity-10')}
+          >
+            Continue in {formatTime(counter)}
+          </button>
+
+        </div>
+
       </div>
     </div>
   )

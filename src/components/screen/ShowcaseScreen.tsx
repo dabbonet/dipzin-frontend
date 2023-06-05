@@ -84,7 +84,7 @@ const ShowcaseScreen: FC<ShowcaseScreenProps> = ({ app }) => {
                                         {app?.tag_line}
                                     </span>
                                 </div>
-                                <Icons.Maximize size={24} className="hover:text-orange-500" />
+                                <Icons.Maximize size={24} className="hover:text-[#00B390]" />
                             </div>
                         </div>
                         <div className="absolute bottom-0 w-[100%] h-[40%] bg-gradient-to-t from-slate-950 to-slate-950/0 opacity-90 invisible transform transition duration-500 group-hover/item:visible"></div>

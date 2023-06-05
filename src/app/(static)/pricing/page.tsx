@@ -12,7 +12,7 @@ const Page: NextPage = () => {
       <main className=" pt-20 flex flex-col items-center">
         {/* header */}
         <div className=" container w-[90%] mx-auto flex flex-col">
-          <span className="text-[#F97316] font-[600] text-base">
+          <span className="text-[#00DBAE] font-[600] text-base">
             Beta Pricing
           </span>
           <h1 className="font-[400] md:text-4xl text-2xl lg:text-6xl mb-6">
@@ -90,7 +90,7 @@ const Page: NextPage = () => {
                 <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
                   Free
                 </h4>
-                <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-orange-500 rounded-xl">
+                <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-[#00DBAE] rounded-xl">
                   Get Started
                 </button>
               </td>
@@ -104,7 +104,7 @@ const Page: NextPage = () => {
                     /month
                   </span>
                 </h4>
-                <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-orange-500 rounded-xl">
+                <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-[#00DBAE] rounded-xl">
                   Get Started
                 </button>
               </td>
@@ -115,7 +115,7 @@ const Page: NextPage = () => {
                 <h4 className=" text-slate-100 font-[600] lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
                   Coming Soon...
                 </h4>
-                <button className=" text-xs lg:text-base py-3 lg:px-8 md:px-4 sm:px-2 px-1 bg-orange-500 rounded-xl">
+                <button className=" text-xs lg:text-base py-3 lg:px-8 md:px-4 sm:px-2 px-1 bg-[#00DBAE] rounded-xl">
                   Get Started
                 </button>
               </td>
@@ -308,7 +308,7 @@ const Page: NextPage = () => {
               <td className=" flex justify-between flex-1">
                 <div className=" lg:text-base md:text-sm text-xs flex flex-wrap gap-4">
                   Flows
-                  <span className=" py-1 px-2 bg-[#FCEED9] rounded text-[#383B3D]">
+                  <span className=" py-1 px-2 bg-[#98FFE1] rounded text-[#383B3D]">
                     Soon
                   </span>
                 </div>
