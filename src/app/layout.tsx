@@ -53,8 +53,6 @@ export default function RootLayout({
           <AccessOrUpgradeCard />
           <main className='pt-24 max-w-[82%]  mx-auto'>
             <GoogleOneTap>
-              <Banner />
-              <HomeNavigator />
               {children}
               <MainNavigator />
             </GoogleOneTap>
