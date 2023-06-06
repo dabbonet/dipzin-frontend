@@ -1,18 +1,15 @@
 'use client'
-import React, { FC, useEffect, useRef, useState } from "react";
-import Icons from "./Icons";
-import { cn } from "@/lib/utils";
+import React, {  useEffect, useRef, useState } from "react";
 import { useDialog } from "@/context/useDialog";
-import SparkleButton from "@/ui/SparkleButton";
 import AccessComponent from "./AccessComponent";
 import { getUser } from "@/lib/auth";
-
+import Link from "next/link";
+import '../app/button.css'
 
 function formatTime(seconds: number): string {
   const secs = (seconds % 60).toString().padStart(2, '0');
   return `${secs}s`;
 }
-
 
 export const AccessOrUpgradeCard = () => {
   const [isUserAuth, setisUserAuth] = useState(false)
@@ -30,7 +27,6 @@ export const AccessOrUpgradeCard = () => {
   return <AccessCard />
     
 }
-
 
 const AccessCard = () => {
   const ref = useRef()
@@ -67,109 +63,290 @@ const AccessCard = () => {
   
 }
 
-
-
-
-
-
-
-
 const UpgradeMemberCard = ({ }) => {
-  const ref = useRef()
   const [show, setShow] = useState<boolean>(false)
+  const [showInviteDialog, setShowInviteDialog] = useState(false)
   const { counter, visible , setCounter } = useDialog();
 
   useEffect(() => {
     visible && setShow(visible)
   }, [visible])
-
-  const onCloseFunction = () => {
-    const baseCounter = 5
-    if (!visible) {
-      setShow(false)
-      setCounter(baseCounter)
-    } 
+  let timer;
+  let timeInMillSeconds = 1000
+  const onPressButton = () => {
+    timer = setTimeout(() => {
+      if (timeInMillSeconds === 1000) {
+        const baseCounter = 5
+        setCounter(baseCounter)
+        setShow(false)
+        return clearTimeout(timer)
+      }
+    },1000)
   }
-  let in_dom = document.body.contains(ref.current);
-  let observer = new MutationObserver(()=> {
-    if (document.body.contains(ref.current)) {
-        if (!in_dom) {
-            console.log("element inserted");
-        }
-        in_dom = true;
-    } else if (in_dom) {
-        in_dom = false;
-        window.location.reload()
+  const onLeaveButton = () => {
+    clearTimeout(timer)
+  }
+  const CloseButton = () => {
+    if (counter === 0) {
+      return <button
+        className=" button-trans"
+        onMouseDown={onPressButton}
+        onMouseUp={onLeaveButton}
+      >
+        Press & Hold to Close
+      </button>
     }
-  });
-  observer.observe(document.body, {childList: true});
-  if (!show) return
+    return <button
+    className=' bg-gradient-to-tr from-[#14F3C5] to-[#00B390] pointer-events-none rounded-lg py-2 px-12'
+  >
+    Continue in {formatTime(counter)}
+  </button>
+  }
+  const onShowIviteDialog = () => {
+    const baseCounter = 5
+    setCounter(baseCounter)
+    setShow(false)
+    setShowInviteDialog(true)
+  }
+  if (!show) {
+    if (showInviteDialog) {
+      return <InviteDialog/>
+    } 
+    return
+  }
   return (
-    <div ref={ref} className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
-      <div className="max-w-2xl bg-slate-900 rounded-3xl p-10 flex flex-col gap-5">
-        <div className="flex justify-between items-start">
-
-          <div className="flex space-x-4">
-            <h1 className="text-orange-500 text-3xl">
-              Please Wait {formatTime(counter)} <b className="text-white mx-4">or</b>
-            </h1>
-            <div className=" flex gap-14 flex-wrap items-center">
-              <SparkleButton href="/pricing">
-                Unlock More!
-              </SparkleButton>
-            </div>
-          </div>
-
-          <button
-            onClick={onCloseFunction}
-            className={cn(visible ? 'text-slate-700 pointer-events-none' : 'text-slate-100 hover:text-orange-500')}
-          >
-            <Icons.XCircle className='w-6 h-6' />
-          </button>
-
-        </div>
-
-        <h3 className=" text-slate-200 text-2xl font-medium">
-          Upgrade and get access to exclusive features
-        </h3>
-
-        <div className=" flex gap-14 flex-wrap">
-          <div className=" flex gap-2">
-            <img src="/images/assets/Vector.svg" alt="" />
-            <p className=" text-white font-medium text-lg">
-              Download in Bulk
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <img src="/images/assets/Vector.svg" alt="" />
-            <p className=" text-white font-medium text-lg">
-              Download in Bulk
-            </p>
-          </div>
-        </div>
-
-        <div className=" flex gap-14 flex-wrap">
-          <div className=" flex gap-2">
-            <img src="/images/assets/Vector.svg" alt="" />
-            <p className=" text-white font-medium text-lg">
-              Download in Bulk
-            </p>
-          </div>
-          <div className=" flex gap-2">
-            <img src="/images/assets/Vector.svg" alt="" />
-            <p className=" text-white font-medium text-lg">
-              Download in Bulk
-            </p>
-          </div>
-        </div>
-
+    <div className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
+      <div className="max-w-3xl bg-slate-900 rounded-3xl  flex flex-col gap-5">
+        {/* image */}
         <img
           src="/images/assets/banner.png"
           className=" rounded-2xl"
           alt=""
         />
+        {/* header */}
+        <div className=" px-10">
+          <h3 className=" text-slate-200 text-2xl font-medium mb-2">
+            Upgrade and get access to exclusive features
+          </h3>
+          <p className=" text-slate-300 text-base">To Continue using your free trial of our premium features, please upgrade to our premium package.</p>
+        </div>
+        {/* features and price */}
+        <div className=" p-4 mx-10 flex bg-slate-800 rounded-2xl items-center gap-x-9 flex-row">
+          {/* price */}
+          <div className=" bg-[#37FFCF]  rounded-xl py-2 px-4">
+            <div className=" w-fit flex flex-col items-center" >
+            <p className=" text-xs text-[#007160] font-medium">Starts at</p>
+            <strong className=" text-[#00342E] font-medium text-2xl">$ 6 /mo</strong>
+            <p className="text-xs text-[#007160] font-medium">billed at $72/yr </p>
+            </div>
+          </div>
+          {/* features */}
+          <div className=" grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
+            <div className=" flex items-center gap-2">
+              <img src="/images/assets/check-new-branding.svg" alt="" />
+              <p className=" text-sm">Unlimited Search and Filters</p>
+            </div>
+            <div className=" flex items-center gap-2">
+              <img src="/images/assets/check-new-branding.svg" alt="" />
+              <p className=" text-sm">Unlimited Collections</p>
+            </div>
+            <div className=" flex items-center gap-2">
+              <img src="/images/assets/check-new-branding.svg" alt="" />
+              <p className=" text-sm">Bulk Downloads</p>
+            </div>
+            <div className=" flex items-center gap-2">
+              <img src="/images/assets/check-new-branding.svg" alt="" />
+              <p className=" text-sm">Prioritized Support</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center px-10 mb-8">
+          <div className="flex space-x-4">
+            <button onClick={onShowIviteDialog} className="text-[#C9FFED] text-sm">
+              Invite to Dipzin 💰
+            </button>
+          </div>
+          <div className=" flex gap-x-4">
+            <Link href='/pricing' className=" text-[#C9FFED] text-sm py-2 px-12 bg-transparent border-solid border border-[#C9FFED] rounded-lg">Unlock More!</Link>
+            <CloseButton/>
+          </div>
+        </div>
       </div>
     </div>
   )
 };
 
+const InviteDialog = () => {
+  const [inputData] = useState('https://dipzin.com/referra3/username')
+  const [closeDialog, setCloseDialog] = useState(false)
+  const copyInputData = () => {
+    navigator.clipboard.writeText(inputData)
+  }
+  const skipDialog = () => {
+    setCloseDialog(true)
+  }
+  if(closeDialog) return
+  return <div className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
+    <div className="max-w-3xl bg-slate-900 rounded-3xl  flex flex-col gap-5 px-32 py-10 items-center ">
+      {/* image */}
+      <img src="/images/assets/frame-2500.svg" alt="" className=" w-40 h-40" />
+      <div className=" flex flex-col items-center mb-4">
+        <h1 className=" text-slate-200 text-4xl font-medium mb-2">Invite and get <span className=" text-[#14F3C5]">$20</span> discount</h1>
+        <p className=" text-slate-300 text-base text-center">To Continue using your free trial of our premium features, please upgrade to our premium package.</p>
+      </div>
+      <div className=" w-full relative">
+        <input type="text" value={inputData} className=" w-full py-3 px-4 rounded-lg text-sm bg-slate-800 text-[#C9FFED] border border-solid border-[#475569]"/>
+        <input onClick={copyInputData} type="submit" value='copy' className="text-[#00342E] bg-gradient-to-tr from-[#14F3C5] to-[#00B390] py-1 px-3 rounded-md absolute top-[6px] right-2 cursor-pointer" />
+      </div>
+      <div className=" w-1/2 ml-auto flex justify-between items-center mt-9">
+        <button className=" text-[#C9FFED]" onClick={skipDialog}>skip</button>
+        <span>or social share</span>
+      </div>
+    </div>
+</div>
+}
+
+const DialogFor3Collections = () => {
+  const [showInviteDialog, setShowInviteDialog] = useState(false)
+  const [isDialogClosed, setIsDialogClosed] = useState(false)
+  const onShowIviteDialog = () => {
+    setShowInviteDialog(true)
+  }
+  const closeDialog = () => {
+    setIsDialogClosed(true)
+  }
+  if (isDialogClosed) return
+  if(showInviteDialog) return <InviteDialog/>
+  return <div className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
+  <div className="max-w-3xl bg-slate-900 rounded-3xl  flex flex-col gap-5">
+    {/* image */}
+    <img
+      src="/images/assets/banner.png"
+      className=" rounded-2xl"
+      alt=""
+    />
+    {/* header */}
+    <div className=" px-10">
+      <h3 className=" text-slate-200 text-2xl font-medium mb-2">
+        Unfortunately you can’t create more than 3 collections 
+      </h3>
+      <p className=" text-slate-300 text-base">To Continue using your free trial of our premium features, please upgrade to our premium package.</p>
+    </div>
+    {/* features and price */}
+    <div className=" p-4 mx-10 flex bg-slate-800 rounded-2xl items-center gap-x-9 flex-row">
+      {/* price */}
+      <div className=" bg-[#37FFCF]  rounded-xl py-2 px-4">
+        <div className=" w-fit flex flex-col items-center" >
+        <p className=" text-xs text-[#007160] font-medium">Starts at</p>
+        <strong className=" text-[#00342E] font-medium text-2xl">$ 6 /mo</strong>
+        <p className="text-xs text-[#007160] font-medium">billed at $72/yr </p>
+        </div>
+      </div>
+      {/* features */}
+      <div className=" grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
+        <div className=" flex items-center gap-2">
+          <img src="/images/assets/check-new-branding.svg" alt="" />
+          <p className=" text-sm">Unlimited Search and Filters</p>
+        </div>
+        <div className=" flex items-center gap-2">
+          <img src="/images/assets/check-new-branding.svg" alt="" />
+          <p className=" text-sm">Unlimited Collections</p>
+        </div>
+        <div className=" flex items-center gap-2">
+          <img src="/images/assets/check-new-branding.svg" alt="" />
+          <p className=" text-sm">Bulk Downloads</p>
+        </div>
+        <div className=" flex items-center gap-2">
+          <img src="/images/assets/check-new-branding.svg" alt="" />
+          <p className=" text-sm">Prioritized Support</p>
+        </div>
+      </div>
+    </div>
+
+    <div className="flex justify-between items-center px-10 mb-8">
+      <div className="flex space-x-4">
+        <button className="text-[#C9FFED] text-sm" onClick={onShowIviteDialog}>
+          Invite to Dipzin 💰
+        </button>
+      </div>
+      <div className=" flex gap-x-4">
+          <Link href='/pricing' className=" text-[#C9FFED] text-sm py-2 px-12 bg-transparent border-solid border border-[#C9FFED] rounded-lg">Unlock More!</Link>
+          <button className=' bg-gradient-to-tr from-[#14F3C5] to-[#00B390] pointer-events-none rounded-lg py-2 px-12' onClick={closeDialog}>Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+const MaxQouta = () => {
+  const [showInviteDialog, setShowInviteDialog] = useState(false)
+  const [isDialogClosed, setIsDialogClosed] = useState(false)
+  const onShowIviteDialog = () => {
+    setShowInviteDialog(true)
+  }
+  const closeDialog = () => {
+    setIsDialogClosed(true)
+  }
+  if (isDialogClosed) return
+  if(showInviteDialog) return <InviteDialog/>
+  return <div className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
+  <div className="max-w-3xl bg-slate-900 rounded-3xl  flex flex-col gap-5">
+    {/* image */}
+    <img
+      src="/images/assets/banner.png"
+      className=" rounded-2xl"
+      alt=""
+    />
+    {/* header */}
+    <div className=" px-10">
+      <h3 className=" text-slate-200 text-2xl font-medium mb-2">
+        Unfortunately you exceed 20 search qouta
+      </h3>
+      <p className=" text-slate-300 text-base">To Continue using your free trial of our premium features, please upgrade to our premium package.</p>
+    </div>
+    {/* features and price */}
+    <div className=" p-4 mx-10 flex bg-slate-800 rounded-2xl items-center gap-x-9 flex-row">
+      {/* price */}
+      <div className=" bg-[#37FFCF]  rounded-xl py-2 px-4">
+        <div className=" w-fit flex flex-col items-center" >
+        <p className=" text-xs text-[#007160] font-medium">Starts at</p>
+        <strong className=" text-[#00342E] font-medium text-2xl">$ 6 /mo</strong>
+        <p className="text-xs text-[#007160] font-medium">billed at $72/yr </p>
+        </div>
+      </div>
+      {/* features */}
+      <div className=" grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
+        <div className=" flex items-center gap-2">
+          <img src="/images/assets/check-new-branding.svg" alt="" />
+          <p className=" text-sm">Unlimited Search and Filters</p>
+        </div>
+        <div className=" flex items-center gap-2">
+          <img src="/images/assets/check-new-branding.svg" alt="" />
+          <p className=" text-sm">Unlimited Collections</p>
+        </div>
+        <div className=" flex items-center gap-2">
+          <img src="/images/assets/check-new-branding.svg" alt="" />
+          <p className=" text-sm">Bulk Downloads</p>
+        </div>
+        <div className=" flex items-center gap-2">
+          <img src="/images/assets/check-new-branding.svg" alt="" />
+          <p className=" text-sm">Prioritized Support</p>
+        </div>
+      </div>
+    </div>
+
+    <div className="flex justify-between items-center px-10 mb-8">
+      <div className="flex space-x-4">
+        <button className="text-[#C9FFED] text-sm" onClick={onShowIviteDialog}>
+          Invite to Dipzin 💰
+        </button>
+      </div>
+      <div className=" flex gap-x-4">
+          <Link href='/pricing' className=" text-[#C9FFED] text-sm py-2 px-12 bg-transparent border-solid border border-[#C9FFED] rounded-lg">Unlock More!</Link>
+          <button className=' bg-gradient-to-tr from-[#14F3C5] to-[#00B390] pointer-events-none rounded-lg py-2 px-12' onClick={closeDialog}>Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+}
