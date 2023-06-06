@@ -9,15 +9,27 @@ import Icons from '@/components/Icons';
 import { useContentDiscovery } from '@/context/useContentDiscovery';
 import { cn } from '@/lib/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { getUser } from '@/lib/auth';
+import Link from 'next/link';
+
 
 const MainNavigator = ({ type }: any) => {
+    const [isUserAuth, setIsUserAuth] = useState(false)
+    useEffect(() => {
+        async function checkUserAuth() {
+            if (await getUser()) {
+                setIsUserAuth(true)
+            }
+        }
+        checkUserAuth()
+    },[])
     const [navOpen, setNavOpen] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
     const [filterOpen, setFilterOpen] = useState(false)
     const searchParams = useSearchParams()!;
     const router = useRouter();
-
-
+    
+    
     // Logic to handle if user clicks outside of the navigator
     function useOutsideAlerter(ref: any) {
         useEffect(() => {
@@ -66,79 +78,15 @@ const MainNavigator = ({ type }: any) => {
 
     }, [searchParams, router, filters])
 
+    if (!isUserAuth) {
+        return <NoAuthSearchBarComponent/>
+    }
+
     return (
         <div ref={wrapperRef} className="fixed left-32 right-32 bottom-12 mx-auto flex justify-center z-20">
             <div className='relative flex items-end'>
 
                 {/* User Avatar area */}
-                {/* <motion.div
-                    layout="position"
-                    className="mr-4 mb-2 cursor-pointer"
-                >
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <div className="overflow-hidden w-[45px] h-[45px] rounded-full mr-2 relative cursor-pointer border-2 border-slate-200 bg-slate-900">
-                                <img
-                                    className="w-full rounded-full"
-                                    src={"/_next/image?url=https%3A%2F%2Fdipzinapplications.s3.us-west-1.amazonaws.com%2Fthumbnail_82f58fa7_9f57_45c8_b882_0c520c43eedf_a63e322d65.png&w=96&q=75"}
-                                    alt='avatar'
-                                />
-                            </div>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align='start' forceMount className='p-5 mb-4 rounded-xl'>
-                            <div
-                                className={`opacity-100 max-w-sm transform-gpu transition duration-400  text-slate-100`}
-                            >
-                                <div className="flex items-center mb-[20px]">
-                                    <div className="w-10 h-10 rounded-full mr-2 bg-slate-800">
-                                        <img
-                                            className="rounded-full"
-                                            src={"/_next/image?url=https%3A%2F%2Fdipzinapplications.s3.us-west-1.amazonaws.com%2Fthumbnail_82f58fa7_9f57_45c8_b882_0c520c43eedf_a63e322d65.png&w=96&q=75"}
-                                            alt='avatar'
-                                        />
-                                    </div>
-                                    <div>
-                                        <span className="font-bold text-base w-full">
-                                            Ahmed Mahmoud
-                                        </span>
-                                        <span className="block font-medium text-[12px] text-slate-400">
-                                            @ahmed
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <DropdownMenuItem>
-                                <Icons.Sun className='mr-2 h-4 w-4'></Icons.Sun>
-                                <Link href="/account">
-                                    Account Settings
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Icons.Sun className='mr-2 h-4 w-4'></Icons.Sun>
-                                <span
-                                onClick={() => {
-                                    router.push("/profile");
-                                }}
-                                >
-                                    Membership
-                                </span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Icons.Sun className='mr-2 h-4 w-4'></Icons.Sun>
-                                <span
-                                onClick={() => {
-                                    router.push("/profile");
-                                }}
-                                >
-                                    Logout
-                                </span>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-
-                    </DropdownMenu> 
-            </motion.div >*/}
-
-                {/* < MotionConfig transition={{ duration: .5 }}> */}
 
                 {/* Navigator Area */}
                 <motion.div
@@ -249,4 +197,23 @@ const TagItem = ({ title, onClick }) => {
             <Icons.XCircle className='w-5 h-5 hover:text-orange-500' />
         </li>
     )
+}
+
+
+const NoAuthSearchBarComponent = () => {
+    return <div className=' fixed bg-orange-500 rounded-[60px] bottom-12 py-4 px-4 right-32 left-32 mx-auto flex items-center w-fit flex-wrap gap-x-20 gap-y-2'>
+    <div className='flex justify-center gap-x-3 mx-auto flex-wrap'>
+        <div className=''>
+            <img src="/images/assets/checkSearchBar.svg" alt="" />
+        </div>
+        <div className=' flex-col'>
+            <h1 className=' text-orange-50 font-bold text-xs md:text-sm lg:text-base '>Join the Dipzin Community Today</h1>
+            <p className=' text-orange-50 font-medium text-xs md:text-sm '>Find, Share, and Create Digital Inspiration.</p>
+        </div>
+    </div>
+    <div className=' flex gap-2 mx-auto flex-wrap justify-center'>
+        <Link href='/access' className=' w-fit bg-orange-400 py-2 px-2 text-orange-100 rounded-3xl md:px-4 lg:px-8 text-xs md:text-sm lg:text-base'>LogIn</Link>
+        <Link href='/pricing' className='w-fit bg-orange-100 py-2 px-2 text-orange-600 rounded-3xl md:px-4 lg:px-8 text-xs md:text-sm lg:text-base'>Try it free</Link>
+    </div>
+</div>
 }
