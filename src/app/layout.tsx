@@ -4,7 +4,7 @@
 import Navbar from '@/components/Navbar'
 // import Footer from '@/components/Footer';
 import { Background1 } from '@/ui/Backgrounds'
-import '../globals.css'
+import './globals.css'
 import { Outfit } from 'next/font/google'
 import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
@@ -42,8 +42,8 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
-  }) {
-  
+}) {
+
 
   return (
     <html lang="en" className={cn('subpixel-antialiased font-sans', outfit.variable)}>

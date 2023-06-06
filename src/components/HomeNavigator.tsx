@@ -33,13 +33,13 @@ const HomeNavigator: FC = () => {
                             <img className=" w-8" src="/images/assets/refresh.svg" alt="refresh" />
                         </motion.div>
                     </Link>
-                    <Link href="/collections" className="mt-1">
+                    {/* <Link href="/collections" className="mt-1">
                         <span
                             className={cn("text-slate-900 dark:text-slate-100 text-[2rem] font-light origin-left transform transition-all duration-500", path === "/" ? "opacity-70" : "text-[2.2rem] opacity-100")}
                         >
                             Collections
                         </span>
-                    </Link>
+                    </Link> */}
                 </>
             ) : (
                 <span

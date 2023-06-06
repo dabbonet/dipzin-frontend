@@ -3,6 +3,7 @@ import { getUser, setToken } from '@/lib/auth'
 import React, { useEffect, useState } from 'react'
 import GoogleOneTapLogin  from 'react-google-one-tap-login'
 import { toast } from 'react-hot-toast'
+import { invetaionAndReferralTokens } from './AccessComponent'
 
 const GoogleOneTap = ({ children }) => {
   const [isUserAuth, setIsUserAuth] = useState(false)
@@ -18,11 +19,7 @@ const GoogleOneTap = ({ children }) => {
   
   
   const handleSuccess =  async (res) => {
-    const cookies = document.cookie.split(";").map(x => {
-      const [name, value] = x.trim().split("=");
-      return { name, value };
-    });
-    const referralToken = cookies?.filter(x => x.name == 'referral-token')[0]?.value ?? null;
+    const {referralToken , invitationToken} = invetaionAndReferralTokens()
     try {
       const req = await fetch('/api/user/google-one-tap', {
         method: 'post',
@@ -33,7 +30,8 @@ const GoogleOneTap = ({ children }) => {
           data: {
             email: res.email,
             name: res.name,
-            referralCode: referralToken
+            referralCode: referralToken,
+            invitationToken: invitationToken
           }
         })
       })
@@ -53,7 +51,7 @@ const GoogleOneTap = ({ children }) => {
       </>
   }
   return (
-      <GoogleOneTapLogin googleAccountConfigs={{client_id: process.env.GOOGLE_CLIENT_ID}} onSuccess={handleSuccess}>
+      <GoogleOneTapLogin googleAccountConfigs={{client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}} onSuccess={handleSuccess}>
           {children}
     </GoogleOneTapLogin>
   )
