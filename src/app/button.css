@@ -1,0 +1,36 @@
+.button-trans {
+    display: block;
+    background: linear-gradient(180deg, #14F3C5 0%, #00B390 100%);
+    border-radius: 8px;
+    color: #000;
+    padding: 10px 24px;
+    transition: all 1s;
+    position: relative;
+    -webkit-user-select: none;
+    overflow: hidden;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -ms-transition: all 1s;
+    -o-transition: all 1s;
+}
+  
+  .button-trans::before {
+    content: "";
+    position: absolute;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #008F77;
+    opacity: .50;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition-property: transform;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+  }
+  .button-trans:active:before {
+      transform: scaleX(1);
+  }
+
