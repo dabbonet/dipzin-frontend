@@ -71,14 +71,14 @@ const Search: FC<pageProps> = ({ }) => {
             id='searchGrid'
             className="mt-6"
             useWindowScroll
-            data={streamData}
+            data={streamData.filter((el)=> el.is_published === true)}
             style={{ minHeight: 100, width: '100%' }}
             totalCount={streamData.length}
             overscan={1}
             endReached={loadMore}
             listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
             itemContent={(index, data) => (
-                <SingleScreen screen={data?.hash + data?.ext} is_published={data.is_published} />
+                <SingleScreen screen={data?.hash + data?.ext} />
             )}
         />
     )
