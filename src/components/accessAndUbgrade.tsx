@@ -279,7 +279,7 @@ const DialogFor3Collections = () => {
 </div>
 }
 
-const MaxQouta = () => {
+export const MaxQouta = () => {
   const [showInviteDialog, setShowInviteDialog] = useState(false)
   const [isDialogClosed, setIsDialogClosed] = useState(false)
   const onShowIviteDialog = () => {
