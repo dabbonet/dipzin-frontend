@@ -13,7 +13,7 @@ type props = {
 const AuthProvider: FC<props> = ({ children }) => {
   const searchParams = useSearchParams()
   const provider = searchParams.get('provider')
-  const token = searchParams.get('id_token') || searchParams.get('access_token')
+  const token = searchParams.get('?id_token') || searchParams.get('?access_token')
 
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
