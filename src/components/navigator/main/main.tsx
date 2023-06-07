@@ -91,7 +91,7 @@ const MainNavigator = ({ type }: any) => {
                 {/* Navigator Area */}
                 <motion.div
                     layoutRoot
-                    className="relative w-full h-full rounded-3xl bg-slate-950/90 border-[0.5px] border-slate-800 p-2 flex-col items-end text-slate-100 tracking-[.07rem]"
+                    className="relative w-full h-full rounded-3xl bg-slate-950/100 border-[0.5px] border-slate-800 p-2 flex-col items-end text-slate-100 tracking-[.07rem]"
                     transition={{ type: "spring", duration: 0.6, delay: 0.1 }}
                     initial={{ borderRadius: 30 }}
                 >
@@ -112,7 +112,7 @@ const MainNavigator = ({ type }: any) => {
 
                         <motion.div
                             layout="position"
-                            className="flex items-center bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-3xl px-7 space-x-2 mr-5"
+                            className="flex items-center bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-3xl px-7 space-x-2 mr-2"
                             onClick={() => {
                                 setMenuOpen(!menuOpen);
                                 setNavOpen(false);
@@ -140,7 +140,7 @@ const MainNavigator = ({ type }: any) => {
                             )}
                             <motion.input
                                 layout
-                                className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 text-sm rounded-2xl"
+                                className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 text-sm rounded-full"
                                 placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
                                 transition={{ duration: 0.4 }}
                                 animate={{ width: navOpen ? "40vw" : "18vw" }}
@@ -194,7 +194,7 @@ const TagItem = ({ title, onClick }) => {
     return (
         <li onClick={onClick} className='text-slate-400 hover:text-slate-200 cursor-pointer flex items-center space-x-1 border border-slate-500 rounded-full font-light text-sm py-[0.25rem] pl-2 pr-1.5'>
             <span className='w-max'>{title}</span>
-            <Icons.XCircle className='w-5 h-5 hover:text-orange-500' />
+            <Icons.XCircle className='w-5 h-5 hover:text-aqua-500' />
         </li>
     )
 }
