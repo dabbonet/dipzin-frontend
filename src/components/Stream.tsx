@@ -64,7 +64,7 @@ const Stream: FC<StreamProps> = () => {
   return (
     <>
       <VirtuosoGrid
-        className="mt-6"
+        className="my-6"
         useWindowScroll
         data={streamData}
         initialItemCount={15}
