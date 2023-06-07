@@ -12,6 +12,7 @@ import Icons from "@/components/Icons"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useDialog } from "@/context/useDialog"
 import { setTimeout } from "timers"
+import { getToken } from "@/lib/auth"
 
 
 const Search = () => {
@@ -20,12 +21,17 @@ const Search = () => {
     const [results, setResults] = useState<any>(null);
     const [selected, setSelected] = useState<any>({});
     const [isLoading, setIsLoading] = useState(true);
-
+    const token = getToken()
     useLayoutEffect(() => {
         const handleSearch = async () => {
             setResults([]);
             setIsLoading(true)
-            const res = await fetch(`/api/search?keyword=${searchKeyword}`, { cache: 'no-cache' });
+            const res = await fetch(`/api/search?keyword=${searchKeyword}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                cache: 'no-cache'
+            });
             const data = await res.json();
             setIsLoading(false)
 
