@@ -1,9 +1,11 @@
+import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 const qs = require('qs');
 
 export async function POST(request: Request) {
     const body = await request.json()
-
+    const headersList = headers();
+    const token = headersList.get('Authorization');
     const tagFilters = body.tags.map((tag) => ({
         tags: {
             name: {
@@ -46,6 +48,7 @@ export async function POST(request: Request) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': token
         },
         next: { revalidate: 300 }
     });
@@ -57,6 +60,6 @@ export async function POST(request: Request) {
     }
 
     const screens = await res.json();
-    return NextResponse.json({ screens });
+    return NextResponse.json({ screens }, {status : res.status});
 
 }

@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { FC, useCallback, useEffect, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso';
 import StreamLoader from '@/components/StreamLoader';
+import { getToken } from '@/lib/auth';
 
 
 interface pageProps {
@@ -77,7 +78,7 @@ const Search: FC<pageProps> = ({ }) => {
             endReached={loadMore}
             listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
             itemContent={(index, data) => (
-                <SingleScreen screen={data?.hash + data?.ext} />
+                <SingleScreen screen={data?.hash + data?.ext} is_published={data.is_published} />
             )}
         />
     )
@@ -87,10 +88,12 @@ export default Search
 
 
 async function getSearchResults({ tags, categories, page, platform }) {
+    const token = getToken()
     const req = await fetch("/api/search/filter", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
             tags: tags || [''],
@@ -105,7 +108,8 @@ async function getSearchResults({ tags, categories, page, platform }) {
     const data = await req.json()
     const screens = data.screens.data.flatMap(item => ({
         hash: item.attributes.screen.data?.attributes.hash,
-        ext: item.attributes.screen.data?.attributes.ext
+        ext: item.attributes.screen.data?.attributes.ext,
+        is_published: item.attributes.is_published
     }));
     return screens;
 }

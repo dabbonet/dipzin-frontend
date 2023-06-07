@@ -15,6 +15,7 @@ import { getUser } from "@/lib/auth";
 interface SingleScreenProps {
   screen: any;
   setOpen?: any;
+  is_published?: boolean
 }
 const mergeScreenUrl = (data) =>
   data.attributes
@@ -22,9 +23,11 @@ const mergeScreenUrl = (data) =>
     data.attributes?.screen.data?.attributes.ext
     : data;
 
-const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
+const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen , is_published }) => {
 
-  
+  if (!is_published) {
+    return
+  }
   const {setVisible , setVisibleNoAuth} = useDialog()
 
   const { id } = screen
