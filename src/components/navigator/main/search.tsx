@@ -31,6 +31,7 @@ const Search = () => {
             setIsLoading(true)
             const res = await fetch(`/api/search?keyword=${searchKeyword}`, {
                 headers: {
+                    'Content-Type' : 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
                 cache: 'no-cache'

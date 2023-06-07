@@ -22,10 +22,10 @@ export async function GET(request: Request) {
     if (!res.ok) {
         // Handle non-2xx HTTP response status codes
         const errorResponse = await res.json();
-        return NextResponse.json({ errorResponse });
+        return NextResponse.json({ errorResponse }, { status: res.status });
     }
 
     const search = await res.json();
-    return NextResponse.json({ search });
+    return NextResponse.json({ search }, {status: res.status});
 
 }
