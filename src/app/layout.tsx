@@ -4,7 +4,7 @@
 import Navbar from '@/components/Navbar'
 // import Footer from '@/components/Footer';
 import { Background1 } from '@/ui/Backgrounds'
-import '../globals.css'
+import './globals.css'
 import { Outfit } from 'next/font/google'
 import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
@@ -12,6 +12,7 @@ import Banner from '@/components/Banner';
 import HomeNavigator from '@/components/HomeNavigator';
 import MainNavigator from '@/components/navigator/main/main';
 import { AccessOrUpgradeCard } from '@/components/accessAndUbgrade';
+import { Toaster } from 'react-hot-toast';
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
@@ -41,8 +42,8 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
-  }) {
-  
+}) {
+
 
   return (
     <html lang="en" className={cn('subpixel-antialiased font-sans', outfit.variable)}>
@@ -50,9 +51,8 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           <AccessOrUpgradeCard />
-          <main className='pt-24 max-w-[82%]  mx-auto'>
-            <Banner />
-            <HomeNavigator />
+          <Toaster position='bottom-right'/>
+          <main className='pt-24 max-w-full mx-10'>
             {children}
             <MainNavigator />
           </main>
