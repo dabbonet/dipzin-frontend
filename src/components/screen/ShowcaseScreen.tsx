@@ -31,7 +31,7 @@ const ShowcaseScreen: FC<ShowcaseScreenProps> = ({ app }) => {
                 setCurrentScreenIndex((prevIndex) =>
                     prevIndex === screens.length - 1 ? 0 : prevIndex + 1
                 )
-            }, 600)
+            }, 1200) // Intreval for shuffle function.
         } else {
             clearInterval(intervalId)
         }
@@ -50,13 +50,10 @@ const ShowcaseScreen: FC<ShowcaseScreenProps> = ({ app }) => {
         >
             <motion.div
                 key={app.id}
-                whileHover={{
-                    scale: 1.05,
-                    transition: { duration: 0.4 },
-                }}
+
             >
                 {app?.screens && (
-                    <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 transform duration-500 border-[0px] hover:border-[3px] border-transparent hover:border-slate-300">
+                    <div className="w-full rounded-2xl overflow-hidden min-720:gap-16 transform duration-300 border-[3px] hover:border-[3px] border-transparent hover:border-slate-300 scale-center  hover:scale-105 align-middle">
 
                         {screens.map((screen, index) => (
                             screen &&
