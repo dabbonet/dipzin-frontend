@@ -68,6 +68,10 @@ export const setToken = (token: string) => {
   return;
 };
 
+export const getToken = () => {
+  return localStorage.getItem("token");
+};
+
 export const getUser = async () => {
   if (localStorage.getItem("token")) {
     const req = await fetch("/api/user", {
