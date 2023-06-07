@@ -8,10 +8,8 @@ import './globals.css'
 import { Outfit } from 'next/font/google'
 import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
-import Banner from '@/components/Banner';
-import HomeNavigator from '@/components/HomeNavigator';
-import MainNavigator from '@/components/navigator/main/main';
 import { AccessOrUpgradeCard } from '@/components/accessAndUbgrade';
+import Navigator from '@/components/navigator/main';
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
@@ -52,7 +50,7 @@ export default function RootLayout({
           <AccessOrUpgradeCard />
           <main className='pt-24 max-w-[90%]  mx-auto'>
             {children}
-            <MainNavigator />
+            <Navigator />
           </main>
           {/* <Footer /> */}
           <Background1 />
