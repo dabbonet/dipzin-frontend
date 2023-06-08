@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
-import { FC,  useEffect, useState } from "react";
+
+import { FC, useEffect, useRef, useState } from "react";
+
 import { cn, getAssetsURL } from "@/lib/utils";
 import Screen from "@/ui/Screen";
 import Icons from "../Icons";
@@ -17,17 +19,19 @@ interface SingleScreenProps {
 const mergeScreenUrl = (data) =>
   data.attributes
     ? data.attributes?.screen.data?.attributes.hash +
-      data.attributes?.screen.data?.attributes.ext
+    data.attributes?.screen.data?.attributes.ext
     : data;
 
 const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
+
   
   const {setVisible , setVisibleNoAuth} = useDialog()
+
   const { id } = screen
   const { selectedImages, setSelectedImages } = useSelcetedImages();
 
   useEffect(() => {
-    
+
     if (selectedImages.includes(id)) {
       setChecked(true);
     }
@@ -38,12 +42,14 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
   // TODO: Checked here should be working with the select images context.
   // Keep in mind that react-virtoso is removing the checkmark on scroll.
   const [checked, setChecked] = useState(false);
+
   const addToChecked = async () => {
     const isUserAuth = await getUser()
     if (!isUserAuth) {
       setVisibleNoAuth(true)
       return
     }
+
     setChecked(!checked);
     const selectedImagesIDS = selectedImages.map(el => el.id)
     if (!selectedImagesIDS.includes(id)) {
@@ -86,13 +92,13 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
           onClick={() => addToChecked()}
           animate={{ scale: checked ? 1.1 : 1 }}
           className={cn(
-            "absolute top-4 left-4 group/copy h-9 w-9 border-4 border-slate-200 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible",
-            checked && "visible border-orange-500 text-orange-500 bg-transparent"
+            "absolute top-4 left-4 group/copy border-2 border-slate-200 w-7 h-7 z-40 rounded-md flex items-center justify-center cursor-pointer invisible group-hover/item:visible",
+            checked && "visible bg-aqua-300 text-aqua-800 border-transparent"
           )}
         >
           {checked && (
             <svg
-              className="w-4 h-3 -z-10"
+              className="w-3 h-2.5 -z-10"
               viewBox="0 0 40 30"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -109,8 +115,8 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
 
         <div
           className={cn(
-            "w-full rounded-2xl overflow-hidden border-4 border-transparent min-720:gap-16 cursor-pointer",
-            checked && " border-orange-500"
+            "w-full rounded-2xl overflow-hidden border-2 border-transparent min-720:gap-16 cursor-pointer",
+            checked && " border-aqua-300"
           )}
           onClick={() => setOpen && setOpen(mergeScreenUrl(screen))}
         >

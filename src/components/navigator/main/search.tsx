@@ -10,8 +10,11 @@ import ResultIcon from './ResultIcon'
 import { useContentDiscovery } from "@/context/useContentDiscovery"
 import Icons from "@/components/Icons"
 import { useRouter, useSearchParams } from "next/navigation"
+
 import { useDialog } from "@/context/useDialog"
-import { setTimeout } from "timers"
+
+import { getToken } from "@/lib/auth"
+
 
 
 const Search = () => {
@@ -20,12 +23,18 @@ const Search = () => {
     const [results, setResults] = useState<any>(null);
     const [selected, setSelected] = useState<any>({});
     const [isLoading, setIsLoading] = useState(true);
+    const token = getToken();
 
     useLayoutEffect(() => {
         const handleSearch = async () => {
             setResults([]);
             setIsLoading(true)
-            const res = await fetch(`/api/search?keyword=${searchKeyword}`, { cache: 'no-cache' });
+            const res = await fetch(`/api/search?keyword=${searchKeyword}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                cache: 'no-cache'
+            });
             const data = await res.json();
             setIsLoading(false)
 
@@ -232,7 +241,7 @@ const PreviewCard = ({ selected }: any) => {
                     </div>
                 </div>
                 <button
-                    className="min-w-fit h-full p-2  bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-orange-500"
+                    className="min-w-fit h-full p-2  bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-aqua-500"
                     onClick={() => handleSearchClick(selected)}
                 >
                     <Icons.Expand />
