@@ -18,15 +18,15 @@ const Menu = () => {
                     <p className='uppercase text-sm text-slate-400 mb-2'>Main Menu</p>
                     <div className='flex-col rounded-2xl bg-slate-800 p-6 space-y-2 relative'>
                         <ul className='text-slate-200 text-2xl font-semibold space-y-2'>
-                            <li><Link href={'/'} className="hover:text-orange-500">Stream</Link></li>
-                            <li><Link href={'/pricing'} className="hover:text-orange-500">Pricing</Link></li>
-                            <li><Link href={'/collections'} className="hover:text-orange-500">Collections</Link></li>
+                            <li><Link href={'/'} className="hover:text-aqua-500">Stream</Link></li>
+                            <li><Link href={'/pricing'} className="hover:text-aqua-500">Pricing</Link></li>
+                            <li><Link href={'/collections'} className="hover:text-aqua-500">Collections</Link></li>
                             <li className='flex justify-between'>
-                                <Link href={'/'} className="hover:text-orange-500">Blog</Link>
+                                <Link href={'/'} className="hover:text-aqua-500">Blog</Link>
                                 <span className='text-sm bg-slate-500 text-slate-200 py-1 h-fit px-2 rounded-full'>SOON</span>
                             </li>
-                            {/* <li><Link href={'/'} className="hover:text-orange-500">About</Link></li> */}
-                            {/* <li><Link href={'/'} className="hover:text-orange-500">Contact us</Link></li> */}
+                            {/* <li><Link href={'/'} className="hover:text-aqua-500">About</Link></li> */}
+                            {/* <li><Link href={'/'} className="hover:text-aqua-500">Contact us</Link></li> */}
                         </ul>
                     </div>
                 </div>
