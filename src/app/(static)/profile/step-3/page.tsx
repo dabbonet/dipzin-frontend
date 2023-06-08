@@ -13,7 +13,7 @@ export default function page({ }) {
             <p className=" text-slate-400 text-sm text-center mb-4">Congratulations on completing your profile! Now it's time to explore Dipzin's vast collection of mobile app designs from the best teams worldwide. Click 'Start Your Free Trial' below and enjoy a personalized, inspiring experience. Happy browsing!</p>
             <SparkleButton href='/access' >Try it!</SparkleButton>
         </div>
-        <div className=" flex justify-center mt-48">
+        <div className=" flex justify-center mt-40">
             <Link href={''}>Invite to Dipzin 💰</Link>
         </div>
     </div>
