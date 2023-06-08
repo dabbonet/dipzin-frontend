@@ -8,10 +8,6 @@ import { useAuth } from "@/lib/auth";
 
 const Navigator = ({ type }: any) => {
   const { user, loading } = useAuth();
-  useEffect(() => {
-    console.log("user:", user)
-  }, [user])
-
   return (
     <motion.div
       // initial={{ y: 200 }}
