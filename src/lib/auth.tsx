@@ -56,7 +56,7 @@ const AuthProvider: FC<props> = ({ children }) => {
     };
 
     checkUser();
-  }, []);
+  }, [user]);
 
   return (
     <IsAuth.Provider value={{ user, loading }}>{children}</IsAuth.Provider>
@@ -66,6 +66,9 @@ const AuthProvider: FC<props> = ({ children }) => {
 export const setToken = (token: string) => {
   localStorage.setItem("token", token);
   return;
+};
+export const getToken = () => {
+  return localStorage.getItem("token");
 };
 
 export const getUser = async () => {
@@ -98,7 +101,7 @@ type SignInParams = {
   invitationToken?: string,
 }
 
-export async function SignIn({ email, referralToken, invitationToken }:SignInParams) {
+export async function SignIn({ email, referralToken, invitationToken }: SignInParams) {
   const req = await fetch("/api/user/generate", {
     method: "POST",
     headers: {

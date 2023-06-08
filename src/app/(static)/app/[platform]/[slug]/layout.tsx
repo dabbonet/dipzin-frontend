@@ -18,7 +18,7 @@ export default function Layout({
 }) {
     return (
         <>
-            <div className="max-w-[85%] mx-auto">
+            <div className="max-w-[92%] mx-auto">
                 {children}
             </div>
         </>
