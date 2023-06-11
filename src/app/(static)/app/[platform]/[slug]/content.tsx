@@ -10,6 +10,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import ScreenActions from "./ScreenActions";
+import ScreenTagAndColors from "@/components/ScreenTagAndColors";
 
 interface ContentProps {
   apps: any;
@@ -95,12 +96,13 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
           <>
             <ScreenActions appName={app.name} screen={openScreen} />
             <motion.div
-              className="fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-[20] flex items-center justify-center"
+              className="fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-[20] flex items-center justify-center gap-8"
               onClick={() => setOpenScreen(null)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
+              <ScreenTagAndColors screenId={openScreen.id}/>
               <Screen
                 src={mergeScreenUrl(openScreen)}
                 quality={50}
