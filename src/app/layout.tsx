@@ -50,7 +50,7 @@ export default function RootLayout({
           <AccessOrUpgradeCard />
           <main className='pt-24 max-w-[90%]  mx-auto'>
             {children}
-            <Navigator />
+            {/* <Navigator /> */}
           </main>
           {/* <Footer /> */}
           <Background1 />

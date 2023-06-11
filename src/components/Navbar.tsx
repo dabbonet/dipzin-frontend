@@ -34,7 +34,7 @@ const Navbar: FC = () => {
                     unoptimized
                 />
             </Link>
-
+            {/* 
             {!loading &&
                 <PlatformSwitcher />
             }
@@ -44,7 +44,7 @@ const Navbar: FC = () => {
             }
             {!loading && user &&
                 <SparkleButton href='/pricing' >Unlock More!</SparkleButton>
-            }
+            } */}
 
         </header>
     )
