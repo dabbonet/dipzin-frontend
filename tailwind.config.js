@@ -1,28 +1,52 @@
+const { fontFamily } = require('tailwindcss/defaultTheme');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: ['class'],
   content: [
+    "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
-    "./app/**/*.{js,ts,jsx,tsx}",
+
+    // Or if using `src` directory:
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    screens: {
-      xs: { max: '575px' }, // Mobile (iPhone 3 - iPhone XS Max).
-      sm: { min: '576px', max: '897px' }, // Mobile (matches max: iPhone 11 Pro Max landscape @ 896px).
-      md: { min: '898px', max: '1199px' }, // Tablet (matches max: iPad Pro @ 1112px).
-      lg: { min: '1200px' }, // Desktop smallest.
-      xl: { min: '1600px' }, // Desktop wide.
-      xxl: { min: '2200px' } // Desktop widescreen.
-    },
     extend: {
-      colors: {
-        transparent: 'transparent',
-        current: 'currentColor',
+      fontFamily: {
+        sans: ['var(--font-outfit)', ...fontFamily.sans],
       },
+      colors: {
+        'aqua': {
+          50: '#e9fff8',
+          100: '#c9ffed',
+          200: '#98ffe1',
+          300: '#37ffcf',
+          400: '#14f3c5',
+          500: '#00dbae',
+          600: '#00b390',
+          700: '#008f77',
+          800: '#007160',
+          900: '#005c50',
+          950: '#00342e',
+        },
+        'black': {
+          50: '#f4f5f7',
+          100: '#e2e4eb',
+          200: '#c9ccd8',
+          300: '#a3a7bd',
+          400: '#767c9a',
+          500: '#5a5f80',
+          600: '#4e516c',
+          700: '#43455b',
+          800: '#3c3d4e',
+          900: '#363743',
+          950: '#030304',
+        },
+      }
     },
   },
   plugins: [
-    require("@tailwindcss/forms"),
     require('@gradin/tailwindcss-scrollbar')({
       size: '5px', // width or height, default '5px'
       track: {
@@ -43,6 +67,6 @@ module.exports = {
         // add other css attributes here,
         // will be merged to ::-webkit-scrollbar-thumb:hover
       },
-    }),
+    })
   ],
-};
+}
