@@ -14,6 +14,7 @@ const CommingSoon = () => {
         }
     if(email.length > 0 && !email.match(regextMatchEmail)) typeOFEmail = 'Invalid email'
     const submitEmail = async(e) => {
+        e.preventDefault()
         if (!email.match(regextMatchEmail)) {
             return toast.error("please enter a valid email", {
                 duration: 2000,
@@ -54,9 +55,11 @@ const CommingSoon = () => {
                     <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
                     <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
                 </svg>
-                <input type="email" value={email} onChange={(e)=> handleChange(e.target.value)} placeholder="Your email Address" className=" flex-1 bg-transparent focus:outline-none" />
-                <span className=" text-red-500">{typeOFEmail}</span>
-                <button className=" bg-gradient-to-r from-aqua-400 to-aqua-600 text-sm p-2 rounded-lg cursor-pointer" onClick={(e)=>submitEmail(e)}>Get Notified!</button>
+                <form action="" onSubmit={(e)=> submitEmail(e)} className=" flex-1 flex gap-3 items-center flex-wrap">
+                    <input type="email" value={email} onChange={(e)=> handleChange(e.target.value)} placeholder="Your email Address" className=" flex-1 bg-transparent focus:outline-none" />
+                    <span className=" text-red-500">{typeOFEmail}</span>
+                    <button className=" bg-gradient-to-r from-aqua-400 to-aqua-600 text-sm p-2 rounded-lg cursor-pointer mx-auto">Get Notified!</button>
+                </form>
             </div>
             
         </div>
