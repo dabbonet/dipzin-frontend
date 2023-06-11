@@ -34,7 +34,7 @@ const CommingSoon = () => {
         console.log(res)
     }
     return <div className="mx-auto w-full max-w-xl subpixel-antialiased">
-        <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-lime-200 to-orange-600 lg:text-5xl text-3xl">
+        <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-aqua-200 to-aqua-600 lg:text-5xl text-3xl">
             Your Go-To Source for Digital Inspiration
         </h1>
         <p className="text-white font-light mt-4 lg:text-base text-sm">
@@ -56,7 +56,7 @@ const CommingSoon = () => {
                 </svg>
                 <input type="email" value={email} onChange={(e)=> handleChange(e.target.value)} placeholder="Your email Address" className=" flex-1 bg-transparent focus:outline-none" />
                 <span className=" text-red-500">{typeOFEmail}</span>
-                <button className=" bg-gradient-to-r from-orange-400 to-orange-600 text-sm p-2 rounded-lg cursor-pointer" onClick={(e)=>submitEmail(e)}>Get Notified!</button>
+                <button className=" bg-gradient-to-r from-aqua-400 to-aqua-600 text-sm p-2 rounded-lg cursor-pointer" onClick={(e)=>submitEmail(e)}>Get Notified!</button>
             </div>
             
         </div>
