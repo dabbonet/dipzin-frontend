@@ -1,21 +1,13 @@
 'use client'
-import { getUser, setToken } from '@/lib/auth'
-import React, { useEffect, useState } from 'react'
+import {  setToken, useAuth } from '@/lib/auth'
+import { invetaionAndReferralTokens } from '@/lib/tokens'
+import React from 'react'
 import GoogleOneTapLogin  from 'react-google-one-tap-login'
 import { toast } from 'react-hot-toast'
-import { invetaionAndReferralTokens } from './AccessComponent'
+
 
 const GoogleOneTap = ({ children }) => {
-  const [isUserAuth, setIsUserAuth] = useState(false)
-  useEffect(() => {
-    async function isUserAuthintcated() {
-      const isAuthented = await getUser()
-      if (isAuthented) {
-        setIsUserAuth(true)
-      }
-    }
-    isUserAuthintcated()
-  }, [])
+  const {user} = useAuth()
   
   
   const handleSuccess =  async (res) => {
@@ -45,7 +37,7 @@ const GoogleOneTap = ({ children }) => {
     }
     }
       
-    if (isUserAuth) {
+    if (user) {
       return <>
         {children}
       </>

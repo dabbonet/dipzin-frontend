@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import { SignIn } from "@/lib/auth";
 import { usePathname, useRouter } from "next/navigation";
 import OtpAccessComponent from "./OtpAccessComponent";
+import { invetaionAndReferralTokens } from "@/lib/tokens";
 
 
 
@@ -110,12 +111,3 @@ const AccessComponent = () => {
 
 export default AccessComponent;
 
-export const invetaionAndReferralTokens = () => {
-  const cookies = document.cookie.split(";").map(x => {
-    const [name, value] = x.trim().split("=");
-    return { name, value };
-  });
-  const invitationToken = cookies?.filter(x => x.name == 'invitation-token')[0]?.value ?? null;
-  const referralToken = cookies?.filter(x => x.name == 'referral-token')[0]?.value ?? null;
-  return {invitationToken , referralToken}
-}
