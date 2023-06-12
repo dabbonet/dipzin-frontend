@@ -1,4 +1,51 @@
+'use client'
+
+import { getToken } from "@/lib/auth"
+import Link from "next/link"
+import { useEffect, useState } from "react"
+
 export default function page({ }) {
+
+    const [newsLetter, setNewsLetter] = useState(null)
+    let userArr = []
+    useEffect(() => {
+        async function getNewsLetter() {
+            const req = await fetch('https://rah.dipzin.com/api/system-news-letters', {
+                method: 'GET',
+                headers: {
+                    Authorization : `Bearer ${getToken()}`
+                }
+            })
+            const res = await req.json()
+            console.log(res)
+            setNewsLetter(res.data)
+        }
+        getNewsLetter()
+    }, [])
+
+    const addNewsLetter = (e) => {
+        const { id } = e.target
+        if (userArr.includes(id)) {
+            userArr = userArr.filter(el => el !== id)
+        } else {
+            userArr = [...userArr , id]
+        }
+    }
+    
+    const SystemNewsLetterComponent = ({id , name})=> {
+        return <div className=" flex gap-2  items-center">
+            <input onClick={addNewsLetter}  type="checkbox" id={id} className="before:checked:content-['✓'] before:checked:bg-aqua-600 bg-opacity-0 before:rounded-lg before:w-5 relative before:absolute before:h-5 before:bg-slate-800 before:-top-1 before:-left-1 before:flex before:items-center before:justify-center " />
+            <label htmlFor={id}>{name}</label>
+        </div>
+    }
+    
+    const FullNewSLetterComponent = () => {
+        return <div className=" grid grid-cols-2 gap-x-12 gap-y-4 mt-5">
+            {newsLetter?.map(el => (
+                <SystemNewsLetterComponent key={el.id} id={el.id} name={el.attributes.name}/>
+            ))}
+        </div>
+    }
     return <div className=" flex gap-x-36 flex-wrap justify-center items-center">
         <div className=" flex-1">
             <p className=" text-slate-400 text-base font-normal"><span className=" text-aqua-500">1/2</span> Basic Info</p>
@@ -24,44 +71,23 @@ export default function page({ }) {
             <form action="">
                 <div className=" flex flex-col gap-y-2 mb-4">
                     <label htmlFor="name" className=" text-slate-300">Name <span className=" text-aqua-300">*</span></label>
-                    <input type="text" id="name" placeholder="Full Name" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4"/>
+                    <input required type="text" id="name" placeholder="Full Name" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4"/>
                 </div>
                 <div className=" flex flex-col gap-y-2 mb-4">
                     <label htmlFor="name" className=" text-slate-300">Username <span className=" text-aqua-300">*</span></label>
-                    <input type="text" id="name" placeholder="@dipzin" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4"/>
+                    <input required type="text" id="name" placeholder="@dipzin" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4"/>
                 </div>
                 <div className=" flex flex-col gap-y-2 mb-4">
                     <label htmlFor="name" className=" text-slate-300">Email Address <span className=" text-aqua-300">*</span></label>
-                    <input type="text" id="name" placeholder="hi@example.com" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4"/>
+                    <input required type="text" id="name" placeholder="hi@example.com" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4"/>
                 </div>
                 <div className=" mb-4">
                     <p className=" text-slate-300">Notifications <span className=" text-aqua-300">*</span></p>
                     <p className=" text-slate-500 font-medium text-xs">Choose type of notifications you want to receive</p>
-                    <div className=" grid grid-cols-2 gap-x-12 gap-y-4 mt-5">
-                        <div className=" flex gap-2  items-center">
-                            <input type="checkbox" name="" id="feature" className="  before:checked:content-['✓'] before:checked:bg-aqua-600 bg-opacity-0 before:rounded-lg  before:w-5 relative before:absolute  before:h-5 before:bg-slate-800 before:-top-1 before:-left-1 before:flex before:items-center before:justify-center " />
-                            <label htmlFor="feature">Feature Releases</label>
-                        </div>
-                        <div className=" flex gap-2 items-center">
-                            <input type="checkbox" name="" id="feature2" className="  before:checked:content-['✓'] before:checked:bg-aqua-600 bg-opacity-0 before:rounded-lg  before:w-5 relative before:absolute  before:h-5 before:bg-slate-800 before:-top-1 before:-left-1 before:flex before:items-center before:justify-center " />
-                            <label htmlFor="feature2">Technical Newsletter</label>
-                        </div>
-                        <div className=" flex gap-2 items-center">
-                            <input type="checkbox" name="" id="feature3" className="  before:checked:content-['✓'] before:checked:bg-aqua-600 bg-opacity-0 before:rounded-lg  before:w-5 relative before:absolute  before:h-5 before:bg-slate-800 before:-top-1 before:-left-1 before:flex before:items-center before:justify-center " />
-                            <label htmlFor="feature3">Onboarding Emails</label>
-                        </div>
-                        <div className=" flex gap-2 items-center">
-                            <input type="checkbox" name="" id="feature4" className="  before:checked:content-['✓'] before:checked:bg-aqua-600 bg-opacity-0 before:rounded-lg  before:w-5 relative before:absolute  before:h-5 before:bg-slate-800 before:-top-1 before:-left-1 before:flex before:items-center before:justify-center " />
-                            <label htmlFor="feature4">Account Updates</label>
-                        </div>
-                        <div className=" flex gap-2 items-center">
-                            <input type="checkbox" name="" id="feature5" className="  before:checked:content-['✓'] before:checked:bg-aqua-600 bg-opacity-0 before:rounded-lg  before:w-5 relative before:absolute  before:h-5 before:bg-slate-800 before:-top-1 before:-left-1 before:flex before:items-center before:justify-center " />
-                            <label htmlFor="feature5">No Emails</label>
-                        </div>
-                    </div>
+                    <FullNewSLetterComponent/>
                 </div>
                 <div className=" flex justify-end gap-x-4">
-                    <button className=" rounded-lg bg-slate-900 py-2 px-9 text-sm font-medium">back</button>
+                    <Link href='/' className=" rounded-lg bg-slate-900 py-2 px-9 text-sm font-medium">back</Link>
                     <button className=" rounded-lg bg-gradient-to-tr from-aqua-400 to-aqua-600 py-2 px-9 text-sm font-medium text-aqua-950">Next</button>
                 </div>
             </form>
