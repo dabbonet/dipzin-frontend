@@ -67,7 +67,7 @@ export default ScreenTagAndColors
 
 
 const ColorSquare = ({ color }) => {
-    return <div className={` w-11 h-11 bg-[${color}] rounded-xl`}></div>
+    return <div className={` w-11 h-11 rounded-xl`} style={{backgroundColor : color}}></div>
 }
 
 const Tag = ({ name }) => {
