@@ -1,12 +1,20 @@
 'use client'
-
 import { getToken } from "@/lib/auth"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { toast } from "react-hot-toast"
 
 export default function page({ }) {
-
+    const rouuer = useRouter()
     const [newsLetter, setNewsLetter] = useState(null)
+    const [profileUpdated, setProfileUpdated] = useState(false)
+    const [newsLetterUpdated, setNewsLetterUpdated] = useState(false)
+    const [userDetails, setUserDetails] = useState({
+        name: '',
+        username: "",
+        email: "",
+      })
     let userArr = []
     useEffect(() => {
         async function getNewsLetter() {
@@ -17,21 +25,78 @@ export default function page({ }) {
                 }
             })
             const res = await req.json()
-            console.log(res)
             setNewsLetter(res.data)
         }
         getNewsLetter()
     }, [])
-
     const addNewsLetter = (e) => {
         const { id } = e.target
-        if (userArr.includes(id)) {
-            userArr = userArr.filter(el => el !== id)
+        if (userArr.includes(+id)) {
+            userArr = userArr.filter(el => el !== +id)
         } else {
-            userArr = [...userArr , id]
+            userArr = [...userArr , +id]
         }
     }
     
+    const handleChange = (event) => {
+        const { id, value  } = event.target
+            setUserDetails({
+                ...userDetails,
+                [id]: value
+        })
+    }
+    const submitForm = async (e) => {
+        e.preventDefault()
+        try {
+            const response = await fetch(`/api/account/update`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                  auth: getToken(),
+                  username: userDetails.username,
+                  name: userDetails.name,
+                  email: userDetails.email
+              })
+            });
+            const data = await response.json();
+            if (!response.ok) {
+              toast.remove()
+              toast.error(data.message)
+            } else {
+              setProfileUpdated(true)
+            }
+          } catch (error) {
+            toast.remove()
+            toast.error('something went wrong')
+        }
+        try {
+            const req = await fetch('https://rah.dipzin.com/api/user-system-news-letters', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify({
+                    data: {
+                        news_letters : userArr
+                    }
+                })
+            })
+            const res = await req.json()
+            console.log(res)
+            if (!res.ok) {
+                toast.remove()
+                toast.error('Unable to process the data!')
+              } else {
+                setNewsLetterUpdated(true)
+              }
+        } catch (error) {
+            toast.remove()
+            toast.error('something went wrong')
+        }
+    }
     const SystemNewsLetterComponent = ({id , name})=> {
         return <div className=" flex gap-2  items-center">
             <input onClick={addNewsLetter}  type="checkbox" id={id} className="before:checked:content-['✓'] before:checked:bg-aqua-600 bg-opacity-0 before:rounded-lg before:w-5 relative before:absolute before:h-5 before:bg-slate-800 before:-top-1 before:-left-1 before:flex before:items-center before:justify-center " />
@@ -45,6 +110,9 @@ export default function page({ }) {
                 <SystemNewsLetterComponent key={el.id} id={el.id} name={el.attributes.name}/>
             ))}
         </div>
+    }
+    if (profileUpdated && newsLetterUpdated) {
+        rouuer.push('/profile/step-2')
     }
     return <div className=" flex gap-x-36 flex-wrap justify-center items-center">
         <div className=" flex-1">
@@ -68,18 +136,18 @@ export default function page({ }) {
                     <img src="/images/assets/Manager-1.svg" alt="" />
                 </div>
             </div>
-            <form action="">
+            <form action="" onSubmit={submitForm}>
                 <div className=" flex flex-col gap-y-2 mb-4">
                     <label htmlFor="name" className=" text-slate-300">Name <span className=" text-aqua-300">*</span></label>
-                    <input required type="text" id="name" placeholder="Full Name" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4"/>
+                    <input required type="text" onChange={handleChange} id="name" value={userDetails.name} placeholder="Full Name" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4"/>
                 </div>
                 <div className=" flex flex-col gap-y-2 mb-4">
-                    <label htmlFor="name" className=" text-slate-300">Username <span className=" text-aqua-300">*</span></label>
-                    <input required type="text" id="name" placeholder="@dipzin" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4"/>
+                    <label htmlFor="username" className=" text-slate-300">Username <span className=" text-aqua-300">*</span></label>
+                    <input required type="text" onChange={handleChange} id="username" value={userDetails.username} placeholder="@dipzin" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4"/>
                 </div>
                 <div className=" flex flex-col gap-y-2 mb-4">
-                    <label htmlFor="name" className=" text-slate-300">Email Address <span className=" text-aqua-300">*</span></label>
-                    <input required type="text" id="name" placeholder="hi@example.com" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4"/>
+                    <label htmlFor="email" className=" text-slate-300">Email Address <span className=" text-aqua-300">*</span></label>
+                    <input required type="email" onChange={handleChange} id="email" value={userDetails.email} placeholder="hi@example.com" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4"/>
                 </div>
                 <div className=" mb-4">
                     <p className=" text-slate-300">Notifications <span className=" text-aqua-300">*</span></p>
