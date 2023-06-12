@@ -431,6 +431,11 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
+"@rheasmith/react-google-one-tap-login@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.npmjs.org/@rheasmith/react-google-one-tap-login/-/react-google-one-tap-login-0.1.3.tgz"
+  integrity sha512-0LEZeb6tByJKWEU1nlPPMPUkqFYsvqeIdFW75B6hOkdeKYLP2bWCx+PYxPRIqxE+ClxD41V/Pj9OpL8QzeIgEg==
+
 "@rushstack/eslint-patch@^1.1.3":
   version "1.2.0"
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.2.0.tgz"
@@ -1520,11 +1525,6 @@ goober@^2.1.10:
   version "2.1.12"
   resolved "https://registry.npmjs.org/goober/-/goober-2.1.12.tgz"
   integrity sha512-yXHAvO08FU1JgTXX6Zn6sYCUFfB/OJSX8HHjDSgerZHZmFKAb08cykp5LBw5QnmyMcZyPRMqkdyHUSSzge788Q==
-
-google-one-tap@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.npmjs.org/google-one-tap/-/google-one-tap-1.0.6.tgz"
-  integrity sha512-sgusL6AmYCsTW/WVpJK0zxsjelPqJt/+3yNj4yHZTJOrHEDO251SR9xbTNB4wYK7nCM86/RaQdsD+8yUNQSQeQ==
 
 gopd@^1.0.1:
   version "1.0.1"

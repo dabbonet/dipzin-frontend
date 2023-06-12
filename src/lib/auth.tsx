@@ -56,7 +56,7 @@ const AuthProvider: FC<props> = ({ children }) => {
     };
 
     checkUser();
-  }, [user]);
+  }, []);
 
   return (
     <IsAuth.Provider value={{ user, loading }}>{children}</IsAuth.Provider>
