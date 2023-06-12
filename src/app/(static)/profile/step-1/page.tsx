@@ -85,8 +85,7 @@ export default function page({ }) {
                 })
             })
             const res = await req.json()
-            console.log(res)
-            if (!res.ok) {
+            if (!req.ok) {
                 toast.remove()
                 toast.error('Unable to process the data!')
               } else {
