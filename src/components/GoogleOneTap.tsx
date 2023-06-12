@@ -2,13 +2,16 @@
 import {  setToken, useAuth } from '@/lib/auth'
 import { invetaionAndReferralTokens } from '@/lib/tokens'
 import React from 'react'
-import GoogleOneTapLogin  from 'react-google-one-tap-login'
+import GoogleOneTapLogin from '@rheasmith/react-google-one-tap-login';
 import { toast } from 'react-hot-toast'
+import { usePathname } from 'next/navigation';
 
+
+const notShowInPathArr = ['/access' , '/access/otp']
 
 const GoogleOneTap = ({ children }) => {
   const {user} = useAuth()
-  
+  const path = usePathname()
   
   const handleSuccess =  async (res) => {
     const {referralToken , invitationToken} = invetaionAndReferralTokens()
@@ -30,6 +33,7 @@ const GoogleOneTap = ({ children }) => {
       const response = await req.json()
       if (req.ok) {
         setToken(response.token)
+        window.location.reload()
       }
     } catch (error) {
       toast.remove()
@@ -37,7 +41,7 @@ const GoogleOneTap = ({ children }) => {
     }
     }
       
-    if (user) {
+    if (user || notShowInPathArr.includes(path)) {
       return <>
         {children}
       </>
