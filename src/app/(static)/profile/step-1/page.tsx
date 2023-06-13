@@ -14,7 +14,7 @@ export default function page({ }) {
         name: '',
         username: "",
         email: "",
-      })
+    })
     let userArr = []
     useEffect(() => {
         async function getNewsLetter() {
@@ -37,7 +37,7 @@ export default function page({ }) {
             userArr = [...userArr , +id]
         }
     }
-    
+
     const handleChange = (event) => {
         const { id, value  } = event.target
             setUserDetails({
@@ -46,56 +46,55 @@ export default function page({ }) {
         })
     }
     const submitForm = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         try {
-            const response = await fetch(`/api/account/update`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                  auth: getToken(),
-                  username: userDetails.username,
-                  name: userDetails.name,
-                  email: userDetails.email
-              })
-            });
-            const data = await response.json();
-            if (!response.ok) {
-              toast.remove()
-              toast.error(data.message)
+            const [updateResponse, newsLetterResponse] = await Promise.all([
+                fetch(`/api/account/update`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        auth: getToken(),
+                        username: userDetails.username,
+                        name: userDetails.name,
+                        email: userDetails.email,
+                    }),
+                }),
+                fetch('https://rah.dipzin.com/api/user-system-news-letters', {
+                    method: 'POST',
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        data: {
+                            news_letters: userArr,
+                        },
+                    }),
+                }),
+            ]);
+            const [updateData] = await Promise.all([
+                updateResponse.json(),
+                newsLetterResponse.json(),
+            ]);
+            if (!updateResponse.ok) {
+                toast.remove();
+                toast.error(updateData.message);
             } else {
-              setProfileUpdated(true)
+                setProfileUpdated(true);
             }
-          } catch (error) {
-            toast.remove()
-            toast.error('something went wrong')
-        }
-        try {
-            const req = await fetch('https://rah.dipzin.com/api/user-system-news-letters', {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${getToken()}`,
-                    'Content-Type' : 'application/json'
-                },
-                body: JSON.stringify({
-                    data: {
-                        news_letters : userArr
-                    }
-                })
-            })
-            const res = await req.json()
-            if (!req.ok) {
-                toast.remove()
-                toast.error('Unable to process the data!')
-              } else {
-                setNewsLetterUpdated(true)
-              }
+            if (!newsLetterResponse.ok) {
+                toast.remove();
+                toast.error('Unable to process the data!');
+            } else {
+                setNewsLetterUpdated(true);
+            }
         } catch (error) {
-            toast.remove()
-            toast.error('something went wrong')
+            toast.remove();
+            toast.error('Something went wrong');
         }
-    }
+    };
     const SystemNewsLetterComponent = ({id , name})=> {
         return <div className=" flex gap-2  items-center">
             <input onClick={addNewsLetter}  type="checkbox" id={id} className="before:checked:content-['✓'] before:checked:bg-aqua-600 bg-opacity-0 before:rounded-lg before:w-5 relative before:absolute before:h-5 before:bg-slate-800 before:-top-1 before:-left-1 before:flex before:items-center before:justify-center " />
