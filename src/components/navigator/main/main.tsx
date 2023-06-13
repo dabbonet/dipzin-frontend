@@ -11,6 +11,8 @@ import { cn } from '@/lib/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getUser } from '@/lib/auth';
 import Link from 'next/link';
+import InitialSearch from './InitailSearch';
+
 
 
 const MainNavigator = ({ type }: any) => {
@@ -19,6 +21,7 @@ const MainNavigator = ({ type }: any) => {
     const [filterOpen, setFilterOpen] = useState(false)
     const searchParams = useSearchParams()!;
     const router = useRouter();
+    const [initialSearch, setInitialSearch] = useState(false)
 
 
     // Logic to handle if user clicks outside of the navigator
@@ -29,6 +32,7 @@ const MainNavigator = ({ type }: any) => {
                     setFilterOpen(false)
                     setMenuOpen(false)
                     setNavOpen(false)
+                    setInitialSearch(false)
                 }
             }
             // Bind the event listener
@@ -94,6 +98,9 @@ const MainNavigator = ({ type }: any) => {
                         {menuOpen && (
                             <Menu />
                         )}
+                        {initialSearch && (
+                            <InitialSearch/>
+                        )}
                     </AnimatePresence>
                     <motion.div className="flex w-full h-[48px] relative z-30">
 
@@ -104,6 +111,7 @@ const MainNavigator = ({ type }: any) => {
                                 setMenuOpen(!menuOpen);
                                 setNavOpen(false);
                                 setFilterOpen(false);
+                                setInitialSearch(false)
                             }}>
                             <Icons.Grip className='w-4 h-4 text-slate-400' />
                             <span className="font-medium text-sm mt-0.5">Menu</span>
@@ -138,13 +146,21 @@ const MainNavigator = ({ type }: any) => {
                                         setNavOpen(true);
                                         setMenuOpen(false);
                                         setFilterOpen(false);
+                                        setInitialSearch(false)
                                     } else {
                                         setNavOpen(false);
+                                        setInitialSearch(true)
                                     }
                                 }}
                                 onFocus={(e) => {
                                     if (e.target.value.length > 0) {
                                         setNavOpen(true);
+                                        setMenuOpen(false);
+                                        setFilterOpen(false);
+                                        setInitialSearch(false)
+                                    } else {
+                                        setInitialSearch(true)
+                                        setNavOpen(false);
                                         setMenuOpen(false);
                                         setFilterOpen(false);
                                     }
