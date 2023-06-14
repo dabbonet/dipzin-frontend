@@ -34,14 +34,14 @@ const ScreenTagAndColors = ({ screenId }) => {
     }
     const Colors = () => {
         const colorsArr = data?.colors.split(',')
-        return <div className=' flex gap-2 flex-wrap'>
+        return <div className='flex gap-2 flex-wrap'>
             {colorsArr?.map(el => (
             <ColorSquare color={el} key={el}/>
         ))}
         </div>
     }
   return (
-      <div className=' bg-slate-950 p-8 flex flex-col gap-y-8 rounded-3xl w-96 absolute top-1/2 -translate-y-1/2 -translate-x-full -left-8'>
+      <div className=' bg-slate-950 p-8 flex flex-col gap-y-8 rounded-3xl w-88 absolute top-1/2 -translate-y-1/2 -translate-x-full -left-8'>
           <div>
               <p className=' text-slate-500 text-sm mb-2'>Tags</p>
               <Tags/>
@@ -73,7 +73,7 @@ const ColorSquare = ({ color }) => {
             toast.error('Error copying text to clipboard:', error);
           });
       }
-    return <button onClick={copyToClipboard} className={` w-11 h-11 rounded-xl`} style={{backgroundColor : color}}></button>
+    return <button onClick={copyToClipboard} className={` w-10 h-10 rounded-xl border-transparent border-2 hover:border-aqua-400`} style={{backgroundColor : color}}></button>
 }
 
 const Tag = ({ name }: {name:string}) => {
@@ -99,5 +99,5 @@ const Tag = ({ name }: {name:string}) => {
         parameter.set('tags', tags);
         router.push('/search?' + parameter)
     }
-    return <button onClick={searchTag} className=' bg-slate-800 py-1 px-4 rounded-3xl'>{name}</button>
+    return <button onClick={searchTag} className=' bg-slate-800 hover:bg-slate-700 py-1 px-4 text-sm rounded-3xl'>{name}</button>
 }
