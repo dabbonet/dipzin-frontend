@@ -32,7 +32,6 @@ export const ContentDiscoveryProvider = ({ children }: { children: React.ReactNo
     const [streamData, setStreamData] = useState<any>(null);
     const [filters, setFilters] = useState<Filter>(null);
     const [searchKeyword, setSearchKeyword] = useState<string>('');
-
     return (
         <ContentDiscoveryContext.Provider
             value={{
@@ -41,7 +40,8 @@ export const ContentDiscoveryProvider = ({ children }: { children: React.ReactNo
                 filters,
                 setFilters,
                 searchKeyword,
-                setSearchKeyword
+                setSearchKeyword,
+                
             }}
         >
             {children}

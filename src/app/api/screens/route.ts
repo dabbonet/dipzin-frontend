@@ -1,7 +1,14 @@
 import { NextResponse } from "next/server";
-
+const qs = require('qs')
 export async function POST(request: Request) {
-    const { screenId, query } = await request.json();
+  const { screenId } = await request.json();
+  const query = qs.stringify({
+    populate: {
+        tags: '*'
+    }
+}, {
+    encode: false
+  })
     console.log(screenId , query)
   try {
     const req = await fetch(`https://rah.dipzin.com/api/screens/${screenId}?${query}`);
