@@ -36,7 +36,7 @@ const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
   }
 
     return  (
-        <ActionBar className="z-50 flex flex-col fixed right-10 top-[32%] w-auto h-auto">
+        <ActionBar className="z-[100] flex flex-col fixed right-10 top-[32%] w-auto h-auto">
           <SquareButton
             onClick={()=>handleLikeScreen()}
           >
