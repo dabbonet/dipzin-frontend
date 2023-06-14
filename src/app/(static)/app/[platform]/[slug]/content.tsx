@@ -102,12 +102,14 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <ScreenTagAndColors screenId={openScreen.id}/>
-              <Screen
-                src={mergeScreenUrl(openScreen)}
-                quality={50}
-                className="rounded-2xl h-[90%] w-auto bg-slate-900/80"
-              />
+              <div className=" h-[100vh] w-fit  relative">
+                <ScreenTagAndColors screenId={openScreen.id}/>
+                <Screen
+                  src={mergeScreenUrl(openScreen)}
+                  quality={50}
+                  className="rounded-2xl h-[90%] w-auto bg-slate-900/80"
+                />
+              </div>
             </motion.div>
           </>
         )}
