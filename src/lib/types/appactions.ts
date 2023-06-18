@@ -17,7 +17,7 @@ type screen = {
 
 
 export interface navigatorProps {
-  isFromCollection: boolean,
+  isFromCollection?: boolean,
   app?: {
     categories: {},
     screens: {
