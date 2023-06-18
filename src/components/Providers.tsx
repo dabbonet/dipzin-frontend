@@ -12,17 +12,17 @@ const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
 
-    <PlatformProvider>
-      <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
-        <AuthProvider>
-          <ContentDiscoveryProvider>
-            <DialogProvider>
-              <SelectedProvider>{children}</SelectedProvider>
-            </DialogProvider>
-          </ContentDiscoveryProvider>
-        </AuthProvider>
-      </ThemeProvider>
-    </PlatformProvider>
+      <PlatformProvider>
+        <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
+          <AuthProvider>
+            <ContentDiscoveryProvider>
+              <DialogProvider>
+                <SelectedProvider>{children}</SelectedProvider>
+              </DialogProvider>
+            </ContentDiscoveryProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </PlatformProvider>
     </GoogleOAuthProvider>
   );
 };
