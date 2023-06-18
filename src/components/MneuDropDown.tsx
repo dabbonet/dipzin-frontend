@@ -8,47 +8,46 @@ import { toast } from "react-hot-toast";
 import { copyImagesToClipboard } from "@/lib/ImageCopier";
 
 export const MenuDropdown = ({ screen: screen }) => {
-    const {setVisible , setVisibleNoAuth} = useDialog()
-    const {user} = useAuth()
-    const image = mergeScreenUrl(screen);
-    console.log(image)
-    const downloadScreen = async() => {
-  
-      if (user) {
-        setVisible(true)
-        setTimeout(() => {
-          image && downloadImage("image " + screen, image);
-        },5000)
-        return
-      }
-      setVisibleNoAuth(true);
+  const { setVisible, setVisibleNoAuth } = useDialog()
+  const { user } = useAuth()
+  const image = mergeScreenUrl(screen);
+  // console.log(image)
+  const downloadScreen = async () => {
+
+    if (user) {
+      setVisible(true)
+      setTimeout(() => {
+        image && downloadImage("image " + screen, image);
+      }, 5000)
+      return
     }
-    return (
-      <div className="absolute top-16 right-4 bg-slate-900 py-[16px] w-[14rem] z-50 px-3 rounded-xl invisible group-hover/item:visible">
-        <DropdownCell
-          onClick={async () => {
-            await copyImagesToClipboard([image]);
-          }}
-        >
-          <Icons.Thumbnail className="w-5 h-5" />
-          <span className="font-medium text-slate-100 text-sm">Copy PNG</span>
-        </DropdownCell>
-        <DropdownCell
-          onClick={downloadScreen}
-        >
-          <Icons.Download className="w-5 h-5" />
-          <span className="font-medium text-slate-100 text-sm">Download PNG</span>
-        </DropdownCell>
-        <DropdownCell
-          onClick={() => {
-            navigator.clipboard.writeText(getAssetsURL(image));
-            toast.success("App Link Copied.");
-          }}
-        >
-          <Icons.CopyFilled className="w-5 h-5" />
-          <span className="font-medium text-slate-100 text-sm">Copy Link</span>
-        </DropdownCell>
-      </div>
-    );
-  };
-  
+    setVisibleNoAuth(true);
+  }
+  return (
+    <div className="absolute top-16 right-4 bg-slate-900 py-[16px] w-[14rem] z-50 px-3 rounded-xl invisible group-hover/item:visible">
+      <DropdownCell
+        onClick={async () => {
+          await copyImagesToClipboard([image]);
+        }}
+      >
+        <Icons.Thumbnail className="w-5 h-5" />
+        <span className="font-medium text-slate-100 text-sm">Copy PNG</span>
+      </DropdownCell>
+      <DropdownCell
+        onClick={downloadScreen}
+      >
+        <Icons.Download className="w-5 h-5" />
+        <span className="font-medium text-slate-100 text-sm">Download PNG</span>
+      </DropdownCell>
+      <DropdownCell
+        onClick={() => {
+          navigator.clipboard.writeText(getAssetsURL(image));
+          toast.success("App Link Copied.");
+        }}
+      >
+        <Icons.CopyFilled className="w-5 h-5" />
+        <span className="font-medium text-slate-100 text-sm">Copy Link</span>
+      </DropdownCell>
+    </div>
+  );
+};
