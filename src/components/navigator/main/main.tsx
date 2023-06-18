@@ -14,9 +14,7 @@ import Link from 'next/link';
 
 
 const MainNavigator = ({ type }: any) => {
-    const [navOpen, setNavOpen] = useState(false)
-    const [menuOpen, setMenuOpen] = useState(false)
-    const [filterOpen, setFilterOpen] = useState(false)
+    const [activeView, setActiveView] = useState('')
     const searchParams = useSearchParams()!;
     const router = useRouter();
 
@@ -26,9 +24,7 @@ const MainNavigator = ({ type }: any) => {
         useEffect(() => {
             function handleClickOutside(event: any) {
                 if (ref.current && !ref.current.contains(event.target)) {
-                    setFilterOpen(false)
-                    setMenuOpen(false)
-                    setNavOpen(false)
+                    setActiveView('')
                 }
             }
             // Bind the event listener
@@ -46,7 +42,7 @@ const MainNavigator = ({ type }: any) => {
 
     useEffect(() => {
         if (!searchKeyword) {
-            setNavOpen(false)
+            setActiveView('')
         }
     }, [filters, searchKeyword])
 
@@ -84,26 +80,26 @@ const MainNavigator = ({ type }: any) => {
                 >
 
                     <AnimatePresence mode='wait'>
-                        {navOpen && (
+                        {activeView == 'search' && (
                             <Search />
-                        )}
+                            )}
 
-                        {filterOpen && (
+                        {/* {filterOpen && (
                             <Filters />
-                        )}
-                        {menuOpen && (
+                        )} */}
+                        
+                        {activeView == 'menu' && (
                             <Menu />
                         )}
                     </AnimatePresence>
+                    
                     <motion.div className="flex w-full h-[48px] relative z-30">
 
                         <motion.div
                             layout="position"
                             className="flex items-center bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-3xl px-7 space-x-2 mr-2"
                             onClick={() => {
-                                setMenuOpen(!menuOpen);
-                                setNavOpen(false);
-                                setFilterOpen(false);
+                                setActiveView(activeView == 'menu' ? '' : 'menu')
                             }}>
                             <Icons.Grip className='w-4 h-4 text-slate-400' />
                             <span className="font-medium text-sm mt-0.5">Menu</span>
@@ -130,23 +126,19 @@ const MainNavigator = ({ type }: any) => {
                                 className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 text-sm rounded-full"
                                 placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
                                 transition={{ duration: 0.4 }}
-                                animate={{ width: navOpen ? "40vw" : "18vw" }}
+                                animate={{ width: activeView.length > 1 ? "40vw" : "18vw" }}
                                 value={searchKeyword}
                                 onChange={(e) => {
                                     setSearchKeyword(e.target.value);
                                     if (e.target.value.length > 0) {
-                                        setNavOpen(true);
-                                        setMenuOpen(false);
-                                        setFilterOpen(false);
+                                        setActiveView('search')
                                     } else {
-                                        setNavOpen(false);
+                                        setActiveView('')
                                     }
                                 }}
                                 onFocus={(e) => {
                                     if (e.target.value.length > 0) {
-                                        setNavOpen(true);
-                                        setMenuOpen(false);
-                                        setFilterOpen(false);
+                                        setActiveView('search')
                                     }
                                 }}
                             />
