@@ -9,8 +9,9 @@ import useMeasure from "react-use-measure"
 import ResultIcon from './ResultIcon'
 import { useContentDiscovery } from "@/context/useContentDiscovery"
 import Icons from "@/components/Icons"
-import { useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { getToken } from "@/lib/auth"
+import { useRouterPath } from "@/context/useRouterPath"
 
 
 const Search = () => {
@@ -146,6 +147,8 @@ const PreviewCard = ({ selected }: any) => {
     //TODO: Show App Icon 
     const [showcase, setShowcase] = useState<any>([]);
     const { setSearchKeyword, setFilters } = useContentDiscovery();
+    const { setRouterPath } = useRouterPath()
+    const pathName = usePathname()
     const router = useRouter();
     const searchParams = useSearchParams()!;
     // const data = await getPreview({ id: selected.id })
@@ -179,6 +182,7 @@ const PreviewCard = ({ selected }: any) => {
             !tagList.includes(name) && tagList.push(name)
             tags = tagList.join(',');
             params.set('tags', tags);
+            setRouterPath(arr => [...arr, pathName])
             router.push('/search?' + params)
         } else if (selected.type === 'category') {
             !categoryList.includes(name) && categoryList.push(name);
