@@ -49,6 +49,7 @@ const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
     return  (
         <ActionBar className="z-50 flex flex-col fixed right-10 top-[32%] w-auto h-auto">
         <ButtonWrapper title='Like Screen' icon={<Icons.Heart />} handler={handleLikeScreen}/>
+
           <ButtonWrapper title="Download" icon={<Icons.Download />} handler= {handleDownloadScreen} />
         <ButtonWrapper title="Copy PNG" icon={<Icons.Copy />} handler={handleCopyPng} />
         <ButtonWrapper title='Copy Link' icon={<Icons.CopyFilled />} handler={handleCopyLink} />
