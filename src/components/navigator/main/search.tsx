@@ -9,7 +9,7 @@ import useMeasure from "react-use-measure"
 import ResultIcon from './ResultIcon'
 import { useContentDiscovery } from "@/context/useContentDiscovery"
 import Icons from "@/components/Icons"
-import { useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { useDialog } from "@/context/useDialog"
 
@@ -149,7 +149,7 @@ export default Search
 const PreviewCard = ({ selected }: any) => {
 
     //TODO: Show App Icon 
-    const {navigateToRoute} = useDialog()
+    const { navigateToRoute } = useDialog()
     const [showcase, setShowcase] = useState<any>([]);
     const { setSearchKeyword, setFilters } = useContentDiscovery();
     const { setRouterPath } = useRouterPath()
@@ -188,20 +188,20 @@ const PreviewCard = ({ selected }: any) => {
             tags = tagList.join(',');
             params.set('tags', tags);
             link = '/search' + params
-            
+
             setRouterPath(arr => [...arr, pathName])
         } else if (selected.type === 'category') {
             !categoryList.includes(name) && categoryList.push(name);
             categories = categoryList.join(',');
             params.set('categories', categories);
             link = '/search' + params
-            
+
         } else {
             link = `/app/${platName}/${selected.slug}`
-            
+
         }
-        
-        navigateToRoute({link})
+
+        navigateToRoute({ link })
     }, [searchParams, router])
 
 
