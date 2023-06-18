@@ -8,8 +8,7 @@ import './globals.css'
 import { Outfit } from 'next/font/google'
 import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
-import { AccessOrUpgradeCard } from '@/components/accessAndUbgrade';
-
+import { AccessOrUpgradeCard } from '@/components/accessAndUpgrade';
 import GoogleOneTap from '@/components/GoogleOneTap';
 import Navigator from '@/components/navigator/main';
 
