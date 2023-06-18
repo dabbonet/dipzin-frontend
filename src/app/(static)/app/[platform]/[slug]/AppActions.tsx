@@ -3,12 +3,15 @@ import { ActionBar, SquareButton } from "@/components/ActionBar";
 import Icons from "@/components/Icons";
 import SoonToast from "@/components/SoonToast";
 import { ImageDownloader } from "@/lib/ImageDownloader";
+
+
 import { FC } from "react";
 import toast from "react-hot-toast";
 import {navigatorProps} from "@/lib/types/appactions";
 
 
 const AppActions: FC<navigatorProps> = ({ app }) => {
+
   if (app) {
     const screenData = app.screens.data
     const platform = app.platform.data.attributes.name.toLowerCase();
@@ -26,6 +29,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
         <ActionBar className="flex flex-col fixed right-10 top-[32%] w-auto h-auto">
           <SquareButton
 
+
             onClick={handleLikeApp}
 
           >
@@ -34,6 +38,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
               <Icons.Heart />
             </SquareButton.Icon>
           </SquareButton>
+
 
   
           {showAppStoreLink(app)}
@@ -63,7 +68,9 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
       );
     }
 
+
   }
+
   return (
     <ActionBar className="flex flex-col fixed right-10 top-[32%] w-auto h-auto">
       <SquareButton
@@ -80,7 +87,9 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
 
       {showAppStoreLink(app)}
 
+
       <SquareButton onClick={() => {}}>
+
         <SquareButton.Title className="w-[80%]">
           Bulk Download
         </SquareButton.Title>
@@ -128,16 +137,14 @@ const handleCopyLink = (app , platform) => {
 const showAppStoreLink = (app) => {
   if (app?.store_link) {
     return <SquareButton
-    onClick={()=>handleAppStore(app)}
-  >
-    <SquareButton.Title className="w-[70%]">
-      App Store
-    </SquareButton.Title>
-    <SquareButton.Icon>
-      <Icons.Apple />
-    </SquareButton.Icon>
-  </SquareButton>
+      onClick={() => handleAppStore(app)}
+    >
+      <SquareButton.Title className="w-[70%]">
+        App Store
+      </SquareButton.Title>
+      <SquareButton.Icon>
+        <Icons.Apple />
+      </SquareButton.Icon>
+    </SquareButton>
   }
-
 }
-
