@@ -14,6 +14,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useDialog } from "@/context/useDialog"
 
 import { getToken } from "@/lib/auth"
+import { useRouterPath } from "@/context/useRouterPath"
 
 
 
@@ -151,6 +152,8 @@ const PreviewCard = ({ selected }: any) => {
     const {navigateToRoute} = useDialog()
     const [showcase, setShowcase] = useState<any>([]);
     const { setSearchKeyword, setFilters } = useContentDiscovery();
+    const { setRouterPath } = useRouterPath()
+    const pathName = usePathname()
     const router = useRouter();
     const searchParams = useSearchParams()!;
     // const data = await getPreview({ id: selected.id })
@@ -186,6 +189,7 @@ const PreviewCard = ({ selected }: any) => {
             params.set('tags', tags);
             link = '/search' + params
             
+            setRouterPath(arr => [...arr, pathName])
         } else if (selected.type === 'category') {
             !categoryList.includes(name) && categoryList.push(name);
             categories = categoryList.join(',');
