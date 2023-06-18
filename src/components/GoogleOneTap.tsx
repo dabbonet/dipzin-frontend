@@ -11,10 +11,10 @@ import { toast } from 'react-hot-toast';
 
 
 
-const GoogleOneTap = ({  }) => {
+const GoogleOneTap = ({ }) => {
   const [show, setShow] = useState(false)
   const ref = useRef<HTMLDivElement>(null);
-  const {user} = useAuth()
+  const { user } = useAuth()
 
   useEffect(() => {
     const checkChildDiv = () => {
@@ -38,19 +38,19 @@ const GoogleOneTap = ({  }) => {
       clearInterval(interval); // Clean up the interval on component unmount
     };
   }, [ref]);
-  const {referralToken , invitationToken} = invetaionAndReferralTokens()
+  const { referralToken, invitationToken } = invetaionAndReferralTokens()
 
   useGoogleOneTapLogin({
-    prompt_parent_id:'google_tap_prompt',
-    cancel_on_tap_outside:true,
-    onSuccess: async(credentialResponse) => {
-      let {name , email}: {name : string , email:string} = jwt_decode(credentialResponse.credential)
-      console.log(name , email)
+    prompt_parent_id: 'google_tap_prompt',
+    cancel_on_tap_outside: true,
+    onSuccess: async (credentialResponse) => {
+      let { name, email }: { name: string, email: string } = jwt_decode(credentialResponse.credential)
+      console.log(name, email)
       try {
         const req = await fetch('/api/user/google-one-tap', {
           method: 'post',
           headers: {
-            'Content-Type':'application/json'
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             data: {
@@ -70,26 +70,25 @@ const GoogleOneTap = ({  }) => {
         toast.remove()
         toast.error('somthing went wrong')
       }
-  
+
       setShow(false)
     },
     onError: () => {
       console.log('Login Failed');
       setShow(false)
     },
-    
+
   });
   //if (ref.current?.contains()) {
-    
- // }
-// Return Parent Div
-  // if (!show) {
-  //   return
+
   // }
-  if(user) return
-  return(
-    <div ref={ref} id="google_tap_prompt" className={clsx('fixed top-20 rounded-lg right-5 bg-aqua-500 p-2 z-50', show ? 'block' : 'hidden')}>
-      <h2 className=' text-center mb-2 text-lg font-bold'>Search, Filter and get <br/> inspired with our free plan.</h2>
+  // Return Parent Div
+  // if (!show) {
+  //   return <div id="google_tap_prompt" className='hidden'></div>
+  // }
+  return (
+    <div ref={ref} id="google_tap_prompt" className={clsx('w-[25.5rem] fixed top-20 rounded-lg right-10 bg-aqua-500 p-2 z-50 hidden', show ? '!block' : 'hidden')}>
+      <h2 className=' text-center mb-2 text-lg font-bold'>Search, Filter and get <br /> inspired with our free plan.</h2>
     </div>
 
   );
