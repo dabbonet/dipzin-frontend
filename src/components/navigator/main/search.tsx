@@ -148,7 +148,7 @@ export default Search
 const PreviewCard = ({ selected }: any) => {
 
     //TODO: Show App Icon 
-    const {setVisible} = useDialog()
+    const {navigateToRoute} = useDialog()
     const [showcase, setShowcase] = useState<any>([]);
     const { setSearchKeyword, setFilters } = useContentDiscovery();
     const router = useRouter();
@@ -181,30 +181,23 @@ const PreviewCard = ({ selected }: any) => {
         setFilters({ categories: categoryList, tags: tagList })
         setSearchKeyword('')
         if (selected.type === 'tag') {
-            setVisible(true)
             !tagList.includes(name) && tagList.push(name)
             tags = tagList.join(',');
             params.set('tags', tags);
-            setTimeout(() => {
-                router.push('/search?' + params)
-            }, 5000);
+            link = '/search' + params
+            
         } else if (selected.type === 'category') {
-            setVisible(true)
             !categoryList.includes(name) && categoryList.push(name);
             categories = categoryList.join(',');
             params.set('categories', categories);
-            setTimeout(() => {
-                router.push('/search?' + params)
-            }, 5000);
+            link = '/search' + params
+            
         } else {
             link = `/app/${platName}/${selected.slug}`
-            setVisible(true)
-            setTimeout(() => {
-                router.push(link)
-            }, 5000);
+            
         }
-
-
+        
+        navigateToRoute({link})
     }, [searchParams, router])
 
 

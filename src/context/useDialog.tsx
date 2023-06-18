@@ -1,3 +1,5 @@
+'use client'
+import { useRouter } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 
@@ -14,6 +16,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     const [counter, setCounter] = useState<number>(baseCounter)
     const [visible, setVisible] = useState<boolean>(false);
     const [visibleNoAuth, setVisibleNoAuth] = useState<boolean>(false);
+    const router = useRouter()
 
 
 
@@ -24,24 +27,6 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
             setVisible(false);
         }
     }, [times]);
-
-
-
-    useEffect(() => {
-        if (incremental) {
-            const group = Math.floor(times / 3);
-            const additionalTime = 5 * group;
-            const newCounter = baseCounter + additionalTime;
-
-
-            if (newCounter > 30) {
-                setCounter(30);
-            } else {
-                setCounter(newCounter);
-            }
-        }
-    }, [incremental, times]);
-
 
 
     useEffect(() => {
@@ -62,6 +47,13 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
             };
         }
     }, [visible, counter]);
+    
+    const navigateToRoute = ({link})=>{
+        setVisible(true)
+        setTimeout(() => {
+           router.push(link) 
+        },5000);
+    }
 
     return (
         <DialogContext.Provider
@@ -75,6 +67,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
                 setCounter,
                 setTimes,
                 setIncremental,
+                navigateToRoute
             }}
         >
             {children}

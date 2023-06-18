@@ -43,19 +43,6 @@ const AccessCard = () => {
       setShow(false);
     }
   }, [visibleNoAuth])
-  let in_dom = document.body.contains(ref.current);
-  let observer = new MutationObserver(()=> {
-    if (document.body.contains(ref.current)) {
-        if (!in_dom) {
-            console.log("element inserted");
-        }
-        in_dom = true;
-    } else if (in_dom) {
-        in_dom = false;
-        window.location.reload()
-    }
-  });
-  observer.observe(document.body, {childList: true});
   if (!show) return
   return (
     <div ref={ref} className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-50">
@@ -90,19 +77,6 @@ const UpgradeMemberCard = ({ }) => {
       setCounter(baseCounter)
     } 
   }
-  let in_dom = document.body.contains(ref.current);
-  let observer = new MutationObserver(()=> {
-    if (document.body.contains(ref.current)) {
-        if (!in_dom) {
-            console.log("element inserted");
-        }
-        in_dom = true;
-    } else if (in_dom) {
-        in_dom = false;
-        window.location.reload()
-    }
-  });
-  observer.observe(document.body, {childList: true});
   if (!show) return
   return (
     <div ref={ref} className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
