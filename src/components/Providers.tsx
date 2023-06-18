@@ -6,8 +6,12 @@ import { ContentDiscoveryProvider } from "@/context/useContentDiscovery";
 import AuthProvider from "@/lib/auth";
 import { DialogProvider } from "@/context/useDialog";
 import SelectedProvider from "@/lib/SelectedToDownload";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+
     <PlatformProvider>
       <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
         <AuthProvider>
@@ -19,6 +23,7 @@ const Providers = ({ children }: { children: ReactNode }) => {
         </AuthProvider>
       </ThemeProvider>
     </PlatformProvider>
+    </GoogleOAuthProvider>
   );
 };
 
