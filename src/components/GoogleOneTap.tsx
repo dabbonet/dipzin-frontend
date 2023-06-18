@@ -89,7 +89,7 @@ const GoogleOneTap = ({  }) => {
   if(user) return
   return(
     <div ref={ref} id="google_tap_prompt" className={clsx('fixed top-20 rounded-lg right-5 bg-aqua-500 p-2 z-50', show ? 'block' : 'hidden')}>
-      <h2>Sign in with google</h2>
+      <h2 className=' text-center mb-2 text-lg font-bold'>Search, Filter and get <br/> inspired with our free plan.</h2>
     </div>
 
   );
