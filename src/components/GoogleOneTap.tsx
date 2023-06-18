@@ -45,7 +45,7 @@ const GoogleOneTap = ({ }) => {
     cancel_on_tap_outside: true,
     onSuccess: async (credentialResponse) => {
       let { name, email }: { name: string, email: string } = jwt_decode(credentialResponse.credential)
-      console.log(name, email)
+      // console.log(name, email)
       try {
         const req = await fetch('/api/user/google-one-tap', {
           method: 'post',
