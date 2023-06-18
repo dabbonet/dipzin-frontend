@@ -10,6 +10,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import ScreenActions from "./ScreenActions";
+import ScreenTagAndColors from "@/components/ScreenTagAndColors";
 
 interface ContentProps {
   apps: any;
@@ -93,19 +94,28 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
       <AnimatePresence>
         {openScreen && (
           <>
-            <ScreenActions appName={app.name} screen={openScreen} />
             <motion.div
-              className="fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-[20] flex items-center justify-center"
-              onClick={() => setOpenScreen(null)}
+              className="fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8"
+              // onClick={() => setOpenScreen(null)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <Screen
-                src={mergeScreenUrl(openScreen)}
-                quality={50}
-                className="rounded-2xl h-[90%] w-auto bg-slate-900/80"
-              />
+            <ScreenActions appName={app.name} screen={openScreen} />
+              <motion.div className=" h-[100vh] w-fit  relative z-[100]" >
+                  <ScreenTagAndColors screenId={openScreen.id}/>
+                <Screen
+                  src={mergeScreenUrl(openScreen)}
+                  quality={50}
+                  className="rounded-2xl h-[90%] w-auto bg-slate-900/80"
+                />
+              </motion.div>
+              <motion.div
+                onClick={() => setOpenScreen(null)}
+                className={
+                  "w-[100%] h-[100%] fixed top-0 bg-transparent"
+                }
+              ></motion.div>
             </motion.div>
           </>
         )}
