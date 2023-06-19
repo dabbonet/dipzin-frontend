@@ -1,11 +1,11 @@
 'use client'
+
 import { getToken } from "@/lib/auth"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { toast } from "react-hot-toast"
 
-export default function page({ }) {
+export const StepOneComponent = ()=> {
     const rouuer = useRouter()
     const [newsLetter, setNewsLetter] = useState(null)
     const [profileUpdated, setProfileUpdated] = useState(false)
@@ -16,19 +16,14 @@ export default function page({ }) {
         email: "",
     })
     let userArr = []
-    useEffect(() => {
-        async function getNewsLetter() {
-            const req = await fetch('https://rah.dipzin.com/api/system-news-letters', {
-                method: 'GET',
-                headers: {
-                    Authorization : `Bearer ${getToken()}`
-                }
-            })
-            const res = await req.json()
-            setNewsLetter(res.data)
-        }
-        getNewsLetter()
-    }, [])
+    const FullNewSLetterComponent = () => {
+        return <div className=" grid grid-cols-2 gap-x-12 gap-y-4 mt-5">
+            {newsLetter?.map(el => (
+                <SystemNewsLetterComponent key={el.id} id={el.id} name={el.attributes.name}/>
+            ))}
+        </div>
+    }
+
     const addNewsLetter = (e) => {
         const { id } = e.target
         if (userArr.includes(+id)) {
@@ -37,13 +32,12 @@ export default function page({ }) {
             userArr = [...userArr , +id]
         }
     }
-
-    const handleChange = (event) => {
-        const { id, value  } = event.target
-            setUserDetails({
-                ...userDetails,
-                [id]: value
-        })
+    
+    const SystemNewsLetterComponent = ({id , name})=> {
+        return <div className=" flex gap-2  items-center">
+            <input onClick={addNewsLetter}  type="checkbox" id={id} className="before:checked:content-['✓'] before:checked:bg-aqua-600 bg-opacity-0 before:rounded-lg before:w-5 relative before:absolute before:h-5 before:bg-slate-800 before:-top-1 before:-left-1 before:flex before:items-center before:justify-center " />
+            <label htmlFor={id}>{name}</label>
+        </div>
     }
     const submitForm = async (e) => {
         e.preventDefault();
@@ -95,24 +89,7 @@ export default function page({ }) {
             toast.error('Something went wrong');
         }
     };
-    const SystemNewsLetterComponent = ({id , name})=> {
-        return <div className=" flex gap-2  items-center">
-            <input onClick={addNewsLetter}  type="checkbox" id={id} className="before:checked:content-['✓'] before:checked:bg-aqua-600 bg-opacity-0 before:rounded-lg before:w-5 relative before:absolute before:h-5 before:bg-slate-800 before:-top-1 before:-left-1 before:flex before:items-center before:justify-center " />
-            <label htmlFor={id}>{name}</label>
-        </div>
-    }
-    
-    const FullNewSLetterComponent = () => {
-        return <div className=" grid grid-cols-2 gap-x-12 gap-y-4 mt-5">
-            {newsLetter?.map(el => (
-                <SystemNewsLetterComponent key={el.id} id={el.id} name={el.attributes.name}/>
-            ))}
-        </div>
-    }
-    if (profileUpdated && newsLetterUpdated) {
-        rouuer.push('/profile/step-2')
-    }
-    return <div className=" flex gap-x-36 flex-wrap justify-center items-center">
+    return <div className=" flex gap-x-36 flex-wrap justify-center items-center max-w-5xl">
         <div className=" flex-1">
             <p className=" text-slate-400 text-base font-normal"><span className=" text-aqua-500">1/2</span> Basic Info</p>
             <h1 className=" text-6xl text-white font-medium mb-3">Let’s setup your account.</h1>
@@ -161,3 +138,5 @@ export default function page({ }) {
         </div>
     </div>
 }
+
+

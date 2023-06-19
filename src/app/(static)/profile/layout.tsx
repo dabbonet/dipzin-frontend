@@ -1,7 +1,9 @@
 export default function Layout({ children }) {
     return <>
-        <div className=" max-w-[92%] mx-auto ">
+        <div className="flex justify-center items-center min-h-[80vh]">
             {children}
         </div>
     </>
 }
+
+
