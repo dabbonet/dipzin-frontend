@@ -7,11 +7,12 @@ import AuthProvider from "@/lib/auth";
 import { DialogProvider } from "@/context/useDialog";
 import SelectedProvider from "@/lib/SelectedToDownload";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { NavigatorContextProvider } from "@/context/useNavigatiorContext";
 
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
+    <NavigatorContextProvider>  
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-
       <PlatformProvider>
         <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
           <AuthProvider>
@@ -24,6 +25,7 @@ const Providers = ({ children }: { children: ReactNode }) => {
         </ThemeProvider>
       </PlatformProvider>
     </GoogleOAuthProvider>
+    </NavigatorContextProvider>
   );
 };
 

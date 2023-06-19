@@ -9,9 +9,8 @@ import Icons from '@/components/Icons';
 import { useContentDiscovery } from '@/context/useContentDiscovery';
 import { cn } from '@/lib/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { getUser } from '@/lib/auth';
-import Link from 'next/link';
 import InitialSearch from './InitailSearch';
+import { useNavigator } from '@/context/useNavigatiorContext';
 
 
 
@@ -19,7 +18,7 @@ const MainNavigator = ({ type }: any) => {
     const [activeView, setActiveView] = useState('')
     const searchParams = useSearchParams()!;
     const router = useRouter();
-    const [initialSearch, setInitialSearch] = useState(false)
+   const {navigatorUi} = useNavigator()
 
 
     // Logic to handle if user clicks outside of the navigator
@@ -45,7 +44,9 @@ const MainNavigator = ({ type }: any) => {
 
     useEffect(() => {
         if (!searchKeyword) {
-            setActiveView('')
+            if(activeView !== ''){
+                setActiveView('initial')
+            }
         }
     }, [filters, searchKeyword])
 
@@ -67,9 +68,9 @@ const MainNavigator = ({ type }: any) => {
         router.push('/search?' + params)
 
     }, [searchParams, router, filters])
-
+    if(navigatorUi === '') return
     return (
-        <div ref={wrapperRef} className="fixed left-32 right-32 bottom-12 mx-auto flex justify-center z-20">
+        <div ref={wrapperRef} className="fixed left-1/2 -translate-x-1/2 bottom-12 flex justify-center z-20 w-fit">
             <div className='relative flex items-end'>
 
                 {/* User Avatar area */}
@@ -94,7 +95,7 @@ const MainNavigator = ({ type }: any) => {
                         {activeView == 'menu' && (
                             <Menu />
                         )}
-                        {initialSearch && (
+                        {activeView == 'initial' && (
                             <InitialSearch/>
                         )}
                     </AnimatePresence>
@@ -111,7 +112,7 @@ const MainNavigator = ({ type }: any) => {
                             <span className="font-medium text-sm mt-0.5">Menu</span>
                         </motion.div>
 
-                        <motion.div layout className={cn("flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full", filters?.tags || filters?.categories ? 'pl-3' : 'pl-7')}>
+                        {navigatorUi === 'mneuWithSearch' && <motion.div layout className={cn("flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full", filters?.tags || filters?.categories ? 'pl-3' : 'pl-7')}>
                             {/* TODO: Reduce size and add selected tags/categories in circles like ui */}
                             {filters && (filters?.tags?.length > 0 || filters?.categories?.length > 0) && (
                                 <div className='relative rounded-md'>
@@ -139,13 +140,11 @@ const MainNavigator = ({ type }: any) => {
                                     if (e.target.value.length > 0) {
                                         setActiveView('search')
                                     } else {
-                                        setActiveView('')
+                                        setActiveView('initial')
                                     }
                                 }}
                                 onFocus={(e) => {
-                                    if (e.target.value.length > 0) {
-                                        setActiveView('search')
-                                    }
+                                    setActiveView('initial')
                                 }}
                             />
                             {/* <motion.div
@@ -159,7 +158,7 @@ const MainNavigator = ({ type }: any) => {
                                     <Icons.Filter className='w-4 h-4 text-slate-400' />
                                     <span className="font-medium text-sm mt-0.5">Fillter</span>
                                 </motion.div> */}
-                        </motion.div>
+                        </motion.div>}
 
                     </motion.div>
 
