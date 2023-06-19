@@ -11,6 +11,8 @@ export async function GET(request: Request) {
         keyword: keyword ?? '',
     });
 
+    console.log(`https://rah.dipzin.com/api/search?${params}`)
+
     const res = await fetch(`https://rah.dipzin.com/api/search?${params}`, {
         method: 'GET',
         headers: {
@@ -22,13 +24,14 @@ export async function GET(request: Request) {
     if (!res.ok) {
         // Handle non-2xx HTTP response status codes
         const errorResponse = await res.json();
-        return NextResponse.json({ errorResponse }, { status: res.status });
+        return NextResponse.json({ errorResponse, maxQouta: false }, { status: res.status });
+    }
+
+    if (res.status === 204) {
+        return NextResponse.json({ maxQouta: true });
     }
 
     const search = await res.json();
-    if (res.status === 204) {
-        return NextResponse.json({ search, maxQouta: true });
-    }
-    return NextResponse.json({ search }, { status: res.status });
+    return NextResponse.json({ search, maxQouta: false }, { status: res.status });
 
 }

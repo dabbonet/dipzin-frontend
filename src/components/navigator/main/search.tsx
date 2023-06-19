@@ -22,7 +22,7 @@ const Search = () => {
     const [results, setResults] = useState<any>(null);
     const [selected, setSelected] = useState<any>({});
     const [isLoading, setIsLoading] = useState(true);
-    const [showMaxQoutaDialog, setShowMaxQoutaDialog] = useState(false)
+    // const [showMaxQoutaDialog, setShowMaxQoutaDialog] = useState(false)
     const token = getToken()
 
     useLayoutEffect(() => {
@@ -31,15 +31,13 @@ const Search = () => {
             setIsLoading(true)
             const res = await fetch(`/api/search?keyword=${searchKeyword}`, {
                 headers: {
-                    'Content-Type' : 'application/json',
                     'Authorization': `Bearer ${token}`
-                },
-                cache: 'no-cache'
+                }
             });
             const data = await res.json();
             const { maxQouta } = data
-            if(maxQouta){
-                setShowMaxQoutaDialog(true)
+            if (maxQouta) {
+                // setShowMaxQoutaDialog(true)
             }
             setIsLoading(false)
 
@@ -69,9 +67,9 @@ const Search = () => {
 
     let [ref, bounds] = useMeasure();
 
-    if (showMaxQoutaDialog) {
-        return <MaxQouta/>
-    }
+    // if (showMaxQoutaDialog) {
+    //     return <MaxQouta />
+    // }
 
     return (
 
