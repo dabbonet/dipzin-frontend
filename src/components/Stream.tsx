@@ -31,7 +31,7 @@ const Stream: FC<StreamProps> = () => {
 
   // @ts-ignore
   useEffect(() => {
-    setPlatforms([2, 1]);
+    setPlatforms([2, 1]); // Initialize Platform Switcher
     setLoadedPages([]);
     setStreamData({});
     updateStream();
