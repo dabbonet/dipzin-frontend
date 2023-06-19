@@ -11,6 +11,7 @@ import { notFound } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import ScreenActions from "./ScreenActions";
 import ScreenTagAndColors from "@/components/ScreenTagAndColors";
+import { useNavigator } from "@/context/useNavigatiorContext";
 
 interface ContentProps {
   apps: any;
@@ -18,9 +19,15 @@ interface ContentProps {
 }
 
 export default function Content({ apps, selectedApp: app }: ContentProps) {
+  const {setNavigatorUi} = useNavigator()
   const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
   const [openScreen, setOpenScreen] = useState<any | null>();
-
+  useEffect(()=>{
+    setNavigatorUi('mneuOnly')
+    return ()=> {
+      setNavigatorUi('')
+    }
+  },[])
   // Create an array of platform IDs
   const platformIds = apps.data.map((app) => app.attributes.platform.data.id);
   // console.log(apps)
