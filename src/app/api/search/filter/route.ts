@@ -32,7 +32,10 @@ export async function POST(request: Request) {
             },
             populate: {
                 screen: {
-                    fields: ["hash", "ext"]
+                    fields: ["hash", "ext"],
+                    filters: {
+                        is_published: true
+                    }
                 }
             },
             pagination: {
@@ -60,6 +63,6 @@ export async function POST(request: Request) {
     }
 
     const screens = await res.json();
-    return NextResponse.json({ screens }, {status : res.status});
+    return NextResponse.json({ screens }, { status: res.status });
 
 }

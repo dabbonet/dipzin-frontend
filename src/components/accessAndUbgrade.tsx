@@ -4,8 +4,6 @@ import { useDialog } from "@/context/useDialog";
 import AccessComponent from "./AccessComponent";
 import { getUser } from "@/lib/auth";
 import Link from "next/link";
-import '../app/button.css'
-
 function formatTime(seconds: number): string {
   const secs = (seconds % 60).toString().padStart(2, '0');
   return `${secs}s`;
