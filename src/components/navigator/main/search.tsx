@@ -9,14 +9,14 @@ import useMeasure from "react-use-measure"
 import ResultIcon from './ResultIcon'
 import { useContentDiscovery } from "@/context/useContentDiscovery"
 import Icons from "@/components/Icons"
-import { useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { useDialog } from "@/context/useDialog"
-import { setTimeout } from "timers"
 
 import { getToken } from "@/lib/auth"
-import { MaxQouta } from "@/components/accessAndUbgrade"
+import { useRouterPath } from "@/context/useRouterPath"
 
+import { MaxQouta } from "@/components/accessAndUpgrade"
 const Search = () => {
 
     const { searchKeyword, filters } = useContentDiscovery();
@@ -158,9 +158,11 @@ export default Search
 const PreviewCard = ({ selected }: any) => {
 
     //TODO: Show App Icon 
-    const {setVisible} = useDialog()
+    const { navigateToRoute } = useDialog()
     const [showcase, setShowcase] = useState<any>([]);
     const { setSearchKeyword, setFilters } = useContentDiscovery();
+    const { setRouterPath } = useRouterPath()
+    const pathName = usePathname()
     const router = useRouter();
     const searchParams = useSearchParams()!;
     // const data = await getPreview({ id: selected.id })
@@ -191,30 +193,24 @@ const PreviewCard = ({ selected }: any) => {
         setFilters({ categories: categoryList, tags: tagList })
         setSearchKeyword('')
         if (selected.type === 'tag') {
-            setVisible(true)
             !tagList.includes(name) && tagList.push(name)
             tags = tagList.join(',');
             params.set('tags', tags);
-            setTimeout(() => {
-                router.push('/search?' + params)
-            }, 5000);
+            link = '/search' + params
+
+            setRouterPath(arr => [...arr, pathName])
         } else if (selected.type === 'category') {
-            setVisible(true)
             !categoryList.includes(name) && categoryList.push(name);
             categories = categoryList.join(',');
             params.set('categories', categories);
-            setTimeout(() => {
-                router.push('/search?' + params)
-            }, 5000);
+            link = '/search' + params
+
         } else {
             link = `/app/${platName}/${selected.slug}`
-            setVisible(true)
-            setTimeout(() => {
-                router.push(link)
-            }, 5000);
+
         }
 
-
+        navigateToRoute({ link })
     }, [searchParams, router])
 
 
