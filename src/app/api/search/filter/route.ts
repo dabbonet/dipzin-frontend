@@ -16,26 +16,12 @@ export async function POST(request: Request) {
     const query = qs.stringify(
         {
             filters: {
+                is_published: true,
                 $and: tagFilters,
-                app: {
-                    categories: {
-                        name: {
-                            $containsi: body.categories || '',
-                        },
-                    },
-                    platform: {
-                        id: {
-                            $eq: body.platform || 1
-                        }
-                    }
-                }
             },
             populate: {
                 screen: {
                     fields: ["hash", "ext"],
-                    filters: {
-                        is_published: true
-                    }
                 }
             },
             pagination: {
