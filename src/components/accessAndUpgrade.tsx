@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import Icons from "./Icons";
 import { cn } from "@/lib/utils";
 import { useDialog } from "@/context/useDialog";
@@ -23,16 +23,17 @@ export const AccessOrUpgradeCard = () => {
       }
     }
     isUserAuthenticated()
-  },[])
+  }, [])
   if (isUserAuth) { 
     return  <UpgradeMemberCard/>
   }
-  return <AccessCard/>
+  return <AccessCard />
+    
 }
 
 
 const AccessCard = () => {
-  
+  const ref = useRef()
   const [show, setShow] = useState<boolean>(false)
   const { visibleNoAuth } = useDialog();
   useEffect(() => {
@@ -44,7 +45,7 @@ const AccessCard = () => {
   }, [visibleNoAuth])
   if (!show) return
   return (
-    <div className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-50">
+    <div ref={ref} className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-50">
       <div className=" w-fit h-fit bg-slate-900 bg-opacity-60 rounded-2xl px-16 py-20">
         <AccessComponent />
       </div>
@@ -60,17 +61,25 @@ const AccessCard = () => {
 
 
 
-const UpgradeMemberCard = () => {
+const UpgradeMemberCard = ({ }) => {
+  const ref = useRef()
   const [show, setShow] = useState<boolean>(false)
-  const { counter, visible } = useDialog();
+  const { counter, visible , setCounter } = useDialog();
 
   useEffect(() => {
     visible && setShow(visible)
   }, [visible])
 
+  const onCloseFunction = () => {
+    const baseCounter = 5
+    if (!visible) {
+      setShow(false)
+      setCounter(baseCounter)
+    } 
+  }
   if (!show) return
   return (
-    <div className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
+    <div ref={ref} className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
       <div className="max-w-2xl bg-slate-900 rounded-3xl p-10 flex flex-col gap-5">
         <div className="flex justify-between items-start">
 
@@ -86,9 +95,7 @@ const UpgradeMemberCard = () => {
           </div>
 
           <button
-            onClick={() => {
-              if (!visible) setShow(false)
-            }}
+            onClick={onCloseFunction}
             className={cn(visible ? 'text-slate-700 pointer-events-none' : 'text-slate-100 hover:text-orange-500')}
           >
             <Icons.XCircle className='w-6 h-6' />
