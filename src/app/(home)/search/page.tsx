@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { FC, useCallback, useEffect, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso';
 import StreamLoader from '@/components/StreamLoader';
+import { useRouterPath } from '@/context/useRouterPath';
 
 
 interface pageProps {
@@ -22,7 +23,7 @@ const Search: FC<pageProps> = ({ }) => {
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
-
+    const {routerPath , setRouterPath} = useRouterPath()
     async function getResults() {
         const results = await getSearchResults({ tags, categories, page: 1, platform: selected })
         setIsLoading(false)
@@ -31,7 +32,11 @@ const Search: FC<pageProps> = ({ }) => {
     }
 
     useEffect(() => {
-        if (searchParams.toString().length === 0) router.push('/') // go back if there is no search Params.
+        if (searchParams.toString().length === 0) {
+            router.push(routerPath[0])
+            setRouterPath([])
+        } // go back if there is no search Params.
+        
         setPlatforms([2, 1]);
         setFilters({ tags: tags, categories: categories })
         getResults()
