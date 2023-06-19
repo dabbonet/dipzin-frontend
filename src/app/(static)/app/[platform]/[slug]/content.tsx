@@ -103,7 +103,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
               exit={{ opacity: 0 }}
             >
               <ScreenActions appName={app.name} screen={openScreen} />
-              <motion.div className=" h-[100vh] w-fit  relative z-[100]" >
+              <motion.div className="flex items-center h-[100vh] w-fit  relative z-[100]" >
                 <ScreenTagAndColors screenId={openScreen.id} />
                 <Screen
                   src={mergeScreenUrl(openScreen)}

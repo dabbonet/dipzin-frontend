@@ -94,27 +94,27 @@ const ColorSquare = ({ color }) => {
 }
 
 const Tag = ({ name }: { name: string }) => {
-    const router = useRouter()
-    const searchParams = useSearchParams();
-    const pathName = usePathname()
-    const { setRouterPath } = useRouterPath()
-    const parameter = new URLSearchParams(searchParams.toString());
-    let tags = parameter.get('tags');
-    let allTags
-    if (tags) {
-        allTags = tags.split(',')
-    } else {
-        allTags = []
-    }
-    tags = allTags.join(',');
-    const searchTag = () => {
-        setRouterPath(arr => [...arr, pathName])
-        if (!allTags.includes(name)) {
-            allTags.push(name)
-        }
-        tags = allTags.join(',');
-        // parameter.set('tags', tags);
-        router.push('/search?' + parameter)
-    }
-    return <button onClick={searchTag} className=' bg-slate-800 hover:bg-slate-700 py-1 px-4 text-sm rounded-3xl'>{name}</button>
+    // const router = useRouter()
+    // const searchParams = useSearchParams();
+    // const pathName = usePathname()
+    // const { setRouterPath } = useRouterPath()
+    // const parameter = new URLSearchParams(searchParams.toString());
+    // let tags = parameter.get('tags');
+    // let allTags
+    // if (tags) {
+    //     allTags = tags.split(',')
+    // } else {
+    //     allTags = []
+    // }
+    // tags = allTags.join(',');
+    // const searchTag = () => {
+    //     setRouterPath(arr => [...arr, pathName])
+    //     if (!allTags.includes(name)) {
+    //         allTags.push(name)
+    //     }
+    //     tags = allTags.join(',');
+    //     // parameter.set('tags', tags);
+    //     router.push('/search?' + parameter)
+    // }
+    return <button className=' bg-slate-800 hover:bg-slate-700 py-1 px-4 text-sm rounded-3xl'>{name}</button>
 }
