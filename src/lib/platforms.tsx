@@ -40,13 +40,13 @@ const PlatformProvider: FC<any> = ({ children }) => {
   const [singleApp, setSingleApp] = useState<boolean>(false);
 
   const setPlatformsWithIds = (ids: number[]) => {
+
     const selectedPlatforms = ids.map((id) =>
       allPlatforms.find((platform) => platform.id === id)
     );
+
     setPlatforms(
-      selectedPlatforms.filter(
-        (platform) => platform !== undefined
-      ) as Platform[]
+      selectedPlatforms
     );
   };
 

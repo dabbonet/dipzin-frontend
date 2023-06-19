@@ -23,6 +23,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
 
   // Create an array of platform IDs
   const platformIds = apps.data.map((app) => app.attributes.platform.data.id);
+  // console.log(apps)
   // Platform Switcher initialization.
   useEffect(() => {
     setPlatforms(platformIds);
@@ -101,9 +102,9 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-            <ScreenActions appName={app.name} screen={openScreen} />
-              <motion.div className=" h-[100vh] w-fit  relative z-[100]" >
-                  <ScreenTagAndColors screenId={openScreen.id}/>
+              <ScreenActions appName={app.name} screen={openScreen} />
+              <motion.div className="flex items-center h-[100vh] w-fit  relative z-[100]" >
+                <ScreenTagAndColors screenId={openScreen.id} />
                 <Screen
                   src={mergeScreenUrl(openScreen)}
                   quality={50}
