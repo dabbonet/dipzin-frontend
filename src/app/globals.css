@@ -46,3 +46,10 @@
     transform: scaleX(1);
 }
 
+#google_tap_prompt {
+  transition: all 500ms;
+}
+
+#credential_picker_container iframe{
+  border-radius:0.9rem;
+}
