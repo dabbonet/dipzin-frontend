@@ -114,5 +114,5 @@ const Tag = ({ name }: { name: string }) => {
         parameter.set('tags', tags);
         router.push('/search?' + parameter)
     }
-    return <button className=' bg-slate-800 hover:bg-slate-700 py-1 px-4 text-sm rounded-3xl'>{name}</button>
+    return <button onClick={searchTag} className=' bg-slate-800 hover:bg-slate-700 py-1 px-4 text-sm rounded-3xl'>{name}</button>
 }
