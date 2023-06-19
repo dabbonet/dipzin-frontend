@@ -8,18 +8,24 @@ import { AnimatePresence } from 'framer-motion';
 import Showcase from './Showcase';
 import { useContentDiscovery } from '@/context/useContentDiscovery';
 import StreamLoader from './StreamLoader';
+import { useNavigator } from "@/context/useNavigatiorContext";
 
 interface StreamProps { }
 
 
 const Stream: FC<StreamProps> = () => {
+  const {setNavigatorUi} = useNavigator()
   const { setPlatforms, selected } = usePlatform();
   const { streamData, setStreamData } = useContentDiscovery();
   const [loadedPages, setLoadedPages] = useState<number[]>([]);
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-
-
+  useEffect(()=>{
+    setNavigatorUi('mneuWithSearch')
+    return ()=> {
+      setNavigatorUi('')
+    }
+  },[])
   // 1. Initialize Stream and Page Platforms.
   // 2. Refetch Stream on Platform Change.
   const updateStream = async () => {

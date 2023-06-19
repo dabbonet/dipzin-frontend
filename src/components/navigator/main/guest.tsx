@@ -3,7 +3,7 @@ import router from 'next/router';
 
 const GuestNavigator = () => {
   return (
-    <div className="fixed bottom-10 h-auto flex items-center bg-aqua-600 rounded-full text-aqua-50 p-3 space-x-8 font-medium text-[18px]">
+    <div className="fixed bottom-10 left-1/2 -translate-x-1/2 h-auto flex items-center bg-aqua-600 rounded-full text-aqua-50 p-3 space-x-8 font-medium text-[18px]">
       <div className='flex'>
 
         <img src="/images/assets/checkSearchBar.svg" className="mr-2" alt="dipzin" />
