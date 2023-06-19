@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
+
 import { FC, useEffect, useRef, useState } from "react";
+
 import { cn, getAssetsURL } from "@/lib/utils";
 import Screen from "@/ui/Screen";
 import Icons from "../Icons";
@@ -7,12 +9,15 @@ import { copyImagesToClipboard } from "@/lib/ImageCopier";
 import toast from "react-hot-toast";
 import { downloadImage } from "@/lib/ImageDownloader";
 import { useSelcetedImages } from "@/lib/SelectedToDownload";
+import { useDialog } from "@/context/useDialog";
+import { useAuth } from "@/lib/auth";
+import { Actions } from "../Actions";
 
 interface SingleScreenProps {
   screen: any;
   setOpen?: any;
 }
-const mergeScreenUrl = (data) =>
+export const mergeScreenUrl = (data) =>
   data.attributes
     ? data.attributes?.screen.data?.attributes.hash +
     data.attributes?.screen.data?.attributes.ext
@@ -20,6 +25,9 @@ const mergeScreenUrl = (data) =>
 
 const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
 
+  
+  const {  setVisibleNoAuth} = useDialog()
+  const {user} = useAuth()
 
   const { id } = screen
   const { selectedImages, setSelectedImages } = useSelcetedImages();
@@ -36,7 +44,13 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
   // TODO: Checked here should be working with the select images context.
   // Keep in mind that react-virtoso is removing the checkmark on scroll.
   const [checked, setChecked] = useState(false);
-  const addToChecked = () => {
+  // if the user has been authentcated i will select and if not app will show access dialog
+  const addToChecked = async () => {
+    if (!user) {
+      setVisibleNoAuth(true)
+      return
+    }
+
     setChecked(!checked);
     const selectedImagesIDS = selectedImages.map(el => el.id)
     if (!selectedImagesIDS.includes(id)) {
@@ -116,167 +130,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
 
 export default SingleScreen;
 
-const Actions = ({ screen: screen }) => {
-  const [showMenu, setShowMenu] = useState(false);
-  const [showCollection, setShowCollection] = useState(false);
-  return (
-    <div className="absolute w-[100%] pt-4 pb-12 flex justify-end px-4 drop-shadow-xl z-20 bg-gradient-to-b from-slate-900/90 to-slate-900/0 rounded-[0.9rem]">
-      <div
-        className={`group/copy h-10 w-10 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
-        onClick={async () => {
-          await copyImagesToClipboard([getAssetsURL(mergeScreenUrl(screen))]);
-        }}
-      >
-        <Icons.Copy className="w-5 h-5" />
-        <span className="absolute top-16 bg-slate-900 flex items-center justify-center py-1 px-3 rounded-2xl font-normal tracking-wider text-white text-sm invisible group-hover/copy:visible z-50">
-          Copy Image
-        </span>
-      </div>
-      <div
-        className="group/copy h-10 w-10 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible mx-2"
-        onClick={() => {
-          setShowCollection(!showCollection);
-          setShowMenu(false);
-        }}
-      >
-        <Icons.BookmarkPlus />
-        <span className="absolute top-16 bg-slate-900 flex items-center justify-center py-1 px-3 rounded-2xl font-normal tracking-wider text-white text-sm invisible group-hover/copy:visible z-50">
-          Save to Collection
-        </span>
-      </div>
-      <div
-        className="group/copy h-10 w-10 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible"
-        onClick={() => {
-          setShowMenu(!showMenu);
-          setShowCollection(false);
-        }}
-      >
-        <Icons.MoreHorizontal />
-        <span className="absolute top-16 bg-slate-900 flex items-center justify-center py-1 px-3 rounded-2xl font-normal tracking-wider text-white text-sm invisible group-hover/copy:visible z-50">
-          Menu
-        </span>
-      </div>
-      {showMenu && <MenuDropdown screen={screen} />}
-      {showCollection && <CollectionDropdown />}
-    </div>
-  );
-};
 
-const MenuDropdown = ({ screen: screen }) => {
-  const image = mergeScreenUrl(screen);
-  return (
-    <div className="absolute top-16 right-4 bg-slate-900 py-[16px] w-[14rem] z-50 px-3 rounded-xl invisible group-hover/item:visible">
-      <DropdownCell
-        onClick={async () => {
-          await copyImagesToClipboard([image]);
-        }}
-      >
-        <Icons.Thumbnail className="w-5 h-5" />
-        <span className="font-medium text-slate-100 text-sm">Copy PNG</span>
-      </DropdownCell>
-      <DropdownCell
-        onClick={async () => {
-          image && downloadImage("image " + screen.attributes.order, image);
-        }}
-      >
-        <Icons.Download className="w-5 h-5" />
-        <span className="font-medium text-slate-100 text-sm">Download PNG</span>
-      </DropdownCell>
-      <DropdownCell
-        onClick={() => {
-          navigator.clipboard.writeText(getAssetsURL(image));
-          toast.success("App Link Copied.");
-        }}
-      >
-        <Icons.CopyFilled className="w-5 h-5" />
-        <span className="font-medium text-slate-100 text-sm">Copy Link</span>
-      </DropdownCell>
-    </div>
-  );
-};
-const CollectionDropdown = () => {
-  const [showCreate, setShowCreate] = useState<boolean>(false);
-
-  return (
-    <div className="absolute top-16 bg-slate-900 p-3 w-[88%] z-50  rounded-xl invisible group-hover/item:visible h-auto transition-all duration-500">
-      {showCreate && <CreateCollection />}
-
-      {!showCreate && (
-        <>
-          <input
-            type="text"
-            className="bg-slate-800 font-normal w-full px-4 h-10 rounded-full"
-            placeholder="Search Collections"
-          />
-          <div className="my-2 space-y-2 max-h-[10rem] overflow-y-scroll">
-            <DropdownCell className="rounded-xl">
-              <Icons.Globe2 className="w-7 h-7 text-slate-200 bg-slate-700 py-1 rounded-full" />
-              <span className="font-normal text-slate-100 tracking-wider text-sm">
-                Public Collection
-              </span>
-              <Icons.Check className="text-orange-500" />
-            </DropdownCell>
-            <DropdownCell className="rounded-xl">
-              <Icons.Globe2 className="w-7 h-7 text-slate-200 bg-slate-700 py-1 rounded-full" />
-              <span className="font-normal text-slate-100 tracking-wider text-sm">
-                Public Collection
-              </span>
-              <Icons.Check className="text-orange-500" />
-            </DropdownCell>
-            <DropdownCell className="rounded-xl">
-              <Icons.Globe2 className="w-7 h-7 text-slate-200 bg-slate-700 py-1 rounded-full" />
-              <span className="font-normal text-slate-100 tracking-wider text-sm">
-                Private Collection
-              </span>
-              <Icons.Check className="text-orange-500" />
-            </DropdownCell>
-            <DropdownCell className="rounded-xl">
-              <Icons.Globe2 className="w-7 h-7 text-slate-200 bg-slate-700 py-1 rounded-full" />
-              <span className="font-normal text-slate-100 tracking-wider text-sm">
-                Private Collection
-              </span>
-              <Icons.Check className="text-orange-500" />
-            </DropdownCell>
-            <DropdownCell className="rounded-xl">
-              <Icons.Globe2 className="w-7 h-7 text-slate-200 bg-slate-700 py-1 rounded-full" />
-              <span className="font-normal text-slate-100 tracking-wider text-sm">
-                Private Collection
-              </span>
-              <Icons.Check className="text-orange-500" />
-            </DropdownCell>
-            <DropdownCell className="rounded-xl">
-              <Icons.Globe2 className="w-7 h-7 text-slate-200 bg-slate-700 py-1 rounded-full" />
-              <span className="font-normal text-slate-100 tracking-wider text-sm">
-                Private Collection
-              </span>
-              <Icons.Check className="text-orange-500" />
-            </DropdownCell>
-          </div>
-        </>
-      )}
-
-      <button
-        className="w-full py-2 bg-slate-700 hover:bg-slate-600 text-slate-100 tracking-wider rounded-full"
-        onClick={() => setShowCreate(!showCreate)}
-      >
-        {showCreate ? "Create & Add" : "Create Collection"}
-      </button>
-    </div>
-  );
-};
-
-const CreateCollection = () => {
-  return (
-    <div className="mx-2 mb-2">
-      <span className="text-sm text-slate-500 ">Collection Name</span>
-      <input
-        type="text"
-        className="bg-slate-800 font-normal tracking-wider w-full px-4 h-10 mt-1 rounded-lg"
-        placeholder="Friends..."
-      />
-    </div>
-  );
-};
 
 export const DropdownCell = ({ children, className, onClick, props }: any) => {
   return (
