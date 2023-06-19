@@ -27,8 +27,8 @@ export async function GET(request: Request) {
 
     const search = await res.json();
     if (res.status === 204) {
-        return NextResponse.json({ search , maxQouta:true });
+        return NextResponse.json({ search, maxQouta: true });
     }
-    return NextResponse.json({ search }, {status: res.status});
+    return NextResponse.json({ search }, { status: res.status });
 
 }

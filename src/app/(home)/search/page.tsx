@@ -8,7 +8,6 @@ import { FC, useCallback, useEffect, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso';
 import StreamLoader from '@/components/StreamLoader';
 import { getToken } from '@/lib/auth';
-import { useRouterPath } from '@/context/useRouterPath';
 
 
 interface pageProps {
@@ -24,7 +23,9 @@ const Search: FC<pageProps> = ({ }) => {
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
-    const {routerPath , setRouterPath} = useRouterPath()
+    if (searchParams.toString().length === 0) {
+        router.push('/')
+    }
     async function getResults() {
         const results = await getSearchResults({ tags, categories, page: 1, platform: selected })
         setIsLoading(false)
@@ -32,12 +33,8 @@ const Search: FC<pageProps> = ({ }) => {
         setStreamData(results);
     }
 
-    useEffect(() => {
-        if (searchParams.toString().length === 0) {
-            router.push(routerPath[0])
-            setRouterPath([])
-        } // go back if there is no search Params.
-        
+    useEffect(() => {      
+        console.log(tags)  
         setPlatforms([2, 1]);
         setFilters({ tags: tags, categories: categories })
         getResults()
@@ -76,7 +73,7 @@ const Search: FC<pageProps> = ({ }) => {
             id='searchGrid'
             className="mt-6"
             useWindowScroll
-            data={streamData.filter((el)=> el.is_published === true)}
+            data={streamData}
             style={{ minHeight: 100, width: '100%' }}
             totalCount={streamData.length}
             overscan={1}
@@ -111,10 +108,10 @@ async function getSearchResults({ tags, categories, page, platform }) {
     if (!req.ok) return { message: "something went wrong", status: req.status }
 
     const data = await req.json()
+    console.log(data)
     const screens = data.screens.data.flatMap(item => ({
         hash: item.attributes.screen.data?.attributes.hash,
         ext: item.attributes.screen.data?.attributes.ext,
-        is_published: item.attributes.is_published
     }));
     return screens;
 }
