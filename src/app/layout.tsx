@@ -8,8 +8,10 @@ import './globals.css'
 import { Outfit } from 'next/font/google'
 import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
-import { AccessOrUpgradeCard } from '@/components/accessAndUbgrade';
+import { AccessOrUpgradeCard } from '@/components/accessAndUpgrade';
+import GoogleOneTap from '@/components/GoogleOneTap';
 import Navigator from '@/components/navigator/main';
+
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
@@ -45,12 +47,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn('subpixel-antialiased font-sans', outfit.variable)}>
       <body className={cn('bg-fixed bg-black-950 min-h-screen w-full h-screen')}>
+        
         <Providers>
           <Navbar />
           <AccessOrUpgradeCard />
           <main className='pt-24 max-w-[90%]  mx-auto'>
-            {children}
-            <Navigator />
+            <GoogleOneTap/>
+              {children}
+              <Navigator />
+            
           </main>
           {/* <Footer /> */}
           <Background1 />

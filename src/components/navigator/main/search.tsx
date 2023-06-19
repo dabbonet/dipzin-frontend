@@ -10,8 +10,12 @@ import ResultIcon from './ResultIcon'
 import { useContentDiscovery } from "@/context/useContentDiscovery"
 import Icons from "@/components/Icons"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
+
+import { useDialog } from "@/context/useDialog"
+
 import { getToken } from "@/lib/auth"
 import { useRouterPath } from "@/context/useRouterPath"
+
 
 
 const Search = () => {
@@ -145,6 +149,7 @@ export default Search
 const PreviewCard = ({ selected }: any) => {
 
     //TODO: Show App Icon 
+    const { navigateToRoute } = useDialog()
     const [showcase, setShowcase] = useState<any>([]);
     const { setSearchKeyword, setFilters } = useContentDiscovery();
     const { setRouterPath } = useRouterPath()
@@ -182,19 +187,21 @@ const PreviewCard = ({ selected }: any) => {
             !tagList.includes(name) && tagList.push(name)
             tags = tagList.join(',');
             params.set('tags', tags);
+            link = '/search' + params
+
             setRouterPath(arr => [...arr, pathName])
-            router.push('/search?' + params)
         } else if (selected.type === 'category') {
             !categoryList.includes(name) && categoryList.push(name);
             categories = categoryList.join(',');
             params.set('categories', categories);
-            router.push('/search?' + params)
+            link = '/search' + params
+
         } else {
             link = `/app/${platName}/${selected.slug}`
-            router.push(link)
+
         }
 
-
+        navigateToRoute({ link })
     }, [searchParams, router])
 
 

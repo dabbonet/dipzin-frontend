@@ -6,7 +6,7 @@ const PlatformSwitcher = () => {
   const { platforms, singleApp, selected, setSelected } = usePlatform();
   const router = useRouter();
   const segments = useSelectedLayoutSegments();
-  const slug = segments[2];
+  const slug = segments[3];
 
   if (platforms.length < 2) return null; // hide if there is no platforms
   const platformsUI = () => {
@@ -14,7 +14,7 @@ const PlatformSwitcher = () => {
       let selectedBackGround
       if (selected === platformAvailable.id) {
         selectedBackGround = ' bg-slate-800'
-      }  
+      }
       const switchApps = () => {
         if (singleApp) {
           router.push(
@@ -35,6 +35,7 @@ const PlatformSwitcher = () => {
       )
     })
   }
+
   return (
     <div className="bg-slate-950/95 rounded-[40px] flex items-center p-2  lg:text-sm text-xs font-light space-x-4">
       {platformsUI()}
