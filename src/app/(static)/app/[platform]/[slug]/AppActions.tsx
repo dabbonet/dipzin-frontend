@@ -8,10 +8,11 @@ import toast from "react-hot-toast";
 import { navigatorProps } from "@/lib/types/appactions";
 import { useDialog } from "@/context/useDialog";
 import { useSelcetedImages } from "@/lib/SelectedToDownload";
-import { getUser } from "@/lib/auth";
+import { getUser, useAuth } from "@/lib/auth";
 
 const AppActions: FC<navigatorProps> = ({ app, isFromCollection }) => {
-  const { setVisibleNoAuth, setVisible } = useDialog()
+  const { setVisibleNoAuth, setVisible , setTitle } = useDialog()
+  const {user} = useAuth()
   const { selectedImages } = useSelcetedImages()
   const platform = app?.platform.data.attributes.name.toLowerCase() ?? null
   const screensArray = selectedImages.map(screen => screen?.attributes?.screen?.data?.attributes?.hash + screen?.attributes?.screen?.data?.attributes?.ext) || app?.screens.data.map(
@@ -31,8 +32,8 @@ const AppActions: FC<navigatorProps> = ({ app, isFromCollection }) => {
   const ButtonWrapper = ({ title, icon, handler }) => {
     return <SquareButton
       onClick={async () => {
-        const isUserAuth = await getUser()
-        if (!isUserAuth) return setVisibleNoAuth(true)
+        setTitle('Upgrade and get access to exclusive features')
+        if (!user) return setVisibleNoAuth(true)
         if (isFromCollection) {
           return
         }

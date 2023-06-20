@@ -20,7 +20,7 @@ export async function GET(request: Request) {
             'Authorization': token
         },
     });
-
+    console.log(res.status)
     if (!res.ok) {
         // Handle non-2xx HTTP response status codes
         const errorResponse = await res.json();
