@@ -16,6 +16,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     const [counter, setCounter] = useState<number>(baseCounter)
     const [visible, setVisible] = useState<boolean>(false);
     const [visibleNoAuth, setVisibleNoAuth] = useState<boolean>(false);
+    const [title, setTitle] = useState('')
     const router = useRouter()
 
 
@@ -54,7 +55,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
            router.push(link) 
         },5000);
     }
-
+    
     return (
         <DialogContext.Provider
             value={{
@@ -67,7 +68,9 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
                 setCounter,
                 setTimes,
                 setIncremental,
-                navigateToRoute
+                navigateToRoute,
+                title,
+                setTitle
             }}
         >
             {children}

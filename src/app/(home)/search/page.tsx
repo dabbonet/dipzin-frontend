@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { FC, useCallback, useEffect, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso';
 import StreamLoader from '@/components/StreamLoader';
-import { useRouterPath } from '@/context/useRouterPath';
+import { getToken } from '@/lib/auth';
 
 
 interface pageProps {
@@ -23,7 +23,9 @@ const Search: FC<pageProps> = ({ }) => {
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
-    const {routerPath , setRouterPath} = useRouterPath()
+    if (searchParams.toString().length === 0) {
+        router.push('/')
+    }
     async function getResults() {
         const results = await getSearchResults({ tags, categories, page: 1, platform: selected })
         setIsLoading(false)
@@ -31,12 +33,8 @@ const Search: FC<pageProps> = ({ }) => {
         setStreamData(results);
     }
 
-    useEffect(() => {
-        if (searchParams.toString().length === 0) {
-            router.push(routerPath[0])
-            setRouterPath([])
-        } // go back if there is no search Params.
-        
+    useEffect(() => {      
+        console.log(tags)  
         setPlatforms([2, 1]);
         setFilters({ tags: tags, categories: categories })
         getResults()
@@ -92,10 +90,12 @@ export default Search
 
 
 async function getSearchResults({ tags, categories, page, platform }) {
+    const token = getToken()
     const req = await fetch("/api/search/filter", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
             tags: tags || [''],
@@ -108,9 +108,10 @@ async function getSearchResults({ tags, categories, page, platform }) {
     if (!req.ok) return { message: "something went wrong", status: req.status }
 
     const data = await req.json()
+    console.log(data)
     const screens = data.screens.data.flatMap(item => ({
         hash: item.attributes.screen.data?.attributes.hash,
-        ext: item.attributes.screen.data?.attributes.ext
+        ext: item.attributes.screen.data?.attributes.ext,
     }));
     return screens;
 }
