@@ -15,14 +15,12 @@ import { useDialog } from "@/context/useDialog"
 
 import { getToken } from "@/lib/auth"
 
-import { MaxQouta } from "@/components/accessAndUpgrade"
 const Search = () => {
 
     const { searchKeyword, filters } = useContentDiscovery();
     const [results, setResults] = useState<any>(null);
     const [selected, setSelected] = useState<any>({});
     const [isLoading, setIsLoading] = useState(true);
-    // const [showMaxQoutaDialog, setShowMaxQoutaDialog] = useState(false)
     const token = getToken()
 
     useLayoutEffect(() => {
@@ -37,7 +35,7 @@ const Search = () => {
             const data = await res.json();
             const { maxQouta } = data
             if (maxQouta) {
-                // setShowMaxQoutaDialog(true)
+                
             }
             setIsLoading(false)
 
@@ -66,10 +64,6 @@ const Search = () => {
     }, [searchKeyword, setResults, setSelected, setIsLoading]);
 
     let [ref, bounds] = useMeasure();
-
-    // if (showMaxQoutaDialog) {
-    //     return <MaxQouta />
-    // }
 
     return (
 
