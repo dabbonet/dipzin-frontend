@@ -23,7 +23,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
   const [openScreen, setOpenScreen] = useState<any | null>();
   useEffect(()=>{
-    setNavigatorUi('mneuOnly')
+    setNavigatorUi('selection')
     return ()=> {
       setNavigatorUi('')
     }

@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
 import InitialSearch from './InitailSearch';
 import { useNavigator } from '@/context/useNavigatiorContext';
+import { useSelcetedImages } from '@/lib/SelectedToDownload';
 
 
 
@@ -19,6 +20,7 @@ const MainNavigator = ({ type }: any) => {
     const searchParams = useSearchParams()!;
     const router = useRouter();
    const {navigatorUi} = useNavigator()
+   const {selectedImages} = useSelcetedImages()
 
 
     // Logic to handle if user clicks outside of the navigator
@@ -70,7 +72,7 @@ const MainNavigator = ({ type }: any) => {
     }, [searchParams, router, filters])
     if(navigatorUi === '') return
     return (
-        <div ref={wrapperRef} className="fixed left-1/2 -translate-x-1/2 bottom-12 flex justify-center z-20 w-fit">
+        <div ref={wrapperRef} className="fixed left-1/2 -translate-x-1/2 bottom-12 flex justify-center z-[10000000] w-fit">
             <div className='relative flex items-end'>
 
                 {/* User Avatar area */}
@@ -127,7 +129,7 @@ const MainNavigator = ({ type }: any) => {
                                         ))}
                                     </ul>
                                 </div>
-                            )}
+                            )}{activeView !== 'selection' ?
                             <motion.input
                                 layout
                                 className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 text-sm rounded-full"
@@ -146,7 +148,15 @@ const MainNavigator = ({ type }: any) => {
                                 onFocus={(e) => {
                                     setActiveView('initial')
                                 }}
-                            />
+                            /> : <div className=' flex gap-20 flex-wrap items-center'>
+                                <span>{selectedImages.length} selected</span>
+
+                                <div className=' flex gap-5 pr-3'>
+                                    <button className=' py-1 px-3 rounded-xl bg-slate-600'>save</button>
+                                    <button className=' py-1 px-3 rounded-xl bg-slate-600'>download</button>
+                                </div>
+
+                                </div>}
                             {/* <motion.div
                                     layout="position"
                                     className="h-full flex items-center bg-gradient-to-br from-slate-700 to-slate-700/60  hover:bg-slate-600 cursor-pointer rounded-full space-x-2 px-6 ml-auto"

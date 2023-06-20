@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { cn, rgbDataURL } from '@/lib/utils'
 import SingleScreen from './screen/SingleScreen'
 import { usePlatform } from '@/lib/platforms'
@@ -9,7 +9,8 @@ import { ImageDownloader } from '@/lib/ImageDownloader'
 import { toast } from 'react-hot-toast'
 import { ActionBar, SquareButton } from './ActionBar'
 import { useRouter } from 'next/navigation'
-
+import { useSelcetedImages } from '@/lib/SelectedToDownload'
+import { useContentDiscovery } from '@/context/useContentDiscovery'
 interface ShowcaseProps {
   selectedShowcase: any;
   setSelectedShowcase: any;
@@ -20,12 +21,25 @@ const Showcase: FC<ShowcaseProps> = ({
   setSelectedShowcase,
 }) => {
   const router = useRouter();
+  const {setActiveView} = useContentDiscovery()
   const { selected: platform } = usePlatform();
+  const {setSelectedImages, selectedImages} = useSelcetedImages()
+  useEffect(()=>{
+    return ()=>{
+      setSelectedImages([])
+    }
+  },[])
+  useEffect(()=>{
+    setActiveView('selection')
+    return ()=>{
+      setActiveView('')
+    }
+  },[selectedImages])
 
   return (
     <motion.div
       //layoutId={selected.id}
-      className={"w-[100%] h-[100%] z-50 fixed inset-0 overflow-y-scroll py-16 xl:py-28 backdrop-blur-lg bg-slate-900/70"}
+      className={"w-[100%] h-[100%] z-20 fixed inset-0 overflow-y-scroll py-16 xl:py-28 backdrop-blur-lg bg-slate-900/70"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

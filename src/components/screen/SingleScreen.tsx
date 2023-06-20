@@ -12,6 +12,7 @@ import { useSelcetedImages } from "@/lib/SelectedToDownload";
 import { useDialog } from "@/context/useDialog";
 import { useAuth } from "@/lib/auth";
 import { Actions } from "../Actions";
+import { useContentDiscovery } from "@/context/useContentDiscovery";
 
 interface SingleScreenProps {
   screen: any;
@@ -24,20 +25,18 @@ export const mergeScreenUrl = (data) =>
     : data;
 
 const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
-
-  
+  const {setActiveView} = useContentDiscovery()
   const {  setVisibleNoAuth} = useDialog()
   const {user} = useAuth()
 
-  const { id } = screen
   const { selectedImages, setSelectedImages } = useSelcetedImages();
-
+  
   useEffect(() => {
-
-    if (selectedImages.includes(id)) {
+    if (selectedImages.includes(screen)) {
       setChecked(true);
     }
   }, []);
+
 
   const [hovered, setHovered] = useState(false);
 
@@ -52,12 +51,12 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
     }
 
     setChecked(!checked);
-    const selectedImagesIDS = selectedImages.map(el => el.id)
-    if (!selectedImagesIDS.includes(id)) {
+    const selectedImagesIDS = selectedImages.map(el => el)
+    if (!selectedImagesIDS.includes(screen)) {
       setSelectedImages((prev) => [...prev, screen]);
     } else {
       setSelectedImages((prev) => {
-        return prev.filter((el) => el.id !== id);
+        return prev.filter((el) => el !== screen);
       });
       return
     }
