@@ -15,7 +15,7 @@ import { useNavigator } from '@/context/useNavigatiorContext';
 
 
 const MainNavigator = ({ type }: any) => {
-    const [activeView, setActiveView] = useState('')
+    const {setActiveView , activeView} = useContentDiscovery()
     const searchParams = useSearchParams()!;
     const router = useRouter();
    const {navigatorUi} = useNavigator()

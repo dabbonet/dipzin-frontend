@@ -14,6 +14,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useDialog } from "@/context/useDialog"
 
 import { getToken } from "@/lib/auth"
+import { UpgradeMemberCard } from "@/components/accessAndUpgrade"
 
 const Search = () => {
 
@@ -21,6 +22,7 @@ const Search = () => {
     const [results, setResults] = useState<any>(null);
     const [selected, setSelected] = useState<any>({});
     const [isLoading, setIsLoading] = useState(true);
+    const {setVisible , setTitle} = useDialog()
     const token = getToken()
 
     useLayoutEffect(() => {
@@ -35,12 +37,13 @@ const Search = () => {
             const data = await res.json();
             const { maxQouta } = data
             if (maxQouta) {
-                
+                setVisible(true)
+                setTitle('Unfortunately you exceed 20 search qouta')
             }
             setIsLoading(false)
 
             // Filter results that's in filters object.
-            const results = data.search.result.filter((result) => {
+            const results = data?.search?.result?.filter((result) => {
                 if (filters?.tags?.includes(result.item.name) && result.item.type === 'tag') {
                     return false;
                 }
@@ -64,6 +67,7 @@ const Search = () => {
     }, [searchKeyword, setResults, setSelected, setIsLoading]);
 
     let [ref, bounds] = useMeasure();
+    
 
     return (
 
