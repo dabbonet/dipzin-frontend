@@ -13,6 +13,8 @@ interface ContentDiscoveryState {
     setFilters: (filters: Filter) => void;
     searchKeyword: string;
     setSearchKeyword: (keyword: string) => void;
+    activeView: any
+    setActiveView: any
 }
 
 const defaultState: ContentDiscoveryState = {
@@ -21,7 +23,9 @@ const defaultState: ContentDiscoveryState = {
     filters: null,
     setFilters: () => { },
     searchKeyword: '',
-    setSearchKeyword: () => { }
+    setSearchKeyword: () => { },
+    activeView: '',
+    setActiveView: ()=> {}
 };
 
 const ContentDiscoveryContext = createContext<ContentDiscoveryState>(
@@ -32,6 +36,7 @@ export const ContentDiscoveryProvider = ({ children }: { children: React.ReactNo
     const [streamData, setStreamData] = useState<any>(null);
     const [filters, setFilters] = useState<Filter>(null);
     const [searchKeyword, setSearchKeyword] = useState<string>('');
+    const [activeView, setActiveView] = useState('')
     return (
         <ContentDiscoveryContext.Provider
             value={{
@@ -41,7 +46,8 @@ export const ContentDiscoveryProvider = ({ children }: { children: React.ReactNo
                 setFilters,
                 searchKeyword,
                 setSearchKeyword,
-                
+                activeView,
+                setActiveView
             }}
         >
             {children}
