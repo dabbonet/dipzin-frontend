@@ -26,7 +26,6 @@ export async function GET(request: Request) {
         const errorResponse = await res.json();
         return NextResponse.json({ errorResponse, maxQouta: false }, { status: res.status });
     }
-
     if (res.status === 204) {
         return NextResponse.json({ maxQouta: true });
     }
