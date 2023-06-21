@@ -33,8 +33,7 @@ const Search: FC<pageProps> = ({ }) => {
         setStreamData(results);
     }
 
-    useEffect(() => {      
-        console.log(tags)  
+    useEffect(() => {
         setPlatforms([2, 1]);
         setFilters({ tags: tags, categories: categories })
         getResults()
@@ -108,7 +107,6 @@ async function getSearchResults({ tags, categories, page, platform }) {
     if (!req.ok) return { message: "something went wrong", status: req.status }
 
     const data = await req.json()
-    console.log(data)
     const screens = data.screens.data.flatMap(item => ({
         hash: item.attributes.screen.data?.attributes.hash,
         ext: item.attributes.screen.data?.attributes.ext,
