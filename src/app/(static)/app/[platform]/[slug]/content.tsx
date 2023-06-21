@@ -12,6 +12,8 @@ import { Toaster } from "react-hot-toast";
 import ScreenActions from "./ScreenActions";
 import ScreenTagAndColors from "@/components/ScreenTagAndColors";
 import { useNavigator } from "@/context/useNavigatiorContext";
+import { useContentDiscovery } from "@/context/useContentDiscovery";
+import { useSelcetedImages } from "@/lib/SelectedToDownload";
 
 interface ContentProps {
   apps: any;
@@ -20,14 +22,12 @@ interface ContentProps {
 
 export default function Content({ apps, selectedApp: app }: ContentProps) {
   const {setNavigatorUi} = useNavigator()
+  const {selectedImages} = useSelcetedImages()
   const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
   const [openScreen, setOpenScreen] = useState<any | null>();
   useEffect(()=>{
-    setNavigatorUi('mneuOnly')
-    return ()=> {
-      setNavigatorUi('')
-    }
-  },[])
+    setNavigatorUi('selection')
+  },[selectedImages])
   // Create an array of platform IDs
   const platformIds = apps.data.map((app) => app.attributes.platform.data.id);
   // console.log(apps)
@@ -95,7 +95,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
         )}
         itemContent={(index, data) => {
           return (
-            <SingleScreen screen={data} setOpen={() => setOpenScreen(data)} />
+            <SingleScreen screen={data} appName={app.name} setOpen={() => setOpenScreen(data)} />
           );
         }}
       />
