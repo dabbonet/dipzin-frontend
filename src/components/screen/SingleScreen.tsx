@@ -17,6 +17,7 @@ import { useContentDiscovery } from "@/context/useContentDiscovery";
 interface SingleScreenProps {
   screen: any;
   setOpen?: any;
+  appName: string
 }
 export const mergeScreenUrl = (data) =>
   data.attributes
@@ -24,22 +25,24 @@ export const mergeScreenUrl = (data) =>
     data.attributes?.screen.data?.attributes.ext
     : data;
 
-const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
-  const {setActiveView} = useContentDiscovery()
+const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen , appName}) => {
   const {  setVisibleNoAuth} = useDialog()
   const {user} = useAuth()
 
   const { selectedImages, setSelectedImages } = useSelcetedImages();
   
+  
   useEffect(() => {
-    if (selectedImages.includes(screen)) {
+    if (selectedImages.images.includes(screen)) {
       setChecked(true);
+    }else{
+      setChecked(false)
     }
-  }, []);
-
-
+  }, [selectedImages]);
+  
+  
   const [hovered, setHovered] = useState(false);
-
+  
   // TODO: Checked here should be working with the select images context.
   // Keep in mind that react-virtoso is removing the checkmark on scroll.
   const [checked, setChecked] = useState(false);
@@ -49,22 +52,44 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
       setVisibleNoAuth(true)
       return
     }
-
+    
     setChecked(!checked);
-    const selectedImagesIDS = selectedImages.map(el => el)
+    setSelectedImages(prev => {
+      return {
+        ...prev,
+        appName: appName,
+        images: prev.images,
+      };
+    });
+  
+    const selectedImagesIDS = selectedImages.images.map(el => el);
     if (!selectedImagesIDS.includes(screen)) {
-      setSelectedImages((prev) => [...prev, screen]);
-    } else {
-      setSelectedImages((prev) => {
-        return prev.filter((el) => el !== screen);
+      setSelectedImages(prev => {
+        return {
+          ...prev,
+          images: [...prev.images, screen],
+        };
       });
-      return
+    } else {
+      setSelectedImages(prev => {
+        return {
+          ...prev,
+          images: prev.images.filter(el => el !== screen),
+        };
+      });
+      return;
     }
-    if (selectedImages.length >= 5) {
+  
+    if (selectedImages.images.length >= 5) {
       setChecked(false);
-      setSelectedImages((prev) => prev.slice(0, 5));
+      setSelectedImages(prev => {
+        return {
+          ...prev,
+          images: prev.images.slice(0, 5),
+        };
+      });
       toast.remove();
-      return toast.error("you cannot download more than 5 images");
+      return toast.error("You cannot download more than 5 images");
     }
   };
 
