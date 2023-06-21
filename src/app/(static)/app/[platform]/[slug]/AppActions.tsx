@@ -15,10 +15,7 @@ const AppActions: FC<navigatorProps> = ({ app, isFromCollection }) => {
   const {user} = useAuth()
   const { selectedImages } = useSelcetedImages()
   const platform = app?.platform.data.attributes.name.toLowerCase() ?? null
-  const screensArray = selectedImages.map(screen => screen?.attributes?.screen?.data?.attributes?.hash + screen?.attributes?.screen?.data?.attributes?.ext) || app?.screens.data.map(
-    (screen) =>
-      screen.attributes.screen.data.attributes.hash +
-      screen.attributes.screen.data.attributes.ext)
+  const screensArray = selectedImages.images
   const bulkDownloadImages = async () => {
     const isUserAuth = await getUser()
     if (isUserAuth) {
