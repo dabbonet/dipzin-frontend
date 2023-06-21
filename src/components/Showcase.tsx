@@ -11,6 +11,7 @@ import { ActionBar, SquareButton } from './ActionBar'
 import { useRouter } from 'next/navigation'
 import { useSelcetedImages } from '@/lib/SelectedToDownload'
 import { useContentDiscovery } from '@/context/useContentDiscovery'
+import { useNavigator } from '@/context/useNavigatiorContext'
 interface ShowcaseProps {
   selectedShowcase: any;
   setSelectedShowcase: any;
@@ -21,18 +22,18 @@ const Showcase: FC<ShowcaseProps> = ({
   setSelectedShowcase,
 }) => {
   const router = useRouter();
-  const {setActiveView} = useContentDiscovery()
+  const {setNavigatorUi} = useNavigator()
   const { selected: platform } = usePlatform();
   const {setSelectedImages, selectedImages} = useSelcetedImages()
   useEffect(()=>{
     return ()=>{
-      setSelectedImages([])
+      setSelectedImages({appName:'', images:[]})
     }
   },[])
   useEffect(()=>{
-    setActiveView('selection')
+    setNavigatorUi('selection')
     return ()=>{
-      setActiveView('')
+      setNavigatorUi('mneuWithSearch')
     }
   },[selectedImages])
 
@@ -152,7 +153,7 @@ const Showcase: FC<ShowcaseProps> = ({
           className={cn("grid ml-auto mr-auto z-50 w-full", platform === 3 ? "grid-cols-2 lg:grid-cols-2 xl:grid-cols-2  gap-10 " : "grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-10")}
         >
           {selectedShowcase?.screens.map((item: any, index: number) => (
-            <SingleScreen key={index} screen={item} />
+            <SingleScreen key={index} appName={selectedShowcase?.name} screen={item} />
           ))}
         </div>
 

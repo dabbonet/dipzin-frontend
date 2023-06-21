@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import Search from './search';
 import Menu from './menu';
-import Filters from './filters';
 import Icons from '@/components/Icons';
 import { useContentDiscovery } from '@/context/useContentDiscovery';
 import { cn } from '@/lib/utils';
@@ -12,6 +11,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import InitialSearch from './InitailSearch';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useSelcetedImages } from '@/lib/SelectedToDownload';
+import { ImageDownloader } from '@/lib/ImageDownloader';
 
 
 
@@ -20,7 +20,7 @@ const MainNavigator = ({ type }: any) => {
     const searchParams = useSearchParams()!;
     const router = useRouter();
    const {navigatorUi} = useNavigator()
-   const {selectedImages} = useSelcetedImages()
+   const {selectedImages , setSelectedImages} = useSelcetedImages()
 
 
     // Logic to handle if user clicks outside of the navigator
@@ -70,7 +70,72 @@ const MainNavigator = ({ type }: any) => {
         router.push('/search?' + params)
 
     }, [searchParams, router, filters])
-    if(navigatorUi === '') return
+    const NavigatorUI = ()=> {
+        if(navigatorUi === '') return
+        if (navigatorUi === 'mneuWithSearch'){
+            return <motion.div layout className={cn("flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full", filters?.tags || filters?.categories ? 'pl-3' : 'pl-7')}>
+            {/* TODO: Reduce size and add selected tags/categories in circles like ui */}
+            {filters && (filters?.tags?.length > 0 || filters?.categories?.length > 0) && (
+                <div className='relative rounded-md'>
+                    <div className='w-[7%] h-full absolute left-0 bg-gradient-to-r from-slate-800 to-slate-800/0'></div>
+                    <div className='w-[7%] h-full absolute right-0 bg-gradient-to-l from-slate-800 to-slate-800/0'></div>
+                    <ul className='flex space-x-2 mr-2 w-fit max-w-[20vw] overflow-x-scroll scrollbar-none ml-2'>
+                        {filters?.categories?.map((category, index) => (
+                            <TagItem key={index} title={category} onClick={() => removeTag('category', index)} />
+                        ))}
+                        {filters?.tags?.map((tag, index) => tag && (
+                            <TagItem key={index} title={tag} onClick={() => removeTag('tag', index)} />
+
+                        ))}
+                    </ul>
+                </div>
+            )}
+            <motion.input
+                layout
+                className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 text-sm rounded-full"
+                placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
+                transition={{ duration: 0.4 }}
+                animate={{ width: activeView.length > 1 ? "40vw" : "18vw" }}
+                value={searchKeyword}
+                onChange={(e) => {
+                    setSearchKeyword(e.target.value);
+                    if (e.target.value.length > 0) {
+                        setActiveView('search')
+                    } else {
+                        setActiveView('initial')
+                    }
+                }}
+                onFocus={(e) => {
+                    setActiveView('initial')
+                }}
+            /> 
+            {/* <motion.div
+                    layout="position"
+                    className="h-full flex items-center bg-gradient-to-br from-slate-700 to-slate-700/60  hover:bg-slate-600 cursor-pointer rounded-full space-x-2 px-6 ml-auto"
+                    onClick={() => {
+                        setFilterOpen(!filterOpen);
+                        setNavOpen(false);
+                        setMenuOpen(false);
+                    }}>
+                    <Icons.Filter className='w-4 h-4 text-slate-400' />
+                    <span className="font-medium text-sm mt-0.5">Fillter</span>
+                </motion.div> */}
+        </motion.div>
+        }
+        if (navigatorUi == 'selection') {
+            if(selectedImages.images.length === 0) return
+            return <div className=' flex gap-20 flex-wrap items-center'>
+            <div className=' flex items-center'>{selectedImages.images.length} selected <button className=' ml-2' onClick={()=> setSelectedImages({appName: '' , images:[]})}><Icons.Clear/></button></div>
+
+            <div className=' flex gap-5 pr-3'>
+                <button className=' py-1 px-3 rounded-2xl bg-slate-600' onClick={()=> ImageDownloader(selectedImages.appName + " Showcase" , selectedImages.images)}>download</button>
+            </div>
+
+            </div>
+        }
+        
+
+    }
     return (
         <div ref={wrapperRef} className="fixed left-1/2 -translate-x-1/2 bottom-12 flex justify-center z-[10000000] w-fit">
             <div className='relative flex items-end'>
@@ -114,62 +179,7 @@ const MainNavigator = ({ type }: any) => {
                             <span className="font-medium text-sm mt-0.5">Menu</span>
                         </motion.div>
 
-                        {navigatorUi === 'mneuWithSearch' && <motion.div layout className={cn("flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full", filters?.tags || filters?.categories ? 'pl-3' : 'pl-7')}>
-                            {/* TODO: Reduce size and add selected tags/categories in circles like ui */}
-                            {filters && (filters?.tags?.length > 0 || filters?.categories?.length > 0) && (
-                                <div className='relative rounded-md'>
-                                    <div className='w-[7%] h-full absolute left-0 bg-gradient-to-r from-slate-800 to-slate-800/0'></div>
-                                    <div className='w-[7%] h-full absolute right-0 bg-gradient-to-l from-slate-800 to-slate-800/0'></div>
-                                    <ul className='flex space-x-2 mr-2 w-fit max-w-[20vw] overflow-x-scroll scrollbar-none ml-2'>
-                                        {filters?.categories?.map((category, index) => (
-                                            <TagItem key={index} title={category} onClick={() => removeTag('category', index)} />
-                                        ))}
-                                        {filters?.tags?.map((tag, index) => tag && (
-                                            <TagItem key={index} title={tag} onClick={() => removeTag('tag', index)} />
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}{activeView !== 'selection' ?
-                            <motion.input
-                                layout
-                                className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 text-sm rounded-full"
-                                placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
-                                transition={{ duration: 0.4 }}
-                                animate={{ width: activeView.length > 1 ? "40vw" : "18vw" }}
-                                value={searchKeyword}
-                                onChange={(e) => {
-                                    setSearchKeyword(e.target.value);
-                                    if (e.target.value.length > 0) {
-                                        setActiveView('search')
-                                    } else {
-                                        setActiveView('initial')
-                                    }
-                                }}
-                                onFocus={(e) => {
-                                    setActiveView('initial')
-                                }}
-                            /> : <div className=' flex gap-20 flex-wrap items-center'>
-                                <span>{selectedImages.length} selected</span>
-
-                                <div className=' flex gap-5 pr-3'>
-                                    <button className=' py-1 px-3 rounded-xl bg-slate-600'>save</button>
-                                    <button className=' py-1 px-3 rounded-xl bg-slate-600'>download</button>
-                                </div>
-
-                                </div>}
-                            {/* <motion.div
-                                    layout="position"
-                                    className="h-full flex items-center bg-gradient-to-br from-slate-700 to-slate-700/60  hover:bg-slate-600 cursor-pointer rounded-full space-x-2 px-6 ml-auto"
-                                    onClick={() => {
-                                        setFilterOpen(!filterOpen);
-                                        setNavOpen(false);
-                                        setMenuOpen(false);
-                                    }}>
-                                    <Icons.Filter className='w-4 h-4 text-slate-400' />
-                                    <span className="font-medium text-sm mt-0.5">Fillter</span>
-                                </motion.div> */}
-                        </motion.div>}
-
+                        <NavigatorUI/>
                     </motion.div>
 
                 </motion.div >
