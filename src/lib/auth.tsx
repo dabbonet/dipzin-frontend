@@ -1,6 +1,7 @@
 import { createContext, useContext, FC, useState, useEffect } from "react";
 import Router from "next/router";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const IsAuth = createContext(null!);
 
@@ -14,7 +15,7 @@ const AuthProvider: FC<props> = ({ children }) => {
   const searchParams = useSearchParams()
   const provider = searchParams.get('provider')
   const token = searchParams.get('?id_token') || searchParams.get('?access_token')
-
+  const router = useRouter()
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -22,9 +23,12 @@ const AuthProvider: FC<props> = ({ children }) => {
     // Send Provider Token to get User Data and strapi JWT Token.
     if (token) {
       const getUserData = async () => {
+        setLoading(true)
         const userData = await redirectToken(provider, token)
+        router.replace('/')
         setUser(userData.user)
         setToken(userData.jwt)
+        setLoading(false)
       }
       getUserData()
     }
@@ -136,7 +140,6 @@ export async function verifyOtp(email: string, otp: number) {
     }),
   });
 }
-
 
 export async function redirectToken(provider: string, token: string) {
   const req = await fetch(`/api/user/redirect?provider=${provider}&token=${token}`);
