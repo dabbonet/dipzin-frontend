@@ -2,7 +2,7 @@ import { Personalize } from "@/components/Personalize";
 
 export default async function Page() {
     const {positionsRes , interestsRes} = await getNewsLetter()
-    return <Personalize/>
+    return <Personalize positions={positionsRes} interests={interestsRes}/>
 }
 
 

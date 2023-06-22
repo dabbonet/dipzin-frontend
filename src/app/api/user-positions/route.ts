@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
     const { data } = await request.json()
-    console.log(data)
-    const response = await fetch(`https://rah.dipzin.com/api/user-system-news-letters`, {
+    const response = await fetch(`https://rah.dipzin.com/api/user-positions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -11,7 +10,7 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify({
           data: {
-            news_letters : data.news_letters
+            positions : data.positions
           }
         })
     });
