@@ -3,13 +3,15 @@ import { getToken } from "@/lib/auth"
 import { useRouter } from "next/navigation"
 import {  useState } from "react"
 import { toast } from "react-hot-toast"
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import ReactPlayer from "react-player"
 
 
 export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}) {
     const rouuer = useRouter()
     const [profileUpdated, setProfileUpdated] = useState(false)
     const [newsLetterUpdated, setNewsLetterUpdated] = useState(false)
+    const [openVideo ,setOpenVideo] = useState(false)
     const [userDetails, setUserDetails] = useState({
         name: '',
         username: "",
@@ -140,7 +142,7 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
                 <p className=" text-slate-400 mb-28">Let's get to know you better! Your privacy is important to us, so please take a moment to review our <a href="https://google.com" className=' text-slate-100 underline'>privacy policy</a> and <a href="https://google.com" className=' text-slate-100 underline'>terms of service</a> before getting started. </p>
                 <div>
                     <p className=" text-slate-400 text-xs">Onboarding Video</p>
-                    <img src="/images/assets/profile-steper-video-screen.svg" className=" -mt-14 -ml-20" alt="" />
+                    <img src="/images/assets/profile-steper-video-screen.svg" onClick={()=> setOpenVideo(true)} className=" -mt-14 -ml-20" alt="" />
                 </div>
             </div>
             <div className=" flex-1">
@@ -192,5 +194,29 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
 
             </div>
         </div>
+        <AnimatePresence>
+        {openVideo && (
+          <>
+            <motion.div
+              className=" fixed top-0 left-0 w-full h-full backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <ReactPlayer url={`https://www.youtube.com/watch?v=NkjXFMTln5Q`}
+              className=''
+              controls
+            />
+              
+              <motion.div
+                onClick={() => setOpenVideo(false)}
+                className={
+                  "w-[100%] h-[100%] fixed top-0 left-0 bg-transparent"
+                }
+              ></motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.div>
 }
