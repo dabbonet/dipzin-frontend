@@ -34,6 +34,7 @@
     "react-auth-code-input": "^3.2.1",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",
+    "react-player": "^2.12.0",
     "react-use-measure": "^2.1.1",
     "react-virtuoso": "^4.3.10"
   },
