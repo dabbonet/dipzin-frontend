@@ -6,13 +6,16 @@ import { createContext, useContext, useState } from 'react';
 const NavigatorContext = createContext(null);
 
 export const NavigatorContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [navigatorUi, setNavigatorUi] = useState('')
+    const [activeView, setActiveView] = useState('')
+    const [activeControls, setActiveControls] = useState('')
     return (
         <NavigatorContext.Provider
             value={{
-                navigatorUi,
-                setNavigatorUi
-            
+                activeView,
+                setActiveView,
+                activeControls,
+                setActiveControls
+
             }}
         >
             {children}

@@ -25,7 +25,7 @@ const defaultState: ContentDiscoveryState = {
     searchKeyword: '',
     setSearchKeyword: () => { },
     activeView: '',
-    setActiveView: ()=> {}
+    setActiveView: () => { }
 };
 
 const ContentDiscoveryContext = createContext<ContentDiscoveryState>(
@@ -33,7 +33,7 @@ const ContentDiscoveryContext = createContext<ContentDiscoveryState>(
 );
 
 export const ContentDiscoveryProvider = ({ children }: { children: React.ReactNode }) => {
-    const [streamData, setStreamData] = useState<any>(null);
+    const [streamData, setStreamData] = useState([]);
     const [filters, setFilters] = useState<Filter>(null);
     const [searchKeyword, setSearchKeyword] = useState<string>('');
     const [activeView, setActiveView] = useState('')
