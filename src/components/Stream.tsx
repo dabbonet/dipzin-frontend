@@ -14,18 +14,19 @@ interface StreamProps { }
 
 
 const Stream: FC<StreamProps> = () => {
-  const {setNavigatorUi} = useNavigator()
+  const { setActiveView, setActiveControls } = useNavigator()
   const { setPlatforms, selected } = usePlatform();
   const { streamData, setStreamData } = useContentDiscovery();
   const [loadedPages, setLoadedPages] = useState<number[]>([]);
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  useEffect(()=>{
-    setNavigatorUi('mneuWithSearch')
-    return ()=> {
-      setNavigatorUi('')
+  useEffect(() => {
+    setActiveView('menuWithSearch')
+    setActiveControls('menu-search')
+    return () => {
+      setActiveView('')
     }
-  },[])
+  }, [])
   // 1. Initialize Stream and Page Platforms.
   // 2. Refetch Stream on Platform Change.
   const updateStream = async () => {
@@ -56,16 +57,20 @@ const Stream: FC<StreamProps> = () => {
     return setTimeout(async () => {
       // Load more stream items
       const more = await getStream({ platform: selected!, previousPages: loadedPages });
-      if (more.status == 404) return
+      if (more.status == 404) return;
       setLoadedPages((prevLoadedPages) => [...prevLoadedPages, more.page]);
 
-      const shuffledData = shuffle(more.stream);
-      setStreamData((streamData: any) => [...streamData, ...shuffledData])
-    }, 300)
-  }, [setStreamData, loadedPages, selected])
+      setStreamData((prevStreamData: any[] | null) => {
+        const shuffledData = shuffle(more.stream);
+        console.log(prevStreamData);
+        const newData = Array.isArray(prevStreamData) ? prevStreamData : [];
+        return [...newData, ...shuffledData];
+      });
+    }, 300);
+  }, [setStreamData, loadedPages, selected]);
 
-  if (isLoading) return <StreamLoader />
-  if (!streamData) return
+  if (isLoading || streamData?.length == undefined) return <StreamLoader />
+  // if (!streamData) return
 
   return (
     <>
@@ -78,7 +83,6 @@ const Stream: FC<StreamProps> = () => {
         totalCount={streamData.length}
         overscan={1}
         endReached={loadMore}
-        atBottomStateChange={loadMore}
         listClassName={cn("mb-10 grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
         logLevel={LogLevel.DEBUG}
         itemContent={(index, data) => (

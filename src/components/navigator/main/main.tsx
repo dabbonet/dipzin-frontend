@@ -16,11 +16,11 @@ import { ImageDownloader } from '@/lib/ImageDownloader';
 
 
 const MainNavigator = ({ type }: any) => {
-    const {setActiveView , activeView} = useContentDiscovery()
+    // const { setActiveView, activeView } = useContentDiscovery()
     const searchParams = useSearchParams()!;
     const router = useRouter();
-   const {navigatorUi} = useNavigator()
-   const {selectedImages , setSelectedImages} = useSelcetedImages()
+    const { activeView, setActiveView, activeControls, setActiveControls } = useNavigator()
+    const { selectedImages, setSelectedImages } = useSelcetedImages()
 
 
     // Logic to handle if user clicks outside of the navigator
@@ -28,7 +28,7 @@ const MainNavigator = ({ type }: any) => {
         useEffect(() => {
             function handleClickOutside(event: any) {
                 if (ref.current && !ref.current.contains(event.target)) {
-                    setActiveView('')
+                    setActiveView('menuWithSearch')
                 }
             }
             // Bind the event listener
@@ -43,14 +43,6 @@ const MainNavigator = ({ type }: any) => {
     useOutsideAlerter(wrapperRef);
 
     const { filters, setFilters, searchKeyword, setSearchKeyword } = useContentDiscovery();
-
-    useEffect(() => {
-        if (!searchKeyword) {
-            if(activeView !== ''){
-                setActiveView('initial')
-            }
-        }
-    }, [filters, searchKeyword])
 
 
     const removeTag = useCallback((type, indexToRemove) => {
@@ -70,72 +62,22 @@ const MainNavigator = ({ type }: any) => {
         router.push('/search?' + params)
 
     }, [searchParams, router, filters])
-    const NavigatorUI = ()=> {
-        if(navigatorUi === '') return
-        if (navigatorUi === 'mneuWithSearch'){
-            return <motion.div layout className={cn("flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full", filters?.tags || filters?.categories ? 'pl-3' : 'pl-7')}>
-            {/* TODO: Reduce size and add selected tags/categories in circles like ui */}
-            {filters && (filters?.tags?.length > 0 || filters?.categories?.length > 0) && (
-                <div className='relative rounded-md'>
-                    <div className='w-[7%] h-full absolute left-0 bg-gradient-to-r from-slate-800 to-slate-800/0'></div>
-                    <div className='w-[7%] h-full absolute right-0 bg-gradient-to-l from-slate-800 to-slate-800/0'></div>
-                    <ul className='flex space-x-2 mr-2 w-fit max-w-[20vw] overflow-x-scroll scrollbar-none ml-2'>
-                        {filters?.categories?.map((category, index) => (
-                            <TagItem key={index} title={category} onClick={() => removeTag('category', index)} />
-                        ))}
-                        {filters?.tags?.map((tag, index) => tag && (
-                            <TagItem key={index} title={tag} onClick={() => removeTag('tag', index)} />
 
-                        ))}
-                    </ul>
-                </div>
-            )}
-            <motion.input
-                layout
-                className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 text-sm rounded-full"
-                placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
-                transition={{ duration: 0.4 }}
-                animate={{ width: activeView.length > 1 ? "40vw" : "18vw" }}
-                value={searchKeyword}
-                onChange={(e) => {
-                    setSearchKeyword(e.target.value);
-                    if (e.target.value.length > 0) {
-                        setActiveView('search')
-                    } else {
-                        setActiveView('initial')
-                    }
-                }}
-                onFocus={(e) => {
-                    setActiveView('initial')
-                }}
-            /> 
-            {/* <motion.div
-                    layout="position"
-                    className="h-full flex items-center bg-gradient-to-br from-slate-700 to-slate-700/60  hover:bg-slate-600 cursor-pointer rounded-full space-x-2 px-6 ml-auto"
-                    onClick={() => {
-                        setFilterOpen(!filterOpen);
-                        setNavOpen(false);
-                        setMenuOpen(false);
-                    }}>
-                    <Icons.Filter className='w-4 h-4 text-slate-400' />
-                    <span className="font-medium text-sm mt-0.5">Fillter</span>
-                </motion.div> */}
-        </motion.div>
-        }
-        if (navigatorUi == 'selection') {
-            if(selectedImages.images.length === 0) return
-            return <div className=' flex gap-20 flex-wrap items-center'>
-            <div className=' flex items-center'>{selectedImages.images.length} selected <button className=' ml-2' onClick={()=> setSelectedImages({appName: '' , images:[]})}><Icons.Clear/></button></div>
+    const handleSearch = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            setSearchKeyword(e.target.value);
+            if (e.target.value.length > 0) {
+                setActiveView('search');
+            } else {
+                setActiveView('initial');
+            }
+        },
+        [setSearchKeyword, setActiveView]
+    );
+    useEffect(() => {
+        console.log(activeControls)
+    }, [activeControls])
 
-            <div className=' flex gap-5 pr-3'>
-                <button className=' py-1 px-3 rounded-2xl bg-slate-600' onClick={()=> ImageDownloader(selectedImages.appName + " Showcase" , selectedImages.images)}>download</button>
-            </div>
-
-            </div>
-        }
-        
-
-    }
     return (
         <div ref={wrapperRef} className="fixed left-1/2 -translate-x-1/2 bottom-12 flex justify-center z-[10000000] w-fit">
             <div className='relative flex items-end'>
@@ -144,42 +86,80 @@ const MainNavigator = ({ type }: any) => {
 
                 {/* Navigator Area */}
                 <motion.div
-                    layoutRoot
+
                     className="relative w-full h-full rounded-3xl bg-slate-950/100 border-[0.5px] border-slate-800 p-2 flex-col items-end text-slate-100 tracking-[.07rem]"
-                    transition={{ type: "spring", duration: 0.6, delay: 0.1 }}
+                    transition={{ type: "spring", duration: 0.6 }}
                     initial={{ borderRadius: 30 }}
                 >
 
                     <AnimatePresence mode='wait'>
                         {activeView == 'search' && (
                             <Search />
-                            )}
+                        )}
 
                         {/* {filterOpen && (
                             <Filters />
                         )} */}
-                        
+
                         {activeView == 'menu' && (
                             <Menu />
                         )}
                         {activeView == 'initial' && (
-                            <InitialSearch/>
+                            <InitialSearch />
                         )}
                     </AnimatePresence>
-                    
-                    <motion.div className="flex w-full h-[48px] relative z-30">
 
-                        <motion.div
-                            layout="position"
-                            className="flex items-center bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-3xl px-7 space-x-2 mr-2"
-                            onClick={() => {
-                                setActiveView(activeView == 'menu' ? '' : 'menu')
-                            }}>
-                            <Icons.Grip className='w-4 h-4 text-slate-400' />
-                            <span className="font-medium text-sm mt-0.5">Menu</span>
-                        </motion.div>
+                    <motion.div className="flex w-full h-[48px] relative z-30 space-x-2">
 
-                        <NavigatorUI/>
+                        {(activeControls == 'menu-only' || activeControls == 'menu-search') && (
+                            <motion.div
+
+                                className="flex items-center bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-3xl px-7 space-x-2"
+                                onClick={() => {
+                                    setActiveView(activeView == 'menu' ? '' : 'menu')
+                                }}>
+                                <Icons.Grip className='w-4 h-4 text-slate-400' />
+                                <span className="font-medium text-sm mt-0.5">Menu</span>
+                            </motion.div>
+                        )}
+
+                        {(activeControls == 'menu-search') && (
+
+                            <motion.div className={cn("flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full", filters?.tags || filters?.categories ? 'pl-3' : 'pl-7')}>
+                                {/* TODO: Reduce size and add selected tags/categories in circles like ui */}
+                                {filters && (filters?.tags?.length > 0 || filters?.categories?.length > 0) && (
+                                    <div className='relative rounded-md'>
+                                        <div className='w-[7%] h-full absolute left-0 bg-gradient-to-r from-slate-800 to-slate-800/0'></div>
+                                        <div className='w-[7%] h-full absolute right-0 bg-gradient-to-l from-slate-800 to-slate-800/0'></div>
+                                        <ul className='flex space-x-2 mr-2 w-fit max-w-[20vw] overflow-x-scroll scrollbar-none ml-2'>
+                                            {filters?.categories?.map((category, index) => (
+                                                <TagItem key={index} title={category} onClick={() => removeTag('category', index)} />
+                                            ))}
+                                            {filters?.tags?.map((tag, index) => tag && (
+                                                <TagItem key={index} title={tag} onClick={() => removeTag('tag', index)} />
+
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                                <motion.input
+
+                                    className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 text-sm rounded-full"
+                                    placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
+                                    transition={{ duration: 0.4 }}
+                                    animate={{ width: searchKeyword.length > 0 ? "40vw" : "18vw" }}
+                                    value={searchKeyword}
+                                    onChange={handleSearch}
+                                    onFocus={(e) => {
+                                        setActiveView('initial')
+                                        if (e.target.value.length > 0) {
+                                            setActiveView('search')
+                                        }
+                                    }}
+                                />
+                            </motion.div>
+                        )}
+
                     </motion.div>
 
                 </motion.div >

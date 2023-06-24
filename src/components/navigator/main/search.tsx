@@ -22,7 +22,7 @@ const Search = () => {
     const [results, setResults] = useState<any>(null);
     const [selected, setSelected] = useState<any>({});
     const [isLoading, setIsLoading] = useState(true);
-    const {setVisible , setTitle} = useDialog()
+    const { setVisible, setTitle } = useDialog()
     const token = getToken()
 
     useLayoutEffect(() => {
@@ -38,7 +38,7 @@ const Search = () => {
             const { maxQouta } = data
             if (maxQouta) {
                 setVisible(true)
-                setTitle('Unfortunately you exceed 20 search qouta')
+                setTitle('Unfortunately you exceed 100 search qouta')
             }
             setIsLoading(false)
 
@@ -67,7 +67,7 @@ const Search = () => {
     }, [searchKeyword, setResults, setSelected, setIsLoading]);
 
     let [ref, bounds] = useMeasure();
-    
+
 
     return (
 
@@ -156,7 +156,8 @@ const PreviewCard = ({ selected }: any) => {
     const { navigateToRoute } = useDialog()
     const [showcase, setShowcase] = useState<any>([]);
     const { setSearchKeyword, setFilters } = useContentDiscovery();
-    const pathName = usePathname()
+    // const { setRouterPath } = useRouterPath()
+    // const pathName = usePathname()
     const router = useRouter();
     const searchParams = useSearchParams()!;
     // const data = await getPreview({ id: selected.id })
@@ -191,6 +192,8 @@ const PreviewCard = ({ selected }: any) => {
             tags = tagList.join(',');
             params.set('tags', tags);
             link = '/search?' + params
+
+            // setRouterPath(arr => [...arr, pathName])
         } else if (selected.type === 'category') {
             !categoryList.includes(name) && categoryList.push(name);
             categories = categoryList.join(',');

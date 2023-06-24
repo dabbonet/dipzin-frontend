@@ -22,20 +22,19 @@ const Showcase: FC<ShowcaseProps> = ({
   setSelectedShowcase,
 }) => {
   const router = useRouter();
-  const {setNavigatorUi} = useNavigator()
+  const { setActiveView, setActiveControls } = useNavigator()
   const { selected: platform } = usePlatform();
-  const {setSelectedImages, selectedImages} = useSelcetedImages()
-  useEffect(()=>{
-    return ()=>{
-      setSelectedImages({appName:'', images:[]})
+  const { setSelectedImages, selectedImages } = useSelcetedImages()
+  useEffect(() => {
+    setActiveControls('menu-only')
+    return () => {
+      setSelectedImages({ appName: '', images: [] })
     }
-  },[])
-  useEffect(()=>{
-    setNavigatorUi('selection')
-    return ()=>{
-      setNavigatorUi('mneuWithSearch')
-    }
-  },[selectedImages])
+  }, [])
+  useEffect(() => {
+    setActiveView('selection')
+
+  }, [selectedImages])
 
   return (
     <motion.div
@@ -159,7 +158,10 @@ const Showcase: FC<ShowcaseProps> = ({
 
       </motion.div>
       <motion.div
-        onClick={() => setSelectedShowcase(null)}
+        onClick={() => {
+          setSelectedShowcase(null)
+          setActiveControls('menu-search')
+        }}
         className={
           "w-[100%] h-[100%] fixed top-0 bg-transparent"
         }
