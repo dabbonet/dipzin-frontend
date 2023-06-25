@@ -12,10 +12,12 @@ import { useSelcetedImages } from "@/lib/SelectedToDownload";
 import { useDialog } from "@/context/useDialog";
 import { useAuth } from "@/lib/auth";
 import { Actions } from "../Actions";
+import { useContentDiscovery } from "@/context/useContentDiscovery";
 
 interface SingleScreenProps {
   screen: any;
   setOpen?: any;
+  appName?: string
 }
 export const mergeScreenUrl = (data) =>
   data.attributes
@@ -23,21 +25,21 @@ export const mergeScreenUrl = (data) =>
     data.attributes?.screen.data?.attributes.ext
     : data;
 
-const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
+const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName }) => {
+  const { setVisibleNoAuth } = useDialog()
+  const { user } = useAuth()
 
-  
-  const {  setVisibleNoAuth} = useDialog()
-  const {user} = useAuth()
-
-  const { id } = screen
   const { selectedImages, setSelectedImages } = useSelcetedImages();
 
-  useEffect(() => {
 
-    if (selectedImages.includes(id)) {
+  useEffect(() => {
+    if (selectedImages.images.includes(screen)) {
       setChecked(true);
+    } else {
+      setChecked(false)
     }
-  }, []);
+  }, [selectedImages]);
+
 
   const [hovered, setHovered] = useState(false);
 
@@ -52,20 +54,42 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen }) => {
     }
 
     setChecked(!checked);
-    const selectedImagesIDS = selectedImages.map(el => el.id)
-    if (!selectedImagesIDS.includes(id)) {
-      setSelectedImages((prev) => [...prev, screen]);
-    } else {
-      setSelectedImages((prev) => {
-        return prev.filter((el) => el.id !== id);
+    setSelectedImages(prev => {
+      return {
+        ...prev,
+        appName: appName || 'images',
+        images: prev.images,
+      };
+    });
+
+    const selectedImagesIDS = selectedImages.images.map(el => el);
+    if (!selectedImagesIDS.includes(screen)) {
+      setSelectedImages(prev => {
+        return {
+          ...prev,
+          images: [...prev.images, screen],
+        };
       });
-      return
+    } else {
+      setSelectedImages(prev => {
+        return {
+          ...prev,
+          images: prev.images.filter(el => el !== screen),
+        };
+      });
+      return;
     }
-    if (selectedImages.length >= 5) {
+
+    if (selectedImages.images.length >= 5) {
       setChecked(false);
-      setSelectedImages((prev) => prev.slice(0, 5));
+      setSelectedImages(prev => {
+        return {
+          ...prev,
+          images: prev.images.slice(0, 5),
+        };
+      });
       toast.remove();
-      return toast.error("you cannot download more than 5 images");
+      return toast.error("You cannot download more than 5 images");
     }
   };
 

@@ -306,6 +306,31 @@ const PlayVideo:FC<Icon> = ({className}) => {
 const Icons = {
     GoogleIcon, FacebookIcon, Expand, Heart, Apple, CopyFilled, Open, Download, XCircle, Save, Thumbnail,addImage, PlayVideo,
     Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2
+=======
+const Clear = ()=> {
+    return <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+    preserveAspectRatio="xMidYMid meet"
+  >
+    <path
+      d="M14 8C14 4.6875 11.3125 2 8 2C4.6875 2 2 4.6875 2 8C2 11.3125 4.6875 14 8 14C11.3125 14 14 11.3125 14 8Z"
+      stroke="#E2E8F0"
+      stroke-miterlimit={10}
+    />
+    <path d="M10 10L6 6" stroke="#E2E8F0" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M6 10L10 6" stroke="#E2E8F0" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+  
 }
+
+const Icons = {
+    GoogleIcon, FacebookIcon, Expand, Heart, Apple, CopyFilled, Open, Download, XCircle, Save, Thumbnail,
+    Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2 , Clear
+
 
 export default Icons

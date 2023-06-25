@@ -14,9 +14,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useDialog } from "@/context/useDialog"
 
 import { getToken } from "@/lib/auth"
-import { useRouterPath } from "@/context/useRouterPath"
-
-
+import { UpgradeMemberCard } from "@/components/accessAndUpgrade"
 
 const Search = () => {
 
@@ -24,7 +22,8 @@ const Search = () => {
     const [results, setResults] = useState<any>(null);
     const [selected, setSelected] = useState<any>({});
     const [isLoading, setIsLoading] = useState(true);
-    const token = getToken();
+    const { setVisible, setTitle } = useDialog()
+    const token = getToken()
 
     useLayoutEffect(() => {
         const handleSearch = async () => {
@@ -33,14 +32,18 @@ const Search = () => {
             const res = await fetch(`/api/search?keyword=${searchKeyword}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
-                },
-                cache: 'no-cache'
+                }
             });
             const data = await res.json();
+            const { maxQouta } = data
+            if (maxQouta) {
+                setVisible(true)
+                setTitle('Unfortunately you exceed 100 search qouta')
+            }
             setIsLoading(false)
 
             // Filter results that's in filters object.
-            const results = data.search.result.filter((result) => {
+            const results = data?.search?.result?.filter((result) => {
                 if (filters?.tags?.includes(result.item.name) && result.item.type === 'tag') {
                     return false;
                 }
@@ -64,6 +67,7 @@ const Search = () => {
     }, [searchKeyword, setResults, setSelected, setIsLoading]);
 
     let [ref, bounds] = useMeasure();
+
 
     return (
 
@@ -152,8 +156,8 @@ const PreviewCard = ({ selected }: any) => {
     const { navigateToRoute } = useDialog()
     const [showcase, setShowcase] = useState<any>([]);
     const { setSearchKeyword, setFilters } = useContentDiscovery();
-    const { setRouterPath } = useRouterPath()
-    const pathName = usePathname()
+    // const { setRouterPath } = useRouterPath()
+    // const pathName = usePathname()
     const router = useRouter();
     const searchParams = useSearchParams()!;
     // const data = await getPreview({ id: selected.id })
@@ -187,18 +191,16 @@ const PreviewCard = ({ selected }: any) => {
             !tagList.includes(name) && tagList.push(name)
             tags = tagList.join(',');
             params.set('tags', tags);
-            link = '/search' + params
+            link = '/search?' + params
 
-            setRouterPath(arr => [...arr, pathName])
+            // setRouterPath(arr => [...arr, pathName])
         } else if (selected.type === 'category') {
             !categoryList.includes(name) && categoryList.push(name);
             categories = categoryList.join(',');
             params.set('categories', categories);
-            link = '/search' + params
-
+            link = '/search?' + params
         } else {
             link = `/app/${platName}/${selected.slug}`
-
         }
 
         navigateToRoute({ link })
