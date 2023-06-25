@@ -40,7 +40,7 @@ const OtpAccessComponent = ({ email }: props) => {
       if (data.status === 200) {
         router.push("/");
       } else {
-        router.push("/account");
+        router.push("/profile/profile-informations");
       }
       if (path !== '/access/otp') setVisibleNoAuth(false);
     } else {

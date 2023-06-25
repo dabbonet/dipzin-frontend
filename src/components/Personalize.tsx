@@ -1,16 +1,20 @@
 'use client'
 
 import { getToken } from "@/lib/auth";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { toast } from "react-hot-toast";
+import Icons from "./Icons"
+import { AnimatePresence, motion } from "framer-motion";
+import ReactPlayer from "react-player"
 
 export function Personalize({ positions , interests}) {
     const router = useRouter()
     const [userInterests , setUserIntersts] = useState([])
     const [userPositions ,setUserPositions] = useState([])
+    const [openVideo ,setOpenVideo] = useState(false)
+
 
     const PositionComponent = ({ id, name }) => {
         const clickLabel = () => {
@@ -116,27 +120,12 @@ export function Personalize({ positions , interests}) {
 
     }
     return <motion.div
-        initial="initialState"
-        animate="animateState"
-        exit="exitState"
-        transition={{
-        duration: 0.75,
-        }}
-        variants={{
-        initialState: {
-            opacity: 0,
-            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
-        },
-        animateState: {
-            opacity: 1,
-            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
-        },
-        exitState: {
-            clipPath: "polygon(50% 0, 50% 0, 50% 100%, 50% 100%)",
-        },
-        }}
+        initial={{opacity: 0}}
+        animate={{opacity:1}}
+        exit={{opacity:0}}
+        
     >
-        <div className=" flex gap-x-36 flex-wrap justify-center items-center">
+        <div className=" flex gap-x-36 flex-wrap justify-center items-center max-w-7xl">
                 <div className=" flex-1">
                     <p className=" text-slate-400 text-base font-normal"><span className=" text-aqua-500">2/2</span> Customize Experience</p>
                     <h1 className=" text-6xl text-white font-medium mb-3">Personalize Your Experience</h1>
@@ -148,10 +137,17 @@ export function Personalize({ positions , interests}) {
                         <br />
                         As always, your privacy is important to us, so please review our privacy policy and terms of service before proceeding.
                     </p>
-                    <div>
-                        <p className=" text-slate-400 text-xs">Onboarding Video</p>
-                        <img src="/images/assets/profile-steper-video-screen.svg" className=" -mt-14 -ml-20" alt="" />
+                    <div className=" relative cursor-pointer " onClick={()=> setOpenVideo(true)}>
+                    <p className=" text-slate-400 text-xs">Onboarding Video</p>
+                    <img src="/images/assets/profile-steper-video-screen.svg"  className=" -mt-14 -ml-20" alt="" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-[200%] flex justify-center items-center flex-col -translate-y-full">
+                    <Icons.PlayVideo className=" w-9 h-9"/>
+                    <p className="text-xs font-medium text-left text-aqua-100">
+                        Play Video
+                    </p>
                     </div>
+
+                </div>
                 </div>
                 <div className=" flex-1">
                     <p className=" text-slate-300">Which best describes you?</p>
@@ -170,6 +166,30 @@ export function Personalize({ positions , interests}) {
                     </div>
                 </div>
             </div>
+            <AnimatePresence>
+        {openVideo && (
+          <>
+            <motion.div
+              className=" fixed top-0 left-0 w-full h-full backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <ReactPlayer url={`https://www.youtube.com/watch?v=NkjXFMTln5Q`}
+              className=''
+              controls
+            />
+              
+              <motion.div
+                onClick={() => setOpenVideo(false)}
+                className={
+                  "w-[100%] h-[100%] fixed top-0 left-0 bg-transparent"
+                }
+              ></motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.div>
      
 }
