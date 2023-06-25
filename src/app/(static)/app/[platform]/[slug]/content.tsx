@@ -21,13 +21,17 @@ interface ContentProps {
 }
 
 export default function Content({ apps, selectedApp: app }: ContentProps) {
-  const {setNavigatorUi} = useNavigator()
-  const {selectedImages} = useSelcetedImages()
+  const { setActiveControls } = useNavigator()
+  const { selectedImages } = useSelcetedImages()
   const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
   const [openScreen, setOpenScreen] = useState<any | null>();
-  useEffect(()=>{
-    setNavigatorUi('selection')
-  },[selectedImages])
+  useEffect(() => {
+    if (selectedImages.images.length > 0) {
+      setActiveControls('selection')
+    } else {
+      setActiveControls('menu-only')
+    }
+  }, [selectedImages])
   // Create an array of platform IDs
   const platformIds = apps.data.map((app) => app.attributes.platform.data.id);
   // console.log(apps)
