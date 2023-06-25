@@ -13,13 +13,14 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
     const [profileUpdated, setProfileUpdated] = useState(false)
     const [newsLetterUpdated, setNewsLetterUpdated] = useState(false)
     const [openVideo ,setOpenVideo] = useState(false)
-
     const [userDetails, setUserDetails] = useState({
         name: '',
         username: "",
         email: "",
         image: null
     })
+    const [userCopyState, setUserCopyState] = useState('')
+    
     const[userArr, setUserArr] = useState([1, 2, 3, 4])
 
     useEffect(() => {
@@ -35,7 +36,14 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
               })
             });
             const data = await response.json();
-            if(response.ok) setUserDetails(data.data)
+            console.log(data)
+            if(response.ok) {
+                setUserDetails(data.data)
+                if(data.data.username){
+                    setUserCopyState(data.data.username)
+                }
+                
+            }
           } catch (error) {
             toast.remove()
             toast.error('error fetch data')
@@ -84,6 +92,9 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
     }
     const submitForm = async (e) => {
         e.preventDefault();
+        if (userDetails.username === userCopyState){
+            await setProfileUpdated(true)
+        }
         try {
             const [updateResponse, newsLetterResponse] = await Promise.all([
                 fetch(`/api/account/update`, {
@@ -118,7 +129,9 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
             ]);
             if (!updateResponse.ok) {
                 toast.remove();
-                toast.error(updateData.message);
+                if(profileUpdated === false){
+                    toast.error(updateData.message);
+                }
             } else {
                 setProfileUpdated(true);
             }
