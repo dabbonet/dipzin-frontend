@@ -2,9 +2,9 @@
 import { toast } from "react-hot-toast";
 
 export async function copyImagesToClipboard([image]) {
-  const imageUrl = process.env.NEXT_PUBLIC_BUCKET_URL + image;
+  // const imageUrl = image;
   try {
-    const response = await fetch(imageUrl);
+    const response = await fetch(image);
     const blob = await response.blob();
     const clipboardItem = new ClipboardItem({ 'image/png': blob });
     await navigator.clipboard.write([clipboardItem]);
