@@ -2,6 +2,7 @@ import { createContext, useContext, FC, useState, useEffect } from "react";
 import Router from "next/router";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { invetaionAndReferralTokens } from "./tokens";
 
 const IsAuth = createContext(null!);
 
@@ -18,13 +19,14 @@ const AuthProvider: FC<props> = ({ children }) => {
   const router = useRouter()
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const { referralToken, invitationToken } = invetaionAndReferralTokens()
 
   useEffect(() => {
     // Send Provider Token to get User Data and strapi JWT Token.
     if (token) {
       const getUserData = async () => {
         setLoading(true)
-        const userData = await redirectToken(provider, token)
+        const userData = await redirectToken(provider, token, referralToken, invitationToken)
         router.replace('/')
         setUser(userData.user)
         setToken(userData.jwt)
@@ -141,8 +143,14 @@ export async function verifyOtp(email: string, otp: number) {
   });
 }
 
-export async function redirectToken(provider: string, token: string) {
-  const req = await fetch(`/api/user/redirect?provider=${provider}&token=${token}`);
+export async function redirectToken(provider: string, access_token: string, referral_token, invitation_token) {
+  const params = new URLSearchParams({
+    provider: provider ?? '',
+    access_token: access_token ?? '',
+    referral_token: referral_token ?? '',
+    invitation_token: invitation_token ?? '',
+  });
+  const req = await fetch(`/api/user/redirect?${params}`);
   const data = await req.json();
   return data;
 
