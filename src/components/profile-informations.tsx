@@ -106,8 +106,8 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
 
     const FullNewSLetterComponent = () => {
         return <div className=" grid grid-cols-2 gap-x-12 gap-y-4 mt-5">
-            {newsLetter?.map(el => (
-                <SystemNewsLetterComponent id={el?.id} name={el?.attributes.name} />
+            {newsLetter?.map((el, index) => (
+                <SystemNewsLetterComponent key={index} id={el?.id} name={el?.attributes.name} />
             ))}
         </div>
     }
