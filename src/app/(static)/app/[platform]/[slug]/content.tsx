@@ -22,7 +22,7 @@ interface ContentProps {
 
 export default function Content({ apps, selectedApp: app }: ContentProps) {
   const { setActiveControls } = useNavigator()
-  const { selectedImages } = useSelcetedImages()
+  const { selectedImages, setSelectedImages } = useSelcetedImages()
   const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
   const [openScreen, setOpenScreen] = useState<any | null>();
   useEffect(() => {
@@ -32,6 +32,13 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
       setActiveControls('menu-only')
     }
   }, [selectedImages])
+
+  useEffect(() => {
+    return () => {
+      setSelectedImages({ appName: '', images: [] })
+    }
+  }, [])
+
   // Create an array of platform IDs
   const platformIds = apps.data.map((app) => app.attributes.platform.data.id);
   // console.log(apps)
