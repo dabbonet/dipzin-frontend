@@ -236,7 +236,7 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
               exit={{ opacity: 0 }}
             >
               <ReactPlayer url={`https://www.youtube.com/watch?v=NkjXFMTln5Q`}
-              className=''
+              className='z-[400] w-3/4 h-3/4'
               controls
             />
               
