@@ -74,9 +74,6 @@ const MainNavigator = ({ type }: any) => {
         },
         [setSearchKeyword, setActiveView]
     );
-    useEffect(() => {
-        console.log(activeControls)
-    }, [activeControls])
 
     return (
         <div ref={wrapperRef} className="fixed left-1/2 -translate-x-1/2 bottom-12 flex justify-center z-[10000000] w-fit">
@@ -111,17 +108,18 @@ const MainNavigator = ({ type }: any) => {
 
                     <motion.div className="flex w-full h-[48px] relative z-30 space-x-2">
 
-                        {(activeControls == 'menu-only' || activeControls == 'menu-search') && (
-                            <motion.div
 
-                                className="flex items-center bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-3xl px-7 space-x-2"
-                                onClick={() => {
-                                    setActiveView(activeView == 'menu' ? '' : 'menu')
-                                }}>
-                                <Icons.Grip className='w-4 h-4 text-slate-400' />
-                                <span className="font-medium text-sm mt-0.5">Menu</span>
-                            </motion.div>
-                        )}
+                        <motion.div
+
+                            className="flex items-center bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-3xl px-7 space-x-2"
+                            onClick={() => {
+                                setActiveView(activeView == 'menu' ? '' : 'menu')
+                            }}>
+                            <Icons.Grip className='w-4 h-4 text-slate-400' />
+                            <span className="font-medium text-sm mt-0.5">Menu</span>
+                        </motion.div>
+
+
 
                         {(activeControls == 'menu-search') && (
 
@@ -158,6 +156,16 @@ const MainNavigator = ({ type }: any) => {
                                     }}
                                 />
                             </motion.div>
+                        )}
+
+                        {(activeControls == 'selection') && (
+                            <div className=' flex gap-20 flex-wrap items-center bg-slate-800 rounded-full pl-5'>
+                                <div className=' flex items-center'>{selectedImages.images.length} selected <button className=' ml-2' onClick={() => setSelectedImages({ appName: '', images: [] })}><Icons.Clear /></button></div>
+
+                                <div className=' flex gap-5 pr-3'>
+                                    <button className=' py-1 px-3 rounded-2xl bg-slate-600' onClick={() => ImageDownloader(selectedImages.appName + " Showcase", selectedImages.images)}>download</button>
+                                </div>
+                            </div>
                         )}
 
                     </motion.div>

@@ -22,7 +22,7 @@ const Showcase: FC<ShowcaseProps> = ({
   setSelectedShowcase,
 }) => {
   const router = useRouter();
-  const { setActiveView, setActiveControls } = useNavigator()
+  const { setActiveControls } = useNavigator()
   const { selected: platform } = usePlatform();
   const { setSelectedImages, selectedImages } = useSelcetedImages()
   useEffect(() => {
@@ -32,7 +32,11 @@ const Showcase: FC<ShowcaseProps> = ({
     }
   }, [])
   useEffect(() => {
-    setActiveView('selection')
+    if (selectedImages.images.length > 0) {
+      setActiveControls('selection')
+    } else {
+      setActiveControls('menu-only')
+    }
 
   }, [selectedImages])
 
