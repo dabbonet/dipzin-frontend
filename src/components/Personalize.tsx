@@ -13,7 +13,7 @@ export function Personalize({ positions , interests}) {
     const router = useRouter()
     const [userInterests , setUserIntersts] = useState([])
     const [userPositions ,setUserPositions] = useState([])
-    const [openVideo ,setOpenVideo] = useState(false)
+    const [openVideo ,setOpenVideo] = useState(null)
 
 
     const PositionComponent = ({ id, name }) => {
@@ -140,7 +140,7 @@ export function Personalize({ positions , interests}) {
                     <div className=" relative cursor-pointer " onClick={()=> setOpenVideo(true)}>
                     <p className=" text-slate-400 text-xs">Onboarding Video</p>
                     <img src="/images/assets/profile-steper-video-screen.svg"  className=" -mt-14 -ml-20" alt="" />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-[200%] flex justify-center items-center flex-col -translate-y-full">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-[325%] flex justify-center items-center flex-col -translate-y-full">
                     <Icons.PlayVideo className=" w-9 h-9"/>
                     <p className="text-xs font-medium text-left text-aqua-100">
                         Play Video
@@ -176,12 +176,12 @@ export function Personalize({ positions , interests}) {
               exit={{ opacity: 0 }}
             >
               <ReactPlayer url={`https://www.youtube.com/watch?v=NkjXFMTln5Q`}
-              className=''
+              className='z-[400]'
               controls
             />
               
               <motion.div
-                onClick={() => setOpenVideo(false)}
+                onClick={() => setOpenVideo(null)}
                 className={
                   "w-[100%] h-[100%] fixed top-0 left-0 bg-transparent"
                 }
