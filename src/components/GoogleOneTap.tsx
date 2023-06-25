@@ -7,14 +7,10 @@ import { invetaionAndReferralTokens } from '@/lib/tokens';
 import { setToken, useAuth } from '@/lib/auth';
 import { toast } from 'react-hot-toast';
 
-
-
-
-
-const GoogleOneTap = ({ }) => {
-  const [show, setShow] = useState(false)
+const GoogleOneTap = () => {
+  const [show, setShow] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const { user } = useAuth()
+  const { user } = useAuth();
 
   useEffect(() => {
     const checkChildDiv = () => {
@@ -24,7 +20,11 @@ const GoogleOneTap = ({ }) => {
       const childDiv = parentDiv.querySelector('#credential_picker_container');
 
       if (childDiv) {
-        setShow(true);
+        if (user) {
+          setShow(false);
+        } else {
+          setShow(true);
+        }
       } else {
         setShow(false);
       }
@@ -37,15 +37,16 @@ const GoogleOneTap = ({ }) => {
     return () => {
       clearInterval(interval); // Clean up the interval on component unmount
     };
-  }, [ref]);
-  const { referralToken, invitationToken } = invetaionAndReferralTokens()
+  }, [ref, user]);
+
+  const { referralToken, invitationToken } = invetaionAndReferralTokens();
 
   useGoogleOneTapLogin({
     prompt_parent_id: 'google_tap_prompt',
     cancel_on_tap_outside: true,
     onSuccess: async (credentialResponse) => {
-      let { name, email }: { name: string, email: string } = jwt_decode(credentialResponse.credential)
-      // console.log(name, email)
+      let { name, email }: { name: string, email: string } = jwt_decode(credentialResponse.credential);
+
       try {
         const req = await fetch('/api/user/google-one-tap', {
           method: 'post',
@@ -60,39 +61,40 @@ const GoogleOneTap = ({ }) => {
               invitationToken: invitationToken
             }
           })
-        })
-        const response = await req.json()
+        });
+
+        const response = await req.json();
         if (req.ok) {
-          setToken(response.token)
-          window.location.reload()
+          setToken(response.token);
+          window.location.reload();
         }
       } catch (error) {
-        toast.remove()
-        toast.error('somthing went wrong')
+        toast.remove();
+        toast.error('Something went wrong');
       }
 
-      setShow(false)
+      setShow(false);
     },
     onError: () => {
       console.log('Login Failed');
-      setShow(false)
+      setShow(false);
     },
-
   });
-  //if (ref.current?.contains()) {
 
-  // }
-  // Return Parent Div
-  // if (!show) {
-  //   return <div id="google_tap_prompt" className='hidden'></div>
-  // }
   return (
-    <div ref={ref} id="google_tap_prompt" className={clsx('w-[25.5rem] fixed top-20 rounded-lg right-10 bg-aqua-500 p-2 z-50 hidden', show ? '!block' : 'hidden')}>
-      <h2 className=' text-center mb-2 text-lg font-bold'>Search, Filter and get <br /> inspired with our free plan.</h2>
+    <div
+      ref={ref}
+      id="google_tap_prompt"
+      className={clsx(
+        'w-[25.5rem] fixed top-20 rounded-lg right-10 bg-aqua-500 p-2 z-50',
+        show ? '!block' : 'hidden'
+      )}
+    >
+      <h2 className='text-center mb-2 text-lg font-bold'>
+        Search, Filter and get <br /> inspired with our free plan.
+      </h2>
     </div>
-
   );
-
 }
 
-export default GoogleOneTap
+export default GoogleOneTap;

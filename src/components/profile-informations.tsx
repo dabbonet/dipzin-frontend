@@ -13,6 +13,7 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
     const [profileUpdated, setProfileUpdated] = useState(false)
     const [newsLetterUpdated, setNewsLetterUpdated] = useState(false)
     const [openVideo ,setOpenVideo] = useState(false)
+
     const [userDetails, setUserDetails] = useState({
         name: '',
         username: "",
@@ -65,10 +66,6 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
 
     const handleChange = (event) => {
         const { id, value , name , files , src} = event.target
-        if(src){
-                        
-            return 
-         }
         if (name === "image" || id === 'image') {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -115,6 +112,7 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
                 }),
             ]);
             const [updateData , newsLetterData] = await Promise.all([
+
                 updateResponse.json(),
                 newsLetterResponse.json(),
             ]);
@@ -146,6 +144,7 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
         return <div className=" grid grid-cols-2 gap-x-12 gap-y-4 mt-5">
             {newsLetter?.map(el => (
                 <SystemNewsLetterComponent id={el?.id} name={el?.attributes.name} />
+
             ))}
         </div>
     }
@@ -199,6 +198,7 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
                                 onChange={handleChange}
                                 />
                             </div> 
+
                         </div>
                         <div className='flex flex-col justify-center'>
                             <p className=' text-sm text-white'>Upload a Profile Picture</p>
@@ -250,5 +250,6 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
           </>
         )}
       </AnimatePresence>
+
     </motion.div>
 }

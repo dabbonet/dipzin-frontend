@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { cn, rgbDataURL } from '@/lib/utils'
 import SingleScreen from './screen/SingleScreen'
 import { usePlatform } from '@/lib/platforms'
@@ -9,7 +9,9 @@ import { ImageDownloader } from '@/lib/ImageDownloader'
 import { toast } from 'react-hot-toast'
 import { ActionBar, SquareButton } from './ActionBar'
 import { useRouter } from 'next/navigation'
-
+import { useSelcetedImages } from '@/lib/SelectedToDownload'
+import { useContentDiscovery } from '@/context/useContentDiscovery'
+import { useNavigator } from '@/context/useNavigatiorContext'
 interface ShowcaseProps {
   selectedShowcase: any;
   setSelectedShowcase: any;
@@ -20,12 +22,28 @@ const Showcase: FC<ShowcaseProps> = ({
   setSelectedShowcase,
 }) => {
   const router = useRouter();
+  const { setActiveControls } = useNavigator()
   const { selected: platform } = usePlatform();
+  const { setSelectedImages, selectedImages } = useSelcetedImages()
+  useEffect(() => {
+    setActiveControls('menu-only')
+    return () => {
+      setSelectedImages({ appName: '', images: [] })
+    }
+  }, [])
+  useEffect(() => {
+    if (selectedImages.images.length > 0) {
+      setActiveControls('selection')
+    } else {
+      setActiveControls('menu-only')
+    }
+
+  }, [selectedImages])
 
   return (
     <motion.div
       //layoutId={selected.id}
-      className={"w-[100%] h-[100%] z-50 fixed inset-0 overflow-y-scroll py-16 xl:py-28 backdrop-blur-lg bg-slate-900/70"}
+      className={"w-[100%] h-[100%] z-20 fixed inset-0 overflow-y-scroll py-16 xl:py-28 backdrop-blur-lg bg-slate-900/70"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -138,13 +156,16 @@ const Showcase: FC<ShowcaseProps> = ({
           className={cn("grid ml-auto mr-auto z-50 w-full", platform === 3 ? "grid-cols-2 lg:grid-cols-2 xl:grid-cols-2  gap-10 " : "grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-10")}
         >
           {selectedShowcase?.screens.map((item: any, index: number) => (
-            <SingleScreen key={index} screen={item} />
+            <SingleScreen key={index} appName={selectedShowcase?.name} screen={item} />
           ))}
         </div>
 
       </motion.div>
       <motion.div
-        onClick={() => setSelectedShowcase(null)}
+        onClick={() => {
+          setSelectedShowcase(null)
+          setActiveControls('menu-search')
+        }}
         className={
           "w-[100%] h-[100%] fixed top-0 bg-transparent"
         }

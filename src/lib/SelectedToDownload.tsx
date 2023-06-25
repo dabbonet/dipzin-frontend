@@ -3,12 +3,11 @@ import { createContext, useContext, useEffect, useState } from "react";
 const SelectedImagesContext = createContext(null!);
 
 const SelectedProvider = ({ children }) => {
-  const [selectedImages, setSelectedImages] = useState([null]);
-  useEffect(() => {
-    if (selectedImages.includes(null)) {
-      setSelectedImages(selectedImages.filter((el) => el !== null));
-    }
-  }, [selectedImages]);
+  const [selectedImages, setSelectedImages] = useState({
+    appName: '',
+    images: []
+  });
+  
 
   return (
     <SelectedImagesContext.Provider

@@ -1,9 +1,11 @@
+import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 const qs = require('qs');
 
 export async function POST(request: Request) {
     const body = await request.json()
-
+    const headersList = headers();
+    const token = headersList.get('Authorization');
     const tagFilters = body.tags.map((tag) => ({
         tags: {
             name: {
@@ -14,23 +16,12 @@ export async function POST(request: Request) {
     const query = qs.stringify(
         {
             filters: {
+                is_published: true,
                 $and: tagFilters,
-                app: {
-                    categories: {
-                        name: {
-                            $containsi: body.categories || '',
-                        },
-                    },
-                    platform: {
-                        id: {
-                            $eq: body.platform || 1
-                        }
-                    }
-                }
             },
             populate: {
                 screen: {
-                    fields: ["hash", "ext"]
+                    fields: ["hash", "ext"],
                 }
             },
             pagination: {
@@ -46,6 +37,7 @@ export async function POST(request: Request) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': token
         },
         next: { revalidate: 300 }
     });
@@ -57,6 +49,6 @@ export async function POST(request: Request) {
     }
 
     const screens = await res.json();
-    return NextResponse.json({ screens });
+    return NextResponse.json({ screens }, { status: res.status });
 
 }
