@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import jwt_decode from "jwt-decode";
 import { invetaionAndReferralTokens } from '@/lib/tokens';
-import { setToken, useAuth } from '@/lib/auth';
+import { getToken, setToken, useAuth } from '@/lib/auth';
 import { toast } from 'react-hot-toast';
 
 const GoogleOneTap = () => {
@@ -20,7 +20,7 @@ const GoogleOneTap = () => {
       const childDiv = parentDiv.querySelector('#credential_picker_container');
 
       if (childDiv) {
-        if (user) {
+        if (user || getToken()) {
           setShow(false);
         } else {
           setShow(true);
