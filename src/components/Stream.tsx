@@ -25,6 +25,7 @@ const Stream: FC<StreamProps> = () => {
     setActiveControls('menu-search')
     return () => {
       setActiveView('')
+      setActiveControls('')
     }
   }, [])
   // 1. Initialize Stream and Page Platforms.
