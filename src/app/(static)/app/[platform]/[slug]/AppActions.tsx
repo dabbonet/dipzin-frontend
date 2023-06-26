@@ -11,8 +11,8 @@ import { useSelcetedImages } from "@/lib/SelectedToDownload";
 import { getUser, useAuth } from "@/lib/auth";
 
 const AppActions: FC<navigatorProps> = ({ app, isFromCollection }) => {
-  const { setVisibleNoAuth, setVisible , setTitle } = useDialog()
-  const {user} = useAuth()
+  const { setVisibleNoAuth, setVisible, setTitle } = useDialog()
+  const { user } = useAuth()
   const { selectedImages } = useSelcetedImages()
   const platform = app?.platform.data.attributes.name.toLowerCase() ?? null
   const screensArray = selectedImages.map(screen => screen?.attributes?.screen?.data?.attributes?.hash + screen?.attributes?.screen?.data?.attributes?.ext) || app?.screens.data.map(
@@ -48,10 +48,10 @@ const AppActions: FC<navigatorProps> = ({ app, isFromCollection }) => {
   }
   return (
     <ActionBar className="flex flex-col fixed right-10 top-[32%] w-auto h-auto">
-      <ButtonWrapper title='like app' icon={<Icons.Heart />} handler={handleLikeApp} />
-      <ButtonWrapper title='app store' icon={<Icons.Apple />} handler={handleAppStore} />
-      <ButtonWrapper title='bulk Download' icon={<Icons.Download />} handler={bulkDownloadImages} />
-      <ButtonWrapper title='copy Link' icon={<Icons.CopyFilled />} handler={handleCopyLink} />
+      <ButtonWrapper title='Like app' icon={<Icons.Heart />} handler={handleLikeApp} />
+      <ButtonWrapper title='App store' icon={<Icons.Apple />} handler={handleAppStore} />
+      <ButtonWrapper title='Bulk Download' icon={<Icons.Download />} handler={bulkDownloadImages} />
+      <ButtonWrapper title='Copy Link' icon={<Icons.CopyFilled />} handler={handleCopyLink} />
     </ActionBar>
   );
 };
