@@ -20,7 +20,7 @@ const AuthProvider: FC<props> = ({ children }) => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { referralToken, invitationToken } = invetaionAndReferralTokens()
-
+  const [checker, setChecker] = useState(false)
   useEffect(() => {
     // Send Provider Token to get User Data and strapi JWT Token.
     if (token) {
@@ -62,10 +62,10 @@ const AuthProvider: FC<props> = ({ children }) => {
     };
 
     checkUser();
-  }, []);
+  }, [checker]);
 
   return (
-    <IsAuth.Provider value={{ user, loading }}>{children}</IsAuth.Provider>
+    <IsAuth.Provider value={{ user, loading , setChecker  }}>{children}</IsAuth.Provider>
   );
 };
 
