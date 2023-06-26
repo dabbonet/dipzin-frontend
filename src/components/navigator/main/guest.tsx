@@ -1,7 +1,12 @@
+import { useNavigator } from '@/context/useNavigatiorContext';
 import Link from 'next/link';
 import router from 'next/router';
 
 const GuestNavigator = () => {
+  const {activeControls} = useNavigator()
+  if (activeControls === '') {
+    return
+  }
   return (
     <div className="fixed bottom-10 left-1/2 -translate-x-1/2 h-auto flex items-center bg-aqua-600 rounded-full text-aqua-50 p-3 space-x-8 font-medium text-[18px]">
       <div className='flex'>
