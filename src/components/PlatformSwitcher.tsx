@@ -22,6 +22,7 @@ const PlatformSwitcher = () => {
           );
         } else {
           setSelected(platformAvailable.id);
+          router.push(`/${platformAvailable.name.toLocaleLowerCase()}`)
         }
       }
       return (

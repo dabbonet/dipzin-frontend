@@ -1,16 +1,6 @@
 'use client'
-import Banner from "@/components/Banner";
-import HomeNavigator from "@/components/HomeNavigator";
-import Stream from "@/components/Stream";
-import { Toaster } from "react-hot-toast"
-
+import { useRouter } from "next/navigation";
 export default function Home() {
-  return (
-    <div className="max-w-[92%] mx-auto">
-      <Banner />
-      <HomeNavigator />
-      <Stream />
-      <Toaster position="top-center" />
-    </div>
-  );
+  const router = useRouter()
+  return router.push('/ios')
 }
