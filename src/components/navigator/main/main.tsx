@@ -74,7 +74,7 @@ const MainNavigator = ({ type }: any) => {
         },
         [setSearchKeyword, setActiveView]
     );
-
+    if(activeControls === '') return
     return (
         <div ref={wrapperRef} className="fixed left-1/2 -translate-x-1/2 bottom-12 flex justify-center z-[10000000] w-fit">
             <div className='relative flex items-end'>
