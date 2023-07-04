@@ -19,7 +19,7 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
         email: "",
         image: null
     })
-    const [userCopyState, setUserCopyState] = useState('')
+    const [userCopyState, setUserCopyState] = useState(null)
     
     const[userArr, setUserArr] = useState([1, 2, 3, 4])
 
@@ -40,7 +40,7 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
             if(response.ok) {
                 setUserDetails(data.data)
                 if(data.data.username){
-                    setUserCopyState(data.data.username)
+                    setUserCopyState({username:data.data.username,name: data.data.name})
                 }
                 
             }
@@ -92,8 +92,10 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
     }
     const submitForm = async (e) => {
         e.preventDefault();
-        if (userDetails.username === userCopyState){
-            await setProfileUpdated(true)
+        if (userDetails.name !== '' && userDetails.username !== '' && userDetails.name ===userCopyState.name && userDetails.username === userCopyState.username){
+            setProfileUpdated(true)
+            setNewsLetterUpdated(true)
+            return
         }
         try {
             const [updateResponse, newsLetterResponse] = await Promise.all([
@@ -204,10 +206,10 @@ export default function ProfileInformation({ newsLetter }: {newsLetter? : any[]}
                     <div className="flex gap-4 mt-4 mb-4">
                         <div className=" bg-slate-800 p-1 border border-dotted border-slate-600 rounded-2xl">
                             <div className="bg-slate-700 w-14 h-14 rounded-2xl mx-auto md:mx-0 overflow-hidden">
-                                <label htmlFor="image" className=" w-full h-full cursor-pointer flex justify-center items-center relative">
-                                {userDetails.image ? <img src={userDetails.image} className='w-full h-full' alt="" /> : <Icons.addImage className=" w-4 h-4 absolute bottom-2 right-2"/>}
+                                <label htmlFor="label" className=" w-full h-full cursor-pointer flex justify-center items-center relative z-50">
+                                {userDetails.image ? <img src={userDetails.image} className='w-full h-full' alt="" /> : <Icons.addImage className="absolute bottom-2 right-2"/>}
                                 </label>
-                                <input type="file" accept="image/*" className=" hidden" id="image" name="image"
+                                <input type="file" accept="image/*" className=" hidden" id="label"
                                 onChange={handleChange}
                                 />
                             </div> 
