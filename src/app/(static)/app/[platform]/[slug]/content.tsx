@@ -36,6 +36,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   useEffect(() => {
     return () => {
       setSelectedImages({ appName: '', images: [] })
+      setSingleApp(false)
     }
   }, [])
 
