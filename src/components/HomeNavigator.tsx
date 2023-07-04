@@ -26,7 +26,7 @@ const HomeNavigator: FC = () => {
 
                     </Link>
                         <motion.div
-                            onClick={() => setStreamData({})}
+                            onClick={() => setStreamData([])}
                             whileHover={{ rotate: 90 }}
                             whileTap={{
                                 rotate: 360,
