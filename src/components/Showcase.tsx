@@ -29,6 +29,7 @@ const Showcase: FC<ShowcaseProps> = ({
     setActiveControls('menu-only')
     return () => {
       setSelectedImages({ appName: '', images: [] })
+      setActiveControls('menu-search')
     }
   }, [])
   useEffect(() => {
