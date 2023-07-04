@@ -70,7 +70,7 @@ const AuthProvider: FC<props> = ({ children }) => {
 };
 
 export const setToken = (token: string) => {
-  document.cookie = `token=${token}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/`;
+  document.cookie = `token=${token}; path=/`;
   return;
 };
 
