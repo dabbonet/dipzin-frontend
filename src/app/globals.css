@@ -53,3 +53,29 @@
 #credential_picker_container iframe{
   border-radius:0.9rem;
 }
+
+
+div.tooltip {
+  text-decoration: none;
+}
+div.tooltip:hover {
+  cursor: help;
+  position: relative;
+}
+div.tooltip span {
+  display: none;
+  border-radius: 14px;
+
+}
+div.tooltip:hover span {
+  padding: 15px;
+  display: block;
+  z-index: 100;
+  background: #1E293B;
+  left: 0px;
+  margin: 15px;
+  width: 300px;
+  position: absolute;
+  top: 15px;
+  text-decoration: none;
+}

@@ -13,11 +13,9 @@ type card = {
 const Card = ({
   subscribeName,
   price,
-  sale = false,
   features,
   price_per,
-  overSale,
-  pricing
+  
 }: card) => {
   let betaPrice: any;
   let rectAngle: any;
@@ -25,26 +23,7 @@ const Card = ({
   let priceUi: any;
   let priceDolarUi: any;
 
-  if (sale) {
-    betaPrice = (
-      <div className=" absolute lg:top-3 -right-20">
-        <p className=" -rotate-12 text-orange-600 font-bold text-sm">
-          Beta Pricing
-        </p>
-        <img src="/images/assets/Frame.svg" alt="" />
-      </div>
-    );
-    rectAngle = (
-      <img
-        alt=""
-        src="images/assets/Rectangle.svg"
-        className=" max-w-full absolute top-[50%] translate-y-[-50%]"
-      />
-    );
-    overSaleSpan = (
-      <span className=" text-orange-600 font-bold text-3xl">{overSale}</span>
-    );
-  }
+  
   if (typeof price === `number`) {
     priceUi = <span>{price}</span>;
     priceDolarUi = (
@@ -54,17 +33,17 @@ const Card = ({
     );
   } else {
     priceUi = (
-      <span>
+      <span className=" text-5xl">
         Coming <br /> Soon
       </span>
     );
   }
 
   return (
-    <div className={` pl-8 pt-6 pr-10 pb-4 ${pricing ? ' bg-slate-700' : ' bg-slate-800'}  rounded-3xl mt-14 flex flex-col`}>
+    <div className={` pl-8 pt-6 pr-10 pb-4 bg-slate-700  rounded-3xl mt-14 flex flex-col h-fit`}>
       <h2 className="font-[500] text-3xl">{subscribeName}</h2>
       <span className=" text-slate-300 font-medium">Great for freelancers</span>
-      <div className="  mt-5 flex flex-col relative w-fit">
+      <div className="  mt-4 flex flex-col relative w-fit">
         {betaPrice}
         <div className=" relative w-fit">
           {rectAngle}
@@ -81,14 +60,14 @@ const Card = ({
           {overSaleSpan}
         </div>
       </div>
-      <div className=" mt-5 mb-7">
+      <div className=" mt-3 mb-7">
         {features.map((el) => (
           <Featuers key={el} feature={el} />
         ))}
       </div>
-      <button className="mt-auto bg-slate-900 rounded-3xl py-2 w-full">
+      {price ? <button className="mt-auto bg-slate-900 rounded-3xl py-2 w-full">
         Get Started
-      </button>
+      </button> : ""}
     </div>
   );
 };
