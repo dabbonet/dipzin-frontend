@@ -1,9 +1,11 @@
+'use client'
 // import { ReactElement, useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Card from "@/components/pricing/Card";
 import Pills from "@/components/pricing/Pills";
 import { NextPage } from "next";
 import dynamic from "next/dynamic";
+import Icons from "@/components/Icons";
 
 const Page: NextPage = () => {
   return (
@@ -12,7 +14,7 @@ const Page: NextPage = () => {
       <main className=" pt-20 flex flex-col items-center">
         {/* header */}
         <div className=" container w-[90%] mx-auto flex flex-col">
-          <span className="text-[#F97316] font-[600] text-base">
+          <span className="text-aqua-500 font-[600] text-base">
             Beta Pricing
           </span>
           <h1 className="font-[400] md:text-4xl text-2xl lg:text-6xl mb-6">
@@ -41,13 +43,13 @@ const Page: NextPage = () => {
               "3 Collections",
               "Limited Search & Filters",
             ]}
-            pricing
+            
             price_per="Monthly"
           />
           <Card
             subscribeName="Personal"
             price={6.99}
-            pricing
+            
             features={[
               "Download in bulk",
               "Select and Copy",
@@ -67,7 +69,7 @@ const Page: NextPage = () => {
               "Seat-based Pricing",
               
             ]}
-            pricing
+            
           />
         </div>
         {/* table */}
@@ -90,8 +92,8 @@ const Page: NextPage = () => {
                 <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
                   Free
                 </h4>
-                <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-orange-500 rounded-xl">
-                  Get Started
+                <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-slate-800 rounded-xl">
+                  current plane
                 </button>
               </td>
               <td>
@@ -104,20 +106,18 @@ const Page: NextPage = () => {
                     /month
                   </span>
                 </h4>
-                <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-orange-500 rounded-xl">
-                  Get Started
+                <button className=" text-sm lg:text-base text-aqua-900 py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl">
+                  get started
                 </button>
               </td>
               <td>
                 <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs ">
                   Team
                 </h5>
-                <h4 className=" text-slate-100 font-[600] lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
-                  Coming Soon...
+                <h4 className=" text-slate-100 font-[600] lg:text-4xl md:text-lg sm:text-sm text-xs mb-5">
+                  Coming <br/> Soon...
                 </h4>
-                <button className=" text-xs lg:text-base py-3 lg:px-8 md:px-4 sm:px-2 px-1 bg-orange-500 rounded-xl">
-                  Get Started
-                </button>
+                
               </td>
             </tr>
           </thead>
@@ -135,14 +135,17 @@ const Page: NextPage = () => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   All Apps Access
                 </span>
-                <Image
+                <div className={`tooltip`}>
+                  <Image
                   unoptimized
                   src="/images/assets/svg.svg"
-                  title="All Apps Access"
                   alt=""
                   width={24}
                   height={24}
+                  
                 />
+                <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div>
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -180,14 +183,17 @@ const Page: NextPage = () => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Latest Version
                 </span>
-                <Image
+                <div className={`tooltip`}>
+                  <Image
                   unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
-                  title="Latest Version"
                   alt=""
+                  
                 />
+                <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div>
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -225,14 +231,17 @@ const Page: NextPage = () => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Image Copy & Download
                 </span>
-                <Image
+                <div className={`tooltip`}>
+                  <Image
                   unoptimized
                   src="/images/assets/svg.svg"
-                  title="Image Copy & Download"
-                  alt=""
                   width={24}
                   height={24}
+                  alt=""
+                  
                 />
+                <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div>
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -270,14 +279,17 @@ const Page: NextPage = () => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Bulk download
                 </span>
-                <Image
+                <div className={`tooltip`}>
+                  <Image
                   unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
-                  title="Bulk download"
                   alt=""
+                  
                 />
+                <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div>
               </td>
               <td className="flex-1 flex justify-center">
                 <span className=" lg:text-base md:text-sm text-xs">
@@ -308,18 +320,22 @@ const Page: NextPage = () => {
               <td className=" flex justify-between flex-1">
                 <div className=" lg:text-base md:text-sm text-xs flex flex-wrap gap-4">
                   Flows
-                  <span className=" py-1 px-2 bg-[#FCEED9] rounded text-[#383B3D]">
+                  <span className=" py-1 px-2 bg-aqua-200 rounded text-[#383B3D]">
                     Soon
                   </span>
                 </div>
-                <Image
+                <div className={`tooltip`}>
+                  <Image
                   unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
                   title="Flows"
                   alt=""
+                  
                 />
+                <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div>
               </td>
               <td className="flex-1 flex justify-center">
                 <span className=" lg:text-base md:text-sm text-xs">
@@ -342,14 +358,17 @@ const Page: NextPage = () => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Search and Filters
                 </span>
-                <Image
+                <div className={`tooltip`}>
+                  <Image
                   unoptimized
                   width={24}
                   height={24}
                   src="/images/assets/svg.svg"
-                  title="Search and Filters"
                   alt=""
+                  
                 />
+                <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div>
               </td>
               <td className="flex-1 flex justify-center">
                 <span className=" lg:text-base md:text-sm text-xs">
@@ -372,14 +391,17 @@ const Page: NextPage = () => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Collections
                 </span>
-                <Image
+                <div className={`tooltip`}>
+                  <Image
                   unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
-                  title="Collections"
                   alt=""
+                  
                 />
+                <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div>
               </td>
               <td className="flex-1 flex justify-center">
                 <span className=" lg:text-base md:text-sm text-xs">
@@ -402,14 +424,16 @@ const Page: NextPage = () => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Team Members
                 </span>
-                <Image
+                <div className={`tooltip`}>
+                  <Image
                   unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
-                  title="Team Members"
                   alt=""
                 />
+                <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div>
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -447,14 +471,16 @@ const Page: NextPage = () => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Team Collections
                 </span>
-                <Image
+                <div className={`tooltip`}>
+                  <Image
                   unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
-                  title="Team Collections"
                   alt=""
                 />
+                <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div>
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -492,14 +518,17 @@ const Page: NextPage = () => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Centeralized Billing
                 </span>
-                <Image
+                <div className={`tooltip`}>
+                  <Image
                   unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
-                  title="Centeralized Billing"
                   alt=""
+                  
                 />
+                <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div>
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -537,14 +566,17 @@ const Page: NextPage = () => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Seat-based Pricing
                 </span>
-                <Image
+                <div className={`tooltip`}>
+                  <Image
                   unoptimized
                   src="/images/assets/svg.svg"
                   width={24}
                   height={24}
-                  title="Seat-based Pricing"
                   alt=""
+                  
                 />
+                <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div>
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -583,96 +615,79 @@ const Page: NextPage = () => {
         {/* grid */}
         <div className=" mt-20 container w-[90%]">
           <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-slate-800 bg-opacity-50 col-span-1 lg:col-span-2 rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
-              <h1 className=" text-4xl text-orange-700 mt-24">
-                Boost Your Design <br /> Workflow
-              </h1>
-              <p className=" text-slate-400 text-lg mt-20">
-                We offer an organized , structured and well categorized database
-                of user experience and interface design patterns of mobile apps/
-                Websites  These aren't the imaginary designs or theoretical
-                components seen on Dribble or pinterest. Not "might work"
-                prototypes and art pieces. These are genuine, applied designs
-                that have been tested, validated, and are now in use by real
-                people. We simply share the success formula with the UI/UX
-                designers
+            <div className="bg-slate-800 bg-opacity-50 col-span-1 lg:col-span-2 rounded-[36px] py-14 lg:px-14 md:px-10 sm:px-6 px-3 text-center flex items-end h-[509px]">
+              <div className=" w-fit h-fit">
+                <span className=" block mt-auto text-slate-400">Unlimited Screens</span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Boost Your Design Workflow</h1>
+                <p className=" text-slate-400">Dipzin stands out with its extensive collection of tagged screenshots, curated from renowned designers across industries. Explore our vast database for new design trends, innovative interfaces, and creative solutions. Dive into beautifully crafted apps, learn from industry leaders, and infuse fresh ideas into your projects.</p>
+              </div>
+            </div>
+            <div className="bg-slate-800 bg-opacity-50 flex items-end rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3 py-14 h-[509px]">
+              <div className=" w-fit h-fit text-center">
+                <span className=" block mt-auto text-slate-400">Unlimited Screens</span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Boost Your Design Workflow</h1>
+                <p className=" text-slate-400">Coming soon, easily categorize, sort, and access your favorite screenshots in Dipzin's unlimited collection feature for an efficient workflow.</p>
+              </div>
+            </div>
+            <div className="bg-slate-800 bg-opacity-50 flex items-end rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3 py-14 h-[509px]">
+              <div className=" w-fit h-fit text-center">
+                <span className=" block mt-auto text-slate-400">Unlimited Screens</span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Boost Your Design Workflow</h1>
+                <p className=" text-slate-400">Coming soon, easily categorize, sort, and access your favorite screenshots in Dipzin's unlimited collection feature for an efficient workflow.</p>
+              </div>
+            </div>
+            <div className="bg-slate-800 bg-opacity-50 flex items-end rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3 py-14 h-[509px]">
+              <div className=" w-fit h-fit text-center">
+                <span className=" block mt-auto text-slate-400">Unlimited Screens</span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Boost Your Design Workflow</h1>
+                <p className=" text-slate-400">Coming soon, easily categorize, sort, and access your favorite screenshots in Dipzin's unlimited collection feature for an efficient workflow.</p>
+              </div>
+            </div>
+            <div className="bg-slate-800 bg-opacity-50 flex items-end rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3 py-14 h-[509px]">
+              <div className=" w-fit h-fit text-center">
+                <span className=" block mt-auto text-slate-400">Unlimited Screens</span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Boost Your Design Workflow</h1>
+                <p className=" text-slate-400">Coming soon, easily categorize, sort, and access your favorite screenshots in Dipzin's unlimited collection feature for an efficient workflow.</p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        {/* custoumer love corner */}
+        <div className=" flex flex-col mt-28 w-[90%]">
+          <h1 className=" text-6xl mb-6">Customer Love Corner</h1>
+          <span className=" text-slate-600 mb-7">We believe Dipzin should be accessible to all companies, no matter the size.</span>
+          <div className=" grid grid-cols-2 gap-10">
+            <TesmonialsCard tweet={
+              <p className=" text-3xl">
+                The scroll variant in <span className=" underline">@framer</span> hits differently.
+                <br/>
+                <br/>
+                Never imaged that making some complex things would be easy with that.
+            </p>
+            }/>
+            <TesmonialsCard tweet={
+              <p className=" text-3xl">
+                Learned some basics of @framer yesterday, and today I delivered a landing page for a client.
+                <br/>
+                <br/>
+                It's so unreal how small the learning curve is from Figma to @framer.
+                <br/>
+                <br/>
+                Absolutely loving it.
               </p>
-            </div>
-            <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
-              <div className=" mt-16">
-                <Image
-                  unoptimized
-                  src="/images/assets/image.svg"
-                  width={342}
-                  height={213.02}
-                  alt=""
-                />
-              </div>
-              <span className="font-[500] lg:text-3xl md:text-xl text-base my-4">
-                Customizable Collections
-              </span>
-              <span className="font-[400] lg:text-lg md:tex text-xs text-slate-400 mb-8">
-                Dipzin offers customizable collections of app and screen
-                designs, empowering designers to create personalized and
-                effective designs tailored to specific projects.
-              </span>
-            </div>
-            <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
-              <div className=" mt-16">
-                <Image
-                  unoptimized
-                  src="/images/assets/image.svg"
-                  width={342}
-                  height={213.02}
-                  alt=""
-                />
-              </div>
-              <span className="font-[500] lg:text-3xl md:text-xl text-base my-4">
-                Search capability for easy navigation
-              </span>
-              <span className="font-[400] lg:text-lg md:tex text-xs text-slate-400 mb-8">
-                With Dipzin's search capability, designers can effortlessly find
-                design elements to bring their vision to life, unlocking endless
-                creative possibilities.
-              </span>
-            </div>
-            <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
-              <div className=" mt-16">
-                <Image
-                  unoptimized
-                  src="/images/assets/image.svg"
-                  width={342}
-                  height={213.02}
-                  alt=""
-                />
-              </div>
-              <span className="font-[500] lg:text-3xl md:text-xl text-base my-4">
-                Categorized patterns
-              </span>
-              <span className="font-[400] lg:text-lg md:tex text-xs text-slate-400 mb-8">
-                Categorized patterns organize design elements for easy access,
-                saving designers time and helping them find new design ideas.
-              </span>
-            </div>
-            <div className="bg-slate-800 bg-opacity-50 flex flex-col rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3">
-              <div className=" mt-16">
-                <Image
-                  unoptimized
-                  src="/images/assets/image.svg"
-                  width={342}
-                  height={213.02}
-                  alt=""
-                />
-              </div>
-              <span className="font-[500] lg:text-3xl md:text-xl text-base my-4">
-                User-friendly interface
-              </span>
-              <span className="font-[400] lg:text-lg md:tex text-xs text-slate-400 mb-8">
-                Dipzin's user interface is designed with simplicity and
-                efficiency in mind, enabling you to focus on your creativity and
-                design process. bringing your vision to life.
-              </span>
-            </div>
+            }/>
+            <TesmonialsCard tweet={
+              <p className=" text-3xl">
+                I was enjoying @framer a lot but I am BLOWN AWAY by their Figma plug-in. From Auto-layout to flex-box in the browser in seconds; this has completely changed how I'll build
+              </p>
+            }/>
+            <TesmonialsCard tweet={
+              <p className=" text-3xl">
+                Playing around with @framer while building a landing page for a side project. I suck at animations, but they make it so easy
+              </p>
+            }/>
+            
           </div>
         </div>
       </main>
@@ -680,3 +695,23 @@ const Page: NextPage = () => {
   );
 };
 export default dynamic(() => Promise.resolve(Page), { ssr: false });
+
+
+const TesmonialsCard = ({tweet})=>{
+  return <div className=" h-fit pt-12 pb-14 px-12 bg-slate-800 bg-opacity-50 rounded-3xl">
+  <div className=" flex justify-between items-center">
+    <div className=" flex gap-6 items-center">
+      <div className=" w-16 h-16 bg-white rounded-full">
+      </div>
+      <div className=" flex flex-col">
+        <h4 className=" text-3xl">Ahmed Mahmoud</h4>
+        <span className=" text-2xl">@ahmed</span>
+      </div>
+    </div>
+      <Icons.FacebookIcon/>
+  </div>
+  <div className=" mt-12">
+    {tweet}
+  </div>
+</div>
+}
