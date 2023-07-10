@@ -11,8 +11,10 @@ const PlatformSwitcher = () => {
   const platform = segments[1]
 
   useEffect(()=>{
-    const selectedPlatform = platforms.find(el => el.name.toUpperCase() === platform.toUpperCase())
-    setSelected(selectedPlatform.id)
+    if(!singleApp){
+      const selectedPlatform = platforms.find(el => el.name.toUpperCase() === platform?.toUpperCase())
+      setSelected(selectedPlatform?.id)
+    }
   },[platform])
   if (platforms.length < 2) return null; // hide if there is no platforms
   const platformsUI = () => {
