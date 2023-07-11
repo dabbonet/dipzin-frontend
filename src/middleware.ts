@@ -1,15 +1,17 @@
 import { NextResponse, NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const paths = ['/access' , '/profile']
   const url = request.nextUrl;
 
   const token = request?.cookies?.get('token')?.value
-  for (const path of paths ) {
-    if(url.pathname.startsWith(path) && token){
-      return NextResponse.redirect(new URL('/' , url))
-    }
+
+  if (url.pathname.startsWith('/access') && token) {
+    return NextResponse.redirect(new URL('/', url))
   }
+  if (url.pathname.startsWith('/account') && !token) {
+    return NextResponse.redirect(new URL('/', url))
+  }
+
   if (url.pathname.startsWith('/access')) {
     const res = NextResponse.next();
     const invitationToken = url.searchParams.get("inv");
