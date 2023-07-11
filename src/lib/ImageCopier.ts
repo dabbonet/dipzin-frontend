@@ -2,9 +2,17 @@
 import { toast } from "react-hot-toast";
 
 export async function copyImagesToClipboard([image]) {
+  // const imageLink = image + '?d=' + Date.now()
   // const imageUrl = image;
   try {
-    const response = await fetch(image, { headers: { Origin: 'https://dev.dipzin.com' } });
+    const response = await fetch(image, {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'no-cache',
+      headers: {
+        Origin: window.location.origin,
+      },
+    });
     const blob = await response.blob();
     const clipboardItem = new ClipboardItem({ 'image/png': blob });
     await navigator.clipboard.write([clipboardItem]);
