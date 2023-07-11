@@ -15,7 +15,7 @@ interface StreamProps { }
 
 const Stream: FC<StreamProps> = () => {
   const { setActiveView, setActiveControls } = useNavigator()
-  const { setPlatforms, selected } = usePlatform();
+  const { setPlatforms, selected, setSelected } = usePlatform();
   const { streamData, setStreamData } = useContentDiscovery();
   const [loadedPages, setLoadedPages] = useState<number[]>([]);
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
@@ -23,9 +23,11 @@ const Stream: FC<StreamProps> = () => {
   useEffect(() => {
     setActiveView('menuWithSearch')
     setActiveControls('menu-search')
+    setSelected(2);
     return () => {
       setActiveView('')
       setActiveControls('')
+      setPlatforms([])
     }
   }, [])
   // 1. Initialize Stream and Page Platforms.
@@ -39,10 +41,12 @@ const Stream: FC<StreamProps> = () => {
 
   // @ts-ignore
   useEffect(() => {
-    setPlatforms([2, 1]); // Initialize Platform Switcher
-    setLoadedPages([]);
-    setStreamData([]);
-    updateStream();
+    if (selected) {
+      setPlatforms([2, 1]); // Initialize Platform Switcher
+      setLoadedPages([]);
+      setStreamData([]);
+      updateStream();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
