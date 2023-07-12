@@ -30,22 +30,22 @@ const Card = ({
         Coming <br /> Soon
       </span>
     );
-  }else{
+  } else {
     dollarUI = (
       <span className=" text-slate-300 font-bold lg:text-5xl md:text-4xl sm:text-3xl text-2xl ml-2">
         $
       </span>
     );
   }
-  
+
   return (
-    <div className={` pl-8 pt-6 pr-10 pb-4 bg-slate-700  rounded-3xl mt-14 flex flex-col h-fit bg-opacity-50 max-w-[400px]`}>
+    <div className={` pl-8 pt-6 pr-10 pb-4 bg-slate-700  rounded-3xl mt-14 flex flex-col h-fit bg-opacity-50 w-[95%] mx-auto`}>
       <h2 className="font-[500] text-3xl">{subscribeName}</h2>
       <span className=" text-slate-300 font-medium">Great for freelancers</span>
       <div className="  mt-4 flex flex-col relative w-fit">
-        
+
         <div className=" relative w-fit">
-          
+
           <h3 className="lg:text-5xl md:text-4xl sm:text-3xl text-2xl font-bold inline">
             {price}
             {priceUi}
@@ -57,7 +57,7 @@ const Card = ({
           <span className="font-medium text-lg text-slate-300">
             {price_per}
           </span>
-        
+
         </div>
       </div>
       <div className=" mt-3 mb-2">
@@ -65,11 +65,11 @@ const Card = ({
           <Featuers key={el} feature={el} />
         ))}
       </div>
-      {price ? <button className="mt-auto bg-slate-900 rounded-3xl py-2 w-full mt-7" onClick={()=> {
-          setLoading(true)
-          goToPayment(id)
-        }}>
-        {loading ?<div className="loading-spinner mx-auto"></div> : "Get Started"}
+      {price ? <button className="mt-auto bg-slate-900 rounded-3xl py-2 w-full mt-7" onClick={() => {
+        setLoading(true)
+        goToPayment(id)
+      }}>
+        {loading ? <div className="loading-spinner mx-auto"></div> : "Get Started"}
       </button> : ""}
       {currentPlan && <p className=" text-slate-400 mx-auto text-lg font-medium">current plan</p>}
     </div>
@@ -79,13 +79,13 @@ const Card = ({
 export default Card;
 
 
-export const goToPayment = async (id)=>{
-  
-  const req = await fetch('/api/stripe/create-checkout',{
-    method:'POST',
+export const goToPayment = async (id) => {
+
+  const req = await fetch('/api/stripe/create-checkout', {
+    method: 'POST',
     body: JSON.stringify({
       token: getToken(),
-      id : id
+      id: id
     })
   })
   const url = await req.json()
