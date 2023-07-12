@@ -13,7 +13,7 @@ const Pills = ({ pillType, sale , interval , setCheckOut}: PillsType) => {
   let saveText = "";
   let saleOn: any;
   if (pillType === "QUARTERLY") {
-    pillBg = 'bg-gradient-to-r from-aqua-200 to-aqua-700';
+    pillBg = 'bg-gradient-to-b from-aqua-200 to-aqua-700';
     saveBg = "bg-aqua-200";
     saveText = "text-aqua-700";
   }
