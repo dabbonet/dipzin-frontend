@@ -19,7 +19,7 @@ const Card = ({
   features,
   price_per,
   currentPlan,
-  id
+  id,
 }: card) => {
   const [loading, setLoading] = useState(false)
   let priceUi
