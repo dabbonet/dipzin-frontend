@@ -10,7 +10,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import ScreenActions from "./ScreenActions";
-import ScreenTagAndColors from "@/components/ScreenTagAndColors";
+import ScreenDetails from "@/components/ScreenDetails";
 import { useNavigator } from "@/context/useNavigatiorContext";
 import { useContentDiscovery } from "@/context/useContentDiscovery";
 import { useSelcetedImages } from "@/lib/SelectedToDownload";
@@ -36,6 +36,10 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   useEffect(() => {
     return () => {
       setSelectedImages({ appName: '', images: [] })
+      setSingleApp(false)
+
+      setActiveControls('')
+
     }
   }, [])
 
@@ -121,8 +125,8 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
               exit={{ opacity: 0 }}
             >
               <ScreenActions appName={app.name} screen={openScreen} />
-              <motion.div className="flex items-center h-[100vh] w-fit relative z-[100]" >
-                <ScreenTagAndColors screenId={openScreen.id} />
+              <motion.div className="flex items-center h-[100vh] w-fit  relative z-[100]" >
+                <ScreenDetails screenId={openScreen.id} />
                 <Screen
                   src={mergeScreenUrl(openScreen)}
                   quality={50}

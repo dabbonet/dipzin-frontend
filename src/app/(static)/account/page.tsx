@@ -4,6 +4,7 @@ import { ActionBar, SquareButton } from "@/components/ActionBar";
 import Icons from "@/components/Icons";
 import Card from "@/components/pricing/Card";
 import Pills from "@/components/pricing/Pills";
+import { getToken } from "@/lib/auth";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { FC, useEffect, useRef, useState } from "react";
@@ -33,6 +34,7 @@ const Account: FC = ({}) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`
           },
           body: JSON.stringify({
             auth: localStorage.getItem('token')

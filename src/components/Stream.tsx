@@ -15,7 +15,7 @@ interface StreamProps { }
 
 const Stream: FC<StreamProps> = () => {
   const { setActiveView, setActiveControls } = useNavigator()
-  const { setPlatforms, selected } = usePlatform();
+  const { setPlatforms, selected, setSelected } = usePlatform();
   const { streamData, setStreamData } = useContentDiscovery();
   const [loadedPages, setLoadedPages] = useState<number[]>([]);
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
@@ -23,8 +23,11 @@ const Stream: FC<StreamProps> = () => {
   useEffect(() => {
     setActiveView('menuWithSearch')
     setActiveControls('menu-search')
+    setSelected(2);
     return () => {
       setActiveView('')
+      setActiveControls('')
+      setPlatforms([])
     }
   }, [])
   // 1. Initialize Stream and Page Platforms.
@@ -38,16 +41,18 @@ const Stream: FC<StreamProps> = () => {
 
   // @ts-ignore
   useEffect(() => {
-    setPlatforms([2, 1]); // Initialize Platform Switcher
-    setLoadedPages([]);
-    setStreamData({});
-    updateStream();
+    if (selected) {
+      setPlatforms([2, 1]); // Initialize Platform Switcher
+      setLoadedPages([]);
+      setStreamData([]);
+      updateStream();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
   // Dump Loaded Pages when stream refetch
   useEffect(() => {
-    if (streamData?.length == undefined && loadedPages.length > 1) {
+    if (streamData?.length == 0 && loadedPages.length >= 1) {
       updateStream();
       setLoadedPages([]);
     }
@@ -62,14 +67,13 @@ const Stream: FC<StreamProps> = () => {
 
       setStreamData((prevStreamData: any[] | null) => {
         const shuffledData = shuffle(more.stream);
-        console.log(prevStreamData);
         const newData = Array.isArray(prevStreamData) ? prevStreamData : [];
         return [...newData, ...shuffledData];
       });
     }, 300);
-  }, [setStreamData, loadedPages, selected]);
+  }, [streamData, loadedPages, selected]);
 
-  if (isLoading || streamData?.length == undefined) return <StreamLoader />
+  if (isLoading || streamData?.length == 0) return <StreamLoader />
   // if (!streamData) return
 
   return (
