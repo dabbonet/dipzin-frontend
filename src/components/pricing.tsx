@@ -31,7 +31,7 @@ const Pricing = ({checkOuts}) => {
         {/* pills */}
         <div className=" container w-[90%] flex justify-center mt-20">
           <div className=" w-fit flex flex-wrap gap-x-6 justify-center gap-y-3 bg-slate-700 py-3 px-4 rounded-full bg-opacity-50">
-            <Pills pillType="MONTHLY" interval={PerMonth} setCheckOut={setCheckout} />
+            <Pills pillType="MONTHLY" sale="" interval={PerMonth} setCheckOut={setCheckout} />
             <Pills pillType="QUARTERLY" sale="20%" interval={perThreemonths}  setCheckOut={setCheckout}/>
             <Pills pillType="ANNUALLY" sale="35%"  interval={perYear} setCheckOut={setCheckout}/>
           </div>

@@ -1,8 +1,8 @@
 import React from "react";
 
 type PillsType = {
-  pillType: string;
-  sale?: string;
+  pillType: any;
+  sale?: any;
   interval: any
   setCheckOut : any
 };
