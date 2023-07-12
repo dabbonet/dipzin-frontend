@@ -50,7 +50,7 @@ const Pricing = ({checkOuts}) => {
             price_per="Monthly"
           />
           <Card
-            subscribeName={checkout.nickname}
+            subscribeName='paid'
             price={checkout.unit_amount / 100}
             features={[
               "Download in bulk",

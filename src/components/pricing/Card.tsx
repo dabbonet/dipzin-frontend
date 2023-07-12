@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, { useState } from "react";
 import Featuers from "./Featuers";
 import { getToken } from "@/lib/auth";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,7 @@ const Card = ({
   currentPlan,
   id
 }: card) => {
- 
+  const [loading, setLoading] = useState(false)
   let priceUi
   let dollarUI
   if (typeof price !== `number`) {
@@ -39,7 +39,7 @@ const Card = ({
   }
   
   return (
-    <div className={` pl-8 pt-6 pr-10 pb-4 bg-slate-700  rounded-3xl mt-14 flex flex-col h-fit bg-opacity-50`}>
+    <div className={` pl-8 pt-6 pr-10 pb-4 bg-slate-700  rounded-3xl mt-14 flex flex-col h-fit bg-opacity-50 max-w-[400px]`}>
       <h2 className="font-[500] text-3xl">{subscribeName}</h2>
       <span className=" text-slate-300 font-medium">Great for freelancers</span>
       <div className="  mt-4 flex flex-col relative w-fit">
@@ -60,13 +60,16 @@ const Card = ({
         
         </div>
       </div>
-      <div className=" mt-3 mb-7">
+      <div className=" mt-3 mb-2">
         {features.map((el) => (
           <Featuers key={el} feature={el} />
         ))}
       </div>
-      {price ? <button className="mt-auto bg-slate-900 rounded-3xl py-2 w-full" onClick={()=> goToPayment(id)}>
-        Get Started
+      {price ? <button className="mt-auto bg-slate-900 rounded-3xl py-2 w-full mt-7" onClick={()=> {
+          setLoading(true)
+          goToPayment(id)
+        }}>
+        {loading ?<div className="loading-spinner mx-auto"></div> : "Get Started"}
       </button> : ""}
       {currentPlan && <p className=" text-slate-400 mx-auto text-lg font-medium">current plan</p>}
     </div>
