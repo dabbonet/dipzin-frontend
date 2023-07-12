@@ -50,7 +50,7 @@ const Pricing = ({ checkOuts }) => {
             price_per="Monthly"
           />
           <Card
-            subscribeName='paid'
+            subscribeName='Paid'
             price={checkout.unit_amount / 100}
             features={[
               "Download in bulk",
@@ -112,7 +112,7 @@ const Pricing = ({ checkOuts }) => {
                     </span>
                   </h4>
                   <button className=" text-sm lg:text-base text-aqua-900 py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl" onClick={() => goToPayment(checkout.id)}>
-                    get started
+                    Get Started
                   </button>
                 </div>
               </td>
@@ -142,7 +142,7 @@ const Pricing = ({ checkOuts }) => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   All Apps Access
                 </span>
-                <div className={`tooltip`}>
+                {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -152,7 +152,7 @@ const Pricing = ({ checkOuts }) => {
 
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div>
+                </div> */}
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -190,7 +190,7 @@ const Pricing = ({ checkOuts }) => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Latest Version
                 </span>
-                <div className={`tooltip`}>
+                {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -200,7 +200,7 @@ const Pricing = ({ checkOuts }) => {
 
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div>
+                </div> */}
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -238,7 +238,7 @@ const Pricing = ({ checkOuts }) => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Image Copy & Download
                 </span>
-                <div className={`tooltip`}>
+                {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -248,7 +248,7 @@ const Pricing = ({ checkOuts }) => {
 
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div>
+                </div> */}
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -286,7 +286,7 @@ const Pricing = ({ checkOuts }) => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Bulk download
                 </span>
-                <div className={`tooltip`}>
+                {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -296,7 +296,7 @@ const Pricing = ({ checkOuts }) => {
 
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div>
+                </div> */}
               </td>
               <td className="flex-1 flex justify-center">
                 <span className=" lg:text-base md:text-sm text-xs">
@@ -327,11 +327,11 @@ const Pricing = ({ checkOuts }) => {
               <td className=" flex justify-between flex-1">
                 <div className=" lg:text-base md:text-sm text-xs flex flex-wrap gap-4">
                   Flows
-                  <span className=" py-1 px-2 bg-aqua-200 rounded text-[#383B3D]">
+                  <span className="px-2 bg-aqua-200 rounded-lg text-aqua-950">
                     Soon
                   </span>
                 </div>
-                <div className={`tooltip`}>
+                {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -342,7 +342,7 @@ const Pricing = ({ checkOuts }) => {
 
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div>
+                </div> */}
               </td>
               <td className="flex-1 flex justify-center">
                 <span className=" lg:text-base md:text-sm text-xs">
@@ -365,7 +365,7 @@ const Pricing = ({ checkOuts }) => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Search and Filters
                 </span>
-                <div className={`tooltip`}>
+                {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     width={24}
@@ -375,7 +375,7 @@ const Pricing = ({ checkOuts }) => {
 
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div>
+                </div> */}
               </td>
               <td className="flex-1 flex justify-center">
                 <span className=" lg:text-base md:text-sm text-xs">
@@ -398,7 +398,7 @@ const Pricing = ({ checkOuts }) => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Collections
                 </span>
-                <div className={`tooltip`}>
+                {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -408,7 +408,7 @@ const Pricing = ({ checkOuts }) => {
 
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div>
+                </div> */}
               </td>
               <td className="flex-1 flex justify-center">
                 <span className=" lg:text-base md:text-sm text-xs">
@@ -431,7 +431,7 @@ const Pricing = ({ checkOuts }) => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Team Members
                 </span>
-                <div className={`tooltip`}>
+                {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -440,7 +440,7 @@ const Pricing = ({ checkOuts }) => {
                     alt=""
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div>
+                </div> */}
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -478,7 +478,7 @@ const Pricing = ({ checkOuts }) => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Team Collections
                 </span>
-                <div className={`tooltip`}>
+                {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -487,7 +487,7 @@ const Pricing = ({ checkOuts }) => {
                     alt=""
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div>
+                </div> */}
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -525,7 +525,7 @@ const Pricing = ({ checkOuts }) => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Centeralized Billing
                 </span>
-                <div className={`tooltip`}>
+                {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -535,7 +535,7 @@ const Pricing = ({ checkOuts }) => {
 
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div>
+                </div> */}
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -573,7 +573,7 @@ const Pricing = ({ checkOuts }) => {
                 <span className=" lg:text-base md:text-sm text-xs">
                   Seat-based Pricing
                 </span>
-                <div className={`tooltip`}>
+                {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -583,7 +583,7 @@ const Pricing = ({ checkOuts }) => {
 
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div>
+                </div> */}
               </td>
               <td className="flex-1 flex justify-center">
                 <Image
@@ -631,30 +631,30 @@ const Pricing = ({ checkOuts }) => {
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex items-end rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3 py-14 h-[509px]">
               <div className=" w-fit h-fit text-center">
-                <span className=" block mt-auto text-slate-400">Unlimited Screens</span>
-                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Boost Your Design Workflow</h1>
+                <span className=" block mt-auto text-slate-400">Customizable Collections</span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Collaborative Sharing</h1>
                 <p className=" text-slate-400">Coming soon, easily categorize, sort, and access your favorite screenshots in Dipzin's unlimited collection feature for an efficient workflow.</p>
               </div>
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex items-end rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3 py-14 h-[509px]">
               <div className=" w-fit h-fit text-center">
-                <span className=" block mt-auto text-slate-400">Unlimited Screens</span>
-                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Boost Your Design Workflow</h1>
-                <p className=" text-slate-400">Coming soon, easily categorize, sort, and access your favorite screenshots in Dipzin's unlimited collection feature for an efficient workflow.</p>
+                <span className=" block mt-auto text-slate-400">Advanced Search</span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Find with Precision</h1>
+                <p className=" text-slate-400">Discover designs that resonate with your project, save time, and focus on creating amazing designs with Dipzin's precise search capabilities.</p>
               </div>
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex items-end rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3 py-14 h-[509px]">
               <div className=" w-fit h-fit text-center">
-                <span className=" block mt-auto text-slate-400">Unlimited Screens</span>
-                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Boost Your Design Workflow</h1>
-                <p className=" text-slate-400">Coming soon, easily categorize, sort, and access your favorite screenshots in Dipzin's unlimited collection feature for an efficient workflow.</p>
+                <span className=" block mt-auto text-slate-400">Comprehensive Tagging</span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Simplified Inspiration Discovery</h1>
+                <p className=" text-slate-400">Navigate tagged designs by Category, Pattern, Components, and more for efficient organization and seamless inspiration discovery.</p>
               </div>
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex items-end rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3 py-14 h-[509px]">
               <div className=" w-fit h-fit text-center">
-                <span className=" block mt-auto text-slate-400">Unlimited Screens</span>
-                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Boost Your Design Workflow</h1>
-                <p className=" text-slate-400">Coming soon, easily categorize, sort, and access your favorite screenshots in Dipzin's unlimited collection feature for an efficient workflow.</p>
+                <span className=" block mt-auto text-slate-400">Image Copy & Download</span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Effortless Integration</h1>
+                <p className=" text-slate-400">Copy screenshots to your design tools, with a focus on providing a convenient experience, while we work on our Figma plugin and mobile app for better accessibility.</p>
               </div>
             </div>
 
@@ -663,7 +663,7 @@ const Pricing = ({ checkOuts }) => {
         {/* custoumer love corner */}
         <div className=" flex flex-col mt-28 w-[90%] container mb-20">
           <h1 className=" text-6xl mb-6">Customer Love Corner</h1>
-          <span className=" text-slate-600 mb-7">We believe Dipzin should be accessible to all companies, no matter the size.</span>
+          <span className=" text-slate-300 mb-7 text-lg">We believe Dipzin should be accessible to all companies, no matter the size.</span>
           <div className=" grid grid-cols-2 gap-x-10">
             <div className="flex flex-col gap-10">
               <TesmonialsCard tweet={

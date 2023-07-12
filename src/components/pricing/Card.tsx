@@ -71,7 +71,7 @@ const Card = ({
       }}>
         {loading ? <div className="loading-spinner mx-auto"></div> : "Get Started"}
       </button> : ""}
-      {currentPlan && <p className=" text-slate-400 mx-auto text-lg font-medium">current plan</p>}
+      {currentPlan && <p className=" text-slate-400 mx-auto my-2.5 text-md font-medium">Current Plan</p>}
     </div>
   );
 };
@@ -89,7 +89,11 @@ export const goToPayment = async (id) => {
     })
   })
   const url = await req.json()
-  window.location.href = url;
+  if (!url.message) {
+    window.location.href = url;
+  } else {
+    // TODO: Open Access Dialog.
+  }
 }
 
 
