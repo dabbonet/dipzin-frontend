@@ -2,9 +2,10 @@ import Pricing from '@/components/pricing'
 import React from 'react'
 
 export default async function page()  {
-  pricingList()
+  const data = await pricingList()
+  console.log(data)
   return (
-    <Pricing/>
+    <Pricing checkOuts={data}/>
   )
 }
 
@@ -12,5 +13,5 @@ export default async function page()  {
 const pricingList = async ()=> {
   const req = await fetch('https://rah.dipzin.com/api/pricing')
   const res = await req.json()
-  console.log(res)
+  return await res.url.data
 }

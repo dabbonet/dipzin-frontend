@@ -1,10 +1,16 @@
 'use client'
 import Image from "next/image";
-import Card from "@/components/pricing/Card";
+import Card, { goToPayment } from "@/components/pricing/Card";
 import Pills from "@/components/pricing/Pills";
 import Icons from "@/components/Icons";
+import { useState } from "react";
 
-const Pricing = () => {
+const Pricing = ({checkOuts}) => {
+  const [checkout , setCheckout] = useState(checkOuts[2])
+  const PerMonth = checkOuts[2]
+  const perThreemonths = checkOuts[1]
+  const perYear = checkOuts[0]
+
   return (
     <>
       {/* full page */}
@@ -24,10 +30,10 @@ const Pricing = () => {
         </div>
         {/* pills */}
         <div className=" container w-[90%] flex justify-center mt-20">
-          <div className=" w-fit flex flex-wrap gap-x-6 justify-center gap-y-3 bg-slate-700 py-3 px-4 rounded-full">
-            <Pills pillType="MONTHLY" />
-            <Pills pillType="QUARTERLY" sale="35%" />
-            <Pills pillType="ANNUALLY" sale="35%" />
+          <div className=" w-fit flex flex-wrap gap-x-6 justify-center gap-y-3 bg-slate-700 py-3 px-4 rounded-full bg-opacity-50">
+            <Pills pillType="MONTHLY" interval={PerMonth} setCheckOut={setCheckout} />
+            <Pills pillType="QUARTERLY" sale="20%" interval={perThreemonths}  setCheckOut={setCheckout}/>
+            <Pills pillType="ANNUALLY" sale="35%"  interval={perYear} setCheckOut={setCheckout}/>
           </div>
         </div>
         {/* cards */}
@@ -40,22 +46,21 @@ const Pricing = () => {
               "3 Collections",
               "Limited Search & Filters",
             ]}
-
+            currentPlan
             price_per="Monthly"
           />
           <Card
-            subscribeName="Personal"
-            price={6.99}
-
+            subscribeName={checkout.nickname}
+            price={checkout.unit_amount / 100}
             features={[
               "Download in bulk",
               "Select and Copy",
               "Unlimited Collections",
               "Unlimited Search & Filters",
             ]}
-            price_per="Quarterly"
-            sale
-            overSale={3.99}
+            price_per={checkout.recurring.interval}
+            id={checkout.id}
+            
           />
           <Card
             subscribeName="Team"
@@ -73,8 +78,8 @@ const Pricing = () => {
 
         <table className="container w-[90%] mt-32">
           <thead>
-            <tr className=" flex flex-row justify-between items-center">
-              <td>
+            <tr className=" flex flex-row  items-center">
+              <td className=" flex-1 ">
                 <h2 className=" font-[600] lg:text-3xl md:text-lg sm:text-base text-sm mb-2">
                   Plan Comparison
                 </h2>
@@ -82,7 +87,8 @@ const Pricing = () => {
                   Find your best subscription.
                 </span>
               </td>
-              <td>
+              <td className=" flex-1 flex flex-col items-center">
+                <div className=" w-fit">
                 <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs">
                   Free
                 </h5>
@@ -92,29 +98,33 @@ const Pricing = () => {
                 <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-slate-800 rounded-xl">
                   current plane
                 </button>
+                </div>
               </td>
-              <td>
+              <td className=" flex-1 flex flex-col items-center">
+                <div className="w-fit">
                 <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs ">
                   Personal
                 </h5>
                 <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
-                  $49
+                  ${checkout.unit_amount / 100}
                   <span className=" text-slate-400 lg:text-base md:text-sm text-xs">
-                    /month
+                    /{checkout.recurring.interval}
                   </span>
                 </h4>
-                <button className=" text-sm lg:text-base text-aqua-900 py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl">
+                <button className=" text-sm lg:text-base text-aqua-900 py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl" onClick={()=>goToPayment(checkout.id)}>
                   get started
                 </button>
+                </div>
               </td>
-              <td>
+              <td className=" flex-1 flex flex-col items-center">
+                <div className=" w-fit">
                 <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs ">
                   Team
                 </h5>
                 <h4 className=" text-slate-100 font-[600] lg:text-4xl md:text-lg sm:text-sm text-xs mb-5">
                   Coming <br /> Soon...
                 </h4>
-
+                </div>
               </td>
             </tr>
           </thead>
@@ -651,10 +661,11 @@ const Pricing = () => {
           </div>
         </div>
         {/* custoumer love corner */}
-        <div className=" flex flex-col mt-28 w-[90%]">
+        <div className=" flex flex-col mt-28 w-[90%] container mb-20">
           <h1 className=" text-6xl mb-6">Customer Love Corner</h1>
           <span className=" text-slate-600 mb-7">We believe Dipzin should be accessible to all companies, no matter the size.</span>
-          <div className=" grid grid-cols-2 gap-10">
+          <div className=" grid grid-cols-2 gap-x-10">
+            <div className="flex flex-col gap-10">
             <TesmonialsCard tweet={
               <p className=" text-3xl">
                 The scroll variant in <span className=" underline">@framer</span> hits differently.
@@ -665,26 +676,29 @@ const Pricing = () => {
             } />
             <TesmonialsCard tweet={
               <p className=" text-3xl">
-                Learned some basics of @framer yesterday, and today I delivered a landing page for a client.
-                <br />
-                <br />
-                It's so unreal how small the learning curve is from Figma to @framer.
-                <br />
-                <br />
-                Absolutely loving it.
-              </p>
-            } />
-            <TesmonialsCard tweet={
-              <p className=" text-3xl">
                 I was enjoying @framer a lot but I am BLOWN AWAY by their Figma plug-in. From Auto-layout to flex-box in the browser in seconds; this has completely changed how I'll build
               </p>
             } />
-            <TesmonialsCard tweet={
-              <p className=" text-3xl">
-                Playing around with @framer while building a landing page for a side project. I suck at animations, but they make it so easy
-              </p>
-            } />
-
+            </div>
+            <div className="flex flex-col gap-10">
+              <TesmonialsCard tweet={
+                <p className=" text-3xl">
+                  Learned some basics of @framer yesterday, and today I delivered a landing page for a client.
+                  <br />
+                  <br />
+                  It's so unreal how small the learning curve is from Figma to @framer.
+                  <br />
+                  <br />
+                  Absolutely loving it.
+                </p>
+              } />
+            
+              <TesmonialsCard tweet={
+                <p className=" text-3xl">
+                  Playing around with @framer while building a landing page for a side project. I suck at animations, but they make it so easy
+                </p>
+              } />
+            </div>
           </div>
         </div>
       </main>
@@ -712,3 +726,8 @@ const TesmonialsCard = ({ tweet }) => {
     </div>
   </div>
 }
+
+
+
+
+            

@@ -3,15 +3,17 @@ import React from "react";
 type PillsType = {
   pillType: string;
   sale?: string;
+  interval: any
+  setCheckOut : any
 };
 
-const Pills = ({ pillType, sale }: PillsType) => {
+const Pills = ({ pillType, sale , interval , setCheckOut}: PillsType) => {
   let pillBg = "bg-slate-900";
   let saveBg = "";
   let saveText = "";
   let saleOn: any;
   if (pillType === "QUARTERLY") {
-    pillBg = "bg-aqua-500";
+    pillBg = 'bg-gradient-to-r from-aqua-200 to-aqua-700';
     saveBg = "bg-aqua-200";
     saveText = "text-aqua-700";
   }
@@ -30,7 +32,8 @@ const Pills = ({ pillType, sale }: PillsType) => {
   }
   return (
     <button
-      className={` py-2 px-6 ${pillBg} rounded-full lg:text-base text-xs flex flex-wrap justify-center items-center`}
+      className={` py-2 px-6 ${pillBg} rounded-full lg:text-base text-xs flex flex-wrap justify-center items-center `}
+      onClick={()=> setCheckOut(interval)}
     >
       <span>{pillType}</span>
       {saleOn}
