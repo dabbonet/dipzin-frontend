@@ -1,13 +1,16 @@
+'use client'
 import React from "react";
 import Featuers from "./Featuers";
+import { getToken } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 type card = {
   subscribeName: string;
   price?: number;
-  sale?: boolean;
-  overSale?: number;
   features: string[];
   price_per?: string;
   pricing?: Boolean
+  currentPlan?: boolean;
+  id?: string
 };
 
 const Card = ({
@@ -15,41 +18,38 @@ const Card = ({
   price,
   features,
   price_per,
-  
+  currentPlan,
+  id
 }: card) => {
-  let betaPrice: any;
-  let rectAngle: any;
-  let overSaleSpan: any;
-  let priceUi: any;
-  let priceDolarUi: any;
-
-  
-  if (typeof price === `number`) {
-    priceUi = <span>{price}</span>;
-    priceDolarUi = (
-      <span className=" text-slate-300 font-bold lg:text-5xl md:text-4xl sm:text-3xl text-2xl ml-2">
-        $
-      </span>
-    );
-  } else {
+ 
+  let priceUi
+  let dollarUI
+  if (typeof price !== `number`) {
     priceUi = (
       <span className=" text-5xl">
         Coming <br /> Soon
       </span>
     );
+  }else{
+    dollarUI = (
+      <span className=" text-slate-300 font-bold lg:text-5xl md:text-4xl sm:text-3xl text-2xl ml-2">
+        $
+      </span>
+    );
   }
-
+  
   return (
-    <div className={` pl-8 pt-6 pr-10 pb-4 bg-slate-700  rounded-3xl mt-14 flex flex-col h-fit`}>
+    <div className={` pl-8 pt-6 pr-10 pb-4 bg-slate-700  rounded-3xl mt-14 flex flex-col h-fit bg-opacity-50`}>
       <h2 className="font-[500] text-3xl">{subscribeName}</h2>
       <span className=" text-slate-300 font-medium">Great for freelancers</span>
       <div className="  mt-4 flex flex-col relative w-fit">
-        {betaPrice}
+        
         <div className=" relative w-fit">
-          {rectAngle}
+          
           <h3 className="lg:text-5xl md:text-4xl sm:text-3xl text-2xl font-bold inline">
+            {price}
             {priceUi}
-            {priceDolarUi}
+            {dollarUI}
           </h3>
         </div>
         {/* for sale */}
@@ -57,7 +57,7 @@ const Card = ({
           <span className="font-medium text-lg text-slate-300">
             {price_per}
           </span>
-          {overSaleSpan}
+        
         </div>
       </div>
       <div className=" mt-3 mb-7">
@@ -65,13 +65,28 @@ const Card = ({
           <Featuers key={el} feature={el} />
         ))}
       </div>
-      {price ? <button className="mt-auto bg-slate-900 rounded-3xl py-2 w-full">
+      {price ? <button className="mt-auto bg-slate-900 rounded-3xl py-2 w-full" onClick={()=> goToPayment(id)}>
         Get Started
       </button> : ""}
+      {currentPlan && <p className=" text-slate-400 mx-auto text-lg font-medium">current plan</p>}
     </div>
   );
 };
 
 export default Card;
+
+
+export const goToPayment = async (id)=>{
+  
+  const req = await fetch('/api/stripe/create-checkout',{
+    method:'POST',
+    body: JSON.stringify({
+      token: getToken(),
+      id : id
+    })
+  })
+  const url = await req.json()
+  window.location.href = url;
+}
 
 
