@@ -1,10 +1,10 @@
 import React from "react";
 
 type PillsType = {
-  pillType: any;
+  pillType?: any;
   sale?: any;
-  interval: any
-  setCheckOut : any
+  interval?: any
+  setCheckOut?: any
 };
 
 const Pills = ({ pillType, sale , interval , setCheckOut}: PillsType) => {
