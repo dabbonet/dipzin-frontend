@@ -117,7 +117,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName }) => {
           onClick={() => addToChecked()}
           animate={{ scale: checked ? 1.1 : 1 }}
           className={cn(
-            "absolute top-4 left-4 group/copy border-2 border-slate-200 w-7 h-7 z-40 rounded-md flex items-center justify-center cursor-pointer invisible group-hover/item:visible",
+            "absolute top-4 left-4 group/copy border-[3px] border-slate-200 w-7 h-7 z-40 rounded-md flex items-center justify-center cursor-pointer invisible group-hover/item:visible",
             checked && "visible bg-aqua-300 text-aqua-800 border-transparent"
           )}
         >
