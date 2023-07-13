@@ -93,11 +93,6 @@ const MainNavigator = ({ type }: any) => {
                         {activeView == 'search' && (
                             <Search />
                         )}
-
-                        {/* {filterOpen && (
-                            <Filters />
-                        )} */}
-
                         {activeView == 'menu' && (
                             <Menu />
                         )}
@@ -142,10 +137,10 @@ const MainNavigator = ({ type }: any) => {
                                 )}
                                 <motion.input
 
-                                    className="appearance-none h-[100%] bg-inherit border-[0px] outline-0 text-sm rounded-full"
+                                    className=" h-[100%]  bg-inherit border-[0px] outline-0 text-sm rounded-full"
                                     placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
                                     transition={{ duration: 0.4 }}
-                                    animate={{ width: searchKeyword.length > 0 ? "40vw" : "18vw" }}
+                                    animate={{ width: '100%' }}
                                     value={searchKeyword}
                                     onChange={handleSearch}
                                     onFocus={(e) => {
