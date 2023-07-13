@@ -4,8 +4,10 @@ import Card, { goToPayment } from "@/components/pricing/Card";
 import Pills from "@/components/pricing/Pills";
 import Icons from "@/components/Icons";
 import { useState } from "react";
+import { useDialog } from "@/context/useDialog";
 
 const Pricing = ({ checkOuts }) => {
+  const { setVisibleNoAuth} = useDialog()
   const [checkout, setCheckout] = useState(checkOuts[2])
   const PerMonth = checkOuts[2]
   const perThreemonths = checkOuts[1]
@@ -111,7 +113,7 @@ const Pricing = ({ checkOuts }) => {
                       /{checkout.recurring.interval}
                     </span>
                   </h4>
-                  <button className=" text-sm lg:text-base text-aqua-900 py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl" onClick={() => goToPayment(checkout.id)}>
+                  <button className=" text-sm lg:text-base text-aqua-900 py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl" onClick={() => goToPayment(checkout.id , setVisibleNoAuth)}>
                     Get Started
                   </button>
                 </div>
