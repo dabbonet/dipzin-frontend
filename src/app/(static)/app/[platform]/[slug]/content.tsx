@@ -37,9 +37,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
     return () => {
       setSelectedImages({ appName: '', images: [] })
       setSingleApp(false)
-
       setActiveControls('')
-
     }
   }, [])
 

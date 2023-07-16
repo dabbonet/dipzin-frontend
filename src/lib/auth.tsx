@@ -62,10 +62,10 @@ const AuthProvider: FC<props> = ({ children }) => {
     };
 
     checkUser();
-  }, [checker]);
+  }, [checker, invitationToken, provider, referralToken, router, token]);
 
   return (
-    <IsAuth.Provider value={{ user, loading , setChecker  }}>{children}</IsAuth.Provider>
+    <IsAuth.Provider value={{ user, loading, setChecker }}>{children}</IsAuth.Provider>
   );
 };
 

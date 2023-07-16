@@ -16,7 +16,7 @@ const OtpAccessComponent = ({ email }: props) => {
   const [failedMessage, setFailedMessage] = useState(false);
   const [disabelButton, setDisabelButton] = useState(false);
 
-  const {setChecker} = useAuth()
+  const { setChecker } = useAuth()
   const searchParams = useSearchParams();
   const { setVisibleNoAuth } = useDialog()
   const emailString = searchParams.get("email") || email;
