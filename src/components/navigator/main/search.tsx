@@ -5,22 +5,34 @@ import { useContentDiscovery } from '@/context/useContentDiscovery';
 import { getToken } from '@/lib/auth';
 import { useLayoutEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce'
+import { usePlatform } from '@/lib/platforms';
+import { platfroms } from '@/lib/utils';
+
+const mergeArrays = (arr)=> {
+    
+}
 
 const InitialSearch = () => {
-    const { searchKeyword, filters } = useContentDiscovery();
+    const { searchKeyword } = useContentDiscovery();
     const [data, setdata] = useState(null)
-    const [debounce] = useDebounce(searchKeyword , 300)
+    const [debounce] = useDebounce(searchKeyword, 300)
     const token = getToken()
     useLayoutEffect(() => {
-        if (debounce.length > 1 ) {
+        if (debounce.length > 1) {
             const handleSearch = async () => {
-                const res = await fetch(`/api/search?keyword=${debounce}`, {
+                const res = await fetch(`/api/search`, {
+                    method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`
-                    }
+                    },
+                    body: JSON.stringify({
+                        keyword: debounce
+                    })
                 });
                 const data = await res.json();
-                setdata(data?.search?.hits?.slice(0 , 6))
+                // For loop data.hits & Check Tags,components, categories Set length
+                // if length < 5 ... keep looping and add new tags to set until set length for tags, components and categories
+                setdata(data?.search?.hits?.slice(0, 6))
             }
             handleSearch()
         }
@@ -38,43 +50,32 @@ const InitialSearch = () => {
         // transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
         >
             <div className=' overflow-y-hidden relative h-[400px]'>
-            <div className='w-full h-2 absolute bottom-0 bg-gradient-to-b from-slate-900/0 to-slate-900/90'></div>
-                
+                <div className='w-full h-2 absolute bottom-0 bg-gradient-to-b from-slate-900/0 to-slate-900/90'></div>
+
                 <div className='flex h-full p-2 px-4 w-[1000px] flex-col overflow-y-scroll'>
-                <h1 className=' text-slate-100 font-semibold mb-3'>Search Suggestions</h1>
+                    <h1 className=' text-slate-100 font-semibold mb-3'>Search Suggestions</h1>
                     <p className=' text-slate-500 text-xs'>Featured Apps</p>
                     <div className=' grid grid-cols-2 gap-3 mt-3 mb-6'>
-                        {data?.map(el => <App key={el} name={el.app.name} src={el.screen} app_catigory={el.app.slug}/>)}
+                        {data?.map(el => <App key={el} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]}/>)}
                     </div>
                     <p className=' text-slate-500 text-xs'>Tags</p>
                     <div className=' flex gap-2 mt-2 mb-6'>
                         {data && data[0]?.tags.map(el => {
-                            return <FeatureCard tag={el}/>
+                            return <FeatureCard tag={el} />
                         })}
-                        
+
                     </div>
                     <p className=' text-slate-500 text-xs'>components</p>
                     <div className=' flex gap-2 mt-2 mb-6'>
                         {data && data[0]?.components.map(el => {
-                            return <FeatureCard tag={el}/>
+                            return <FeatureCard tag={el} />
                         })}
-                        
+
                     </div>
-                    <p className=' text-slate-500 text-xs'>Coming Soon</p>
-                    <div className='pb-4 h-full rounded-2xl w-full mt-2'>
-                        <div className='w-4 h-full  absolute left-0 bg-gradient-to-l from-slate-900/0 to-slate-900/90'></div>
-                        <div className='w-12 h-full absolute right-0 bg-gradient-to-r from-slate-900/0 to-slate-900/90'></div>
-                        <div className='flex space-x-2 touch-pan-x overflow-x-scroll w-full h-full scrollbar-none'>
-                            <InitialSearchCard/>
-                            <InitialSearchCard/>
-                            <InitialSearchCard/>
-                            <InitialSearchCard/>
-                            <InitialSearchCard/>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
-            
+
         </motion.div>
     )
 }
@@ -82,32 +83,33 @@ const InitialSearch = () => {
 export default InitialSearch
 
 
-const InitialSearchCard = ()=> {
+const InitialSearchCard = () => {
     return <div className='flex-shrink-0 w-[300px] bg-slate-900 hover:bg-slate-800 rounded-2xl p-4 gap-1'>
-    <h3 className='text-slate-200 font-semibold'>Figma Plugin</h3>
-    <p className='text-slate-400 text-xs'>Work from your browser with our lightweight extension.</p>
-    <span className=' bg-lime-100 rounded-md  px-1 text-lime-900'>In Progress</span>
-</div>
+        <h3 className='text-slate-200 font-semibold'>Figma Plugin</h3>
+        <p className='text-slate-400 text-xs'>Work from your browser with our lightweight extension.</p>
+        <span className=' bg-lime-100 rounded-md  px-1 text-lime-900'>In Progress</span>
+    </div>
 }
 
 
-const FeatureCard = ({tag})=> {
+const FeatureCard = ({ tag }) => {
     const [cliced, setcliced] = useState(false)
 
     if (cliced) {
-        return <button className=' py-2 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-aqua-400' onClick={()=> setcliced(!cliced)}>
+        return <button className=' py-2 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-aqua-400' onClick={() => setcliced(!cliced)}>
+            <span className=' text-slate-200 mx-auto'>{tag}</span>
+        </button>
+    }
+    return <button className=' py-2 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-transparent' onClick={() => setcliced(!cliced)}>
         <span className=' text-slate-200 mx-auto'>{tag}</span>
     </button>
-    }
-    return <button className=' py-2 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-transparent' onClick={()=> setcliced(!cliced)}>
-    <span className=' text-slate-200 mx-auto'>{tag}</span>
-</button>
 }
 
-const App = ({name , src , app_catigory})=> {
+const App = ({ name, src, app_catigory , app_platform }) => {
     return <div className=' flex gap-x-3 items-center'>
-    <Image src={src}  width={24} height={24} alt=''/>
-    <h3 className=' font-medium text-sm'>{name}</h3>
-    <span className=' text-slate-700'>{app_catigory}</span>
-</div>
+        <Image src={src} width={24} height={24} alt='' className=' rounded-md'/>
+        <h3 className=' font-medium text-sm'>{name}</h3>
+        <span className=' text-slate-700'>{app_catigory}</span>
+        <span className=' text-white'>{app_platform}</span>
+    </div>
 }

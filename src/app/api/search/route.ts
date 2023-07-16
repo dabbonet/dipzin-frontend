@@ -1,26 +1,24 @@
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
-    const { searchParams } = new URL(request.url);
+export async function POST(request: Request) {
     const headersList = headers();
     const token = headersList.get('Authorization');
-    const keyword = searchParams.get('keyword');
+    const { keyword } = await request.json()
+    const data = JSON.stringify({
+        data: {
+            keyword: keyword
+        }
+    })
 
-    const params = new URLSearchParams({
-        keyword: keyword ?? '',
-    });
-
-    console.log(`https://rah.dipzin.com/api/search?${params}`)
-
-    const res = await fetch(`https://rah.dipzin.com/api/search?${params}`, {
-        method: 'GET',
+    const res = await fetch(`https://rah.dipzin.com/api/search`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': token
         },
+        body: data
     });
-    console.log(res.status)
     if (!res.ok) {
         // Handle non-2xx HTTP response status codes
         const errorResponse = await res.json();
