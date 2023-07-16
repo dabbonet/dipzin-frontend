@@ -23,7 +23,6 @@ const Stream: FC<StreamProps> = () => {
   useEffect(() => {
     setActiveView('menuWithSearch')
     setActiveControls('menu-search')
-    setSelected(2);
     return () => {
       setActiveView('')
       setActiveControls('')
