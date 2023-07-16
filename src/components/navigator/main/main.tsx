@@ -21,8 +21,32 @@ const MainNavigator = ({ type }: any) => {
     const router = useRouter();
     const { activeView, setActiveView, activeControls, setActiveControls } = useNavigator()
     const { selectedImages, setSelectedImages } = useSelcetedImages()
+    const { filters, setFilters, searchKeyword, setSearchKeyword } = useContentDiscovery();
+    const inputRef = useRef(null)
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.ctrlKey && (event.key === 'k' || event.keyCode === 75)) {
+                event.preventDefault();
+                // Perform your desired functionality here
+                setActiveView(prev => {
+                    if (['search' , 'initial'].includes(prev)) {
+                        setSearchKeyword('')
+                        inputRef?.current?.blur()
+                        return ''
+                    } else {
+                        inputRef?.current?.focus()
+                        return 'initial'
+                    }
+                })
+            }
+        };
 
+        document.addEventListener('keydown', handleKeyDown);
 
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [activeView]);
     // Logic to handle if user clicks outside of the navigator
     function useOutsideAlerter(ref: any) {
         useEffect(() => {
@@ -42,7 +66,6 @@ const MainNavigator = ({ type }: any) => {
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
 
-    const { filters, setFilters, searchKeyword, setSearchKeyword } = useContentDiscovery();
 
 
     const removeTag = useCallback((type, indexToRemove) => {
@@ -74,7 +97,7 @@ const MainNavigator = ({ type }: any) => {
         },
         [setSearchKeyword, setActiveView]
     );
-    if(activeControls === '') return
+    if (activeControls === '') return
     return (
         <div ref={wrapperRef} className="fixed left-1/2 -translate-x-1/2 bottom-12 flex justify-center z-[10000000] w-fit">
             <div className='relative flex items-end'>
@@ -136,7 +159,7 @@ const MainNavigator = ({ type }: any) => {
                                     </div>
                                 )}
                                 <motion.input
-
+                                    ref={inputRef}
                                     className=" h-[100%]  bg-inherit border-[0px] outline-0 text-sm rounded-full"
                                     placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
                                     transition={{ duration: 0.4 }}

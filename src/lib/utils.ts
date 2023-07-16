@@ -38,6 +38,7 @@ function shuffle<T>(array: T[] = []) {
 
 const getAssetsURL = (src) => 'https://dipzin.s3.us-east-1.amazonaws.com/medium_' + src
 
+const platfroms = ['', 'android' , 'ios' , 'web']
 
 
-export { rgbDataURL, toStorageUrl, shuffle, getAssetsURL }
+export { rgbDataURL, toStorageUrl, shuffle, getAssetsURL , platfroms}
