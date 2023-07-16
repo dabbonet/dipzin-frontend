@@ -29,7 +29,7 @@ const ScreenDetails = ({ screenId }) => {
             }
         }
         getData()
-    }, [])
+    }, [screenId]);
     const Components = () => {
         return <div className=' flex gap-2 flex-wrap'>
             {data?.components.map(el => (
