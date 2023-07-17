@@ -141,23 +141,8 @@ const MainNavigator = ({ type }: any) => {
 
                         {(activeControls == 'menu-search') && (
 
-                            <motion.div className={cn("flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full", filters?.tags || filters?.categories ? 'pl-3' : 'pl-7')}>
-                                {/* TODO: Reduce size and add selected tags/categories in circles like ui */}
-                                {filters && (filters?.tags?.length > 0 || filters?.categories?.length > 0) && (
-                                    <div className='relative rounded-md'>
-                                        <div className='w-[7%] h-full absolute left-0 bg-gradient-to-r from-slate-800 to-slate-800/0'></div>
-                                        <div className='w-[7%] h-full absolute right-0 bg-gradient-to-l from-slate-800 to-slate-800/0'></div>
-                                        <ul className='flex space-x-2 mr-2 w-fit max-w-[20vw] overflow-x-scroll scrollbar-none ml-2'>
-                                            {filters?.categories?.map((category, index) => (
-                                                <TagItem key={index} title={category} onClick={() => removeTag('category', index)} />
-                                            ))}
-                                            {filters?.tags?.map((tag, index) => tag && (
-                                                <TagItem key={index} title={tag} onClick={() => removeTag('tag', index)} />
-
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
+                            <motion.div className={cn("flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full pl-3 relative")}>
+                                <motion.img src='/images/assets/search.svg' className=' mr-2'/> 
                                 <motion.input
                                     ref={inputRef}
                                     className=" h-[100%]  bg-inherit border-[0px] outline-0 text-sm rounded-full"
@@ -173,6 +158,7 @@ const MainNavigator = ({ type }: any) => {
                                         }
                                     }}
                                 />
+                                <motion.button className=' bg-slate-700 py-1 px-2 rounded-full absolute right-1'>search</motion.button>
                             </motion.div>
                         )}
 
