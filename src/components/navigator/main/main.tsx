@@ -16,7 +16,6 @@ import { ImageDownloader } from '@/lib/ImageDownloader';
 
 
 const MainNavigator = ({ type }: any) => {
-    // const { setActiveView, activeView } = useContentDiscovery()
     const searchParams = useSearchParams()!;
     const router = useRouter();
     const { activeView, setActiveView, activeControls, setActiveControls } = useNavigator()
@@ -97,6 +96,9 @@ const MainNavigator = ({ type }: any) => {
         },
         [setSearchKeyword, setActiveView]
     );
+    const handleGetScreens = () =>{
+        router.push('/search')
+    }
     if (activeControls === '') return
     return (
         <div ref={wrapperRef} className="fixed left-1/2 -translate-x-1/2 bottom-12 flex justify-center z-[10000000] w-fit">
@@ -158,7 +160,7 @@ const MainNavigator = ({ type }: any) => {
                                         }
                                     }}
                                 />
-                                <motion.button className=' bg-slate-700 py-1 px-2 rounded-full absolute right-1'>search</motion.button>
+                                <motion.button onClick={handleGetScreens} className=' bg-slate-700 py-1 px-2 rounded-full absolute right-1'>search</motion.button>
                             </motion.div>
                         )}
 

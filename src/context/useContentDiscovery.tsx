@@ -1,20 +1,15 @@
 import useDebounce from '@/lib/debounce';
 import { createContext, useContext, useState } from 'react';
 
-type Filter = {
-    tags: String[],
-    categories: String[]
-}
+
 
 interface ContentDiscoveryState {
     streamData: any;
     setStreamData: (data: any) => void;
-    filters: Filter | null;
-    setFilters: (filters: Filter) => void;
+    filters: any
+    setFilters: (filters: any) => void;
     searchKeyword: string;
     setSearchKeyword: (keyword: string) => void;
-    activeView: any
-    setActiveView: any
 }
 
 const defaultState: ContentDiscoveryState = {
@@ -23,9 +18,7 @@ const defaultState: ContentDiscoveryState = {
     filters: null,
     setFilters: () => { },
     searchKeyword: '',
-    setSearchKeyword: () => { },
-    activeView: '',
-    setActiveView: () => { }
+    setSearchKeyword: () => { }
 };
 
 const ContentDiscoveryContext = createContext<ContentDiscoveryState>(
@@ -34,9 +27,8 @@ const ContentDiscoveryContext = createContext<ContentDiscoveryState>(
 
 export const ContentDiscoveryProvider = ({ children }: { children: React.ReactNode }) => {
     const [streamData, setStreamData] = useState([]);
-    const [filters, setFilters] = useState<Filter>(null);
+    const [filters, setFilters] = useState(null);
     const [searchKeyword, setSearchKeyword] = useState<string>('');
-    const [activeView, setActiveView] = useState('')
     return (
         <ContentDiscoveryContext.Provider
             value={{
@@ -45,9 +37,7 @@ export const ContentDiscoveryProvider = ({ children }: { children: React.ReactNo
                 filters,
                 setFilters,
                 searchKeyword,
-                setSearchKeyword,
-                activeView,
-                setActiveView
+                setSearchKeyword
             }}
         >
             {children}
