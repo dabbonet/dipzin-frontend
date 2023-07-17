@@ -9,10 +9,17 @@ const nextConfig = {
   experimental: {
     appDir: true,
     isrMemoryCacheSize: 5000,
-
-    // enableUndici: true
   },
   optimizeFonts: true,
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/',
+  //       destination: '/ios',
+  //       permanent: true,
+  //     },
+  //   ]
+  // },
 }
 
 module.exports = nextConfig

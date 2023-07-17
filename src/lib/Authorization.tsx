@@ -1,11 +1,12 @@
 import { useContext, useState, useEffect, createContext } from "react";
 import { toast } from "react-hot-toast";
+import { getToken } from "./auth";
 
 const AuthorizationContext = createContext(null!);
 
 const MemberType = ({ children }) => {
   const [member, setMember] = useState(null);
-  const token = localStorage.getItem("token") || null;
+  const token = getToken() || null;
   useEffect(() => {
       const fetchData = async () => {
         // if the user auth you will check about the type

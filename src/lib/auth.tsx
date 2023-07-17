@@ -36,7 +36,7 @@ const AuthProvider: FC<props> = ({ children }) => {
     }
 
     const checkUser = async () => {
-      const token = localStorage.getItem("token");
+      const token = getToken();
       if (!token) {
         setUser(null);
         setLoading(false);
@@ -62,28 +62,34 @@ const AuthProvider: FC<props> = ({ children }) => {
     };
 
     checkUser();
-  }, [checker]);
+  }, [checker, invitationToken, provider, referralToken, router, token]);
 
   return (
-    <IsAuth.Provider value={{ user, loading , setChecker  }}>{children}</IsAuth.Provider>
+    <IsAuth.Provider value={{ user, loading, setChecker }}>{children}</IsAuth.Provider>
   );
 };
 
 export const setToken = (token: string) => {
-  localStorage.setItem("token", token);
+  document.cookie = `token=${token}; path=/`;
   return;
 };
 
 export const getToken = () => {
-  return localStorage.getItem("token");
+  const cookies = document.cookie.split(";").map(cookie => cookie.trim());
+  for (const cookie of cookies) {
+    if (cookie.startsWith("token=")) {
+      return cookie.substring("token=".length);
+    }
+  }
+  return null;
 };
 
 export const getUser = async () => {
-  if (localStorage.getItem("token")) {
+  if (getToken()) {
     const req = await fetch("/api/user", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     });
     const data = await req.json();

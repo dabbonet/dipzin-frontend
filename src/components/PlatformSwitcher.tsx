@@ -1,12 +1,20 @@
 "use client";
 import { usePlatform } from "@/lib/platforms";
-import { useRouter, useSelectedLayoutSegments } from "next/navigation";
+import { usePathname, useRouter, useSelectedLayoutSegments } from "next/navigation";
+import { useEffect } from "react";
 
 const PlatformSwitcher = () => {
   const { platforms, singleApp, selected, setSelected } = usePlatform();
   const router = useRouter();
   const segments = useSelectedLayoutSegments();
   const slug = segments[3];
+  const platform = segments[1]
+  useEffect(() => {
+    if (!singleApp) {
+      const selectedPlatform = platforms.find(el => el.name.toUpperCase() === platform?.toUpperCase())
+      setSelected(selectedPlatform?.id)
+    }
+  }, [platform]);
 
   if (platforms.length < 2) return null; // hide if there is no platforms
   const platformsUI = () => {
@@ -22,6 +30,7 @@ const PlatformSwitcher = () => {
           );
         } else {
           setSelected(platformAvailable.id);
+          router.push(`/${platformAvailable.name.toLocaleLowerCase()}`)
         }
       }
       return (

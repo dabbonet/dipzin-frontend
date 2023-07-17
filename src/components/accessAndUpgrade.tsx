@@ -1,60 +1,64 @@
 'use client'
-import React, {  useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDialog } from "@/context/useDialog";
 import AccessComponent from "./AccessComponent";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth";
-import { motion , AnimatePresence} from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 function formatTime(seconds: number): string {
   const secs = (seconds % 60).toString().padStart(2, '0');
   return `${secs}s`;
 }
 
 export const AccessOrUpgradeCard = () => {
-  const {user} = useAuth()
-  const {title} = useDialog()
-  if (user) { 
-    return  <UpgradeMemberCard title={title}/>
+  const { user } = useAuth()
+  const { title } = useDialog()
+  if (user) {
+    return <UpgradeMemberCard title={title} />
   }
   return <AccessCard />
-    
+
 }
 
 const AccessCard = () => {
   const ref = useRef()
   const [show, setShow] = useState<boolean>(false)
-  const { visibleNoAuth } = useDialog();
+  const { visibleNoAuth, setVisibleNoAuth } = useDialog();
   useEffect(() => {
     if (visibleNoAuth) {
       setShow(true);
-    }else{
+    } else {
       setShow(false);
     }
   }, [visibleNoAuth])
   if (!show) return
   return (
     <AnimatePresence>
-      <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      exit={{ opacity: 0 }}
+      <div
+        className="fixed inset-0 flex justify-center items-center z-[60]"
+        onClick={() => { setVisibleNoAuth(false) }}
+      >
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          exit={{ opacity: 0 }}
+          ref={ref}
+          className="bg-slate-900 bg-opacity-80 rounded-2xl px-16 py-20"
         >
-          <div ref={ref} className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-50">
-            <div className=" w-fit h-fit bg-slate-900 bg-opacity-60 rounded-2xl px-16 py-20">
-              <AccessComponent />
-            </div>
-          </div>
+          <AccessComponent />
         </motion.div>
+      </div>
+      <div className="fixed z-50 inset-0 h-full w-full bg-slate-950/50 backdrop-blur-[30px]"></div>
     </AnimatePresence>
   )
-  
+
 }
 
 export const UpgradeMemberCard = ({ title }) => {
   const [show, setShow] = useState<boolean>(false)
   const [showInviteDialog, setShowInviteDialog] = useState(false)
-  const { counter, visible , setCounter } = useDialog();
+  const { counter, visible, setCounter } = useDialog();
 
   useEffect(() => {
     visible && setShow(visible)
@@ -69,7 +73,7 @@ export const UpgradeMemberCard = ({ title }) => {
         setShow(false)
         return clearTimeout(timer)
       }
-    },1000)
+    }, 1000)
   }
   const onLeaveButton = () => {
     clearTimeout(timer)
@@ -85,10 +89,10 @@ export const UpgradeMemberCard = ({ title }) => {
       </button>
     }
     return <button
-    className=' bg-gradient-to-tr text-slate-800 from-[#14F3C5] to-[#00B390] pointer-events-none rounded-lg py-2 px-12'
-  >
-    Continue in {formatTime(counter)}
-  </button>
+      className=' bg-gradient-to-tr text-slate-800 from-[#14F3C5] to-[#00B390] pointer-events-none rounded-lg py-2 px-12'
+    >
+      Continue in {formatTime(counter)}
+    </button>
   }
   const onShowIviteDialog = () => {
     const baseCounter = 5
@@ -98,8 +102,8 @@ export const UpgradeMemberCard = ({ title }) => {
   }
   if (!show) {
     if (showInviteDialog) {
-      return <InviteDialog/>
-    } 
+      return <InviteDialog />
+    }
     return
   }
 
@@ -107,10 +111,10 @@ export const UpgradeMemberCard = ({ title }) => {
   return (
     <AnimatePresence>
       <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      exit={{ opacity: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        exit={{ opacity: 0 }}
       >
 
         <div className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
@@ -133,9 +137,9 @@ export const UpgradeMemberCard = ({ title }) => {
               {/* price */}
               <div className=" bg-[#37FFCF]  rounded-xl py-2 px-4">
                 <div className=" w-fit flex flex-col items-center" >
-                <p className=" text-xs text-[#007160] font-medium">Starts at</p>
-                <strong className=" text-[#00342E] font-medium text-2xl">$ 6 /mo</strong>
-                <p className="text-xs text-[#007160] font-medium">billed at $72/yr </p>
+                  <p className=" text-xs text-[#007160] font-medium">Starts at</p>
+                  <strong className=" text-[#00342E] font-medium text-2xl">$ 6 /mo</strong>
+                  <p className="text-xs text-[#007160] font-medium">billed at $72/yr </p>
                 </div>
               </div>
               {/* features */}
@@ -167,7 +171,7 @@ export const UpgradeMemberCard = ({ title }) => {
               </div>
               <div className=" flex gap-x-4">
                 <Link href='/pricing' className=" text-[#C9FFED] text-sm py-2 px-12 bg-transparent border-solid border border-[#C9FFED] rounded-lg">Unlock More!</Link>
-                <CloseButton/>
+                <CloseButton />
               </div>
             </div>
           </div>
@@ -186,7 +190,7 @@ const InviteDialog = () => {
   const skipDialog = () => {
     setCloseDialog(true)
   }
-  if(closeDialog) return
+  if (closeDialog) return
   return <div className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
     <div className="max-w-3xl bg-slate-900 rounded-3xl  flex flex-col gap-5 px-32 py-10 items-center ">
       {/* image */}
@@ -196,7 +200,7 @@ const InviteDialog = () => {
         <p className=" text-slate-300 text-base text-center">To Continue using your free trial of our premium features, please upgrade to our premium package.</p>
       </div>
       <div className=" w-full relative">
-        <input type="text" value={inputData} className=" w-full py-3 px-4 rounded-lg text-sm bg-slate-800 text-[#C9FFED] border border-solid border-[#475569]"/>
+        <input type="text" value={inputData} className=" w-full py-3 px-4 rounded-lg text-sm bg-slate-800 text-[#C9FFED] border border-solid border-[#475569]" />
         <input onClick={copyInputData} type="submit" value='copy' className="text-[#00342E] bg-gradient-to-tr from-[#14F3C5] to-[#00B390] py-1 px-3 rounded-md absolute top-[6px] right-2 cursor-pointer" />
       </div>
       <div className=" w-1/2 ml-auto flex justify-between items-center mt-9">
@@ -204,6 +208,6 @@ const InviteDialog = () => {
         <span>or social share</span>
       </div>
     </div>
-</div>
+  </div>
 }
 
