@@ -106,13 +106,17 @@ const InitialSearchCard = () => {
 
 const FeatureCard = ({ tag }) => {
     const [cliced, setcliced] = useState(false)
-
+    const {filters , setFilters} = useContentDiscovery()
+    const handleClick = ()=> {
+        setcliced(cliced)
+        setFilters([... filters , tag])
+    }
     if (cliced) {
-        return <button className=' py-2 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-aqua-400' onClick={() => setcliced(!cliced)}>
+        return <button className=' py-2 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-aqua-400' onClick={handleClick}>
             <span className=' text-slate-200 mx-auto'>{tag}</span>
         </button>
     }
-    return <button className=' py-2 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-transparent' onClick={() => setcliced(!cliced)}>
+    return <button className=' py-2 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-transparent' onClick={handleClick}>
         <span className=' text-slate-200 mx-auto'>{tag}</span>
     </button>
 }
