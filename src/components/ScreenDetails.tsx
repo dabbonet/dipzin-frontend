@@ -1,10 +1,9 @@
 'use client'
-import { useRouterPath } from '@/context/useRouterPath'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { motion } from 'framer-motion'
-const ScreenTagAndColors = ({ screenId }) => {
+const ScreenDetails = ({ screenId }) => {
     const [data, setData] = useState(null)
 
     useEffect(() => {
@@ -22,17 +21,26 @@ const ScreenTagAndColors = ({ screenId }) => {
             if (res) {
                 const data = {
                     colors: res.data?.attributes.colors,
-                    tags: res.data?.attributes.tags.data
+                    tags: res.data?.attributes.tags.data,
+                    components: res.data?.attributes.components.data
+
                 }
                 setData(data)
             }
         }
         getData()
-    }, [])
+    }, [screenId]);
+    const Components = () => {
+        return <div className=' flex gap-2 flex-wrap'>
+            {data?.components.map(el => (
+                <Tag name={el.attributes.name} type="components" key={el} />
+            ))}
+        </div>
+    }
     const Tags = () => {
         return <div className=' flex gap-2 flex-wrap'>
             {data?.tags.map(el => (
-                <Tag name={el.attributes.name} key={el} />
+                <Tag name={el.attributes.name} type="tags" key={el} />
             ))}
         </div>
     }
@@ -52,7 +60,7 @@ const ScreenTagAndColors = ({ screenId }) => {
                 exit={{ opacity: 0 }}
             >
                 <div className=' bg-slate-950 p-8 flex flex-col gap-y-8 rounded-3xl w-88 absolute top-1/2 -translate-y-1/2 -translate-x-full -left-8 z-0'>
-                    {data?.tags?.leangth > 0 &&
+                    {data?.tags?.length > 0 &&
                         <div>
                             <p className=' text-slate-500 text-sm mb-2'>Tags</p>
                             <Tags />
@@ -60,7 +68,7 @@ const ScreenTagAndColors = ({ screenId }) => {
                     }
                     <div>
                         <p className=' text-slate-500 text-sm mb-2'>Components</p>
-                        <Tags />
+                        <Components />
                     </div>
                     <div>
                         <p className=' text-slate-500 text-sm mb-2'>Colors</p>
@@ -72,7 +80,7 @@ const ScreenTagAndColors = ({ screenId }) => {
     }
 }
 
-export default ScreenTagAndColors
+export default ScreenDetails
 
 
 const ColorSquare = ({ color }) => {
@@ -88,31 +96,44 @@ const ColorSquare = ({ color }) => {
                 toast.error('Error copying text to clipboard:', error);
             });
     }
-    return <button onClick={copyToClipboard} onMouseEnter={() => setShowColorCode(true)} onMouseLeave={() => setShowColorCode(false)} className={` w-10 h-10 rounded-xl border-transparent border-2 hover:border-aqua-400 relative`} style={{ backgroundColor: color }}>
+    return <button onClick={copyToClipboard} onMouseEnter={() => setShowColorCode(true)} onMouseLeave={() => setShowColorCode(false)} className={` w-10 h-10 rounded-xl border-transparent border-[3px] hover:border-aqua-400 relative`} style={{ backgroundColor: color }}>
         {showColorCode && <span className=' absolute -bottom-14 left-1/2 -translate-x-1/2'>copy {color}</span>}
     </button>
 }
 
-const Tag = ({ name }: { name: string }) => {
-    const router = useRouter()
+const Tag = ({ name, type }: { name: string, type: string }) => {
+    const router = useRouter();
     const searchParams = useSearchParams();
-    const pathName = usePathname()
+    const pathName = usePathname();
     const parameter = new URLSearchParams(searchParams.toString());
-    let tags = parameter.get('tags');
-    let allTags
+    let paramName = type;
+
+    let tags = parameter.get(paramName);
+    let allTags;
+
     if (tags) {
-        allTags = tags.split(',')
+        allTags = tags.split(',');
     } else {
-        allTags = []
+        allTags = [];
     }
+
     tags = allTags.join(',');
+
     const searchTag = () => {
         if (!allTags.includes(name)) {
-            allTags.push(name)
+            allTags.push(name);
         }
         tags = allTags.join(',');
-        parameter.set('tags', tags);
-        router.push('/search?' + parameter)
-    }
-    return <button onClick={searchTag} className=' bg-slate-800 hover:bg-slate-700 py-1 px-4 text-sm rounded-3xl'>{name}</button>
-}
+        parameter.set(paramName, tags);
+        router.push('/search?' + parameter);
+    };
+
+    return (
+        <button
+            onClick={searchTag}
+            className='bg-slate-800 hover:bg-slate-700 py-1 px-4 text-sm rounded-3xl'
+        >
+            {name}
+        </button>
+    );
+};
