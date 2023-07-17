@@ -9,6 +9,8 @@ import Providers from '@/components/Providers';
 import { AccessOrUpgradeCard } from '@/components/accessAndUpgrade';
 import GoogleOneTap from '@/components/GoogleOneTap';
 import Navigator from '@/components/navigator/main';
+import Banner from '@/components/Banner';
+import HomeNavigator from '@/components/HomeNavigator';
 
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
@@ -36,10 +38,13 @@ export const metadata = {
 }
 
 export default function RootLayout({
+  params,
   children,
 }: {
-  children: React.ReactNode
+  params: any,
+  children: any
 }) {
+  // if route is in this array ['/ios','/android','/web'] return component <Banner>
 
 
   return (
@@ -51,6 +56,8 @@ export default function RootLayout({
           <AccessOrUpgradeCard />
           <main className='pt-24 max-w-[90%]  mx-auto'>
             <GoogleOneTap />
+            <Banner />
+            <HomeNavigator />
             {children}
             <Navigator />
 

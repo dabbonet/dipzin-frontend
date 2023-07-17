@@ -12,8 +12,11 @@ const HomeNavigator: FC = () => {
     const { setStreamData, filters } = useContentDiscovery()
     const { selected, platforms } = usePlatform()
     const platformPath = platforms.find(el => el.id === selected)
+
+    const showPaths = ['/ios', '/android', '/web', '/search']
+    if (!showPaths.includes(path)) return
     return (
-        <div className="flex space-x-6 items-center mt-8 h-10">
+        <div className="flex space-x-6 items-center mt-8 h-10 mx-auto  max-w-[90%]">
 
             {!filters ? (
                 <>
