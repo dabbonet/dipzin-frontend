@@ -6,11 +6,21 @@ import { useLayoutEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce'
 import { platfroms } from '@/lib/utils';
 
+const mergeArrays = (arr)=> {
+    const comps = arr[2].hits.filter(el => el.type === "component").slice(0, 5)
+    const tags = arr[2].hits.filter(el => el.type === "tag").slice(0,5)
+    const categories = arr[2].hits.filter(el => el.type === "category").slice(0, 5)
+    return {
+        apps: arr[1].hits,
+        components: comps,
+        tags,
+        categories
+    }
+}
+
 const InitialSearch = () => {
-    const { searchKeyword } = useContentDiscovery();
     const [data, setdata] = useState(null)
     const token = getToken()
-    
     useLayoutEffect(() => {
             const handleSearch = async () => {
                 const res = await fetch(`/api/search`, {
@@ -19,17 +29,19 @@ const InitialSearch = () => {
                         'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
-                        keyword: 'a'
+                        keyword: 'login'
                     })
                 });
                 const data = await res.json();
-                setdata(data?.search?.hits?.slice(0, 6))
+                // For loop data.hits & Check Tags,components, categories Set length
+                // if length < 5 ... keep looping and add new tags to set until set length for tags, components and categories
+                const filterData = mergeArrays(data?.search?.search?.results)
+                setdata(filterData)
             }
             handleSearch()
         
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
     return (
         <motion.div
             layout
@@ -47,23 +59,29 @@ const InitialSearch = () => {
                     <h1 className=' text-slate-100 font-semibold mb-3'>Search Suggestions</h1>
                     <p className=' text-slate-500 text-xs'>Featured Apps</p>
                     <div className=' grid grid-cols-2 gap-3 mt-3 mb-6'>
-                    {data?.map(el => <App key={el} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]}/>)}
+                        {data && data?.apps?.map(el => <App key={el} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]}/>)}
                     </div>
                     <p className=' text-slate-500 text-xs'>Tags</p>
                     <div className=' flex gap-2 mt-2 mb-6'>
-                        {data && data[0]?.tags.map(el => {
-                            return <FeatureCard tag={el} />
+                        {data && data?.tags?.map(el => {
+                            return <FeatureCard tag={el.name} />
                         })}
 
                     </div>
                     <p className=' text-slate-500 text-xs'>components</p>
                     <div className=' flex gap-2 mt-2 mb-6'>
-                        {data && data[0]?.components.map(el => {
-                            return <FeatureCard tag={el} />
+                        {data && data?.components?.map(el => {
+                            return <FeatureCard tag={el.name} />
                         })}
 
                     </div>
-                    
+                    <p className=' text-slate-500 text-xs'>categories</p>
+                    <div className=' flex gap-2 mt-2 mb-6'>
+                        {data && data?.categories?.map(el => {
+                            return <FeatureCard tag={el.name} />
+                        })}
+
+                    </div>
                 </div>
             </div>
 
@@ -101,6 +119,6 @@ const App = ({ name, src, app_catigory , app_platform }) => {
         <Image src={src} width={24} height={24} alt='' className=' rounded-md'/>
         <h3 className=' font-medium text-sm'>{name}</h3>
         <span className=' text-slate-700'>{app_catigory}</span>
-        <span className=' text-white'>{app_platform}</span>
+        <span className=' text-slate-500 bg-slate-800 p-1 rounded'>{app_platform}</span>
     </div>
 }
