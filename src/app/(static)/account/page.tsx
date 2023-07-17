@@ -260,7 +260,6 @@ const Account: FC = ({}) => {
                 "Unlimited Search & Filters",
               ]}
               price_per="Quarterly"
-              overSale={3.99}
             />
             <Card
               subscribeName="Team"
