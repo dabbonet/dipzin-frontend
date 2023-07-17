@@ -22,7 +22,7 @@ const Card = ({
   currentPlan,
   id,
 }: card) => {
-  const { setVisibleNoAuth} = useDialog()
+  const { setVisibleNoAuth } = useDialog()
 
   const [loading, setLoading] = useState(false)
   let priceUi
@@ -70,7 +70,7 @@ const Card = ({
       </div>
       {price ? <button className="mt-auto bg-slate-900 rounded-3xl py-2 w-full mt-7" onClick={() => {
         setLoading(true)
-        goToPayment(id , setVisibleNoAuth)
+        goToPayment(id, setVisibleNoAuth)
       }}>
         {loading ? <div className="loading-spinner mx-auto"></div> : "Get Started"}
       </button> : ""}
@@ -82,7 +82,7 @@ const Card = ({
 export default Card;
 
 
-export const goToPayment = async (id , setVisibleNoAuth) => {
+export const goToPayment = async (id, setVisibleNoAuth) => {
   const req = await fetch('/api/stripe/create-checkout', {
     method: 'POST',
     body: JSON.stringify({
