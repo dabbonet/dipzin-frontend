@@ -23,15 +23,20 @@ const MainNavigator = ({ type }: any) => {
     const { activeView, setActiveView, activeControls, setActiveControls } = useNavigator()
     const { selectedImages, setSelectedImages } = useSelcetedImages()
     const { filters, setFilters, searchKeyword, setSearchKeyword } = useContentDiscovery();
-    const {selected} = usePlatform()
+    const { selected } = usePlatform()
     const inputRef = useRef(null)
+
+
+    useEffect(() => {
+        console.log(selected)
+    }, [selected])
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.ctrlKey && (event.key === 'k' || event.keyCode === 75)) {
                 event.preventDefault();
                 // Perform your desired functionality here
                 setActiveView(prev => {
-                    if (['search' , 'initial'].includes(prev)) {
+                    if (['search', 'initial'].includes(prev)) {
                         setSearchKeyword('')
                         inputRef?.current?.blur()
                         return ''
@@ -99,28 +104,28 @@ const MainNavigator = ({ type }: any) => {
         },
         [setSearchKeyword, setActiveView]
     );
-    const handleGetScreens = () =>{
-        if(!searchKeyword) {
+    const handleGetScreens = () => {
+        if (!searchKeyword) {
             toast.remove()
-            return toast.error('please enter you keyword')
+            return toast.error('Please enter a keyword')
         }
         const query = qs.stringify(
             {
-              q: searchKeyword,
-              component: filters
-                .filter(el => el.type === 'component' && el.tag)
-                .map(el => el.tag),
-              category: filters
-                .filter(el => el.type === 'category' && el.tag)
-                .map(el => el.tag),
-              tag: filters
-                .filter(el => el.type === 'tag' && el.tag)
-                .map(el => el.tag),
+                q: searchKeyword,
+                component: filters
+                    .filter(el => el.type === 'component' && el.tag)
+                    .map(el => el.tag),
+                category: filters
+                    .filter(el => el.type === 'category' && el.tag)
+                    .map(el => el.tag),
+                tag: filters
+                    .filter(el => el.type === 'tag' && el.tag)
+                    .map(el => el.tag),
             },
             { encodeValuesOnly: true, addQueryPrefix: true }
-          );
-          
-        if(selected === undefined) return router.refresh()
+        );
+        console.log(searchKeyword, query, selected)
+        if (selected === undefined) return router.refresh()
         router.push(`/search/${selected}${query}`)
     }
     if (activeControls === '') return
@@ -167,8 +172,8 @@ const MainNavigator = ({ type }: any) => {
 
                         {(activeControls == 'menu-search') && (
 
-                            <motion.div className={cn("flex items-center h-[48px] w-[100%] bg-slate-800 rounded-full pl-3 relative")}>
-                                <motion.img src='/images/assets/search.svg' className=' mr-2'/> 
+                            <motion.div className={cn("flex items-center h-[48px] min-w-[20rem] w-full bg-slate-800 rounded-full pl-3 relative")}>
+                                <motion.img src='/images/assets/search.svg' className=' mr-2' />
                                 <motion.input
                                     ref={inputRef}
                                     className=" h-[100%]  bg-inherit border-[0px] outline-0 text-sm rounded-full"

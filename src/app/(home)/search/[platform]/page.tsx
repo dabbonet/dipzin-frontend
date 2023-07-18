@@ -1,8 +1,10 @@
 'use client'
 import SingleScreen from '@/components/screen/SingleScreen'
+import { useContentDiscovery } from '@/context/useContentDiscovery'
 import { useNavigator } from '@/context/useNavigatiorContext'
 import { useSelcetedImages } from '@/lib/SelectedToDownload'
 import { getToken } from '@/lib/auth'
+import { usePlatform } from '@/lib/platforms'
 import { cn } from '@/lib/utils'
 import { usePathname, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -19,13 +21,12 @@ const page = () => {
   const keyword = params.get('q')
   const queryString = window.location.search;
   const parsedQuery = qs.parse(queryString, { ignoreQueryPrefix: true });
-  const components = parsedQuery.component;
-  const tag = parsedQuery.tag;
-  const category = parsedQuery.category;
+  const { tag, components, category } = parsedQuery;
+
   const path = usePathname()
-  const platform = path.at(-1)
   const { selectedImages, setSelectedImages } = useSelcetedImages()
-  const { setActiveControls } = useNavigator()
+  const { setActiveView, setActiveControls } = useNavigator()
+  const platform = path.at(-1)
   let filterQuery = `platform = ${platform}`
 
   if (Array.isArray(components) && components.length > 0) {
@@ -50,10 +51,28 @@ const page = () => {
       setActiveControls('menu-only')
     }
   }, [selectedImages])
+
+  const { filters, setSearchKeyword, setFilters } = useContentDiscovery();
+  const { platforms, setSelected, setPlatforms } = usePlatform();
+
   useEffect(() => {
+    setActiveView('menuWithSearch')
+    setActiveControls('menu-search')
+    setSearchKeyword(keyword)
+    setPlatforms([2, 1]); // Initialize Platform Switcher
+    setSelected(parseInt(platform))
+    const newFilters = [
+      ...(tag ? [{ tag, type: 'tag' }] : []),
+      ...(components ? [{ components, type: 'component' }] : []),
+      ...(category ? [{ category, type: 'category' }] : [])
+    ];
+
+    // Set the new filters
+    setFilters(newFilters);
+
     return () => {
       setSelectedImages({ appName: '', images: [] })
-      setActiveControls('')
+      // setActiveControls('')
     }
   }, [])
 
@@ -72,6 +91,7 @@ const page = () => {
     }
     getData()
   }, [])
+
   return (
     <>
       {data?.length !== 0 &&
@@ -84,7 +104,7 @@ const page = () => {
             "grid content-center gap-6 pt-0 grid-cols-2",
             +platform === 3
               ? "2xl:grid-cols-4 md:grid-cols-3"
-              : " 2xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4"
+              : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-4"
           )}
           totalCount={data && data?.length}
           overscan={10}

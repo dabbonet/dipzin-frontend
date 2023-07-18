@@ -37,8 +37,6 @@ const InitialSearch = () => {
                     })
                 });
                 const data = await res.json();
-                // For loop data.hits & Check Tags,components, categories Set length
-                // if length < 5 ... keep looping and add new tags to set until set length for tags, components and categories
                 const filterData = mergeArrays(data?.search?.search?.results)
                 setdata(filterData)
             }
@@ -57,35 +55,35 @@ const InitialSearch = () => {
         // transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
         >
             <div className=' overflow-y-hidden relative h-[400px] w-[1000px]'>
-                <div className='w-full h-2 absolute bottom-0 bg-gradient-to-b from-slate-900/0 to-slate-900/90'></div>
+                <div className='w-full h-[10%] absolute bottom-0 bg-gradient-to-b from-slate-950/0 to-slate-950/90'></div>
 
                 {data &&
                     <div className='flex h-full p-2 px-4 flex-col overflow-y-scroll'>
-                    <h1 className=' text-slate-100 font-semibold mb-3'>Search Suggestions</h1>
-                    <p className=' text-slate-500 text-xs'>Featured Apps</p>
-                    <div className=' grid grid-cols-2 gap-3 mt-3 mb-6'>
-                        {data && data?.apps?.map(el => <App slug={el.app.slug} key={el} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />)}
-                    </div>
-                    <p className=' text-slate-500 text-xs'>Tags</p>
-                    <div className=' flex gap-2 mt-2 mb-6'>
-                        {data && data?.tags?.map(el => {
-                            return <FeatureCard tag={el.name} type={el.type}/>
-                        })}
-                    </div>
-                    <p className=' text-slate-500 text-xs'>components</p>
-                    <div className=' flex gap-2 mt-2 mb-6'>
-                        {data && data?.components?.map(el => {
-                            return <FeatureCard tag={el.name} type={el.type}/>
-                        })}
-                    </div>
-                    <p className=' text-slate-500 text-xs'>categories</p>
-                    <div className=' flex gap-2 mt-2 mb-6'>
-                        {data && data?.categories?.map(el => {
-                            return <FeatureCard tag={el.name} type={el.type}/>
-                        })}
+                        <h1 className=' text-slate-100 font-semibold mb-3'>Search Suggestions</h1>
+                        <p className=' text-slate-500 text-xs'>Featured Apps</p>
+                        <div className=' grid grid-cols-2 gap-3 mt-3 mb-6'>
+                            {data && data?.apps?.map(el => <App slug={el.app.slug} key={el} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />)}
+                        </div>
+                        <p className=' text-slate-500 text-xs'>Tags</p>
+                        <div className=' flex gap-2 mt-2 mb-6'>
+                            {data && data?.tags?.map(el => {
+                                return <FeatureCard tag={el.name} type={el.type} />
+                            })}
+                        </div>
+                        <p className=' text-slate-500 text-xs'>components</p>
+                        <div className=' flex gap-2 mt-2 mb-6'>
+                            {data && data?.components?.map(el => {
+                                return <FeatureCard tag={el.name} type={el.type} />
+                            })}
+                        </div>
+                        <p className=' text-slate-500 text-xs'>categories</p>
+                        <div className=' flex gap-2 mt-2 mb-6'>
+                            {data && data?.categories?.map(el => {
+                                return <FeatureCard tag={el.name} type={el.type} />
+                            })}
 
+                        </div>
                     </div>
-                </div>
                 }
             </div>
 
@@ -105,35 +103,32 @@ const InitialSearchCard = () => {
 }
 
 
-const FeatureCard = ({ tag , type}) => {
-    const { filters, setFilters , searchKeyword } = useContentDiscovery()
+const FeatureCard = ({ tag, type }) => {
+    const { filters, setFilters, searchKeyword } = useContentDiscovery()
     const handleClick = () => {
-        if(filters.some(el => el.tag === tag && el.type === type)){
+        if (filters.some(el => el.tag === tag && el.type === type)) {
             setFilters(filters.filter(el => el.tag !== tag))
             return
         }
-        setFilters([... new Set(filters), {tag , type}])
+        setFilters([... new Set(filters), { tag, type }])
     }
-    useEffect(() => {
-        setFilters([])
-    }, [searchKeyword])
 
     if (filters.some(el => el.tag === tag)) {
-        return <button className=' py-2 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-aqua-400' onClick={handleClick}>
+        return <button className=' py-1.5 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-aqua-400' onClick={handleClick}>
             <span className=' text-slate-200 mx-auto'>{tag}</span>
         </button>
     }
-    return <button className=' py-2 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-transparent' onClick={handleClick}>
+    return <button className=' py-1.5 px-3 bg-slate-900 hover:bg-slate-800 rounded-lg w-fit border border-solid border-transparent' onClick={handleClick}>
         <span className=' text-slate-200 mx-auto'>{tag}</span>
     </button>
 }
 
-const App = ({ name, src, app_catigory, app_platform , slug }) => {
+const App = ({ name, src, app_catigory, app_platform, slug }) => {
 
-    return <Link href={`/app/${app_platform}/${slug}`} className=' flex gap-x-3 items-center' >
+    return <Link href={`/app/${app_platform}/${slug}`} className='hover:bg-slate-900 w-fit px-2 py-2 rounded-xl flex gap-x-3 items-center' >
         <Image src={src} width={24} height={24} alt='' className=' rounded-md' />
         <h3 className=' font-medium text-sm'>{name}</h3>
         <span className=' text-slate-700'>{app_catigory}</span>
-        <span className=' text-slate-500 bg-slate-800 p-1 rounded'>{app_platform}</span>
+        <span className=' text-slate-500 bg-slate-800 px-2 capitalize rounded-lg'>{app_platform}</span>
     </Link>
 }

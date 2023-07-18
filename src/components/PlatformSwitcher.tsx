@@ -1,10 +1,12 @@
 "use client";
+import { useContentDiscovery } from "@/context/useContentDiscovery";
 import { usePlatform } from "@/lib/platforms";
 import { usePathname, useRouter, useSelectedLayoutSegments } from "next/navigation";
 import { useEffect } from "react";
 
 const PlatformSwitcher = () => {
   const { platforms, singleApp, selected, setSelected } = usePlatform();
+  const { searchKeyword } = useContentDiscovery();
   const router = useRouter();
   const segments = useSelectedLayoutSegments();
   const slug = segments[3];
@@ -14,6 +16,10 @@ const PlatformSwitcher = () => {
       const selectedPlatform = platforms.find(el => el.name.toUpperCase() === platform?.toUpperCase())
       setSelected(selectedPlatform?.id)
     }
+    if (searchKeyword) {
+      setSelected(parseInt(segments[2]))
+    }
+
   }, [platform]);
 
   if (platforms.length < 2) return null; // hide if there is no platforms
