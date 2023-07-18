@@ -74,21 +74,18 @@ const Stream: FC<StreamProps> = () => {
     }, 500);
   }, [streamData, loadedPages, selected]);
 
-  // if (isLoading || streamData?.length == 0) return <StreamLoader />
-  // if (!streamData) return
-
   return (
     <>
       <VirtuosoGrid
         className="my-6"
         useWindowScroll
         data={streamData}
-        initialItemCount={15}
+        initialItemCount={10}
         style={{ minHeight: 100, width: '100%' }}
         totalCount={streamData.length}
         overscan={5}
         endReached={loadMore}
-        listClassName={cn("bottom-10 grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
+        listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
         logLevel={LogLevel.DEBUG}
         itemContent={(index, data) => (
           <div onClick={() => setSelectedShowcase(data)}>
@@ -98,16 +95,19 @@ const Stream: FC<StreamProps> = () => {
         components={{
           Footer: () => {
             return (
-              <div
-                className="pt-10 pb-48 text-center text-slate-500"
-              >
-                {isLoading &&
-                  "Loading More"
-                }
-                {!isLoading &&
-                  "End Reached"
-                }
-              </div>
+              <>
+                {isLoading || streamData?.length <= 1 && <StreamLoader />}
+                <div
+                  className="pt-10 pb-48 text-center text-slate-500"
+                >
+                  {isLoading &&
+                    "Loading More"
+                  }
+                  {!isLoading &&
+                    "End Reached"
+                  }
+                </div>
+              </>
             )
           },
         }}
