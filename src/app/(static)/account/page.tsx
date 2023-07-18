@@ -38,7 +38,6 @@ const Account: FC = ({}) => {
         const data = await response.json();
         setUserDetails(data)
       } catch (error) {
-        console.log(error);
       }
     }
     getUserDetails();
@@ -49,7 +48,6 @@ const Account: FC = ({}) => {
     if (name === "image") {
       const reader = new FileReader();
       reader.onload = (e) => {
-        console.log(e.target.result)
         setUserDetails({
           ...userDetails,
           [name]: e.target.result
@@ -80,7 +78,6 @@ const Account: FC = ({}) => {
       });
       const data = await response.json();
     } catch (error) {
-      console.log(error);
     }
   }
   const FirstTimeHeader = () => {

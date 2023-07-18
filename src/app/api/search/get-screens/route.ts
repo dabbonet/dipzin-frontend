@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
     const { keyword , token , filters } = await request.json()
-    console.log(keyword , token)
     const data = JSON.stringify({
         data: {
             keyword: keyword,

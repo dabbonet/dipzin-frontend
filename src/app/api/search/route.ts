@@ -29,7 +29,6 @@ export async function POST(request: Request) {
     }
 
     const search = await res.json();
-    console.log(search)
     return NextResponse.json({ search, maxQouta: false }, { status: res.status });
 
 }
