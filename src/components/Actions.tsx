@@ -11,13 +11,13 @@ export const Actions = ({ screen: screen }) => {
   return (
     <div className="absolute w-[100%] pt-4 pb-12 flex gap-3 justify-end px-4 drop-shadow-xl z-20 bg-gradient-to-b from-slate-900/90 to-slate-900/0 rounded-[0.9rem]">
       <div
-        className={`group/copy w-fit h-fit p-2 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
+        className={`group/copy w-fit h-fit py-2 px-2 bg-slate-900 z-40 rounded-xl text-sm flex items-center justify-center cursor-pointer invisible group-hover/item:visible`}
         onClick={async () => {
           await copyImagesToClipboard([getAssetsURL(mergeScreenUrl(screen))]);
         }}
-      > 
+      >
 
-        <Icons.Copy className="w-5 h-5" />
+        <Icons.Copy className="w-4 h-4" />
         <span className=" ml-2">Copy</span>
 
       </div>
@@ -34,7 +34,7 @@ export const Actions = ({ screen: screen }) => {
         </span>
       </div> */}
       <div
-        className="group/copy h-10 w-10 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible"
+        className="group/copy h-9 w-9 bg-slate-900 z-40 rounded-xl flex items-center justify-center cursor-pointer invisible group-hover/item:visible"
         onClick={() => {
           setShowMenu(!showMenu);
           setShowCollection(false);
