@@ -12,7 +12,7 @@ import InitialSearch from './InitailSearch';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useSelcetedImages } from '@/lib/SelectedToDownload';
 import { ImageDownloader } from '@/lib/ImageDownloader';
-
+const qs = require('qs')
 
 
 const MainNavigator = ({ type }: any) => {
@@ -97,7 +97,11 @@ const MainNavigator = ({ type }: any) => {
         [setSearchKeyword, setActiveView]
     );
     const handleGetScreens = () =>{
-        router.push('/search')
+        const query = qs.stringify({
+            q: searchKeyword
+        })
+        console.log()
+        router.push(`/search?${query}`)
     }
     if (activeControls === '') return
     return (

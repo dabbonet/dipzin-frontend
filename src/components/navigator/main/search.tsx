@@ -2,13 +2,13 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useContentDiscovery } from '@/context/useContentDiscovery';
 import { getToken } from '@/lib/auth';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce'
 import { platfroms } from '@/lib/utils';
 
-const mergeArrays = (arr)=> {
+const mergeArrays = (arr) => {
     const comps = arr[2].hits.filter(el => el.type === "component").slice(0, 5)
-    const tags = arr[2].hits.filter(el => el.type === "tag").slice(0,5)
+    const tags = arr[2].hits.filter(el => el.type === "tag").slice(0, 5)
     const categories = arr[2].hits.filter(el => el.type === "category").slice(0, 5)
     return {
         apps: arr[1].hits,
@@ -62,7 +62,7 @@ const InitialSearch = () => {
                     <h1 className=' text-slate-100 font-semibold mb-3'>Search Suggestions</h1>
                     <p className=' text-slate-500 text-xs'>Featured Apps</p>
                     <div className=' grid grid-cols-2 gap-3 mt-3 mb-6'>
-                        {data && data?.apps?.map(el => <App key={el} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]}/>)}
+                        {data && data?.apps?.map(el => <App key={el} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />)}
                     </div>
                     <p className=' text-slate-500 text-xs'>Tags</p>
                     <div className=' flex gap-2 mt-2 mb-6'>
@@ -106,11 +106,14 @@ const InitialSearchCard = () => {
 
 const FeatureCard = ({ tag }) => {
     const [cliced, setcliced] = useState(false)
-    const {filters , setFilters} = useContentDiscovery()
-    const handleClick = ()=> {
-        setcliced(cliced)
-        setFilters([... filters , tag])
+    const { filters, setFilters } = useContentDiscovery()
+    const handleClick = () => {
+        setcliced(!cliced)
+        setFilters([... new Set(filters), tag])
     }
+    useEffect(()=> {
+        console.log(filters)
+    }, [filters])
     if (cliced) {
         return <button className=' py-2 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-aqua-400' onClick={handleClick}>
             <span className=' text-slate-200 mx-auto'>{tag}</span>
@@ -121,9 +124,9 @@ const FeatureCard = ({ tag }) => {
     </button>
 }
 
-const App = ({ name, src, app_catigory , app_platform }) => {
+const App = ({ name, src, app_catigory, app_platform }) => {
     return <div className=' flex gap-x-3 items-center'>
-        <Image src={src} width={24} height={24} alt='' className=' rounded-md'/>
+        <Image src={src} width={24} height={24} alt='' className=' rounded-md' />
         <h3 className=' font-medium text-sm'>{name}</h3>
         <span className=' text-slate-700'>{app_catigory}</span>
         <span className=' text-slate-500 bg-slate-800 p-1 rounded'>{app_platform}</span>
