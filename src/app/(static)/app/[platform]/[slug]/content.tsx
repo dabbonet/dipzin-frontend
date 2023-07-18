@@ -43,7 +43,6 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
 
   // Create an array of platform IDs
   const platformIds = apps.data.map((app) => app.attributes.platform.data.id);
-  // console.log(apps)
   // Platform Switcher initialization.
   useEffect(() => {
     setPlatforms(platformIds);

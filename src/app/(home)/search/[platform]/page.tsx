@@ -17,7 +17,6 @@ const page = () => {
     const components = parsedQuery.component;
     const tag = parsedQuery.tag;
     const category = parsedQuery.category;
-    console.log(components , tag , category)
     const path = usePathname()
     const platform =  path.at(-1)
     const {selectedImages , setSelectedImages} = useSelcetedImages()
