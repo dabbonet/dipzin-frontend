@@ -26,7 +26,7 @@ const Stream: FC<StreamProps> = () => {
     return () => {
       setActiveView('')
       setActiveControls('')
-      setPlatforms([])
+      // setPlatforms([])
     }
   }, [])
   // 1. Initialize Stream and Page Platforms.
@@ -83,7 +83,7 @@ const Stream: FC<StreamProps> = () => {
         initialItemCount={10}
         style={{ minHeight: 100, width: '100%' }}
         totalCount={streamData.length}
-        overscan={5}
+        overscan={1}
         endReached={loadMore}
         listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
         logLevel={LogLevel.DEBUG}
