@@ -11,15 +11,15 @@ const nextConfig = {
     isrMemoryCacheSize: 5000,
   },
   optimizeFonts: true,
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: '/',
-  //       destination: '/ios',
-  //       permanent: true,
-  //     },
-  //   ]
-  // },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/ios',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

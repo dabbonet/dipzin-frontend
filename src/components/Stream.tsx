@@ -59,9 +59,10 @@ const Stream: FC<StreamProps> = () => {
 
   const loadMore = useCallback(() => {
     return setTimeout(async () => {
+      setIsLoading(true)
       // Load more stream items
       const more = await getStream({ platform: selected!, previousPages: loadedPages });
-      if (more.status == 404) return;
+      if (more.status == 404) return setIsLoading(false);
       setLoadedPages((prevLoadedPages) => [...prevLoadedPages, more.page]);
 
       setStreamData((prevStreamData: any[] | null) => {
@@ -69,11 +70,9 @@ const Stream: FC<StreamProps> = () => {
         const newData = Array.isArray(prevStreamData) ? prevStreamData : [];
         return [...newData, ...shuffledData];
       });
-    }, 300);
+      setIsLoading(false)
+    }, 500);
   }, [streamData, loadedPages, selected]);
-
-  if (isLoading || streamData?.length == 0) return <StreamLoader />
-  // if (!streamData) return
 
   return (
     <>
@@ -81,18 +80,37 @@ const Stream: FC<StreamProps> = () => {
         className="my-6"
         useWindowScroll
         data={streamData}
-        initialItemCount={15}
+        initialItemCount={10}
         style={{ minHeight: 100, width: '100%' }}
         totalCount={streamData.length}
-        overscan={1}
+        overscan={5}
         endReached={loadMore}
-        listClassName={cn("mb-10 grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
+        listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
         logLevel={LogLevel.DEBUG}
         itemContent={(index, data) => (
           <div onClick={() => setSelectedShowcase(data)}>
             <ShowcaseScreen app={data} />
           </div>
         )}
+        components={{
+          Footer: () => {
+            return (
+              <>
+                {isLoading || streamData?.length <= 1 && <StreamLoader />}
+                <div
+                  className="pt-10 pb-48 text-center text-slate-500"
+                >
+                  {isLoading &&
+                    "Loading More"
+                  }
+                  {!isLoading &&
+                    "End Reached"
+                  }
+                </div>
+              </>
+            )
+          },
+        }}
       />
       <AnimatePresence>
 
