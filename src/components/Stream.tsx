@@ -17,7 +17,6 @@ const Stream: FC<StreamProps> = () => {
   const { setActiveView, setActiveControls } = useNavigator()
   const { setPlatforms, selected, setSelected } = usePlatform();
   const { streamData, setStreamData } = useContentDiscovery();
-  console.log(streamData)
   const [loadedPages, setLoadedPages] = useState<number[]>([]);
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
