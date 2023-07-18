@@ -27,7 +27,7 @@ const ContentDiscoveryContext = createContext<ContentDiscoveryState>(
 
 export const ContentDiscoveryProvider = ({ children }: { children: React.ReactNode }) => {
     const [streamData, setStreamData] = useState([]);
-    const [filters, setFilters] = useState(null);
+    const [filters, setFilters] = useState([]);
     const [searchKeyword, setSearchKeyword] = useState<string>('');
     return (
         <ContentDiscoveryContext.Provider
