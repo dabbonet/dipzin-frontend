@@ -24,7 +24,7 @@ const Search: FC<pageProps> = ({ }) => {
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
     if (searchParams.toString().length === 0) {
-        router.push('/')
+        router.push('/ios')
     }
 
     const memoizedGetResults = useCallback(
