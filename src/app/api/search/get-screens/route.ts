@@ -2,11 +2,12 @@ import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-    const { keyword , token } = await request.json()
+    const { keyword , token , filters } = await request.json()
     console.log(keyword , token)
     const data = JSON.stringify({
         data: {
-            keyword: keyword
+            keyword: keyword,
+            filters
         }
     })
 
@@ -14,12 +15,11 @@ export async function POST(request: Request) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
+            'Authorization': `Bearer ${token}`
         },
         body: data
     });
     
     const search = await res.json();
-    console.log(search)
-    return NextResponse.json({ screens:['57439a89_8bcd_438d_b8f7_8bf4e913f641_3d7a69b7fd.png' , '57439a89_8bcd_438d_b8f7_8bf4e913f641_3d7a69b7fd.png' , '57439a89_8bcd_438d_b8f7_8bf4e913f641_3d7a69b7fd.png'] }, { status: 200 });
+    return NextResponse.json({ screens: search.search.hits }, { status: 200 });
 }

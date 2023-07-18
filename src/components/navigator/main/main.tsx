@@ -12,6 +12,8 @@ import InitialSearch from './InitailSearch';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useSelcetedImages } from '@/lib/SelectedToDownload';
 import { ImageDownloader } from '@/lib/ImageDownloader';
+import { usePlatform } from '@/lib/platforms';
+import { toast } from 'react-hot-toast';
 const qs = require('qs')
 
 
@@ -21,6 +23,7 @@ const MainNavigator = ({ type }: any) => {
     const { activeView, setActiveView, activeControls, setActiveControls } = useNavigator()
     const { selectedImages, setSelectedImages } = useSelcetedImages()
     const { filters, setFilters, searchKeyword, setSearchKeyword } = useContentDiscovery();
+    const {selected} = usePlatform()
     const inputRef = useRef(null)
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -97,11 +100,28 @@ const MainNavigator = ({ type }: any) => {
         [setSearchKeyword, setActiveView]
     );
     const handleGetScreens = () =>{
-        const query = qs.stringify({
-            q: searchKeyword
-        })
-        console.log()
-        router.push(`/search?${query}`)
+        if(!searchKeyword) {
+            toast.remove()
+            return toast.error('please enter you keyword')
+        }
+        const query = qs.stringify(
+            {
+              q: searchKeyword,
+              component: filters
+                .filter(el => el.type === 'component' && el.tag)
+                .map(el => el.tag),
+              category: filters
+                .filter(el => el.type === 'category' && el.tag)
+                .map(el => el.tag),
+              tag: filters
+                .filter(el => el.type === 'tag' && el.tag)
+                .map(el => el.tag),
+            },
+            { encodeValuesOnly: true, addQueryPrefix: true }
+          );
+          
+        if(selected === undefined) return router.refresh()
+        router.push(`/search/${selected}${query}`)
     }
     if (activeControls === '') return
     return (
@@ -140,7 +160,7 @@ const MainNavigator = ({ type }: any) => {
                                 setActiveView(activeView == 'menu' ? '' : 'menu')
                             }}>
                             <Icons.Grip className='w-4 h-4 text-slate-400' />
-                            <span className="font-medium text-sm mt-0.5">Menu</span>
+                            <span className="font-medium text-sm mt-0.5 mx-auto">Menu</span>
                         </motion.div>
 
 

@@ -26,7 +26,6 @@ export const mergeScreenUrl = (data) =>
     : data;
 
 const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName }) => {
-  console.log(screen)
   const { setVisibleNoAuth } = useDialog()
   const { user } = useAuth()
 
