@@ -8,10 +8,11 @@ import Icons from './Icons'
 import { ImageDownloader } from '@/lib/ImageDownloader'
 import { toast } from 'react-hot-toast'
 import { ActionBar, SquareButton } from './ActionBar'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 import { useSelcetedImages } from '@/lib/SelectedToDownload'
 import { useContentDiscovery } from '@/context/useContentDiscovery'
 import { useNavigator } from '@/context/useNavigatiorContext'
+import Link from 'next/link'
 interface ShowcaseProps {
   selectedShowcase: any;
   setSelectedShowcase: any;
@@ -21,25 +22,24 @@ const Showcase: FC<ShowcaseProps> = ({
   selectedShowcase,
   setSelectedShowcase,
 }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const { setActiveControls } = useNavigator()
   const { selected: platform } = usePlatform();
   const { setSelectedImages, selectedImages } = useSelcetedImages()
   useEffect(() => {
-    setActiveControls('menu-only')
+    setActiveControls('menu-only');
     return () => {
-      setSelectedImages({ appName: '', images: [] })
-      setActiveControls('menu-search')
-    }
-  }, [])
+      setSelectedImages({ appName: '', images: [] });
+      setActiveControls('menu-search');
+    };
+  }, [setActiveControls, setSelectedImages]);
   useEffect(() => {
     if (selectedImages.images.length > 0) {
-      setActiveControls('selection')
+      setActiveControls('selection');
     } else {
-      setActiveControls('menu-only')
+      setActiveControls('menu-only');
     }
-
-  }, [selectedImages])
+  }, [selectedImages, setActiveControls]);
 
   return (
     <motion.div
@@ -70,12 +70,14 @@ const Showcase: FC<ShowcaseProps> = ({
             </div>
           </div>
           <ActionBar className='flex space-x-1.5'>
-            <SquareButton className='w-32' onClick={() => router.push("/app/" + getPlatformById(selectedShowcase.platform) + "/" + selectedShowcase.slug)}>
-              <SquareButton.Title className='w-[70%]'>Open Application</SquareButton.Title>
-              <SquareButton.Icon>
-                <Icons.Open />
-              </SquareButton.Icon>
-            </SquareButton>
+            <Link href={getAppLink(selectedShowcase)} replace={false}>
+              <SquareButton className='w-32'>
+                <SquareButton.Title className='w-[70%]'>Open Application</SquareButton.Title>
+                <SquareButton.Icon>
+                  <Icons.Open />
+                </SquareButton.Icon>
+              </SquareButton>
+            </Link>
 
             {selectedShowcase.store_link && (
               <SquareButton
@@ -191,4 +193,12 @@ const getPlatformById = (platform_id: any) => {
       break;
   }
   return platform;
+};
+
+const getAppLink = (selectedShowcase: any) => {
+  if (selectedShowcase.platform && selectedShowcase.slug) {
+    return "/app/" + getPlatformById(selectedShowcase?.platform) + "/" + selectedShowcase?.slug
+  } else {
+    return "/ios"
+  }
 };
