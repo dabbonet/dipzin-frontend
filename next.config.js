@@ -9,8 +9,6 @@ const nextConfig = {
   experimental: {
     appDir: true,
     isrMemoryCacheSize: 5000,
-
-    // enableUndici: true
   },
   optimizeFonts: true,
   async redirects() {

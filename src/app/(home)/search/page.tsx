@@ -24,19 +24,23 @@ const Search: FC<pageProps> = ({ }) => {
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
     if (searchParams.toString().length === 0) {
-        router.push('/')
+        router.push('/ios')
     }
-    async function getResults() {
-        const results = await getSearchResults({ tags, categories, page: 1, platform: selected })
-        setIsLoading(false)
-        setPage((page) => page + 1)
-        setStreamData(results);
-    }
+
+    const memoizedGetResults = useCallback(
+        async () => {
+            const results = await getSearchResults({ tags, categories, page: 1, platform: selected });
+            setIsLoading(false);
+            setPage((page) => page + 1);
+            setStreamData(results);
+        },
+        [tags, categories, selected, setStreamData]
+    );
 
     useEffect(() => {
         setPlatforms([2, 1]);
         setFilters({ tags: tags, categories: categories })
-        getResults()
+        memoizedGetResults();
         setTimeout(() => {
             window.scrollTo({
                 top: 450,
@@ -48,7 +52,7 @@ const Search: FC<pageProps> = ({ }) => {
         return () => {
             setFilters(null)
         };
-    }, [searchParams, router])
+    }, [searchParams, router, categories, memoizedGetResults, setFilters, setPlatforms, tags]);
 
     const loadMore = useCallback(() => {
         return setTimeout(async () => {

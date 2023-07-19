@@ -1,8 +1,6 @@
 
-
-
 import Navbar from '@/components/Navbar'
-// import Footer from '@/components/Footer';
+import Footer from '@/components/Footer';
 import { Background1 } from '@/ui/Backgrounds'
 import './globals.css'
 import { Outfit } from 'next/font/google'
@@ -22,18 +20,18 @@ export const metadata = {
   description: 'Your Go-To Source for digital inspiration.',
   twitter: {
     card: 'summary_large_image',
-    images: ['https://dipzin.s3.us-east-1.amazonaws.com/opengraph_image_c497db254d.jpg'],
+    // images: ['https://dipzin.s3.us-east-1.amazonaws.com/opengraph_image_c497db254d.jpg'],
   },
   openGraph: {
     url: 'https://dev.dipzin.com',
     siteName: 'Dipzin',
-    images: [
-      {
-        url: 'https://dipzin.s3.us-east-1.amazonaws.com/opengraph_image_c497db254d.jpg',
-        width: 800,
-        height: 600,
-      },
-    ],
+    // images: [
+    //   {
+    //     url: 'https://dipzin.s3.us-east-1.amazonaws.com/opengraph_image_c497db254d.jpg',
+    //     width: 800,
+    //     height: 600,
+    //   },
+    // ],
     locale: 'en-US',
     type: 'website',
   },
@@ -49,17 +47,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn('subpixel-antialiased font-sans', outfit.variable)}>
       <body className={cn('bg-fixed bg-black-950 min-h-screen w-full h-screen')}>
-        
+
         <Providers>
           <Navbar />
           <AccessOrUpgradeCard />
           <Toaster position='bottom-right'/>
           <main className='pt-24 max-w-[90%]  mx-auto'>
-            <GoogleOneTap/>
-              {children}
-              <Navigator />
+            <GoogleOneTap />
+            {children}
+            <Navigator />
           </main>
-          {/* <Footer /> */}
+          <Footer />
           <Background1 />
         </Providers>
       </body>

@@ -24,7 +24,7 @@ export const MenuDropdown = ({ screen: screen }) => {
     setVisibleNoAuth(true);
   }
   return (
-    <div className="absolute top-16 right-4 bg-slate-900 py-[16px] w-[14rem] z-50 px-3 rounded-xl invisible group-hover/item:visible">
+    <div className="absolute top-16 right-4 bg-slate-900 p-2.5 w-48 z-50  rounded-xl invisible group-hover/item:visible">
       <DropdownCell
         onClick={async () => {
           await copyImagesToClipboard([image]);
