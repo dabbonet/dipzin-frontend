@@ -73,6 +73,7 @@ const page = () => {
     return () => {
       setSelectedImages({ appName: '', images: [] })
       setActiveControls('')
+      setFilters([])
     }
   }, [])
 
