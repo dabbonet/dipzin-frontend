@@ -38,7 +38,7 @@ const MainNavigator = ({ type }: any) => {
                         return ''
                     } else {
                         inputRef?.current?.focus()
-                        return 'initial'
+                        return 'search'
                     }
                 })
             }
@@ -156,6 +156,7 @@ const MainNavigator = ({ type }: any) => {
                                         setActiveView('search')
                                     }}
                                 />
+                                <span className=' absolute text-slate-500 right-20 text-xs'>CTRL + K</span>
                                 <motion.button onClick={handleGetScreens} className=' bg-slate-700 py-1 px-2 rounded-full absolute right-1'>search</motion.button>
                             </motion.div>
                         )}
