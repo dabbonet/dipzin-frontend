@@ -25,22 +25,26 @@ const InitialSearch = () => {
     const [debounce] = useDebounce(searchKeyword, 300)
     const token = getToken()
     useLayoutEffect(() => {
+        const handleSearch = async (debounce) => {
+            const res = await fetch(`/api/search`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    keyword: debounce
+                })
+            });
+            const data = await res.json();
+            const filterData = mergeArrays(data?.search?.search?.results)
+            setdata(filterData)
+        }
         if (debounce.length > 1) {
-            const handleSearch = async () => {
-                const res = await fetch(`/api/search`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        keyword: debounce
-                    })
-                });
-                const data = await res.json();
-                const filterData = mergeArrays(data?.search?.search?.results)
-                setdata(filterData)
-            }
-            handleSearch()
+            handleSearch(debounce)
+        }else{
+            const myArray = ["hello world", "login", "dashboard", "sign up", "sports"];
+            const randomValue = myArray[Math.floor(Math.random() * myArray.length)];
+            handleSearch(randomValue)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounce])
@@ -105,6 +109,9 @@ const InitialSearchCard = () => {
 
 const FeatureCard = ({ tag, type }) => {
     const { filters, setFilters, searchKeyword } = useContentDiscovery()
+    useEffect(()=> {
+        setFilters([])
+    }, [searchKeyword])
     const handleClick = () => {
         if (filters.some(el => el.tag === tag && el.type === type)) {
             setFilters(filters.filter(el => el.tag !== tag))

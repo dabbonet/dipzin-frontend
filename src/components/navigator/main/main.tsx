@@ -8,7 +8,6 @@ import Icons from '@/components/Icons';
 import { useContentDiscovery } from '@/context/useContentDiscovery';
 import { cn } from '@/lib/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
-import InitialSearch from './InitailSearch';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useSelcetedImages } from '@/lib/SelectedToDownload';
 import { ImageDownloader } from '@/lib/ImageDownloader';
@@ -27,9 +26,6 @@ const MainNavigator = ({ type }: any) => {
     const inputRef = useRef(null)
 
 
-    useEffect(() => {
-        console.log(selected)
-    }, [selected])
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.ctrlKey && (event.key === 'k' || event.keyCode === 75)) {
@@ -74,37 +70,15 @@ const MainNavigator = ({ type }: any) => {
     useOutsideAlerter(wrapperRef);
 
 
-
-    const removeTag = useCallback((type, indexToRemove) => {
-        let params = new URLSearchParams(searchParams.toString());
-        let categories, tags;
-        if (type === 'tag') {
-            const tagList = filters.tags.filter((_, index) => index !== indexToRemove);
-            tags = tagList.join(',');
-            tagList.length > 0 ? params.set('tags', tags) : params.delete('tags');
-            setFilters({ ...filters, tags: tagList })
-        } else {
-            const categoryList = filters.categories.filter((_, index) => index !== indexToRemove);
-            categories = categoryList.join(',');
-            categoryList.length > 0 ? params.set('categories', categories) : params.delete('categories');
-            setFilters({ ...filters, categories: categoryList })
-        }
-        router.push('/search?' + params)
-
-    }, [searchParams, router, filters])
-
     const handleSearch = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             setSearchKeyword(e.target.value);
-            if (e.target.value.length > 0) {
-                setActiveView('search');
-            } else {
-                setActiveView('initial');
-            }
+            setActiveView('search');
         },
         [setSearchKeyword, setActiveView]
     );
     const handleGetScreens = () => {
+        setActiveView('')
         if (!searchKeyword) {
             toast.remove()
             return toast.error('Please enter a keyword')
@@ -124,8 +98,7 @@ const MainNavigator = ({ type }: any) => {
             },
             { encodeValuesOnly: true, addQueryPrefix: true }
         );
-        console.log(searchKeyword, query, selected)
-        if (selected === undefined) return router.refresh()
+        if (selected === undefined) return window.location.reload()
         router.push(`/search/${selected}${query}`)
     }
     if (activeControls === '') return
@@ -149,9 +122,6 @@ const MainNavigator = ({ type }: any) => {
                         )}
                         {activeView == 'menu' && (
                             <Menu />
-                        )}
-                        {activeView == 'initial' && (
-                            <InitialSearch />
                         )}
                     </AnimatePresence>
 
@@ -182,11 +152,8 @@ const MainNavigator = ({ type }: any) => {
                                     animate={{ width: '100%' }}
                                     value={searchKeyword}
                                     onChange={handleSearch}
-                                    onFocus={(e) => {
-                                        setActiveView('initial')
-                                        if (e.target.value.length > 0) {
-                                            setActiveView('search')
-                                        }
+                                    onFocus={() => {
+                                        setActiveView('search')
                                     }}
                                 />
                                 <motion.button onClick={handleGetScreens} className=' bg-slate-700 py-1 px-2 rounded-full absolute right-1'>search</motion.button>

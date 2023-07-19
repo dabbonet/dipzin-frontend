@@ -16,7 +16,7 @@ const qs = require('qs')
 
 
 const page = () => {
-  const [data, setdata] = useState([])
+  const [data, setdata] = useState(null)
   const params = useSearchParams()
   const keyword = params.get('q')
   const queryString = window.location.search;
@@ -48,7 +48,7 @@ const page = () => {
     if (selectedImages.images.length > 0) {
       setActiveControls('selection')
     } else {
-      setActiveControls('menu-only')
+      setActiveControls('menu-search')
     }
   }, [selectedImages])
 
@@ -72,7 +72,7 @@ const page = () => {
 
     return () => {
       setSelectedImages({ appName: '', images: [] })
-      // setActiveControls('')
+      setActiveControls('')
     }
   }, [])
 
@@ -90,11 +90,11 @@ const page = () => {
       setdata(res.screens)
     }
     getData()
-  }, [])
-
+  }, [params])
+  if(data?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
   return (
     <>
-      {data?.length !== 0 &&
+      { data?.length !== 0 &&
         <VirtuosoGrid
           className="mt-6 max-w-[90%] mx-auto"
           useWindowScroll
@@ -110,10 +110,11 @@ const page = () => {
           overscan={10}
           itemContent={(index, data) => {
             return (
-              <SingleScreen screen={data.screen} />
+              <SingleScreen screen={data?.screen} />
             );
           }}
         />
+        
       }
     </>
   )
