@@ -19,36 +19,36 @@ const page = () => {
   const [data, setdata] = useState(null)
   const params = useSearchParams()
   const keyword = params.get('q')
-  const queryString = window.location.search;
-  const parsedQuery = qs.parse(queryString, { ignoreQueryPrefix: true });
-  const { tag, components, category } = parsedQuery;
-
+  const components = params.getAll('component')
+  const tag = params.getAll('tag')
+  const category = params.getAll('category')
+  
   const path = usePathname()
   const { selectedImages, setSelectedImages } = useSelcetedImages()
   const { setActiveView, setActiveControls } = useNavigator()
   const platform = path.at(-1)
   let filterQuery = `platform = ${platform}`
 
-  if (Array.isArray(components) && components.length > 0) {
-    const componentValues = components.map(component => `'${component}'`);
-    filterQuery = filterQuery + ` AND components IN [${componentValues}]`;
-  }
+  useEffect(() => {   
+    if (Array.isArray(components) && components.length > 0) {
+      filterQuery = filterQuery + ` AND components IN [${components.map(el => `'${el}'`).join(',')}]`;
+    }
+  
+    if (Array.isArray(tag) && tag.length > 0) {
+      filterQuery = filterQuery + ` AND components IN [${tag.map(el => `'${el}'`).join(',')}]`;
+    }
+  
+    if (Array.isArray(category) && category.length > 0) {
+      filterQuery = filterQuery + ` AND components IN [${category.map(el => `'${el}'`).join(',')}]`;
+    }
+  }, [])
 
-  if (Array.isArray(tag) && tag.length > 0) {
-    const tagValues = tag.map(tagItem => `'${tagItem}'`);
-    filterQuery = filterQuery + ` AND tags IN [${tagValues}]`;
-  }
-
-  if (Array.isArray(category) && category.length > 0) {
-    const categoryValues = category.map(categoryItem => `'${categoryItem}'`);
-    filterQuery = filterQuery + ` AND app.categories IN [${categoryValues}]`;
-  }
 
   useEffect(() => {
     if (selectedImages.images.length > 0) {
       setActiveControls('selection')
     } else {
-      setActiveControls('menu-search')
+      setActiveControls('filters')
     }
   }, [selectedImages])
 
@@ -57,7 +57,7 @@ const page = () => {
 
   useEffect(() => {
     setActiveView('menuWithSearch')
-    setActiveControls('menu-search')
+    setActiveControls('filters')
     setSearchKeyword(keyword)
     setPlatforms([2, 1]); // Initialize Platform Switcher
     setSelected(parseInt(platform))
@@ -66,7 +66,6 @@ const page = () => {
       ...(components ? [{ components, type: 'component' }] : []),
       ...(category ? [{ category, type: 'category' }] : [])
     ];
-
     // Set the new filters
     setFilters(newFilters);
 
@@ -95,7 +94,7 @@ const page = () => {
   if(data?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
   return (
     <>
-      { data?.length !== 0 &&
+      {data !== null && data?.length !== 0 &&
         <VirtuosoGrid
           className="mt-6 max-w-[90%] mx-auto"
           useWindowScroll
