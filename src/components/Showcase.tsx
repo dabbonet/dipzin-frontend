@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { FC, useEffect } from 'react'
-import { cn, rgbDataURL } from '@/lib/utils'
+import { cn, getPlatformById, rgbDataURL } from '@/lib/utils'
 import SingleScreen from './screen/SingleScreen'
 import { usePlatform } from '@/lib/platforms'
 import Icons from './Icons'
@@ -179,21 +179,7 @@ const Showcase: FC<ShowcaseProps> = ({
 
 export default Showcase
 
-const getPlatformById = (platform_id: any) => {
-  let platform;
-  switch (platform_id) {
-    case "1":
-      platform = "android";
-      break;
-    case "2":
-      platform = "ios";
-      break;
-    case "3":
-      platform = "web";
-      break;
-  }
-  return platform;
-};
+
 
 const getAppLink = (selectedShowcase: any) => {
   if (selectedShowcase.platform && selectedShowcase.slug) {
