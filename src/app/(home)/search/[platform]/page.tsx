@@ -5,11 +5,10 @@ import { useNavigator } from '@/context/useNavigatiorContext'
 import { useSelcetedImages } from '@/lib/SelectedToDownload'
 import { getToken } from '@/lib/auth'
 import { usePlatform } from '@/lib/platforms'
-import { cn } from '@/lib/utils'
+import { cn, getPlatformById } from '@/lib/utils'
 import { usePathname, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
-const qs = require('qs')
 
 
 
@@ -26,7 +25,8 @@ const page = () => {
   const path = usePathname()
   const { selectedImages, setSelectedImages } = useSelcetedImages()
   const { setActiveView, setActiveControls } = useNavigator()
-  const platform = path.at(-1)
+  const id = path.split('/search/')[1]
+  const platform = getPlatformById(id)
   let filterQuery = `platform = ${platform}`
 
   useEffect(() => {   
@@ -35,11 +35,11 @@ const page = () => {
     }
   
     if (Array.isArray(tag) && tag.length > 0) {
-      filterQuery = filterQuery + ` AND components IN [${tag.map(el => `'${el}'`).join(',')}]`;
+      filterQuery = filterQuery + ` AND tags IN [${tag.map(el => `'${el}'`).join(',')}]`;
     }
   
     if (Array.isArray(category) && category.length > 0) {
-      filterQuery = filterQuery + ` AND components IN [${category.map(el => `'${el}'`).join(',')}]`;
+      filterQuery = filterQuery + ` AND app.categories IN [${category.map(el => `'${el}'`).join(',')}]`;
     }
   }, [])
 
@@ -78,6 +78,7 @@ const page = () => {
 
   useEffect(() => {
     async function getData() {
+      console.log(filterQuery)
       const req = await fetch('/api/search/get-screens', {
         method: 'POST',
         body: JSON.stringify({

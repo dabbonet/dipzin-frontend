@@ -6,7 +6,7 @@ import Search from './search';
 import Menu from './menu';
 import Icons from '@/components/Icons';
 import { useContentDiscovery } from '@/context/useContentDiscovery';
-import { cn } from '@/lib/utils';
+import { cn, getPlatformById } from '@/lib/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useSelcetedImages } from '@/lib/SelectedToDownload';
@@ -14,6 +14,7 @@ import { ImageDownloader } from '@/lib/ImageDownloader';
 import { usePlatform } from '@/lib/platforms';
 import { toast } from 'react-hot-toast';
 const qs = require('qs')
+
 
 
 const MainNavigator = ({ type }: any) => {
@@ -25,9 +26,10 @@ const MainNavigator = ({ type }: any) => {
     const inputRef = useRef(null)
     const searchButton = useRef(null)
     const params = useSearchParams()
-    const tags = params.getAll('tags')
-    const comps = params.getAll('component')
+    const components = params.getAll('component')
+    const tag = params.getAll('tag')
     const category = params.getAll('category')
+    console.log(tag , components , category)
 
 
     useEffect(() => {
@@ -106,7 +108,23 @@ const MainNavigator = ({ type }: any) => {
             { encodeValuesOnly: true, addQueryPrefix: true, indices: false }
         );
         if (selected === undefined) return window.location.reload()
-        router.push(`/search/${selected}${query}`)
+        const app = getPlatformById(selected)
+        router.push(`/search/${app}${query}`)
+    }
+    const removeFilter = (tag) => {
+        setFilters(filters.filter(el=> el.tag !== tag))
+    }
+    const clearParams = (value)=> {
+        const url = new URL(window.location.href);
+        const params = url.searchParams;
+        params.forEach((paramValue, paramName) => {
+            if (paramValue === value) {
+            params.delete(paramName);
+            }
+        });
+        const newUrl = `${url.origin}${url.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+        router.push(newUrl)
+
     }
     if (activeControls === '') return
     return (
@@ -153,8 +171,8 @@ const MainNavigator = ({ type }: any) => {
                                 <motion.img src='/images/assets/search.svg' className=' mr-2' />
                                 <motion.input
                                     ref={inputRef}
-                                    className=" h-[100%]  bg-inherit border-[0px] outline-0 text-sm rounded-full"
-                                    placeholder={filters ? 'Search More Tags...' : 'Try Search!'}
+                                    className=" h-[100%]  bg-inherit border-[0px] outline-0 text-sm rounded-full max-w-sm"
+                                    placeholder={filters.length !== 0 ? 'Search More Tags...' : 'Try Search!'}
                                     transition={{ duration: 0.4 }}
                                     animate={{ width: '100%' }}
                                     value={searchKeyword}
@@ -163,6 +181,10 @@ const MainNavigator = ({ type }: any) => {
                                         setActiveView('search')
                                     }}
                                 />
+                                {activeView === 'search' && <div className=' flex gap-2'>
+                                    {filters.map(el => <button onClick={()=>removeFilter(el.tag)} className=' text-xs text-white font-bold border border-solid border-white rounded-xl p-2 hover:text-aqua-500 hover:border-aqua-500'>{el.tag}</button>)}
+                                    </div>
+}
                                 <span className=' absolute text-slate-500 right-20 text-xs'>{searchKeyword.length === 0 ? 'CTRL + K' : 'Enter'}</span>
                                 <motion.button ref={searchButton} onClick={handleGetScreens} className=' bg-slate-700 py-1 px-2 rounded-full absolute right-1'>search</motion.button>
                             </motion.div>
@@ -178,8 +200,9 @@ const MainNavigator = ({ type }: any) => {
                             </div>
                         )}
                         {(activeControls === 'filters') && (
-                            <div className=' flex flex-wrap items-center bg-slate-800 rounded-full px-6 py-3'>
-                                <span className=' text-white mr-1 font-semibold'>{searchKeyword}</span> with filters <div className='flex gap-1 ml-1'>{[...tags ,...comps , ...category].map(el => <button className=' bg-transparent border border-solid border-slate-300 text-slate-300 rounded-xl py-1 px-2'>{el} x</button>)}</div>
+                            <div className=' flex flex-wrap items-center bg-slate-800 rounded-full px-6'>
+                                <span className=' text-white mr-1 font-semibold'>{searchKeyword}</span>
+                                {[...tag ,...components , ...category].length !== 0 && <div className='flex gap-1 ml-1 items-center'>with filters {[...tag ,...components , ...category].map(el => <button onClick={()=>clearParams(el)} className=' bg-transparent border border-solid border-slate-300 text-slate-300 rounded-xl py-1 px-2 hover:text-aqua-500 hover:border-aqua-500'>{el} x</button>)}</div> }
                             </div>
                         )}
 

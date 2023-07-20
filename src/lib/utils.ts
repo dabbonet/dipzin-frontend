@@ -40,5 +40,36 @@ const getAssetsURL = (src) => 'https://dipzin.s3.us-east-1.amazonaws.com/medium_
 
 const platfroms = ['', 'android' , 'ios' , 'web']
 
+const getPlatformById = (platform_id: string | number) => {
+    let platform;
+    if(typeof platform_id === `number`){
+    switch (platform_id) {
+      case 1:
+        platform = "android";
+        break;
+      case 2:
+        platform = "ios";
+        break;
+      case 3:
+        platform = "web";
+        break;
+    }
+    return platform;
+    }
+    if(typeof platform_id === `string`){
+      switch (platform_id) {
+        case 'android':
+          platform = 1;
+          break;
+        case 'ios':
+          platform = 2;
+          break;
+        case 'web':
+          platform = 3;
+          break;
+      }
+      return platform;
+      }
+  };
 
-export { rgbDataURL, toStorageUrl, shuffle, getAssetsURL , platfroms}
+export { rgbDataURL, toStorageUrl, shuffle, getAssetsURL , platfroms , getPlatformById}

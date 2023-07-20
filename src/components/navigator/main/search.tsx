@@ -109,9 +109,7 @@ const InitialSearchCard = () => {
 
 const FeatureCard = ({ tag, type }) => {
     const { filters, setFilters, searchKeyword } = useContentDiscovery()
-    useEffect(()=> {
-        setFilters([])
-    }, [searchKeyword])
+    
     const handleClick = () => {
         if (filters.some(el => el.tag === tag && el.type === type)) {
             setFilters(filters.filter(el => el.tag !== tag))
