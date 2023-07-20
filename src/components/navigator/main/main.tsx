@@ -17,13 +17,17 @@ const qs = require('qs')
 
 
 const MainNavigator = ({ type }: any) => {
-    const searchParams = useSearchParams()!;
     const router = useRouter();
     const { activeView, setActiveView, activeControls, setActiveControls } = useNavigator()
     const { selectedImages, setSelectedImages } = useSelcetedImages()
     const { filters, setFilters, searchKeyword, setSearchKeyword } = useContentDiscovery();
     const { selected } = usePlatform()
     const inputRef = useRef(null)
+    const searchButton = useRef(null)
+    const params = useSearchParams()
+    const tags = params.getAll('tags')
+    const comps = params.getAll('component')
+    const category = params.getAll('category')
 
 
     useEffect(() => {
@@ -42,6 +46,9 @@ const MainNavigator = ({ type }: any) => {
                     }
                 })
             }
+            if (event.key === "Enter") {
+                searchButton.current.click()
+              }
         };
 
         document.addEventListener('keydown', handleKeyDown);
@@ -96,7 +103,7 @@ const MainNavigator = ({ type }: any) => {
                     .filter(el => el.type === 'tag' && el.tag)
                     .map(el => el.tag),
             },
-            { encodeValuesOnly: true, addQueryPrefix: true }
+            { encodeValuesOnly: true, addQueryPrefix: true, indices: false }
         );
         if (selected === undefined) return window.location.reload()
         router.push(`/search/${selected}${query}`)
@@ -156,8 +163,8 @@ const MainNavigator = ({ type }: any) => {
                                         setActiveView('search')
                                     }}
                                 />
-                                <span className=' absolute text-slate-500 right-20 text-xs'>CTRL + K</span>
-                                <motion.button onClick={handleGetScreens} className=' bg-slate-700 py-1 px-2 rounded-full absolute right-1'>search</motion.button>
+                                <span className=' absolute text-slate-500 right-20 text-xs'>{searchKeyword.length === 0 ? 'CTRL + K' : 'Enter'}</span>
+                                <motion.button ref={searchButton} onClick={handleGetScreens} className=' bg-slate-700 py-1 px-2 rounded-full absolute right-1'>search</motion.button>
                             </motion.div>
                         )}
 
@@ -168,6 +175,11 @@ const MainNavigator = ({ type }: any) => {
                                 <div className=' flex gap-5 pr-3'>
                                     <button className=' py-1 px-3 rounded-2xl bg-slate-600' onClick={() => ImageDownloader(selectedImages.appName + " Showcase", selectedImages.images)}>download</button>
                                 </div>
+                            </div>
+                        )}
+                        {(activeControls === 'filters') && (
+                            <div className=' flex flex-wrap items-center bg-slate-800 rounded-full px-6 py-3'>
+                                <span className=' text-white mr-1 font-semibold'>{searchKeyword}</span> with filters <div className='flex gap-1 ml-1'>{[...tags ,...comps , ...category].map(el => <button className=' bg-transparent border border-solid border-slate-300 text-slate-300 rounded-xl py-1 px-2'>{el} x</button>)}</div>
                             </div>
                         )}
 

@@ -14,7 +14,6 @@ const HomeNavigator: FC = () => {
     const platformPath = platforms.find(el => el.id === selected)
 
     const showPaths = ['/ios', '/android', '/web', '/search']
-    console.log(filters)
     if (!showPaths.includes(path)) return
     return (
         <div className="flex space-x-6 items-center mt-8 h-10 mx-auto  max-w-[90%]">
