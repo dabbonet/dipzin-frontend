@@ -62,7 +62,7 @@ const Stream: FC<StreamProps> = () => {
       setIsLoading(true)
       // Load more stream items
       const more = await getStream({ platform: selected!, previousPages: loadedPages });
-      if (more.status == 404) return setIsLoading(false);
+      if (more.status == 404) { setIsLoading(false); return; };
       setLoadedPages((prevLoadedPages) => [...prevLoadedPages, more.page]);
 
       setStreamData((prevStreamData: any[] | null) => {
