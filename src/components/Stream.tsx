@@ -74,17 +74,19 @@ const Stream: FC<StreamProps> = () => {
     }, 500);
   }, [streamData, loadedPages, selected]);
 
-  if (!streamData) return
+  if (streamData.length <= 0) return
+
+
   return (
     <>
       <VirtuosoGrid
-        className="my-6"
+        className="mt-6"
         useWindowScroll
         data={streamData}
-        initialItemCount={15}
+        initialItemCount={10}
         style={{ minHeight: 100, width: '100%' }}
         totalCount={streamData.length}
-        overscan={5}
+        overscan={1}
         endReached={loadMore}
         listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
         // logLevel={LogLevel.DEBUG}
@@ -97,7 +99,8 @@ const Stream: FC<StreamProps> = () => {
           Footer: () => {
             return (
               <>
-                {isLoading || streamData?.length <= 1 && <StreamLoader />}
+                {isLoading && <StreamLoader />}
+                {/* {isLoading || streamData?.length <= 1 && <StreamLoader />} */}
                 <div
                   className="pt-10 pb-48 text-center text-slate-500"
                 >
