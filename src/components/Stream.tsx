@@ -45,7 +45,7 @@ const Stream: FC<StreamProps> = () => {
       setLoadedPages([]);
       setStreamData([]);
       updateStream();
-    }
+    } else { setSelected(2) }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
@@ -74,19 +74,20 @@ const Stream: FC<StreamProps> = () => {
     }, 500);
   }, [streamData, loadedPages, selected]);
 
+  if (!streamData) return
   return (
     <>
       <VirtuosoGrid
         className="my-6"
         useWindowScroll
         data={streamData}
-        initialItemCount={10}
+        initialItemCount={15}
         style={{ minHeight: 100, width: '100%' }}
         totalCount={streamData.length}
         overscan={5}
         endReached={loadMore}
         listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
-        logLevel={LogLevel.DEBUG}
+        // logLevel={LogLevel.DEBUG}
         itemContent={(index, data) => (
           <div onClick={() => setSelectedShowcase(data)}>
             <ShowcaseScreen app={data} />
