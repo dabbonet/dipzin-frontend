@@ -5,9 +5,9 @@ import { useNavigator } from '@/context/useNavigatiorContext'
 import { useSelcetedImages } from '@/lib/SelectedToDownload'
 import { getToken } from '@/lib/auth'
 import { usePlatform } from '@/lib/platforms'
-import { cn, getPlatformById } from '@/lib/utils'
+import { cn, getPlatformById, shuffle } from '@/lib/utils'
 import { usePathname, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState , useCallback} from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
 
 
@@ -15,7 +15,7 @@ import { VirtuosoGrid } from 'react-virtuoso'
 
 
 const page = () => {
-  const [data, setdata] = useState(null)
+  const [data, setdata] = useState([])
   const params = useSearchParams()
   const keyword = params.get('q')
   const components = params.getAll('component')
@@ -25,6 +25,8 @@ const page = () => {
   const path = usePathname()
   const { selectedImages, setSelectedImages } = useSelcetedImages()
   const { setActiveView, setActiveControls } = useNavigator()
+  const [isLoading, setIsLoading] = useState(true);
+  const {setSingleApp} = usePlatform()
   const id = path.split('/search/')[1]
   const platform = getPlatformById(id)
   let filterQuery = `platform = ${platform}`
@@ -68,17 +70,18 @@ const page = () => {
     ];
     // Set the new filters
     setFilters(newFilters);
+    setSingleApp('search')
 
     return () => {
       setSelectedImages({ appName: '', images: [] })
       setActiveControls('')
       setFilters([])
+      setSingleApp('')
     }
   }, [])
 
   useEffect(() => {
     async function getData() {
-      console.log(filterQuery)
       const req = await fetch('/api/search/get-screens', {
         method: 'POST',
         body: JSON.stringify({
@@ -92,6 +95,31 @@ const page = () => {
     }
     getData()
   }, [params])
+  
+  
+  const loadMore = useCallback(() => {
+    return setTimeout(async () => {
+      setIsLoading(true)
+      // Load more stream items
+      async function getData() {
+        const req = await fetch('/api/search/get-screens', {
+          method: 'POST',
+          body: JSON.stringify({
+            token: getToken(),
+            keyword,
+            filters: `platform = ${platform}`,
+            offset: data?.length,
+            limit: 10
+          })
+        })
+        const res = await req.json()
+        const shuffledData = shuffle(res.screens)
+        setdata(prev => [...prev , ...shuffledData])
+      }
+      getData()
+      setIsLoading(false)
+    }, 500);
+  }, [data]);
   if(data?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
   return (
     <>
@@ -99,6 +127,7 @@ const page = () => {
         <VirtuosoGrid
           className="mt-6 max-w-[90%] mx-auto"
           useWindowScroll
+          endReached={loadMore}
           data={data && data}
           style={{ minHeight: 100, width: "100%" }}
           listClassName={cn(
@@ -113,6 +142,24 @@ const page = () => {
             return (
               <SingleScreen screen={data?.screen} />
             );
+          }}
+          components={{
+            Footer: () => {
+              return (
+                <>
+                  <div
+                    className="pt-10 pb-48 text-center text-slate-500"
+                  >
+                    {isLoading &&
+                      "Loading More"
+                    }
+                    {!isLoading &&
+                      "End Reached"
+                    }
+                  </div>
+                </>
+              )
+            },
           }}
         />
         
