@@ -66,24 +66,24 @@ const InitialSearch = () => {
                         <h1 className=' text-slate-100 font-semibold mb-3'>Search Suggestions</h1>
                         <p className=' text-slate-500 text-xs'>Featured Apps</p>
                         <div className=' grid grid-cols-2 gap-3 mt-3 mb-6'>
-                            {data && data?.apps?.map(el => <App slug={el.app.slug} key={el} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />)}
+                            {data && data?.apps?.map((el, index) => <App slug={el.app.slug} key={index} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />)}
                         </div>
                         <p className=' text-slate-500 text-xs'>Tags</p>
                         <div className=' flex gap-2 mt-2 mb-6'>
-                            {data && data?.tags?.map(el => {
-                                return <FeatureCard tag={el.name} type={el.type} />
+                            {data && data?.tags?.map((el, index) => {
+                                return <FeatureCard tag={el.name} type={el.type} key={index}/>
                             })}
                         </div>
                         <p className=' text-slate-500 text-xs'>components</p>
                         <div className=' flex gap-2 mt-2 mb-6'>
-                            {data && data?.components?.map(el => {
-                                return <FeatureCard tag={el.name} type={el.type} />
+                            {data && data?.components?.map((el, index) => {
+                                return <FeatureCard tag={el.name} type={el.type} key={index} />
                             })}
                         </div>
                         <p className=' text-slate-500 text-xs'>categories</p>
                         <div className=' flex gap-2 mt-2 mb-6'>
-                            {data && data?.categories?.map(el => {
-                                return <FeatureCard tag={el.name} type={el.type} />
+                            {data && data?.categories?.map((el, index) => {
+                                return <FeatureCard tag={el.name} type={el.type} key={index} />
                             })}
 
                         </div>
