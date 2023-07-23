@@ -6,18 +6,14 @@ import { useEffect } from "react";
 
 const PlatformSwitcher = () => {
   const { platforms, singleApp, selected, setSelected } = usePlatform();
-  const { searchKeyword } = useContentDiscovery();
   const router = useRouter();
   const segments = useSelectedLayoutSegments();
   const slug = segments[3];
   const platform = segments[1]
   useEffect(() => {
-    if (!singleApp) {
+    if (singleApp.length === 0) {
       const selectedPlatform = platforms.find(el => el.name.toUpperCase() === platform?.toUpperCase())
       setSelected(selectedPlatform?.id)
-    }
-    if (searchKeyword) {
-      setSelected(parseInt(segments[2]))
     }
 
   }, [platform]);
@@ -30,10 +26,13 @@ const PlatformSwitcher = () => {
         selectedBackGround = ' bg-slate-800'
       }
       const switchApps = () => {
-        if (singleApp) {
+        if (singleApp === 'apps') {
           router.push(
             `/app/${platforms[index].name.toLowerCase()}/${slug}`
           );
+        }else if(singleApp === 'search'){
+          setSelected(platformAvailable.id)
+          router.push(`/search/${platformAvailable.name.toLowerCase()}${window.location.search}`)
         } else {
           setSelected(platformAvailable.id);
           router.push(`/${platformAvailable.name.toLocaleLowerCase()}`)

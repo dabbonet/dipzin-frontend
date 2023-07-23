@@ -36,7 +36,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   useEffect(() => {
     return () => {
       setSelectedImages({ appName: '', images: [] })
-      setSingleApp(false)
+      setSingleApp('')
       setActiveControls('')
     }
   }, [])
@@ -47,7 +47,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   useEffect(() => {
     setPlatforms(platformIds);
     setSelected(app.platform.data.id);
-    setSingleApp(true);
+    setSingleApp('apps');
   }, [app]);
 
   const icon = app.icon.data.attributes.hash + app.icon.data.attributes.ext;

@@ -12,6 +12,7 @@ import { ActionBar, SquareButton } from './ActionBar'
 import { useSelcetedImages } from '@/lib/SelectedToDownload'
 import { useContentDiscovery } from '@/context/useContentDiscovery'
 import { useNavigator } from '@/context/useNavigatiorContext'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 interface ShowcaseProps {
   selectedShowcase: any;
@@ -182,9 +183,6 @@ export default Showcase
 
 
 const getAppLink = (selectedShowcase: any) => {
-  if (selectedShowcase.platform && selectedShowcase.slug) {
-    return "/app/" + getPlatformById(selectedShowcase?.platform) + "/" + selectedShowcase?.slug
-  } else {
-    return "/ios"
-  }
+  const path = usePathname()
+  return `app${path}/${selectedShowcase?.slug}`
 };

@@ -29,7 +29,6 @@ const MainNavigator = ({ type }: any) => {
     const components = params.getAll('component')
     const tag = params.getAll('tag')
     const category = params.getAll('category')
-    console.log(tag , components , category)
 
 
     useEffect(() => {
@@ -182,7 +181,7 @@ const MainNavigator = ({ type }: any) => {
                                     }}
                                 />
                                 {activeView === 'search' && <div className=' flex gap-2'>
-                                    {filters.map(el => <button onClick={()=>removeFilter(el.tag)} className=' text-xs text-white font-bold border border-solid border-white rounded-xl p-2 hover:text-aqua-500 hover:border-aqua-500'>{el.tag}</button>)}
+                                    {filters.map(el => <button onClick={()=>removeFilter(el.tag)} key={el.tag} className=' text-xs text-white font-bold border border-solid border-white rounded-xl p-2 hover:text-aqua-500 hover:border-aqua-500'>{el.tag}</button>)}
                                     </div>
 }
                                 <span className=' absolute text-slate-500 right-20 text-xs'>{searchKeyword.length === 0 ? 'CTRL + K' : 'Enter'}</span>
@@ -195,14 +194,14 @@ const MainNavigator = ({ type }: any) => {
                                 <div className=' flex items-center'>{selectedImages.images.length} selected <button className=' ml-2' onClick={() => setSelectedImages({ appName: '', images: [] })}><Icons.Clear /></button></div>
 
                                 <div className=' flex gap-5 pr-3'>
-                                    <button className=' py-1 px-3 rounded-2xl bg-slate-600' onClick={() => ImageDownloader(selectedImages.appName + " Showcase", selectedImages.images)}>download</button>
+                                    <button className=' py-1 px-3 rounded-2xl bg-slate-600' onClick={() => ImageDownloader(selectedImages.appName + " Showcase", selectedImages.images)}>Download</button>
                                 </div>
                             </div>
                         )}
                         {(activeControls === 'filters') && (
                             <div className=' flex flex-wrap items-center bg-slate-800 rounded-full px-6'>
-                                <span className=' text-white mr-1 font-semibold'>{searchKeyword}</span>
-                                {[...tag ,...components , ...category].length !== 0 && <div className='flex gap-1 ml-1 items-center'>with filters {[...tag ,...components , ...category].map(el => <button onClick={()=>clearParams(el)} className=' bg-transparent border border-solid border-slate-300 text-slate-300 rounded-xl py-1 px-2 hover:text-aqua-500 hover:border-aqua-500'>{el} x</button>)}</div> }
+                                <button className=' text-white mr-1 font-semibold' onClick={()=> setActiveControls('menu-search')}>{searchKeyword}</button>
+                                {[...tag ,...components , ...category].length !== 0 && <div className='flex gap-1 ml-1 items-center'>with filters {[...tag ,...components , ...category].map(el => <button onClick={()=>clearParams(el)} key={el} className=' bg-transparent border border-solid border-slate-300 text-slate-300 rounded-xl py-1 px-2 hover:text-aqua-500 hover:border-aqua-500'>{el} x</button>)}</div> }
                             </div>
                         )}
 
