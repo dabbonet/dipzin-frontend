@@ -6,14 +6,13 @@ import Search from './search';
 import Menu from './menu';
 import Icons from '@/components/Icons';
 import { useContentDiscovery } from '@/context/useContentDiscovery';
-import { cn, getPlatformById } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useSelcetedImages } from '@/lib/SelectedToDownload';
 import { ImageDownloader } from '@/lib/ImageDownloader';
 import { usePlatform } from '@/lib/platforms';
 import { toast } from 'react-hot-toast';
-const qs = require('qs')
 
 
 
@@ -22,7 +21,6 @@ const MainNavigator = ({ type }: any) => {
     const { activeView, setActiveView, activeControls, setActiveControls } = useNavigator()
     const { selectedImages, setSelectedImages } = useSelcetedImages()
     const { filters, setFilters, searchKeyword, setSearchKeyword } = useContentDiscovery();
-    const { selected } = usePlatform()
     const inputRef = useRef(null)
     const searchButton = useRef(null)
     const params = useSearchParams()
@@ -37,7 +35,7 @@ const MainNavigator = ({ type }: any) => {
                 event.preventDefault();
                 // Perform your desired functionality here
                 setActiveView(prev => {
-                    if (['search', 'initial'].includes(prev)) {
+                    if (['search', ].includes(prev)) {
                         setSearchKeyword('')
                         inputRef?.current?.blur()
                         return ''
@@ -85,31 +83,7 @@ const MainNavigator = ({ type }: any) => {
         },
         [setSearchKeyword, setActiveView]
     );
-    const handleGetScreens = () => {
-        setActiveView('')
-        if (!searchKeyword) {
-            toast.remove()
-            return toast.error('Please enter a keyword')
-        }
-        const query = qs.stringify(
-            {
-                q: searchKeyword,
-                component: filters
-                    .filter(el => el.type === 'component' && el.tag)
-                    .map(el => el.tag),
-                category: filters
-                    .filter(el => el.type === 'category' && el.tag)
-                    .map(el => el.tag),
-                tag: filters
-                    .filter(el => el.type === 'tag' && el.tag)
-                    .map(el => el.tag),
-            },
-            { encodeValuesOnly: true, addQueryPrefix: true, indices: false }
-        );
-        if (selected === undefined) return window.location.reload()
-        const app = getPlatformById(selected)
-        router.push(`/search/${app}${query}`)
-    }
+    
     const removeFilter = (tag) => {
         setFilters(filters.filter(el=> el.tag !== tag))
     }
@@ -127,7 +101,7 @@ const MainNavigator = ({ type }: any) => {
     }
     if (activeControls === '') return
     return (
-        <div ref={wrapperRef} className="fixed left-1/2 -translate-x-1/2 bottom-12 flex justify-center z-[10000000] w-fit">
+        <div ref={wrapperRef} className=" flex justify-center z-[10000000] w-fit">
             <div className='relative flex items-end'>
 
                 {/* User Avatar area */}
@@ -140,14 +114,6 @@ const MainNavigator = ({ type }: any) => {
                     initial={{ borderRadius: 30 }}
                 >
 
-                    <AnimatePresence mode='wait'>
-                        {activeView == 'search' && (
-                            <Search />
-                        )}
-                        {activeView == 'menu' && (
-                            <Menu />
-                        )}
-                    </AnimatePresence>
 
                     <motion.div className="flex w-full h-[48px] relative z-30 space-x-2">
 
@@ -185,7 +151,6 @@ const MainNavigator = ({ type }: any) => {
                                     </div>
 }
                                 <span className=' absolute text-slate-500 right-20 text-xs'>{searchKeyword.length === 0 ? 'CTRL + K' : 'Enter'}</span>
-                                <motion.button ref={searchButton} onClick={handleGetScreens} className=' bg-slate-700 py-1 px-2 rounded-full absolute right-1'>search</motion.button>
                             </motion.div>
                         )}
 
@@ -206,7 +171,14 @@ const MainNavigator = ({ type }: any) => {
                         )}
 
                     </motion.div>
-
+                    <AnimatePresence mode='wait'>
+                        {activeView == 'search' && (
+                            <Search />
+                        )}
+                        {activeView == 'menu' && (
+                            <Menu />
+                        )}
+                    </AnimatePresence>
                 </motion.div >
                 {/* </MotionConfig > */}
 

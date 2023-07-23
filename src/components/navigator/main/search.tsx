@@ -2,10 +2,15 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useContentDiscovery } from '@/context/useContentDiscovery';
 import { getToken } from '@/lib/auth';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDebounce } from 'use-debounce'
-import { platfroms } from '@/lib/utils';
+import { getPlatformById, platfroms } from '@/lib/utils';
 import Link from 'next/link';
+import { toast } from 'react-hot-toast';
+import { usePlatform } from '@/lib/platforms';
+import { useRouter } from 'next/navigation';
+import { useNavigator } from '@/context/useNavigatiorContext';
+const qs = require('qs')
 
 const mergeArrays = (arr) => {
     const comps = arr[2].hits.filter(el => el.type === "component").slice(0, 5)
@@ -20,10 +25,43 @@ const mergeArrays = (arr) => {
 }
 
 const InitialSearch = () => {
-    const { searchKeyword } = useContentDiscovery();
+    const { searchKeyword, filters , setSearchKeyword} = useContentDiscovery();
+    const {setActiveView , activeView} = useNavigator()
+    const { selected } = usePlatform()
+    const router = useRouter()
     const [data, setdata] = useState(null)
+    const inputRef = useRef(null)
+    const searchButton = useRef(null)
     const [debounce] = useDebounce(searchKeyword, 300)
     const token = getToken()
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.ctrlKey && (event.key === 'k' || event.keyCode === 75)) {
+                event.preventDefault();
+                // Perform your desired functionality here
+                setActiveView(prev => {
+                    if (['search', ].includes(prev)) {
+                        setSearchKeyword('')
+                        inputRef?.current?.blur()
+                        return ''
+                    } else {
+                        inputRef?.current?.focus()
+                        return 'search'
+                    }
+                })
+            }
+            if (event.key === "Enter") {
+                searchButton.current.click()
+              }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [activeView]);
     useLayoutEffect(() => {
         const handleSearch = async (debounce) => {
             const res = await fetch(`/api/search`, {
@@ -48,17 +86,42 @@ const InitialSearch = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounce])
+    const handleGetScreens = () => {
+        setActiveView('')
+        if (!searchKeyword) {
+            toast.remove()
+            return toast.error('Please enter a keyword')
+        }
+        const query = qs.stringify(
+            {
+                q: searchKeyword,
+                component: filters
+                    .filter(el => el.type === 'component' && el.tag)
+                    .map(el => el.tag),
+                category: filters
+                    .filter(el => el.type === 'category' && el.tag)
+                    .map(el => el.tag),
+                tag: filters
+                    .filter(el => el.type === 'tag' && el.tag)
+                    .map(el => el.tag),
+            },
+            { encodeValuesOnly: true, addQueryPrefix: true, indices: false }
+        );
+        if (selected === undefined) return window.location.reload()
+        const app = getPlatformById(selected)
+        router.push(`/search/${app}${query}`)
+    }
     return (
         <motion.div
             layout
             key="menu"
-            className='overflow-x-hidden bg-[#050814]'
+            className='overflow-x-hidden bg-[#050814] absolute w-auto rounded-[20px]'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, height: 0, width: 0 }}
         // transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
         >
-            <div className=' overflow-y-hidden relative h-[400px] w-[1000px]'>
+            <div className=' overflow-y-hidden h-[400px] w-[800px] rounded-[20px] mb-10'>
                 <div className='w-full h-[10%] absolute bottom-0 bg-gradient-to-b from-slate-950/0 to-slate-950/90'></div>
 
                 {data &&
@@ -90,7 +153,7 @@ const InitialSearch = () => {
                     </div>
                 }
             </div>
-
+            <motion.button ref={searchButton} onClick={handleGetScreens} className=' absolute w-[95%] font-semibold py-2 left-1/2 -translate-x-1/2 text-center text-white bg-aqua-500 rounded-full bottom-2 '>search</motion.button>
         </motion.div>
     )
 }
