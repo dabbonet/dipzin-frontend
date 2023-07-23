@@ -8,7 +8,6 @@ import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
 import { AccessOrUpgradeCard } from '@/components/accessAndUpgrade';
 import GoogleOneTap from '@/components/GoogleOneTap';
-import Navigator from '@/components/navigator/main';
 
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
@@ -54,10 +53,7 @@ export default function RootLayout({
           <AccessOrUpgradeCard />
           <main className='pt-24 max-w-[90%]  mx-auto'>
             <GoogleOneTap />
-            
             {children}
-            <Navigator />
-
           </main>
           <Footer />
           <Background1 />

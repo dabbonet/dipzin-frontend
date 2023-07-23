@@ -15,7 +15,7 @@ const Navigator = ({ type }: any) => {
       // initial={{ y: 200 }}
       // animate={{ y: 0 }}
       // transition={{ type: "spring", stiffness: 100 }}
-      className="fixed w-fit left-0 bottom-0 flex justify-center z-40"
+      className=""
     >
       {!loading && user &&
         <MainNavigator type={type} />

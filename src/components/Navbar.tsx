@@ -5,6 +5,7 @@ import Link from 'next/link';
 import PlatformSwitcher from '@/components/PlatformSwitcher';
 import SparkleButton from './ui/SparkleButton';
 import { useAuth } from '@/lib/auth';
+import Navigator from './navigator/main';
 
 const Navbar: FC = () => {
     const { user, loading } = useAuth();
@@ -28,7 +29,10 @@ const Navbar: FC = () => {
             </Link>
 
             {!loading &&
-                <PlatformSwitcher />
+                <div className=' flex'>
+                    <Navigator/>
+                    <PlatformSwitcher />
+                </div>
             }
 
             {!loading && !user &&
@@ -37,7 +41,6 @@ const Navbar: FC = () => {
             {!loading && user &&
                 <SparkleButton href='/pricing' >Unlock More!</SparkleButton>
             }
-
         </header>
     )
 }
