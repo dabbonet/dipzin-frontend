@@ -1,6 +1,7 @@
 'use client'
 import SingleScreen from '@/components/screen/SingleScreen'
 import { useContentDiscovery } from '@/context/useContentDiscovery'
+import { useDialog } from '@/context/useDialog'
 import { useNavigator } from '@/context/useNavigatiorContext'
 import { useSelcetedImages } from '@/lib/SelectedToDownload'
 import { getToken } from '@/lib/auth'
@@ -27,9 +28,11 @@ export default function SearchPage() {
   const { setActiveView, setActiveControls } = useNavigator()
   const [isLoading, setIsLoading] = useState(true);
   const { setSingleApp } = usePlatform()
+  const { setVisibleNoAuth } = useDialog()
   const id = path.split('/search/')[1]
   const platform = getPlatformById(id)
   let filterQuery = `platform = ${platform}`
+  const token = getToken()
 
   useEffect(() => {
     if (Array.isArray(components) && components.length > 0) {
@@ -43,6 +46,7 @@ export default function SearchPage() {
     if (Array.isArray(category) && category.length > 0) {
       filterQuery = filterQuery + ` AND app.categories IN [${category.map(el => `'${el}'`).join(',')}]`;
     }
+    if (!token) { setVisibleNoAuth(true) }
   }, [])
 
 
