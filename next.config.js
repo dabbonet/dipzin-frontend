@@ -5,6 +5,7 @@ const nextConfig = {
     loader: 'custom',
     loaderFile: './src/lib/imageLoader.ts'
   },
+  output: "standalone",
   experimental: {
     appDir: true,
     isrMemoryCacheSize: 5000,
