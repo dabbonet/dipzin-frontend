@@ -2231,10 +2231,10 @@ react-use-measure@^2.1.1:
   dependencies:
     debounce "^1.2.1"
 
-react-virtuoso@^4.4.1:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-4.4.1.tgz#43d7ac35346c4eba947b40858b375d5844b5ae9f"
-  integrity sha512-QrZ0JLnZFH8ltMw6q+S7U1+V2vUcSHzoIfLRzQKSv4nMJhEdjiZ+e9PqWCI7xJiy2AmSCAgo7g1V5osuurJo2Q==
+react-virtuoso@^4.3.10:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-4.4.2.tgz#752438e5031a9f72722371a52ae5ac7265f3e1c0"
+  integrity sha512-9uChSRSK5bTbKTxzuta4RqhfrlZSVHI/v8fHwmv3jmImS8FjdZ4Mzgqz9JKUp/yQo3dIHkR2QwidQeqxgYzPhQ==
 
 react@18.2.0:
   version "18.2.0"
@@ -2738,6 +2738,11 @@ uri-js@^4.2.2:
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
+
+use-debounce@^9.0.4:
+  version "9.0.4"
+  resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-9.0.4.tgz#51d25d856fbdfeb537553972ce3943b897f1ac85"
+  integrity sha512-6X8H/mikbrt0XE8e+JXRtZ8yYVvKkdYRfmIhWZYsP8rcNs9hk3APV8Ua2mFkKRLcJKVdnX2/Vwrmg2GWKUQEaQ==
 
 util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"

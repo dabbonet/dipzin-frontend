@@ -115,7 +115,7 @@ const InitialSearch = () => {
         <motion.div
             layout
             key="menu"
-            className='overflow-x-hidden rounded-[20px] p-1 b-g w-full relative'
+            className='overflow-x-hidden rounded-[20px] p-1 b-g w-full relative z-50'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         // exit={{ opacity: 0, height: 0, width: 0 }}
