@@ -2,8 +2,8 @@ import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-    const headersList = headers();
-    const token = headersList.get('Authorization');
+    // const headersList = headers();
+    // const token = headersList.get('Authorization');
     const { keyword } = await request.json()
     const data = JSON.stringify({
         data: {
@@ -15,7 +15,7 @@ export async function POST(request: Request) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
+            // 'Authorization': token
         },
         body: data
     });

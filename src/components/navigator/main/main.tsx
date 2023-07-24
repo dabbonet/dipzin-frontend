@@ -1,7 +1,7 @@
 'use client'
 import React, { useCallback, useRef } from 'react'
-import {  useEffect } from "react";
-import { AnimatePresence, motion  } from 'framer-motion';
+import { useEffect } from "react";
+import { AnimatePresence, motion } from 'framer-motion';
 import Search from './search';
 import Menu from './menu';
 import Icons from '@/components/Icons';
@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useSelcetedImages } from '@/lib/SelectedToDownload';
 import { ImageDownloader } from '@/lib/ImageDownloader';
+import PlatformSwitcher from '@/components/PlatformSwitcher';
 
 
 
@@ -31,15 +32,15 @@ const MainNavigator = ({ type }: any) => {
                 setActiveView('search')
                 inputRef?.current?.focus()
             }
-            if(event.key === 'Escape'){
+            if (event.key === 'Escape') {
                 setActiveView('')
                 setSearchKeyword('')
                 inputRef?.current?.blur()
                 setFilters([])
             }
             if (event.key === "Enter") {
-                searchButton.current.click()
-              }
+                searchButton?.current?.click()
+            }
         };
 
         document.addEventListener('keydown', handleKeyDown);
@@ -75,28 +76,58 @@ const MainNavigator = ({ type }: any) => {
         },
         [setSearchKeyword, setActiveView]
     );
-    
+
     const removeFilter = () => {
         setFilters([])
     }
     const clearParams = (value) => {
-        setFilters(filters.filter(el => el!== value))
+        setFilters(filters.filter(el => el !== value))
         const url = new URL(window.location.href);
         const params = url.searchParams;
         const updatedParams = new URLSearchParams();
         params.forEach((paramValue, paramName) => {
-          if (paramValue === value) {
-            return;
-          }
-          updatedParams.append(paramName, paramValue);
+            if (paramValue === value) {
+                return;
+            }
+            updatedParams.append(paramName, paramValue);
         });
         const newUrl = `${url.origin}${url.pathname}${updatedParams.toString() ? '?' + updatedParams.toString() : ''}`;
         router.push(newUrl);
-      };
-      
+    };
+
     if (activeControls === '') return
     return (
-        <div ref={wrapperRef} className="flex bg-slate-900 rounded-full w-fit items-center h-full">
+        <div ref={wrapperRef} className="flex w-fit items-center h-full">
+            <div className={cn('relative', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
+                <div className='flex w-full justify-between bg-slate-900 rounded-full'>
+                    {(activeControls == 'menu-search') && (
+
+                        <motion.div className={cn(" flex py-3 gap-3 items-center pl-6 w-full")}>
+                            <motion.img src='/images/assets/search.svg' className=' mr-2' />
+                            <motion.input
+                                ref={inputRef}
+                                className="bg-inherit outline-none"
+                                placeholder={filters.length !== 0 ? 'Search More Tags...' : 'Try Search!'}
+                                transition={{ duration: 0.4 }}
+                                animate={{ width: '100%' }}
+                                value={searchKeyword}
+                                onChange={handleSearch}
+                                onFocus={() => {
+                                    setActiveView('search')
+                                }}
+                            />
+                            {activeView === 'menuWithSearch' && filters.length !== 0 && <button onClick={removeFilter} className=' text-slate-500 font-medium text-sm'><span className=' text-slate-50 font-bold mr-1'>+{filters.length}</span>filters</button>}
+                            <p className=' text-slate-500 text-sm w-20 mr-2 text-center'>{searchKeyword.length === 0 ? 'CTRL K' : 'Enter'}</p>
+                        </motion.div>
+                    )}
+                    <PlatformSwitcher />
+                </div>
+                <AnimatePresence mode='wait'>
+                    {activeView == 'search' && (
+                        <Search />
+                    )}
+                </AnimatePresence>
+            </div>
             <div className='relative h-full'>
 
                 {/* User Avatar area */}
@@ -125,26 +156,6 @@ const MainNavigator = ({ type }: any) => {
 
 
 
-                        {(activeControls == 'menu-search') && (
-
-                            <motion.div className={cn(" flex py-3 gap-3 items-center pl-6")}>
-                                <motion.img src='/images/assets/search.svg' className=' mr-2' />
-                                <motion.input
-                                    ref={inputRef}
-                                    className="bg-inherit outline-none"
-                                    placeholder={filters.length !== 0 ? 'Search More Tags...' : 'Try Search!'}
-                                    transition={{ duration: 0.4 }}
-                                    animate={{ width: '100%' }}
-                                    value={searchKeyword}
-                                    onChange={handleSearch}
-                                    onFocus={() => {
-                                        setActiveView('search')
-                                    }}
-                                />
-                                {activeView === 'search' && filters.length !== 0  && <button onClick={removeFilter} className=' text-slate-500 font-medium text-sm'><span className=' text-slate-50 font-bold mr-1'>+{filters.length}</span>filters</button>}
-                                <p className=' text-slate-500 text-sm w-full text-center'>{searchKeyword.length === 0 ? 'CTRL K' : 'Enter'}</p>
-                            </motion.div>
-                        )}
 
                         {(activeControls == 'selection') && (
                             <div className=' flex gap-20 flex-wrap items-center bg-slate-800 rounded-full pl-5'>
@@ -155,18 +166,13 @@ const MainNavigator = ({ type }: any) => {
                                 </div>
                             </div>
                         )}
-                        {(activeControls === 'filters') && (
-                            <div className=' flex flex-wrap items-center bg-slate-900 rounded-full px-6 h-full'>
-                                <button className=' text-white mr-1 font-semibold' onClick={()=> setActiveControls('menu-search')}>{searchKeyword}</button>
-                                {filters.length !== 0 && <div className='flex gap-1 ml-1 items-center'>with filters {filters.map(el => <button onClick={()=>clearParams(el)} key={el} className=' bg-transparent border border-solid border-slate-300 text-slate-300 rounded-xl py-1 px-2 hover:text-aqua-500 hover:border-aqua-500'>{el} x</button>)}</div> }
-                            </div>
-                        )}
+
 
                     </motion.div>
                     <AnimatePresence mode='wait'>
-                        {activeView == 'search' && (
+                        {/* {activeView == 'search' && (
                             <Search />
-                        )}
+                        )} */}
                         {activeView == 'menu' && (
                             <Menu />
                         )}

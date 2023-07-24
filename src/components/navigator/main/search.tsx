@@ -10,6 +10,7 @@ import { toast } from 'react-hot-toast';
 import { usePlatform } from '@/lib/platforms';
 import { usePathname, useRouter } from 'next/navigation';
 import { useNavigator } from '@/context/useNavigatiorContext';
+import { useDialog } from '@/context/useDialog';
 const qs = require('qs')
 
 const mergeArrays = (arr) => {
@@ -25,8 +26,9 @@ const mergeArrays = (arr) => {
 }
 
 const InitialSearch = () => {
-    const { searchKeyword, filters , setSearchKeyword} = useContentDiscovery();
-    const {setActiveView , activeView} = useNavigator()
+    const { searchKeyword, filters, setSearchKeyword } = useContentDiscovery();
+    const { setActiveView, activeView } = useNavigator()
+    const { setVisibleNoAuth } = useDialog()
     const { selected } = usePlatform()
     const router = useRouter()
     const [data, setdata] = useState(null)
@@ -42,7 +44,7 @@ const InitialSearch = () => {
                 event.preventDefault();
                 // Perform your desired functionality here
                 setActiveView(prev => {
-                    if (['search', ].includes(prev)) {
+                    if (['search',].includes(prev)) {
                         setSearchKeyword('')
                         inputRef?.current?.blur()
                         return ''
@@ -54,7 +56,7 @@ const InitialSearch = () => {
             }
             if (event.key === "Enter") {
                 searchButton.current.click()
-              }
+            }
         };
 
         document.addEventListener('keydown', handleKeyDown);
@@ -67,9 +69,6 @@ const InitialSearch = () => {
         const handleSearch = async (debounce) => {
             const res = await fetch(`/api/search`, {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
                 body: JSON.stringify({
                     keyword: debounce
                 })
@@ -80,7 +79,7 @@ const InitialSearch = () => {
         }
         if (debounce.length > 1) {
             handleSearch(debounce)
-        }else{
+        } else {
             const myArray = ["hello world", "login", "dashboard", "sign up", "sports"];
             const randomValue = myArray[Math.floor(Math.random() * myArray.length)];
             handleSearch(randomValue)
@@ -88,78 +87,78 @@ const InitialSearch = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounce])
     const handleGetScreens = () => {
-        setActiveView('')
-        // if (!searchKeyword) {
-        //     return
-        // }
-        console.log(filters)
-        const query = qs.stringify(
-            {
-                q: searchKeyword,
-                component: filters
-                    .filter(el => el.type === 'component' && el.tag)
-                    .map(el => el.tag),
-                category: filters
-                    .filter(el => el.type === 'category' && el.tag)
-                    .map(el => el.tag),
-                tag: filters
-                    .filter(el => el.type === 'tag' && el.tag)
-                    .map(el => el.tag),
-            },
-            { encodeValuesOnly: true, addQueryPrefix: true, indices: false }
-        );
-        const app = getPlatformById(selected)
-        if (path.startsWith('/search')) return window.location.assign(`/search/${app}${query}`)
-        router.push(`/search/${app}${query}`)
+        if (token) {
+            const query = qs.stringify(
+                {
+                    q: searchKeyword,
+                    component: filters
+                        .filter(el => el.type === 'component' && el.tag)
+                        .map(el => el.tag),
+                    category: filters
+                        .filter(el => el.type === 'category' && el.tag)
+                        .map(el => el.tag),
+                    tag: filters
+                        .filter(el => el.type === 'tag' && el.tag)
+                        .map(el => el.tag),
+                },
+                { encodeValuesOnly: true, addQueryPrefix: true, indices: false }
+            );
+            const app = getPlatformById(selected)
+            if (path.startsWith('/search')) return window.location.assign(`/search/${app}${query}`)
+            router.push(`/search/${app}${query}`)
+        } else {
+            setVisibleNoAuth(true)
+        }
     }
+
     return (
         <motion.div
             layout
             key="menu"
-            className='overflow-x-hidden bg-[#050814] absolute w-auto rounded-[20px] -bottom-[470px] bg-opacity-90 -left-[150px]'
+            className='overflow-x-hidden rounded-[20px] p-1 b-g w-full relative'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, height: 0, width: 0 }}
+        // exit={{ opacity: 0, height: 0, width: 0 }}
         // transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
         >
-            <h1 className=' text-slate-100 font-semibold mb-3'><span className='ml-3 mt-3'>Search Suggestions</span></h1>
+            <h1 className=' text-slate-100 font-semibold mt-3'><span className='ml-3 mt-3'>Search Suggestions</span></h1>
             <div className=' overflow-y-hidden h-[400px] w-[900px] rounded-[20px] mb-10'>
-                <div className='w-full h-[10%] absolute bottom-0 bg-gradient-to-b from-slate-950/0 to-slate-950/90'></div>
+                {/* <div className='w-full h-[10%] absolute bottom-0 bg-gradient-to-b from-slate-950/0 to-slate-950/90'></div> */}
 
-                    <div className='flex h-full p-2 px-4 flex-col overflow-y-scroll'>
-                        <p className=' text-slate-500 text-xs'>Featured Apps</p>
-                        <div className=' grid grid-cols-2 gap-3 mt-3 mb-6'>
-                            {data ? data?.apps?.map((el, index) => <App slug={el.app.slug} key={index} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />) : <SearchLoader cellsNumber={6}/>}
-                        </div>
-                        <div className='flex justify-between'>
-                            <p className=' text-slate-500 text-xs'>Tags</p>
-                            <button>view all</button>
-                        </div>
-                        <div className=' flex gap-2 mt-2 mb-6'>
-                            {data ? data?.tags?.map((el, index) => {
-                                return <FeatureCard tag={el.name} type={el.type} key={index}/>
-                            }) : <SearchLoader cellsNumber={5}/>}
-                        </div>
-                        <div className='flex justify-between'>
-                            <p className=' text-slate-500 text-xs'>components</p>
-                            <button>view all</button>
-                        </div>                        <div className=' flex gap-2 mt-2 mb-6'>
-                            {data ? data?.components?.map((el, index) => {
-                                return <FeatureCard tag={el.name} type={el.type} key={index} />
-                            }) : <SearchLoader cellsNumber={5}/>}
-                        </div>
-                        <div className='flex justify-between'>
-                            <p className=' text-slate-500 text-xs'>categories</p>
-                            <button>view all</button>
-                        </div>                        <div className=' flex gap-2 mt-2 mb-6'>
-                            {data ? data?.categories?.map((el, index) => {
-                                return <FeatureCard tag={el.name} type={el.type} key={index} />
-                            }) : <SearchLoader cellsNumber={5}/>}
-
-                        </div>
+                <div className='flex h-full p-2 px-4 flex-col overflow-y-scroll'>
+                    <p className=' text-slate-500 text-xs'>Featured Apps</p>
+                    <div className=' grid grid-cols-2 gap-3 mt-3 mb-6'>
+                        {data ? data?.apps?.map((el, index) => <App slug={el.app.slug} key={index} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />) : <SearchLoader cellsNumber={6} />}
                     </div>
+                    <div className='flex justify-between'>
+                        <p className=' text-slate-500 text-xs'>Tags</p>
+                        <button>view all</button>
+                    </div>
+                    <div className=' flex gap-2 mt-2 mb-6'>
+                        {data ? data?.tags?.map((el, index) => {
+                            return <FeatureCard tag={el.name} type={el.type} key={index} />
+                        }) : <SearchLoader cellsNumber={5} />}
+                    </div>
+                    <div className='flex justify-between'>
+                        <p className=' text-slate-500 text-xs'>Components</p>
+                        <button>View all</button>
+                    </div>                        <div className=' flex gap-2 mt-2 mb-6'>
+                        {data ? data?.components?.map((el, index) => {
+                            return <FeatureCard tag={el.name} type={el.type} key={index} />
+                        }) : <SearchLoader cellsNumber={5} />}
+                    </div>
+                    <div className='flex justify-between'>
+                        <p className=' text-slate-500 text-xs'>Categories</p>
+                        <button>view all</button>
+                    </div>                        <div className=' flex gap-2 mt-2 mb-6'>
+                        {data ? data?.categories?.map((el, index) => {
+                            return <FeatureCard tag={el.name} type={el.type} key={index} />
+                        }) : <SearchLoader cellsNumber={5} />}
+
+                    </div>
+                </div>
             </div>
-            <motion.button disabled={searchKeyword.length === 0 ? true: false} ref={searchButton} onClick={handleGetScreens} className={cn(' absolute w-[95%] font-semibold py-2 left-1/2 -translate-x-1/2 text-center text-white rounded-full bottom-2' , searchKeyword.length === 0 ? 'bg-slate-900' : 'bg-aqua-500')}>search</motion.button>
+            <motion.button disabled={searchKeyword.length === 0 ? true : false} ref={searchButton} onClick={handleGetScreens} className={cn(' absolute w-[95%] font-semibold py-2 left-1/2 -translate-x-1/2 text-center text-white rounded-full bottom-5', searchKeyword.length === 0 ? 'bg-slate-900' : 'bg-aqua-500')}>search</motion.button>
         </motion.div>
     )
 }
@@ -178,7 +177,7 @@ const InitialSearchCard = () => {
 
 const FeatureCard = ({ tag, type }) => {
     const { filters, setFilters } = useContentDiscovery()
-    
+
     const handleClick = () => {
         if (filters.some(el => el.tag === tag && el.type === type)) {
             setFilters(filters.filter(el => el.tag !== tag))
@@ -208,13 +207,13 @@ const App = ({ name, src, app_catigory, app_platform, slug }) => {
 }
 
 
-const SearchLoader =  ({cellsNumber}) => {
+const SearchLoader = ({ cellsNumber }) => {
     const arr = []
     for (let i = 0; i < cellsNumber; i++) {
         arr.push(i)
     }
     return <div className=' flex flex-wrap w-full gap-4'>
-        {arr.map(el => <div className='flex-1 bg-slate-900 h-8 rounded-md'>
+        {arr.map((el, index) => <div key={index} className='flex-1 bg-slate-900 h-8 rounded-md'>
         </div>)}
     </div>
 }

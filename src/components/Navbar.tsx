@@ -10,7 +10,7 @@ import Navigator from './navigator/main';
 const Navbar: FC = () => {
     const { user, loading } = useAuth();
     return (
-        <header className="w-full flex justify-between fixed items-center text-white pt-8 px-5 lg:px-10 z-10 top-0 bg-gradient-to-b from-slate-950/80 to-slate-950/0">
+        <header className="w-full flex justify-between fixed items-start text-white pt-8 px-5 lg:px-10 z-10 top-0 bg-gradient-to-b from-slate-950/80 to-slate-950/0">
 
             <Link
                 href="/ios"
@@ -29,10 +29,7 @@ const Navbar: FC = () => {
             </Link>
 
             {!loading &&
-                <div className='flex bg-slate-900 rounded-full'>
-                    <Navigator/>
-                    <PlatformSwitcher/>
-                </div>
+                <Navigator />
             }
 
             {!loading && !user &&

@@ -24,6 +24,7 @@ const Showcase: FC<ShowcaseProps> = ({
   setSelectedShowcase,
 }) => {
   // const router = useRouter();
+  const path = usePathname()
   const { setActiveControls } = useNavigator()
   const { selected: platform } = usePlatform();
   const { setSelectedImages, selectedImages } = useSelcetedImages()
@@ -71,7 +72,7 @@ const Showcase: FC<ShowcaseProps> = ({
             </div>
           </div>
           <ActionBar className='flex space-x-1.5'>
-            <Link href={getAppLink(selectedShowcase)} replace={false}>
+            <Link href={`app${path}/${selectedShowcase?.slug}`} replace={false}>
               <SquareButton className='w-32'>
                 <SquareButton.Title className='w-[70%]'>Open Application</SquareButton.Title>
                 <SquareButton.Icon>
@@ -179,10 +180,3 @@ const Showcase: FC<ShowcaseProps> = ({
 }
 
 export default Showcase
-
-
-
-const getAppLink = (selectedShowcase: any) => {
-  const path = usePathname()
-  return `app${path}/${selectedShowcase?.slug}`
-};
