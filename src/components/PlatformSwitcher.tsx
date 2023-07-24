@@ -11,7 +11,7 @@ const PlatformSwitcher = () => {
   const slug = segments[3];
   const platform = segments[1]
   useEffect(() => {
-    if (singleApp.length === 0) {
+    if (['' , 'apps'].includes(singleApp)) {
       const selectedPlatform = platforms.find(el => el.name.toUpperCase() === platform?.toUpperCase())
       setSelected(selectedPlatform?.id)
     }
@@ -23,7 +23,7 @@ const PlatformSwitcher = () => {
     return platforms.map((platformAvailable, index) => {
       let selectedBackGround
       if (selected === platformAvailable.id) {
-        selectedBackGround = ' bg-slate-800'
+        selectedBackGround = ' bg-slate-700'
       }
       const switchApps = () => {
         if (singleApp === 'apps') {
@@ -51,7 +51,7 @@ const PlatformSwitcher = () => {
   }
 
   return (
-    <div className="bg-slate-950/95 rounded-[40px] flex items-center p-2  lg:text-sm text-xs font-light space-x-4">
+    <div className="bg-slate-800 rounded-[40px] flex items-center p-2  lg:text-sm text-xs font-light gap-4">
       {platformsUI()}
     </div>
   );
