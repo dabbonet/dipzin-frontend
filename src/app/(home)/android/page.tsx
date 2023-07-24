@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast"
 
 export default function Home() {
   return (
-    <div className="max-w-[92%] mx-auto">
+    <div className="max-w-[92%] mx-auto ">
       <Stream />
       <Toaster position="top-center" />
     </div>

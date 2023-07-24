@@ -7,39 +7,39 @@ import { getToken } from '@/lib/auth'
 import { usePlatform } from '@/lib/platforms'
 import { cn, getPlatformById, shuffle } from '@/lib/utils'
 import { usePathname, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState , useCallback} from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
 
 
 
 
+export default function SearchPage() {
 
-const page = () => {
   const [data, setdata] = useState([])
   const params = useSearchParams()
   const keyword = params.get('q')
   const components = params.getAll('component')
   const tag = params.getAll('tag')
   const category = params.getAll('category')
-  
+
   const path = usePathname()
   const { selectedImages, setSelectedImages } = useSelcetedImages()
   const { setActiveView, setActiveControls } = useNavigator()
   const [isLoading, setIsLoading] = useState(true);
-  const {setSingleApp} = usePlatform()
+  const { setSingleApp } = usePlatform()
   const id = path.split('/search/')[1]
   const platform = getPlatformById(id)
   let filterQuery = `platform = ${platform}`
 
-  useEffect(() => {   
+  useEffect(() => {
     if (Array.isArray(components) && components.length > 0) {
       filterQuery = filterQuery + ` AND components IN [${components.map(el => `'${el}'`).join(',')}]`;
     }
-  
+
     if (Array.isArray(tag) && tag.length > 0) {
       filterQuery = filterQuery + ` AND tags IN [${tag.map(el => `'${el}'`).join(',')}]`;
     }
-  
+
     if (Array.isArray(category) && category.length > 0) {
       filterQuery = filterQuery + ` AND app.categories IN [${category.map(el => `'${el}'`).join(',')}]`;
     }
@@ -49,22 +49,20 @@ const page = () => {
   useEffect(() => {
     if (selectedImages.images.length > 0) {
       setActiveControls('selection')
-    } else {
-      setActiveControls('filters')
     }
   }, [selectedImages])
 
-  const { filters, setSearchKeyword, setFilters } = useContentDiscovery();
-  const { platforms, setSelected, setPlatforms } = usePlatform();
+  const { setSearchKeyword, setFilters } = useContentDiscovery();
+  const { setSelected, setPlatforms } = usePlatform();
 
   useEffect(() => {
     setActiveView('menuWithSearch')
-    setActiveControls('filters')
+    setActiveControls('menu-search')
     setSearchKeyword(keyword)
     setPlatforms([2, 1]); // Initialize Platform Switcher
     setSelected(parseInt(platform))
     // Set the new filters
-    setFilters([...tag , ...components , ...category]);
+    setFilters([...tag, ...components, ...category]);
     setSingleApp('search')
 
     return () => {
@@ -91,8 +89,8 @@ const page = () => {
     }
     getData()
   }, [params])
-  
-  
+
+
   const loadMore = useCallback(() => {
     return setTimeout(async () => {
       setIsLoading(true)
@@ -110,13 +108,13 @@ const page = () => {
         })
         const res = await req.json()
         const shuffledData = shuffle(res.screens)
-        setdata(prev => [...prev , ...shuffledData])
+        setdata(prev => [...prev, ...shuffledData])
       }
       getData()
       setIsLoading(false)
     }, 500);
   }, [data]);
-  if(data?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
+  if (data?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
   return (
     <>
       {data !== null && data?.length !== 0 &&
@@ -158,10 +156,8 @@ const page = () => {
             },
           }}
         />
-        
+
       }
     </>
   )
 }
-
-export default page

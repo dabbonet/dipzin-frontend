@@ -11,7 +11,7 @@ const PlatformSwitcher = () => {
   const slug = segments[3];
   const platform = segments[1]
   useEffect(() => {
-    if (['' , 'apps'].includes(singleApp)) {
+    if (['', 'apps'].includes(singleApp)) {
       const selectedPlatform = platforms.find(el => el.name.toUpperCase() === platform?.toUpperCase())
       setSelected(selectedPlatform?.id)
     }
@@ -30,7 +30,7 @@ const PlatformSwitcher = () => {
           router.push(
             `/app/${platforms[index].name.toLowerCase()}/${slug}`
           );
-        }else if(singleApp === 'search'){
+        } else if (singleApp === 'search') {
           setSelected(platformAvailable.id)
           router.push(`/search/${platformAvailable.name.toLowerCase()}${window.location.search}`)
         } else {
@@ -51,7 +51,7 @@ const PlatformSwitcher = () => {
   }
 
   return (
-    <div className="bg-slate-800 rounded-[40px] flex items-center p-2  lg:text-sm text-xs font-light gap-4">
+    <div className="bg-slate-800 rounded-[40px] h-fit flex items-center p-2  lg:text-sm text-xs font-light gap-4">
       {platformsUI()}
     </div>
   );
