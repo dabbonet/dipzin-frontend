@@ -1,0 +1,7 @@
+{
+  "sampledev": {
+    "configLevel": "project",
+    "useProfile": true,
+    "profileName": "PC CLI"
+  }
+}

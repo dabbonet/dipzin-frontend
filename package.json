@@ -36,7 +36,8 @@
     "react-player": "^2.12.0",
     "react-use-measure": "^2.1.1",
     "react-virtuoso": "^4.3.10",
-    "use-debounce": "^9.0.4"
+    "use-debounce": "^9.0.4",
+    "aws-amplify": "^5.3.5"
   },
   "devDependencies": {
     "@gradin/tailwindcss-scrollbar": "^3.0.1",
