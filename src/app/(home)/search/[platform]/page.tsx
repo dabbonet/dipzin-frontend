@@ -32,7 +32,6 @@ export default function SearchPage() {
   const id = path.split('/search/')[1]
   const platform = getPlatformById(id)
   let filterQuery = `platform = ${platform}`
-  const token = getToken()
 
   useEffect(() => {
     if (Array.isArray(components) && components.length > 0) {
@@ -46,6 +45,7 @@ export default function SearchPage() {
     if (Array.isArray(category) && category.length > 0) {
       filterQuery = filterQuery + ` AND app.categories IN [${category.map(el => `'${el}'`).join(',')}]`;
     }
+    const token = getToken()
     if (!token) { setVisibleNoAuth(true) }
   }, [])
 
