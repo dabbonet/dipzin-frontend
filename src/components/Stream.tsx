@@ -16,17 +16,18 @@ interface StreamProps { }
 const Stream: FC<StreamProps> = () => {
   const { setActiveView, setActiveControls } = useNavigator()
   const { setPlatforms, selected, setSelected } = usePlatform();
-  const { streamData, setStreamData } = useContentDiscovery();
+  const { streamData, setStreamData, setSearchKeyword } = useContentDiscovery();
   const [loadedPages, setLoadedPages] = useState<number[]>([]);
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setActiveView('menuWithSearch')
     setActiveControls('menu-search')
+    setSearchKeyword('')
     return () => {
       setActiveView('')
       setActiveControls('')
-      setPlatforms([])
+      // setPlatforms([])
     }
   }, [])
   // 1. Initialize Stream and Page Platforms.

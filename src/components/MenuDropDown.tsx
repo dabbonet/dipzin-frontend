@@ -11,7 +11,6 @@ export const MenuDropdown = ({ screen: screen }) => {
   const { setVisible, setVisibleNoAuth } = useDialog()
   const { user } = useAuth()
   const image = mergeScreenUrl(screen);
-  // console.log(image)
   const downloadScreen = async () => {
 
     if (user) {

@@ -5,11 +5,12 @@ import Link from 'next/link';
 import PlatformSwitcher from '@/components/PlatformSwitcher';
 import SparkleButton from './ui/SparkleButton';
 import { useAuth } from '@/lib/auth';
+import Navigator from './navigator/main';
 
 const Navbar: FC = () => {
     const { user, loading } = useAuth();
     return (
-        <header className="w-full flex justify-between fixed items-center text-white pt-8 px-5 lg:px-10 z-10 top-0 bg-gradient-to-b from-slate-950/80 to-slate-950/0">
+        <header className="w-full flex justify-between fixed items-start text-white pt-8 px-5 lg:px-10 z-10 top-0 bg-gradient-to-b from-slate-950/80 to-slate-950/0">
 
             <Link
                 href="/ios"
@@ -28,7 +29,7 @@ const Navbar: FC = () => {
             </Link>
 
             {!loading &&
-                <PlatformSwitcher />
+                <Navigator />
             }
 
             {!loading && !user &&
@@ -37,7 +38,6 @@ const Navbar: FC = () => {
             {!loading && user &&
                 <SparkleButton href='/pricing' >Unlock More!</SparkleButton>
             }
-
         </header>
     )
 }

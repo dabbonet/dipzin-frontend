@@ -36,19 +36,18 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   useEffect(() => {
     return () => {
       setSelectedImages({ appName: '', images: [] })
-      setSingleApp(false)
+      setSingleApp('')
       setActiveControls('')
     }
   }, [])
 
   // Create an array of platform IDs
   const platformIds = apps.data.map((app) => app.attributes.platform.data.id);
-  // console.log(apps)
   // Platform Switcher initialization.
   useEffect(() => {
     setPlatforms(platformIds);
     setSelected(app.platform.data.id);
-    setSingleApp(true);
+    setSingleApp('apps');
   }, [app]);
 
   const icon = app.icon.data.attributes.hash + app.icon.data.attributes.ext;
