@@ -278,7 +278,7 @@ const Clear = ()=> {
 
 const Icons = {
     GoogleIcon, FacebookIcon, Expand, Heart, Apple, CopyFilled, Open, Download, XCircle, Save, Thumbnail,
-    Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2 , Clear
+    Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2 , Clear ,
 }
 
 export default Icons

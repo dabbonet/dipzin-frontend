@@ -20,7 +20,7 @@ interface SingleScreenProps {
   appName?: string
 }
 export const mergeScreenUrl = (data) =>
-  data.attributes
+  data?.attributes
     ? data.attributes?.screen.data?.attributes.hash +
     data.attributes?.screen.data?.attributes.ext
     : data;
@@ -107,10 +107,10 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName }) => {
     >
       <motion.div
         layout
-        initial={{ scale: 0.98 }}
+        initial={{ scale: 1 }}
         whileHover={{
-          scale: 1.0,
-          transition: { duration: 0.3 },
+          scale: 1.05,
+          transition: { duration: 0.2 },
         }}
       >
         <motion.div
@@ -143,9 +143,9 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName }) => {
             "w-full rounded-2xl overflow-hidden border-2 border-transparent min-720:gap-16 cursor-pointer",
             checked && " border-aqua-300"
           )}
-          onClick={() => setOpen && setOpen(mergeScreenUrl(screen))}
+          onClick={() => setOpen && setOpen(mergeScreenUrl(screen) || screen)}
         >
-          <Screen src={mergeScreenUrl(screen)} />
+          <Screen src={mergeScreenUrl(screen) || screen} />
         </div>
       </motion.div>
     </div>

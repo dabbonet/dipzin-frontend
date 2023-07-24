@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { FC, useEffect } from 'react'
-import { cn, rgbDataURL } from '@/lib/utils'
+import { cn, getPlatformById, rgbDataURL } from '@/lib/utils'
 import SingleScreen from './screen/SingleScreen'
 import { usePlatform } from '@/lib/platforms'
 import Icons from './Icons'
@@ -12,6 +12,7 @@ import { ActionBar, SquareButton } from './ActionBar'
 import { useSelcetedImages } from '@/lib/SelectedToDownload'
 import { useContentDiscovery } from '@/context/useContentDiscovery'
 import { useNavigator } from '@/context/useNavigatiorContext'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 interface ShowcaseProps {
   selectedShowcase: any;
@@ -23,6 +24,7 @@ const Showcase: FC<ShowcaseProps> = ({
   setSelectedShowcase,
 }) => {
   // const router = useRouter();
+  const path = usePathname()
   const { setActiveControls } = useNavigator()
   const { selected: platform } = usePlatform();
   const { setSelectedImages, selectedImages } = useSelcetedImages()
@@ -70,7 +72,7 @@ const Showcase: FC<ShowcaseProps> = ({
             </div>
           </div>
           <ActionBar className='flex space-x-1.5'>
-            <Link href={getAppLink(selectedShowcase)} replace={false}>
+            <Link href={`app${path}/${selectedShowcase?.slug}`} replace={false}>
               <SquareButton className='w-32'>
                 <SquareButton.Title className='w-[70%]'>Open Application</SquareButton.Title>
                 <SquareButton.Icon>
@@ -178,27 +180,3 @@ const Showcase: FC<ShowcaseProps> = ({
 }
 
 export default Showcase
-
-const getPlatformById = (platform_id: any) => {
-  let platform;
-  switch (platform_id) {
-    case "1":
-      platform = "android";
-      break;
-    case "2":
-      platform = "ios";
-      break;
-    case "3":
-      platform = "web";
-      break;
-  }
-  return platform;
-};
-
-const getAppLink = (selectedShowcase: any) => {
-  if (selectedShowcase.platform && selectedShowcase.slug) {
-    return "/app/" + getPlatformById(selectedShowcase?.platform) + "/" + selectedShowcase?.slug
-  } else {
-    return "/ios"
-  }
-};

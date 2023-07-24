@@ -76,7 +76,6 @@ const GoogleOneTap = () => {
       setShow(false);
     },
     onError: () => {
-      console.log('Login Failed');
       setShow(false);
     },
   });
