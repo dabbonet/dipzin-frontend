@@ -4,11 +4,11 @@ import { useContentDiscovery } from '@/context/useContentDiscovery';
 import { getToken } from '@/lib/auth';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDebounce } from 'use-debounce'
-import { getPlatformById, platfroms } from '@/lib/utils';
+import { cn, getPlatformById, platfroms } from '@/lib/utils';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 import { usePlatform } from '@/lib/platforms';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useNavigator } from '@/context/useNavigatiorContext';
 const qs = require('qs')
 
@@ -34,6 +34,7 @@ const InitialSearch = () => {
     const searchButton = useRef(null)
     const [debounce] = useDebounce(searchKeyword, 300)
     const token = getToken()
+    const path = usePathname()
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -88,10 +89,10 @@ const InitialSearch = () => {
     }, [debounce])
     const handleGetScreens = () => {
         setActiveView('')
-        if (!searchKeyword) {
-            toast.remove()
-            return toast.error('Please enter a keyword')
-        }
+        // if (!searchKeyword) {
+        //     return
+        // }
+        console.log(filters)
         const query = qs.stringify(
             {
                 q: searchKeyword,
@@ -107,53 +108,58 @@ const InitialSearch = () => {
             },
             { encodeValuesOnly: true, addQueryPrefix: true, indices: false }
         );
-        if (selected === undefined) return window.location.reload()
         const app = getPlatformById(selected)
+        if (path.startsWith('/search')) return window.location.assign(`/search/${app}${query}`)
         router.push(`/search/${app}${query}`)
     }
     return (
         <motion.div
             layout
             key="menu"
-            className='overflow-x-hidden bg-[#050814] absolute w-auto rounded-[20px]'
+            className='overflow-x-hidden bg-[#050814] absolute w-auto rounded-[20px] -bottom-[470px] bg-opacity-90 -left-[150px]'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, height: 0, width: 0 }}
         // transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
         >
-            <div className=' overflow-y-hidden h-[400px] w-[800px] rounded-[20px] mb-10'>
+            <h1 className=' text-slate-100 font-semibold mb-3'><span className='ml-3 mt-3'>Search Suggestions</span></h1>
+            <div className=' overflow-y-hidden h-[400px] w-[900px] rounded-[20px] mb-10'>
                 <div className='w-full h-[10%] absolute bottom-0 bg-gradient-to-b from-slate-950/0 to-slate-950/90'></div>
 
-                {data &&
                     <div className='flex h-full p-2 px-4 flex-col overflow-y-scroll'>
-                        <h1 className=' text-slate-100 font-semibold mb-3'>Search Suggestions</h1>
                         <p className=' text-slate-500 text-xs'>Featured Apps</p>
                         <div className=' grid grid-cols-2 gap-3 mt-3 mb-6'>
-                            {data && data?.apps?.map((el, index) => <App slug={el.app.slug} key={index} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />)}
+                            {data ? data?.apps?.map((el, index) => <App slug={el.app.slug} key={index} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />) : <SearchLoader cellsNumber={6}/>}
                         </div>
-                        <p className=' text-slate-500 text-xs'>Tags</p>
+                        <div className='flex justify-between'>
+                            <p className=' text-slate-500 text-xs'>Tags</p>
+                            <button>view all</button>
+                        </div>
                         <div className=' flex gap-2 mt-2 mb-6'>
-                            {data && data?.tags?.map((el, index) => {
+                            {data ? data?.tags?.map((el, index) => {
                                 return <FeatureCard tag={el.name} type={el.type} key={index}/>
-                            })}
+                            }) : <SearchLoader cellsNumber={5}/>}
                         </div>
-                        <p className=' text-slate-500 text-xs'>components</p>
-                        <div className=' flex gap-2 mt-2 mb-6'>
-                            {data && data?.components?.map((el, index) => {
+                        <div className='flex justify-between'>
+                            <p className=' text-slate-500 text-xs'>components</p>
+                            <button>view all</button>
+                        </div>                        <div className=' flex gap-2 mt-2 mb-6'>
+                            {data ? data?.components?.map((el, index) => {
                                 return <FeatureCard tag={el.name} type={el.type} key={index} />
-                            })}
+                            }) : <SearchLoader cellsNumber={5}/>}
                         </div>
-                        <p className=' text-slate-500 text-xs'>categories</p>
-                        <div className=' flex gap-2 mt-2 mb-6'>
-                            {data && data?.categories?.map((el, index) => {
+                        <div className='flex justify-between'>
+                            <p className=' text-slate-500 text-xs'>categories</p>
+                            <button>view all</button>
+                        </div>                        <div className=' flex gap-2 mt-2 mb-6'>
+                            {data ? data?.categories?.map((el, index) => {
                                 return <FeatureCard tag={el.name} type={el.type} key={index} />
-                            })}
+                            }) : <SearchLoader cellsNumber={5}/>}
 
                         </div>
                     </div>
-                }
             </div>
-            <motion.button ref={searchButton} onClick={handleGetScreens} className=' absolute w-[95%] font-semibold py-2 left-1/2 -translate-x-1/2 text-center text-white bg-aqua-500 rounded-full bottom-2 '>search</motion.button>
+            <motion.button disabled={searchKeyword.length === 0 ? true: false} ref={searchButton} onClick={handleGetScreens} className={cn(' absolute w-[95%] font-semibold py-2 left-1/2 -translate-x-1/2 text-center text-white rounded-full bottom-2' , searchKeyword.length === 0 ? 'bg-slate-900' : 'bg-aqua-500')}>search</motion.button>
         </motion.div>
     )
 }
@@ -171,7 +177,7 @@ const InitialSearchCard = () => {
 
 
 const FeatureCard = ({ tag, type }) => {
-    const { filters, setFilters, searchKeyword } = useContentDiscovery()
+    const { filters, setFilters } = useContentDiscovery()
     
     const handleClick = () => {
         if (filters.some(el => el.tag === tag && el.type === type)) {
@@ -199,4 +205,16 @@ const App = ({ name, src, app_catigory, app_platform, slug }) => {
         <span className=' text-slate-700'>{app_catigory}</span>
         <span className=' text-slate-500 bg-slate-800 px-2 capitalize rounded-lg'>{app_platform}</span>
     </Link>
+}
+
+
+const SearchLoader =  ({cellsNumber}) => {
+    const arr = []
+    for (let i = 0; i < cellsNumber; i++) {
+        arr.push(i)
+    }
+    return <div className=' flex flex-wrap w-full gap-4'>
+        {arr.map(el => <div className='flex-1 bg-slate-900 h-8 rounded-md'>
+        </div>)}
+    </div>
 }

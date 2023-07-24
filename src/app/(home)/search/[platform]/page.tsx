@@ -63,13 +63,8 @@ const page = () => {
     setSearchKeyword(keyword)
     setPlatforms([2, 1]); // Initialize Platform Switcher
     setSelected(parseInt(platform))
-    const newFilters = [
-      ...(tag ? [{ tag, type: 'tag' }] : []),
-      ...(components ? [{ components, type: 'component' }] : []),
-      ...(category ? [{ category, type: 'category' }] : [])
-    ];
     // Set the new filters
-    setFilters(newFilters);
+    setFilters([...tag , ...components , ...category]);
     setSingleApp('search')
 
     return () => {
@@ -77,6 +72,7 @@ const page = () => {
       setActiveControls('')
       setFilters([])
       setSingleApp('')
+      setActiveView('')
     }
   }, [])
 
@@ -107,7 +103,7 @@ const page = () => {
           body: JSON.stringify({
             token: getToken(),
             keyword,
-            filters: `platform = ${platform}`,
+            filters: filterQuery,
             offset: data?.length,
             limit: 10
           })

@@ -29,9 +29,9 @@ const Navbar: FC = () => {
             </Link>
 
             {!loading &&
-                <div className=' flex'>
+                <div className='flex bg-slate-900 rounded-full'>
                     <Navigator/>
-                    <PlatformSwitcher />
+                    <PlatformSwitcher/>
                 </div>
             }
 

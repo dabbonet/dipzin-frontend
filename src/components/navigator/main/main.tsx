@@ -1,7 +1,7 @@
 'use client'
 import React, { useCallback, useRef } from 'react'
-import { useState, useEffect } from "react";
-import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
+import {  useEffect } from "react";
+import { AnimatePresence, motion  } from 'framer-motion';
 import Search from './search';
 import Menu from './menu';
 import Icons from '@/components/Icons';
@@ -11,8 +11,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useSelcetedImages } from '@/lib/SelectedToDownload';
 import { ImageDownloader } from '@/lib/ImageDownloader';
-import { usePlatform } from '@/lib/platforms';
-import { toast } from 'react-hot-toast';
+
 
 
 
@@ -23,27 +22,20 @@ const MainNavigator = ({ type }: any) => {
     const { filters, setFilters, searchKeyword, setSearchKeyword } = useContentDiscovery();
     const inputRef = useRef(null)
     const searchButton = useRef(null)
-    const params = useSearchParams()
-    const components = params.getAll('component')
-    const tag = params.getAll('tag')
-    const category = params.getAll('category')
-
 
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.ctrlKey && (event.key === 'k' || event.keyCode === 75)) {
                 event.preventDefault();
                 // Perform your desired functionality here
-                setActiveView(prev => {
-                    if (['search', ].includes(prev)) {
-                        setSearchKeyword('')
-                        inputRef?.current?.blur()
-                        return ''
-                    } else {
-                        inputRef?.current?.focus()
-                        return 'search'
-                    }
-                })
+                setActiveView('search')
+                inputRef?.current?.focus()
+            }
+            if(event.key === 'Escape'){
+                setActiveView('')
+                setSearchKeyword('')
+                inputRef?.current?.blur()
+                setFilters([])
             }
             if (event.key === "Enter") {
                 searchButton.current.click()
@@ -84,41 +76,44 @@ const MainNavigator = ({ type }: any) => {
         [setSearchKeyword, setActiveView]
     );
     
-    const removeFilter = (tag) => {
-        setFilters(filters.filter(el=> el.tag !== tag))
+    const removeFilter = () => {
+        setFilters([])
     }
-    const clearParams = (value)=> {
+    const clearParams = (value) => {
+        setFilters(filters.filter(el => el!== value))
         const url = new URL(window.location.href);
         const params = url.searchParams;
+        const updatedParams = new URLSearchParams();
         params.forEach((paramValue, paramName) => {
-            if (paramValue === value) {
-            params.delete(paramName);
-            }
+          if (paramValue === value) {
+            return;
+          }
+          updatedParams.append(paramName, paramValue);
         });
-        const newUrl = `${url.origin}${url.pathname}${params.toString() ? '?' + params.toString() : ''}`;
-        router.push(newUrl)
-
-    }
+        const newUrl = `${url.origin}${url.pathname}${updatedParams.toString() ? '?' + updatedParams.toString() : ''}`;
+        router.push(newUrl);
+      };
+      
     if (activeControls === '') return
     return (
-        <div ref={wrapperRef} className=" flex justify-center z-[10000000] w-fit">
-            <div className='relative flex items-end'>
+        <div ref={wrapperRef} className="flex bg-slate-900 rounded-full w-fit items-center h-full">
+            <div className='relative h-full'>
 
                 {/* User Avatar area */}
 
                 {/* Navigator Area */}
                 <motion.div
 
-                    className="relative w-full h-full rounded-3xl bg-slate-950/100 border-[0.5px] border-slate-800 p-2 flex-col items-end text-slate-100 tracking-[.07rem]"
+                    className="h-full"
                     transition={{ type: "spring", duration: 0.6 }}
                     initial={{ borderRadius: 30 }}
                 >
 
 
-                    <motion.div className="flex w-full h-[48px] relative z-30 space-x-2">
+                    <motion.div className="w-fit h-full">
 
 
-                        <motion.div
+                        {/* <motion.div
 
                             className="flex items-center bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-3xl px-7 space-x-2"
                             onClick={() => {
@@ -126,17 +121,17 @@ const MainNavigator = ({ type }: any) => {
                             }}>
                             <Icons.Grip className='w-4 h-4 text-slate-400' />
                             <span className="font-medium text-sm mt-0.5 mx-auto">Menu</span>
-                        </motion.div>
+                        </motion.div> */}
 
 
 
                         {(activeControls == 'menu-search') && (
 
-                            <motion.div className={cn("flex items-center h-[48px] min-w-[20rem] w-full bg-slate-800 rounded-full pl-3 relative")}>
+                            <motion.div className={cn(" flex py-3 gap-3 items-center pl-6")}>
                                 <motion.img src='/images/assets/search.svg' className=' mr-2' />
                                 <motion.input
                                     ref={inputRef}
-                                    className=" h-[100%]  bg-inherit border-[0px] outline-0 text-sm rounded-full max-w-sm"
+                                    className="bg-inherit outline-none"
                                     placeholder={filters.length !== 0 ? 'Search More Tags...' : 'Try Search!'}
                                     transition={{ duration: 0.4 }}
                                     animate={{ width: '100%' }}
@@ -146,11 +141,8 @@ const MainNavigator = ({ type }: any) => {
                                         setActiveView('search')
                                     }}
                                 />
-                                {activeView === 'search' && <div className=' flex gap-2'>
-                                    {filters.map(el => <button onClick={()=>removeFilter(el.tag)} key={el.tag} className=' text-xs text-white font-bold border border-solid border-white rounded-xl p-2 hover:text-aqua-500 hover:border-aqua-500'>{el.tag}</button>)}
-                                    </div>
-}
-                                <span className=' absolute text-slate-500 right-20 text-xs'>{searchKeyword.length === 0 ? 'CTRL + K' : 'Enter'}</span>
+                                {activeView === 'search' && filters.length !== 0  && <button onClick={removeFilter} className=' text-slate-500 font-medium text-sm'><span className=' text-slate-50 font-bold mr-1'>+{filters.length}</span>filters</button>}
+                                <p className=' text-slate-500 text-sm w-full text-center'>{searchKeyword.length === 0 ? 'CTRL K' : 'Enter'}</p>
                             </motion.div>
                         )}
 
@@ -164,9 +156,9 @@ const MainNavigator = ({ type }: any) => {
                             </div>
                         )}
                         {(activeControls === 'filters') && (
-                            <div className=' flex flex-wrap items-center bg-slate-800 rounded-full px-6'>
+                            <div className=' flex flex-wrap items-center bg-slate-900 rounded-full px-6 h-full'>
                                 <button className=' text-white mr-1 font-semibold' onClick={()=> setActiveControls('menu-search')}>{searchKeyword}</button>
-                                {[...tag ,...components , ...category].length !== 0 && <div className='flex gap-1 ml-1 items-center'>with filters {[...tag ,...components , ...category].map(el => <button onClick={()=>clearParams(el)} key={el} className=' bg-transparent border border-solid border-slate-300 text-slate-300 rounded-xl py-1 px-2 hover:text-aqua-500 hover:border-aqua-500'>{el} x</button>)}</div> }
+                                {filters.length !== 0 && <div className='flex gap-1 ml-1 items-center'>with filters {filters.map(el => <button onClick={()=>clearParams(el)} key={el} className=' bg-transparent border border-solid border-slate-300 text-slate-300 rounded-xl py-1 px-2 hover:text-aqua-500 hover:border-aqua-500'>{el} x</button>)}</div> }
                             </div>
                         )}
 
