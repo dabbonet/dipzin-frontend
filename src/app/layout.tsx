@@ -9,11 +9,6 @@ import Providers from '@/components/Providers';
 import { AccessOrUpgradeCard } from '@/components/accessAndUpgrade';
 import GoogleOneTap from '@/components/GoogleOneTap';
 
-import { Amplify } from "aws-amplify";
-import awsExports from "@/aws-exports";
-
-Amplify.configure({ ...awsExports, ssr: true });
-
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
