@@ -31,7 +31,7 @@ const ShowcaseScreen: FC<ShowcaseScreenProps> = ({ app }) => {
                 setCurrentScreenIndex((prevIndex) =>
                     prevIndex === screens.length - 1 ? 0 : prevIndex + 1
                 )
-            }, 1200) // Intreval for shuffle function.
+            }, 500) // Intreval for shuffle function.
         } else {
             clearInterval(intervalId)
         }

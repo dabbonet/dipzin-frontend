@@ -18,6 +18,7 @@ import { useSelcetedImages } from "@/lib/SelectedToDownload";
 interface ContentProps {
   apps: any;
   selectedApp: any;
+  tagLine?: any
 }
 
 export default function Content({ apps, selectedApp: app }: ContentProps) {
