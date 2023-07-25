@@ -136,7 +136,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName }) => {
             </svg>
           )}
         </motion.div>
-        {hovered && <Actions screen={screen} />}
+        {hovered && <Actions screen={screen} appName={appName} />}
 
         <div
           className={cn(
