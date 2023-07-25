@@ -33,24 +33,19 @@ const AccessCard = () => {
   }, [visibleNoAuth])
   if (!show) return
   return (
-    <AnimatePresence>
-      <div
-        className="fixed inset-0 flex justify-center items-center z-[60]"
-        onClick={() => { setVisibleNoAuth(false) }}
-      >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          exit={{ opacity: 0 }}
-          ref={ref}
-          className="bg-slate-900 bg-opacity-80 rounded-2xl px-16 py-20"
-        >
-          <AccessComponent />
-        </motion.div>
-      </div>
-      <div className="fixed z-50 inset-0 h-full w-full bg-slate-950/50 backdrop-blur-[30px]"></div>
-    </AnimatePresence>
+      <AnimatePresence>
+        <div ref={ref} className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-50">
+          <div className=" w-fit h-fit bg-slate-900 bg-opacity-60 rounded-2xl px-16 py-20 z-[1000]">
+            <AccessComponent />
+          </div>
+          <motion.div
+            onClick={() => setVisibleNoAuth(false)}
+            className={
+              "w-[100%] h-[100%] fixed top-0 bg-transparent"
+            }
+          ></motion.div>
+        </div>
+      </AnimatePresence>
   )
 
 }

@@ -2,7 +2,6 @@
 import { FC } from 'react'
 import Image from 'next/image'
 import Link from 'next/link';
-import PlatformSwitcher from '@/components/PlatformSwitcher';
 import SparkleButton from './ui/SparkleButton';
 import { useAuth } from '@/lib/auth';
 import Navigator from './navigator/main';

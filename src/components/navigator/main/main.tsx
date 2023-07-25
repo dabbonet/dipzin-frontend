@@ -68,6 +68,12 @@ const MainNavigator = ({ type }: any) => {
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
 
+    useEffect(() => {
+      if(selectedImages.images.length === 0){
+        setActiveControls('menu-search')
+      }
+    }, [selectedImages])
+    
 
     const handleSearch = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,7 +107,6 @@ const MainNavigator = ({ type }: any) => {
             <div className={cn('relative', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
                 <div className='flex w-full justify-between bg-slate-900 rounded-full'>
                     {(activeControls == 'menu-search') && (
-
                         <motion.div className={cn(" flex py-3 gap-3 items-center pl-6 w-full")}>
                             <motion.img src='/images/assets/search.svg' className=' mr-2' />
                             <motion.input
@@ -157,8 +162,8 @@ const MainNavigator = ({ type }: any) => {
 
 
 
-                        {(activeControls == 'selection') && (
-                            <div className=' flex gap-20 flex-wrap items-center bg-slate-800 rounded-full pl-5'>
+                        {(activeControls === 'selection') && selectedImages.images.length !== 0 && (
+                            <div className=' flex gap-20 flex-wrap items-center bg-slate-800 rounded-full pl-5 py-1 z-[100000000000000000000000000000000000000]'>
                                 <div className=' flex items-center'>{selectedImages.images.length} selected <button className=' ml-2' onClick={() => setSelectedImages({ appName: '', images: [] })}><Icons.Clear /></button></div>
 
                                 <div className=' flex gap-5 pr-3'>
@@ -170,9 +175,6 @@ const MainNavigator = ({ type }: any) => {
 
                     </motion.div>
                     <AnimatePresence mode='wait'>
-                        {/* {activeView == 'search' && (
-                            <Search />
-                        )} */}
                         {activeView == 'menu' && (
                             <Menu />
                         )}
