@@ -8,6 +8,9 @@ import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
 import { AccessOrUpgradeCard } from '@/components/accessAndUpgrade';
 import GoogleOneTap from '@/components/GoogleOneTap';
+import googleTagManager from '@analytics/google-tag-manager'
+import Analytics from 'analytics'
+
 
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
@@ -33,6 +36,16 @@ export const metadata = {
     type: 'website',
   },
 }
+
+const analytics = Analytics({
+  app: 'dipzin.com',
+  plugins: [
+    googleTagManager({
+      containerId: 'GTM-PW28TXN'
+    })
+  ]
+})
+
 
 export default function RootLayout({
   params,
