@@ -65,15 +65,15 @@ const Showcase: FC<ShowcaseProps> = ({
               alt="icon"
             />
             <div className="ml-4">
-              <span className="text-[32px] font-medium">{selectedShowcase?.name}</span>
-              <span className="block text-[16px] text-[#8F94A1]">
+              <span className="lg:text-[32px] font-medium">{selectedShowcase?.name}</span>
+              <span className="block lg:text-[16px] text-[#8F94A1] text-[4px]">
                 {selectedShowcase?.tag_line}
               </span>
             </div>
           </div>
           <ActionBar className='flex space-x-1.5'>
             <Link href={`app${path}/${selectedShowcase?.slug}`} replace={false}>
-              <SquareButton className='w-32'>
+              <SquareButton className='lg:w-32'>
                 <SquareButton.Title className='w-[70%]'>Open Application</SquareButton.Title>
                 <SquareButton.Icon>
                   <Icons.Open />
@@ -90,6 +90,7 @@ const Showcase: FC<ShowcaseProps> = ({
                     "noreferrer"
                   );
                 }}
+                className=''
               >
                 <SquareButton.Title className="w-[70%]">
                   App Store
@@ -158,7 +159,7 @@ const Showcase: FC<ShowcaseProps> = ({
         </div>
         {/*-------------------------------------------------------*/}
         <div
-          className={cn("grid ml-auto mr-auto z-50 w-full", platform === 3 ? "grid-cols-2 lg:grid-cols-2 xl:grid-cols-2  gap-10 " : "grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-10")}
+          className={cn("grid ml-auto mr-auto z-50 w-full", platform === 3 ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  gap-10 " : "grid-cols-1 lg:grid-cols-4 xl:grid-cols-5 gap-10")}
         >
           {selectedShowcase?.screens.map((item: any, index: number) => (
             <SingleScreen key={index} appName={selectedShowcase?.name} screen={item} />

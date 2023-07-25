@@ -67,7 +67,7 @@ const AccessComponent = () => {
 
   if (showOtpCard) return <OtpAccessComponent email={email} />
   return (
-    <div className="mx-auto subpixel-antialiased ">
+    <div className="mx-auto subpixel-antialiased">
       <h1 className="font-bold h-auto !leading-normal bg-clip-text  lg:text-5xl text-3xl">
         Log in or Signup
       </h1>
