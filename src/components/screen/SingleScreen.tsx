@@ -101,7 +101,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName }) => {
     );
   return (
     <div
-      className="flex justify-center items-center relative group/item"
+      className="flex justify-center items-center relative group/item w-fit mx-auto"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

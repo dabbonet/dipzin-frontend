@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useContentDiscovery } from '@/context/useContentDiscovery';
-import { getToken } from '@/lib/auth';
+import { getToken, useAuth } from '@/lib/auth';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDebounce } from 'use-debounce'
 import { cn, getPlatformById, platfroms } from '@/lib/utils';
@@ -29,15 +29,12 @@ const mergeArrays = (arr) => {
 const InitialSearch = () => {
     const { searchKeyword, filters, setSearchKeyword } = useContentDiscovery();
     const { setActiveView, activeView } = useNavigator()
-    const { setVisibleNoAuth } = useDialog()
     const { selected } = usePlatform()
-    const router = useRouter()
     const [data, setdata] = useState(null)
     const inputRef = useRef(null)
     const searchButton = useRef(null)
     const [debounce] = useDebounce(searchKeyword, 300)
-    const token = getToken()
-    const path = usePathname()
+    const {navigateToRoute} = useDialog()
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -88,28 +85,23 @@ const InitialSearch = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounce])
     const handleGetScreens = () => {
-        if (token) {
-            const query = qs.stringify(
-                {
-                    q: searchKeyword,
-                    component: filters
-                        .filter(el => el.type === 'component' && el.tag)
-                        .map(el => el.tag),
-                    category: filters
-                        .filter(el => el.type === 'category' && el.tag)
-                        .map(el => el.tag),
-                    tag: filters
-                        .filter(el => el.type === 'tag' && el.tag)
-                        .map(el => el.tag),
-                },
-                { encodeValuesOnly: true, addQueryPrefix: true, indices: false }
-            );
-            const app = getPlatformById(selected)
-            if (path.startsWith('/search')) return window.location.assign(`/search/${app}${query}`)
-            router.push(`/search/${app}${query}`)
-        } else {
-            setVisibleNoAuth(true)
-        }
+        const query = qs.stringify(
+            {
+                q: searchKeyword,
+                component: filters
+                    .filter(el => el.type === 'component' && el.tag)
+                    .map(el => el.tag),
+                category: filters
+                    .filter(el => el.type === 'category' && el.tag)
+                    .map(el => el.tag),
+                tag: filters
+                    .filter(el => el.type === 'tag' && el.tag)
+                    .map(el => el.tag),
+            },
+            { encodeValuesOnly: true, addQueryPrefix: true, indices: false }
+        );
+        const app = getPlatformById(selected)
+        navigateToRoute({link: `/search/${app}${query}`})
     }
 
     return (
@@ -198,13 +190,13 @@ const FeatureCard = ({ tag, type }) => {
 }
 
 const App = ({ name, src, app_catigory, app_platform, slug }) => {
-
-    return <Link href={`/app/${app_platform}/${slug}`} className='hover:bg-slate-900 w-fit px-2 py-2 rounded-xl flex gap-x-3 items-center' >
+    const {navigateToRoute} = useDialog()
+    return <button onClick={()=> navigateToRoute({link: `/app/${app_platform}/${slug}`})}  className='hover:bg-slate-900 w-fit px-2 py-2 rounded-xl flex gap-x-3 items-center' >
         <Image src={src} width={24} height={24} alt='' className=' rounded-md' />
         <h3 className=' font-medium text-sm'>{name}</h3>
         <span className=' text-slate-700'>{app_catigory}</span>
         <span className=' text-slate-500 bg-slate-800 px-2 capitalize rounded-lg'>{app_platform}</span>
-    </Link>
+    </button>
 }
 
 
