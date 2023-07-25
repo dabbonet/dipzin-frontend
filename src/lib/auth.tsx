@@ -21,6 +21,7 @@ const AuthProvider: FC<props> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const { referralToken, invitationToken } = invetaionAndReferralTokens()
   const [checker, setChecker] = useState(false)
+  const [isPaid, setIsPaid] = useState(false)
   useEffect(() => {
     // Send Provider Token to get User Data and strapi JWT Token.
     if (token) {
@@ -54,7 +55,7 @@ const AuthProvider: FC<props> = ({ children }) => {
         const data = await req.json();
         setUser(data);
       } catch (error) {
-        localStorage.removeItem("token");
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         setUser(null);
       } finally {
         setLoading(false);
@@ -64,8 +65,23 @@ const AuthProvider: FC<props> = ({ children }) => {
     checkUser();
   }, [checker, invitationToken, provider, referralToken, router, token]);
 
+  useEffect(() => {
+    async function getUserDataForIsPaid() {
+      const req = await fetch("/api/user", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+      const data = await req.json();
+      setIsPaid(data.is_paid)
+    }
+    getUserDataForIsPaid()
+  }, [])
+  
+
   return (
-    <IsAuth.Provider value={{ user, loading, setChecker }}>{children}</IsAuth.Provider>
+    <IsAuth.Provider value={{ user, loading, setChecker , isPaid}}>{children}</IsAuth.Provider>
   );
 };
 
@@ -103,7 +119,7 @@ export const getUser = async () => {
 };
 
 export const SignOut = () => {
-  localStorage.removeItem("token");
+  document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   Router.reload();
   return;
 };
