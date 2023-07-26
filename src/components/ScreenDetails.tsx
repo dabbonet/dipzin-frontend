@@ -66,14 +66,19 @@ const ScreenDetails = ({ screenId }) => {
                             <Tags />
                         </div>
                     }
-                    <div>
-                        <p className=' text-slate-500 text-sm mb-2'>Components</p>
-                        <Components />
-                    </div>
-                    <div>
-                        <p className=' text-slate-500 text-sm mb-2'>Colors</p>
-                        <Colors />
-                    </div>
+                    {data?.components?.length > 0 &&
+                        <div>
+                            <p className=' text-slate-500 text-sm mb-2'>components</p>
+                            <Components />
+                        </div>
+                    }
+                    {data?.colors?.length > 0 &&
+                        <div>
+                            <p className=' text-slate-500 text-sm mb-2'>colors</p>
+                            <Colors />
+                        </div>
+                    }
+                    
                 </div>
             </motion.div>
         )

@@ -54,7 +54,6 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   const icon = app.icon.data.attributes.hash + app.icon.data.attributes.ext;
   const categoryName = app.categories.data[0].attributes.name;
   const screens = app.screens.data;
-
   if (!icon || !screens || !categoryName || !app) {
     notFound()
   }
@@ -126,7 +125,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
               <motion.div className="flex items-center h-[100vh] w-fit  relative z-[100]" >
                 <ScreenDetails screenId={openScreen.id} />
                 <Screen
-                  src={mergeScreenUrl(openScreen)}
+                  src={mergeScreenUrl(openScreen) || openScreen}
                   quality={50}
                   className="rounded-2xl h-[90%] w-auto bg-slate-900/80"
                 />
