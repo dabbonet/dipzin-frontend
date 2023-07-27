@@ -127,7 +127,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
                 <Screen
                   src={mergeScreenUrl(openScreen) || openScreen}
                   quality={50}
-                  className="rounded-2xl h-[90%] w-auto bg-slate-900/80"
+                  className="rounded-2xl h-[60%] w-auto bg-slate-900/80"
                 />
               </motion.div>
               <motion.div

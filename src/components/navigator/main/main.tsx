@@ -104,14 +104,14 @@ const MainNavigator = ({ type }: any) => {
     if (activeControls === '') return
     return (
         <div ref={wrapperRef} className="flex w-fit items-center h-full">
-            <div className={cn('relative', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
-                <div className='flex w-full justify-between bg-slate-900 rounded-full'>
+            <div className={cn('relative w-fit', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
+                <div className='flex flex-col md:flex-row items-center w-fit bg-slate-900 rounded-full'>
                     {(activeControls == 'menu-search') && (
-                        <motion.div className={cn(" flex py-3 gap-3 items-center pl-6 w-full")}>
+                        <motion.div className={cn(" flex gap-3 items-center pl-6 w-full")}>
                             <motion.img src='/images/assets/search.svg' className=' mr-2' />
                             <motion.input
                                 ref={inputRef}
-                                className="bg-inherit outline-none"
+                                className="bg-inherit outline-none w-fit"
                                 placeholder={filters.length !== 0 ? 'Search More Tags...' : 'Try Search!'}
                                 transition={{ duration: 0.4 }}
                                 animate={{ width: '100%' }}
@@ -122,7 +122,7 @@ const MainNavigator = ({ type }: any) => {
                                 }}
                             />
                             {activeView === 'menuWithSearch' && filters.length !== 0 && <button onClick={removeFilter} className=' text-slate-500 font-medium text-sm'><span className=' text-slate-50 font-bold mr-1'>+{filters.length}</span>filters</button>}
-                            <p className=' text-slate-500 text-sm w-20 mr-2 text-center'>{searchKeyword.length === 0 ? 'CTRL K' : 'Enter'}</p>
+                            <p className=' text-slate-500 text-sm w-20 mr-2 text-center sm:block hidden'>{searchKeyword.length === 0 ? 'CTRL K' : 'Enter'}</p>
                         </motion.div>
                     )}
                     <PlatformSwitcher />
@@ -163,11 +163,11 @@ const MainNavigator = ({ type }: any) => {
 
 
                         {(activeControls === 'selection') && selectedImages.images.length !== 0 && (
-                            <div className=' flex gap-20 flex-wrap items-center bg-slate-800 rounded-full pl-5 py-1 z-[100000000000000000000000000000000000000]'>
-                                <div className=' flex items-center'>{selectedImages.images.length} selected <button className=' ml-2' onClick={() => setSelectedImages({ appName: '', images: [] })}><Icons.Clear /></button></div>
+                            <div className=' flex gap-x-20 flex-wrap justify-center w-fit items-center bg-slate-800 rounded-full pl-5 py-1 z-[100000000000000000000000000000000000000]'>
+                                <div className=' flex items-center text-xs md:text-base'>{selectedImages.images.length} selected <button className=' ml-2' onClick={() => setSelectedImages({ appName: '', images: [] })}><Icons.Clear /></button></div>
 
-                                <div className=' flex gap-5 pr-3'>
-                                    <button className=' py-1 px-3 rounded-2xl bg-slate-600' onClick={() => ImageDownloader(selectedImages.appName + " Showcase", selectedImages.images)}>Download</button>
+                                <div className='pr-3'>
+                                    <button className=' md:py-1 md:px-3 px-1 py-1 rounded-2xl bg-slate-600 text-xs md:text-base' onClick={() => ImageDownloader(selectedImages.appName + " Showcase", selectedImages.images)}>Download</button>
                                 </div>
                             </div>
                         )}

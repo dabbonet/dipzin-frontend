@@ -114,36 +114,38 @@ const InitialSearch = () => {
         // exit={{ opacity: 0, height: 0, width: 0 }}
         // transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
         >
-            <h1 className=' text-slate-100 font-semibold mt-3'><span className='ml-3 mt-3'>Search Suggestions</span></h1>
-            <div className=' overflow-y-hidden h-[400px] w-[900px] rounded-[20px] mb-10'>
+            <h1 className=' text-slate-100 font-semibold mt-3'><span className='ml-3 mt-3 text-xs md:text-base'>Search Suggestions</span></h1>
+            <div className=' overflow-y-hidden h-[400px] max-w-[900px] rounded-[20px] mb-10'>
                 {/* <div className='w-full h-[10%] absolute bottom-0 bg-gradient-to-b from-slate-950/0 to-slate-950/90'></div> */}
 
                 <div className='flex h-full p-2 px-4 flex-col overflow-y-scroll'>
                     <p className=' text-slate-500 text-xs'>Featured Apps</p>
-                    <div className=' grid grid-cols-2 gap-3 mt-3 mb-6'>
+                    <div className=' grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3 mb-6'>
                         {data ? data?.apps?.map((el, index) => <App slug={el.app.slug} key={index} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />) : <SearchLoader cellsNumber={6} />}
                     </div>
                     <div className='flex justify-between'>
                         <p className=' text-slate-500 text-xs'>Tags</p>
-                        <button>view all</button>
+                        <button className=' text-xs md:text-base'>view all</button>
                     </div>
-                    <div className=' flex gap-2 mt-2 mb-6'>
+                    <div className=' flex gap-2 mt-2 mb-6 flex-wrap'>
                         {data ? data?.tags?.map((el, index) => {
                             return <FeatureCard tag={el.name} type={el.type} key={index} />
                         }) : <SearchLoader cellsNumber={5} />}
                     </div>
                     <div className='flex justify-between'>
                         <p className=' text-slate-500 text-xs'>Components</p>
-                        <button>View all</button>
-                    </div>                        <div className=' flex gap-2 mt-2 mb-6'>
+                        <button className=' text-xs md:text-base'>View all</button>
+                    </div>                        
+                    <div className=' flex gap-2 mt-2 mb-6 flex-wrap'>
                         {data ? data?.components?.map((el, index) => {
                             return <FeatureCard tag={el.name} type={el.type} key={index} />
                         }) : <SearchLoader cellsNumber={5} />}
                     </div>
                     <div className='flex justify-between'>
                         <p className=' text-slate-500 text-xs'>Categories</p>
-                        <button>view all</button>
-                    </div>                        <div className=' flex gap-2 mt-2 mb-6'>
+                        <button className=' text-xs md:text-base'>view all</button>
+                    </div>                        
+                    <div className=' flex gap-2 mt-2 mb-6 flex-wrap'>
                         {data ? data?.categories?.map((el, index) => {
                             return <FeatureCard tag={el.name} type={el.type} key={index} />
                         }) : <SearchLoader cellsNumber={5} />}
@@ -180,22 +182,22 @@ const FeatureCard = ({ tag, type }) => {
     }
 
     if (filters.some(el => el.tag === tag)) {
-        return <button className=' py-1.5 px-3 bg-slate-800 rounded-lg w-fit border border-solid border-aqua-400' onClick={handleClick}>
-            <span className=' text-slate-200 mx-auto'>{tag}</span>
+        return <button className=' md:py-1.5 md:px-3 py-1 px-1 bg-slate-800 rounded-lg w-fit border border-solid border-aqua-400' onClick={handleClick}>
+            <span className=' text-slate-200 mx-auto text-xs md:text-base'>{tag}</span>
         </button>
     }
-    return <button className=' py-1.5 px-3 bg-slate-900 hover:bg-slate-800 rounded-lg w-fit border border-solid border-transparent' onClick={handleClick}>
-        <span className=' text-slate-200 mx-auto'>{tag}</span>
+    return <button className=' md:py-1.5 md:px-3 py-1 px-1 bg-slate-900 hover:bg-slate-800 rounded-lg w-fit border border-solid border-transparent' onClick={handleClick}>
+        <span className=' text-slate-200 mx-auto text-xs md:text-base'>{tag}</span>
     </button>
 }
 
 const App = ({ name, src, app_catigory, app_platform, slug }) => {
     const {navigateToRoute} = useDialog()
-    return <button onClick={()=> navigateToRoute({link: `/app/${app_platform}/${slug}`})}  className='hover:bg-slate-900 w-fit px-2 py-2 rounded-xl flex gap-x-3 items-center' >
+    return <button onClick={()=> navigateToRoute({link: `/app/${app_platform}/${slug}`})}  className='hover:bg-slate-900 w-fit px-2 py-2 rounded-xl flex gap-3 items-center flex-wrap' >
         <Image src={src} width={24} height={24} alt='' className=' rounded-md' />
-        <h3 className=' font-medium text-sm'>{name}</h3>
-        <span className=' text-slate-700'>{app_catigory}</span>
-        <span className=' text-slate-500 bg-slate-800 px-2 capitalize rounded-lg'>{app_platform}</span>
+        <h3 className=' font-medium md:text-sm text-xs'>{name}</h3>
+        <span className=' text-slate-700 text-xs md:text-base'>{app_catigory}</span>
+        <span className=' text-slate-500 bg-slate-800 md:px-2 px-1 capitalize rounded-lg text-xs md:text-base'>{app_platform}</span>
     </button>
 }
 
