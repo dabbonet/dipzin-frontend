@@ -194,15 +194,10 @@
   dependencies:
     glob "7.1.7"
 
-"@next/swc-linux-x64-gnu@13.4.12":
+"@next/swc-win32-x64-msvc@13.4.12":
   version "13.4.12"
-  resolved "https://registry.npmjs.org/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-13.4.12.tgz"
-  integrity sha512-1DWLL/B9nBNiQRng+1aqs3OaZcxC16Nf+mOnpcrZZSdyKHek3WQh6j/fkbukObgNGwmCoVevLUa/p3UFTTqgqg==
-
-"@next/swc-linux-x64-musl@13.4.12":
-  version "13.4.12"
-  resolved "https://registry.npmjs.org/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-13.4.12.tgz"
-  integrity sha512-kEAJmgYFhp0VL+eRWmUkVxLVunn7oL9Mdue/FS8yzRBVj7Z0AnIrHpTIeIUl1bbdQq1VaoOztnKicAjfkLTRCQ==
+  resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-13.4.12.tgz"
+  integrity sha512-Z+56e/Ljt0bUs+T+jPjhFyxYBcdY2RIq9ELFU+qAMQMteHo7ymbV7CKmlcX59RI9C4YzN8PgMgLyAoi916b5HA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -254,6 +249,16 @@
   dependencies:
     tslib "^2.4.0"
 
+"@tailwindcss/typography@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.npmjs.org/@tailwindcss/typography/-/typography-0.5.9.tgz"
+  integrity sha512-t8Sg3DyynFysV9f4JDOVISGsjazNb48AeIYQwcL+Bsq5uf4RYL75C1giZ43KISjeDGBaTN3Kxh7Xj/vRSMJUUg==
+  dependencies:
+    lodash.castarray "^4.4.0"
+    lodash.isplainobject "^4.0.6"
+    lodash.merge "^4.6.2"
+    postcss-selector-parser "6.0.10"
+
 "@types/dlv@^1.0.0":
   version "1.1.2"
   resolved "https://registry.npmjs.org/@types/dlv/-/dlv-1.1.2.tgz"
@@ -263,6 +268,11 @@
   version "0.0.29"
   resolved "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
+
+"@types/marked@^4.0.7":
+  version "4.3.1"
+  resolved "https://registry.npmjs.org/@types/marked/-/marked-4.3.1.tgz"
+  integrity sha512-vSSbKZFbNktrQ15v7o1EaH78EbWV+sPQbPjHG+Cp8CaNcPFUEfjZ0Iml/V0bFDwsTlYe8o6XC5Hfdp91cqPV2g==
 
 "@types/node@20.4.4":
   version "20.4.4"
@@ -1761,6 +1771,16 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
+lodash.castarray@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.npmjs.org/lodash.castarray/-/lodash.castarray-4.4.0.tgz"
+  integrity sha512-aVx8ztPv7/2ULbArGJ2Y42bG1mEQ5mGjpdvrbJcJFU3TbYybe+QlLS4pst9zV52ymy2in1KpFPiZnAOATxD4+Q==
+
+lodash.isplainobject@^4.0.6:
+  version "4.0.6"
+  resolved "https://registry.npmjs.org/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz"
+  integrity sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==
+
 lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.npmjs.org/lodash.merge/-/lodash.merge-4.6.2.tgz"
@@ -1784,6 +1804,19 @@ lucide-react@^0.263.0:
   version "0.263.1"
   resolved "https://registry.npmjs.org/lucide-react/-/lucide-react-0.263.1.tgz"
   integrity sha512-keqxAx97PlaEN89PXZ6ki1N8nRjGWtDa4021GFYLNj0RgruM5odbpl8GHTExj0hhPq3sF6Up0gnxt6TSHu+ovw==
+
+marked-react@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/marked-react/-/marked-react-1.4.0.tgz"
+  integrity sha512-ljNfSUH1LTEgLu82VRb89wPP63UFR21Ot8zvfuIImDDAgFf/FuYi4ca/jcusfEL92KcBcH/rQMc3wVWSC4zBbw==
+  dependencies:
+    "@types/marked" "^4.0.7"
+    marked "^4.2.12"
+
+marked@^4.2.12:
+  version "4.3.0"
+  resolved "https://registry.npmjs.org/marked/-/marked-4.3.0.tgz"
+  integrity sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==
 
 memoize-one@^5.1.1:
   version "5.2.1"
@@ -2135,6 +2168,14 @@ postcss-selector-parser@^6.0.11:
     cssesc "^3.0.0"
     util-deprecate "^1.0.2"
 
+postcss-selector-parser@6.0.10:
+  version "6.0.10"
+  resolved "https://registry.npmjs.org/postcss-selector-parser/-/postcss-selector-parser-6.0.10.tgz"
+  integrity sha512-IQ7TZdoaqbT+LCpShg46jnZVlhWD2w6iQYAcYXfHARZ7X1t/UGhhceQDs5X0cGqKvYlHNOuv7Oa1xmb0oQuA3w==
+  dependencies:
+    cssesc "^3.0.0"
+    util-deprecate "^1.0.2"
+
 postcss-value-parser@^4.0.0, postcss-value-parser@^4.2.0:
   version "4.2.0"
   resolved "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz"
@@ -2247,7 +2288,7 @@ react-virtuoso@^4.3.10:
   resolved "https://registry.npmjs.org/react-virtuoso/-/react-virtuoso-4.4.0.tgz"
   integrity sha512-7hVk43DN9Sx6czpclTpPnB2uzDmCaioSoTSN8lRv4mMF7UL5jmfc58UpjRrGoJavzVn1VBjHLLj6RHBLsS+N5Q==
 
-react@*, "react@^16.5.1 || ^17.0.0 || ^18.0.0", react@^18.0.0, react@^18.2.0, "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", react@>=16, "react@>=16 || >=17 || >= 18", react@>=16.0.0, react@>=16.13, react@>=16.6.0, react@>=16.8.0, react@18.2.0:
+react@*, "react@^16.5.1 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || >=17.0.0", react@^18.0.0, react@^18.2.0, "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", react@>=16, "react@>=16 || >=17 || >= 18", react@>=16.0.0, react@>=16.13, react@>=16.6.0, react@>=16.8.0, react@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
@@ -2553,7 +2594,7 @@ tailwind-merge@^1.14.0:
   resolved "https://registry.npmjs.org/tailwind-merge/-/tailwind-merge-1.14.0.tgz"
   integrity sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==
 
-tailwindcss@^3.3.3, tailwindcss@>=2.0.0:
+tailwindcss@^3.3.3, tailwindcss@>=2.0.0, "tailwindcss@>=3.0.0 || insiders":
   version "3.3.3"
   resolved "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.3.3.tgz"
   integrity sha512-A0KgSkef7eE4Mf+nKJ83i75TMyq8HqY3qmFIJSWy8bNt0v1lG7jUcpGpoTFxAwYcWOphcTBLPPJg+bDfhDf52w==
