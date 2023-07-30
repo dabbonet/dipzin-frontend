@@ -97,7 +97,7 @@ const Pricing = ({ checkOuts }) => {
                   <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
                     $0 <span className=" text-slate-400 lg:text-base md:text-sm text-xs">/month</span>
                   </h4>
-                  <button className=" text-sm lg:text-base py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-slate-800 rounded-xl">
+                  <button className=" text-sm lg:text-base lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-slate-800 rounded-xl">
                     Current Plan
                   </button>
                 </div>
@@ -113,7 +113,7 @@ const Pricing = ({ checkOuts }) => {
                       /{checkout.recurring.interval}
                     </span>
                   </h4>
-                  <button className=" text-sm lg:text-base text-aqua-900 py-3 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl" onClick={() => goToPayment(checkout.id, setVisibleNoAuth)}>
+                  <button className=" text-sm lg:text-base text-aqua-900 lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl" onClick={() => goToPayment(checkout.id, setVisibleNoAuth)}>
                     Get Started
                   </button>
                 </div>
@@ -664,12 +664,12 @@ const Pricing = ({ checkOuts }) => {
         </div>
         {/* custoumer love corner */}
         <div className=" flex flex-col mt-28 w-[90%] container mb-20">
-          <h1 className=" text-6xl mb-6">Customer Love Corner</h1>
+          <h1 className=" lg:text-6xl text-3xl mb-6">Customer Love Corner</h1>
           <span className=" text-slate-300 mb-7 text-lg">We believe Dipzin should be accessible to all companies, no matter the size.</span>
-          <div className=" grid grid-cols-2 gap-x-10">
+          <div className=" grid grid-cols-1 md:grid-cols-2 gap-10">
             <div className="flex flex-col gap-10">
               <TesmonialsCard tweet={
-                <p className=" text-3xl">
+                <p className=" lg:text-3xl">
                   The scroll variant in <span className=" underline">@framer</span> hits differently.
                   <br />
                   <br />
@@ -677,14 +677,14 @@ const Pricing = ({ checkOuts }) => {
                 </p>
               } />
               <TesmonialsCard tweet={
-                <p className=" text-3xl">
+                <p className=" lg:text-3xl">
                   I was enjoying @framer a lot but I am BLOWN AWAY by their Figma plug-in. From Auto-layout to flex-box in the browser in seconds; this has completely changed how I'll build
                 </p>
               } />
             </div>
             <div className="flex flex-col gap-10">
               <TesmonialsCard tweet={
-                <p className=" text-3xl">
+                <p className=" lg:text-3xl">
                   Learned some basics of @framer yesterday, and today I delivered a landing page for a client.
                   <br />
                   <br />
@@ -696,7 +696,7 @@ const Pricing = ({ checkOuts }) => {
               } />
 
               <TesmonialsCard tweet={
-                <p className=" text-3xl">
+                <p className=" lg:text-3xl">
                   Playing around with @framer while building a landing page for a side project. I suck at animations, but they make it so easy
                 </p>
               } />
@@ -711,14 +711,14 @@ export default Pricing
 
 
 const TesmonialsCard = ({ tweet }) => {
-  return <div className=" h-fit pt-12 pb-14 px-12 bg-slate-800 bg-opacity-50 rounded-3xl">
+  return <div className=" h-fit lg:pt-12 lg:pb-14 lg:px-12 p-6 bg-slate-800 bg-opacity-50 rounded-3xl">
     <div className=" flex justify-between items-center">
       <div className=" flex gap-6 items-center">
         <div className=" w-16 h-16 bg-white rounded-full">
         </div>
         <div className=" flex flex-col">
-          <h4 className=" text-3xl">Ahmed Mahmoud</h4>
-          <span className=" text-2xl">@ahmed</span>
+          <h4 className=" lg:text-3xl">Ahmed Mahmoud</h4>
+          <span className=" lg:text-2xl">@ahmed</span>
         </div>
       </div>
       <Icons.FacebookIcon />

@@ -45,7 +45,7 @@ const AppActions: FC<navigatorProps> = ({ app, isFromCollection }) => {
     </SquareButton>
   }
   return (
-    <ActionBar className="flex flex-col fixed right-10 top-[32%] w-fit h-fit">
+    <ActionBar className="flex flex-col fixed sm:right-10 right-0 top-[32%] w-fit h-fit">
       <ButtonWrapper title='Like app' icon={<Icons.Heart />} handler={handleLikeApp} />
       <ButtonWrapper title='App store' icon={<Icons.Apple />} handler={handleAppStore} />
       <ButtonWrapper title='Bulk Download' icon={<Icons.Download />} handler={bulkDownloadImages} />

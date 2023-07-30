@@ -61,7 +61,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   return (
     <main className="w-full flex flex-col items-center">
       <Toaster position="bottom-right" />
-      <div className="flex w-full mt-10 mb-4 justify-between items-center text-slate-100 z-10">
+      <div className="flex w-full mt-10 mb-4 justify-between items-center text-slate-100 z-10 flex-wrap gap-4">
         <div className="flex space-x-6">
           <Image
             className="h-20 rounded-2xl bg-slate-600"
@@ -71,7 +71,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
             alt="apps Icon"
           />
           <div>
-            <span className="text-[32px] font-medium">{app.name}</span>
+            <span className="text-3xl font-medium">{app.name}</span>
             <span className="block text-[16px] text-slate-400">
               {app.tag_line}
             </span>
@@ -79,7 +79,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
         </div>
 
         <div className="flex space-x-16">
-          <div className="text-right">
+          <div className=" lg:text-right">
             <span className="text-xl font-medium">{categoryName}</span>
             <span className="block text-[16px] text-slate-400">
               App Category
@@ -103,7 +103,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
           "grid content-center gap-6 pt-0 grid-cols-2",
           selected == 3
             ? "2xl:grid-cols-4 md:grid-cols-3"
-            : " 2xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4"
+            : " 2xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 grid-cols-1 sm:grid-cols-2"
         )}
         itemContent={(index, data) => {
           return (
@@ -115,20 +115,20 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
         {openScreen && (
           <>
             <motion.div
-              className="fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8"
+              className="fixed top-0 w-full h-full backdrop-blur-md bg-slate-900/70 z-50 flex items-center gap-8"
               // onClick={() => setOpenScreen(null)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
               <ScreenActions appName={app.name} screen={openScreen} />
-              <motion.div className="flex items-center h-[100vh] w-fit  relative z-[100]" >
+              <motion.div className="flex flex-wrap justify-center items-center z-[100] w-fit mx-auto h-full gap-10" >
                 <ScreenDetails screenId={openScreen.id} />
                 <Screen
                   src={mergeScreenUrl(openScreen) || openScreen}
                   quality={50}
                   className="rounded-2xl h-[60%] w-auto bg-slate-900/80"
-                />
+                  />
               </motion.div>
               <motion.div
                 onClick={() => setOpenScreen(null)}
