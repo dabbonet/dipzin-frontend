@@ -51,7 +51,7 @@ const PlatformSwitcher = () => {
   }
 
   return (
-    <div className="bg-slate-800 rounded-[40px] h-fit flex items-center p-2  lg:text-sm text-xs font-light gap-4">
+    <div className="bg-slate-800 rounded-[40px] h-fit flex items-center md:p-2 p-1 lg:text-sm text-xs font-light gap-4 w-fit mx-auto">
       {platformsUI()}
     </div>
   );

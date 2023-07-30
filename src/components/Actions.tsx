@@ -7,9 +7,10 @@ import { MenuDropdown } from "./MenuDropDown";
 import { CollectionDropdown } from "./CollectionDropDown";
 type actions = {
   screen: any
-  
+  appName?:string,
+  tagLine?: string
 }
-export const Actions = ({ screen: screen }) => {
+export const Actions = ({ screen: screen , appName, tagLine}:actions) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showCollection, setShowCollection] = useState(false);
   return (
@@ -54,7 +55,10 @@ export const Actions = ({ screen: screen }) => {
         {showCollection && <CollectionDropdown />}
       </div>
       <div className="absolute w-[100%] bg-gradient-to-t from-slate-900/90 to-slate-900/0 rounded-[0.9rem] bottom-0 pb-4 pt-12">
-          
+        <div className=" px-2">
+          <h2 className="text-md tracking-wider font-medium">{appName}</h2>
+          <p className="text-[13px] font-light tracking-widest">{tagLine}</p>
+        </div>
       </div>
     </>
   );
