@@ -59,8 +59,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={cn('subpixel-antialiased font-sans', outfit.variable)}>
-      <body className={cn('bg-fixed bg-black-950 min-h-screen w-full h-screen')}>
-
+      <body className={cn('bg-fixed bg-black-950 w-full h-full relative background')}>
         <Providers>
           <Navbar />
           <AccessOrUpgradeCard />
@@ -69,7 +68,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
-          <Background1 />
+          {/* <Background1 /> */}
         </Providers>
       </body>
     </html>

@@ -12,12 +12,12 @@ import { useSelcetedImages } from "@/lib/SelectedToDownload";
 import { useDialog } from "@/context/useDialog";
 import { useAuth } from "@/lib/auth";
 import { Actions } from "../Actions";
-import { useContentDiscovery } from "@/context/useContentDiscovery";
 
 interface SingleScreenProps {
   screen: any;
   setOpen?: any;
-  appName?: string
+  appName?: string,
+  tagLine?: string,
 }
 export const mergeScreenUrl = (data) =>
   data?.attributes
@@ -25,7 +25,7 @@ export const mergeScreenUrl = (data) =>
     data.attributes?.screen.data?.attributes.ext
     : data;
 
-const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName }) => {
+const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine}) => {
   const { setVisibleNoAuth } = useDialog()
   const { user } = useAuth()
 
@@ -136,14 +136,16 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName }) => {
             </svg>
           )}
         </motion.div>
-        {hovered && <Actions screen={screen} appName={appName} />}
+        {hovered && <Actions screen={screen} appName={appName} tagLine={tagLine}/>}
 
         <div
           className={cn(
             "w-full rounded-2xl overflow-hidden border-2 border-transparent min-720:gap-16 cursor-pointer",
             checked && " border-aqua-300"
           )}
-          onClick={() => setOpen && setOpen(mergeScreenUrl(screen) || screen)}
+          onClick={() => {
+            setOpen && setOpen(mergeScreenUrl(screen))
+          }}
         >
           <Screen src={mergeScreenUrl(screen) || screen} />
         </div>

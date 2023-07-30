@@ -1,5 +1,7 @@
 'use client'
-import SingleScreen from '@/components/screen/SingleScreen'
+import ScreenActions from '@/app/(static)/app/[platform]/[slug]/ScreenActions'
+import ScreenDetails from '@/components/ScreenDetails'
+import SingleScreen, { mergeScreenUrl } from '@/components/screen/SingleScreen'
 import { useContentDiscovery } from '@/context/useContentDiscovery'
 import { useDialog } from '@/context/useDialog'
 import { useNavigator } from '@/context/useNavigatiorContext'
@@ -10,19 +12,20 @@ import { cn, getPlatformById, shuffle } from '@/lib/utils'
 import { usePathname, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState, useCallback } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
-
+import { AnimatePresence, motion } from 'framer-motion'
+import Screen from '@/components/ui/Screen'
 
 
 
 export default function SearchPage() {
 
   const [data, setdata] = useState([])
+  const [openScreen, setOpenScreen] = useState<any | null>();
   const params = useSearchParams()
   const keyword = params.get('q')
   const components = params.getAll('component')
   const tag = params.getAll('tag')
   const category = params.getAll('category')
-
   const path = usePathname()
   const { selectedImages, setSelectedImages } = useSelcetedImages()
   const { setActiveView, setActiveControls } = useNavigator()
@@ -66,9 +69,29 @@ export default function SearchPage() {
     setPlatforms([2, 1]); // Initialize Platform Switcher
     setSelected(parseInt(platform))
     // Set the new filters
-    setFilters([...tag, ...components, ...category]);
+    const newFilters = [
+      ...components.map(el => {
+        return {
+          type: 'component',
+          tag:el
+        }
+      }),
+      ...tag.map(el => {
+        return {
+          type: 'tag',
+          tag:el
+        }
+      }),
+      ...category.map(el => {
+        return {
+          type: 'category',
+          tag:el
+        }
+      }),
+    ]
+    setFilters(newFilters);
     setSingleApp('search')
-
+    
     return () => {
       setSelectedImages({ appName: '', images: [] })
       setActiveControls('')
@@ -120,7 +143,7 @@ export default function SearchPage() {
   }, [data]);
   if (data?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
   return (
-    <>
+    <main className="w-full flex flex-col items-center">
       {data !== null && data?.length !== 0 &&
         <VirtuosoGrid
           className="mt-6 max-w-[90%] mx-auto"
@@ -138,7 +161,7 @@ export default function SearchPage() {
           overscan={10}
           itemContent={(index, data) => {
             return (
-              <SingleScreen screen={data?.screen} />
+              <SingleScreen screen={data?.screen} appName={data.app.name} tagLine={data.app.tag_line} setOpen={()=> setOpenScreen(data)}/>
             );
           }}
           components={{
@@ -162,6 +185,34 @@ export default function SearchPage() {
         />
 
       }
-    </>
+      <AnimatePresence>
+        {openScreen && (
+          <>
+            <motion.div
+              className="fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <ScreenActions screen={openScreen} />
+              <motion.div className="flex flex-wrap justify-center items-center z-[100] w-fit mx-auto h-full gap-10" >
+              <ScreenDetails screenId={openScreen.app.id} />
+                <Screen
+                  src={openScreen.screen}
+                  quality={50}
+                  className="rounded-2xl h-[90%] w-auto bg-slate-900/80"
+                />
+              </motion.div>
+              <motion.div
+                onClick={() => setOpenScreen(null)}
+                className={
+                  "w-[100%] h-[100%] fixed top-0 bg-transparent"
+                }
+              ></motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </main>
   )
 }

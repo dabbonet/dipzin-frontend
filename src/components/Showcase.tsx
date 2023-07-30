@@ -53,17 +53,17 @@ const Showcase: FC<ShowcaseProps> = ({
       exit={{ opacity: 0 }}
     >
       <motion.div className={"flex flex-col w-[80%] lg:w-[80%] mx-auto"}>
-        <div className="flex my-8 items-center justify-between text-white z-50">
+        <div className="flex my-8 items-center justify-between text-white z-50 flex-wrap gap-2">
           <div className="flex items-center">
-            <Image
-              className="ml-3 rounded-2xl bg-slate-700"
-              width={56}
-              height={56}
-              placeholder="blur"
-              blurDataURL={rgbDataURL(30, 41, 59)}
-              src={selectedShowcase?.icon}
-              alt="icon"
-            />
+          <Image
+            className="ml-3 rounded-2xl bg-slate-700 w-14 h-14"
+            width={56}
+            height={56}
+            placeholder="blur"
+            blurDataURL={rgbDataURL(30, 41, 59)}
+            src={selectedShowcase?.icon}
+            alt="icon"
+          />
             <div className="ml-4">
               <span className="lg:text-[32px] font-medium">{selectedShowcase?.name}</span>
               <span className="block lg:text-[16px] text-[#8F94A1] text-[4px]">
@@ -71,10 +71,10 @@ const Showcase: FC<ShowcaseProps> = ({
               </span>
             </div>
           </div>
-          <ActionBar className='flex space-x-1.5'>
+          <ActionBar className='flex gap-2 flex-wrap'>
             <Link href={`app${path}/${selectedShowcase?.slug}`} replace={false}>
               <SquareButton className='lg:w-32'>
-                <SquareButton.Title className='w-[70%]'>Open Application</SquareButton.Title>
+                <SquareButton.Title className='md:w-[70%] w-[40%] text-xs'>Open Application</SquareButton.Title>
                 <SquareButton.Icon>
                   <Icons.Open />
                 </SquareButton.Icon>
@@ -92,7 +92,7 @@ const Showcase: FC<ShowcaseProps> = ({
                 }}
                 className=''
               >
-                <SquareButton.Title className="w-[70%]">
+                <SquareButton.Title className="md:w-[70%] w-[40%] text-xs">
                   App Store
                 </SquareButton.Title>
                 <SquareButton.Icon>
@@ -119,7 +119,7 @@ const Showcase: FC<ShowcaseProps> = ({
                 ImageDownloader(selectedShowcase.name + ' Showcase', selectedShowcase.screens)
               }}
             >
-              <SquareButton.Title>Download Showcase</SquareButton.Title>
+              <SquareButton.Title className=' text-xs'>Download Showcase</SquareButton.Title>
               <SquareButton.Icon>
                 <Icons.Download />
               </SquareButton.Icon>
@@ -137,7 +137,7 @@ const Showcase: FC<ShowcaseProps> = ({
                 toast.success("App Link Copied.");
               }}
             >
-              <SquareButton.Title className="w-[70%]">
+              <SquareButton.Title className="md:w-[70%] w-[40%] text-xs">
                 Copy Link
               </SquareButton.Title>
               <SquareButton.Icon>
@@ -149,7 +149,7 @@ const Showcase: FC<ShowcaseProps> = ({
               className='w-24'
               onClick={() => setSelectedShowcase(null)}
             >
-              <SquareButton.Title className='w-[70%]'>Close Showcase</SquareButton.Title>
+              <SquareButton.Title className='md:w-[70%] w-[40%] text-xs'>Close Showcase</SquareButton.Title>
               <SquareButton.Icon>
                 <Icons.XCircle />
               </SquareButton.Icon>
@@ -159,7 +159,7 @@ const Showcase: FC<ShowcaseProps> = ({
         </div>
         {/*-------------------------------------------------------*/}
         <div
-          className={cn("grid ml-auto mr-auto z-50 w-full", platform === 3 ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  gap-10 " : "grid-cols-1 lg:grid-cols-4 xl:grid-cols-5 gap-10")}
+          className={cn("grid ml-auto mr-auto z-50 w-full", platform === 3 ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  gap-10 " : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10")}
         >
           {selectedShowcase?.screens.map((item: any, index: number) => (
             <SingleScreen key={index} appName={selectedShowcase?.name} screen={item} />

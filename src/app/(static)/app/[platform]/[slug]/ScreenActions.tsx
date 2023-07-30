@@ -66,7 +66,7 @@ const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
   };
 
   return (
-    <ActionBar className="z-50 flex flex-col fixed right-10 top-[32%] w-auto h-auto">
+    <ActionBar className="z-50 flex flex-col fixed sm:right-10 right-0 top-[32%] w-fit h-auto">
       <ButtonWrapper
         title="Like Screen"
         icon={<Icons.Heart />}
