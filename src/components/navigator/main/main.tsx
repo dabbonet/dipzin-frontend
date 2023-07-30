@@ -105,7 +105,7 @@ const MainNavigator = ({ type }: any) => {
     return (
         <div ref={wrapperRef} className="flex w-fit items-center h-full">
             <div className={cn('relative w-fit', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
-                <div className='flex flex-col md:flex-row items-center w-fit bg-slate-900 rounded-full'>
+                <div className='flex flex-col md:flex-row items-center w-full bg-slate-900 rounded-full'>
                     {(activeControls == 'menu-search') && (
                         <motion.div className={cn(" flex gap-3 items-center pl-6 w-full")}>
                             <motion.img src='/images/assets/search.svg' className=' mr-2' />

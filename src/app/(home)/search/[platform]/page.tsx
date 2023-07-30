@@ -195,7 +195,7 @@ export default function SearchPage() {
               exit={{ opacity: 0 }}
             >
               <ScreenActions screen={openScreen} />
-              <motion.div className="flex items-center h-[100vh] w-fit  relative z-[100]" >
+              <motion.div className="flex flex-wrap justify-center items-center z-[100] w-fit mx-auto h-full gap-10" >
               <ScreenDetails screenId={openScreen.app.id} />
                 <Screen
                   src={openScreen.screen}

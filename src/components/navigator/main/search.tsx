@@ -115,7 +115,7 @@ const InitialSearch = () => {
         // transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
         >
             <h1 className=' text-slate-100 font-semibold mt-3'><span className='ml-3 mt-3 text-xs md:text-base'>Search Suggestions</span></h1>
-            <div className=' overflow-y-hidden h-[400px] max-w-[900px] rounded-[20px] mb-10'>
+            <div className=' overflow-y-hidden h-[400px] xl:w-[900px] rounded-[20px] mb-10'>
                 {/* <div className='w-full h-[10%] absolute bottom-0 bg-gradient-to-b from-slate-950/0 to-slate-950/90'></div> */}
 
                 <div className='flex h-full p-2 px-4 flex-col overflow-y-scroll'>

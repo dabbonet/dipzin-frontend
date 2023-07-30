@@ -34,7 +34,7 @@ const AccessCard = () => {
   if (!show) return
   return (
       <AnimatePresence>
-        <div ref={ref} className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-50">
+        <div ref={ref} className=" fixed w-full h-full inset-0 bg-opacity-20 bg-gradient-to-tr from-[#0D1018] to-[] backdrop-blur-[30px]  flex justify-center items-center z-[100]">
           <div className=" w-fit h-fit bg-slate-900 bg-opacity-60 rounded-2xl px-16 py-20 z-[1000]">
             <AccessComponent />
           </div>
@@ -112,7 +112,7 @@ export const UpgradeMemberCard = ({ title }) => {
         exit={{ opacity: 0 }}
       >
 
-        <div className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-50">
+        <div className="w-[100%] h-[100%] fixed inset-0 bg-opacity-50 bg-[#0D1018] backdrop-blur-xl  flex justify-center items-center z-[100]">
           <div className="max-w-3xl bg-slate-900 rounded-3xl  flex flex-col gap-5">
             {/* image */}
             <img
