@@ -25,7 +25,7 @@ export const mergeScreenUrl = (data) =>
     data.attributes?.screen.data?.attributes.ext
     : data;
 
-const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine}) => {
+const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine }) => {
   const { setVisibleNoAuth } = useDialog()
   const { user } = useAuth()
 
@@ -136,7 +136,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
             </svg>
           )}
         </motion.div>
-        {hovered && <Actions screen={screen} appName={appName} tagLine={tagLine}/>}
+        {hovered && <Actions screen={screen} />}
 
         <div
           className={cn(
