@@ -115,20 +115,20 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
         {openScreen && (
           <>
             <motion.div
-              className="fixed top-0 w-full h-full backdrop-blur-md bg-slate-900/70 z-50 flex items-center gap-8"
+              className="fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8"
               // onClick={() => setOpenScreen(null)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
               <ScreenActions appName={app.name} screen={openScreen} />
-              <motion.div className="flex flex-wrap justify-center items-center z-[100] w-fit mx-auto h-full gap-10" >
+              <motion.div className="relative z-[100] h-full flex items-center" >
                 <ScreenDetails screenId={openScreen.id} />
                 <Screen
-                  src={mergeScreenUrl(openScreen) || openScreen}
+                  src={mergeScreenUrl(openScreen)}
                   quality={50}
-                  className="rounded-2xl h-[60%] w-auto bg-slate-900/80"
-                  />
+                  className="rounded-2xl h-[90%] w-auto bg-slate-900/80"
+                />
               </motion.div>
               <motion.div
                 onClick={() => setOpenScreen(null)}

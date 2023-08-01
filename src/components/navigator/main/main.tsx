@@ -69,11 +69,11 @@ const MainNavigator = ({ type }: any) => {
     useOutsideAlerter(wrapperRef);
 
     useEffect(() => {
-      if(selectedImages.images.length === 0){
-        setActiveControls('menu-search')
-      }
+        if (selectedImages.images.length === 0) {
+            setActiveControls('menu-search')
+        }
     }, [selectedImages])
-    
+
 
     const handleSearch = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {

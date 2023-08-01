@@ -58,6 +58,7 @@ const ScreenDetails = ({ screenId }) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                className='absolute -left-[100%]'
             >
                 <div className=' bg-slate-950 p-8 flex flex-col gap-y-8 rounded-3xl w-[370px] h-fit'>
                     {data?.tags?.length > 0 &&
@@ -78,10 +79,10 @@ const ScreenDetails = ({ screenId }) => {
                             <Colors />
                         </div>
                     }
-                    
+
                 </div>
             </motion.div>
-            
+
         )
     }
 }

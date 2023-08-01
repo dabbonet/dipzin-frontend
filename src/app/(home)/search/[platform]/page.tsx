@@ -2,6 +2,7 @@
 import ScreenActions from '@/app/(static)/app/[platform]/[slug]/ScreenActions'
 import ScreenDetails from '@/components/ScreenDetails'
 import SingleScreen, { mergeScreenUrl } from '@/components/screen/SingleScreen'
+import Image from "next/image"
 import { useContentDiscovery } from '@/context/useContentDiscovery'
 import { useDialog } from '@/context/useDialog'
 import { useNavigator } from '@/context/useNavigatiorContext'
@@ -14,6 +15,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
 import { AnimatePresence, motion } from 'framer-motion'
 import Screen from '@/components/ui/Screen'
+import Icons from '@/components/Icons'
 
 
 
@@ -73,25 +75,25 @@ export default function SearchPage() {
       ...components.map(el => {
         return {
           type: 'component',
-          tag:el
+          tag: el
         }
       }),
       ...tag.map(el => {
         return {
           type: 'tag',
-          tag:el
+          tag: el
         }
       }),
       ...category.map(el => {
         return {
           type: 'category',
-          tag:el
+          tag: el
         }
       }),
     ]
     setFilters(newFilters);
     setSingleApp('search')
-    
+
     return () => {
       setSelectedImages({ appName: '', images: [] })
       setActiveControls('')
@@ -161,7 +163,7 @@ export default function SearchPage() {
           overscan={10}
           itemContent={(index, data) => {
             return (
-              <SingleScreen screen={data?.screen} appName={data.app.name} tagLine={data.app.tag_line} setOpen={()=> setOpenScreen(data)}/>
+              <SingleScreen screen={data?.screen} appName={data.app.name} tagLine={data.app.tag_line} setOpen={() => setOpenScreen(data)} />
             );
           }}
           components={{
@@ -196,7 +198,7 @@ export default function SearchPage() {
             >
               <ScreenActions screen={openScreen} />
               <motion.div className="flex flex-wrap justify-center items-center z-[100] w-fit mx-auto h-full gap-10" >
-              <ScreenDetails screenId={openScreen.app.id} />
+                <ScreenDetails screenId={openScreen.app.id} />
                 <Screen
                   src={openScreen.screen}
                   quality={50}
