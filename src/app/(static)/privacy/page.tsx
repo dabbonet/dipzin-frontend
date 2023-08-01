@@ -23,7 +23,13 @@ export default async function PrivacyPage(){
         <div className="max-w-[85%] mx-auto">
               <h1 className="text-4xl">{content.name}</h1>
               <p className="text-lg text-slate-500">{updatedAt}</p>
-              <div className="max-w-max prose-a:text-aqua-500 prose-strong:text-slate-50 prose-xl text-slate-50 prose-h6:text-slate-50">
+              <div 
+                className="max-w-max text-slate-50
+                prose-a:text-aqua-500 prose-strong:text-slate-50 prose-lg  prose-h6:text-slate-50
+                prose-td:border prose-td:border-slate-50 prose-td:px-4 prose-td:text-center
+                "
+                
+                >
 
               <Markdown>
                 {content.contact}
