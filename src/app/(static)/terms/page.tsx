@@ -1,10 +1,8 @@
-import { log } from 'console';
 import Markdown from 'marked-react';
 
 async function getData() {
-    const url = process.env.NEXT_PUBLIC_URL
     // Fetch Privacy from url /api/static/privacy
-    const res = await fetch(`${url}/api/static/terms`, {
+    const res = await fetch("https://rah.dipzin.com/api/term-of-service", {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -17,11 +15,11 @@ async function getData() {
     // Set Data in UI & render markdown preview.
 }
 export default async function PrivacyPage(){
-    const {data: {attributes: content}} = await getData();
+    const data = await getData();
+    if (!data.data || !data.data.attributes) return;
+    const { data: { attributes: content } } = data;
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const updatedAt = new Date(content.updatedAt).toLocaleDateString(undefined, options as any);
-    console.log(content.contact);
-    
     return(
         <div className="max-w-[85%] mx-auto">
               <h1 className="text-4xl">{content.name}</h1>
