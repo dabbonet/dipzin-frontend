@@ -10,14 +10,20 @@ import { navigatorProps } from "@/lib/types/screenActions";
 import { getAssetsURL } from "@/lib/utils";
 import { FC } from "react";
 import toast from "react-hot-toast";
-
-const ButtonWrapper = ({ title, icon, handler, appName, screen }) => {
+type button = {
+  title?: any
+  icon?: any
+  handler?: any
+  appName?: any
+  screen?: any
+}
+const ButtonWrapper = ({ title, icon, handler, appName, screen }: button) => {
   const { setVisibleNoAuth, setVisible } = useDialog();
   if (appName && screen) {
-    const screenName = screen.attributes.screen.data.attributes;
+    const screenName = screen?.attributes?.screen?.data?.attributes || screen;
     if (screenName) {
       if (appName || screen?.attributes?.order) {
-        const name = screenName.hash + screenName.ext;
+        const name = screenName?.hash + screenName?.ext || screen;
         return (
           <SquareButton
             onClick={async () => {
@@ -25,9 +31,10 @@ const ButtonWrapper = ({ title, icon, handler, appName, screen }) => {
               if (isUserAuth) {
                 setVisible(true);
                 await setTimeout(() => {
-                  if (title === "Copy PNG" || title === "Copy Link")
+                  if (title === "Copy PNG" || title === "Copy Link"){
                     handler(getAssetsURL(name));
-                  handler(name, appName + " " + screen.attributes.order);
+                  }
+                  handler(name, appName + " " + screen?.attributes?.order || screen);
                 }, 5000);
                 return;
               }
@@ -44,7 +51,6 @@ const ButtonWrapper = ({ title, icon, handler, appName, screen }) => {
 };
 
 const ScreenActions: FC<navigatorProps> = ({ appName, screen }) => {
-
   const handleLikeScreen = () => {
     toast.remove();
     toast.custom(<SoonToast />, { duration: 2000 });

@@ -21,7 +21,7 @@ const Stream: FC<StreamProps> = () => {
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    setActiveView('menuWithSearch')
+    // setActiveView('menuWithSearch')
     setActiveControls('menu-search')
     setSearchKeyword('')
     return () => {
