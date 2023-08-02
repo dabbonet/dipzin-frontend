@@ -23,7 +23,6 @@ const ScreenDetails = ({ screenId }) => {
                     colors: res.data?.attributes.colors,
                     tags: res.data?.attributes.tags.data,
                     components: res.data?.attributes.components.data
-
                 }
                 setData(data)
             }

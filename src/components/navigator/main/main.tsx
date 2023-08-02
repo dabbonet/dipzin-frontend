@@ -7,23 +7,21 @@ import Menu from './menu';
 import Icons from '@/components/Icons';
 import { useContentDiscovery } from '@/context/useContentDiscovery';
 import { cn } from '@/lib/utils';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useSelcetedImages } from '@/lib/SelectedToDownload';
 import { ImageDownloader } from '@/lib/ImageDownloader';
 import PlatformSwitcher from '@/components/PlatformSwitcher';
-
+import { usePathname } from 'next/navigation';
 
 
 
 const MainNavigator = ({ type }: any) => {
-    const router = useRouter();
     const { activeView, setActiveView, activeControls, setActiveControls } = useNavigator()
     const { selectedImages, setSelectedImages } = useSelcetedImages()
     const { filters, setFilters, searchKeyword, setSearchKeyword } = useContentDiscovery();
     const inputRef = useRef(null)
     const searchButton = useRef(null)
-
+    const path = usePathname()
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.ctrlKey && (event.key === 'k' || event.keyCode === 75)) {
@@ -69,7 +67,7 @@ const MainNavigator = ({ type }: any) => {
     useOutsideAlerter(wrapperRef);
 
     useEffect(() => {
-        if (selectedImages.images.length === 0) {
+        if (selectedImages.images.length === 0 && (path.startsWith('/search') || path.startsWith('/app'))) {
             setActiveControls('menu-search')
         }
     }, [selectedImages])
@@ -86,24 +84,28 @@ const MainNavigator = ({ type }: any) => {
     const removeFilter = () => {
         setFilters([])
     }
-    const clearParams = (value) => {
-        setFilters(filters.filter(el => el !== value))
-        const url = new URL(window.location.href);
-        const params = url.searchParams;
-        const updatedParams = new URLSearchParams();
-        params.forEach((paramValue, paramName) => {
-            if (paramValue === value) {
-                return;
-            }
-            updatedParams.append(paramName, paramValue);
-        });
-        const newUrl = `${url.origin}${url.pathname}${updatedParams.toString() ? '?' + updatedParams.toString() : ''}`;
-        router.push(newUrl);
-    };
 
     if (activeControls === '') return
     return (
-        <div ref={wrapperRef} className="flex w-fit items-center h-full">
+        <div ref={wrapperRef} className="flex w-fit items-center h-full bg-slate-900 rounded-full">
+            <div className='relative h-full'>
+                <motion.div
+                    className="h-full"
+                    transition={{ type: "spring", duration: 0.6 }}
+                    initial={{ borderRadius: 30 }}
+                >
+                    <motion.div className="w-fit h-full">
+                        {(activeControls === 'selection') && selectedImages.images.length !== 0 && (
+                            <div className=' flex gap-x-20 flex-wrap justify-center w-fit items-center bg-slate-900 rounded-full pl-5 py-1 z-[100000000000000000000000000000000000000]'>
+                                <div className=' flex items-center text-xs md:text-base'>{selectedImages.images.length} selected <button className=' ml-2' onClick={() => setSelectedImages({ appName: '', images: [] })}><Icons.Clear /></button></div>
+                                <div className='pr-3'>
+                                    <button className=' md:py-1 md:px-3 px-1 py-1 rounded-2xl bg-slate-700 text-xs md:text-base flex items-center gap-1' onClick={() => ImageDownloader(selectedImages.appName + " Showcase", selectedImages.images)}><Icons.Download className=' w-4 h-4'/> Download</button>
+                                </div>
+                            </div>
+                        )}
+                    </motion.div>
+                </motion.div >
+            </div >
             <div className={cn('relative w-fit', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
                 <div className='flex flex-col md:flex-row items-center w-full bg-slate-900 rounded-full'>
                     {(activeControls == 'menu-search') && (
@@ -111,7 +113,7 @@ const MainNavigator = ({ type }: any) => {
                             <motion.img src='/images/assets/search.svg' className=' mr-2' />
                             <motion.input
                                 ref={inputRef}
-                                className="bg-inherit outline-none w-fit"
+                                className="bg-inherit outline-none w-fit p-2"
                                 placeholder={filters.length !== 0 ? 'Search More Tags...' : 'Try Search!'}
                                 transition={{ duration: 0.4 }}
                                 animate={{ width: '100%' }}
@@ -133,56 +135,7 @@ const MainNavigator = ({ type }: any) => {
                     )}
                 </AnimatePresence>
             </div>
-            <div className='relative h-full'>
-
-                {/* User Avatar area */}
-
-                {/* Navigator Area */}
-                <motion.div
-
-                    className="h-full"
-                    transition={{ type: "spring", duration: 0.6 }}
-                    initial={{ borderRadius: 30 }}
-                >
-
-
-                    <motion.div className="w-fit h-full">
-
-
-                        {/* <motion.div
-
-                            className="flex items-center bg-slate-800 hover:bg-slate-700 cursor-pointer rounded-3xl px-7 space-x-2"
-                            onClick={() => {
-                                setActiveView(activeView == 'menu' ? '' : 'menu')
-                            }}>
-                            <Icons.Grip className='w-4 h-4 text-slate-400' />
-                            <span className="font-medium text-sm mt-0.5 mx-auto">Menu</span>
-                        </motion.div> */}
-
-
-
-
-                        {(activeControls === 'selection') && selectedImages.images.length !== 0 && (
-                            <div className=' flex gap-x-20 flex-wrap justify-center w-fit items-center bg-slate-800 rounded-full pl-5 py-1 z-[100000000000000000000000000000000000000]'>
-                                <div className=' flex items-center text-xs md:text-base'>{selectedImages.images.length} selected <button className=' ml-2' onClick={() => setSelectedImages({ appName: '', images: [] })}><Icons.Clear /></button></div>
-
-                                <div className='pr-3'>
-                                    <button className=' md:py-1 md:px-3 px-1 py-1 rounded-2xl bg-slate-600 text-xs md:text-base' onClick={() => ImageDownloader(selectedImages.appName + " Showcase", selectedImages.images)}>Download</button>
-                                </div>
-                            </div>
-                        )}
-
-
-                    </motion.div>
-                    <AnimatePresence mode='wait'>
-                        {activeView == 'menu' && (
-                            <Menu />
-                        )}
-                    </AnimatePresence>
-                </motion.div >
-                {/* </MotionConfig > */}
-
-            </div >
+            
         </div >
     )
 }
