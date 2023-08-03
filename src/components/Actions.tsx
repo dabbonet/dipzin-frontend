@@ -59,7 +59,7 @@ export const Actions = ({ screen: screen , appName , tagLine , icon }: actions) 
         {showCollection && <CollectionDropdown />}
       </div>
       <div className="absolute w-[100%] pb-4 pt-12 px-4 drop-shadow-xl z-20 bg-gradient-to-t from-slate-900/90 to-slate-900/0 rounded-[0.9rem] bottom-0">
-        {!path.startsWith('/app') && <div className=" flex flex-col">
+        {path.startsWith('/search') && <div className=" flex flex-col">
           <Image src={icon} width={48} height={48} alt={tagLine} className=" rounded-md"/>
           <span className="text-md tracking-wider font-medium">{appName}</span>
           <span className="block text-[13px] font-light tracking-widest">

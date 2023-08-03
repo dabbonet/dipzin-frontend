@@ -5,7 +5,8 @@ export async function POST(request: Request) {
   const query = qs.stringify({
     populate: {
       tags: '*',
-      components: '*'
+      components: '*',
+      app: '*'
     }
   }, {
     encode: false

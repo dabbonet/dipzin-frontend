@@ -147,7 +147,6 @@ export default function SearchPage() {
   if (data?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
   return (
     <main className="w-full flex flex-col items-center">
-      <AppActions/>
       {data !== null && data?.length !== 0 &&
         <VirtuosoGrid
           className="mt-6 max-w-[90%] mx-auto"
