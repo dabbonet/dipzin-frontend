@@ -1,4 +1,5 @@
 'use client'
+import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 
@@ -18,7 +19,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     const [visibleNoAuth, setVisibleNoAuth] = useState<boolean>(false);
     const [title, setTitle] = useState('')
     const router = useRouter()
-
+    const {user , isPaid} = useAuth()
 
 
     useEffect(() => {
@@ -50,10 +51,18 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     }, [visible, counter]);
     
     const navigateToRoute = ({link})=>{
-        setVisible(true)
-        setTimeout(() => {
-           router.push(link) 
-        },5000);
+        if(user){
+            if(isPaid){
+                router.push(link)
+                return
+            }
+            setVisible(true)
+            setTimeout(() => {
+               router.push(link) 
+            },5000);
+        }else{
+            setVisibleNoAuth(true)
+        }
     }
     
     return (

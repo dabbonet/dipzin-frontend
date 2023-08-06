@@ -12,20 +12,20 @@ import { useSelcetedImages } from "@/lib/SelectedToDownload";
 import { useDialog } from "@/context/useDialog";
 import { useAuth } from "@/lib/auth";
 import { Actions } from "../Actions";
-import { useContentDiscovery } from "@/context/useContentDiscovery";
 
 interface SingleScreenProps {
   screen: any;
   setOpen?: any;
-  appName?: string
+  appName?: string,
+  tagLine?: string,
 }
 export const mergeScreenUrl = (data) =>
-  data.attributes
+  data?.attributes
     ? data.attributes?.screen.data?.attributes.hash +
     data.attributes?.screen.data?.attributes.ext
     : data;
 
-const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName }) => {
+const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine }) => {
   const { setVisibleNoAuth } = useDialog()
   const { user } = useAuth()
 
@@ -101,16 +101,16 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName }) => {
     );
   return (
     <div
-      className="flex justify-center items-center relative group/item"
+      className="flex justify-center items-center relative group/item w-fit mx-auto"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <motion.div
         layout
-        initial={{ scale: 0.98 }}
+        initial={{ scale: 1 }}
         whileHover={{
-          scale: 1.0,
-          transition: { duration: 0.3 },
+          scale: 1.05,
+          transition: { duration: 0.2 },
         }}
       >
         <motion.div
@@ -143,9 +143,11 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName }) => {
             "w-full rounded-2xl overflow-hidden border-2 border-transparent min-720:gap-16 cursor-pointer",
             checked && " border-aqua-300"
           )}
-          onClick={() => setOpen && setOpen(mergeScreenUrl(screen))}
+          onClick={() => {
+            setOpen && setOpen(mergeScreenUrl(screen))
+          }}
         >
-          <Screen src={mergeScreenUrl(screen)} />
+          <Screen src={mergeScreenUrl(screen) || screen} />
         </div>
       </motion.div>
     </div>

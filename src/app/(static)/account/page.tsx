@@ -43,8 +43,6 @@ const Account: FC = ({}) => {
         const data = await response.json();
         if(response.ok) setUserDetails(data.data)
       } catch (error) {
-        toast.remove()
-        toast.error('error fetch data')
       }
     }
     getUserDetails();
@@ -100,8 +98,6 @@ const Account: FC = ({}) => {
         toast.success(data.message)
       }
     } catch (error) {
-      toast.remove()
-      toast.error('something went wrong')
     }
   }
   const FirstTimeHeader = () => {

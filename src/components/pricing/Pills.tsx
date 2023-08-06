@@ -9,7 +9,7 @@ type PillsType = {
 };
 
 const Pills = ({ pillType, sale, interval, setCheckOut, checkout }: PillsType) => {
-  console.log(interval, checkout)
+  // console.log(interval, checkout)
   let saveStyle = checkout == interval ? 'bg-slate-900 text-aqua-50' : 'bg-aqua-200 text-aqua-950'
   let bgStyle = checkout == interval ? 'bg-gradient-to-b from-aqua-500 to-aqua-700' : 'bg-slate-900'
   let saleOn: any;
