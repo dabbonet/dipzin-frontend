@@ -58,7 +58,6 @@ export async function downloadImage(fileName: string, imageName: string) {
         toast.success('Image Downloaded Successfully');
     } catch (error) {
         // Handle error
-        console.log(error)
         toast.error('Error Downloading Image');
     }
 }

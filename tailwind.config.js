@@ -67,6 +67,8 @@ module.exports = {
         // add other css attributes here,
         // will be merged to ::-webkit-scrollbar-thumb:hover
       },
-    })
+    }),
+    require('@tailwindcss/typography'),
+
   ],
 }

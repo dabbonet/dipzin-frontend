@@ -16,17 +16,18 @@ interface StreamProps { }
 const Stream: FC<StreamProps> = () => {
   const { setActiveView, setActiveControls } = useNavigator()
   const { setPlatforms, selected, setSelected } = usePlatform();
-  const { streamData, setStreamData } = useContentDiscovery();
+  const { streamData, setStreamData, setSearchKeyword } = useContentDiscovery();
   const [loadedPages, setLoadedPages] = useState<number[]>([]);
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setActiveView('menuWithSearch')
     setActiveControls('menu-search')
+    setSearchKeyword('')
     return () => {
       setActiveView('')
       setActiveControls('')
-      setPlatforms([])
+      // setPlatforms([])
     }
   }, [])
   // 1. Initialize Stream and Page Platforms.
@@ -45,7 +46,7 @@ const Stream: FC<StreamProps> = () => {
       setLoadedPages([]);
       setStreamData([]);
       updateStream();
-    }
+    } else { setSelected(2) }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
@@ -62,7 +63,7 @@ const Stream: FC<StreamProps> = () => {
       setIsLoading(true)
       // Load more stream items
       const more = await getStream({ platform: selected!, previousPages: loadedPages });
-      if (more.status == 404) return setIsLoading(false);
+      if (more.status == 404) { setIsLoading(false); return; };
       setLoadedPages((prevLoadedPages) => [...prevLoadedPages, more.page]);
 
       setStreamData((prevStreamData: any[] | null) => {
@@ -74,19 +75,22 @@ const Stream: FC<StreamProps> = () => {
     }, 500);
   }, [streamData, loadedPages, selected]);
 
+  if (streamData.length <= 0) return
+
+
   return (
     <>
       <VirtuosoGrid
-        className="my-6"
+        className="mt-6"
         useWindowScroll
         data={streamData}
         initialItemCount={10}
         style={{ minHeight: 100, width: '100%' }}
         totalCount={streamData.length}
-        overscan={5}
+        overscan={1}
         endReached={loadMore}
-        listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-4")}
-        logLevel={LogLevel.DEBUG}
+        listClassName={cn("grid content-center gap-6 pt-0 grid-cols-1", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2")}
+        // logLevel={LogLevel.DEBUG}
         itemContent={(index, data) => (
           <div onClick={() => setSelectedShowcase(data)}>
             <ShowcaseScreen app={data} />
@@ -96,7 +100,8 @@ const Stream: FC<StreamProps> = () => {
           Footer: () => {
             return (
               <>
-                {isLoading || streamData?.length <= 1 && <StreamLoader />}
+                {isLoading && <StreamLoader />}
+                {/* {isLoading || streamData?.length <= 1 && <StreamLoader />} */}
                 <div
                   className="pt-10 pb-48 text-center text-slate-500"
                 >

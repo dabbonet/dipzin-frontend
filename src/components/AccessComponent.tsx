@@ -30,7 +30,7 @@ const AccessComponent = () => {
     </button>
   }
   const submitEmail = async () => {
-    
+
     setDisableProcess(true);
     const regextMatchEmail =
       /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
@@ -45,8 +45,8 @@ const AccessComponent = () => {
       });
     }
 
-    const {referralToken , invitationToken} = invetaionAndReferralTokens()
-    const res = await SignIn({email , referralToken, invitationToken});
+    const { referralToken, invitationToken } = invetaionAndReferralTokens()
+    const res = await SignIn({ email, referralToken, invitationToken });
 
     if (res) {
       if (path === '/access') {
@@ -67,7 +67,7 @@ const AccessComponent = () => {
 
   if (showOtpCard) return <OtpAccessComponent email={email} />
   return (
-    <div className="mx-auto subpixel-antialiased ">
+    <div className="mx-auto subpixel-antialiased">
       <h1 className="font-bold h-auto !leading-normal bg-clip-text  lg:text-5xl text-3xl">
         Log in or Signup
       </h1>
@@ -93,7 +93,7 @@ const AccessComponent = () => {
       </div>
 
       <div className="flex flex-row justify-center my-8 w-[75%] mx-auto">
-        <span className="absolute  text-slate-400">OR</span>
+        <span className="absolute bg-slate-950/50 rounded-full text-slate-400">OR</span>
         <div className="w-[50%] mt-3 h-px bg-slate-400 dark:bg-slate-700"></div>
       </div>
 

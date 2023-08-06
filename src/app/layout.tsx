@@ -9,8 +9,9 @@ import Providers from '@/components/Providers';
 import { Toaster } from 'react-hot-toast';
 import { AccessOrUpgradeCard } from '@/components/accessAndUpgrade';
 import GoogleOneTap from '@/components/GoogleOneTap';
+import googleTagManager from '@analytics/google-tag-manager'
+import Analytics from 'analytics'
 
-import Navigator from '@/components/navigator/main';
 
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
@@ -37,17 +38,29 @@ export const metadata = {
   },
 }
 
+const analytics = Analytics({
+  app: 'dipzin.com',
+  plugins: [
+    googleTagManager({
+      containerId: 'GTM-PW28TXN'
+    })
+  ]
+})
+
+
 export default function RootLayout({
+  params,
   children,
 }: {
-  children: React.ReactNode
+  params: any,
+  children: any
 }) {
+  // if route is in this array ['/ios','/android','/web'] return component <Banner>
 
 
   return (
     <html lang="en" className={cn('subpixel-antialiased font-sans', outfit.variable)}>
-      <body className={cn('bg-fixed bg-black-950 min-h-screen w-full h-screen')}>
-
+      <body className={cn('bg-fixed bg-black-950 w-full h-full relative background')}>
         <Providers>
           <Navbar />
           <AccessOrUpgradeCard />
@@ -55,10 +68,9 @@ export default function RootLayout({
           <main className='pt-24 max-w-[90%]  mx-auto'>
             <GoogleOneTap />
             {children}
-            <Navigator />
           </main>
           <Footer />
-          <Background1 />
+          {/* <Background1 /> */}
         </Providers>
       </body>
     </html>
