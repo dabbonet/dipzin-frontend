@@ -13,7 +13,7 @@
 	position: relative;
     /* rgb(249 115 22); to hsl */
 	box-shadow:
-		0 0 calc(var(--active) * 6em) calc(var(--active) * 3em) hsl(168 91% 43% / 0.25);
+		0 0 calc(var(--active) * 9em) calc(var(--active) * 6em) hsl(168 91% 43% / 0.15);
 	transition: box-shadow var(--transition), scale var(--transition), background var(--transition);
 	scale: calc(1 + (var(--active) * 0.1));
 }
@@ -188,7 +188,7 @@ svg {
 
 .particle {
 	fill: white;
-	width: calc(var(--size, 0.25) * 1rem);
+	width: calc(var(--size, 0.35) * 1.5rem);
 	aspect-ratio: 1;
 	position: absolute;
 	top: calc(var(--y) * 1%);

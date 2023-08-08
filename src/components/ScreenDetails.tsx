@@ -36,9 +36,10 @@ const ScreenDetails = ({ screenId }) => {
         getData()
     }, [screenId]);
     const App = ()=> {
+        const icon = data?.app?.icon?.data?.attributes?.hash + data?.app?.icon?.data?.attributes?.ext
         return <div className=' flex flex-col gap-1'>
-            <Image src={data.app.old_image_name} width={56} height={56} alt=''/>
-            <h2 className=' text-white'>{data.app.name}</h2>
+            <Image src={icon} className='rounded-xl' width={56} height={56} alt=''/>
+            <h2 className='text-white'>{data.app.name}</h2>
             <p className=' text-slate-600'>{data.app.tag_line}</p>
         </div>
     }
