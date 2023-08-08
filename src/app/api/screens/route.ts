@@ -6,7 +6,14 @@ export async function POST(request: Request) {
     populate: {
       tags: '*',
       components: '*',
-      app: '*'
+      app: {
+        populate: {
+          icon: {
+            fields: ["hash", "ext"]
+          }
+        }
+      },
+      screen: '*'
     }
   }, {
     encode: false

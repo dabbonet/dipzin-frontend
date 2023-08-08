@@ -68,7 +68,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
-          {/* <Background1 /> */}
+          <Background1 />
         </Providers>
       </body>
     </html>

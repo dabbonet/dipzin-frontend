@@ -60,7 +60,6 @@ const Stream: FC<StreamProps> = () => {
 
   const loadMore = useCallback(() => {
     return setTimeout(async () => {
-      setIsLoading(true)
       // Load more stream items
       const more = await getStream({ platform: selected!, previousPages: loadedPages });
       if (more.status == 404) { setIsLoading(false); return; };
@@ -71,12 +70,10 @@ const Stream: FC<StreamProps> = () => {
         const newData = Array.isArray(prevStreamData) ? prevStreamData : [];
         return [...newData, ...shuffledData];
       });
-      setIsLoading(false)
     }, 500);
   }, [streamData, loadedPages, selected]);
 
-  if (streamData.length <= 0) return
-
+  if (streamData.length <= 0 || isLoading) return <StreamLoader/>
 
   return (
     <>
