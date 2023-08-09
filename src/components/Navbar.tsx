@@ -5,6 +5,7 @@ import Link from 'next/link';
 import SparkleButton from './ui/SparkleButton';
 import { useAuth } from '@/lib/auth';
 import Navigator from './navigator/main';
+import { useResponsive } from '@/context/useResponsive';
 
 const Navbar: FC = () => {
     const { user, loading } = useAuth();
@@ -28,17 +29,26 @@ const Navbar: FC = () => {
             </Link>
 
             {!loading &&
-                <Navigator />
+                <>
+                    <Navigator />
+                    <Menu user={user} />
+                </>
             }
 
-            {!loading && !user &&
-                <SparkleButton href='/access' >Try it!</SparkleButton>
-            }
-            {!loading && user &&
-                <SparkleButton href='/pricing' >Unlock More!</SparkleButton>
-            }
+
         </header>
     )
+}
+
+
+const Menu = (user) => {
+    const { isMobile } = useResponsive();
+    if (!isMobile) {
+        if (user.user) return <SparkleButton href='/pricing' >Unlock More!</SparkleButton>
+        return <SparkleButton href='/access' >Try it!</SparkleButton>
+    } else {
+        return <div>Menu</div>
+    }
 }
 
 export default Navbar
