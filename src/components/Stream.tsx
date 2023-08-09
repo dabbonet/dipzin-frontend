@@ -86,7 +86,7 @@ const Stream: FC<StreamProps> = () => {
         totalCount={streamData.length}
         overscan={1}
         endReached={loadMore}
-        listClassName={cn("grid content-center gap-6 pt-0 grid-cols-1", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2")}
+        listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3")}
         // logLevel={LogLevel.DEBUG}
         itemContent={(index, data) => (
           <div onClick={() => setSelectedShowcase(data)}>

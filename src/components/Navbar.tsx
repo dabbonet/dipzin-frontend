@@ -47,7 +47,7 @@ const Menu = (user) => {
         if (user.user) return <SparkleButton href='/pricing' >Unlock More!</SparkleButton>
         return <SparkleButton href='/access' >Try it!</SparkleButton>
     } else {
-        return <div>Menu</div>
+        return <div className='ml-6'>Menu</div>
     }
 }
 
