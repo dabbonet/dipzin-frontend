@@ -9,15 +9,14 @@ import Navigator from './navigator/main';
 const Navbar: FC = () => {
     const { user, loading } = useAuth();
     return (
-        <header className="w-full flex justify-between fixed items-start text-white pt-8 px-5 lg:px-10 z-10 top-0 bg-gradient-to-b from-slate-950/80 to-slate-950/0">
-
+        <header className="w-full flex justify-between fixed items-start text-white pt-8 px-5 lg:px-10 z-20 top-0 bg-gradient-to-b from-slate-950/80 to-slate-950/0">
             <Link
                 href="/ios"
                 shallow
-                className="text-lg lg:text-2xl"
+                className="text-lg lg:text-2xl flex flex-col "
             >
                 <Image
-                    className="mr-3 h-6 sm:h-9 w-auto"
+                    className="mr-3 h-6 sm:h-9 w-auto inline"
                     src="/images/assets/light-logo.svg"
                     alt="Dipzin Logo"
                     width={110}
@@ -25,6 +24,7 @@ const Navbar: FC = () => {
                     loader={({ src }) => src}
                     unoptimized
                 />
+                <span className=' text-[9px] bg-gradient-to-r from-aqua-400 to-aqua-400/70 w-fit mt-1.5 leading-none text-aqua-950 px-1.5 py-1 rounded-[5px]'>BETA</span>
             </Link>
 
             {!loading &&

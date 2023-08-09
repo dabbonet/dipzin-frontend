@@ -16,6 +16,7 @@ import { VirtuosoGrid } from 'react-virtuoso'
 import { AnimatePresence, motion } from 'framer-motion'
 import Screen from '@/components/ui/Screen'
 import Icons from '@/components/Icons'
+import AppActions from '@/app/(static)/app/[platform]/[slug]/AppActions'
 
 
 
@@ -163,7 +164,7 @@ export default function SearchPage() {
           overscan={10}
           itemContent={(index, data) => {
             return (
-              <SingleScreen screen={data?.screen} appName={data.app.name} tagLine={data.app.tag_line} setOpen={() => setOpenScreen(data)} />
+              <SingleScreen screen={data?.screen} appName={data.app.name} tagLine={data.app.tag_line} setOpen={() => setOpenScreen(data)} icon={data.app.icon} />
             );
           }}
           components={{
@@ -196,9 +197,9 @@ export default function SearchPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <ScreenActions screen={openScreen} />
-              <motion.div className="flex flex-wrap justify-center items-center z-[100] w-fit mx-auto h-full gap-10" >
-                <ScreenDetails screenId={openScreen.app.id} />
+              <ScreenActions appName={openScreen.app.name} screen={openScreen.screen} />
+              <motion.div className="flex flex-wrap justify-center items-center z-[100] w-fit mx-auto h-full gap-10 relative" >
+                <ScreenDetails screenId={openScreen.id} />
                 <Screen
                   src={openScreen.screen}
                   quality={50}

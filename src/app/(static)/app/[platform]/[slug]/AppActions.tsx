@@ -9,9 +9,11 @@ import { navigatorProps } from "@/lib/types/appactions";
 import { useDialog } from "@/context/useDialog";
 import { useSelcetedImages } from "@/lib/SelectedToDownload";
 import { getUser, useAuth } from "@/lib/auth";
+import { usePathname } from "next/navigation";
 
-const AppActions: FC<navigatorProps> = ({ app, isFromCollection }) => {
+const AppActions: FC<navigatorProps> = ({ app }) => {
   const { setVisibleNoAuth, setVisible, setTitle } = useDialog()
+  const path = usePathname()
   const { user } = useAuth()
   const { selectedImages } = useSelcetedImages()
   const platform = app?.platform.data.attributes.name.toLowerCase() ?? null
@@ -31,12 +33,9 @@ const AppActions: FC<navigatorProps> = ({ app, isFromCollection }) => {
       onClick={async () => {
         setTitle('Upgrade and get access to exclusive features')
         if (!user) return setVisibleNoAuth(true)
-        if (isFromCollection) {
-          return
-        }
         handler({ app, screensArray, platform })
       }}
-      className=" w-20 h-20"
+      className=" w-24 h-20"
     >
       <SquareButton.Title className=" text-xs md:text-sm">{title}</SquareButton.Title>
       <SquareButton.Icon>
@@ -45,9 +44,9 @@ const AppActions: FC<navigatorProps> = ({ app, isFromCollection }) => {
     </SquareButton>
   }
   return (
-    <ActionBar className="flex flex-col fixed sm:right-10 right-0 top-[32%] w-fit h-fit">
+    <ActionBar className="flex flex-col fixed right-10 top-1/2 -translate-y-1/2 w-auto h-auto z-20">
       <ButtonWrapper title='Like app' icon={<Icons.Heart />} handler={handleLikeApp} />
-      <ButtonWrapper title='App store' icon={<Icons.Apple />} handler={handleAppStore} />
+      {path.startsWith('/app') && <ButtonWrapper title='App store' icon={<Icons.Apple />} handler={handleAppStore} />}
       <ButtonWrapper title='Bulk Download' icon={<Icons.Download />} handler={bulkDownloadImages} />
       <ButtonWrapper title='Copy Link' icon={<Icons.CopyFilled />} handler={handleCopyLink} />
     </ActionBar>
@@ -64,12 +63,9 @@ const handleAppStore = ({ app }) => {
   window.open(app.store_link, "_blank", "noreferrer");
 }
 const handleDownloadImages = ({ app, screensArray }) => {
-  ImageDownloader(app.name + " Screens", screensArray);
+  ImageDownloader(app?.name + " Screens", screensArray);
 }
-const handleCopyLink = ({ app, platform }) => {
-  if (!app) {
-    return
-  }
-  navigator.clipboard.writeText(window.location.origin + "/app/" + platform + "/" + app.slug);
+const handleCopyLink = () => {
+  navigator.clipboard.writeText(window.location.origin + window.location.pathname + window.location.search);
   toast.success("App Link Copied.");
 }
