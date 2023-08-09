@@ -12,6 +12,7 @@ import { useSelcetedImages } from '@/lib/SelectedToDownload';
 import { ImageDownloader } from '@/lib/ImageDownloader';
 import PlatformSwitcher from '@/components/PlatformSwitcher';
 import { usePathname } from 'next/navigation';
+import { useResponsive } from '@/context/useResponsive';
 
 
 
@@ -22,6 +23,7 @@ const MainNavigator = ({ type }: any) => {
     const inputRef = useRef(null)
     const searchButton = useRef(null)
     const path = usePathname()
+    const { isMobile } = useResponsive();
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.ctrlKey && (event.key === 'k' || event.keyCode === 75)) {
@@ -107,7 +109,7 @@ const MainNavigator = ({ type }: any) => {
                 </motion.div >
             </div >
             <div className={cn('relative w-fit', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
-                <div className='flex flex-col md:flex-row items-center w-full bg-slate-900 rounded-full'>
+                <div className='flex  flex-col sm:flex-row md:flex-row items-center w-full bg-slate-900 rounded-full'>
                     {(activeControls == 'menu-search') && (
                         <motion.div className={cn(" flex gap-3 items-center pl-6 w-full")}>
                             <motion.img src='/images/assets/search.svg' className=' mr-2' />
@@ -127,7 +129,7 @@ const MainNavigator = ({ type }: any) => {
                             <p className=' text-slate-500 text-sm w-20 mr-2 text-center sm:block hidden'>{searchKeyword.length === 0 ? 'CTRL K' : 'Enter'}</p>
                         </motion.div>
                     )}
-                    <PlatformSwitcher />
+                    {!isMobile && <PlatformSwitcher /> }
                 </div>
                 <AnimatePresence mode='wait'>
                     {activeView == 'search' && (
