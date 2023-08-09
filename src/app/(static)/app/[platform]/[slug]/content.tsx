@@ -1,7 +1,7 @@
 "use client";
 import SingleScreen from "@/components/screen/SingleScreen";
 import Screen from "@/components/ui/Screen";
-import { usePlatform } from "@/lib/platforms";
+import { usePlatform } from "@/context/usePlatforms";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";

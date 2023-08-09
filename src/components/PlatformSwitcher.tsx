@@ -1,6 +1,6 @@
 "use client";
 import { useContentDiscovery } from "@/context/useContentDiscovery";
-import { usePlatform } from "@/lib/platforms";
+import { usePlatform } from "@/context/usePlatforms";
 import { usePathname, useRouter, useSelectedLayoutSegments } from "next/navigation";
 import { useEffect } from "react";
 
