@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import { LogLevel, VirtuosoGrid } from "react-virtuoso";
 import ShowcaseScreen from "./screen/ShowcaseScreen";
-import { usePlatform } from "@/lib/platforms";
+import { usePlatform } from "@/context/usePlatforms";
 
 import { cn, shuffle } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
@@ -73,7 +73,7 @@ const Stream: FC<StreamProps> = () => {
     }, 500);
   }, [streamData, loadedPages, selected]);
 
-  if (streamData.length <= 0 || isLoading) return <StreamLoader/>
+  if (streamData.length <= 0 || isLoading) return <StreamLoader />
 
   return (
     <>
