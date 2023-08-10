@@ -6,7 +6,7 @@ import SparkleButton from './ui/SparkleButton';
 import { useAuth } from '@/lib/auth';
 import Navigator from './navigator/main';
 import { useResponsive } from '@/context/useResponsive';
-import OpenMenu from '@/components/navigator/main/menu';
+import OpenMenu from '@/components/navigator/main/mobileMenu';
 
 
 const Navbar: FC = () => {
@@ -47,6 +47,7 @@ const Menu = (user) => {
   const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
   if (!isMobile) {
     if (user.user) return <SparkleButton href='/pricing' >Unlock More!</SparkleButton>;
     return <SparkleButton href='/access' >Try it!</SparkleButton>;
