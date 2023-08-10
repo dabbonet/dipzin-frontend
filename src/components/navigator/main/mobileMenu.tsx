@@ -1,22 +1,42 @@
-
+import PlatformSwitcher from '@/components/PlatformSwitcher'
+import SparkleButton from '@/components/ui/SparkleButton'
+import { useResponsive } from '@/context/useResponsive'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
 import ReactPlayer from 'react-player'
+import { useRouter } from 'next/router'
 
-const Menu = () => {
+
+const Menu = (user) => {
     const [openVideo, setOpenVideo] = useState(false)
-  
+  const { isMobile } = useResponsive();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+     const router = useRouter()
+     const handleCloseMenu = () => {
+    router.back()
+  }
+
+  if(isMobile) {
     return (
         <motion.div
             layout
             key="menu"
-            className='overflow-x-hidden bg-[#050814] absolute rounded-2xl p-8 bottom-0 left-32'
+            className='overflow-x-hidden bg-[#050814] rounded-2xl p-8'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, height: 0, width: 0 }}
         // transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
-        >
+        > 
+       <div className="absolute right-0 mr-8 p-1">
+  <SparkleButton href={user.user ? '/pricing' : '/access'}>
+    {user.user ? 'Unlock More!' : 'Try it!'}
+  </SparkleButton>
+</div>
+
+             <div className='mb-4'>
+            <PlatformSwitcher/>
+            </div>
             <div className='flex h-[90%] p-2 px-4 max-w-[800px] flex-col'>
                 <div className=' flex gap-x-2 mb-3 text-xs'>
                     <Link href='/privacy' className=' text-slate-300  hover:text-aqua-500'>Privacy</Link>
@@ -87,8 +107,7 @@ const Menu = () => {
             </AnimatePresence>
         </motion.div>
     )
-}
-
+}}
 export default Menu
 
 const InitialSearchCard = ()=> {
@@ -100,7 +119,6 @@ const InitialSearchCard = ()=> {
 }
 
 const Resources = () => {
-
     return (
         <div className=' flex items-start gap-x-2'>
             <img className="mt-2 w-4 text-white" src="/images/assets/refresh.svg" alt="refresh" />
@@ -110,7 +128,4 @@ const Resources = () => {
             </div>
         </div>
     )
-}
-
-
-
+    }
