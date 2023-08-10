@@ -13,7 +13,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@analytics/google-tag-manager": "^0.5.5",
     "@react-oauth/google": "^0.11.0",
     "@types/node": "20.4.4",
     "@types/react": "18.2.15",

@@ -8,10 +8,8 @@ import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
 import { AccessOrUpgradeCard } from '@/components/accessAndUpgrade';
 import GoogleOneTap from '@/components/GoogleOneTap';
-import googleTagManager from '@analytics/google-tag-manager'
-import Analytics from 'analytics'
-
-
+import Analytics from '@/lib/Analytics';
+import { Suspense } from 'react';
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
@@ -37,16 +35,6 @@ export const metadata = {
   },
 }
 
-const analytics = Analytics({
-  app: 'dipzin.com',
-  plugins: [
-    googleTagManager({
-      containerId: 'GTM-PW28TXN'
-    })
-  ]
-})
-
-
 export default function RootLayout({
   params,
   children,
@@ -60,16 +48,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn('subpixel-antialiased font-sans', outfit.variable)}>
       <body className={cn('bg-fixed bg-black-950 w-full h-full relative background')}>
-        <Providers>
-          <Navbar />
-          <AccessOrUpgradeCard />
-          <main className='pt-24 max-w-[90%]  mx-auto'>
-            <GoogleOneTap />
-            {children}
-          </main>
-          <Footer />
-          <Background1 />
-        </Providers>
+        <Suspense>
+          <Analytics />
+          <Providers>
+            <Navbar />
+            <AccessOrUpgradeCard />
+            <main className='pt-24 max-w-[90%]  mx-auto'>
+              <GoogleOneTap />
+              {children}
+            </main>
+            <Footer />
+            <Background1 />
+          </Providers>
+        </Suspense>
       </body>
     </html>
   )
