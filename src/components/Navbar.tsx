@@ -43,22 +43,22 @@ const Navbar: FC = () => {
 
 const Menu = (user) => {
   const [openVideo, setOpenVideo] = useState(false);
-  const { isMobile } = useResponsive();
+  const { isMobile, isTablet } = useResponsive();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
  const handleMenuClick = (e) => {
   e.preventDefault();
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen(true);
   };
   const handleCloseClick = (e) => {
       e.preventDefault();
     setIsMenuOpen(false);
   }
 
-  if (!isMobile) {
+  if (!isMobile && !isTablet) {
     if (user.user) return <SparkleButton href='/pricing' >Unlock More!</SparkleButton>;
     return <SparkleButton href='/access' >Try it!</SparkleButton>;
-  } else if(!isMenuOpen) {
+  } if(!isMenuOpen) {
     return (
       <div className='ml-6'>
         <button onClick={handleMenuClick}>Menu</button>
@@ -74,20 +74,24 @@ const Menu = (user) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, height: 0, width: 0 }}
           >
-        
-          <button onClick={handleCloseClick}><img className=' ' src='/images/assets/arrow_back.svg' alt='Close Menu'/>
-                    </button>
+    
+            <div onClick={handleCloseClick} className='flex h-[90%] p-2 px-4 max-w-[800px] flex-col mt-10'>
 
-       <div onClick={handleCloseClick}  className=' absolute  top-0 right-0 left-0 mt-8 '>
+                   <div className='absolute top-0 left-0 mt-8 ml-8'>
+                       <button>
+                          <img src='/images/assets/arrow_back.svg' alt='Close Menu'/>
+                       </button>
+                    </div>
+        
+       <div className=' absolute  top-0 right-0 left-0 mt-8  '>
                  <PlatformSwitcher />
         </div>
-       <div onClick={handleCloseClick} className="absolute top-0 right-0 mr-8 mt-8  p-1">
+
+       <div className="absolute top-0 right-0 mr-8 mt-8  p-1">
             <SparkleButton  href={user.user ? '/pricing' : '/access'}>
                 {user.user ? 'Unlock More!' : 'Try it!'}
             </SparkleButton>
         </div>
-
-            <div onClick={handleCloseClick} className='flex h-[90%] p-2 px-4 max-w-[800px] flex-col mt-10'>
                 <div className=' flex gap-x-4 mb-2'>
                     <div className=' flex gap-x-8'>
                         <div className=' flex flex-col gap-y-2'>
