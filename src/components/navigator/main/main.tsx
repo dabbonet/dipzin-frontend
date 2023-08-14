@@ -94,7 +94,7 @@ const MainNavigator = ({ type }: any) => {
 
     if (activeControls === '') return
     return (
-        <div ref={wrapperRef} className="2xl:flex w-fit items-center h-full bg-slate-900 rounded-full">
+        <div ref={wrapperRef} className="flex w-fit items-center h-full bg-slate-900 rounded-full">
             <div className='relative h-full'>
                 <motion.div
                     className="h-full"
@@ -113,7 +113,8 @@ const MainNavigator = ({ type }: any) => {
                     </motion.div>
                 </motion.div >
             </div >
-            <div className={cn('relative w-fit', activeView == 'search' ? 'absolute top-0 left-0 bg-slate-950 rounded-2xl p-3 h-screen w-screen' : '')}>
+
+            {(isMobile||isTablet) && <div className={cn('relative w-fit', activeView == 'search' ? 'absolute top-0 left-0 bg-slate-950 rounded-2xl p-3 h-screen w-screen' : '')}>
                  <div className=' absolute top-0 left-0 mt-5 ml-5 '>
                      {(isMobile||isTablet) && activeView == 'search' &&
                      <button onClick={handleCloseButton}><img src='/images/assets/arrow_back.svg' alt='Close Menu'/>
@@ -146,8 +147,37 @@ const MainNavigator = ({ type }: any) => {
                         <Search />
                     )}
                 </AnimatePresence>
-            </div>
+            </div>}
             
+             {(!isMobile&&!isTablet)&&<div className={cn('relative w-fit', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
+                <div className='flex flex-col md:flex-row items-center w-full bg-slate-900 rounded-full'>
+                    {(activeControls == 'menu-search') && (
+                        <motion.div className={cn(" flex gap-3 items-center pl-6 w-full")}>
+                            <motion.img src='/images/assets/search.svg' className=' mr-2' />
+                            <motion.input
+                                ref={inputRef}
+                                className="bg-inherit outline-none w-fit p-2"
+                                placeholder={filters.length !== 0 ? 'Search More Tags...' : 'Try Search!'}
+                                transition={{ duration: 0.4 }}
+                                animate={{ width: '100%' }}
+                                value={searchKeyword}
+                                onChange={handleSearch}
+                                onFocus={() => {
+                                    setActiveView('search')
+                                }}
+                            />
+                            {activeView === 'menuWithSearch' && filters.length !== 0 && <button onClick={removeFilter} className=' text-slate-500 font-medium text-sm'><span className=' text-slate-50 font-bold mr-1'>+{filters.length}</span>filters</button>}
+                            <p className=' text-slate-500 text-sm w-20 mr-2 text-center sm:block hidden'>{searchKeyword.length === 0 ? 'CTRL K' : 'Enter'}</p>
+                        </motion.div>
+                    )}
+                    <PlatformSwitcher />
+                </div>
+                <AnimatePresence mode='wait'>
+                    {activeView == 'search' && (
+                        <Search />
+                    )}
+                </AnimatePresence>
+            </div>}
         </div >
     )
 }
