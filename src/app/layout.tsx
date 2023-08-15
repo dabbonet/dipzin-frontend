@@ -1,11 +1,12 @@
 
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer';
-import { Background1 } from '@/ui/Backgrounds'
+import { Background } from '@/ui/Backgrounds'
 import './globals.css'
 import { Outfit } from 'next/font/google'
 import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
+import { Toaster } from 'react-hot-toast';
 import { AccessOrUpgradeCard } from '@/components/accessAndUpgrade';
 import GoogleOneTap from '@/components/GoogleOneTap';
 import Analytics from '@/lib/Analytics';
@@ -47,7 +48,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={cn('subpixel-antialiased font-sans', outfit.variable)}>
-      <body className={cn('bg-fixed bg-black-950 w-full h-full relative background')}>
+      <body className={cn('bg-fixed w-full h-full relative background')}>
         <Suspense>
           <Analytics />
           <Providers>
@@ -58,7 +59,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
-            <Background1 />
+            <Background />
           </Providers>
         </Suspense>
       </body>
