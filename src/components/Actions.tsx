@@ -5,12 +5,18 @@ import { copyImagesToClipboard } from "@/lib/ImageCopier";
 import Icons from "./Icons";
 import { MenuDropdown } from "./MenuDropDown";
 import { CollectionDropdown } from "./CollectionDropDown";
+import { usePathname } from "next/navigation";
+import Image from "next/image";
 type actions = {
   screen: any
+  appName?: any
+  tagLine?: any
+  icon?: any
 }
-export const Actions = ({ screen: screen }: actions) => {
+export const Actions = ({ screen: screen , appName , tagLine , icon }: actions) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showCollection, setShowCollection] = useState(false);
+  const path = usePathname()
   return (
     <>
       <div className="absolute w-[100%] pt-4 pb-12 flex gap-3 justify-end px-4 drop-shadow-xl z-20 bg-gradient-to-b from-slate-900/90 to-slate-900/0 rounded-[0.9rem]">
@@ -51,6 +57,16 @@ export const Actions = ({ screen: screen }: actions) => {
         </div>
         {showMenu && <MenuDropdown screen={screen} />}
         {showCollection && <CollectionDropdown />}
+      </div>
+      <div className="absolute w-[100%] pb-4 pt-12 px-4 drop-shadow-xl z-20 bg-gradient-to-t from-slate-900/90 to-slate-900/0 rounded-[0.9rem] bottom-0">
+        {path.startsWith('/search') && <div className=" flex flex-col">
+          <Image src={icon} width={48} height={48} alt={tagLine} className=" rounded-md"/>
+          <span className="text-md tracking-wider font-medium">{appName}</span>
+          <span className="block text-[13px] font-light tracking-widest">
+              {tagLine}
+          </span>
+        </div>
+        }
       </div>
     </>
   );

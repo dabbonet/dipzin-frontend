@@ -12,7 +12,6 @@ import { Toaster } from "react-hot-toast";
 import ScreenActions from "./ScreenActions";
 import ScreenDetails from "@/components/ScreenDetails";
 import { useNavigator } from "@/context/useNavigatiorContext";
-import { useContentDiscovery } from "@/context/useContentDiscovery";
 import { useSelcetedImages } from "@/lib/SelectedToDownload";
 
 interface ContentProps {
@@ -30,7 +29,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
     if (selectedImages.images.length > 0) {
       setActiveControls('selection')
     } else {
-      setActiveControls('menu-only')
+      setActiveControls('menu-search')
     }
   }, [selectedImages])
 

@@ -1,8 +1,13 @@
 'use client'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { motion } from 'framer-motion'
+import { usePlatform } from '@/lib/platforms'
+import { getPlatformById } from '@/lib/utils'
+import { useContentDiscovery } from '@/context/useContentDiscovery'
+import Image from 'next/image'
+const qs = require('qs')
 const ScreenDetails = ({ screenId }) => {
     const [data, setData] = useState(null)
 
@@ -22,25 +27,33 @@ const ScreenDetails = ({ screenId }) => {
                 const data = {
                     colors: res.data?.attributes.colors,
                     tags: res.data?.attributes.tags.data,
-                    components: res.data?.attributes.components.data
-
+                    components: res.data?.attributes.components.data,
+                    app: res.data?.attributes.app.data.attributes
                 }
                 setData(data)
             }
         }
         getData()
     }, [screenId]);
+    const App = ()=> {
+        const icon = data?.app?.icon?.data?.attributes?.hash + data?.app?.icon?.data?.attributes?.ext
+        return <div className=' flex flex-col gap-1'>
+            <Image src={icon} className='rounded-xl' width={56} height={56} alt=''/>
+            <h2 className='text-white'>{data.app.name}</h2>
+            <p className=' text-slate-600'>{data.app.tag_line}</p>
+        </div>
+    }
     const Components = () => {
         return <div className=' flex gap-2 flex-wrap'>
             {data?.components.map(el => (
-                <Tag name={el.attributes.name} type="components" key={el} />
+                <Tag name={el.attributes.name} type="component" key={el} />
             ))}
         </div>
     }
     const Tags = () => {
         return <div className=' flex gap-2 flex-wrap'>
             {data?.tags.map(el => (
-                <Tag name={el.attributes.name} type="tags" key={el} />
+                <Tag name={el.attributes.name} type="tag" key={el} />
             ))}
         </div>
     }
@@ -61,6 +74,10 @@ const ScreenDetails = ({ screenId }) => {
                 className='absolute -left-[100%]'
             >
                 <div className=' bg-slate-950 p-8 flex flex-col gap-y-8 rounded-3xl w-[370px] h-fit'>
+                    {data?.app && <div>
+                        <p className=' text-slate-500 text-sm mb-2'>App</p>
+                        <App/>
+                        </div>}
                     {data?.tags?.length > 0 &&
                         <div>
                             <p className=' text-slate-500 text-sm mb-2'>Tags</p>
@@ -109,30 +126,17 @@ const ColorSquare = ({ color }) => {
 }
 
 const Tag = ({ name, type }: { name: string, type: string }) => {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathName = usePathname();
-    const parameter = new URLSearchParams(searchParams.toString());
-    let paramName = type;
-
-    let tags = parameter.get(paramName);
-    let allTags;
-
-    if (tags) {
-        allTags = tags.split(',');
-    } else {
-        allTags = [];
-    }
-
-    tags = allTags.join(',');
-
+    const {selected} = usePlatform()
+    const {searchKeyword} = useContentDiscovery()
+    const router = useRouter()
+    const platform = getPlatformById(selected)
     const searchTag = () => {
-        if (!allTags.includes(name)) {
-            allTags.push(name);
-        }
-        tags = allTags.join(',');
-        parameter.set(paramName, tags);
-        router.push('/search?' + parameter);
+        const query = qs.stringify({
+            q: searchKeyword,
+            [type] : name
+        })
+        console.log(query)
+        router.push(`/search/${platform}?${query}`)
     };
 
     return (
