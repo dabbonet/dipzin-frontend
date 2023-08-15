@@ -1,16 +1,13 @@
 import useDebounce from '@/lib/debounce';
 import { createContext, useContext, useState } from 'react';
 
-type Filter = {
-    tags: String[],
-    categories: String[]
-}
+
 
 interface ContentDiscoveryState {
     streamData: any;
     setStreamData: (data: any) => void;
-    filters: Filter | null;
-    setFilters: (filters: Filter) => void;
+    filters: any
+    setFilters: (filters: any) => void;
     searchKeyword: string;
     setSearchKeyword: (keyword: string) => void;
 }
@@ -29,10 +26,9 @@ const ContentDiscoveryContext = createContext<ContentDiscoveryState>(
 );
 
 export const ContentDiscoveryProvider = ({ children }: { children: React.ReactNode }) => {
-    const [streamData, setStreamData] = useState<any>(null);
-    const [filters, setFilters] = useState<Filter>(null);
+    const [streamData, setStreamData] = useState([]);
+    const [filters, setFilters] = useState([]);
     const [searchKeyword, setSearchKeyword] = useState<string>('');
-
     return (
         <ContentDiscoveryContext.Provider
             value={{

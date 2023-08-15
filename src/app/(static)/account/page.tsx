@@ -4,6 +4,7 @@ import { ActionBar, SquareButton } from "@/components/ActionBar";
 import Icons from "@/components/Icons";
 import Card from "@/components/pricing/Card";
 import Pills from "@/components/pricing/Pills";
+import { getToken } from "@/lib/auth";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { FC, useEffect, useRef, useState } from "react";
@@ -31,13 +32,12 @@ const Account: FC = ({}) => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`
+            Authorization: `Bearer ${getToken()}`
           },
         });
         const data = await response.json();
         setUserDetails(data)
       } catch (error) {
-        console.log(error);
       }
     }
     getUserDetails();
@@ -48,7 +48,6 @@ const Account: FC = ({}) => {
     if (name === "image") {
       const reader = new FileReader();
       reader.onload = (e) => {
-        console.log(e.target.result)
         setUserDetails({
           ...userDetails,
           [name]: e.target.result
@@ -79,7 +78,6 @@ const Account: FC = ({}) => {
       });
       const data = await response.json();
     } catch (error) {
-      console.log(error);
     }
   }
   const FirstTimeHeader = () => {
@@ -259,7 +257,6 @@ const Account: FC = ({}) => {
                 "Unlimited Search & Filters",
               ]}
               price_per="Quarterly"
-              overSale={3.99}
             />
             <Card
               subscribeName="Team"

@@ -1,254 +1,214 @@
+'use client'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import { useContentDiscovery } from '@/context/useContentDiscovery';
+import { getToken, useAuth } from '@/lib/auth';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useDebounce } from 'use-debounce'
+import { cn, getPlatformById, platfroms } from '@/lib/utils';
+import Link from 'next/link';
+import { toast } from 'react-hot-toast';
+import { usePlatform } from '@/lib/platforms';
+import { usePathname, useRouter } from 'next/navigation';
+import { useNavigator } from '@/context/useNavigatiorContext';
+import { useDialog } from '@/context/useDialog';
+const qs = require('qs')
 
-import { motion } from "framer-motion"
-import Screen from "@/ui/Screen"
-import { useCallback, useEffect, useLayoutEffect, useState } from "react"
-import clsx from "clsx"
-import { NotFoundPreview } from "./notFound"
-import { PreviewSkeleton, ResultsSekelton, ScreensSkeleton } from "./loading"
-import useMeasure from "react-use-measure"
-import ResultIcon from './ResultIcon'
-import { useContentDiscovery } from "@/context/useContentDiscovery"
-import Icons from "@/components/Icons"
-import { useRouter, useSearchParams } from "next/navigation"
-import { getToken } from "@/lib/auth"
+const mergeArrays = (arr) => {
+    const comps = arr[2].hits.filter(el => el.type === "component").slice(0, 5)
+    const tags = arr[2].hits.filter(el => el.type === "tag").slice(0, 5)
+    const categories = arr[2].hits.filter(el => el.type === "category").slice(0, 5)
+    return {
+        apps: arr[1].hits,
+        components: comps,
+        tags,
+        categories
+    }
+}
 
+const InitialSearch = () => {
+    const { searchKeyword, filters, setSearchKeyword } = useContentDiscovery();
+    const { setActiveView, activeView } = useNavigator()
+    const { selected } = usePlatform()
+    const [data, setdata] = useState(null)
+    const inputRef = useRef(null)
+    const searchButton = useRef(null)
+    const [debounce] = useDebounce(searchKeyword, 300)
+    const {navigateToRoute} = useDialog()
 
-const Search = () => {
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.ctrlKey && (event.key === 'k' || event.keyCode === 75)) {
+                event.preventDefault();
+                // Perform your desired functionality here
+                setActiveView(prev => {
+                    if (['search',].includes(prev)) {
+                        setSearchKeyword('')
+                        inputRef?.current?.blur()
+                        return ''
+                    } else {
+                        inputRef?.current?.focus()
+                        return 'search'
+                    }
+                })
+            }
+            if (event.key === "Enter") {
+                searchButton.current.click()
+            }
+        };
 
-    const { searchKeyword, filters } = useContentDiscovery();
-    const [results, setResults] = useState<any>(null);
-    const [selected, setSelected] = useState<any>({});
-    const [isLoading, setIsLoading] = useState(true);
-    const token = getToken();
+        document.addEventListener('keydown', handleKeyDown);
 
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [activeView]);
     useLayoutEffect(() => {
-        const handleSearch = async () => {
-            setResults([]);
-            setIsLoading(true)
-            const res = await fetch(`/api/search?keyword=${searchKeyword}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                cache: 'no-cache'
+        const handleSearch = async (debounce) => {
+            const res = await fetch(`/api/search`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    keyword: debounce
+                })
             });
             const data = await res.json();
-            setIsLoading(false)
-
-            // Filter results that's in filters object.
-            const results = data.search.result.filter((result) => {
-                if (filters?.tags?.includes(result.item.name) && result.item.type === 'tag') {
-                    return false;
-                }
-                if (filters?.categories?.includes(result.item.name) && result.item.type === 'category') {
-                    return false;
-                }
-                return true;
-            });
-
-            if (results?.length > 0) {
-                setResults(results);
-                setSelected(results[0]);
-            } else {
-                setResults(null);
-            }
-
+            const filterData = mergeArrays(data?.search?.search?.results)
+            setdata(filterData)
         }
-        handleSearch();
-
+        if (debounce.length > 1) {
+            handleSearch(debounce)
+        } else {
+            const myArray = ["hello world", "login", "dashboard", "sign up", "sports"];
+            const randomValue = myArray[Math.floor(Math.random() * myArray.length)];
+            handleSearch(randomValue)
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchKeyword, setResults, setSelected, setIsLoading]);
-
-    let [ref, bounds] = useMeasure();
+    }, [debounce])
+    const handleGetScreens = () => {
+        const query = qs.stringify(
+            {
+                q: searchKeyword,
+                component: filters
+                    .filter(el => el.type === 'component' && el.tag)
+                    .map(el => el.tag),
+                category: filters
+                    .filter(el => el.type === 'category' && el.tag)
+                    .map(el => el.tag),
+                tag: filters
+                    .filter(el => el.type === 'tag' && el.tag)
+                    .map(el => el.tag),
+            },
+            { encodeValuesOnly: true, addQueryPrefix: true, indices: false }
+        );
+        const app = getPlatformById(selected)
+        navigateToRoute({link: `/search/${app}${query}`})
+    }
 
     return (
-
         <motion.div
-            key="search"
             layout
-            className="overflow-y-hidden p-0"
+            key="menu"
+            className='overflow-x-hidden rounded-[20px] p-1 b-g w-full relative z-50'
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1, height: bounds.height }}
-            exit={{ opacity: 0, height: 0, width: 0 }}
-            transition={{ type: "spring", duration: 0.6 }}
+            animate={{ opacity: 1 }}
+        // exit={{ opacity: 0, height: 0, width: 0 }}
+        // transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
         >
-            <div
-                ref={ref}
-                className="py-2 px-4"
-            >
-                <p className='uppercase text-sm text-slate-400'>Search Results for: {searchKeyword}</p>
+            <h1 className=' text-slate-100 font-semibold mt-3'><span className='ml-3 mt-3 text-xs md:text-base'>Search Suggestions</span></h1>
+            <div className=' overflow-y-hidden h-[400px] xl:w-[900px] rounded-[20px] mb-10'>
+                {/* <div className='w-full h-[10%] absolute bottom-0 bg-gradient-to-b from-slate-950/0 to-slate-950/90'></div> */}
 
-                <div className='flex space-x-4 mt-2 max-h-[500px] min-w-[1200px] max-w-[1200px] w-full h-full'>
-                    {isLoading &&
-                        <>
-                            <ResultsSekelton />
-                            <PreviewSkeleton />
-                        </>
-                    }
-                    {results && !isLoading && (
-                        <>
-                            <div className='w-[30%] px-2 py-2  flex-col rounded-2xl bg-slate-800 scroll-py-2 snap-y scroll-smooth overflow-y-scroll scrollbar-hide'>
-                                {results.map((result: any, index: number) => (
-                                    <motion.div
-                                        key={index}
-                                        className={clsx(selected.item.id == result.item.id && 'bg-slate-900', 'flex items-center cursor-pointer p-2 hover:bg-slate-900 rounded-xl space-x-3')}
-                                        onHoverStart={() => setSelected(result)}
-                                    >
-                                        <ResultIcon result={result.item.icon?.url} type={result.item.type} />
+                <div className='flex h-full p-2 px-4 flex-col overflow-y-scroll'>
+                    <p className=' text-slate-500 text-xs'>Featured Apps</p>
+                    <div className=' grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3 mb-6'>
+                        {data ? data?.apps?.map((el, index) => <App slug={el.app.slug} key={index} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />) : <SearchLoader cellsNumber={6} />}
+                    </div>
+                    <div className='flex justify-between'>
+                        <p className=' text-slate-500 text-xs'>Tags</p>
+                        <button className=' text-xs md:text-base'>view all</button>
+                    </div>
+                    <div className=' flex gap-2 mt-2 mb-6 flex-wrap'>
+                        {data ? data?.tags?.map((el, index) => {
+                            return <FeatureCard tag={el.name} type={el.type} key={index} />
+                        }) : <SearchLoader cellsNumber={5} />}
+                    </div>
+                    <div className='flex justify-between'>
+                        <p className=' text-slate-500 text-xs'>Components</p>
+                        <button className=' text-xs md:text-base'>View all</button>
+                    </div>                        
+                    <div className=' flex gap-2 mt-2 mb-6 flex-wrap'>
+                        {data ? data?.components?.map((el, index) => {
+                            return <FeatureCard tag={el.name} type={el.type} key={index} />
+                        }) : <SearchLoader cellsNumber={5} />}
+                    </div>
+                    <div className='flex justify-between'>
+                        <p className=' text-slate-500 text-xs'>Categories</p>
+                        <button className=' text-xs md:text-base'>view all</button>
+                    </div>                        
+                    <div className=' flex gap-2 mt-2 mb-6 flex-wrap'>
+                        {data ? data?.categories?.map((el, index) => {
+                            return <FeatureCard tag={el.name} type={el.type} key={index} />
+                        }) : <SearchLoader cellsNumber={5} />}
 
-
-                                        <div className="flex justify-between w-full items-center">
-                                            <div className="text-white flex-1">
-                                                <span className="text-[15px] font-semibold">{result.item.name}</span>
-                                                <span className="block text-[10px] font-light text-slate-300">
-                                                    {result.item.type === 'app' && (
-                                                        <span className="block text-[10px]">{result.item.tag_line}</span>
-                                                    )}
-                                                    {result.item.type === 'tag' && (
-                                                        <span className="block text-[10px]">Search by <b className="font-semibold">Tags</b></span>
-                                                    )}
-                                                    {result.item.type === 'category' && (
-                                                        <span className="block text-[10px]">Search by <b className="font-semibold">App Category</b></span>
-                                                    )}
-                                                </span>
-
-                                            </div>
-                                            {result.item.platform && <span className="text-[0.7rem] bg-slate-700 text-slate-300 py-1 px-2 rounded-lg">{result.item.platform?.name}</span>}
-                                        </div>
-
-                                    </motion.div>
-                                ))}
-                            </div>
-                            <PreviewCard selected={selected.item} />
-                        </>
-                    )}
-
-
-                    {!results && !isLoading && (
-                        <>
-                            <ResultsSekelton />
-                            <NotFoundPreview />
-                        </>
-                    )}
-
+                    </div>
                 </div>
             </div>
+            <motion.button disabled={searchKeyword.length === 0 ? true : false} ref={searchButton} onClick={handleGetScreens} className={cn(' absolute w-[95%] font-semibold py-2 left-1/2 -translate-x-1/2 text-center text-white rounded-full bottom-5', searchKeyword.length === 0 ? 'bg-slate-900' : 'bg-aqua-500')}>search</motion.button>
         </motion.div>
     )
 }
 
-export default Search
+export default InitialSearch
 
 
+const InitialSearchCard = () => {
+    return <div className='flex-shrink-0 w-[300px] bg-slate-900 hover:bg-slate-800 rounded-2xl p-4 gap-1'>
+        <h3 className='text-slate-200 font-semibold'>Figma Plugin</h3>
+        <p className='text-slate-400 text-xs'>Work from your browser with our lightweight extension.</p>
+        <span className=' bg-lime-100 rounded-md  px-1 text-lime-900'>In Progress</span>
+    </div>
+}
 
 
-const PreviewCard = ({ selected }: any) => {
+const FeatureCard = ({ tag, type }) => {
+    const { filters, setFilters } = useContentDiscovery()
 
-    //TODO: Show App Icon 
-    const [showcase, setShowcase] = useState<any>([]);
-    const { setSearchKeyword, setFilters } = useContentDiscovery();
-    const router = useRouter();
-    const searchParams = useSearchParams()!;
-    // const data = await getPreview({ id: selected.id })
-
-    useEffect(() => {
-        // Get App Showcase
-        setShowcase([])
-        const Preview = async () => {
-            let res = await fetch(`/api/search/preview?id=${selected.id}&type=${selected.type}`)
-            let preview = await res.json()
-            setShowcase(preview);
+    const handleClick = () => {
+        if (filters.some(el => el.tag === tag && el.type === type)) {
+            setFilters(filters.filter(el => el.tag !== tag))
+            return
         }
-        Preview()
-
-    }, [selected])
-
-    const handleSearchClick = useCallback((selected) => {
-        let params = new URLSearchParams(searchParams.toString());
-        let tags = params.get('tags');
-        let categories = params.get('categories');
-
-        let link = '';
-        const platName = selected.platform?.name.toLowerCase()
-        const tagList = tags ? tags.split(',') : []; tags = tagList.join(',');
-        const categoryList = categories ? categories.split(',') : [];
-        const name = selected.name
-
-        setFilters({ categories: categoryList, tags: tagList })
-        setSearchKeyword('')
-        if (selected.type === 'tag') {
-            !tagList.includes(name) && tagList.push(name)
-            tags = tagList.join(',');
-            params.set('tags', tags);
-            router.push('/search?' + params)
-        } else if (selected.type === 'category') {
-            !categoryList.includes(name) && categoryList.push(name);
-            categories = categoryList.join(',');
-            params.set('categories', categories);
-            router.push('/search?' + params)
-        } else {
-            link = `/app/${platName}/${selected.slug}`
-            router.push(link)
-        }
-
-
-    }, [searchParams, router])
-
-
-
-    if (!selected) {
-        return (
-            <div className='w-[70%] p-2 rounded-2xl bg-slate-800'>
-                Nothing Selected!
-            </div>
-        )
+        setFilters([... new Set(filters), { tag, type }])
     }
 
-    return (
-        <div className='max-w-[70%] w-full h-full p-2 rounded-2xl bg-slate-800'>
+    if (filters.some(el => el.tag === tag)) {
+        return <button className=' md:py-1.5 md:px-3 py-1 px-1 bg-slate-800 rounded-lg w-fit border border-solid border-aqua-400' onClick={handleClick}>
+            <span className=' text-slate-200 mx-auto text-xs md:text-base'>{tag}</span>
+        </button>
+    }
+    return <button className=' md:py-1.5 md:px-3 py-1 px-1 bg-slate-900 hover:bg-slate-800 rounded-lg w-fit border border-solid border-transparent' onClick={handleClick}>
+        <span className=' text-slate-200 mx-auto text-xs md:text-base'>{tag}</span>
+    </button>
+}
 
-            {/* Header Area */}
-            <div className='w-full flex justify-between'>
-                <div className='flex items-center p-2 rounded-xl space-x-3' >
+const App = ({ name, src, app_catigory, app_platform, slug }) => {
+    const {navigateToRoute} = useDialog()
+    return <button onClick={()=> navigateToRoute({link: `/app/${app_platform}/${slug}`})}  className='hover:bg-slate-900 w-fit px-2 py-2 rounded-xl flex gap-3 items-center flex-wrap' >
+        <Image src={src} width={24} height={24} alt='' className=' rounded-md' />
+        <h3 className=' font-medium md:text-sm text-xs'>{name}</h3>
+        <span className=' text-slate-700 text-xs md:text-base'>{app_catigory}</span>
+        <span className=' text-slate-500 bg-slate-800 md:px-2 px-1 capitalize rounded-lg text-xs md:text-base'>{app_platform}</span>
+    </button>
+}
 
-                    <ResultIcon result={selected.icon?.url} type={selected.type} />
-                    <div className="text-white">
-                        <span className="text-[15px] font-semibold">{selected.name}</span>
-                        <span className="block text-[10px] font-light text-slate-300">
-                            {selected.type === 'app' && (
-                                <span className="block text-[10px]">{selected.tag_line}</span>
-                            )}
-                            {selected.type === 'tag' && (
-                                <span className="block text-[10px]">Search by <b className="font-semibold">Tags</b></span>
-                            )}
-                            {selected.type === 'category' && (
-                                <span className="block text-[10px]">Search by <b className="font-semibold">App Category</b></span>
-                            )}
-                        </span>
-                    </div>
-                </div>
-                <button
-                    className="min-w-fit h-full p-2  bg-slate-900 rounded-xl flex flex-col justify-between relative border-transparent border-2 hover:border-aqua-500"
-                    onClick={() => handleSearchClick(selected)}
-                >
-                    <Icons.Expand />
-                    <p className="w-[80%] text-[10px] font-medium text-left text-white">
-                        {selected.type === 'app' ? 'Open Application' : selected.type == 'tag' ? 'Search by Tag' : 'Search by Category'}
-                    </p>
-                </button>
 
-            </div>
-            <div className='w-full flex flex-row h-[420px] space-x-4 overflow-x-scroll px-2 pt-2 scrollbar-hide'>
-                {showcase.length > 0 && showcase.map((screen: any, index: any) => {
-                    const name = screen?.hash + screen?.ext
-                    return (
-                        <Screen key={index} className={'w-auto rounded-2xl'} src={name} />
-                    )
-                }
-                )}
-                {showcase.length === 0 && (
-                    <ScreensSkeleton />
-                )}
-            </div>
-        </div>
-    )
+const SearchLoader = ({ cellsNumber }) => {
+    const arr = []
+    for (let i = 0; i < cellsNumber; i++) {
+        arr.push(i)
+    }
+    return <div className=' flex flex-wrap w-full gap-4'>
+        {arr.map((el, index) => <div key={index} className='flex-1 bg-slate-900 h-8 rounded-md'>
+        </div>)}
+    </div>
 }
