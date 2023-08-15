@@ -54,6 +54,7 @@ const AuthProvider: FC<props> = ({ children }) => {
         });
         const data = await req.json();
         setUser(data);
+        setIsPaid(data.is_paid)
       } catch (error) {
         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         setUser(null);
@@ -65,23 +66,8 @@ const AuthProvider: FC<props> = ({ children }) => {
     checkUser();
   }, [checker, invitationToken, provider, referralToken, router, token]);
 
-  useEffect(() => {
-    async function getUserDataForIsPaid() {
-      const req = await fetch("/api/user", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
-      const data = await req.json();
-      setIsPaid(data.is_paid)
-    }
-    getUserDataForIsPaid()
-  }, [])
-  
-
   return (
-    <IsAuth.Provider value={{ user, loading, setChecker , isPaid}}>{children}</IsAuth.Provider>
+    <IsAuth.Provider value={{ user, loading, setChecker, isPaid }}>{children}</IsAuth.Provider>
   );
 };
 
