@@ -4,15 +4,15 @@ import { getToken } from "@/lib/auth";
 import Link from "next/link";
 import { useEffect } from "react";
 
-export default function page({ }) {
+export default function EnjoyPage({ }) {
 
     useEffect(() => {
-        const SendFreeTrials = async ()=>{
+        const SendFreeTrials = async () => {
             try {
                 const req = await fetch('/api/stripe/freeTrail', {
                     method: "POST",
-                    body: JSON.stringify( {
-                        token : getToken()
+                    body: JSON.stringify({
+                        token: getToken()
                     })
                 })
                 const res = await req.json()
@@ -23,11 +23,11 @@ export default function page({ }) {
         }
         SendFreeTrials()
     }, [])
-    
+
 
     return <div className=" flex items-center flex-col">
         <div className=" relative">
-            <img src="/images/assets/step3-img-1.svg" alt="" className=" w-3/4 mx-auto max-h-full"/>
+            <img src="/images/assets/step3-img-1.svg" alt="" className=" w-3/4 mx-auto max-h-full" />
             <img src="/images/assets/step3-img-2.svg" alt="" className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             <div className=" flex items-center flex-col absolute lg:bottom-10 z-50">
                 <h1 className=" lg:text-6xl text-center font-medium mb-4 md:text-3xl text-base">All Set! Kick Off with a Free Trial</h1>

@@ -73,14 +73,14 @@ export function Personalize({ positions , interests}) {
     const FullPositionComponent = () => {
         return <div className=" grid grid-cols-1 lg:grid-cols-2 mt-3 gap-4">
             {positions?.data.map(el => (
-                <PositionComponent id={el.id} name={el.attributes.name} />
+                <PositionComponent key={el} id={el.id} name={el.attributes.name} />
             ))}
         </div>
     }
     const FullInterestsComponent = () => {
         return <div className=" flex flex-wrap gap-3 mb-8">
             {interests?.data.map(el => (
-                <InterestsComponent id={el.id} tilte={el.attributes.name} />
+                <InterestsComponent key={el} id={el.id} tilte={el.attributes.name} />
             ))}
         </div>
     }
