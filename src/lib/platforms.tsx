@@ -12,8 +12,8 @@ interface PlatformContextInterface {
   selected: number
   setSelected: (selected: number) => void
   setPlatforms: (ids: any) => void
-  singleApp: boolean
-  setSingleApp: (single: boolean) => void
+  singleApp: string
+  setSingleApp: (single: string) => void
 }
 
 const PlatformContext = createContext<PlatformContextInterface>(null!);
@@ -37,16 +37,16 @@ const PlatformProvider: FC<any> = ({ children }) => {
   ];
   const [platforms, setPlatforms] = useState<Platform[]>([]);
   const [selected, setSelected] = useState<number>(2);
-  const [singleApp, setSingleApp] = useState<boolean>(false);
+  const [singleApp, setSingleApp] = useState<string>('');
 
   const setPlatformsWithIds = (ids: number[]) => {
+
     const selectedPlatforms = ids.map((id) =>
       allPlatforms.find((platform) => platform.id === id)
     );
+
     setPlatforms(
-      selectedPlatforms.filter(
-        (platform) => platform !== undefined
-      ) as Platform[]
+      selectedPlatforms
     );
   };
 

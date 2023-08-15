@@ -1,4 +1,5 @@
 const { fontFamily } = require('tailwindcss/defaultTheme');
+const {nextui} = require("@nextui-org/react");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -7,6 +8,7 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
 
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -67,6 +69,8 @@ module.exports = {
         // add other css attributes here,
         // will be merged to ::-webkit-scrollbar-thumb:hover
       },
-    })
+    }),
+    require('@tailwindcss/typography'),
+    nextui()
   ],
 }

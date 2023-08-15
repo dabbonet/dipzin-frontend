@@ -1,6 +1,8 @@
 import { createContext, useContext, FC, useState, useEffect } from "react";
 import Router from "next/router";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { invetaionAndReferralTokens } from "./tokens";
 
 const IsAuth = createContext(null!);
 
@@ -14,23 +16,28 @@ const AuthProvider: FC<props> = ({ children }) => {
   const searchParams = useSearchParams()
   const provider = searchParams.get('provider')
   const token = searchParams.get('?id_token') || searchParams.get('?access_token')
-
+  const router = useRouter()
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
+  const { referralToken, invitationToken } = invetaionAndReferralTokens()
+  const [checker, setChecker] = useState(false)
+  const [isPaid, setIsPaid] = useState(false)
   useEffect(() => {
     // Send Provider Token to get User Data and strapi JWT Token.
     if (token) {
       const getUserData = async () => {
-        const userData = await redirectToken(provider, token)
+        setLoading(true)
+        const userData = await redirectToken(provider, token, referralToken, invitationToken)
+        router.replace('/')
         setUser(userData.user)
         setToken(userData.jwt)
+        setLoading(false)
       }
       getUserData()
     }
 
     const checkUser = async () => {
-      const token = localStorage.getItem("token");
+      const token = getToken();
       if (!token) {
         setUser(null);
         setLoading(false);
@@ -48,7 +55,7 @@ const AuthProvider: FC<props> = ({ children }) => {
         const data = await req.json();
         setUser(data);
       } catch (error) {
-        localStorage.removeItem("token");
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         setUser(null);
       } finally {
         setLoading(false);
@@ -56,27 +63,49 @@ const AuthProvider: FC<props> = ({ children }) => {
     };
 
     checkUser();
-  }, [user]);
+  }, [checker, invitationToken, provider, referralToken, router, token]);
+
+  useEffect(() => {
+    async function getUserDataForIsPaid() {
+      const req = await fetch("/api/user", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+      const data = await req.json();
+      setIsPaid(data.is_paid)
+    }
+    getUserDataForIsPaid()
+  }, [])
+  
 
   return (
-    <IsAuth.Provider value={{ user, loading }}>{children}</IsAuth.Provider>
+    <IsAuth.Provider value={{ user, loading, setChecker , isPaid}}>{children}</IsAuth.Provider>
   );
 };
 
 export const setToken = (token: string) => {
-  localStorage.setItem("token", token);
+  document.cookie = `token=${token}; path=/`;
   return;
 };
+
 export const getToken = () => {
-  return localStorage.getItem("token");
+  const cookies = document.cookie.split(";").map(cookie => cookie.trim());
+  for (const cookie of cookies) {
+    if (cookie.startsWith("token=")) {
+      return cookie.substring("token=".length);
+    }
+  }
+  return null;
 };
 
 export const getUser = async () => {
-  if (localStorage.getItem("token")) {
+  if (getToken()) {
     const req = await fetch("/api/user", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     });
     const data = await req.json();
@@ -90,8 +119,8 @@ export const getUser = async () => {
 };
 
 export const SignOut = () => {
-  localStorage.removeItem("token");
-  Router.reload();
+  document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  window.location.reload()
   return;
 };
 
@@ -136,9 +165,14 @@ export async function verifyOtp(email: string, otp: number) {
   });
 }
 
-
-export async function redirectToken(provider: string, token: string) {
-  const req = await fetch(`/api/user/redirect?provider=${provider}&token=${token}`);
+export async function redirectToken(provider: string, access_token: string, referral_token, invitation_token) {
+  const params = new URLSearchParams({
+    provider: provider ?? '',
+    access_token: access_token ?? '',
+    referral_token: referral_token ?? '',
+    invitation_token: invitation_token ?? '',
+  });
+  const req = await fetch(`/api/user/redirect?${params}`);
   const data = await req.json();
   return data;
 

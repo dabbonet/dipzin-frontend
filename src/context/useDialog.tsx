@@ -1,10 +1,13 @@
+'use client'
+import { useAuth } from '@/lib/auth';
+import { useRouter } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 
 
-const DialogContext = createContext(
-    null
-);
+
+const DialogContext = createContext(null);
+
 
 
 export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
@@ -14,7 +17,9 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     const [counter, setCounter] = useState<number>(baseCounter)
     const [visible, setVisible] = useState<boolean>(false);
     const [visibleNoAuth, setVisibleNoAuth] = useState<boolean>(false);
-
+    const [title, setTitle] = useState('')
+    const router = useRouter()
+    const {user , isPaid} = useAuth()
 
 
     useEffect(() => {
@@ -26,41 +31,40 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     }, [times]);
 
 
-
     useEffect(() => {
-        if (incremental) {
-            const group = Math.floor(times / 3);
-            const additionalTime = 5 * group;
-            const newCounter = baseCounter + additionalTime;
-
-
-            if (newCounter > 30) {
-                setCounter(30);
-            } else {
-                setCounter(newCounter);
+        if (!incremental) {
+            let timer: NodeJS.Timeout | undefined;
+            if (visible && counter > 0) {
+                timer = setTimeout(() => {
+                    setCounter((prevCounter) => prevCounter - 1);
+                }, 1000);
+            } else if (counter === 0) {
+                setVisible(false);
             }
+    
+            return () => {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+            };
         }
-    }, [incremental, times]);
-
-
-
-    useEffect(() => {
-        let timer: NodeJS.Timeout | undefined;
-        if (visible && counter > 0) {
-            timer = setTimeout(() => {
-                setCounter((prevCounter) => prevCounter - 1);
-            }, counter * 1000);
-        } else if (counter === 0) {
-            setVisible(false);
-        }
-
-        return () => {
-            if (timer) {
-                clearTimeout(timer);
-            }
-        };
     }, [visible, counter]);
-
+    
+    const navigateToRoute = ({link})=>{
+        if(user){
+            if(isPaid){
+                router.push(link)
+                return
+            }
+            setVisible(true)
+            setTimeout(() => {
+               router.push(link) 
+            },5000);
+        }else{
+            setVisibleNoAuth(true)
+        }
+    }
+    
     return (
         <DialogContext.Provider
             value={{
@@ -70,8 +74,12 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
                 setVisibleNoAuth,
                 times,
                 counter,
+                setCounter,
                 setTimes,
                 setIncremental,
+                navigateToRoute,
+                title,
+                setTitle
             }}
         >
             {children}

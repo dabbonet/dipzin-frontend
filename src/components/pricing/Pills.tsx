@@ -1,36 +1,31 @@
 import React from "react";
 
 type PillsType = {
-  pillType: string;
-  sale?: string;
+  pillType?: any;
+  sale?: any;
+  interval?: any
+  setCheckOut?: any
+  checkout?: any
 };
 
-const Pills = ({ pillType, sale }: PillsType) => {
-  let pillBg = "bg-slate-900";
-  let saveBg = "";
-  let saveText = "";
+const Pills = ({ pillType, sale, interval, setCheckOut, checkout }: PillsType) => {
+  // console.log(interval, checkout)
+  let saveStyle = checkout == interval ? 'bg-slate-900 text-aqua-50' : 'bg-aqua-200 text-aqua-950'
+  let bgStyle = checkout == interval ? 'bg-gradient-to-b from-aqua-500 to-aqua-700' : 'bg-slate-900'
   let saleOn: any;
-  if (pillType === "QUARTERLY") {
-    pillBg = "bg-orange-500";
-    saveBg = "bg-orange-200";
-    saveText = "text-orange-700";
-  }
-  if (pillType === "ANNUALLY") {
-    saveBg = "bg-emerald-200";
-    saveText = "text-emerald-700";
-  }
   if (sale) {
     saleOn = (
       <span
-        className={`ml-3 ${saveBg} ${saveText}  py-1 px-2 rounded-lg text-xs font-bold`}
+        className={`ml-3 ${saveStyle}  py-1 px-2 rounded-lg text-xs font-bold`}
       >
-        save {sale}
+        Save {sale}
       </span>
     );
   }
   return (
     <button
-      className={` py-2 px-6 ${pillBg} rounded-full lg:text-base text-xs flex flex-wrap justify-center items-center`}
+      className={` py-2 px-6 ${bgStyle} rounded-full lg:text-base text-xs flex flex-wrap justify-center items-center `}
+      onClick={() => setCheckOut(interval)}
     >
       <span>{pillType}</span>
       {saleOn}

@@ -1,30 +1,25 @@
 "use client";
 
 import { useDialog } from "@/context/useDialog";
-import { setToken, SignIn, verifyOtp } from "@/lib/auth";
+import { setToken, SignIn, useAuth, verifyOtp } from "@/lib/auth";
 import { useSearchParams, usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AuthCode from "react-auth-code-input";
 import { toast } from "react-hot-toast";
-
-
 type props = {
   email?: string;
 }
-
-
 const OtpAccessComponent = ({ email }: props) => {
   const path = usePathname()
   const [otp, setOtp] = useState<number>();
   const [failedMessage, setFailedMessage] = useState(false);
   const [disabelButton, setDisabelButton] = useState(false);
 
+  const { setChecker } = useAuth()
   const searchParams = useSearchParams();
   const { setVisibleNoAuth } = useDialog()
   const emailString = searchParams.get("email") || email;
-
-
   const router = useRouter();
   const handleResend = async () => {
     SignIn({ email });
@@ -36,11 +31,12 @@ const OtpAccessComponent = ({ email }: props) => {
     const data = await verifyOtp(emailString, otp);
     const { token } = await data.json();
     if (token) {
+      setChecker(true)
       setToken(token);
       if (data.status === 200) {
         router.push("/");
       } else {
-        router.push("/account");
+        router.push("/profile/profile-informations");
       }
       if (path !== '/access/otp') setVisibleNoAuth(false);
     } else {
@@ -105,10 +101,7 @@ const OtpAccessComponent = ({ email }: props) => {
       />
       <SubmitOtpAndEmailButton />
       <ResendCodeButton />
-
     </div>
   );
 }
-
-
 export default OtpAccessComponent

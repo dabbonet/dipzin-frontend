@@ -12,7 +12,7 @@ interface ActionBarProps extends React.HTMLProps<HTMLDivElement> {
 const ActionBar = ({ children, horizontal, className, ...props }: ActionBarProps) => {
   return (
     <div
-      className={cn("p-1.5 bg-slate-950/30 border-2 border-slate-800/30 rounded-2xl justify-between", className)}
+      className={cn("p-1.5 bg-slate-950/30 border-2 border-slate-800/30 rounded-2xl", className)}
       {...props}
     >
 
