@@ -255,6 +255,54 @@ const Thumbnail: FC<Icon> = ({ className }) => {
         </svg>
     )
 }
+const addImage:FC<Icon> = ({className}) =>{
+    return <svg
+      width={16}
+      height={16}
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <path
+        d="M5.99992 14.6668H9.99992C13.3333 14.6668 14.6666 13.3335 14.6666 10.0002V6.00016C14.6666 2.66683 13.3333 1.3335 9.99992 1.3335H5.99992C2.66659 1.3335 1.33325 2.66683 1.33325 6.00016V10.0002C1.33325 13.3335 2.66659 14.6668 5.99992 14.6668Z"
+        stroke="#1E293B"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M6.00008 6.66667C6.73646 6.66667 7.33342 6.06971 7.33342 5.33333C7.33342 4.59695 6.73646 4 6.00008 4C5.2637 4 4.66675 4.59695 4.66675 5.33333C4.66675 6.06971 5.2637 6.66667 6.00008 6.66667Z"
+        stroke="#1E293B"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M1.78003 12.6335L5.0667 10.4269C5.59336 10.0735 6.35336 10.1135 6.8267 10.5202L7.0467 10.7135C7.5667 11.1602 8.4067 11.1602 8.9267 10.7135L11.7 8.33354C12.22 7.88687 13.06 7.88687 13.58 8.33354L14.6667 9.26687"
+        stroke="#1E293B"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>;
+    
+}
+const PlayVideo:FC<Icon> = ({className}) => {
+    return <svg
+    viewBox="0 0 42 42"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    preserveAspectRatio="none"
+>
+    <path
+    d="M21 3.5C11.34 3.5 3.5 11.34 3.5 21C3.5 30.66 11.34 38.5 21 38.5C30.66 38.5 38.5 30.66 38.5 21C38.5 11.34 30.66 3.5 21 3.5ZM16.625 28.875V13.125L28.875 21L16.625 28.875Z"
+    fill="#C9FFED"
+    />
+</svg>
+}
 const Clear = () => {
     return <svg
         width={16}
@@ -342,7 +390,7 @@ const LogOut = () => {
 
 const Icons = {
     GoogleIcon, FacebookIcon, Expand, Heart, Apple, CopyFilled, Open, Download, XCircle, Save, Thumbnail,
-    Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2, Clear, Account , LogOut
+    Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2, Clear, Account , LogOut , PlayVideo , addImage
 }
 
 export default Icons
