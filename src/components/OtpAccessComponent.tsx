@@ -2,6 +2,7 @@
 
 import { useDialog } from "@/context/useDialog";
 import { setToken, SignIn, useAuth, verifyOtp } from "@/lib/auth";
+import { Button } from "@nextui-org/react";
 import { useSearchParams, usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -46,21 +47,20 @@ const OtpAccessComponent = ({ email }: props) => {
           color: "white",
         },
       });
+      setFailedMessage(true);
       setTimeout(() => {
-        setFailedMessage(true);
+        setFailedMessage(false);
         setDisabelButton(false);
-      }, 30000);
+      }, 5000);
     }
   };
   const ResendCodeButton = () => {
-    if (failedMessage) {
       return <div className=" mt-8">
         invalid code
-        <button className=" ml-1 text-orange-600" onClick={handleResend}>
+        <Button className="text-aqua-600 bg-transparent" isDisabled={failedMessage === false} onPress={handleResend}>
           Resend Code
-        </button>
+        </Button>
       </div>
-    }
   }
   const changeCodeInput = (e: string) => {
     setOtp(+e)
