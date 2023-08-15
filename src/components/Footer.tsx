@@ -5,11 +5,11 @@ import UserData from './UserData';
 import { useResponsive } from '@/context/useResponsive';
 
 const Footer: FC = () => {
-    const { isMobile } = useResponsive();
+    const { isMobile, isTablet, isDesktop,isRenita } = useResponsive();
 
-    if (isMobile) return
-
+    if(!isMobile&&!isTablet)
     return (
+
         <footer className="w-full flex justify-between fixed bottom-5 items-center text-white mt-8 px-5 lg:px-6 cursor-pointer z-0">
 
             <div className='font-medium mb-4 text-xs space-y-2'>
