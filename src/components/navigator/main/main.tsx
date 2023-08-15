@@ -120,13 +120,13 @@ const MainNavigator = ({ type }: any) => {
                      <button onClick={handleCloseButton}><img src='/images/assets/arrow_back.svg' alt='Close Menu'/>
                     </button>}
                 </div>
-                <div className='relative 2xl:ml-0 ml-14 flex  flex-col sm:flex-row md:flex-row items-cente 2xl:w-full w-[85%] bg-slate-900 rounded-full'>
+                <div className= {cn(' flex  sm:flex-row md:flex-row items-cente w-[85%] bg-slate-900 rounded-full' ,activeView=='search'?'ml-14':'')}>
                     {(activeControls == 'menu-search') && (
                         <motion.div className={cn(" flex gap-3 items-center pl-6 w-full")}>
                             <motion.img src='/images/assets/search.svg' className=' mr-2' />
                             <motion.input
                                 ref={inputRef}
-                                className="bg-inherit outline-none w-fit p-2"
+                                className={cn(activeView==''?"bg-inherit outline-none w-fit p-2":'bg-inherit outline-none w-fit')}
                                 placeholder={filters.length !== 0 ? 'Search More Tags...' : 'Try Search!'}
                                 transition={{ duration: 0.4 }}
                                 animate={{ width: '100%' }}
@@ -140,7 +140,7 @@ const MainNavigator = ({ type }: any) => {
                            { !isMobile && !isTablet && <p className=' text-slate-500 text-sm w-20 mr-2 text-center sm:block hidden'>{searchKeyword.length === 0 ? 'CTRL K' : 'Enter'}</p>} 
                         </motion.div>
                     )}
-                    {!isMobile && !isTablet && <PlatformSwitcher /> }
+                    {activeView=='search'&&<PlatformSwitcher /> }
                 </div>
                 <AnimatePresence mode='wait'>
                     {activeView == 'search' && (
