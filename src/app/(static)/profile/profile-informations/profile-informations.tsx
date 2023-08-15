@@ -1,22 +1,24 @@
 'use client'
-import { getToken } from "@/lib/auth"
+import { getToken, useAuth } from "@/lib/auth"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, animate, motion } from "framer-motion";
 import ReactPlayer from "react-player"
-import Icons from "./Icons"
+import Icons from "../../../../components/Icons"
 
 
 export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] }) {
     const rouuer = useRouter()
+    const {user} = useAuth();
     const [profileUpdated, setProfileUpdated] = useState(false)
     const [newsLetterUpdated, setNewsLetterUpdated] = useState(false)
     const [openVideo, setOpenVideo] = useState(false)
     const [userDetails, setUserDetails] = useState({
         name: '',
         username: "",
-        image: null
+        file: null,
+        src: null
     })
     const [userCopyState, setUserCopyState] = useState(null)
 
@@ -72,11 +74,10 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
 
     const handleChange = (event) => {
         const { id, value, files, src } = event.target
-        console.log
         if (id === 'image') {
             setUserDetails({
                 ...userDetails,
-                image: src
+                src: src
             })
             return
         }
@@ -88,38 +89,46 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
                     const imageDataUrl = reader.result;
                     setUserDetails({
                         ...userDetails,
-                        image: imageDataUrl
+                        file: files[0],
+                        src: imageDataUrl
                     })
                 };
                 reader.readAsDataURL(file);
             }
-            
+            return
         }
         setUserDetails({
             ...userDetails,
             [id]: value
         })
+
+    // 
     }
     const submitForm = async (e) => {
+        console.log(userDetails);
         e.preventDefault();
-        if (userDetails?.name !== '' && userDetails?.username !== '' && userDetails?.name === userCopyState?.name && userDetails?.username === userCopyState?.username) {
+        if (userDetails?.name !== '' && userDetails?.username !== '' && userDetails?.name === userCopyState?.name && userDetails?.username === userCopyState?.username && !userDetails?.file) {
             setProfileUpdated(true)
             setNewsLetterUpdated(true)
             return
         }
         try {
+            
+            let formData = new FormData();
+            formData.append("auth", getToken());
+            formData.append("id", user.id);
+            formData.append("username", userDetails.username);
+            formData.append("name", userDetails.name);
+            if (userDetails.file) {
+                formData.append("file", userDetails.file);
+            }
             const [updateResponse, newsLetterResponse] = await Promise.all([
+                // TODO: add avatar to this body
                 fetch(`/api/account/update`, {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        auth: getToken(),
-                        username: userDetails.username,
-                        name: userDetails.name,
-                    }),
+                    body: formData
                 }),
+
                 fetch('/api/user-system-news-letters', {
                     method: 'POST',
                     headers: {
@@ -138,6 +147,7 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
                 updateResponse.json(),
                 newsLetterResponse.json(),
             ]);
+            console.log(updateData, newsLetterData)
             if (!updateResponse.ok) {
                 toast.remove();
                 if (profileUpdated === false) {
@@ -216,15 +226,15 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
                         <div className=" bg-slate-800 p-1 border border-dotted border-slate-600 rounded-2xl">
                             <div className="bg-slate-700 w-14 h-14 rounded-xl mx-auto md:mx-0 overflow-hidden">
                                 <label htmlFor="label" className=" w-full h-full cursor-pointer flex justify-center items-center relative z-50">
-                                    {userDetails.image ? <img src={userDetails.image} className='w-full h-full object-cover' id="image" /> : <Icons.addImage className="absolute bottom-2 right-2" />}
+                                    {userDetails.src ? <img src={userDetails.src} className='w-full h-full object-cover' id="image" /> : <Icons.addImage className="absolute bottom-2 right-2" />}
                                 </label>
                                 <input type="file" accept="image/*" className=" hidden" id="label"
                                     onChange={handleChange}
-                                    onClick={(e) => {
-                                        let { files }: any = e.target
-                                        files = {}
-                                        console.log(files)
-                                    }}
+                                    // onClick={(e) => {
+                                    //     let { files }: any = e.target
+                                    //     files = {}
+                                    //     console.log(files)
+                                    // }}
                                 />
                             </div>
 
@@ -248,7 +258,7 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
                         <FullNewSLetterComponent />
                     </div>
                     <div className=" flex justify-end gap-x-4">
-                        <button className=" rounded-lg bg-gradient-to-tr from-aqua-400 to-aqua-600 py-2 px-9 text-sm font-medium text-aqua-950">Next</button>
+                        <button className=" rounded-lg bg-gradient-to-tr from-aqua-400 to-aqua-600 py-2 px-9 text-sm font-medium text-aqua-950" type="submit">Next</button>
                     </div>
                 </form>
 
