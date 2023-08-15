@@ -1,4 +1,4 @@
-import ProfileInformation from "@/components/profile-informations";
+import ProfileInformation from "./profile-informations";
 
 export default async function Page() {
     const newsLetter = await getNewsLetter()
