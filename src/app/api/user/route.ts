@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
 import { headers } from 'next/headers';
-
+const qs = require('qs')
 export async function GET(request: Request) {
     const headersList = headers();
     const Authorization = headersList.get('Authorization');
 
     try {
-        const req = await fetch("https://rah.dipzin.com/api/users/me", {
+        const query = qs.stringify({
+                populate: ['avatar']
+            },
+            {
+                encodeValuesOnly: true,
+            });
+        const req = await fetch(`https://rah.dipzin.com/api/users/me?${query}`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization,
