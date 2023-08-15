@@ -69,13 +69,14 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
         }
 
     }
-     
+
     const handleChange = (event) => {
         const { id, value, files, src } = event.target
+        console.log
         if (id === 'image') {
             setUserDetails({
                 ...userDetails,
-                image : src
+                image: src
             })
             return
         }
@@ -92,6 +93,7 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
                 };
                 reader.readAsDataURL(file);
             }
+            
         }
         setUserDetails({
             ...userDetails,
@@ -200,7 +202,7 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
                 <div className=" mb-5">
                     <p className=" text-slate-300 text-base font-normal">Profile Picture</p>
                     <div className=" grid grid-cols-6 gap-x-2">
-                        <img src="/images/assets/manager.png"  id='image' onClick={handleChange} className=" cursor-pointer" />
+                        <img src="/images/assets/manager.png" id='image' onClick={handleChange} className=" cursor-pointer" />
                         <img src="/images/assets/manager2.png" id='image' onClick={handleChange} className=" cursor-pointer" />
                         <img src="/images/assets/manager3.png" id='image' onClick={handleChange} className=" cursor-pointer" />
                         <img src="/images/assets/manager4.png" id='image' onClick={handleChange} className=" cursor-pointer" />
@@ -212,14 +214,14 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
                 <form action="" onSubmit={submitForm}>
                     <div className="flex gap-4 mt-4 mb-4">
                         <div className=" bg-slate-800 p-1 border border-dotted border-slate-600 rounded-2xl">
-                            <div className="bg-slate-700 w-14 h-14 rounded-2xl mx-auto md:mx-0 overflow-hidden">
+                            <div className="bg-slate-700 w-14 h-14 rounded-xl mx-auto md:mx-0 overflow-hidden">
                                 <label htmlFor="label" className=" w-full h-full cursor-pointer flex justify-center items-center relative z-50">
-                                    {userDetails.image ? <img src={userDetails.image} className='w-full h-full object-cover' id="image"/> : <Icons.addImage className="absolute bottom-2 right-2" />}
+                                    {userDetails.image ? <img src={userDetails.image} className='w-full h-full object-cover' id="image" /> : <Icons.addImage className="absolute bottom-2 right-2" />}
                                 </label>
                                 <input type="file" accept="image/*" className=" hidden" id="label"
                                     onChange={handleChange}
-                                    onClick={(e)=> {
-                                        let {files}: {files: any} = e.target
+                                    onClick={(e) => {
+                                        let { files }: any = e.target
                                         files = {}
                                         console.log(files)
                                     }}
@@ -234,11 +236,11 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
                     </div>
                     <div className=" flex flex-col gap-y-2 mb-4">
                         <label htmlFor="name" className=" text-slate-300">Name <span className=" text-aqua-300">*</span></label>
-                        <input required type="text" onChange={handleChange} id="name" value={userDetails.name} placeholder="Full Name" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4" />
+                        <input required type="text" onChange={handleChange} id="name" value={userDetails.name} placeholder="Full Name" className=" bg-slate-950/70 border border-solid border-slate-800 rounded-xl px-4 py-3" />
                     </div>
                     <div className=" flex flex-col gap-y-2 mb-4">
                         <label htmlFor="username" className=" text-slate-300">Username <span className=" text-aqua-300">*</span></label>
-                        <input required type="text" onChange={handleChange} id="username" value={userDetails.username} placeholder="@dipzin" className=" bg-transparent border border-solid border-slate-600 rounded-lg indent-4 py-4" />
+                        <input required type="text" onChange={handleChange} id="username" value={userDetails.username} placeholder="@dipzin" className=" bg-slate-950/70 border border-solid border-slate-800 rounded-xl px-4 py-3" />
                     </div>
                     <div className=" mb-4">
                         <p className=" text-slate-300">Notifications <span className=" text-aqua-300">*</span></p>

@@ -390,7 +390,7 @@ const LogOut = () => {
 
 const Icons = {
     GoogleIcon, FacebookIcon, Expand, Heart, Apple, CopyFilled, Open, Download, XCircle, Save, Thumbnail,
-    Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2, Clear, Account , LogOut
+    Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2, Clear, Account , LogOut , PlayVideo , addImage
 }
 
 export default Icons
