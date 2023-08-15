@@ -18,6 +18,7 @@ const UserData = () => {
       bio: "",
       image: null,
       title: "",
+      file:null
     })
     useEffect(() => {
       async function getUserDetails() { 
@@ -32,7 +33,7 @@ const UserData = () => {
             })
           });
           const data = await response.json();
-          if(response.ok) setUserDetails(data.data)
+          if(response.ok) setUserDetails({...userDetails , ...data.data})
         } catch (error) {
           toast.remove()
           toast.error('error fetch data')
@@ -107,40 +108,7 @@ const UserData = () => {
         [id]: value
     })
 }
-const submitForm = async (e) => {
-  e.preventDefault();
-  try {
-      const [updateResponse, newsLetterResponse] = await Promise.all([
-          fetch(`/api/account/update`, {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                  auth: getToken(),
-                  username: userDetails.username,
-                  name: userDetails.name,
-              }),
-          }),
-          fetch('/api/user-system-news-letters', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                  data: {
-                      news_letters: userArr,
-                      auth: getToken()
-                  },
-              }),
-          }),
-      ]);
-      
-  } catch (error) {
-      toast.remove();
-      toast.error('Something went wrong');
-  }
-};
+
   return (
     user && <div className=' flex flex-col relative gap-y-1' ref={wrapperRef}>
         <AnimatePresence mode='wait'>
@@ -179,6 +147,27 @@ const submitForm = async (e) => {
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} className=' bg-slate-900' size='4xl' isDismissable={false} backdrop='blur'>
         <ModalContent>
           {(onClose) => {
+            const submitForm = async () => {
+              let formData = new FormData();
+              formData.append("auth", getToken());
+              formData.append("id", user.id);
+              formData.append("username", userDetails.username);
+              formData.append("name", userDetails.name);
+              if (userDetails.file) {
+                  formData.append("file", userDetails.file);
+              }
+              const [updateResponse] = await Promise.all([
+                  // TODO: add avatar to this body
+                  fetch(`/api/account/update`, {
+                      method: "POST",
+                      body: formData
+                  }),
+              ]);
+              if (updateResponse.ok) {
+                onClose()
+              }
+              
+            };
             return (
               <>
                 <ModalHeader className="flex justify-between">
@@ -316,14 +305,14 @@ const submitForm = async (e) => {
                         onChange={(e)=> handleChange(e)}
                       />
                     </div>
-                    <button className=" hidden"  onClick={(e)=>handlePost}></button>
+                    <button className=" hidden"  onClick={handlePost}></button>
                   </form>
                 </ModalBody>
                 <ModalFooter className=' flex justify-between'>
                   <Button variant="light" onClick={onClose} className='bg-transparent'>
                     Need help?
                   </Button>
-                  <Button onPress={onClose} className='text-aqua-950 bg-gradient-to-r from-aqua-400 to-aqua-600'>
+                  <Button className='text-aqua-950 bg-gradient-to-r from-aqua-400 to-aqua-600' onPress={submitForm} >
                     Save Updates
                   </Button>
                 </ModalFooter>

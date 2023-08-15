@@ -31,7 +31,6 @@ export async function POST(request: Request) {
     });
     
     const uploadResponse = await upload.json();
-    console.log(uploadResponse);
   }
 
   const response = await fetch(`https://rah.dipzin.com/api/users/${id}`, {
