@@ -275,10 +275,74 @@ const Clear = () => {
     </svg>
 
 }
+const Account = () => {
+    return <svg
+    width={16}
+    height={17}
+    viewBox="0 0 16 17"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+    preserveAspectRatio="none"
+  >
+    <path
+      d="M7.99935 8.49967C9.8403 8.49967 11.3327 7.00729 11.3327 5.16634C11.3327 3.32539 9.8403 1.83301 7.99935 1.83301C6.1584 1.83301 4.66602 3.32539 4.66602 5.16634C4.66602 7.00729 6.1584 8.49967 7.99935 8.49967Z"
+      stroke="#94A3B8"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M13.7268 15.1667C13.7268 12.5867 11.1601 10.5 8.0001 10.5C4.8401 10.5 2.27344 12.5867 2.27344 15.1667"
+      stroke="#94A3B8"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>;
+
+}
+const LogOut = () => {
+    return <svg
+    width={16}
+    height={17}
+    viewBox="0 0 16 17"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+    preserveAspectRatio="xMidYMid meet"
+  >
+    <path
+      d="M11.627 10.2463L13.3336 8.53967L11.627 6.83301"
+      stroke="#94A3B8"
+      stroke-width="1.5"
+      stroke-miterlimit={10}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M6.50586 8.54004H13.2859"
+      stroke="#94A3B8"
+      stroke-width="1.5"
+      stroke-miterlimit={10}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M7.83919 13.8337C4.89253 13.8337 2.50586 11.8337 2.50586 8.50033C2.50586 5.16699 4.89253 3.16699 7.83919 3.16699"
+      stroke="#94A3B8"
+      stroke-width="1.5"
+      stroke-miterlimit={10}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>;
+
+}
 
 const Icons = {
     GoogleIcon, FacebookIcon, Expand, Heart, Apple, CopyFilled, Open, Download, XCircle, Save, Thumbnail,
-    Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2, Clear,
+    Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2, Clear, Account , LogOut
 }
 
 export default Icons
