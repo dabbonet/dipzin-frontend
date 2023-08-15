@@ -79,24 +79,68 @@ const UserData = () => {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
   const handleChange = (event) => {
-    const { name, value , files } = event.target
-    if (name === "image") {
-      const reader = new FileReader();
-      reader.onload = (e) => {
+    const { id, value, files, src } = event.target
+    if (id === 'image') {
         setUserDetails({
-          ...userDetails,
-          [name]: e.target.result
+            ...userDetails,
+            image: src
         })
-      }
-      reader.readAsDataURL(files[0]!);
-    } else {
-      setUserDetails({
-        ...userDetails,
-          [name]: value
-        })
+        return
     }
-    
+    if (id === 'label') {
+        const file = files[0]
+        const reader = new FileReader();
+        if (file) {
+            reader.onloadend = () => {
+                const imageDataUrl = reader.result;
+                setUserDetails({
+                    ...userDetails,
+                    image: imageDataUrl
+                })
+            };
+            reader.readAsDataURL(file);
+        }
+        
+    }
+    setUserDetails({
+        ...userDetails,
+        [id]: value
+    })
+}
+const submitForm = async (e) => {
+  e.preventDefault();
+  try {
+      const [updateResponse, newsLetterResponse] = await Promise.all([
+          fetch(`/api/account/update`, {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                  auth: getToken(),
+                  username: userDetails.username,
+                  name: userDetails.name,
+              }),
+          }),
+          fetch('/api/user-system-news-letters', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  data: {
+                      news_letters: userArr,
+                      auth: getToken()
+                  },
+              }),
+          }),
+      ]);
+      
+  } catch (error) {
+      toast.remove();
+      toast.error('Something went wrong');
   }
+};
   return (
     user && <div className=' flex flex-col relative gap-y-1' ref={wrapperRef}>
         <AnimatePresence mode='wait'>
@@ -108,7 +152,7 @@ const UserData = () => {
           name={user?.name}
           description={user?.username}
           avatarProps={{
-            src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
+            src: user?.avatar.url
           }}
         />
         </PopoverTrigger>
@@ -160,10 +204,11 @@ const UserData = () => {
                         <img src="/images/assets/manager6.png" id='image' onClick={handleChange} className=" cursor-pointer" />
                     </div>
                   </div>
-                  <div className=" bg-slate-800 p-1 border border-dotted border-slate-600 rounded-2xl">
+                  <div className="flex gap-4 mt-4 mb-4">
+                        <div className=" bg-slate-800 p-1 h-fit border border-dotted border-slate-600 rounded-2xl">
                             <div className="bg-slate-700 w-14 h-14 rounded-xl mx-auto md:mx-0 overflow-hidden">
                                 <label htmlFor="label" className=" w-full h-full cursor-pointer flex justify-center items-center relative z-50">
-                                    {userDetails.image ? <img src={userDetails.image} className='w-full h-full object-cover' id="image" /> : <Icons.Apple className="absolute bottom-2 right-2" />}
+                                    {userDetails.image ? <img src={userDetails.image} className='w-full h-full object-cover' id="image" /> : <Icons.addImage className="absolute bottom-2 right-2" />}
                                 </label>
                                 <input type="file" accept="image/*" className=" hidden" id="label"
                                     onChange={handleChange}
@@ -176,6 +221,11 @@ const UserData = () => {
                             </div>
 
                         </div>
+                        <div className='flex flex-col justify-center'>
+                            <p className=' text-sm text-white'>Upload a Profile Picture</p>
+                            <p className=' text-slate-600 text-sm'>Supported formats: jpg, png maximum size: 2MB</p>
+                        </div>
+                    </div>
                     <div className="">
                       <label htmlFor="first_name" className="block mb-2 text-sm font-normal text-gray-900 dark:text-slate-400">
                         full name
@@ -198,7 +248,7 @@ const UserData = () => {
                       <input
                           type="text"
                           id="user_name"
-                          className="bg-slate-800/90 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
+                          className="bg-slate-800/90 border border-transparent text-gray-900 text-sm rounded-lg block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
                           placeholder="ex:@jhonDoe"
                           required
                           value={userDetails.username}
@@ -214,7 +264,7 @@ const UserData = () => {
                       <input
                         type="text"
                         id="bio"
-                        className="bg-slate-800/90 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
+                        className="bg-slate-800/90 border border-transparent text-gray-900 text-sm rounded-lg block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
                         placeholder="ex:lorempixel"
                         value={userDetails.bio}
                         name='bio'
@@ -228,7 +278,7 @@ const UserData = () => {
                       <input
                         type="email"
                         id="email_adress"
-                        className="bg-slate-800/90 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
+                        className="bg-slate-800/90 border border-transparent text-gray-900 text-sm rounded-lg block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
                         placeholder="ex:jhonDoe@example.com"
                         required
                         value={userDetails.email}
@@ -243,7 +293,7 @@ const UserData = () => {
                       <input
                         type="text"
                         id="title"
-                        className="bg-slate-800/90 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
+                        className="bg-slate-800/90 border border-transparent text-gray-900 text-sm rounded-lg block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
                         placeholder="ex:the great title"
                         required
                         value={userDetails.title}
@@ -258,7 +308,7 @@ const UserData = () => {
                       <input
                         type="text"
                         id="country"
-                        className="bg-slate-800/90 border border-transparent text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
+                        className="bg-slate-800/90 border border-transparent text-gray-900 text-sm rounded-lg block w-full px-4 py-3.5 dark:bg-slate-950/40 dark:placeholder-slate-300 dark:text-slate-100 dark:focus:ring-orange-500 dark:focus:border-orange-500"
                         placeholder="ex:USA"
                         required
                         value={userDetails.country}
