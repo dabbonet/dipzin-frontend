@@ -622,7 +622,7 @@ const Pricing = ({ checkOuts }) => {
         </table>
 
         {/* grid */}
-        <div className=" mt-20 container w-[90%]">
+        <div className=" my-20 container w-[90%]">
           <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-slate-800 bg-opacity-50 col-span-1 lg:col-span-2 rounded-[36px] py-14 lg:px-14 md:px-10 sm:px-6 px-3 text-center flex items-end h-[509px]">
               <div className=" w-fit h-fit">
@@ -663,7 +663,7 @@ const Pricing = ({ checkOuts }) => {
           </div>
         </div>
         {/* custoumer love corner */}
-        <div className=" flex flex-col mt-28 w-[90%] container mb-20">
+        {/* <div className=" flex flex-col mt-28 w-[90%] container mb-20">
           <h1 className=" lg:text-6xl text-3xl mb-6">Customer Love Corner</h1>
           <span className=" text-slate-300 mb-7 text-lg">We believe Dipzin should be accessible to all companies, no matter the size.</span>
           <div className=" grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -702,7 +702,7 @@ const Pricing = ({ checkOuts }) => {
               } />
             </div>
           </div>
-        </div>
+        </div> */}
       </main>
     </>
   );

@@ -13,7 +13,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@analytics/google-tag-manager": "^0.5.5",
+    "@nextui-org/react": "^2.0.19",
     "@react-oauth/google": "^0.11.0",
     "@types/node": "20.4.4",
     "@types/react": "18.2.15",
@@ -38,7 +38,7 @@
     "react-hot-toast": "^2.4.1",
     "react-player": "^2.12.0",
     "react-use-measure": "^2.1.1",
-    "react-virtuoso": "^4.3.10",
+    "react-virtuoso": "^4.4.2",
     "use-debounce": "^9.0.4"
   },
   "devDependencies": {

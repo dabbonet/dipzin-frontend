@@ -5,7 +5,15 @@ export async function POST(request: Request) {
   const query = qs.stringify({
     populate: {
       tags: '*',
-      components: '*'
+      components: '*',
+      app: {
+        populate: {
+          icon: {
+            fields: ["hash", "ext"]
+          }
+        }
+      },
+      screen: '*'
     }
   }, {
     encode: false

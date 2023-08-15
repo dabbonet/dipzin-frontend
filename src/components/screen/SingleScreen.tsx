@@ -18,6 +18,7 @@ interface SingleScreenProps {
   setOpen?: any;
   appName?: string,
   tagLine?: string,
+  icon?: any
 }
 export const mergeScreenUrl = (data) =>
   data?.attributes
@@ -25,7 +26,7 @@ export const mergeScreenUrl = (data) =>
     data.attributes?.screen.data?.attributes.ext
     : data;
 
-const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine }) => {
+const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine , icon}) => {
   const { setVisibleNoAuth } = useDialog()
   const { user } = useAuth()
 
@@ -136,7 +137,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
             </svg>
           )}
         </motion.div>
-        {hovered && <Actions screen={screen} />}
+        {hovered && <Actions screen={screen}  appName={appName} icon={icon} tagLine={tagLine}/>}
 
         <div
           className={cn(
