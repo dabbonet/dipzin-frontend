@@ -86,11 +86,9 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
             const reader = new FileReader();
             if (file) {
                 reader.onloadend = () => {
-                    const imageDataUrl = reader.result;
                     setUserDetails({
                         ...userDetails,
                         file: files[0],
-                        src: imageDataUrl
                     })
                 };
                 reader.readAsDataURL(file);
