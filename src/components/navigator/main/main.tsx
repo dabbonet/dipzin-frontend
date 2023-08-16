@@ -13,7 +13,7 @@ import { ImageDownloader } from '@/lib/ImageDownloader';
 import PlatformSwitcher from '@/components/PlatformSwitcher';
 import { usePathname } from 'next/navigation';
 import { useResponsive } from '@/context/useResponsive';
-
+import SmallSearchBar from './SmallSearchBar';
 
 
 const MainNavigator = ({ type }: any) => {
@@ -24,31 +24,8 @@ const MainNavigator = ({ type }: any) => {
     const searchButton = useRef(null)
     const path = usePathname()
     const { isMobile, isTablet} = useResponsive();
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (event.ctrlKey && (event.key === 'k' || event.keyCode === 75)) {
-                event.preventDefault();
-                // Perform your desired functionality here
-                setActiveView('search')
-                inputRef?.current?.focus()
-            }
-            if (!isMobile && isTablet &&event.key === 'Escape') {
-                setActiveView('')
-                setSearchKeyword('')
-                inputRef?.current?.blur()
-                setFilters([])
-            }
-            if (!isMobile && isTablet&&event.key === "Enter") {
-                searchButton?.current?.click()
-            }
-        };
 
-        !isMobile && !isTablet &&document.addEventListener('keydown', handleKeyDown);
 
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [activeView]);
     // Logic to handle if user clicks outside of the navigator
     function useOutsideAlerter(ref: any) {
         useEffect(() => {
@@ -86,11 +63,7 @@ const MainNavigator = ({ type }: any) => {
     const removeFilter = () => {
         setFilters([])
     }
-
-    const handleCloseButton = (e) => {
-      e.preventDefault();
-        setActiveView('')
-    }
+    if(isMobile || isTablet) return <SmallSearchBar/>
 
     if (activeControls === '') return
     return (
@@ -114,42 +87,10 @@ const MainNavigator = ({ type }: any) => {
                 </motion.div >
             </div >
 
-            {(isMobile||isTablet) && <div className={cn('relative w-fit', activeView == 'search' ? 'absolute top-0 left-0 bg-slate-950 rounded-2xl p-3 h-screen w-screen' : '')}>
-                 <div className=' absolute top-0 left-0 mt-5 ml-5 '>
-                     {(isMobile||isTablet) && activeView == 'search' &&
-                     <button onClick={handleCloseButton}><img src='/images/assets/arrow_back.svg' alt='Close Menu'/>
-                    </button>}
-                </div>
-                <div className= {cn(' flex  sm:flex-row md:flex-row items-cente w-[85%] bg-slate-900 rounded-full' ,activeView=='search'?'ml-14':'')}>
-                    {(activeControls == 'menu-search') && (
-                        <motion.div className={cn(" flex gap-3 items-center pl-6 w-full")}>
-                            <motion.img src='/images/assets/search.svg' className=' mr-2' />
-                            <motion.input
-                                ref={inputRef}
-                                className={cn(activeView==''?"bg-inherit outline-none w-fit p-2":'bg-inherit outline-none w-fit')}
-                                placeholder={filters.length !== 0 ? 'Search More Tags...' : 'Try Search!'}
-                                transition={{ duration: 0.4 }}
-                                animate={{ width: '100%' }}
-                                value={searchKeyword}
-                                onChange={handleSearch}
-                                onFocus={() => {
-                                    setActiveView('search')
-                                }}
-                            />
-                            {activeView === 'menuWithSearch' && filters.length !== 0 && <button onClick={removeFilter} className=' text-slate-500 font-medium text-sm'><span className=' text-slate-50 font-bold mr-1'>+{filters.length}</span>filters</button>}
-                           { !isMobile && !isTablet && <p className=' text-slate-500 text-sm w-20 mr-2 text-center sm:block hidden'>{searchKeyword.length === 0 ? 'CTRL K' : 'Enter'}</p>} 
-                        </motion.div>
-                    )}
-                    {activeView=='search'&&<PlatformSwitcher /> }
-                </div>
-                <AnimatePresence mode='wait'>
-                    {activeView == 'search' && (
-                        <Search />
-                    )}
-                </AnimatePresence>
-            </div>}
-            
-             {(!isMobile&&!isTablet)&&<div className={cn('relative w-fit', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
+        { (isMobile || isTablet) && <SmallSearchBar /> }
+
+                      
+         <div className={cn('relative w-fit', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
                 <div className='flex flex-col md:flex-row items-center w-full bg-slate-900 rounded-full'>
                     {(activeControls == 'menu-search') && (
                         <motion.div className={cn(" flex gap-3 items-center pl-6 w-full")}>
@@ -177,7 +118,7 @@ const MainNavigator = ({ type }: any) => {
                         <Search />
                     )}
                 </AnimatePresence>
-            </div>}
+            </div>
         </div >
     )
 }

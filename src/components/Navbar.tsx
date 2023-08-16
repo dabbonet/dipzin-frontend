@@ -83,12 +83,12 @@ const Menu = (user) => {
                        </button>
                     </div>
         
-       <div onClick={handleCloseClick} className="absolute top-0 right-0 mr-8 mt-8  p-1">
+       <div  className="absolute top-0 right-0 mr-8 mt-8  p-1">
             <SparkleButton  href={user.user ? '/pricing' : '/access'}>
                 {user.user ? 'Unlock More!' : 'Try it!'}
             </SparkleButton>
         </div>
-                <div onClick={handleCloseClick} className=' flex gap-x-4 mb-2'>
+                <div  className=' flex gap-x-4 mb-2'>
                     <div className=' flex gap-x-8'>
                         <div className=' flex flex-col gap-y-2'>
                             <p className=' text-slate-400'>Resources</p>
@@ -97,14 +97,14 @@ const Menu = (user) => {
                             <Resources />
 
                         </div>
-                        <div onClick={handleCloseClick} className=' flex flex-col gap-y-2'>
+                        <div  className=' flex flex-col gap-y-2'>
                             <p className=' text-slate-400'>Company</p>
                             <Resources />
                             <Resources />
                             <Resources />
                         </div>
                     </div>
-                    <div onClick={handleCloseClick} className=' flex flex-col gap-3'>
+                    <div  className=' flex flex-col gap-3'>
                         <p className=' text-slate-400'>Feature Release</p>
                         <button className=' overflow-hidden' onClick={()=> setOpenVideo(true)}>
                             <img src="/images/assets/video.svg" className=' w-[266px] h-[148px] -ml-0' alt="" />
@@ -112,7 +112,7 @@ const Menu = (user) => {
                     </div>
                 </div>
                 <p className=' text-slate-500 text-xs'>Coming Soon</p>
-                <div onClick={handleCloseClick} className='overflow-hidden relative rounded-2xl w-full mt-2'>
+                <div  className='overflow-hidden relative rounded-2xl w-full mt-2'>
                     <div className='w-4 h-full  absolute left-0 bg-gradient-to-l from-slate-900/0 to-slate-900/90'></div>
                     <div className='w-12 h-full absolute right-0 bg-gradient-to-r from-slate-900/0 to-slate-900/90'></div>
                     <div className='flex space-x-2 touch-pan-x overflow-x-scroll w-[100%] h-full scrollbar-none'>
@@ -125,7 +125,7 @@ const Menu = (user) => {
                     </div>
                 </div>
                  <hr className='mt-6'/>
-              <div onClick={handleCloseClick}  className=' flex gap-x-2 mt-3 text-xs justify-center'>
+              <div   className=' flex gap-x-2 mt-3 text-xs justify-center'>
                     <Link href='/privacy'  className=' text-slate-300  hover:text-aqua-500'>Privacy</Link>
                     <Link href='/terms' className=' text-slate-300  hover:text-aqua-500'>Terms of Service</Link>
                     <Link href='/copyrights' className=' text-slate-300  hover:text-aqua-500'>Copyrights</Link>
