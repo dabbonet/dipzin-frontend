@@ -9,13 +9,11 @@ export async function POST(request: Request) {
   const name = formData.get('name');
   const country = formData.get('country');
   const bio = formData.get('bio');
-  const job_title = formData.get('job_title');
+  const job_title = formData.get('tilte');
   const auth = formData.get('auth');
   const email = formData.get('email');
-
   if (file) {
     const uploadData = new FormData();
-
     uploadData.append("ref", "plugin::users-permissions.user");
     uploadData.append("field", "avatar");
     uploadData.append("path", "profiles");
@@ -31,6 +29,7 @@ export async function POST(request: Request) {
     });
     
     const uploadResponse = await upload.json();
+    console.log(uploadResponse)
   }
 
   const response = await fetch(`https://rah.dipzin.com/api/users/${id}`, {
@@ -52,5 +51,6 @@ export async function POST(request: Request) {
   });
 
   const data = await response.json();
+  console.log(data)
   return NextResponse.json(data, { status: response.status });
 }
