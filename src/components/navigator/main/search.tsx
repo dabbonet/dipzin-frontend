@@ -8,7 +8,7 @@ import { useDebounce } from 'use-debounce'
 import { cn, getPlatformById, platfroms } from '@/lib/utils';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
-import { usePlatform } from '@/lib/platforms';
+import { usePlatform } from '@/context/usePlatforms';
 import { usePathname, useRouter } from 'next/navigation';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useDialog } from '@/context/useDialog';
@@ -34,7 +34,7 @@ const InitialSearch = () => {
     const inputRef = useRef(null)
     const searchButton = useRef(null)
     const [debounce] = useDebounce(searchKeyword, 300)
-    const {navigateToRoute} = useDialog()
+    const { navigateToRoute } = useDialog()
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -101,7 +101,7 @@ const InitialSearch = () => {
             { encodeValuesOnly: true, addQueryPrefix: true, indices: false }
         );
         const app = getPlatformById(selected)
-        navigateToRoute({link: `/search/${app}${query}`})
+        navigateToRoute({ link: `/search/${app}${query}` })
     }
 
     return (
@@ -135,7 +135,7 @@ const InitialSearch = () => {
                     <div className='flex justify-between'>
                         <p className=' text-slate-500 text-xs'>Components</p>
                         <button className=' text-xs md:text-base'>View all</button>
-                    </div>                        
+                    </div>
                     <div className=' flex gap-2 mt-2 mb-6 flex-wrap'>
                         {data ? data?.components?.map((el, index) => {
                             return <FeatureCard tag={el.name} type={el.type} key={index} />
@@ -144,7 +144,7 @@ const InitialSearch = () => {
                     <div className='flex justify-between'>
                         <p className=' text-slate-500 text-xs'>Categories</p>
                         <button className=' text-xs md:text-base'>view all</button>
-                    </div>                        
+                    </div>
                     <div className=' flex gap-2 mt-2 mb-6 flex-wrap'>
                         {data ? data?.categories?.map((el, index) => {
                             return <FeatureCard tag={el.name} type={el.type} key={index} />
@@ -192,8 +192,8 @@ const FeatureCard = ({ tag, type }) => {
 }
 
 const App = ({ name, src, app_catigory, app_platform, slug }) => {
-    const {navigateToRoute} = useDialog()
-    return <button onClick={()=> navigateToRoute({link: `/app/${app_platform}/${slug}`})}  className='hover:bg-slate-900 w-fit px-2 py-2 rounded-xl flex gap-3 items-center flex-wrap' >
+    const { navigateToRoute } = useDialog()
+    return <button onClick={() => navigateToRoute({ link: `/app/${app_platform}/${slug}` })} className='hover:bg-slate-900 w-fit px-2 py-2 rounded-xl flex gap-3 items-center flex-wrap' >
         <Image src={src} width={24} height={24} alt='' className=' rounded-md' />
         <h3 className=' font-medium md:text-sm text-xs'>{name}</h3>
         <span className=' text-slate-700 text-xs md:text-base'>{app_catigory}</span>

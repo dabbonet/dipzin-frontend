@@ -44,7 +44,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
     </SquareButton>
   }
   return (
-    <ActionBar className="flex flex-col fixed right-10 top-1/2 -translate-y-1/2 w-auto h-auto z-20">
+    <ActionBar className="flex flex-col fixed right-10 top-1/2 -translate-y-1/2 w-auto h-auto z-10">
       <ButtonWrapper title='Like app' icon={<Icons.Heart />} handler={handleLikeApp} />
       {path.startsWith('/app') && <ButtonWrapper title='App store' icon={<Icons.Apple />} handler={handleAppStore} />}
       <ButtonWrapper title='Bulk Download' icon={<Icons.Download />} handler={bulkDownloadImages} />
