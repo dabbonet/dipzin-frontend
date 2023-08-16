@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, FC, useContext, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 
 interface Platform {
   id: number;
@@ -13,12 +14,12 @@ interface PlatformContextInterface {
   setSelected: (selected: number) => void
   setPlatforms: (ids: any) => void
   singleApp: string
-  setSingleApp: (single: string) => void
+  setSingleApp: (single: string) => void,
+  isMobile: boolean,
 }
 
 const PlatformContext = createContext<PlatformContextInterface>(null!);
 
-export const usePlatform = () => useContext(PlatformContext);
 
 const PlatformProvider: FC<any> = ({ children }) => {
   const allPlatforms: Platform[] = [
@@ -50,6 +51,8 @@ const PlatformProvider: FC<any> = ({ children }) => {
     );
   };
 
+  const isMobile = useMediaQuery({ query: '(max-width: 1224px)' });
+
   return (
     <PlatformContext.Provider
       value={{
@@ -59,6 +62,7 @@ const PlatformProvider: FC<any> = ({ children }) => {
         setPlatforms: setPlatformsWithIds,
         singleApp,
         setSingleApp,
+        isMobile
       }}
     >
       {children}
@@ -69,3 +73,5 @@ const PlatformProvider: FC<any> = ({ children }) => {
 export default PlatformProvider;
 
 
+
+export const usePlatform = () => useContext(PlatformContext);

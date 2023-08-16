@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { motion } from 'framer-motion'
-import { usePlatform } from '@/lib/platforms'
+import { usePlatform } from '@/context/usePlatforms'
 import { getPlatformById } from '@/lib/utils'
 import { useContentDiscovery } from '@/context/useContentDiscovery'
 import Image from 'next/image'
@@ -35,10 +35,10 @@ const ScreenDetails = ({ screenId }) => {
         }
         getData()
     }, [screenId]);
-    const App = ()=> {
+    const App = () => {
         const icon = data?.app?.icon?.data?.attributes?.hash + data?.app?.icon?.data?.attributes?.ext
         return <div className=' flex flex-col gap-1'>
-            <Image src={icon} className='rounded-xl' width={56} height={56} alt=''/>
+            <Image src={icon} className='rounded-xl' width={56} height={56} alt='' />
             <h2 className='text-white'>{data.app.name}</h2>
             <p className=' text-slate-600'>{data.app.tag_line}</p>
         </div>
@@ -76,8 +76,8 @@ const ScreenDetails = ({ screenId }) => {
                 <div className=' bg-slate-950 p-8 flex flex-col gap-y-8 rounded-3xl w-[370px] h-fit'>
                     {data?.app && <div>
                         <p className=' text-slate-500 text-sm mb-2'>App</p>
-                        <App/>
-                        </div>}
+                        <App />
+                    </div>}
                     {data?.tags?.length > 0 &&
                         <div>
                             <p className=' text-slate-500 text-sm mb-2'>Tags</p>
@@ -126,14 +126,14 @@ const ColorSquare = ({ color }) => {
 }
 
 const Tag = ({ name, type }: { name: string, type: string }) => {
-    const {selected} = usePlatform()
-    const {searchKeyword} = useContentDiscovery()
+    const { selected } = usePlatform()
+    const { searchKeyword } = useContentDiscovery()
     const router = useRouter()
     const platform = getPlatformById(selected)
     const searchTag = () => {
         const query = qs.stringify({
             q: searchKeyword,
-            [type] : name
+            [type]: name
         })
         console.log(query)
         router.push(`/search/${platform}?${query}`)

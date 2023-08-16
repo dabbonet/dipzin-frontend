@@ -1,7 +1,7 @@
 import { FC, forwardRef } from 'react'
 import Image from 'next/image'
 import { cn, rgbDataURL } from '@/lib/utils'
-import { usePlatform } from '@/lib/platforms'
+import { usePlatform } from '@/context/usePlatforms'
 
 interface ScreenProps {
     src?: string
