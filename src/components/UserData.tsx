@@ -120,7 +120,7 @@ const UserData = () => {
           name={user?.name}
           description={user?.username}
           avatarProps={{
-            src: user?.avatar.url
+            src: user?.avatar?.url
           }}
         />
         </PopoverTrigger>
