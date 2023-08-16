@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Icons from '@/components/Icons'
 import Screen from '@/ui/Screen'
-import { usePlatform } from '@/lib/platforms'
+import { usePlatform } from '@/context/usePlatforms'
 import { cn } from '@/lib/utils'
 
 interface ShowcaseScreenProps {

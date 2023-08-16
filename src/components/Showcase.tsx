@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { FC, useEffect } from 'react'
 import { cn, getPlatformById, rgbDataURL } from '@/lib/utils'
 import SingleScreen from './screen/SingleScreen'
-import { usePlatform } from '@/lib/platforms'
+import { usePlatform } from '@/context/usePlatforms'
 import Icons from './Icons'
 import { ImageDownloader } from '@/lib/ImageDownloader'
 import { toast } from 'react-hot-toast'
@@ -55,15 +55,15 @@ const Showcase: FC<ShowcaseProps> = ({
       <motion.div className={"flex flex-col w-[80%] lg:w-[80%] mx-auto"}>
         <div className="flex my-8 items-center justify-between text-white z-50 flex-wrap gap-2">
           <div className="flex items-center">
-          <Image
-            className="ml-3 rounded-2xl bg-slate-700 w-14 h-14"
-            width={56}
-            height={56}
-            placeholder="blur"
-            blurDataURL={rgbDataURL(30, 41, 59)}
-            src={selectedShowcase?.icon}
-            alt="icon"
-          />
+            <Image
+              className="ml-3 rounded-2xl bg-slate-700 w-14 h-14"
+              width={56}
+              height={56}
+              placeholder="blur"
+              blurDataURL={rgbDataURL(30, 41, 59)}
+              src={selectedShowcase?.icon}
+              alt="icon"
+            />
             <div className="ml-4">
               <span className="lg:text-[32px] font-medium">{selectedShowcase?.name}</span>
               <span className="block lg:text-[16px] text-[#8F94A1] text-[4px]">
