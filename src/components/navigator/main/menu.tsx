@@ -1,3 +1,4 @@
+
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -5,6 +6,7 @@ import ReactPlayer from 'react-player'
 
 const Menu = () => {
     const [openVideo, setOpenVideo] = useState(false)
+  
     return (
         <motion.div
             layout

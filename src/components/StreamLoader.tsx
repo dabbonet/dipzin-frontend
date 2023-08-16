@@ -1,6 +1,6 @@
 'use client'
 import Icons from "@/components/Icons";
-import { usePlatform } from "@/lib/platforms";
+import { usePlatform } from "@/context/usePlatforms";
 import { cn } from "@/lib/utils";
 
 export default function StreamLoader() {

@@ -12,7 +12,8 @@ import { useSelcetedImages } from '@/lib/SelectedToDownload';
 import { ImageDownloader } from '@/lib/ImageDownloader';
 import PlatformSwitcher from '@/components/PlatformSwitcher';
 import { usePathname } from 'next/navigation';
-
+import { useResponsive } from '@/context/useResponsive';
+import SmallSearchBar from './SmallSearchBar';
 
 
 const MainNavigator = ({ type }: any) => {
@@ -22,31 +23,9 @@ const MainNavigator = ({ type }: any) => {
     const inputRef = useRef(null)
     const searchButton = useRef(null)
     const path = usePathname()
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (event.ctrlKey && (event.key === 'k' || event.keyCode === 75)) {
-                event.preventDefault();
-                // Perform your desired functionality here
-                setActiveView('search')
-                inputRef?.current?.focus()
-            }
-            if (event.key === 'Escape') {
-                setActiveView('')
-                setSearchKeyword('')
-                inputRef?.current?.blur()
-                setFilters([])
-            }
-            if (event.key === "Enter") {
-                searchButton?.current?.click()
-            }
-        };
+    const { isMobile, isTablet} = useResponsive();
 
-        document.addEventListener('keydown', handleKeyDown);
 
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [activeView]);
     // Logic to handle if user clicks outside of the navigator
     function useOutsideAlerter(ref: any) {
         useEffect(() => {
@@ -56,7 +35,7 @@ const MainNavigator = ({ type }: any) => {
                 }
             }
             // Bind the event listener
-            document.addEventListener("mousedown", handleClickOutside);
+            (!isMobile &&!isTablet)&&document.addEventListener("mousedown", handleClickOutside);
             return () => {
                 // Unbind the event listener on clean up
                 document.removeEventListener("mousedown", handleClickOutside);
@@ -84,6 +63,7 @@ const MainNavigator = ({ type }: any) => {
     const removeFilter = () => {
         setFilters([])
     }
+    if(isMobile || isTablet) return <SmallSearchBar/>
 
     if (activeControls === '') return
     return (
@@ -106,7 +86,11 @@ const MainNavigator = ({ type }: any) => {
                     </motion.div>
                 </motion.div >
             </div >
-            <div className={cn('relative w-fit', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
+
+        { (isMobile || isTablet) && <SmallSearchBar /> }
+
+                      
+         <div className={cn('relative w-fit', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
                 <div className='flex flex-col md:flex-row items-center w-full bg-slate-900 rounded-full'>
                     {(activeControls == 'menu-search') && (
                         <motion.div className={cn(" flex gap-3 items-center pl-6 w-full")}>
@@ -135,7 +119,6 @@ const MainNavigator = ({ type }: any) => {
                     )}
                 </AnimatePresence>
             </div>
-            
         </div >
     )
 }
