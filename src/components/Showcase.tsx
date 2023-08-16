@@ -46,7 +46,7 @@ const Showcase: FC<ShowcaseProps> = ({
   return (
     <motion.div
       //layoutId={selected.id}
-      className={"w-[100%] h-[100%] z-20 fixed inset-0 overflow-y-scroll py-16 xl:py-28 backdrop-blur-lg bg-slate-900/70"}
+      className={"w-[100%] h-[100%] z-10 fixed inset-0 overflow-y-scroll py-16 xl:py-28 backdrop-blur-lg bg-slate-900/70"}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}

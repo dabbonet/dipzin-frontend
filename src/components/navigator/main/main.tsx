@@ -96,7 +96,7 @@ const MainNavigator = ({ type }: any) => {
                 >
                     <motion.div className="w-fit h-full">
                         {(activeControls === 'selection') && selectedImages.images.length !== 0 && (
-                            <div className=' flex gap-x-20 flex-wrap justify-center w-fit items-center bg-slate-900 rounded-full pl-5 py-1 z-[100000000000000000000000000000000000000]'>
+                            <div className=' flex gap-x-20 flex-wrap justify-center w-fit items-center bg-slate-900 rounded-full pl-5 py-1'>
                                 <div className=' flex items-center text-xs md:text-base'>{selectedImages.images.length} selected <button className=' ml-2' onClick={() => setSelectedImages({ appName: '', images: [] })}><Icons.Clear /></button></div>
                                 <div className='pr-3'>
                                     <button className=' md:py-1 md:px-3 px-1 py-1 rounded-2xl bg-slate-700 text-xs md:text-base flex items-center gap-1' onClick={() => ImageDownloader(selectedImages.appName + " Showcase", selectedImages.images)}><Icons.Download className=' w-4 h-4'/> Download</button>
@@ -106,7 +106,7 @@ const MainNavigator = ({ type }: any) => {
                     </motion.div>
                 </motion.div >
             </div >
-            <div className={cn('relative w-fit', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
+            <div className={cn('relative w-fit z-50', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
                 <div className='flex flex-col md:flex-row items-center w-full bg-slate-900 rounded-full'>
                     {(activeControls == 'menu-search') && (
                         <motion.div className={cn(" flex gap-3 items-center pl-6 w-full")}>
