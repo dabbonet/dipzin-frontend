@@ -60,7 +60,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   return (
     <main className="w-full flex flex-col items-center">
       <Toaster position="bottom-right" />
-      <div className="flex w-full mt-10 mb-4 justify-between items-center text-slate-100 z-10 flex-wrap gap-4">
+      <div className="flex w-full mt-10 mb-4 mr-10 ml-10 justify-between items-center text-slate-100 z-10 flex-wrap gap-4">
         <div className="flex space-x-6">
           <Image
             className="h-20 rounded-2xl bg-slate-600"
@@ -99,10 +99,10 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
         totalCount={screens.length}
         overscan={10}
         listClassName={cn(
-          "grid content-center gap-6 pt-0 grid-cols-2",
+          "grid content-center gap-3 md:gap-6 pt-0 grid-cols-2",
           selected == 3
             ? "2xl:grid-cols-4 md:grid-cols-3"
-            : " 2xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 grid-cols-1 sm:grid-cols-2"
+            : "grid-cols-2 2xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4  sm:grid-cols-2"
         )}
         itemContent={(index, data) => {
           return (

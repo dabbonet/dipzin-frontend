@@ -63,7 +63,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           <AccessOrUpgradeCard />
-          <main className='pt-24 max-w-[90%]  mx-auto'>
+          <main className='pt-24 max-w-full md:max-w-[90%]  mx-auto'>
             <GoogleOneTap />
             {children}
           </main>
