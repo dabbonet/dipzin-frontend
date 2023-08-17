@@ -12,6 +12,7 @@ import { usePlatform } from '@/context/usePlatforms';
 import { usePathname, useRouter } from 'next/navigation';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useDialog } from '@/context/useDialog';
+import { useResponsive } from '@/context/useResponsive';
 const qs = require('qs')
 
 const mergeArrays = (arr) => {
@@ -35,6 +36,9 @@ const InitialSearch = () => {
     const searchButton = useRef(null)
     const [debounce] = useDebounce(searchKeyword, 300)
     const { navigateToRoute } = useDialog()
+    const { isMobile } = useResponsive();
+    const [searchBarWidth, setSearchBarWidth] = useState('w-44');
+
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -103,26 +107,32 @@ const InitialSearch = () => {
         const app = getPlatformById(selected)
         navigateToRoute({ link: `/search/${app}${query}` })
     }
-
+  
     return (
         <motion.div
             layout
             key="menu"
-            className='overflow-x-hidden rounded-[20px] p-1 b-g w-full relative z-50'
+            className='overflow-x-hidden rounded-[20px] p-1 b-g w-full h-fit relative z-50'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         // exit={{ opacity: 0, height: 0, width: 0 }}
         // transition={{ type: "spring", duration: 0.6, delay: 0.3 }}
         >
             <h1 className=' text-slate-100 font-semibold mt-3'><span className='ml-3 mt-3 text-xs md:text-base'>Search Suggestions</span></h1>
-            <div className=' overflow-y-hidden h-[400px] xl:w-[900px] rounded-[20px] mb-10'>
+            <div className=' overflow-y-hidden h-[90%] md:h-[25rem] xl:w-[900px] rounded-[20px] mb-10'>
                 {/* <div className='w-full h-[10%] absolute bottom-0 bg-gradient-to-b from-slate-950/0 to-slate-950/90'></div> */}
 
                 <div className='flex h-full p-2 px-4 flex-col overflow-y-scroll'>
                     <p className=' text-slate-500 text-xs'>Featured Apps</p>
-                    <div className=' grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3 mb-6'>
-                        {data ? data?.apps?.map((el, index) => <App slug={el.app.slug} key={index} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />) : <SearchLoader cellsNumber={6} />}
-                    </div>
+                    <div className=' grid grid-cols-1 lg:grid-cols-2 gap-1 md:gap-3 mt-3 mb-6'>
+    {data ? 
+        data?.apps?.map((el, index) => 
+            <App slug={el.app.slug} key={index} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />
+        ) 
+        : 
+        isMobile ? <VerticalSearchLoader/> : <SearchLoader cellsNumber={6} />
+    }
+</div>
                     <div className='flex justify-between'>
                         <p className=' text-slate-500 text-xs'>Tags</p>
                         <button className=' text-xs md:text-base'>view all</button>
@@ -212,3 +222,25 @@ const SearchLoader = ({ cellsNumber }) => {
         </div>)}
     </div>
 }
+  
+    
+function VerticalSearchLoader() {
+    const [searchBarWidths, setSearchBarWidths] = useState([]);
+    const cellCount = 5;
+
+    useEffect(() => {
+        const newWidths = Array.from({ length: cellCount }).map(() => (Math.random() < 0.5 ? 'w-44' : 'w-60'));
+        setSearchBarWidths(newWidths);
+    }, []);
+
+    return (
+        <div className="flex flex-col gap-3">
+            {searchBarWidths.map((width, index) => (
+                <div key={index} className={`bg-slate-900 h-8 ${width} rounded-md`}></div>
+            ))}
+        </div>
+    );
+}
+
+
+

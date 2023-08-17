@@ -2,7 +2,6 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { LogLevel, VirtuosoGrid } from "react-virtuoso";
 import ShowcaseScreen from "./screen/ShowcaseScreen";
 import { usePlatform } from "@/context/usePlatforms";
-
 import { cn, shuffle } from '@/lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import Showcase from './Showcase';
@@ -86,7 +85,7 @@ const Stream: FC<StreamProps> = () => {
         totalCount={streamData.length}
         overscan={1}
         endReached={loadMore}
-        listClassName={cn("grid content-center gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3")}
+        listClassName={cn("grid content-center gap-2 md:gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3")}
         // logLevel={LogLevel.DEBUG}
         itemContent={(index, data) => (
           <div onClick={() => setSelectedShowcase(data)}>
