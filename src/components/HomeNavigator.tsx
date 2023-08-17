@@ -18,7 +18,7 @@ const HomeNavigator: FC = () => {
             <>
                 <Link href={platforms ? `/${platformPath?.name.toLocaleLowerCase()}` : '/ios'} className="cursor-pointer duration-500 flex items-center">
                     <span
-                        className={cn("text-slate-900 dark:text-slate-100 text-[2rem] font-normal tracking-wide origin-left transform transition-all duration-500", path === "/ios" || path === '/android' ? "text-[2.2rem] opacity-100" : "opacity-70")}
+                        className={cn("text-slate-900 dark:text-slate-100 text-[2rem] font-normal tracking-wide origin-left transform transition-all duration-500", path === "/ios" || path === '/android' ? " text-[1.8rem] md:text-[2.2rem] opacity-100" : "opacity-70")}
                     >
                         Stream
                     </span>
@@ -33,7 +33,7 @@ const HomeNavigator: FC = () => {
                     transition={{ type: "spring", stiffness: 50, damping: 20 }}
                     className={cn("ml-3 transition-opacity cursor-pointer", path === "/ios" || path === '/android' ? "opacity-100" : "opacity-25")}
                 >
-                    <img className=" w-8" src="/images/assets/refresh.svg" alt="refresh" />
+                    <img className="w-6  md:w-8" src="/images/assets/refresh.svg" alt="refresh" />
                 </motion.div>
                 {/* <Link href="/collections" className="mt-1">
                 <span
