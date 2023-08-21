@@ -23,6 +23,7 @@ const Navbar: FC = () => {
           className="mr-3 h-6 sm:h-9 w-auto inline"
           src="/images/assets/light-logo.svg"
           alt="Dipzin Logo"
+          title='Logo'
           width={110}
           height={39}
           loader={({ src }) => src}
@@ -61,7 +62,7 @@ const Menu = (user) => {
   } if(!isMenuOpen) {
     return (
       <div className='ml-6'>
-        <button onClick={handleMenuClick}><img src='/images/assets/menu.svg'/></button>
+        <button onClick={handleMenuClick}><img src='/images/assets/menu.svg' alt="menu" title="menu"/></button>
           </div>
     );
   }else{
@@ -175,7 +176,7 @@ const InitialSearchCard = ()=> {
 const Resources = () => {
     return (
         <div className=' flex items-start gap-x-2'>
-            <img className="mt-2 w-4 text-white" src="/images/assets/refresh.svg" alt="refresh" />
+            <img className="mt-2 w-4 text-white" src="/images/assets/refresh.svg" alt="refresh" title="refresh" />
             <div>
                 <Link href='/' className='text-base hover:text-aqua-500'>Stream</Link>
                 <p className=' text-slate-400 text-[10px]'>The main gate to discover dipzin <br /> platform.</p>

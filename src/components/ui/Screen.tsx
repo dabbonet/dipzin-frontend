@@ -16,7 +16,8 @@ const Screen: FC<ScreenProps> = forwardRef(({ src, ...props }, ref) => {
         case 3: {
             return (
                 <Image
-                    alt=""
+                    title="screenshot"
+                    alt="screenshot"
                     src={src}
                     width={926}
                     height={570}
@@ -33,7 +34,8 @@ const Screen: FC<ScreenProps> = forwardRef(({ src, ...props }, ref) => {
         default: {
             return (
                 <Image
-                    alt=""
+                    title="screenshot"
+                    alt="screenshot"
                     src={src}
                     width={428}
                     height={926}

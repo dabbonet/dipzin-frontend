@@ -103,7 +103,7 @@ const Resources = () => {
 
     return (
         <div className=' flex items-start gap-x-2'>
-            <img className="mt-2 w-4 text-white" src="/images/assets/refresh.svg" alt="refresh" />
+            <img className="mt-2 w-4 text-white" src="/images/assets/refresh.svg" alt="refresh" title="refresh"/>
             <div>
                 <Link href='/' className='text-base hover:text-aqua-500'>Stream</Link>
                 <p className=' text-slate-400 text-[10px]'>The main gate to discover dipzin <br /> platform.</p>

@@ -36,7 +36,7 @@ const SmallSearchBar = () => {
                 <div className= {cn(' flex  sm:flex-row md:flex-row items-cente w-[100%] bg-slate-900 rounded-full' ,activeView=='search'?'w-[85%] ml-14':'')}>
                     {(activeControls == 'menu-search') && (
                         <motion.div className={cn(" flex gap-3 items-center pl-6 w-full")}>
-                            <motion.img src='/images/assets/search.svg' className=' mr-2' />
+                            <motion.img src='/images/assets/search.svg' className=' mr-2' alt="search" title="search" />
                             <motion.input
                                 ref={inputRef}
                                 className={cn(activeView==''?"bg-inherit outline-none w-fit p-2":'bg-inherit outline-none w-fit')}

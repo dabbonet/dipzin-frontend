@@ -70,6 +70,7 @@ const ShowcaseScreen: FC<ShowcaseScreenProps> = ({ app }) => {
                                 width={48}
                                 height={48}
                                 src={app?.icon}
+                                title="icon"
                                 alt="icon"
                             />
 

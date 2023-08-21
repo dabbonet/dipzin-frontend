@@ -96,7 +96,7 @@ const MainNavigator = ({ type }: any) => {
                 <div className='flex flex-col md:flex-row items-center w-full bg-slate-900 rounded-full'>
                     {(activeControls == 'menu-search') && (
                         <motion.div className={cn(" flex gap-3 items-center pl-6 w-full")}>
-                            <motion.img src='/images/assets/search.svg' className=' mr-2' />
+                            <motion.img src='/images/assets/search.svg' className=' mr-2' alt="search" title="search" />
                             <motion.input
                                 ref={inputRef}
                                 className="bg-inherit outline-none w-fit p-2"
