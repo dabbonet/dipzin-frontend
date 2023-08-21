@@ -4,7 +4,8 @@ const Banner = () => {
             <img
                 className="h-auto w-full"
                 src="/images/assets/banner.png"
-                alt="banner"
+                alt="Banner"
+                title="Banner"
             />
         </div>
     )
