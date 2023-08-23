@@ -34,7 +34,7 @@ export default function SearchPage() {
   const { setActiveView, setActiveControls } = useNavigator()
   const [isLoading, setIsLoading] = useState(true);
   const { setSingleApp } = usePlatform()
-  const { setVisibleNoAuth } = useDialog()
+  const { showDialog, DIALOG_ENUM } = useDialog();
   const id = path.split('/search/')[1]
   const platform = getPlatformById(id)
   let filterQuery = `platform = ${platform}`
@@ -52,7 +52,7 @@ export default function SearchPage() {
       filterQuery = filterQuery + ` AND app.categories IN [${category.map(el => `'${el}'`).join(',')}]`;
     }
     const token = getToken()
-    if (!token) { setVisibleNoAuth(true) }
+    if (!token) { showDialog(DIALOG_ENUM.ACCESS);}
   }, [])
 
 

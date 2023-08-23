@@ -7,10 +7,11 @@ import { Outfit } from 'next/font/google'
 import { cn } from '@/lib/utils';
 import Providers from '@/components/Providers';
 import { Toaster } from 'react-hot-toast';
-import { AccessOrUpgradeCard } from '@/components/accessAndUpgrade';
 import GoogleOneTap from '@/components/GoogleOneTap';
 import Analytics from '@/lib/Analytics';
 import { Suspense } from 'react';
+import { DialogProvider } from '../context/useDialog';
+import Dialogs  from '@/components/dialogs' 
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
@@ -63,14 +64,16 @@ export default function RootLayout({
         <Suspense>
           <Analytics />
           <Providers>
-            <Navbar />
-            <AccessOrUpgradeCard />
-            <main className='pt-24 max-w-[90%]  mx-auto'>
+            <DialogProvider>
+             <Dialogs/>
+              <Navbar />
+              <main className='pt-24 max-w-[90%]  mx-auto'>
               <GoogleOneTap />
               {children}
-            </main>
-            <Footer />
+             </main>
+             <Footer />
             <Background />
+           </DialogProvider>
           </Providers>
         </Suspense>
       </body>

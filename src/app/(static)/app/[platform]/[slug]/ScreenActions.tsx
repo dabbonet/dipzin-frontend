@@ -18,7 +18,7 @@ type button = {
   screen?: any
 }
 const ButtonWrapper = ({ title, icon, handler, appName, screen }: button) => {
-  const { setVisibleNoAuth, setVisible } = useDialog();
+  const { showDialog, DIALOG_ENUM } = useDialog();
   if (appName && screen) {
     const screenName = screen?.attributes?.screen?.data?.attributes || screen;
     if (screenName) {
@@ -28,19 +28,19 @@ const ButtonWrapper = ({ title, icon, handler, appName, screen }: button) => {
           <SquareButton
             onClick={async () => {
               const isUserAuth = await getUser();
-              if (isUserAuth) {
-                setVisible(true);
+
+                showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features');
                 await setTimeout(() => {
                   if (title === "Copy PNG" || title === "Copy Link"){
                     handler(getAssetsURL(name));
                   }
                   handler(name, appName + " " + screen?.attributes?.order || screen);
                 }, 5000);
-                return;
-              }
-              setVisibleNoAuth(true);
-            }}
-          >
+
+                showDialog(DIALOG_ENUM.ACCESS,'Login to use this features');
+              }}
+              
+                >
             <SquareButton.Title className="w-[80%]">{title}</SquareButton.Title>
             <SquareButton.Icon>{icon}</SquareButton.Icon>
           </SquareButton>

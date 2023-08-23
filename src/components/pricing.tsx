@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useDialog } from "@/context/useDialog";
 
 const Pricing = ({ checkOuts }) => {
-  const { setVisibleNoAuth } = useDialog()
+  const { showDialog, DIALOG_ENUM } = useDialog();
   const [checkout, setCheckout] = useState(checkOuts[2])
   const PerMonth = checkOuts[2]
   const perThreemonths = checkOuts[1]
@@ -113,7 +113,7 @@ const Pricing = ({ checkOuts }) => {
                       /{checkout.recurring.interval}
                     </span>
                   </h4>
-                  <button className=" text-sm lg:text-base text-aqua-900 lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl" onClick={() => goToPayment(checkout.id, setVisibleNoAuth)}>
+                  <button className=" text-sm lg:text-base text-aqua-900 lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl" onClick={() => goToPayment(checkout.id, showDialog(DIALOG_ENUM.ACCESS,'Login to use this features'))}>
                     Get Started
                   </button>
                 </div>
