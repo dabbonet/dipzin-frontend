@@ -8,19 +8,17 @@ import { toast } from "react-hot-toast";
 import { copyImagesToClipboard } from "@/lib/ImageCopier";
 
 export const MenuDropdown = ({ screen: screen }) => {
-  const { setVisible, setVisibleNoAuth } = useDialog()
+  const { showDialog, DIALOG_ENUM } = useDialog();
   const { user } = useAuth()
   const image = mergeScreenUrl(screen);
   const downloadScreen = async () => {
 
-    if (user) {
-      setVisible(true)
+   
+      showDialog(DIALOG_ENUM.UPGRADE_AD, 'Upgrade and get access to exclusive features')
       setTimeout(() => {
         image && downloadImage("image " + screen, image);
       }, 5000)
-      return
-    }
-    setVisibleNoAuth(true);
+    showDialog(DIALOG_ENUM.ACCESS, 'Login to use this features');
   }
   return (
     <div className="absolute top-16 right-4 bg-slate-900 p-2.5 w-48 z-50  rounded-xl invisible group-hover/item:visible">
