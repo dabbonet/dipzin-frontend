@@ -8,13 +8,13 @@ import { AnimatePresence } from 'framer-motion';
 const Dialogs = () => {
   const { dialog, DIALOG_ENUM } = useDialog();
 
-  const renderDialog = () => {
+  const RenderDialog = () => {
     switch (dialog) {
-      case DIALOG_ENUM.ACCESS:
+      case DIALOG_ENUM?.ACCESS:
         return <AccessDialog />;
-      case DIALOG_ENUM.INVITE:
+      case DIALOG_ENUM?.INVITE:
         return <InviteDialog />;
-      case DIALOG_ENUM.UPGRADE_AD:
+      case DIALOG_ENUM?.UPGRADE_AD:
         return <UpgradeAdDialog />;
       default:
         return null;
@@ -23,7 +23,7 @@ const Dialogs = () => {
 
   return (
     <AnimatePresence>
-      {renderDialog()}
+      <RenderDialog/>
     </AnimatePresence>
   );
 }

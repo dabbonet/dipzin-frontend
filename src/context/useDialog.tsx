@@ -1,6 +1,6 @@
 'use client'
 import router from 'next/router';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import isPaid from '../lib/auth'
 import { useAuth } from '../lib/auth'; // Add this line
 
@@ -15,7 +15,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
     setIsDismissible(false);
   };
 
-  const [dialog, setDialog] = useState(null);
+  const [dialog, setDialog] = useState({});
   const [isDismissible, setIsDismissible] = useState(false);
   const [title, setTitle] = useState('');
   const { user } = useAuth();
@@ -40,12 +40,17 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
       }
       showDialog(DIALOG_ENUM.UPGRADE_AD, title);
       setTimeout(() => {
-        router.push(link);
-      },5000);
+          router.push(link);
+        },5000);
     }else{
-      showDialog(DIALOG_ENUM.ACCESS, title, false);
+        showDialog(DIALOG_ENUM.ACCESS, title, false);
     }
-  };
+};
+
+useEffect(() => {
+    showDialog(DIALOG_ENUM.UPGRADE_AD, title);
+  }, [])
+  
 
   return (
     <DialogContext.Provider
@@ -65,46 +70,3 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const useDialog = () => useContext(DialogContext);
-
-
-  // const showDialog = (dialogType, dialogTitle?, dismissible = false) => {
-  //   setDialog(dialogType);
-  //   setTitle(dialogTitle);
-  //   setIsDismissible(dismissible);
-  // };
-  
-  // const navigateToRoute = ({link}) => {
-  //   if(user){
-  //     if(isPaid){
-  //       router.push(link)
-  //       return
-  //     }
-  //     showDialog('UPGRADE_AD', title)
-  //     setTimeout(() => {
-  //        router.push(link) 
-  //     },5000);
-  //   }else{
-  //   showDialog('ACCESS', title, false);
-  //   }
-  // };
-
-  // const DIALOG_ENUM = {
-  //   ACCESS: 'ACCESS',
-  //   UPGRADE_AD: 'UPGRADE_AD',
-  //   INVITE: 'INVITE',
-  // };
-
-  // return (
-  //   <DialogContext.Provider
-  //     value={{
-  //       DIALOG_ENUM,
-  //       setTitle,
-  //       isDismissible
-  //     }}
-  //   >
-  //     {children}
-  //   </DialogContext.Provider>
-  // );
-// };
-
-// export const useDialog = () => useContext(DialogContext);

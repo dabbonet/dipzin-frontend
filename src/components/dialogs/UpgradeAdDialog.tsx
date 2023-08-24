@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion";
 import { useDialog } from "@/context/useDialog";
+import InviteDialog from "./InviteDialog";
 import Link from "next/link";
 
 function formatTime(seconds: number): string {
@@ -8,7 +9,53 @@ function formatTime(seconds: number): string {
   return `${secs}s`;
 }
 
+
 const UpgradeAdDialog = ({ title }:{ title?:any }) => {
+  const baseCounter = 5;
+  const [counter, setCounter] = useState<number>(baseCounter)
+  const {hideDialog} = useDialog();
+  let timer;
+  let timeInMillSeconds = 1000
+
+  const onPressButton = () => {
+    timer = setTimeout(() => {
+      if (timeInMillSeconds === 1000) {
+        const baseCounter = 5
+        setCounter(baseCounter)
+        {hideDialog}
+        return clearTimeout(timer)
+      }
+    }, 1000)
+  }
+
+  const onLeaveButton = () => {
+    clearTimeout(timer)
+  }
+
+  const CloseButton = () => {
+    if (counter === 0) {
+      return <button
+        className=" button-trans"
+        onMouseDown={onPressButton}
+        onMouseUp={onLeaveButton}
+      >
+        Press & Hold to Close
+      </button>
+    }
+    return <button
+      className=' bg-gradient-to-tr text-slate-800 from-[#14F3C5] to-[#00B390] pointer-events-none rounded-lg py-2 px-12'
+    >
+      Continue in {formatTime(counter)}
+    </button>
+  }
+
+  const onShowIviteDialog = () => {
+    const baseCounter = 5
+    setCounter(baseCounter)
+    {hideDialog}
+    <InviteDialog/>
+  }
+
   return (
     <AnimatePresence>
       <motion.div
@@ -66,20 +113,20 @@ const UpgradeAdDialog = ({ title }:{ title?:any }) => {
 
             <div className="flex justify-between items-center px-10 mb-8">
               <div className="flex space-x-4">
-                {/* <button onClick={onShowIviteDialog} className="text-[#C9FFED] text-sm">
+                <button onClick={onShowIviteDialog} className="text-[#C9FFED] text-sm">
                   Invite to Dipzin 💰
-                </button> */}
+                </button>
               </div>
               <div className=" flex gap-x-4">
                 <Link href='/pricing' className=" text-[#C9FFED] text-sm py-2 px-12 bg-transparent border-solid border border-[#C9FFED] rounded-lg">Unlock More!</Link>
-                {/* <CloseButton /> */}
+                <CloseButton />
               </div>
             </div>
           </div>
         </div>
       </motion.div>
     </AnimatePresence>
-  )
+  ) 
 };
 
 export default UpgradeAdDialog
