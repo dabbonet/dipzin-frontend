@@ -21,7 +21,7 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
   const bulkDownloadImages = async () => {
     const isUserAuth = await getUser()
     
-      showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features')
+      // showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features')
       setTimeout(() => {
         handleDownloadImages({ app, screensArray })
       }, 5000)

@@ -22,8 +22,8 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
 
   const DIALOG_ENUM = {
     ACCESS: 'ACCESS',
-    UPGRADE_AD: 'UPGRADE_AD',
-    INVITE: 'INVITE',
+    // UPGRADE_AD: 'UPGRADE_AD',
+    // INVITE: 'INVITE',
   };
 
   const showDialog = (dialogType, dialogTitle = '', dismissible = false) => {
@@ -38,7 +38,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
         router.push(link);
         return;
       }
-      showDialog(DIALOG_ENUM.UPGRADE_AD, title);
+      // showDialog(DIALOG_ENUM.UPGRADE_AD, title);
       setTimeout(() => {
           router.push(link);
         },5000);
@@ -46,11 +46,6 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
         showDialog(DIALOG_ENUM.ACCESS, title, false);
     }
 };
-
-useEffect(() => {
-    showDialog(DIALOG_ENUM.UPGRADE_AD, title);
-  }, [])
-  
 
   return (
     <DialogContext.Provider

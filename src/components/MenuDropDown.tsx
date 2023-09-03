@@ -14,7 +14,7 @@ export const MenuDropdown = ({ screen: screen }) => {
   const downloadScreen = async () => {
 
    
-      showDialog(DIALOG_ENUM.UPGRADE_AD, 'Upgrade and get access to exclusive features')
+      // showDialog(DIALOG_ENUM.UPGRADE_AD, 'Upgrade and get access to exclusive features')
       setTimeout(() => {
         image && downloadImage("image " + screen, image);
       }, 5000)
