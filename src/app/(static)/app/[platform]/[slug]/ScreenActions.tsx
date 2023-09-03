@@ -29,7 +29,7 @@ const ButtonWrapper = ({ title, icon, handler, appName, screen }: button) => {
             onClick={async () => {
               const isUserAuth = await getUser();
 
-                showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features');
+                // showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features');
                 await setTimeout(() => {
                   if (title === "Copy PNG" || title === "Copy Link"){
                     handler(getAssetsURL(name));
