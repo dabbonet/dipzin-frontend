@@ -1,5 +1,5 @@
 'use client'
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 import isPaid from '../lib/auth'
 import { useAuth } from '../lib/auth'; // Add this line
@@ -19,6 +19,7 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
   const [isDismissible, setIsDismissible] = useState(false);
   const [title, setTitle] = useState('');
   const { user } = useAuth();
+  const router = useRouter()
 
   const DIALOG_ENUM = {
     ACCESS: 'ACCESS',
@@ -39,9 +40,9 @@ export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
         return;
       }
       // showDialog(DIALOG_ENUM.UPGRADE_AD, title);
-      setTimeout(() => {
-          router.push(link);
-        },5000);
+      // setTimeout(() => {
+      // },5000);
+      router.push(link);
     }else{
         showDialog(DIALOG_ENUM.ACCESS, title, false);
     }

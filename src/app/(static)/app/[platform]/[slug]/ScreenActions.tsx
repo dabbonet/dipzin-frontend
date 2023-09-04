@@ -28,16 +28,20 @@ const ButtonWrapper = ({ title, icon, handler, appName, screen }: button) => {
           <SquareButton
             onClick={async () => {
               const isUserAuth = await getUser();
-
-                // showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features');
-                await setTimeout(() => {
+                console.log(isUserAuth)
+                if (!isUserAuth) {
+                  // showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features');
+                  showDialog(DIALOG_ENUM.ACCESS,'Login to use this features');
+                  return
+                } 
+                // await setTimeout(() => {
                   if (title === "Copy PNG" || title === "Copy Link"){
                     handler(getAssetsURL(name));
+                  }else{
+                    handler(name, appName + " " + screen?.attributes?.order || screen);
                   }
-                  handler(name, appName + " " + screen?.attributes?.order || screen);
-                }, 5000);
+                // }, 5000);
 
-                showDialog(DIALOG_ENUM.ACCESS,'Login to use this features');
               }}
               
                 >

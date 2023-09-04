@@ -18,20 +18,24 @@ const AppActions: FC<navigatorProps> = ({ app }) => {
   const { selectedImages } = useSelcetedImages()
   const platform = app?.platform.data.attributes.name.toLowerCase() ?? null
   const screensArray = selectedImages.images
+
   const bulkDownloadImages = async () => {
-    const isUserAuth = await getUser()
     
-      // showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features')
-      setTimeout(() => {
-        handleDownloadImages({ app, screensArray })
-      }, 5000)
-      return
+    // showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features')
+    
+    handleDownloadImages({ app, screensArray })
+    return
     
   }
   const ButtonWrapper = ({ title, icon, handler }) => {
     return <SquareButton
-      onClick={async () => {
-        showDialog(DIALOG_ENUM.ACCESS,'Login to use this features')
+    onClick={async () => {
+        const isUserAuth = await getUser()
+        if (!isUserAuth) {
+          // showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features');
+          showDialog(DIALOG_ENUM.ACCESS,'Login to use this features');
+          return
+        } 
         handler({ app, screensArray, platform })
       }}
       className=" w-24 h-20"
