@@ -19,7 +19,7 @@ const OtpAccessComponent = ({ email }: props) => {
 
   const { setChecker } = useAuth()
   const searchParams = useSearchParams();
-  const { setVisibleNoAuth } = useDialog()
+  const { showDialog, DIALOG_ENUM } = useDialog();
   const emailString = searchParams.get("email") || email;
   const router = useRouter();
   const handleResend = async () => {
@@ -39,7 +39,7 @@ const OtpAccessComponent = ({ email }: props) => {
       } else {
         router.push("/profile/profile-informations");
       }
-      if (path !== '/access/otp') setVisibleNoAuth(false);
+      if (path !== '/access/otp') showDialog(DIALOG_ENUM.ACCESS,'Login to use this features');
     } else {
       toast.error("invalid code , you can resend after 30 seconds", {
         style: {

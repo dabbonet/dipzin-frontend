@@ -27,7 +27,7 @@ export const mergeScreenUrl = (data) =>
     : data;
 
 const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine , icon}) => {
-  const { setVisibleNoAuth } = useDialog()
+  const { showDialog, DIALOG_ENUM } = useDialog();
   const { user } = useAuth()
 
   const { selectedImages, setSelectedImages } = useSelcetedImages();
@@ -50,7 +50,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
   // if the user has been authentcated i will select and if not app will show access dialog
   const addToChecked = async () => {
     if (!user) {
-      setVisibleNoAuth(true)
+      showDialog(DIALOG_ENUM.ACCESS,'Login to use this features')
       return
     }
 
