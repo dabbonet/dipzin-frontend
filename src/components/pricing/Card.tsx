@@ -22,7 +22,7 @@ const Card = ({
   currentPlan,
   id,
 }: card) => {
-  const { setVisibleNoAuth } = useDialog()
+  const { showDialog, DIALOG_ENUM } = useDialog();
 
   const [loading, setLoading] = useState(false)
   let priceUi
@@ -70,7 +70,7 @@ const Card = ({
       </div>
       {price ? <button className="mt-auto bg-slate-900 rounded-3xl py-2 w-full mt-7" onClick={() => {
         setLoading(true)
-        goToPayment(id, setVisibleNoAuth)
+        goToPayment(id, showDialog, DIALOG_ENUM)
       }}>
         {loading ? <div className="loading-spinner mx-auto"></div> : "Get Started"}
       </button> : ""}
@@ -82,20 +82,20 @@ const Card = ({
 export default Card;
 
 
-export const goToPayment = async (id, setVisibleNoAuth) => {
+export const goToPayment = async (id, showDialog, DIALOG_ENUM) => {
   const req = await fetch('/api/stripe/create-checkout', {
     method: 'POST',
     body: JSON.stringify({
       token: getToken(),
       id: id
     })
-  })
-  const url = await req.json()
+  });
+  const url = await req.json();
   if (!url.message) {
     window.location.href = url;
   } else {
     // TODO: Open Access Dialog.
-    setVisibleNoAuth(true)
+    showDialog(DIALOG_ENUM.ACCESS, 'Login to use this features'); // Use the appropriate dialog enum value
   }
 }
 

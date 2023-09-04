@@ -12,27 +12,30 @@ import { getUser, useAuth } from "@/lib/auth";
 import { usePathname } from "next/navigation";
 
 const AppActions: FC<navigatorProps> = ({ app }) => {
-  const { setVisibleNoAuth, setVisible, setTitle } = useDialog()
+  const { showDialog, DIALOG_ENUM } = useDialog();
   const path = usePathname()
   const { user } = useAuth()
   const { selectedImages } = useSelcetedImages()
   const platform = app?.platform.data.attributes.name.toLowerCase() ?? null
   const screensArray = selectedImages.images
+
   const bulkDownloadImages = async () => {
-    const isUserAuth = await getUser()
-    if (isUserAuth) {
-      setVisible(true)
-      setTimeout(() => {
-        handleDownloadImages({ app, screensArray })
-      }, 5000)
-      return
-    }
+    
+    // showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features')
+    
+    handleDownloadImages({ app, screensArray })
+    return
+    
   }
   const ButtonWrapper = ({ title, icon, handler }) => {
     return <SquareButton
-      onClick={async () => {
-        setTitle('Upgrade and get access to exclusive features')
-        if (!user) return setVisibleNoAuth(true)
+    onClick={async () => {
+        const isUserAuth = await getUser()
+        if (!isUserAuth) {
+          // showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features');
+          showDialog(DIALOG_ENUM.ACCESS,'Login to use this features');
+          return
+        } 
         handler({ app, screensArray, platform })
       }}
       className=" w-24 h-20"
