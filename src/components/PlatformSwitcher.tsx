@@ -11,14 +11,16 @@ const PlatformSwitcher = () => {
   const slug = segments[3];
   const platform = segments[1]
   useEffect(() => {
+    console.log(platform)
+    const selectedPlatform = platforms.find(el => el.name.toUpperCase() === platform?.toUpperCase())
+    console.log(platforms, selectedPlatform)
     if (['', 'apps'].includes(singleApp)) {
-      const selectedPlatform = platforms.find(el => el.name.toUpperCase() === platform?.toUpperCase())
       setSelected(selectedPlatform?.id)
     }
 
   }, [platform]);
 
-  if (platforms.length < 2) return null; // hide if there is no platforms
+  if (!platform) return null; // hide if there is no platforms
   const platformsUI = () => {
     return platforms.map((platformAvailable, index) => {
       let selectedBackGround

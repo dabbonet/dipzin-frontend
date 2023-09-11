@@ -44,23 +44,22 @@ const AuthProvider: FC<props> = ({ children }) => {
         return;
       }
 
-      try {
-        setLoading(true);
-        const req = await fetch("/api/user", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = await req.json();
-        setUser(data);
-        setIsPaid(data.is_paid)
-      } catch (error) {
+      setLoading(true);
+      const req = await fetch("/api/user", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await req.json();
+      if (req.status === 401) {
         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         setUser(null);
-      } finally {
-        setLoading(false);
+      } else {
+        setUser(data);
+        setIsPaid(data.is_paid);
       }
+      setLoading(false);
     };
 
     checkUser();
