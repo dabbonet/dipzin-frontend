@@ -69,7 +69,7 @@ export default function SearchPage() {
     setActiveView('menuWithSearch')
     setActiveControls('menu-search')
     setSearchKeyword(keyword)
-    setPlatforms([2, 1]); // Initialize Platform Switcher
+    setPlatforms([2, 1, 3]); // Initialize Platform Switcher
     setSelected(parseInt(platform))
     // Set the new filters
     const newFilters = [
@@ -157,7 +157,7 @@ export default function SearchPage() {
           listClassName={cn(
             "grid content-center gap-6 pt-0 grid-cols-2",
             +platform === 3
-              ? "2xl:grid-cols-4 md:grid-cols-3"
+              ? "2xl:grid-cols-3 md:grid-cols-3"
               : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-4"
           )}
           totalCount={data && data?.length}

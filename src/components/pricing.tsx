@@ -113,7 +113,7 @@ const Pricing = ({ checkOuts }) => {
                       /{checkout.recurring.interval}
                     </span>
                   </h4>
-                  <button className=" text-sm lg:text-base text-aqua-900 lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl" onClick={() => goToPayment(checkout.id, showDialog(DIALOG_ENUM.ACCESS,'Login to use this features'))}>
+                  <button className=" text-sm lg:text-base text-aqua-900 lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl" onClick={() => goToPayment(checkout.id, showDialog, DIALOG_ENUM.ACCESS)}>
                     Get Started
                   </button>
                 </div>

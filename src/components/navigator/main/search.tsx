@@ -35,7 +35,7 @@ const InitialSearch = () => {
     const inputRef = useRef(null)
     const searchButton = useRef(null)
     const [debounce] = useDebounce(searchKeyword, 300)
-    const { showDialog, DIALOG_ENUM } = useDialog();
+    const { showDialog, DIALOG_ENUM, navigateToRoute } = useDialog();
     const { isMobile } = useResponsive();
     const [searchBarWidth, setSearchBarWidth] = useState('w-44');
 
@@ -104,8 +104,8 @@ const InitialSearch = () => {
             },
             { encodeValuesOnly: true, addQueryPrefix: true, indices: false }
         );
-        const app = getPlatformById(selected)
-        showDialog(DIALOG_ENUM.ACCESS,'Login to use this features')({ link: `/search/${app}${query}` })
+        const platform = getPlatformById(selected)
+        navigateToRoute({ link: `/search/${platform}${query}` })
     }
   
     return (

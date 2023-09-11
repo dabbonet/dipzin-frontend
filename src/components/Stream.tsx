@@ -14,7 +14,7 @@ interface StreamProps { }
 
 const Stream: FC<StreamProps> = () => {
   const { setActiveView, setActiveControls } = useNavigator()
-  const { setPlatforms, selected, setSelected } = usePlatform();
+  const { setPlatforms,platforms, selected, setSelected } = usePlatform();
   const { streamData, setStreamData, setSearchKeyword } = useContentDiscovery();
   const [loadedPages, setLoadedPages] = useState<number[]>([]);
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
@@ -23,10 +23,10 @@ const Stream: FC<StreamProps> = () => {
     // setActiveView('menuWithSearch')
     setActiveControls('menu-search')
     setSearchKeyword('')
+    setPlatforms([2, 1, 3]); // Initialize Platform Switcher
     return () => {
       setActiveView('')
       setActiveControls('')
-      // setPlatforms([])
     }
   }, [])
   // 1. Initialize Stream and Page Platforms.
@@ -41,11 +41,10 @@ const Stream: FC<StreamProps> = () => {
   // @ts-ignore
   useEffect(() => {
     if (selected) {
-      setPlatforms([2, 1]); // Initialize Platform Switcher
       setLoadedPages([]);
       setStreamData([]);
       updateStream();
-    } else { setSelected(2) }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
@@ -85,7 +84,9 @@ const Stream: FC<StreamProps> = () => {
         totalCount={streamData.length}
         overscan={1}
         endReached={loadMore}
-        listClassName={cn("grid content-center gap-2 md:gap-6 pt-0 grid-cols-2", selected == 3 ? "2xl:grid-cols-4 md:grid-cols-3" : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3")}
+        listClassName={cn("grid content-center gap-2 md:gap-6 pt-0 grid-cols-2", selected == 3 
+        ? "2xl:grid-cols-3 md:grid-cols-3" 
+        : "2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3")}
         // logLevel={LogLevel.DEBUG}
         itemContent={(index, data) => (
           <div onClick={() => setSelectedShowcase(data)}>

@@ -37,7 +37,7 @@ const PlatformProvider: FC<any> = ({ children }) => {
     },
   ];
   const [platforms, setPlatforms] = useState<Platform[]>([]);
-  const [selected, setSelected] = useState<number>(2);
+  const [selected, setSelected] = useState<number>(0);
   const [singleApp, setSingleApp] = useState<string>('');
 
   const setPlatformsWithIds = (ids: number[]) => {
