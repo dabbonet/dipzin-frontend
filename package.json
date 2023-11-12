@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "dotenv -e .env -- next dev",
     "build": "next build",
     "start": "next start",
     "clean": "rm -rf node_modules",
     "reinstall": "npm run clean && npm install",
     "rebuild": "npm run clean && npm install && npm run build",
-    "proda": "next build && next start",
+    "proda": "dotenv -e .env.production -- next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -40,12 +40,13 @@
     "react-responsive": "^9.0.2",
     "react-use-measure": "^2.1.1",
     "react-virtuoso": "^4.5.0",
-    "use-debounce": "^9.0.4"
+    "use-debounce": "^9.0.4",
+    "dotenv-cli": "^7.3.0"
   },
   "devDependencies": {
     "@gradin/tailwindcss-scrollbar": "^3.0.1",
     "@tailwindcss/typography": "^0.5.9",
-    "autoprefixer": "^10.4.14",
+    "autoprefixer": "^10.4.16",
     "postcss": "^8.4.27",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "^3.3.3",
