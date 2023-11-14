@@ -10,14 +10,11 @@ import { FC, useEffect } from "react"
 const HomeNavigator: FC = () => {
     const path = usePathname();
     const { setStreamData } = useContentDiscovery()
-    const { selected, platforms } = usePlatform()
-    const platformPath = platforms.find(el => el.id === selected)
-    const showPaths = ['/ios', '/android', '/web']
-    console.log
+    const { selected, platforms, slug } = usePlatform()
     if (!path.startsWith('/search')) {
         return <div className="flex space-x-6 items-center mt-8 h-10 mx-auto  max-w-[90%]">
             <>
-                <Link href={platforms ? `/${platformPath?.name.toLocaleLowerCase()}` : '/ios'} className="cursor-pointer duration-500 flex items-center">
+                <Link href={platforms ? `/${slug()}` : '/ios'} className="cursor-pointer duration-500 flex items-center">
                     <span
                         className={cn("text-slate-900 dark:text-slate-100 text-[2rem] font-normal tracking-wide origin-left transform transition-all duration-500"," text-[1.8rem] md:text-[2.2rem] opacity-100")}
                     >

@@ -1,5 +1,6 @@
 'use client'
 import { useRouter } from 'next/navigation'
+import Link from "next/link";
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { motion } from 'framer-motion'
@@ -10,6 +11,7 @@ import Image from 'next/image'
 const qs = require('qs')
 const ScreenDetails = ({ screenId }) => {
     const [data, setData] = useState(null)
+    const { slug } = usePlatform()
 
     useEffect(() => {
         async function getData() {
@@ -37,11 +39,14 @@ const ScreenDetails = ({ screenId }) => {
     }, [screenId]);
     const App = () => {
         const icon = data?.app?.icon?.data?.attributes?.hash + data?.app?.icon?.data?.attributes?.ext
-        return <div className=' flex flex-col gap-1'>
-            <Image src={icon} className='rounded-xl' width={56} height={56} alt='' />
-            <h2 className='text-white'>{data.app.name}</h2>
-            <p className=' text-slate-600'>{data.app.tag_line}</p>
-        </div>
+        console.log(slug(), data.app.slug)
+        return (
+            <Link href={`/app/${slug()}/${data.app.slug}`}  className='hover:bg-slate-900/60 rounded-xl p-2 flex flex-col gap-1'>
+                <Image src={icon} className='rounded-xl' width={56} height={56} alt='' />
+                <h2 className='text-white'>{data.app.name}</h2>
+                <p className=' text-slate-600'>{data.app.tag_line}</p>
+            </Link>
+        )
     }
     const Components = () => {
         return <div className=' flex gap-2 flex-wrap'>
