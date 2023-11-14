@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   images: {
     domains: ['dipzinapplications.s3.us-west-1.amazonaws.com'],
     loader: 'custom',

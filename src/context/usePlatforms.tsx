@@ -15,6 +15,7 @@ interface PlatformContextInterface {
   setPlatforms: (ids: any) => void
   singleApp: string
   setSingleApp: (single: string) => void,
+  slug: any,
   isMobile: boolean,
 }
 
@@ -51,6 +52,11 @@ const PlatformProvider: FC<any> = ({ children }) => {
     );
   };
 
+  const slug = () => {
+    const platform = platforms.find(el => el.id === selected);
+    return platform ? platform.name.toLocaleLowerCase() : '';
+  }
+
   const isMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
   return (
@@ -62,6 +68,7 @@ const PlatformProvider: FC<any> = ({ children }) => {
         setPlatforms: setPlatformsWithIds,
         singleApp,
         setSingleApp,
+        slug,
         isMobile
       }}
     >

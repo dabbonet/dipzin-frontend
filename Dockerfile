@@ -1,36 +1,58 @@
-# Use the official Node.js 19 image.
-FROM node:19
+# Base image with Node.js
+FROM node:18-alpine AS base
 
-# Create and change to the app directory.
-WORKDIR /usr/src/app
+# Install libc6-compat if needed
+RUN apk add --no-cache libc6-compat
 
-# Copy application dependency manifests to the container image.
-COPY package*.json ./
+WORKDIR /app
 
-# Install all dependencies.
-RUN npm install
+# Dependencies installation stage
+FROM base AS deps
 
-# Copy local code to the container image.
+# Copy package.json and package-lock.json
+COPY package.json package-lock.json* ./
+
+# Install dependencies using npm ci for a cleaner, more reliable install
+RUN npm i
+
+# Builder stage to build the Next.js application
+FROM base AS builder
+
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-
-# Install dotenv-vault
-RUN npm install -g dotenv-vault
-
-# Use build argument to set the DOTENV_KEY
-ARG DOTENV_KEY
-ENV DOTENV_KEY=$DOTENV_KEY
-
-# Use dotenv-vault to download .env file and rename it
-RUN npx dotenv-vault pull production 
-
-# Build the Next.js app
+# # Build the application
+# RUN yarn build
 RUN npm run build
 
-# Remove development dependencies from node_modules
-# RUN npm prune --production
+# Production stage for the final image
+FROM base AS runner
 
-COPY .env.vault .
+WORKDIR /app
+ENV NODE_ENV production
 
-# Run the web service on container startup.
-CMD [ "npm", "run", "proda" ]
+# Create a non-root user and set file permissions
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Copy built assets from the builder stage
+COPY --from=builder /app/public ./public
+RUN mkdir .next && chown nextjs:nodejs .next
+
+# Leverage output traces to reduce image size
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Switch to non-root user
+USER nextjs
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Set runtime environment variables
+ENV PORT 3000
+ENV HOSTNAME "localhost"
+
+# Start the application
+CMD ["node", "server.js"]
