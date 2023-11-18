@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - image: ghcr.io/dabbonet/dipzin-nextjs:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           name: dipzin-git-nextjs
           resources: {}
           terminationMessagePath: /dev/termination-log
