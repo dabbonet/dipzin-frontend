@@ -21,6 +21,8 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# Copy the .env.production file and rename it to .env for production build
+COPY .env.production ./.env
 
 # # Build the application
 # RUN yarn build

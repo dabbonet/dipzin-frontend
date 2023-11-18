@@ -3,3 +3,8 @@ npm-debug.log
 .next
 .github
 .vscode
+.env.me
+.env.vault
+.flaskenv*
+!.env.project
+!.env.vault
