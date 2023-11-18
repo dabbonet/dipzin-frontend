@@ -4,12 +4,10 @@ metadata:
   name: dipzin-git-deployment
   namespace: dipzin
 spec:
-  replicas: 1
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: dipzin-git-nextjs
-  strategy:
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -26,6 +24,11 @@ spec:
       serviceAccountName: dipzin-git-nextjs-service
       dnsPolicy: ClusterFirst
       restartPolicy: Always
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
 
 
 ---
