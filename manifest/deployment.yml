@@ -17,6 +17,8 @@ spec:
         image: dabbonet/dipzin-nextjs:latest
         ports:
         - containerPort: 3000
+      imagePullSecrets:
+        - name: registry-1
 
 ---
 apiVersion: v1
