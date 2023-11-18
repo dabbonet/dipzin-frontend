@@ -1,13 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dipzin-nextjs
+  name: dipzin-git-deployment
   namespace: dipzin
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: dipzin-nextjs
+  strategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -18,20 +20,28 @@ spec:
         image: ghcr.io/dabbonet/dipzin-nextjs:latest
         ports:
         - containerPort: 3000
+          protocol: TCP
       imagePullSecrets:
         - name: registry-1
       serviceAccountName: dipzin-nextjs-service
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: dipzin-nextjs-service
-  namespace: dipzin
+  labels:
+    app: dipzin-nextjs
+  name: dipzin-nextjs
 spec:
-  type: ClusterIP
   ports:
-  - port: 3000
-    targetPort: 3000
+    - port: 80
+      protocol: TCP
+      targetPort: 3000
   selector:
     app: dipzin-nextjs
+  sessionAffinity: None
+  type: NodePort
