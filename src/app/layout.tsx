@@ -12,6 +12,7 @@ import Analytics from '@/lib/Analytics';
 import { Suspense } from 'react';
 import { DialogProvider } from '../context/useDialog';
 import Dialogs  from '@/components/dialogs' 
+import dotenv from 'dotenv'
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
@@ -55,6 +56,7 @@ export default function RootLayout({
   params: any,
   children: any
 }) {
+  dotenv.config()
   // if route is in this array ['/ios','/android','/web'] return component <Banner>
 
 
