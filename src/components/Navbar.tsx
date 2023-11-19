@@ -127,7 +127,7 @@ const Menu = (user) => {
                 </div>
                  <hr className='mt-6'/>
               <div   className=' flex gap-x-2 mt-3 text-xs justify-center'>
-                    <Link href='/privacy'  className=' text-slate-300  hover:text-aqua-500'>Privacy</Link>
+                    <Link href='/privacy'  className=' text-slate-300  hover:text-aqua-500'>Privacy Policy</Link>
                     <Link href='/terms' className=' text-slate-300  hover:text-aqua-500'>Terms of Service</Link>
                     <Link href='/copyrights' className=' text-slate-300  hover:text-aqua-500'>Copyrights</Link>
                 </div>
