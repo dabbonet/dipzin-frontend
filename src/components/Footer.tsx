@@ -18,7 +18,7 @@ const Footer: FC = () => {
             <ul className='font-medium mb-4 text-xs space-y-2'>
                 <li><Link href="/copyrights" className='text-slate-800 hover:text-aqua-500 dark:hover:text-aqua-500 dark:text-slate-400'>Copyrights</Link></li>
                 <li><Link href="/terms" className='text-slate-800 hover:text-aqua-500 dark:hover:text-aqua-500 dark:text-slate-400'>Terms of Service</Link></li>
-                <li><Link href="/privacy" className='text-slate-800 hover:text-aqua-500 dark:hover:text-aqua-500 dark:text-slate-400'>Privacy</Link></li>
+                <li><Link href="/privacy" className='text-slate-800 hover:text-aqua-500 dark:hover:text-aqua-500 dark:text-slate-400'>Privacy Policy</Link></li>
             </ul>
         </footer>
     )

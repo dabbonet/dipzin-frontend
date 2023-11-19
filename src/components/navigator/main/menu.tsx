@@ -19,7 +19,7 @@ const Menu = () => {
         >
             <div className='flex h-[90%] p-2 px-4 max-w-[800px] flex-col'>
                 <div className=' flex gap-x-2 mb-3 text-xs'>
-                    <Link href='/privacy' className=' text-slate-300  hover:text-aqua-500'>Privacy</Link>
+                    <Link href='/privacy' className=' text-slate-300  hover:text-aqua-500'>Privacy Policy</Link>
                     <Link href='/terms' className=' text-slate-300  hover:text-aqua-500'>Terms of Service</Link>
                     <Link href='/copyrights' className=' text-slate-300  hover:text-aqua-500'>Copyrights</Link>
                 </div>
