@@ -33,12 +33,15 @@ jobs:
     - name: Set image tag
       id: set_tag
       run: |
-        if [ -z "${{ steps.semantic.outputs.new_release_version }}" ]; then
-          echo "New release version is missing, using 'latest'"
-          echo "::set-output name=image_tag::latest"
-        else
-          echo "New release version is ${{ steps.semantic.outputs.new_release_version }}"
+        if [ -n "${{ steps.semantic.outputs.new_release_version }}" ]; then
+          echo "Using new release version: ${{ steps.semantic.outputs.new_release_version }}"
           echo "::set-output name=image_tag::${{ steps.semantic.outputs.new_release_version }}"
+        elif [ -n "${{ steps.semantic.outputs.last_release_version }}" ]; then
+          echo "Using last release version: ${{ steps.semantic.outputs.last_release_version }}"
+          echo "::set-output name=image_tag::${{ steps.semantic.outputs.last_release_version }}"
+        else
+          echo "No new or last release version found, using 'latest'"
+          echo "::set-output name=image_tag::latest"
         fi
 
     - name: Build docker image
@@ -48,7 +51,6 @@ jobs:
         IMAGE_TAG: ${{ steps.set_tag.outputs.image_tag }}
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-
 
     # - name: Configure AWS Credentials
     #   uses: aws-actions/configure-aws-credentials@v1
