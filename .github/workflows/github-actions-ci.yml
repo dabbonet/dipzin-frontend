@@ -23,32 +23,20 @@ jobs:
           @semantic-release/changelog@6.0.0
         branch: main
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
 
     - name: Install kubectl
       uses: azure/setup-kubectl@v2.0
       with:
         version: 'v1.24.0'
 
-    - name: Set image tag
-      id: set_tag
-      run: |
-        if [ -n "${{ steps.semantic.outputs.new_release_version }}" ]; then
-          echo "Using new release version: ${{ steps.semantic.outputs.new_release_version }}"
-          echo "::set-output name=image_tag::${{ steps.semantic.outputs.new_release_version }}"
-        elif [ -n "${{ steps.semantic.outputs.last_release_version }}" ]; then
-          echo "Using last release version: ${{ steps.semantic.outputs.last_release_version }}"
-          echo "::set-output name=image_tag::${{ steps.semantic.outputs.last_release_version }}"
-        else
-          echo "No new or last release version found, using 'latest'"
-          echo "::set-output name=image_tag::latest"
-        fi
 
     - name: Build docker image
+      if: steps.semantic.outputs.new_release_published == 'true'
       env:
         REGISTRY: ghcr.io/dabbonet
         REPOSITORY: dipzin-nextjs
-        IMAGE_TAG: ${{ steps.set_tag.outputs.image_tag }}
+        IMAGE_TAG: ${{ steps.set_tag.outputs.new_release_version  }}
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
 
