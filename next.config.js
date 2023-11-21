@@ -6,10 +6,6 @@ const nextConfig = {
     loader: 'custom',
     loaderFile: './src/lib/imageLoader.ts'
   },
-  experimental: {
-    appDir: true,
-    isrMemoryCacheSize: 5000,
-  },
   optimizeFonts: true,
   async redirects() {
     return [

@@ -12,7 +12,6 @@ export const metadata = {
   alternates: {
     canonical: '/'
   },
-  colorScheme: 'dark',
   twitter: {
     card: 'summary_large_image',
     title: 'Dipzin — A Curated Collection of Design Works Meant to Inspire.',
