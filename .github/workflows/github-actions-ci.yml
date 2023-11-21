@@ -7,38 +7,49 @@ on:
     branches: [ "main" ]
 
 jobs:
-  deploy:
+  release:
+    name: Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      # with:
-      #   fetch-depth: 0 # Important for Semantic Release to analyze commits
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
+          # NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
 
-    - name: Semantic Release
-      id: semantic
-      uses: cycjimmy/semantic-release-action@v4
-      with:
-        extra_plugins: |
-          @semantic-release/changelog@6.0.0
-        branch: main
-      env:
-        GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
-
-    - name: Install kubectl
-      uses: azure/setup-kubectl@v2.0
-      with:
-        version: 'v1.24.0'
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v2.0
+        with:
+          version: 'v1.24.0'
 
 
-    - name: Build docker image
-      if: steps.semantic.outputs.new_release_published == 'true'
-      env:
-        REGISTRY: ghcr.io/dabbonet
-        REPOSITORY: dipzin-nextjs
-        IMAGE_TAG: ${{ steps.set_tag.outputs.new_release_version  }}
-      run: |
-        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+      - name: Build docker image
+        if: steps.semantic.outputs.new_release_published == 'true'
+        env:
+          REGISTRY: ghcr.io/dabbonet
+          REPOSITORY: dipzin-frontend
+          PACKAGE: dipzin-nextjs
+          IMAGE_TAG: ${{ steps.set_tag.outputs.new_release_version  }}
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$PACKAGE:$IMAGE_TAG
 
     # - name: Configure AWS Credentials
     #   uses: aws-actions/configure-aws-credentials@v1
