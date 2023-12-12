@@ -1,38 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Dipzin Overview
 
-## Getting Started
+## Introduction
+- **Dipzin** is a platform designed for designers, offering a wide array of design inspirations.
 
-First, run the development server:
+## Key Features
+- Provides a collection of design works for inspiration.
+- Aims to assist designers in finding and applying creative ideas seamlessly.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Intended Audience
+- Primarily targeted at professionals in the design industry.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## User Flow and Functionality
+- **Types of Screens/Apps**: Dipzin offers designs for iOS, Android, and web applications.
+- **Search Functionality**: Users can search for anything related to these screens, such as 'food' or specific brands like 'Starbucks'.
+- **Home Screen**: Features apps, allowing users to click on an app to view its showcase.
+- **Showcase**: Users can download showcases, open the app, or view related links like Appstore or Playstore.
+- **App Page**: Displays all screens of the app, with options to like the app, download screens, or view related links.
+- **User Authentication**: Login or signup using email and OTP. New users go through an onboarding process to set up their profile based on role and interests.
+- **Pricing Page**: Details on subscription prices for those interested in subscribing.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Technology Stack
+The following packages are part of Dipzin's tech stack:
+- `@nextui-org/react`: For UI components.
+- `@react-oauth/google`: For Google OAuth integration.
+- `@types/node`, `@types/react`, `@types/react-dom`: Type definitions for Node.js and React.
+- `analytics`, `class-variance-authority`, `clipboard-sys`: Various utilities for analytics, CSS handling, and clipboard interactions.
+- `clsx`, `eslint`, `eslint-config-next`: Utilities for class name manipulation and code quality enforcement.
+- `framer-motion`: For UI animations.
+- `jszip`, `jwt-decode`, `lucide-react`: For ZIP file handling, JWT decoding, and icon rendering.
+- `marked-react`, `next`, `next-themes`: For Markdown rendering, server-side rendering, and theme management.
+- `qs`, `react`, `react-auth-code-input`: For query string parsing and core React functionality.
+- `react-dom`, `react-hot-toast`, `react-player`: For React DOM operations, toast notifications, and video playback.
+- `react-responsive`, `react-use-measure`, `react-virtuoso`: For responsive design handling, component measurement, and list rendering.
+- `use-debounce`: For debouncing function calls.
