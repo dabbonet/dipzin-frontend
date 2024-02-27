@@ -4,12 +4,10 @@ import Icons from "@/components/Icons";
 import { toast } from "react-hot-toast";
 import { SignIn } from "@/lib/auth";
 import { usePathname, useRouter } from "next/navigation";
-import OtpAccessComponent from "./OtpAccessComponent";
+import OTP from "./OTP";
 import { invetaionAndReferralTokens } from "@/lib/tokens";
 
-
-
-const AccessComponent = () => {
+const LoginOrSignup: React.FC = () => {
 
   const path = usePathname()
   const [email, setEmail] = useState("");
@@ -65,27 +63,27 @@ const AccessComponent = () => {
     setEmail(event.target.value);
   };
 
-  if (showOtpCard) return <OtpAccessComponent email={email} />
+  if (showOtpCard) return <OTP email={email} />
   return (
     <div className="mx-auto subpixel-antialiased">
       <h1 className="font-bold h-auto !leading-normal bg-clip-text  lg:text-5xl text-3xl">
         Log in or Signup
       </h1>
-      <p className="text-black-200 font-light lg:text-base text-sm mb-7">
+      <p className="text-sm font-light text-black-200 lg:text-base mb-7">
         Welcome! Please enter your email.
       </p>
 
-      <div className="flex flex-col xl:flex-row mt-4 w-full space-y-3 xl:space-y-0 xl:space-x-3 mx-auto font-medium">
+      <div className="flex flex-col w-full mx-auto mt-4 space-y-3 font-medium xl:flex-row xl:space-y-0 xl:space-x-3">
         <a
           href="/api/user/connect?provider=google"
-          className="w-max flex  items-center tracking-wider space-x-2 px-4 py-4 rounded-2xl border bg-slate-900 hover:bg-slate-800 dark:border-aqua-500 "
+          className="flex items-center px-4 py-4 space-x-2 tracking-wider border w-max rounded-2xl bg-slate-900 hover:bg-slate-800 dark:border-aqua-500 "
         >
           <Icons.GoogleIcon />
           <p>Continue with Google</p>
         </a>
         <a
           href="/api/user/connect?provider=facebook"
-          className="w-max flex items-center tracking-wider space-x-2 px-4 py-4 rounded-2xl border bg-slate-900 hover:bg-slate-800 dark:border-aqua-500 "
+          className="flex items-center px-4 py-4 space-x-2 tracking-wider border w-max rounded-2xl bg-slate-900 hover:bg-slate-800 dark:border-aqua-500 "
         >
           <Icons.FacebookIcon />
           <p>Continue with Facebook</p>
@@ -93,7 +91,7 @@ const AccessComponent = () => {
       </div>
 
       <div className="flex flex-row justify-center my-8 w-[75%] mx-auto">
-        <span className="absolute bg-slate-950/50 rounded-full text-slate-400">OR</span>
+        <span className="absolute rounded-full bg-slate-950/50 text-slate-400">OR</span>
         <div className="w-[50%] mt-3 h-px bg-slate-400 dark:bg-slate-700"></div>
       </div>
 
@@ -109,5 +107,4 @@ const AccessComponent = () => {
   );
 };
 
-export default AccessComponent;
-
+export default LoginOrSignup;

@@ -1,16 +1,10 @@
-"use client";
-import AccessComponent from "@/components/AccessComponent";
-import { FC } from "react";
+import React from "react";
 
+import LoginOrSignup from "@/components/access/LoginOrSignup";
 
+const Access: React.FC = () => {
 
-
-
-
-const Access: FC = () => {
-
-
-  return <AccessComponent  />;
+  return <LoginOrSignup />;
 };
 
 export default Access;

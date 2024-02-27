@@ -8,10 +8,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AuthCode from "react-auth-code-input";
 import { toast } from "react-hot-toast";
-type props = {
+
+type OTPProps = {
   email?: string;
 }
-const OtpAccessComponent = ({ email }: props) => {
+
+const OTP: React.FC<OTPProps> = ({ email }) => {
   const path = usePathname()
   const [otp, setOtp] = useState<number>();
   const [failedMessage, setFailedMessage] = useState(false);
@@ -39,7 +41,7 @@ const OtpAccessComponent = ({ email }: props) => {
       } else {
         router.push("/profile/profile-informations");
       }
-      if (path !== '/access/otp') showDialog(DIALOG_ENUM.ACCESS,'Login to use this features');
+      if (path !== '/access/otp') showDialog(DIALOG_ENUM.ACCESS, 'Login to use this features');
     } else {
       toast.error("invalid code , you can resend after 30 seconds", {
         style: {
@@ -55,12 +57,12 @@ const OtpAccessComponent = ({ email }: props) => {
     }
   };
   const ResendCodeButton = () => {
-      return <div className=" mt-8">
-        invalid code
-        <Button className="text-aqua-600 bg-transparent" isDisabled={failedMessage === false} onPress={handleResend}>
-          Resend Code
-        </Button>
-      </div>
+    return <div className="mt-8 ">
+      invalid code
+      <Button className="bg-transparent text-aqua-600" isDisabled={failedMessage === false} onPress={handleResend}>
+        Resend Code
+      </Button>
+    </div>
   }
   const changeCodeInput = (e: string) => {
     setOtp(+e)
@@ -68,7 +70,7 @@ const OtpAccessComponent = ({ email }: props) => {
   const SubmitOtpAndEmailButton = () => {
     if (disabelButton) {
       return <button
-        className='w-full py-5 px-3 rounded-xl mt-6 font-semibold text-lg text-white cursor-not-allowed pointer-events-none bg-aqua-600/80'
+        className='w-full px-3 py-5 mt-6 text-lg font-semibold text-white cursor-not-allowed pointer-events-none rounded-xl bg-aqua-600/80'
         type="submit"
         onClick={submitOtpAndEmail}
       >
@@ -76,7 +78,7 @@ const OtpAccessComponent = ({ email }: props) => {
       </button>
     }
     return <button
-      className='w-full py-5 px-3 rounded-xl mt-6 font-semibold text-lg text-white bg-gradient-to-br from-aqua-600 to-aqua-500 hover:to-aqua-400'
+      className='w-full px-3 py-5 mt-6 text-lg font-semibold text-white rounded-xl bg-gradient-to-br from-aqua-600 to-aqua-500 hover:to-aqua-400'
       type="submit"
       onClick={submitOtpAndEmail}
     >
@@ -84,11 +86,11 @@ const OtpAccessComponent = ({ email }: props) => {
     </button>
   }
   return (
-    <div className="mx-auto w-full max-w-xl subpixel-antialiased">
-      <h1 className="font-bold text-white lg:text-5xl text-3xl">
+    <div className="w-full max-w-xl mx-auto subpixel-antialiased">
+      <h1 className="text-3xl font-bold text-white lg:text-5xl">
         Account Verification
       </h1>
-      <p className="text-black-200 font-light mt-4 lg:text-base text-sm">
+      <p className="mt-4 text-sm font-light text-black-200 lg:text-base">
         Please enter the otp number sent to <b>{emailString}</b>.
       </p>
       <AuthCode
@@ -104,4 +106,4 @@ const OtpAccessComponent = ({ email }: props) => {
     </div>
   );
 }
-export default OtpAccessComponent
+export default OTP;
