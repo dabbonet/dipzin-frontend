@@ -1,29 +1,32 @@
 "use client";
 
-import { useDialog } from "@/context/useDialog";
-import { setToken, SignIn, useAuth, verifyOtp } from "@/lib/auth";
-import { Button } from "@nextui-org/react";
-import { useSearchParams, usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
+
+import { Button } from "@nextui-org/react";
 import AuthCode from "react-auth-code-input";
 import { toast } from "react-hot-toast";
+
+import { useAuth, SignIn, setToken, verifyOtp } from "@/lib/auth";
+import { useDialog } from "@/context/useDialog";
 
 type OTPProps = {
   email?: string;
 }
 
 const OTP: React.FC<OTPProps> = ({ email }) => {
-  const path = usePathname()
   const [otp, setOtp] = useState<number>();
-  const [failedMessage, setFailedMessage] = useState(false);
-  const [disabelButton, setDisabelButton] = useState(false);
+  const [failedMessage, setFailedMessage] = useState<boolean>(false);
+  const [disabelButton, setDisabelButton] = useState<boolean>(false);
+  const path = usePathname()
+  const router = useRouter();
 
   const { setChecker } = useAuth()
   const searchParams = useSearchParams();
   const { showDialog, DIALOG_ENUM } = useDialog();
   const emailString = searchParams.get("email") || email;
-  const router = useRouter();
+
+
   const handleResend = async () => {
     SignIn({ email });
     setFailedMessage(false);
@@ -43,7 +46,7 @@ const OTP: React.FC<OTPProps> = ({ email }) => {
       }
       if (path !== '/access/otp') showDialog(DIALOG_ENUM.ACCESS, 'Login to use this features');
     } else {
-      toast.error("invalid code , you can resend after 30 seconds", {
+      toast.error("invalid code, you can resend after 30 seconds", {
         style: {
           backgroundColor: "orange",
           color: "white",
@@ -56,35 +59,12 @@ const OTP: React.FC<OTPProps> = ({ email }) => {
       }, 5000);
     }
   };
-  const ResendCodeButton = () => {
-    return <div className="mt-8 ">
-      invalid code
-      <Button className="bg-transparent text-aqua-600" isDisabled={failedMessage === false} onPress={handleResend}>
-        Resend Code
-      </Button>
-    </div>
-  }
+
   const changeCodeInput = (e: string) => {
     setOtp(+e)
   }
-  const SubmitOtpAndEmailButton = () => {
-    if (disabelButton) {
-      return <button
-        className='w-full px-3 py-5 mt-6 text-lg font-semibold text-white cursor-not-allowed pointer-events-none rounded-xl bg-aqua-600/80'
-        type="submit"
-        onClick={submitOtpAndEmail}
-      >
-        Submit
-      </button>
-    }
-    return <button
-      className='w-full px-3 py-5 mt-6 text-lg font-semibold text-white rounded-xl bg-gradient-to-br from-aqua-600 to-aqua-500 hover:to-aqua-400'
-      type="submit"
-      onClick={submitOtpAndEmail}
-    >
-      Submit
-    </button>
-  }
+
+
   return (
     <div className="w-full max-w-xl mx-auto subpixel-antialiased">
       <h1 className="text-3xl font-bold text-white lg:text-5xl">
@@ -96,13 +76,34 @@ const OTP: React.FC<OTPProps> = ({ email }) => {
       <AuthCode
         allowedCharacters="numeric"
         containerClassName="flex mt-4 space-x-4"
-        inputClassName="w-[56px] h-[56px] xl:w-[82px] xl:h-[82px] rounded-xl flex items-center justify-center text-center font-medium text-[28px] mx-auto bg-slate-800 text-slate-200 outline-0 border-2 border-transparent focus:border-aqua-500"
+        inputClassName="w-[56px] h-[56px] transition-all xl:w-[82px] xl:h-[82px] rounded-xl flex items-center justify-center text-center font-medium text-[28px] mx-auto bg-slate-800 text-slate-200 outline-0 border-2 border-transparent focus:border-aqua-500"
         onChange={(e) => changeCodeInput(e)}
         placeholder="_"
         ariaLabel="Enter your OTP"
       />
-      <SubmitOtpAndEmailButton />
-      <ResendCodeButton />
+      <Button
+        type="submit"
+        onClick={submitOtpAndEmail}
+        className={`w-full h-fit px-3 py-5 mt-6 text-lg font-semibold text-white rounded-xl transition-all 
+        ${disabelButton ?
+            "cursor-not-allowed pointer-events-none bg-aqua-600/80" :
+            " bg-gradient-to-br from-aqua-600 to-aqua-500 hover:to-aqua-400"}
+          `}
+        isDisabled={disabelButton}
+      >
+        Submit
+      </Button>
+
+      <div className="mt-8">
+        invalid code
+        <Button
+          onPress={handleResend}
+          isDisabled={failedMessage === false}
+          className="bg-transparent text-aqua-600"
+        >
+          Resend Code
+        </Button>
+      </div>
     </div>
   );
 }
