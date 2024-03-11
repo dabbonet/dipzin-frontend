@@ -4,7 +4,7 @@ import { FC, useEffect, useRef, useState } from "react";
 
 import { cn, getAssetsURL } from "@/lib/utils";
 import Screen from "@/ui/Screen";
-import Icons from "../Icons";
+import Icons from "../icons/Icons";
 import { copyImagesToClipboard } from "@/lib/ImageCopier";
 import toast from "react-hot-toast";
 import { downloadImage } from "@/lib/ImageDownloader";
@@ -16,31 +16,35 @@ import { Actions } from "../Actions";
 interface SingleScreenProps {
   screen: any;
   setOpen?: any;
-  appName?: string,
-  tagLine?: string,
-  icon?: any
+  appName?: string;
+  tagLine?: string;
+  icon?: any;
 }
 export const mergeScreenUrl = (data) =>
   data?.attributes
     ? data.attributes?.screen.data?.attributes.hash +
-    data.attributes?.screen.data?.attributes.ext
+      data.attributes?.screen.data?.attributes.ext
     : data;
 
-const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine , icon}) => {
+const SingleScreen: FC<SingleScreenProps> = ({
+  screen,
+  setOpen,
+  appName,
+  tagLine,
+  icon,
+}) => {
   const { showDialog, DIALOG_ENUM } = useDialog();
-  const { user } = useAuth()
+  const { user } = useAuth();
 
   const { selectedImages, setSelectedImages } = useSelcetedImages();
-
 
   useEffect(() => {
     if (selectedImages.images.includes(screen)) {
       setChecked(true);
     } else {
-      setChecked(false)
+      setChecked(false);
     }
   }, [selectedImages]);
-
 
   const [hovered, setHovered] = useState(false);
 
@@ -50,32 +54,32 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
   // if the user has been authentcated i will select and if not app will show access dialog
   const addToChecked = async () => {
     if (!user) {
-      showDialog(DIALOG_ENUM.ACCESS,'Login to use this features')
-      return
+      showDialog(DIALOG_ENUM.ACCESS, "Login to use this features");
+      return;
     }
 
     setChecked(!checked);
-    setSelectedImages(prev => {
+    setSelectedImages((prev) => {
       return {
         ...prev,
-        appName: appName || 'images',
+        appName: appName || "images",
         images: prev.images,
       };
     });
 
-    const selectedImagesIDS = selectedImages.images.map(el => el);
+    const selectedImagesIDS = selectedImages.images.map((el) => el);
     if (!selectedImagesIDS.includes(screen)) {
-      setSelectedImages(prev => {
+      setSelectedImages((prev) => {
         return {
           ...prev,
           images: [...prev.images, screen],
         };
       });
     } else {
-      setSelectedImages(prev => {
+      setSelectedImages((prev) => {
         return {
           ...prev,
-          images: prev.images.filter(el => el !== screen),
+          images: prev.images.filter((el) => el !== screen),
         };
       });
       return;
@@ -83,7 +87,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
 
     if (selectedImages.images.length >= 5) {
       setChecked(false);
-      setSelectedImages(prev => {
+      setSelectedImages((prev) => {
         return {
           ...prev,
           images: prev.images.slice(0, 5),
@@ -137,7 +141,14 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
             </svg>
           )}
         </motion.div>
-        {hovered && <Actions screen={screen}  appName={appName} icon={icon} tagLine={tagLine}/>}
+        {hovered && (
+          <Actions
+            screen={screen}
+            appName={appName}
+            icon={icon}
+            tagLine={tagLine}
+          />
+        )}
 
         <div
           className={cn(
@@ -145,7 +156,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
             checked && " border-aqua-300"
           )}
           onClick={() => {
-            setOpen && setOpen(mergeScreenUrl(screen))
+            setOpen && setOpen(mergeScreenUrl(screen));
           }}
         >
           <Screen src={mergeScreenUrl(screen) || screen} />
@@ -156,8 +167,6 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
 };
 
 export default SingleScreen;
-
-
 
 export const DropdownCell = ({ children, className, onClick, props }: any) => {
   return (

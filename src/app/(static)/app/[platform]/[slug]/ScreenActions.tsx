@@ -1,6 +1,6 @@
 "use client";
-import { ActionBar, SquareButton } from "@/components/ActionBar";
-import Icons from "@/components/Icons";
+import { ActionBar, SquareButton } from "@/components/ui/ActionBar";
+import Icons from "@/components/icons/Icons";
 import SoonToast from "@/components/SoonToast";
 import { useDialog } from "@/context/useDialog";
 import { copyImagesToClipboard } from "@/lib/ImageCopier";
@@ -11,12 +11,12 @@ import { getAssetsURL } from "@/lib/utils";
 import { FC } from "react";
 import toast from "react-hot-toast";
 type button = {
-  title?: any
-  icon?: any
-  handler?: any
-  appName?: any
-  screen?: any
-}
+  title?: any;
+  icon?: any;
+  handler?: any;
+  appName?: any;
+  screen?: any;
+};
 const ButtonWrapper = ({ title, icon, handler, appName, screen }: button) => {
   const { showDialog, DIALOG_ENUM } = useDialog();
   if (appName && screen) {
@@ -28,23 +28,24 @@ const ButtonWrapper = ({ title, icon, handler, appName, screen }: button) => {
           <SquareButton
             onClick={async () => {
               const isUserAuth = await getUser();
-                console.log(isUserAuth)
-                if (!isUserAuth) {
-                  // showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features');
-                  showDialog(DIALOG_ENUM.ACCESS,'Login to use this features');
-                  return
-                } 
-                // await setTimeout(() => {
-                  if (title === "Copy PNG" || title === "Copy Link"){
-                    handler(getAssetsURL(name));
-                  }else{
-                    handler(name, appName + " " + screen?.attributes?.order || screen);
-                  }
-                // }, 5000);
-
-              }}
-              
-                >
+              console.log(isUserAuth);
+              if (!isUserAuth) {
+                // showDialog(DIALOG_ENUM.UPGRADE_AD,'Upgrade and get access to exclusive features');
+                showDialog(DIALOG_ENUM.ACCESS, "Login to use this features");
+                return;
+              }
+              // await setTimeout(() => {
+              if (title === "Copy PNG" || title === "Copy Link") {
+                handler(getAssetsURL(name));
+              } else {
+                handler(
+                  name,
+                  appName + " " + screen?.attributes?.order || screen
+                );
+              }
+              // }, 5000);
+            }}
+          >
             <SquareButton.Title className="w-[80%]">{title}</SquareButton.Title>
             <SquareButton.Icon>{icon}</SquareButton.Icon>
           </SquareButton>

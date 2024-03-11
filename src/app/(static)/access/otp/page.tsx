@@ -1,11 +1,9 @@
 "use client";
-import OTP from "@/components/access/OTP";
 
+import { OTP } from "@/components/access";
 
 const Otp = () => {
-
-  return <OTP />
-
+  return <OTP />;
 };
 
 export default Otp;

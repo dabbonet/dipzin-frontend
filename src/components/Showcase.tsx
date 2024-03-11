@@ -1,19 +1,19 @@
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import { FC, useEffect } from 'react'
-import { cn, getPlatformById, rgbDataURL } from '@/lib/utils'
-import SingleScreen from './screen/SingleScreen'
-import { usePlatform } from '@/context/usePlatforms'
-import Icons from './Icons'
-import { ImageDownloader } from '@/lib/ImageDownloader'
-import { toast } from 'react-hot-toast'
-import { ActionBar, SquareButton } from './ActionBar'
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { FC, useEffect } from "react";
+import { cn, getPlatformById, rgbDataURL } from "@/lib/utils";
+import SingleScreen from "./screen/SingleScreen";
+import { usePlatform } from "@/context/usePlatforms";
+import Icons from "./icons/Icons";
+import { ImageDownloader } from "@/lib/ImageDownloader";
+import { toast } from "react-hot-toast";
+import { ActionBar, SquareButton } from "./ui/ActionBar";
 // import { useRouter } from 'next/navigation'
-import { useSelcetedImages } from '@/lib/SelectedToDownload'
-import { useContentDiscovery } from '@/context/useContentDiscovery'
-import { useNavigator } from '@/context/useNavigatiorContext'
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
+import { useSelcetedImages } from "@/lib/SelectedToDownload";
+import { useContentDiscovery } from "@/context/useContentDiscovery";
+import { useNavigator } from "@/context/useNavigatiorContext";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 interface ShowcaseProps {
   selectedShowcase: any;
   setSelectedShowcase: any;
@@ -24,29 +24,31 @@ const Showcase: FC<ShowcaseProps> = ({
   setSelectedShowcase,
 }) => {
   // const router = useRouter();
-  const path = usePathname()
-  const { setActiveControls } = useNavigator()
+  const path = usePathname();
+  const { setActiveControls } = useNavigator();
   const { selected: platform } = usePlatform();
-  const { setSelectedImages, selectedImages } = useSelcetedImages()
+  const { setSelectedImages, selectedImages } = useSelcetedImages();
   useEffect(() => {
-    setActiveControls('menu-only');
+    setActiveControls("menu-only");
     return () => {
-      setSelectedImages({ appName: '', images: [] });
-      setActiveControls('menu-search');
+      setSelectedImages({ appName: "", images: [] });
+      setActiveControls("menu-search");
     };
   }, [setActiveControls, setSelectedImages]);
   useEffect(() => {
     if (selectedImages.images.length > 0) {
-      setActiveControls('selection');
+      setActiveControls("selection");
     } else {
-      setActiveControls('menu-only');
+      setActiveControls("menu-only");
     }
   }, [selectedImages, setActiveControls]);
 
   return (
     <motion.div
       //layoutId={selected.id}
-      className={"w-[100%] h-[100%] z-10 fixed inset-0 overflow-y-scroll py-16 xl:py-28 backdrop-blur-lg bg-slate-900/70"}
+      className={
+        "w-[100%] h-[100%] z-10 fixed inset-0 overflow-y-scroll py-16 xl:py-28 backdrop-blur-lg bg-slate-900/70"
+      }
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -65,16 +67,20 @@ const Showcase: FC<ShowcaseProps> = ({
               alt="icon"
             />
             <div className="ml-4">
-              <span className="lg:text-[32px] font-medium">{selectedShowcase?.name}</span>
+              <span className="lg:text-[32px] font-medium">
+                {selectedShowcase?.name}
+              </span>
               <span className="block lg:text-[16px] text-[#8F94A1] text-[4px]">
                 {selectedShowcase?.tag_line}
               </span>
             </div>
           </div>
-          <ActionBar className='flex gap-2 flex-wrap'>
+          <ActionBar className="flex gap-2 flex-wrap">
             <Link href={`app${path}/${selectedShowcase?.slug}`} replace={false}>
-              <SquareButton className='lg:w-32'>
-                <SquareButton.Title className='md:w-[70%] w-[40%] text-xs'>Open Application</SquareButton.Title>
+              <SquareButton className="lg:w-32">
+                <SquareButton.Title className="md:w-[70%] w-[40%] text-xs">
+                  Open Application
+                </SquareButton.Title>
                 <SquareButton.Icon>
                   <Icons.Open />
                 </SquareButton.Icon>
@@ -90,7 +96,7 @@ const Showcase: FC<ShowcaseProps> = ({
                     "noreferrer"
                   );
                 }}
-                className=''
+                className=""
               >
                 <SquareButton.Title className="md:w-[70%] w-[40%] text-xs">
                   App Store
@@ -114,12 +120,17 @@ const Showcase: FC<ShowcaseProps> = ({
                         </SquareButton> */}
 
             <SquareButton
-              className='w-28'
+              className="w-28"
               onClick={() => {
-                ImageDownloader(selectedShowcase.name + ' Showcase', selectedShowcase.screens)
+                ImageDownloader(
+                  selectedShowcase.name + " Showcase",
+                  selectedShowcase.screens
+                );
               }}
             >
-              <SquareButton.Title className=' text-xs'>Download Showcase</SquareButton.Title>
+              <SquareButton.Title className=" text-xs">
+                Download Showcase
+              </SquareButton.Title>
               <SquareButton.Icon>
                 <Icons.Download />
               </SquareButton.Icon>
@@ -129,10 +140,10 @@ const Showcase: FC<ShowcaseProps> = ({
               onClick={() => {
                 navigator.clipboard.writeText(
                   window.location.origin +
-                  "/app/" +
-                  getPlatformById(selectedShowcase.platform) +
-                  "/" +
-                  selectedShowcase.slug //need fix
+                    "/app/" +
+                    getPlatformById(selectedShowcase.platform) +
+                    "/" +
+                    selectedShowcase.slug //need fix
                 );
                 toast.success("App Link Copied.");
               }}
@@ -146,38 +157,45 @@ const Showcase: FC<ShowcaseProps> = ({
             </SquareButton>
 
             <SquareButton
-              className='w-24'
+              className="w-24"
               onClick={() => setSelectedShowcase(null)}
             >
-              <SquareButton.Title className='md:w-[70%] w-[40%] text-xs'>Close Showcase</SquareButton.Title>
+              <SquareButton.Title className="md:w-[70%] w-[40%] text-xs">
+                Close Showcase
+              </SquareButton.Title>
               <SquareButton.Icon>
                 <Icons.XCircle />
               </SquareButton.Icon>
             </SquareButton>
-
           </ActionBar>
         </div>
         {/*-------------------------------------------------------*/}
         <div
-          className={cn("grid ml-auto mr-auto z-50 w-full", platform === 3 ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  gap-10 " : "grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-10")}
+          className={cn(
+            "grid ml-auto mr-auto z-50 w-full",
+            platform === 3
+              ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  gap-10 "
+              : "grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-10"
+          )}
         >
           {selectedShowcase?.screens.map((item: any, index: number) => (
-            <SingleScreen key={index} appName={selectedShowcase?.name} screen={item} />
+            <SingleScreen
+              key={index}
+              appName={selectedShowcase?.name}
+              screen={item}
+            />
           ))}
         </div>
-
       </motion.div>
       <motion.div
         onClick={() => {
-          setSelectedShowcase(null)
-          setActiveControls('menu-search')
+          setSelectedShowcase(null);
+          setActiveControls("menu-search");
         }}
-        className={
-          "w-[100%] h-[100%] fixed top-0 bg-transparent"
-        }
+        className={"w-[100%] h-[100%] fixed top-0 bg-transparent"}
       ></motion.div>
     </motion.div>
-  )
-}
+  );
+};
 
-export default Showcase
+export default Showcase;

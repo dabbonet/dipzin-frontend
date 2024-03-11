@@ -1,17 +1,14 @@
-import Pricing from '@/components/pricing'
-import React from 'react'
+import Pricing from "@/components/pricing/pricing";
+import React from "react";
 
 export default async function page() {
-  const data = await pricingList()
+  const data = await pricingList();
   // console.log(data)
-  return (
-    <Pricing checkOuts={data} />
-  )
+  return <Pricing checkOuts={data} />;
 }
-
 
 const pricingList = async () => {
-  const req = await fetch('https://rah.dipzin.com/api/pricing')
-  const res = await req.json()
-  return await res.url.data
-}
+  const req = await fetch("https://rah.dipzin.com/api/pricing");
+  const res = await req.json();
+  return await res.url.data;
+};

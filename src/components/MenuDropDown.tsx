@@ -2,24 +2,22 @@ import { useDialog } from "@/context/useDialog";
 import { downloadImage } from "@/lib/ImageDownloader";
 import { useAuth } from "@/lib/auth";
 import { DropdownCell, mergeScreenUrl } from "./screen/SingleScreen";
-import Icons from "./Icons";
+import Icons from "./icons/Icons";
 import { getAssetsURL } from "@/lib/utils";
 import { toast } from "react-hot-toast";
 import { copyImagesToClipboard } from "@/lib/ImageCopier";
 
 export const MenuDropdown = ({ screen: screen }) => {
   const { showDialog, DIALOG_ENUM } = useDialog();
-  const { user } = useAuth()
+  const { user } = useAuth();
   const image = mergeScreenUrl(screen);
   const downloadScreen = async () => {
-
-   
-      // showDialog(DIALOG_ENUM.UPGRADE_AD, 'Upgrade and get access to exclusive features')
-      setTimeout(() => {
-        image && downloadImage("image " + screen, image);
-      }, 5000)
-    showDialog(DIALOG_ENUM.ACCESS, 'Login to use this features');
-  }
+    // showDialog(DIALOG_ENUM.UPGRADE_AD, 'Upgrade and get access to exclusive features')
+    setTimeout(() => {
+      image && downloadImage("image " + screen, image);
+    }, 5000);
+    showDialog(DIALOG_ENUM.ACCESS, "Login to use this features");
+  };
   return (
     <div className="absolute top-16 right-4 bg-slate-900 p-2.5 w-48 z-50  rounded-xl invisible group-hover/item:visible">
       <DropdownCell
@@ -30,9 +28,7 @@ export const MenuDropdown = ({ screen: screen }) => {
         <Icons.Thumbnail className="w-5 h-5" />
         <span className="font-medium text-slate-100 text-sm">Copy PNG</span>
       </DropdownCell>
-      <DropdownCell
-        onClick={downloadScreen}
-      >
+      <DropdownCell onClick={downloadScreen}>
         <Icons.Download className="w-5 h-5" />
         <span className="font-medium text-slate-100 text-sm">Download PNG</span>
       </DropdownCell>
