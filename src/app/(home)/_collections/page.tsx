@@ -10,77 +10,64 @@ const Collections: FC = () => {
   const [isPersonalCollection, setIsPersonalCollection] = useState(false);
   const [isWebViewCard] = useState(true);
 
-  const handlePersonal = () => {
+  const handleSetPersonal = () => {
     setIsPersonalCollection(true);
   };
-  const handleComunity = () => {
+  const handleSetCommunity = () => {
     setIsPersonalCollection(false);
-  };
-  const personalCollection = () => {
-    if (isPersonalCollection) {
-      return (
-        <button className=" w-fit">
-          <img src="/images/assets/folder-add.svg" alt="" />
-        </button>
-      );
-    }
-  };
-  const showPersonalOrComunityCollectionsButtons = () => {
-    return (
-      <>
-        <button
-          className="py-1 px-3 hover:bg-slate-700 bg-slate-700 rounded-3xl"
-          onClick={handlePersonal}
-        >
-          Personal
-        </button>
-        <button
-          className="py-1 px-3 rounded-3xl hover:bg-slate-700"
-          onClick={handleComunity}
-        >
-          Community
-        </button>
-      </>
-    );
-  };
-
-  const showCards = () => {
-    if (isWebViewCard) {
-      return (
-        <>
-          <CollectionCardWeb name="colllection name" description="1m" />
-          <CollectionCardWeb name="colllection name" description="1m" />
-          <CollectionCardWeb name="colllection name" description="1m" />
-          <CollectionCardWeb name="colllection name" description="1m" />
-          <CollectionCardWeb name="colllection name" description="1m" />
-        </>
-      );
-    } else {
-      return (
-        <>
-          <CollectionCardMobile name="colllection name" description="1m" />
-          <CollectionCardMobile name="colllection name" description="1m" />
-          <CollectionCardMobile name="colllection name" description="1m" />
-          <CollectionCardMobile name="colllection name" description="1m" />
-          <CollectionCardMobile name="colllection name" description="1m" />
-        </>
-      );
-    }
   };
 
   return (
     <>
       {/* <Banner />
       <HomeNavigator /> */}
-      <div className=" mt-4">
-        <div className=" flex items-center gap-x-36 gap-y-10 justify-end flex-wrap">
-          {personalCollection()}
-          <div className=" w-fit bg-slate-800 flex p-2 items-center rounded-3xl mb-4">
-            {showPersonalOrComunityCollectionsButtons()}
-          </div>
+      <div className="mt-4 ">
+        <div className="flex flex-wrap items-center justify-end gap-x-36 gap-y-10">
+          {isPersonalCollection ? (
+            <>
+              <button className=" w-fit">
+                <img src="/images/assets/folder-add.svg" alt="" />
+              </button>
+
+              <div className="flex items-center p-2 mb-4 w-fit bg-slate-800 rounded-3xl">
+
+                <button
+                  className="px-3 py-1 hover:bg-slate-700 bg-slate-700 rounded-3xl"
+                  onClick={handleSetPersonal}
+                >
+                  Personal
+                </button>
+                <button
+                  className="px-3 py-1 rounded-3xl hover:bg-slate-700"
+                  onClick={handleSetCommunity}
+                >
+                  Community
+                </button>
+
+              </div>
+            </>
+          ) : null}
         </div>
-        <div className=" grid lg:grid-cols-3 gap-8 md:grid-cols-2 grid-cols-1 items-center">
-          {showCards()}
+        <div className="grid items-center grid-cols-1 gap-8 lg:grid-cols-3 md:grid-cols-2">
+          {
+            isWebViewCard ?
+
+              <>
+                <CollectionCardWeb name="colllection name" description="1m" />
+                <CollectionCardWeb name="colllection name" description="1m" />
+                <CollectionCardWeb name="colllection name" description="1m" />
+                <CollectionCardWeb name="colllection name" description="1m" />
+                <CollectionCardWeb name="colllection name" description="1m" />
+              </>
+              :
+              <>
+                <CollectionCardMobile name="colllection name" description="1m" />
+                <CollectionCardMobile name="colllection name" description="1m" />
+                <CollectionCardMobile name="colllection name" description="1m" />
+                <CollectionCardMobile name="colllection name" description="1m" />
+                <CollectionCardMobile name="colllection name" description="1m" />
+              </>
+          }
         </div>
       </div>
     </>
