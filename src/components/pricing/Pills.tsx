@@ -3,15 +3,27 @@ import React from "react";
 type PillsType = {
   pillType?: any;
   sale?: any;
-  interval?: any
-  setCheckOut?: any
-  checkout?: any
+  interval?: any;
+  setCheckOut?: any;
+  checkout?: any;
 };
 
-const Pills = ({ pillType, sale, interval, setCheckOut, checkout }: PillsType) => {
+const Pills = ({
+  pillType,
+  sale,
+  interval,
+  setCheckOut,
+  checkout,
+}: PillsType) => {
   // console.log(interval, checkout)
-  let saveStyle = checkout == interval ? 'bg-slate-900 text-aqua-50' : 'bg-aqua-200 text-aqua-950'
-  let bgStyle = checkout == interval ? 'bg-gradient-to-b from-aqua-500 to-aqua-700' : 'bg-slate-900'
+  let saveStyle =
+    checkout == interval
+      ? "bg-slate-900 text-aqua-50"
+      : "bg-aqua-200 text-aqua-950";
+  let bgStyle =
+    checkout == interval
+      ? "bg-gradient-to-b from-aqua-500 to-aqua-700"
+      : "bg-slate-900";
   let saleOn: any;
   if (sale) {
     saleOn = (

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Icons from "@/components/Icons";
+import Icons from "@/components/icons/Icons";
 import { toast } from "react-hot-toast";
 import { SignIn } from "@/lib/auth";
 import { usePathname, useRouter } from "next/navigation";
@@ -8,31 +8,31 @@ import OTP from "./OTP";
 import { invetaionAndReferralTokens } from "@/lib/tokens";
 
 const LoginOrSignup: React.FC = () => {
-
-  const path = usePathname()
+  const path = usePathname();
   const [email, setEmail] = useState("");
   const [disableProcess, setDisableProcess] = useState(false);
-  const [showOtpCard, setShowOtpCard] = useState(false)
+  const [showOtpCard, setShowOtpCard] = useState(false);
   const router = useRouter();
   const SubmitEmailButton = () => {
-    let buttonStyle = ' bg-gradient-to-br from-aqua-600 to-aqua-500 hover:to-aqua-400'
+    let buttonStyle =
+      " bg-gradient-to-br from-aqua-600 to-aqua-500 hover:to-aqua-400";
     if (disableProcess) {
-      buttonStyle = 'bg-aqua-600/80 cursor-none pointer-events-none'
+      buttonStyle = "bg-aqua-600/80 cursor-none pointer-events-none";
     }
-    return <button
-      type="submit"
-      onClick={submitEmail}
-      className={`w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-wide text-aqua-950 ${buttonStyle}`}
-    >
-      Send code
-    </button>
-  }
+    return (
+      <button
+        type="submit"
+        onClick={submitEmail}
+        className={`w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-wide text-aqua-950 ${buttonStyle}`}
+      >
+        Send code
+      </button>
+    );
+  };
   const submitEmail = async () => {
-
     setDisableProcess(true);
     const regextMatchEmail =
       /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
-
 
     if (!email.match(regextMatchEmail)) {
       setTimeout(() => {
@@ -43,27 +43,25 @@ const LoginOrSignup: React.FC = () => {
       });
     }
 
-    const { referralToken, invitationToken } = invetaionAndReferralTokens()
+    const { referralToken, invitationToken } = invetaionAndReferralTokens();
     const res = await SignIn({ email, referralToken, invitationToken });
 
     if (res) {
-      if (path === '/access') {
-
+      if (path === "/access") {
         router.push(`/access/otp?email=${email}`);
       } else {
-        setShowOtpCard(true)
+        setShowOtpCard(true);
       }
     } else {
       setDisableProcess(false);
       return toast.error("Something Went wrong");
     }
-
   };
   const handleChange = (event: any) => {
     setEmail(event.target.value);
   };
 
-  if (showOtpCard) return <OTP email={email} />
+  if (showOtpCard) return <OTP email={email} />;
   return (
     <div className="mx-auto subpixel-antialiased">
       <h1 className="font-bold h-auto !leading-normal bg-clip-text  lg:text-5xl text-3xl">
@@ -91,7 +89,9 @@ const LoginOrSignup: React.FC = () => {
       </div>
 
       <div className="flex flex-row justify-center my-8 w-[75%] mx-auto">
-        <span className="absolute rounded-full bg-slate-950/50 text-slate-400">OR</span>
+        <span className="absolute rounded-full bg-slate-950/50 text-slate-400">
+          OR
+        </span>
         <div className="w-[50%] mt-3 h-px bg-slate-400 dark:bg-slate-700"></div>
       </div>
 

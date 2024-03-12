@@ -1,15 +1,16 @@
+"use client";
 import { FC, useCallback, useEffect, useState } from "react";
 import { LogLevel, VirtuosoGrid } from "react-virtuoso";
-import ShowcaseScreen from "./screen/ShowcaseScreen";
+import ShowcaseScreen from "../screen/ShowcaseScreen";
 import { usePlatform } from "@/context/usePlatforms";
-import { cn, shuffle } from '@/lib/utils';
-import { AnimatePresence } from 'framer-motion';
-import Showcase from './Showcase';
-import { useContentDiscovery } from '@/context/useContentDiscovery';
-import StreamLoader from './StreamLoader';
+import { cn, shuffle } from "@/lib/utils";
+import { AnimatePresence } from "framer-motion";
+import Showcase from "../Showcase";
+import { useContentDiscovery } from "@/context/useContentDiscovery";
+import StreamLoader from "../StreamLoader";
 import { useNavigator } from "@/context/useNavigatiorContext";
 
-import useLockBodyScroll from "../hooks/useLockBodyScroll";
+import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 
 interface StreamProps { }
 
@@ -23,22 +24,22 @@ const Stream: FC<StreamProps> = () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     // setActiveView('menuWithSearch')
-    setActiveControls('menu-search')
-    setSearchKeyword('')
+    setActiveControls("menu-search");
+    setSearchKeyword("");
     setPlatforms([2, 1, 3]); // Initialize Platform Switcher
     return () => {
-      setActiveView('')
-      setActiveControls('')
-    }
-  }, [])
+      setActiveView("");
+      setActiveControls("");
+    };
+  }, []);
   // 1. Initialize Stream and Page Platforms.
   // 2. Refetch Stream on Platform Change.
   const updateStream = async () => {
     const data = await getStream({ platform: selected!, previousPages: [] });
-    setIsLoading(false)
+    setIsLoading(false);
     setLoadedPages((prevLoadedPages) => [...prevLoadedPages, data.page]);
     setStreamData(shuffle(data.stream));
-  }
+  };
 
   // @ts-ignore
   useEffect(() => {
@@ -56,15 +57,21 @@ const Stream: FC<StreamProps> = () => {
       updateStream();
       setLoadedPages([]);
     }
-  }, [streamData, loadedPages])
+  }, [streamData, loadedPages]);
 
   useLockBodyScroll(selectedShowcase);
 
   const loadMore = useCallback(() => {
     return setTimeout(async () => {
       // Load more stream items
-      const more = await getStream({ platform: selected!, previousPages: loadedPages });
-      if (more.status == 404) { setIsLoading(false); return; };
+      const more = await getStream({
+        platform: selected!,
+        previousPages: loadedPages,
+      });
+      if (more.status == 404) {
+        setIsLoading(false);
+        return;
+      }
       setLoadedPages((prevLoadedPages) => [...prevLoadedPages, more.page]);
 
       setStreamData((prevStreamData: any[] | null) => {
@@ -75,7 +82,7 @@ const Stream: FC<StreamProps> = () => {
     }, 500);
   }, [streamData, loadedPages, selected]);
 
-  if (streamData.length <= 0 || isLoading) return <StreamLoader />
+  if (streamData.length <= 0 || isLoading) return <StreamLoader />;
 
   return (
     <>
@@ -84,13 +91,16 @@ const Stream: FC<StreamProps> = () => {
         useWindowScroll
         data={streamData}
         initialItemCount={10}
-        style={{ minHeight: 100, width: '100%' }}
+        style={{ minHeight: 100, width: "100%" }}
         totalCount={streamData.length}
         overscan={1}
         endReached={loadMore}
-        listClassName={cn("grid content-center gap-2 md:gap-6 pt-0 grid-cols-2", selected == 3
-          ? "2xl:grid-cols-3 md:grid-cols-3"
-          : "2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3")}
+        listClassName={cn(
+          "grid content-center gap-2 md:gap-6 pt-0 grid-cols-2",
+          selected == 3
+            ? "2xl:grid-cols-3 md:grid-cols-3"
+            : "2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3"
+        )}
         // logLevel={LogLevel.DEBUG}
         itemContent={(index, data) => (
           <div onClick={() => setSelectedShowcase(data)}>
@@ -103,29 +113,22 @@ const Stream: FC<StreamProps> = () => {
               <>
                 {isLoading && <StreamLoader />}
                 {/* {isLoading || streamData?.length <= 1 && <StreamLoader />} */}
-                <div
-                  className="pt-10 pb-48 text-center text-slate-500"
-                >
-                  {isLoading &&
-                    "Loading More"
-                  }
-                  {!isLoading &&
-                    "End Reached"
-                  }
+                <div className="pt-10 pb-48 text-center text-slate-500">
+                  {isLoading && "Loading More"}
+                  {!isLoading && "End Reached"}
                 </div>
               </>
-            )
+            );
           },
         }}
       />
       <AnimatePresence>
-
-        {
-          selectedShowcase && (
-            <Showcase selectedShowcase={selectedShowcase} setSelectedShowcase={setSelectedShowcase} />
-          )
-        }
-
+        {selectedShowcase && (
+          <Showcase
+            selectedShowcase={selectedShowcase}
+            setSelectedShowcase={setSelectedShowcase}
+          />
+        )}
       </AnimatePresence>
     </>
   );

@@ -1,73 +1,82 @@
 "use client";
 
-import Banner from "@/components/Banner";
-import HomeNavigator from "@/components/HomeNavigator";
-import { CollectionCardMobile, CollectionCardWeb } from "@/components/ui/CollectionCard";
+import {
+  CollectionCardMobile,
+  CollectionCardWeb,
+} from "@/components/ui/CollectionCard";
 import { FC, useState } from "react";
 
 const Collections: FC = () => {
-  const [isPersonalCollection, setIsPersonalCollection] = useState(false)
+  const [isPersonalCollection, setIsPersonalCollection] = useState(false);
   const [isWebViewCard] = useState(true);
 
-
-
-  const handlePresonal = () => {
-    setIsPersonalCollection(true)
-  }
+  const handlePersonal = () => {
+    setIsPersonalCollection(true);
+  };
   const handleComunity = () => {
-    setIsPersonalCollection(false)
-  }
-  const presonalCollection = () => {
+    setIsPersonalCollection(false);
+  };
+  const personalCollection = () => {
     if (isPersonalCollection) {
-      return <button className=" w-fit">
-        <img src="/images/assets/folder-add.svg" alt="" />
-      </button>
+      return (
+        <button className=" w-fit">
+          <img src="/images/assets/folder-add.svg" alt="" />
+        </button>
+      );
     }
-  }
-  const showPresonalOrComunityCollectionsButtons = () => {
-    if (isPersonalCollection) {
-      return <>
-        <button className='py-1 px-3 hover:bg-slate-700 bg-slate-700 rounded-3xl' onClick={handlePresonal}>Personal</button>
-        <button className='py-1 px-3 rounded-3xl hover:bg-slate-700' onClick={handleComunity}>Community</button>
+  };
+  const showPersonalOrComunityCollectionsButtons = () => {
+    return (
+      <>
+        <button
+          className="py-1 px-3 hover:bg-slate-700 bg-slate-700 rounded-3xl"
+          onClick={handlePersonal}
+        >
+          Personal
+        </button>
+        <button
+          className="py-1 px-3 rounded-3xl hover:bg-slate-700"
+          onClick={handleComunity}
+        >
+          Community
+        </button>
       </>
-    } else {
-      return <>
-        <button className='py-1 px-3 hover:bg-slate-700 rounded-3xl' onClick={handlePresonal}>Personal</button>
-        <button className='py-1 px-3 bg-slate-700  rounded-3xl hover:bg-slate-700' onClick={handleComunity}>Community</button>
-      </>
-    }
-  }
+    );
+  };
 
   const showCards = () => {
     if (isWebViewCard) {
-      return <>
-        <CollectionCardWeb name='colllection name' description='1m' />
-        <CollectionCardWeb name='colllection name' description='1m' />
-        <CollectionCardWeb name='colllection name' description='1m' />
-        <CollectionCardWeb name='colllection name' description='1m' />
-        <CollectionCardWeb name='colllection name' description='1m' />
-      </>
+      return (
+        <>
+          <CollectionCardWeb name="colllection name" description="1m" />
+          <CollectionCardWeb name="colllection name" description="1m" />
+          <CollectionCardWeb name="colllection name" description="1m" />
+          <CollectionCardWeb name="colllection name" description="1m" />
+          <CollectionCardWeb name="colllection name" description="1m" />
+        </>
+      );
     } else {
-      return <>
-        <CollectionCardMobile name='colllection name' description='1m' />
-        <CollectionCardMobile name='colllection name' description='1m' />
-        <CollectionCardMobile name='colllection name' description='1m' />
-        <CollectionCardMobile name='colllection name' description='1m' />
-        <CollectionCardMobile name='colllection name' description='1m' />
-      </>
+      return (
+        <>
+          <CollectionCardMobile name="colllection name" description="1m" />
+          <CollectionCardMobile name="colllection name" description="1m" />
+          <CollectionCardMobile name="colllection name" description="1m" />
+          <CollectionCardMobile name="colllection name" description="1m" />
+          <CollectionCardMobile name="colllection name" description="1m" />
+        </>
+      );
     }
-  }
-
+  };
 
   return (
     <>
-      <Banner />
-      <HomeNavigator />
+      {/* <Banner />
+      <HomeNavigator /> */}
       <div className=" mt-4">
         <div className=" flex items-center gap-x-36 gap-y-10 justify-end flex-wrap">
-          {presonalCollection()}
+          {personalCollection()}
           <div className=" w-fit bg-slate-800 flex p-2 items-center rounded-3xl mb-4">
-            {showPresonalOrComunityCollectionsButtons()}
+            {showPersonalOrComunityCollectionsButtons()}
           </div>
         </div>
         <div className=" grid lg:grid-cols-3 gap-8 md:grid-cols-2 grid-cols-1 items-center">
@@ -78,6 +87,4 @@ const Collections: FC = () => {
   );
 };
 
-
 export default Collections;
-

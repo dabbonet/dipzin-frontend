@@ -1,17 +1,17 @@
-'use client'
+"use client";
 import Image from "next/image";
 import Card, { goToPayment } from "@/components/pricing/Card";
-import Pills from "@/components/pricing/Pills";
-import Icons from "@/components/Icons";
+import Icons from "@/components/icons/Icons";
 import { useState } from "react";
 import { useDialog } from "@/context/useDialog";
+import Pills from "./Pills";
 
 const Pricing = ({ checkOuts }) => {
   const { showDialog, DIALOG_ENUM } = useDialog();
-  const [checkout, setCheckout] = useState(checkOuts[2])
-  const PerMonth = checkOuts[2]
-  const perThreemonths = checkOuts[1]
-  const perYear = checkOuts[0]
+  const [checkout, setCheckout] = useState(checkOuts[2]);
+  const PerMonth = checkOuts[2];
+  const perThreemonths = checkOuts[1];
+  const perYear = checkOuts[0];
 
   return (
     <>
@@ -33,9 +33,27 @@ const Pricing = ({ checkOuts }) => {
         {/* pills */}
         <div className=" container w-[90%] flex justify-center mt-20">
           <div className=" w-fit flex flex-wrap gap-x-6 justify-center gap-y-3 bg-slate-700/50 py-3 px-4 rounded-full bg-opacity-50">
-            <Pills pillType="MONTHLY" sale="" interval={PerMonth} setCheckOut={setCheckout} checkout={checkout} />
-            <Pills pillType="QUARTERLY" sale="20%" interval={perThreemonths} setCheckOut={setCheckout} checkout={checkout} />
-            <Pills pillType="ANNUALLY" sale="35%" interval={perYear} setCheckOut={setCheckout} checkout={checkout} />
+            <Pills
+              pillType="MONTHLY"
+              sale=""
+              interval={PerMonth}
+              setCheckOut={setCheckout}
+              checkout={checkout}
+            />
+            <Pills
+              pillType="QUARTERLY"
+              sale="20%"
+              interval={perThreemonths}
+              setCheckOut={setCheckout}
+              checkout={checkout}
+            />
+            <Pills
+              pillType="ANNUALLY"
+              sale="35%"
+              interval={perYear}
+              setCheckOut={setCheckout}
+              checkout={checkout}
+            />
           </div>
         </div>
         {/* cards */}
@@ -52,7 +70,7 @@ const Pricing = ({ checkOuts }) => {
             price_per="Monthly"
           />
           <Card
-            subscribeName='Paid'
+            subscribeName="Paid"
             price={checkout.unit_amount / 100}
             features={[
               "Download in bulk",
@@ -60,9 +78,12 @@ const Pricing = ({ checkOuts }) => {
               "Unlimited Collections",
               "Unlimited Search & Filters",
             ]}
-            price_per={checkout.recurring.interval_count + ' ' + checkout.recurring.interval}
+            price_per={
+              checkout.recurring.interval_count +
+              " " +
+              checkout.recurring.interval
+            }
             id={checkout.id}
-
           />
           <Card
             subscribeName="Team"
@@ -71,9 +92,7 @@ const Pricing = ({ checkOuts }) => {
               "Team Admin",
               "Centralised Billing ",
               "Seat-based Pricing",
-
             ]}
-
           />
         </div>
         {/* table */}
@@ -95,7 +114,10 @@ const Pricing = ({ checkOuts }) => {
                     Free
                   </h5>
                   <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
-                    $0 <span className=" text-slate-400 lg:text-base md:text-sm text-xs">/month</span>
+                    $0{" "}
+                    <span className=" text-slate-400 lg:text-base md:text-sm text-xs">
+                      /month
+                    </span>
                   </h4>
                   <button className=" text-sm lg:text-base lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-slate-800 rounded-xl">
                     Current Plan
@@ -113,7 +135,12 @@ const Pricing = ({ checkOuts }) => {
                       /{checkout.recurring.interval}
                     </span>
                   </h4>
-                  <button className=" text-sm lg:text-base text-aqua-900 lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl" onClick={() => goToPayment(checkout.id, showDialog, DIALOG_ENUM.ACCESS)}>
+                  <button
+                    className=" text-sm lg:text-base text-aqua-900 lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl"
+                    onClick={() =>
+                      goToPayment(checkout.id, showDialog, DIALOG_ENUM.ACCESS)
+                    }
+                  >
                     Get Started
                   </button>
                 </div>
@@ -626,40 +653,82 @@ const Pricing = ({ checkOuts }) => {
           <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-slate-800 bg-opacity-50 col-span-1 lg:col-span-2 rounded-[36px] py-14 lg:px-14 md:px-10 sm:px-6 px-3 text-center flex items-end h-[509px]">
               <div className=" w-fit h-fit">
-                <span className=" block mt-auto text-slate-400">Unlimited Screens</span>
-                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Boost Your Design Workflow</h1>
-                <p className=" text-slate-400">Dipzin stands out with its extensive collection of tagged screenshots, curated from renowned designers across industries. Explore our vast database for new design trends, innovative interfaces, and creative solutions. Dive into beautifully crafted apps, learn from industry leaders, and infuse fresh ideas into your projects.</p>
+                <span className=" block mt-auto text-slate-400">
+                  Unlimited Screens
+                </span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">
+                  Boost Your Design Workflow
+                </h1>
+                <p className=" text-slate-400">
+                  Dipzin stands out with its extensive collection of tagged
+                  screenshots, curated from renowned designers across
+                  industries. Explore our vast database for new design trends,
+                  innovative interfaces, and creative solutions. Dive into
+                  beautifully crafted apps, learn from industry leaders, and
+                  infuse fresh ideas into your projects.
+                </p>
               </div>
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex items-end rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3 py-14 h-[509px]">
               <div className=" w-fit h-fit text-center">
-                <span className=" block mt-auto text-slate-400">Customizable Collections</span>
-                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Collaborative Sharing</h1>
-                <p className=" text-slate-400">Coming soon, easily categorize, sort, and access your favorite screenshots in Dipzin's unlimited collection feature for an efficient workflow.</p>
+                <span className=" block mt-auto text-slate-400">
+                  Customizable Collections
+                </span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">
+                  Collaborative Sharing
+                </h1>
+                <p className=" text-slate-400">
+                  Coming soon, easily categorize, sort, and access your favorite
+                  screenshots in Dipzin's unlimited collection feature for an
+                  efficient workflow.
+                </p>
               </div>
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex items-end rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3 py-14 h-[509px]">
               <div className=" w-fit h-fit text-center">
-                <span className=" block mt-auto text-slate-400">Advanced Search</span>
-                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Find with Precision</h1>
-                <p className=" text-slate-400">Discover designs that resonate with your project, save time, and focus on creating amazing designs with Dipzin's precise search capabilities.</p>
+                <span className=" block mt-auto text-slate-400">
+                  Advanced Search
+                </span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">
+                  Find with Precision
+                </h1>
+                <p className=" text-slate-400">
+                  Discover designs that resonate with your project, save time,
+                  and focus on creating amazing designs with Dipzin's precise
+                  search capabilities.
+                </p>
               </div>
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex items-end rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3 py-14 h-[509px]">
               <div className=" w-fit h-fit text-center">
-                <span className=" block mt-auto text-slate-400">Comprehensive Tagging</span>
-                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Simplified Inspiration Discovery</h1>
-                <p className=" text-slate-400">Navigate tagged designs by Category, Pattern, Components, and more for efficient organization and seamless inspiration discovery.</p>
+                <span className=" block mt-auto text-slate-400">
+                  Comprehensive Tagging
+                </span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">
+                  Simplified Inspiration Discovery
+                </h1>
+                <p className=" text-slate-400">
+                  Navigate tagged designs by Category, Pattern, Components, and
+                  more for efficient organization and seamless inspiration
+                  discovery.
+                </p>
               </div>
             </div>
             <div className="bg-slate-800 bg-opacity-50 flex items-end rounded-[36px] lg:px-14 md:px-10 sm:px-6 px-3 py-14 h-[509px]">
               <div className=" w-fit h-fit text-center">
-                <span className=" block mt-auto text-slate-400">Image Copy & Download</span>
-                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">Effortless Integration</h1>
-                <p className=" text-slate-400">Copy screenshots to your design tools, with a focus on providing a convenient experience, while we work on our Figma plugin and mobile app for better accessibility.</p>
+                <span className=" block mt-auto text-slate-400">
+                  Image Copy & Download
+                </span>
+                <h1 className=" lg:text-3xl md:text-xl text-base my-4 ">
+                  Effortless Integration
+                </h1>
+                <p className=" text-slate-400">
+                  Copy screenshots to your design tools, with a focus on
+                  providing a convenient experience, while we work on our Figma
+                  plugin and mobile app for better accessibility.
+                </p>
               </div>
             </div>
-
           </div>
         </div>
         {/* custoumer love corner */}
@@ -707,28 +776,22 @@ const Pricing = ({ checkOuts }) => {
     </>
   );
 };
-export default Pricing
-
+export default Pricing;
 
 const TesmonialsCard = ({ tweet }) => {
-  return <div className=" h-fit lg:pt-12 lg:pb-14 lg:px-12 p-6 bg-slate-800 bg-opacity-50 rounded-3xl">
-    <div className=" flex justify-between items-center">
-      <div className=" flex gap-6 items-center">
-        <div className=" w-16 h-16 bg-white rounded-full">
+  return (
+    <div className=" h-fit lg:pt-12 lg:pb-14 lg:px-12 p-6 bg-slate-800 bg-opacity-50 rounded-3xl">
+      <div className=" flex justify-between items-center">
+        <div className=" flex gap-6 items-center">
+          <div className=" w-16 h-16 bg-white rounded-full"></div>
+          <div className=" flex flex-col">
+            <h4 className=" lg:text-3xl">Ahmed Mahmoud</h4>
+            <span className=" lg:text-2xl">@ahmed</span>
+          </div>
         </div>
-        <div className=" flex flex-col">
-          <h4 className=" lg:text-3xl">Ahmed Mahmoud</h4>
-          <span className=" lg:text-2xl">@ahmed</span>
-        </div>
+        <Icons.FacebookIcon />
       </div>
-      <Icons.FacebookIcon />
+      <div className=" mt-12">{tweet}</div>
     </div>
-    <div className=" mt-12">
-      {tweet}
-    </div>
-  </div>
-}
-
-
-
-
+  );
+};

@@ -1,153 +1,160 @@
-'use client'
-import ScreenActions from '@/app/(static)/app/[platform]/[slug]/ScreenActions'
-import ScreenDetails from '@/components/ScreenDetails'
-import SingleScreen, { mergeScreenUrl } from '@/components/screen/SingleScreen'
-import Image from "next/image"
-import { useContentDiscovery } from '@/context/useContentDiscovery'
-import { useDialog } from '@/context/useDialog'
-import { useNavigator } from '@/context/useNavigatiorContext'
-import { useSelcetedImages } from '@/lib/SelectedToDownload'
-import { getToken } from '@/lib/auth'
-import { usePlatform } from '@/context/usePlatforms'
-import { cn, getPlatformById, shuffle } from '@/lib/utils'
-import { usePathname, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState, useCallback } from 'react'
-import { VirtuosoGrid } from 'react-virtuoso'
-import { AnimatePresence, motion } from 'framer-motion'
-import Screen from '@/components/ui/Screen'
-import Icons from '@/components/Icons'
-import AppActions from '@/app/(static)/app/[platform]/[slug]/AppActions'
-
-
+"use client";
+import ScreenActions from "@/app/(static)/app/[platform]/[slug]/ScreenActions";
+import ScreenDetails from "@/components/ScreenDetails";
+import SingleScreen, { mergeScreenUrl } from "@/components/screen/SingleScreen";
+import Image from "next/image";
+import { useContentDiscovery } from "@/context/useContentDiscovery";
+import { useDialog } from "@/context/useDialog";
+import { useNavigator } from "@/context/useNavigatiorContext";
+import { useSelcetedImages } from "@/lib/SelectedToDownload";
+import { getToken } from "@/lib/auth";
+import { usePlatform } from "@/context/usePlatforms";
+import { cn, getPlatformById, shuffle } from "@/lib/utils";
+import { usePathname, useSearchParams } from "next/navigation";
+import React, { useEffect, useState, useCallback } from "react";
+import { VirtuosoGrid } from "react-virtuoso";
+import { AnimatePresence, motion } from "framer-motion";
+import Screen from "@/components/ui/Screen";
+import Icons from "@/components/icons/Icons";
+import AppActions from "@/app/(static)/app/[platform]/[slug]/AppActions";
 
 export default function SearchPage() {
-
-  const [data, setdata] = useState([])
+  const [data, setdata] = useState([]);
   const [openScreen, setOpenScreen] = useState<any | null>();
-  const params = useSearchParams()
-  const keyword = params.get('q')
-  const components = params.getAll('component')
-  const tag = params.getAll('tag')
-  const category = params.getAll('category')
-  const path = usePathname()
-  const { selectedImages, setSelectedImages } = useSelcetedImages()
-  const { setActiveView, setActiveControls } = useNavigator()
+  const params = useSearchParams();
+  const keyword = params.get("q");
+  const components = params.getAll("component");
+  const tag = params.getAll("tag");
+  const category = params.getAll("category");
+  const path = usePathname();
+  const { selectedImages, setSelectedImages } = useSelcetedImages();
+  const { setActiveView, setActiveControls } = useNavigator();
   const [isLoading, setIsLoading] = useState(true);
-  const { setSingleApp } = usePlatform()
+  const { setSingleApp } = usePlatform();
   const { showDialog, DIALOG_ENUM } = useDialog();
-  const id = path.split('/search/')[1]
-  const platform = getPlatformById(id)
-  let filterQuery = `platform = ${platform}`
+  const id = path.split("/search/")[1];
+  const platform = getPlatformById(id);
+  let filterQuery = `platform = ${platform}`;
 
   useEffect(() => {
     if (Array.isArray(components) && components.length > 0) {
-      filterQuery = filterQuery + ` AND components IN [${components.map(el => `'${el}'`).join(',')}]`;
+      filterQuery =
+        filterQuery +
+        ` AND components IN [${components.map((el) => `'${el}'`).join(",")}]`;
     }
 
     if (Array.isArray(tag) && tag.length > 0) {
-      filterQuery = filterQuery + ` AND tags IN [${tag.map(el => `'${el}'`).join(',')}]`;
+      filterQuery =
+        filterQuery + ` AND tags IN [${tag.map((el) => `'${el}'`).join(",")}]`;
     }
 
     if (Array.isArray(category) && category.length > 0) {
-      filterQuery = filterQuery + ` AND app.categories IN [${category.map(el => `'${el}'`).join(',')}]`;
+      filterQuery =
+        filterQuery +
+        ` AND app.categories IN [${category.map((el) => `'${el}'`).join(",")}]`;
     }
-    const token = getToken()
-    if (!token) { showDialog(DIALOG_ENUM.ACCESS);}
-  }, [])
-
+    const token = getToken();
+    if (!token) {
+      showDialog(DIALOG_ENUM.ACCESS);
+    }
+  }, []);
 
   useEffect(() => {
     if (selectedImages.images.length > 0) {
-      setActiveControls('selection')
+      setActiveControls("selection");
     }
-  }, [selectedImages])
+  }, [selectedImages]);
 
   const { setSearchKeyword, setFilters } = useContentDiscovery();
   const { setSelected, setPlatforms } = usePlatform();
 
   useEffect(() => {
-    setActiveView('menuWithSearch')
-    setActiveControls('menu-search')
-    setSearchKeyword(keyword)
+    setActiveView("menuWithSearch");
+    setActiveControls("menu-search");
+    setSearchKeyword(keyword);
     setPlatforms([2, 1, 3]); // Initialize Platform Switcher
-    setSelected(parseInt(platform))
+    setSelected(parseInt(platform));
     // Set the new filters
     const newFilters = [
-      ...components.map(el => {
+      ...components.map((el) => {
         return {
-          type: 'component',
-          tag: el
-        }
+          type: "component",
+          tag: el,
+        };
       }),
-      ...tag.map(el => {
+      ...tag.map((el) => {
         return {
-          type: 'tag',
-          tag: el
-        }
+          type: "tag",
+          tag: el,
+        };
       }),
-      ...category.map(el => {
+      ...category.map((el) => {
         return {
-          type: 'category',
-          tag: el
-        }
+          type: "category",
+          tag: el,
+        };
       }),
-    ]
+    ];
     setFilters(newFilters);
-    setSingleApp('search')
+    setSingleApp("search");
 
     return () => {
-      setSelectedImages({ appName: '', images: [] })
-      setActiveControls('')
-      setFilters([])
-      setSingleApp('')
-      setActiveView('')
-    }
-  }, [])
+      setSelectedImages({ appName: "", images: [] });
+      setActiveControls("");
+      setFilters([]);
+      setSingleApp("");
+      setActiveView("");
+    };
+  }, []);
 
   useEffect(() => {
     async function getData() {
-      const req = await fetch('/api/search/get-screens', {
-        method: 'POST',
+      const req = await fetch("/api/search/get-screens", {
+        method: "POST",
         body: JSON.stringify({
           token: getToken(),
           keyword,
-          filters: filterQuery
-        })
-      })
-      const res = await req.json()
-      setdata(res.screens)
+          filters: filterQuery,
+        }),
+      });
+      const res = await req.json();
+      setdata(res.screens);
     }
-    getData()
-  }, [params])
-
+    getData();
+  }, [params]);
 
   const loadMore = useCallback(() => {
     return setTimeout(async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       // Load more stream items
       async function getData() {
-        const req = await fetch('/api/search/get-screens', {
-          method: 'POST',
+        const req = await fetch("/api/search/get-screens", {
+          method: "POST",
           body: JSON.stringify({
             token: getToken(),
             keyword,
             filters: filterQuery,
             offset: data?.length,
-            limit: 10
-          })
-        })
-        const res = await req.json()
-        const shuffledData = shuffle(res.screens)
-        setdata(prev => [...prev, ...shuffledData])
+            limit: 10,
+          }),
+        });
+        const res = await req.json();
+        const shuffledData = shuffle(res.screens);
+        setdata((prev) => [...prev, ...shuffledData]);
       }
-      getData()
-      setIsLoading(false)
+      getData();
+      setIsLoading(false);
     }, 500);
   }, [data]);
-  if (data?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
+  if (data?.length === 0)
+    return (
+      <div className=" w-full h-full flex justify-center items-center">
+        there is no screens with this filters
+      </div>
+    );
   return (
     <main className="w-full flex flex-col items-center">
-      {data !== null && data?.length !== 0 &&
+      {data !== null && data?.length !== 0 && (
         <VirtuosoGrid
           className="mt-6 max-w-[90%] mx-auto"
           useWindowScroll
@@ -164,30 +171,29 @@ export default function SearchPage() {
           overscan={10}
           itemContent={(index, data) => {
             return (
-              <SingleScreen screen={data?.screen} appName={data.app.name} tagLine={data.app.tag_line} setOpen={() => setOpenScreen(data)} icon={data.app.icon} />
+              <SingleScreen
+                screen={data?.screen}
+                appName={data.app.name}
+                tagLine={data.app.tag_line}
+                setOpen={() => setOpenScreen(data)}
+                icon={data.app.icon}
+              />
             );
           }}
           components={{
             Footer: () => {
               return (
                 <>
-                  <div
-                    className="pt-10 pb-48 text-center text-slate-500"
-                  >
-                    {isLoading &&
-                      "Loading More"
-                    }
-                    {!isLoading &&
-                      "End Reached"
-                    }
+                  <div className="pt-10 pb-48 text-center text-slate-500">
+                    {isLoading && "Loading More"}
+                    {!isLoading && "End Reached"}
                   </div>
                 </>
-              )
+              );
             },
           }}
         />
-
-      }
+      )}
       <AnimatePresence>
         {openScreen && (
           <>
@@ -197,8 +203,11 @@ export default function SearchPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <ScreenActions appName={openScreen.app.name} screen={openScreen.screen} />
-              <motion.div className="flex flex-wrap justify-center items-center z-[100] w-fit mx-auto h-full gap-10 relative" >
+              <ScreenActions
+                appName={openScreen.app.name}
+                screen={openScreen.screen}
+              />
+              <motion.div className="flex flex-wrap justify-center items-center z-[100] w-fit mx-auto h-full gap-10 relative">
                 <ScreenDetails screenId={openScreen.id} />
                 <Screen
                   src={openScreen.screen}
@@ -208,14 +217,12 @@ export default function SearchPage() {
               </motion.div>
               <motion.div
                 onClick={() => setOpenScreen(null)}
-                className={
-                  "w-[100%] h-[100%] fixed top-0 bg-transparent"
-                }
+                className={"w-[100%] h-[100%] fixed top-0 bg-transparent"}
               ></motion.div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
     </main>
-  )
+  );
 }
