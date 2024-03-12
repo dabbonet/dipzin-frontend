@@ -97,270 +97,271 @@ const Pricing = ({ checkOuts }) => {
         </div>
         {/* table */}
 
-        <table className="container w-[90%] mt-32">
-          <thead>
-            <tr className=" flex flex-row  items-center">
-              <td className=" flex-1 ">
-                <h2 className=" font-[600] lg:text-3xl md:text-lg sm:text-base text-sm mb-2">
-                  Plan Comparison
-                </h2>
-                <span className=" text-slate-400 font-medium lg:text-base md:text-start text-xs">
-                  Find your best subscription.
-                </span>
-              </td>
-              <td className=" flex-1 flex flex-col items-center">
-                <div className=" w-fit">
-                  <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs">
-                    Free
-                  </h5>
-                  <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
-                    $0{" "}
-                    <span className=" text-slate-400 lg:text-base md:text-sm text-xs">
-                      /month
-                    </span>
-                  </h4>
-                  <button className=" text-sm lg:text-base lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-slate-800 rounded-xl">
-                    Current Plan
-                  </button>
-                </div>
-              </td>
-              <td className=" flex-1 flex flex-col items-center">
-                <div className="w-fit">
-                  <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs ">
-                    Personal
-                  </h5>
-                  <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
-                    ${checkout.unit_amount / 100}
-                    <span className=" text-slate-400 lg:text-base md:text-sm text-xs">
-                      /{checkout.recurring.interval}
-                    </span>
-                  </h4>
-                  <button
-                    className=" text-sm lg:text-base text-aqua-900 lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl"
-                    onClick={() =>
-                      goToPayment(checkout.id, showDialog, DIALOG_ENUM.ACCESS)
-                    }
-                  >
-                    Get Started
-                  </button>
-                </div>
-              </td>
-              <td className=" flex-1 flex flex-col items-center">
-                <div className=" w-fit">
-                  <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs ">
-                    Team
-                  </h5>
-                  <h4 className=" text-slate-100 font-[600] lg:text-4xl md:text-lg sm:text-sm text-xs mb-5">
-                    Coming <br /> Soon...
-                  </h4>
-                </div>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="">
-              <td>
-                <h3 className=" mb-8 text-slate-100 lg:text-2xl md:text-lg sm:text-base text-xs">
-                  Features
-                </h3>
-              </td>
-            </tr>
-
-            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-              <td className=" flex justify-between flex-1">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  All Apps Access
-                </span>
-                {/* <div className={`tooltip`}>
-                  <Image
-                    unoptimized
-                    src="/images/assets/svg.svg"
-                    alt=""
-                    width={24}
-                    height={24}
-
-                  />
-                  <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div> */}
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-check.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-check.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-check.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                />
-              </td>
-            </tr>
-            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-              <td className=" flex justify-between flex-1">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Latest Version
-                </span>
-                {/* <div className={`tooltip`}>
-                  <Image
-                    unoptimized
-                    src="/images/assets/svg.svg"
-                    width={24}
-                    height={24}
-                    alt=""
-
-                  />
-                  <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div> */}
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-check.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-check.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-check.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-            </tr>
-            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-              <td className=" flex justify-between flex-1">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Image Copy & Download
-                </span>
-                {/* <div className={`tooltip`}>
-                  <Image
-                    unoptimized
-                    src="/images/assets/svg.svg"
-                    width={24}
-                    height={24}
-                    alt=""
-
-                  />
-                  <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div> */}
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-check.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-check.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-check.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-            </tr>
-            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-              <td className=" flex justify-between flex-1">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Bulk download
-                </span>
-                {/* <div className={`tooltip`}>
-                  <Image
-                    unoptimized
-                    src="/images/assets/svg.svg"
-                    width={24}
-                    height={24}
-                    alt=""
-
-                  />
-                  <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div> */}
-              </td>
-              <td className="flex-1 flex justify-center">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Limited
-                </span>
-              </td>
-              <td className="flex-1 flex justify-center">
-                <img
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-check.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-check.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-            </tr>
-            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-              <td className=" flex justify-between flex-1">
-                <div className=" lg:text-base md:text-sm text-xs flex flex-wrap gap-4">
-                  Flows
-                  <span className="px-2 bg-aqua-200 rounded-lg text-aqua-950">
-                    Soon
+        {
+          <table className="container w-[90%] mt-32">
+            <thead>
+              <tr className=" flex flex-row  items-center">
+                <td className=" flex-1 ">
+                  <h2 className=" font-[600] lg:text-3xl md:text-lg sm:text-base text-sm mb-2">
+                    Plan Comparison
+                  </h2>
+                  <span className=" text-slate-400 font-medium lg:text-base md:text-start text-xs">
+                    Find your best subscription.
                   </span>
-                </div>
-                {/* <div className={`tooltip`}>
+                </td>
+                <td className=" flex-1 flex flex-col items-center">
+                  <div className=" w-fit">
+                    <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs">
+                      Free
+                    </h5>
+                    <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
+                      $0{" "}
+                      <span className=" text-slate-400 lg:text-base md:text-sm text-xs">
+                        /month
+                      </span>
+                    </h4>
+                    <button className=" text-sm lg:text-base lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-slate-800 rounded-xl">
+                      Current Plan
+                    </button>
+                  </div>
+                </td>
+                <td className=" flex-1 flex flex-col items-center">
+                  <div className="w-fit">
+                    <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs ">
+                      Personal
+                    </h5>
+                    <h4 className=" text-slate-100 font-[600]  lg:text-2xl md:text-lg sm:text-sm text-xs mb-5">
+                      ${checkout.unit_amount / 100}
+                      <span className=" text-slate-400 lg:text-base md:text-sm text-xs">
+                        /{checkout.recurring.interval}
+                      </span>
+                    </h4>
+                    <button
+                      className=" text-sm lg:text-base text-aqua-900 lg:py-3 py-1 lg:px-8 md:px-6 sm:px-4 px-2 bg-aqua-500 rounded-xl"
+                      onClick={() =>
+                        goToPayment(checkout.id, showDialog, DIALOG_ENUM.ACCESS)
+                      }
+                    >
+                      Get Started
+                    </button>
+                  </div>
+                </td>
+                <td className=" flex-1 flex flex-col items-center">
+                  <div className=" w-fit">
+                    <h5 className=" text-slate-100 lg:text-xl md:text-base sm:text-sm text-xs ">
+                      Team
+                    </h5>
+                    <h4 className=" text-slate-100 font-[600] lg:text-4xl md:text-lg sm:text-sm text-xs mb-5">
+                      Coming <br /> Soon...
+                    </h4>
+                  </div>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="">
+                <td>
+                  <h3 className=" mb-8 text-slate-100 lg:text-2xl md:text-lg sm:text-base text-xs">
+                    Features
+                  </h3>
+                </td>
+              </tr>
+
+              <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+                <td className=" flex justify-between flex-1">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    All Apps Access
+                  </span>
+                  {/* <div className={`tooltip`}>
+                  <Image
+                    unoptimized
+                    src="/images/assets/svg.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+
+                  />
+                  <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div> */}
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-check.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-check.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-check.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                  />
+                </td>
+              </tr>
+              <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+                <td className=" flex justify-between flex-1">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Latest Version
+                  </span>
+                  {/* <div className={`tooltip`}>
+                  <Image
+                    unoptimized
+                    src="/images/assets/svg.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+
+                  />
+                  <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div> */}
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-check.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-check.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-check.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+              </tr>
+              <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+                <td className=" flex justify-between flex-1">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Image Copy & Download
+                  </span>
+                  {/* <div className={`tooltip`}>
+                  <Image
+                    unoptimized
+                    src="/images/assets/svg.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+
+                  />
+                  <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div> */}
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-check.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-check.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-check.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+              </tr>
+              <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+                <td className=" flex justify-between flex-1">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Bulk download
+                  </span>
+                  {/* <div className={`tooltip`}>
+                  <Image
+                    unoptimized
+                    src="/images/assets/svg.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+
+                  />
+                  <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div> */}
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Limited
+                  </span>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <img
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-check.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-check.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+              </tr>
+              <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+                <td className=" flex justify-between flex-1">
+                  <div className=" lg:text-base md:text-sm text-xs flex flex-wrap gap-4">
+                    Flows
+                    <span className="px-2 bg-aqua-200 rounded-lg text-aqua-950">
+                      Soon
+                    </span>
+                  </div>
+                  {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -372,29 +373,29 @@ const Pricing = ({ checkOuts }) => {
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
                 </div> */}
-              </td>
-              <td className="flex-1 flex justify-center">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Limited
-                </span>
-              </td>
-              <td className="flex-1 flex justify-center">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Unlimited
-                </span>
-              </td>
-              <td className="flex-1 flex justify-center">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Unlimited
-                </span>
-              </td>
-            </tr>
-            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-              <td className=" flex justify-between flex-1">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Search and Filters
-                </span>
-                {/* <div className={`tooltip`}>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Limited
+                  </span>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Unlimited
+                  </span>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Unlimited
+                  </span>
+                </td>
+              </tr>
+              <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+                <td className=" flex justify-between flex-1">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Search and Filters
+                  </span>
+                  {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     width={24}
@@ -405,29 +406,29 @@ const Pricing = ({ checkOuts }) => {
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
                 </div> */}
-              </td>
-              <td className="flex-1 flex justify-center">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Limited
-                </span>
-              </td>
-              <td className="flex-1 flex justify-center">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Unlimited
-                </span>
-              </td>
-              <td className="flex-1 flex justify-center">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Unlimited
-                </span>
-              </td>
-            </tr>
-            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-              <td className=" flex justify-between flex-1">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Collections
-                </span>
-                {/* <div className={`tooltip`}>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Limited
+                  </span>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Unlimited
+                  </span>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Unlimited
+                  </span>
+                </td>
+              </tr>
+              <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+                <td className=" flex justify-between flex-1">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Collections
+                  </span>
+                  {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -438,29 +439,29 @@ const Pricing = ({ checkOuts }) => {
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
                 </div> */}
-              </td>
-              <td className="flex-1 flex justify-center">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Limited
-                </span>
-              </td>
-              <td className="flex-1 flex justify-center">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Unlimited
-                </span>
-              </td>
-              <td className="flex-1 flex justify-center">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Unlimited
-                </span>
-              </td>
-            </tr>
-            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-              <td className=" flex justify-between flex-1">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Team Members
-                </span>
-                {/* <div className={`tooltip`}>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Limited
+                  </span>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Unlimited
+                  </span>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Unlimited
+                  </span>
+                </td>
+              </tr>
+              <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+                <td className=" flex justify-between flex-1">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Team Members
+                  </span>
+                  {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -470,44 +471,44 @@ const Pricing = ({ checkOuts }) => {
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
                 </div> */}
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-False.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-False.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  width={24}
-                  height={24}
-                  src="/images/assets/Frame-False.svg"
-                  alt=""
-                />
-              </td>
-            </tr>
-            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-              <td className=" flex justify-between flex-1">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Team Collections
-                </span>
-                {/* <div className={`tooltip`}>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-False.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-False.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    width={24}
+                    height={24}
+                    src="/images/assets/Frame-False.svg"
+                    alt=""
+                  />
+                </td>
+              </tr>
+              <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+                <td className=" flex justify-between flex-1">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Team Collections
+                  </span>
+                  {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -517,92 +518,44 @@ const Pricing = ({ checkOuts }) => {
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
                 </div> */}
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-False.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-False.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-False.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                />
-              </td>
-            </tr>
-            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-              <td className=" flex justify-between flex-1">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Centeralized Billing
-                </span>
-                {/* <div className={`tooltip`}>
+                </td>
+                <td className="flex-1 flex justify-center">
                   <Image
                     unoptimized
-                    src="/images/assets/svg.svg"
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-False.svg"
+                    alt=""
                     width={24}
                     height={24}
-                    alt=""
-
                   />
-                  <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
-                </div> */}
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-False.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-False.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-False.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-            </tr>
-            <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
-              <td className=" flex justify-between flex-1">
-                <span className=" lg:text-base md:text-sm text-xs">
-                  Seat-based Pricing
-                </span>
-                {/* <div className={`tooltip`}>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-False.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-False.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                  />
+                </td>
+              </tr>
+              <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+                <td className=" flex justify-between flex-1">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Centeralized Billing
+                  </span>
+                  {/* <div className={`tooltip`}>
                   <Image
                     unoptimized
                     src="/images/assets/svg.svg"
@@ -613,40 +566,89 @@ const Pricing = ({ checkOuts }) => {
                   />
                   <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
                 </div> */}
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-False.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-False.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-              <td className="flex-1 flex justify-center">
-                <Image
-                  unoptimized
-                  className=" w-6 h-6"
-                  src="/images/assets/Frame-False.svg"
-                  width={24}
-                  height={24}
-                  alt=""
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-False.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-False.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-False.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+              </tr>
+              <tr className=" flex flex-row justify-between itece py-7 border-solid border-t border-slate-700">
+                <td className=" flex justify-between flex-1">
+                  <span className=" lg:text-base md:text-sm text-xs">
+                    Seat-based Pricing
+                  </span>
+                  {/* <div className={`tooltip`}>
+                  <Image
+                    unoptimized
+                    src="/images/assets/svg.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+
+                  />
+                  <span>We update our database in weekly base so you will get the latest versions from production to dipzin.</span>
+                </div> */}
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-False.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-False.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+                <td className="flex-1 flex justify-center">
+                  <Image
+                    unoptimized
+                    className=" w-6 h-6"
+                    src="/images/assets/Frame-False.svg"
+                    width={24}
+                    height={24}
+                    alt=""
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        }
 
         {/* grid */}
         <div className=" my-20 container w-[90%]">

@@ -12,20 +12,19 @@ import { useDialog } from "@/context/useDialog";
 
 type OTPProps = {
   email?: string;
-}
+};
 
 const OTP: React.FC<OTPProps> = ({ email }) => {
   const [otp, setOtp] = useState<number>();
   const [failedMessage, setFailedMessage] = useState<boolean>(false);
   const [disabelButton, setDisabelButton] = useState<boolean>(false);
-  const path = usePathname()
+  const path = usePathname();
   const router = useRouter();
 
-  const { setChecker } = useAuth()
+  const { setChecker } = useAuth();
   const searchParams = useSearchParams();
   const { showDialog, DIALOG_ENUM } = useDialog();
   const emailString = searchParams.get("email") || email;
-
 
   const handleResend = async () => {
     SignIn({ email });
@@ -37,14 +36,15 @@ const OTP: React.FC<OTPProps> = ({ email }) => {
     const data = await verifyOtp(emailString, otp);
     const { token } = await data.json();
     if (token) {
-      setChecker(true)
+      setChecker(true);
       setToken(token);
       if (data.status === 200) {
         router.push("/");
       } else {
         router.push("/profile/profile-informations");
       }
-      if (path !== '/access/otp') showDialog(DIALOG_ENUM.ACCESS, 'Login to use this features');
+      if (path !== "/access/otp")
+        showDialog(DIALOG_ENUM.ACCESS, "Login to use this features");
     } else {
       toast.error("invalid code, you can resend after 30 seconds", {
         style: {
@@ -60,11 +60,6 @@ const OTP: React.FC<OTPProps> = ({ email }) => {
     }
   };
 
-  const changeCodeInput = (e: string) => {
-    setOtp(+e)
-  }
-
-
   return (
     <div className="w-full max-w-xl mx-auto subpixel-antialiased">
       <h1 className="text-3xl font-bold text-white lg:text-5xl">
@@ -77,7 +72,7 @@ const OTP: React.FC<OTPProps> = ({ email }) => {
         allowedCharacters="numeric"
         containerClassName="flex mt-4 space-x-4"
         inputClassName="w-[56px] h-[56px] transition-all xl:w-[82px] xl:h-[82px] rounded-xl flex items-center justify-center text-center font-medium text-[28px] mx-auto bg-slate-800 text-slate-200 outline-0 border-2 border-transparent focus:border-aqua-500"
-        onChange={(e) => changeCodeInput(e)}
+        onChange={(e) => setOtp(+e)}
         placeholder="_"
         ariaLabel="Enter your OTP"
       />
@@ -85,9 +80,11 @@ const OTP: React.FC<OTPProps> = ({ email }) => {
         type="submit"
         onClick={submitOtpAndEmail}
         className={`w-full h-fit px-3 py-5 mt-6 text-lg font-semibold text-white rounded-xl transition-all 
-        ${disabelButton ?
-            "cursor-not-allowed pointer-events-none bg-aqua-600/80" :
-            " bg-gradient-to-br from-aqua-600 to-aqua-500 hover:to-aqua-400"}
+        ${
+          disabelButton
+            ? "cursor-not-allowed pointer-events-none bg-aqua-600/80"
+            : " bg-gradient-to-br from-aqua-600 to-aqua-500 hover:to-aqua-400"
+        }
           `}
         isDisabled={disabelButton}
       >
@@ -106,5 +103,5 @@ const OTP: React.FC<OTPProps> = ({ email }) => {
       </div>
     </div>
   );
-}
+};
 export default OTP;

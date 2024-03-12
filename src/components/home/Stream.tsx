@@ -1,6 +1,6 @@
 "use client";
 import { FC, useCallback, useEffect, useState } from "react";
-import { LogLevel, VirtuosoGrid } from "react-virtuoso";
+import { VirtuosoGrid } from "react-virtuoso";
 import ShowcaseScreen from "../screen/ShowcaseScreen";
 import { usePlatform } from "@/context/usePlatforms";
 import { cn, shuffle } from "@/lib/utils";
@@ -12,11 +12,10 @@ import { useNavigator } from "@/context/useNavigatiorContext";
 
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 
-interface StreamProps { }
-
+interface StreamProps {}
 
 const Stream: FC<StreamProps> = () => {
-  const { setActiveView, setActiveControls } = useNavigator()
+  const { setActiveView, setActiveControls } = useNavigator();
   const { setPlatforms, platforms, selected, setSelected } = usePlatform();
   const { streamData, setStreamData, setSearchKeyword } = useContentDiscovery();
   const [loadedPages, setLoadedPages] = useState<number[]>([]);

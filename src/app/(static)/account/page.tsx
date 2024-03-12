@@ -64,9 +64,7 @@ const Account: FC = ({}) => {
       });
     }
   };
-  const handleClick = () => {
-    buttonRef.current.click();
-  };
+
   // post request to save it
   const handlePost = async (e) => {
     e.preventDefault();
@@ -96,9 +94,11 @@ const Account: FC = ({}) => {
       }
     } catch (error) {}
   };
-  const FirstTimeHeader = () => {
-    if (firstTime) {
-      return (
+
+  return (
+    <div className="max-w-7xl mx-auto tracking-wide">
+      {/* Welcome Area */}
+      {firstTime && (
         <div className="w-[90%]">
           <h1 className=" lg:text-8xl md:text-4xl text-3xl">
             Welcome to dipzin,
@@ -108,13 +108,7 @@ const Account: FC = ({}) => {
             managers.
           </p>
         </div>
-      );
-    }
-  };
-  return (
-    <div className="max-w-7xl mx-auto tracking-wide">
-      {/* Welcome Area */}
-      <FirstTimeHeader />
+      )}
 
       {/* Head Area */}
       <div className="flex justify-between mt-12 items-center flex-wrap gap-y-3">
@@ -150,7 +144,10 @@ const Account: FC = ({}) => {
             </p>
           </div>
         </div>
-        <ActionBar className="h-fit mx-auto md:mx-0" onClick={handleClick}>
+        <ActionBar
+          className="h-fit mx-auto md:mx-0"
+          onClick={() => buttonRef.current.click()}
+        >
           <SquareButton className="w-32">
             <SquareButton.Title className="w-[70%]">save</SquareButton.Title>
             <SquareButton.Icon>

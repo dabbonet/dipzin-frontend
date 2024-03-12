@@ -13,22 +13,7 @@ const LoginOrSignup: React.FC = () => {
   const [disableProcess, setDisableProcess] = useState(false);
   const [showOtpCard, setShowOtpCard] = useState(false);
   const router = useRouter();
-  const SubmitEmailButton = () => {
-    let buttonStyle =
-      " bg-gradient-to-br from-aqua-600 to-aqua-500 hover:to-aqua-400";
-    if (disableProcess) {
-      buttonStyle = "bg-aqua-600/80 cursor-none pointer-events-none";
-    }
-    return (
-      <button
-        type="submit"
-        onClick={submitEmail}
-        className={`w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-wide text-aqua-950 ${buttonStyle}`}
-      >
-        Send code
-      </button>
-    );
-  };
+
   const submitEmail = async () => {
     setDisableProcess(true);
     const regextMatchEmail =
@@ -102,7 +87,17 @@ const LoginOrSignup: React.FC = () => {
         placeholder="Email Address"
         onChange={(e) => handleChange(e as React.ChangeEvent)}
       />
-      <SubmitEmailButton />
+      <button
+        type="submit"
+        onClick={submitEmail}
+        className={`w-full py-5 px-3 rounded-xl mt-6 font-bold text-lg tracking-wide text-aqua-950 ${
+          disableProcess
+            ? "bg-aqua-600/80 cursor-none pointer-events-none"
+            : "bg-gradient-to-br from-aqua-600 to-aqua-500 hover:to-aqua-400"
+        }`}
+      >
+        Send code
+      </button>
     </div>
   );
 };
