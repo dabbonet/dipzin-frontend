@@ -58,9 +58,9 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   }
 
   return (
-    <main className="w-full flex flex-col items-center">
+    <main className="flex flex-col items-center w-full">
       <Toaster position="bottom-right" />
-      <div className="flex w-full mt-10 mb-4 mr-10 ml-10 justify-between items-center text-slate-100 z-10 flex-wrap gap-4">
+      <div className="z-10 flex flex-wrap items-center justify-between w-full gap-4 mt-10 mb-4 ml-10 mr-10 text-slate-100">
         <div className="flex space-x-6">
           <Image
             className="h-20 rounded-2xl bg-slate-600"

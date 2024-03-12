@@ -53,7 +53,7 @@ const Showcase: FC<ShowcaseProps> = ({
       exit={{ opacity: 0 }}
     >
       <motion.div className={"flex flex-col w-[80%] lg:w-[80%] mx-auto"}>
-        <div className="flex my-8 items-center justify-between text-white z-50 flex-wrap gap-2">
+        <div className="z-50 flex flex-wrap items-center justify-between gap-2 my-8 text-white">
           <div className="flex items-center">
             <Image
               className="ml-3 rounded-2xl bg-slate-700 w-14 h-14"
@@ -71,7 +71,7 @@ const Showcase: FC<ShowcaseProps> = ({
               </span>
             </div>
           </div>
-          <ActionBar className='flex gap-2 flex-wrap'>
+          <ActionBar className='flex flex-wrap gap-2'>
             <Link href={`app${path}/${selectedShowcase?.slug}`} replace={false}>
               <SquareButton className='lg:w-32'>
                 <SquareButton.Title className='md:w-[70%] w-[40%] text-xs'>Open Application</SquareButton.Title>
@@ -119,7 +119,7 @@ const Showcase: FC<ShowcaseProps> = ({
                 ImageDownloader(selectedShowcase.name + ' Showcase', selectedShowcase.screens)
               }}
             >
-              <SquareButton.Title className=' text-xs'>Download Showcase</SquareButton.Title>
+              <SquareButton.Title className='text-xs '>Download Showcase</SquareButton.Title>
               <SquareButton.Icon>
                 <Icons.Download />
               </SquareButton.Icon>
