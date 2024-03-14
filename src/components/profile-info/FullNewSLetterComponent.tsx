@@ -1,4 +1,3 @@
-import { useState } from "react";
 import SystemNewsLetterComponent from "./SystemNewsLetterComponent";
 
 interface FullNewSLetterComponentProps {
@@ -11,9 +10,6 @@ const FullNewSLetterComponent: React.FC<FullNewSLetterComponentProps> = ({
   userArr,
   addNewsLetter,
 }) => {
-  const [newsLetterUpdated, setNewsLetterUpdated] = useState(false);
-  const [openVideo, setOpenVideo] = useState(false);
-
   return (
     <div className=" grid grid-cols-2 gap-x-12 gap-y-4 mt-5">
       {newsLetter?.map((el) => (
@@ -22,6 +18,7 @@ const FullNewSLetterComponent: React.FC<FullNewSLetterComponentProps> = ({
           id={el?.id}
           name={el?.attributes.name}
           addNewsLetter={addNewsLetter}
+          userArr={userArr}
         />
       ))}
     </div>
