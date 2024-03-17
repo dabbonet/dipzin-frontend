@@ -32,19 +32,17 @@ export const useProfileInformation = (newsLetter) => {
         });
         const data = await response.json();
         if (response.ok) {
-          setUserDetails({
-            name: data.name || "",
-            username: data.username || "",
-            file: null,
-            src: data.image || "",
-          });
-          setUserCopyState({
-            username: data.username || "",
-            name: data.name || "",
-          });
+          setUserDetails(data.data);
+          if (data.data.username) {
+            setUserCopyState({
+              username: data.data.username,
+              name: data.data.name,
+            });
+          }
         }
       } catch (error) {
-        toast.error("Error fetching data");
+        toast.remove();
+        toast.error("error fetch data");
       }
     };
 
@@ -52,24 +50,32 @@ export const useProfileInformation = (newsLetter) => {
   }, []);
 
   const handleChange = (event) => {
-    const { id, value, files } = event.target;
-    if (files && files[0] && id === "file") {
+    const { id, value, files, src } = event.target;
+    if (id === "image") {
+      setUserDetails({
+        ...userDetails,
+        src: src,
+      });
+      return;
+    }
+    if (id === "label") {
       const file = files[0];
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setUserDetails((prevDetails) => ({
-          ...prevDetails,
-          file: file,
-          src: reader.result,
-        }));
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setUserDetails((prevDetails) => ({
-        ...prevDetails,
-        [id]: value,
-      }));
+      if (file) {
+        reader.onloadend = () => {
+          setUserDetails({
+            ...userDetails,
+            file: files[0],
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+      return;
     }
+    setUserDetails({
+      ...userDetails,
+      [id]: value,
+    });
   };
 
   const addNewsLetter = (id) => {
@@ -83,64 +89,69 @@ export const useProfileInformation = (newsLetter) => {
   const submitForm = async (e) => {
     e.preventDefault();
     if (
-      userDetails.name === userCopyState.name &&
-      userDetails.username === userCopyState.username &&
-      !userDetails.file
+      userDetails?.name !== "" &&
+      userDetails?.username !== "" &&
+      userDetails?.name === userCopyState?.name &&
+      userDetails?.username === userCopyState?.username &&
+      !userDetails?.file
     ) {
       setProfileUpdated(true);
+      setNewsLetterUpdated(true);
       return;
     }
-
     try {
       let formData = new FormData();
-      formData.append("name", userDetails.name);
+      formData.append("auth", getToken());
+      formData.append("id", user.id);
       formData.append("username", userDetails.username);
+      formData.append("name", userDetails.name);
       if (userDetails.file) {
         formData.append("file", userDetails.file);
       }
+      const [updateResponse, newsLetterResponse] = await Promise.all([
+        // TODO: add avatar to this body
+        fetch(`/api/account/update`, {
+          method: "POST",
+          body: formData,
+        }),
 
-      // Update user details
-      const updateUserResponse = await fetch("/api/account/update", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
-
-      // Update newsletter subscriptions
-      const updateNewsletterResponse = await fetch(
-        "/api/user-system-news-letters",
-        {
+        fetch("/api/user-system-news-letters", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`,
           },
-          body: JSON.stringify({ news_letters: userArr }),
-        }
-      );
-
-      const [updateUser, updateNewsletter] = await Promise.all([
-        updateUserResponse.json(),
-        updateNewsletterResponse.json(),
+          body: JSON.stringify({
+            data: {
+              news_letters: userArr,
+              auth: getToken(),
+            },
+          }),
+        }),
       ]);
-
-      if (updateUserResponse.ok && updateNewsletterResponse.ok) {
-        setProfileUpdated(true);
-        setNewsLetterUpdated(true);
-        router.push("/profile/personalize");
+      const [updateData, newsLetterData] = await Promise.all([
+        updateResponse.json(),
+        newsLetterResponse.json(),
+      ]);
+      console.log(updateData, newsLetterData);
+      if (!updateResponse.ok) {
+        toast.remove();
+        if (profileUpdated === false) {
+          toast.error(updateData.message);
+        }
       } else {
-        toast.error(updateUser.message || "Failed to update profile");
-        toast.error(
-          updateNewsletter.message || "Failed to update newsletter preferences"
-        );
+        setProfileUpdated(true);
+      }
+      if (!newsLetterResponse.ok) {
+        toast.remove();
+        toast.error("Unable to process the data!");
+      } else {
+        setNewsLetterUpdated(true);
       }
     } catch (error) {
-      toast.error("An error occurred while updating profile information");
+      toast.remove();
+      toast.error("Something went wrong");
     }
   };
-
   return {
     userDetails,
     setUserDetails,

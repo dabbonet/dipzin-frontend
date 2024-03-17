@@ -13,7 +13,7 @@ const SystemNewsLetterComponent: React.FC<SystemNewsLetterComponentProps> = ({
 }) => {
   const isChecked = userArr.includes(id);
   return (
-    <div className=" flex gap-2  items-center">
+    <div className="flex gap-2 items-center">
       <input
         onClick={addNewsLetter}
         type="checkbox"

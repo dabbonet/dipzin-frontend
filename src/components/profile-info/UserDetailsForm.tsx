@@ -1,6 +1,6 @@
-// components/UserDetailsForm.tsx
 import React from "react";
 import Icons from "../../components/icons/Icons";
+import FullNewSLetterComponent from "./FullNewSLetterComponent";
 
 interface UserDetailsFormProps {
   userDetails: {
@@ -11,12 +11,19 @@ interface UserDetailsFormProps {
   };
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  // Add new props here
+  newsLetter: any[];
+  userArr: number[];
+  addNewsLetter: (event: React.MouseEvent<HTMLInputElement>) => void;
 }
 
 const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
   userDetails,
   onChange,
   onSubmit,
+  newsLetter,
+  userArr,
+  addNewsLetter,
 }) => {
   return (
     <form action="" onSubmit={onSubmit}>
@@ -81,7 +88,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
           type="text"
           onChange={onChange}
           id="username"
-          value={userDetails.username}
+          value={userDetails.username || ""}
           placeholder="@dipzin"
           className=" bg-slate-950/70 border border-solid border-slate-800 rounded-xl px-4 py-3"
         />
@@ -93,6 +100,13 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
         <p className=" text-slate-500 font-medium text-xs">
           Choose type of notifications you want to receive
         </p>
+        {/* System NewsLetter Component */}
+        {/* You should handle this logic in the appropriate place, for instance, inside the UserDetailsForm or as a separate section */}
+        <FullNewSLetterComponent
+          newsLetter={newsLetter}
+          userArr={userArr}
+          addNewsLetter={addNewsLetter}
+        />
       </div>
       <div className=" flex justify-end gap-x-4">
         <button
