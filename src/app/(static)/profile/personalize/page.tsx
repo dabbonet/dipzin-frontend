@@ -1,4 +1,4 @@
-import { Personalize } from "@/components/personalize/Personalize";
+import { Personalize } from "@/components/personalize";
 
 export default async function Page() {
   const { positionsRes, interestsRes } = await getNewsLetter();
