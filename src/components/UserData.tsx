@@ -253,36 +253,42 @@ const UserData = () => {
                                     id="image"
                                     onClick={handleChange}
                                     className=" cursor-pointer"
+                                    alt=""
                                   />
                                   <img
                                     src="/images/assets/manager2.png"
                                     id="image"
                                     onClick={handleChange}
                                     className=" cursor-pointer"
+                                    alt=""
                                   />
                                   <img
                                     src="/images/assets/manager3.png"
                                     id="image"
                                     onClick={handleChange}
                                     className=" cursor-pointer"
+                                    alt=""
                                   />
                                   <img
                                     src="/images/assets/manager4.png"
                                     id="image"
                                     onClick={handleChange}
                                     className=" cursor-pointer"
+                                    alt=""
                                   />
                                   <img
                                     src="/images/assets/manager5.png"
                                     id="image"
                                     onClick={handleChange}
                                     className=" cursor-pointer"
+                                    alt=""
                                   />
                                   <img
                                     src="/images/assets/manager6.png"
                                     id="image"
                                     onClick={handleChange}
                                     className=" cursor-pointer"
+                                    alt=""
                                   />
                                 </div>
                               </div>
@@ -298,6 +304,7 @@ const UserData = () => {
                                           src={userDetails.image}
                                           className="w-full h-full object-cover"
                                           id="image"
+                                          alt=""
                                         />
                                       ) : (
                                         <Icons.addImage className="absolute bottom-2 right-2" />

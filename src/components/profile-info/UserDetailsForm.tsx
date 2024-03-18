@@ -39,6 +39,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({
                   src={userDetails.src}
                   className="w-full h-full object-cover"
                   id="image"
+                  alt="user details"
                 />
               ) : (
                 <Icons.addImage className="absolute bottom-2 right-2" />
