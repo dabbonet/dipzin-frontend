@@ -2,7 +2,6 @@
 import ScreenActions from "@/app/(static)/app/[platform]/[slug]/ScreenActions";
 import ScreenDetails from "@/components/ScreenDetails";
 import SingleScreen, { mergeScreenUrl } from "@/components/screen/SingleScreen";
-import Image from "next/image";
 import { useContentDiscovery } from "@/context/useContentDiscovery";
 import { useDialog } from "@/context/useDialog";
 import { useNavigator } from "@/context/useNavigatiorContext";
@@ -15,27 +14,27 @@ import React, { useEffect, useState, useCallback } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 import { AnimatePresence, motion } from "framer-motion";
 import Screen from "@/components/ui/Screen";
-import Icons from "@/components/icons/Icons";
 import AppActions from "@/app/(static)/app/[platform]/[slug]/AppActions";
+import { useSearchData } from "@/hooks/useSearchData";
+import useLockBodyScroll from "@/hooks/useLockBodyScroll";
 
-export default function SearchPage() {
-  const [data, setdata] = useState([]);
+const SearchPage = () => {
   const [openScreen, setOpenScreen] = useState<any | null>();
   const params = useSearchParams();
-  const keyword = params.get("q");
+  const keyword = params.get("q") || "";
   const components = params.getAll("component");
   const tag = params.getAll("tag");
   const category = params.getAll("category");
   const path = usePathname();
   const { selectedImages, setSelectedImages } = useSelcetedImages();
   const { setActiveView, setActiveControls } = useNavigator();
-  const [isLoading, setIsLoading] = useState(true);
   const { setSingleApp } = usePlatform();
   const { showDialog, DIALOG_ENUM } = useDialog();
   const id = path.split("/search/")[1];
   const platform = getPlatformById(id);
-  let filterQuery = `platform = ${platform}`;
+  let filterQuery = `platform=${platform}`;
 
+  useLockBodyScroll(!!openScreen);
   useEffect(() => {
     if (Array.isArray(components) && components.length > 0) {
       filterQuery =
@@ -107,71 +106,33 @@ export default function SearchPage() {
     };
   }, []);
 
-  useEffect(() => {
-    async function getData() {
-      const req = await fetch("/api/search/get-screens", {
-        method: "POST",
-        body: JSON.stringify({
-          token: getToken(),
-          keyword,
-          filters: filterQuery,
-        }),
-      });
-      const res = await req.json();
-      setdata(res.screens);
-    }
-    getData();
-  }, [params]);
+  const { data, isLoading, loadMore } = useSearchData({ keyword, filterQuery });
 
-  const loadMore = useCallback(() => {
-    return setTimeout(async () => {
-      setIsLoading(true);
-      // Load more stream items
-      async function getData() {
-        const req = await fetch("/api/search/get-screens", {
-          method: "POST",
-          body: JSON.stringify({
-            token: getToken(),
-            keyword,
-            filters: filterQuery,
-            offset: data?.length,
-            limit: 10,
-          }),
-        });
-        const res = await req.json();
-        const shuffledData = shuffle(res.screens);
-        setdata((prev) => [...prev, ...shuffledData]);
-      }
-      getData();
-      setIsLoading(false);
-    }, 500);
-  }, [data]);
-  if (data?.length === 0)
-    return (
-      <div className=" w-full h-full flex justify-center items-center">
-        there is no screens with this filters
-      </div>
-    );
   return (
     <main className="w-full flex flex-col items-center">
-      {data !== null && data?.length !== 0 && (
+      {!isLoading && data.length === 0 ? (
+        <div className="w-full h-full flex justify-center items-center">
+          There are no screens with these filters.
+        </div>
+      ) : (
         <VirtuosoGrid
           className="mt-6 max-w-[90%] mx-auto"
           useWindowScroll
           endReached={loadMore}
-          data={data && data}
+          data={data}
           style={{ minHeight: 100, width: "100%" }}
           listClassName={cn(
             "grid content-center gap-6 pt-0 grid-cols-2",
             +platform === 3
               ? "2xl:grid-cols-3 md:grid-cols-3"
-              : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-4"
+              : " 2xl:grid-cols-5 md:grid-cols-4"
           )}
           totalCount={data && data?.length}
           overscan={10}
           itemContent={(index, data) => {
             return (
               <SingleScreen
+                key={data.id}
                 screen={data?.screen}
                 appName={data.app.name}
                 tagLine={data.app.tag_line}
@@ -225,4 +186,5 @@ export default function SearchPage() {
       </AnimatePresence>
     </main>
   );
-}
+};
+export default SearchPage;
