@@ -91,5 +91,5 @@ export const getMetadataForPlatform = (platform) => {
     ...platformSpecificMetadata[platform.toLowerCase()],
   };
 };
-
+export const iosMetadata = getMetadataForPlatform("ios");
 export default defaultMetadata;
