@@ -9,18 +9,17 @@ interface Platform {
 }
 
 interface PlatformContextInterface {
-  platforms: Platform[]
-  selected: number
-  setSelected: (selected: number) => void
-  setPlatforms: (ids: any) => void
-  singleApp: string
-  setSingleApp: (single: string) => void,
-  slug: any,
-  isMobile: boolean,
+  platforms: Platform[];
+  selected: number;
+  setSelected: (selected: number) => void;
+  setPlatforms: (ids: any) => void;
+  singleApp: string;
+  setSingleApp: (single: string) => void;
+  slug: any;
+  isMobile: boolean;
 }
 
 const PlatformContext = createContext<PlatformContextInterface>(null!);
-
 
 const PlatformProvider: FC<any> = ({ children }) => {
   const allPlatforms: Platform[] = [
@@ -39,25 +38,22 @@ const PlatformProvider: FC<any> = ({ children }) => {
   ];
   const [platforms, setPlatforms] = useState<Platform[]>([]);
   const [selected, setSelected] = useState<number>(0);
-  const [singleApp, setSingleApp] = useState<string>('');
+  const [singleApp, setSingleApp] = useState<string>("");
 
   const setPlatformsWithIds = (ids: number[]) => {
-
     const selectedPlatforms = ids.map((id) =>
       allPlatforms.find((platform) => platform.id === id)
     );
 
-    setPlatforms(
-      selectedPlatforms
-    );
+    setPlatforms(selectedPlatforms);
   };
 
   const slug = () => {
-    const platform = platforms.find(el => el.id === selected);
-    return platform ? platform.name.toLocaleLowerCase() : '';
-  }
+    const platform = platforms.find((el) => el.id === selected);
+    return platform ? platform.name.toLocaleLowerCase() : "";
+  };
 
-  const isMobile = useMediaQuery({ query: '(max-width: 1224px)' });
+  const isMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
   return (
     <PlatformContext.Provider
@@ -69,7 +65,7 @@ const PlatformProvider: FC<any> = ({ children }) => {
         singleApp,
         setSingleApp,
         slug,
-        isMobile
+        isMobile,
       }}
     >
       {children}
@@ -78,7 +74,5 @@ const PlatformProvider: FC<any> = ({ children }) => {
 };
 
 export default PlatformProvider;
-
-
 
 export const usePlatform = () => useContext(PlatformContext);
