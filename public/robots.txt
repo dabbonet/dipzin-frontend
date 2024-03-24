@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /profile/
+
+Sitemap: https://dipzin.com/sitemap.xml
