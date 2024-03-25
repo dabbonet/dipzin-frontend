@@ -6,21 +6,11 @@
 //     }));
 // }
 
-export default function Layout({
-    params: { slug, platform },
-    children
-}: {
-    params: {
-        slug: string,
-        platform: string
-    },
-    children: React.ReactNode
-}) {
-    return (
-        <>
-            <div className="max-w-[92%] mx-auto">
-                {children}
-            </div>
-        </>
-    )
-}
+const layout = ({ children }) => {
+  return (
+    <>
+      <div className="max-w-[92%] mx-auto">{children}</div>
+    </>
+  );
+};
+export default layout;
