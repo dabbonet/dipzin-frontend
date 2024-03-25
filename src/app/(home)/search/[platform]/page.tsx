@@ -17,7 +17,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import Screen from "@/components/ui/Screen";
 import Icons from "@/components/Icons";
 import AppActions from "@/app/(static)/app/[platform]/[slug]/AppActions";
-import Head from "next/head";
 import defaultMetadata from "@/utils/metadata";
 
 export default function SearchPage() {
@@ -37,19 +36,7 @@ export default function SearchPage() {
   const id = path.split("/search/")[1];
   const platform = getPlatformById(id);
   let filterQuery = `platform = ${platform}`;
-  // const searchMetadata = {
-  //   ...defaultMetadata,
-  //   title: `Search Results - ${defaultMetadata.title}`,
-  //   description: `Search results page - ${defaultMetadata.description}`,
-  //   openGraph: {
-  //     ...defaultMetadata.openGraph,
-  //     url: "https://dipzin.com/search", // You might dynamically set this based on the current search
-  //   },
-  //   twitter: {
-  //     ...defaultMetadata.twitter,
-  //     title: `Search Results - ${defaultMetadata.twitter.title}`,
-  //   },
-  // };
+
   useEffect(() => {
     // ...fetching data and other side effects
 
