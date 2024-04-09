@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 'use client'
 import ScreenActions from '@/app/(static)/app/[platform]/[slug]/ScreenActions'
 import ScreenDetails from '@/components/ScreenDetails'
@@ -20,29 +19,6 @@ import Icons from '@/components/Icons'
 import AppActions from '@/app/(static)/app/[platform]/[slug]/AppActions'
 
 
-=======
-"use client";
-import ScreenActions from "@/app/(static)/app/[platform]/[slug]/ScreenActions";
-import ScreenDetails from "@/components/ScreenDetails";
-import SingleScreen, { mergeScreenUrl } from "@/components/screen/SingleScreen";
-import Image from "next/image";
-import { useContentDiscovery } from "@/context/useContentDiscovery";
-import { useDialog } from "@/context/useDialog";
-import { useNavigator } from "@/context/useNavigatiorContext";
-import { useSelcetedImages } from "@/lib/SelectedToDownload";
-import { getToken } from "@/lib/auth";
-import { usePlatform } from "@/context/usePlatforms";
-import { cn, getPlatformById, shuffle } from "@/lib/utils";
-import { usePathname, useSearchParams } from "next/navigation";
-import React, { useEffect, useState, useCallback } from "react";
-import { VirtuosoGrid } from "react-virtuoso";
-import { AnimatePresence, motion } from "framer-motion";
-import Screen from "@/components/ui/Screen";
-import Icons from "@/components/Icons";
-import AppActions from "@/app/(static)/app/[platform]/[slug]/AppActions";
-import Head from "next/head";
-import defaultMetadata from "@/utils/metadata";
->>>>>>> parent of 6841adc (searching for solution to Dynamic SEO for App page)
 
 export default function SearchPage() {
 
@@ -59,63 +35,9 @@ export default function SearchPage() {
   const [isLoading, setIsLoading] = useState(true);
   const { setSingleApp } = usePlatform()
   const { showDialog, DIALOG_ENUM } = useDialog();
-<<<<<<< HEAD
   const id = path.split('/search/')[1]
   const platform = getPlatformById(id)
   let filterQuery = `platform = ${platform}`
-=======
-  const id = path.split("/search/")[1];
-  const platform = getPlatformById(id);
-  let filterQuery = `platform = ${platform}`;
-  // const searchMetadata = {
-  //   ...defaultMetadata,
-  //   title: `Search Results - ${defaultMetadata.title}`,
-  //   description: `Search results page - ${defaultMetadata.description}`,
-  //   openGraph: {
-  //     ...defaultMetadata.openGraph,
-  //     url: "https://dipzin.com/search", // You might dynamically set this based on the current search
-  //   },
-  //   twitter: {
-  //     ...defaultMetadata.twitter,
-  //     title: `Search Results - ${defaultMetadata.twitter.title}`,
-  //   },
-  // };
-  useEffect(() => {
-    // ...fetching data and other side effects
-
-    // Now let's handle the metadata update
-    const updateMetadata = () => {
-      // Construct new title and description using defaultMetadata as a base
-      const searchTerms = [keyword, ...components, ...tag, ...category]
-        .filter(Boolean)
-        .join(", ");
-      const newTitle = searchTerms
-        ? `Results for ${searchTerms} - Dipzin`
-        : defaultMetadata.title;
-      const newDescription = searchTerms
-        ? `Discover design inspirations for ${searchTerms} on Dipzin.`
-        : defaultMetadata.description;
-
-      // Now set the title and meta tags
-      document.title = newTitle;
-      document
-        .querySelector('meta[name="description"]')
-        .setAttribute("content", newDescription);
-
-      // If you need to update Open Graph / Twitter tags, uncomment and update these lines
-      document
-        .querySelector('meta[property="og:title"]')
-        .setAttribute("content", newTitle);
-      document
-        .querySelector('meta[property="og:description"]')
-        .setAttribute("content", newDescription);
-      // document.querySelector('meta[name="twitter:title"]').setAttribute("content", newTitle);
-      // document.querySelector('meta[name="twitter:description"]').setAttribute("content", newDescription);
-    };
-
-    updateMetadata();
-  }, [keyword, components, tag, category]);
->>>>>>> parent of 6841adc (searching for solution to Dynamic SEO for App page)
 
   useEffect(() => {
     if (Array.isArray(components) && components.length > 0) {
@@ -130,7 +52,7 @@ export default function SearchPage() {
       filterQuery = filterQuery + ` AND app.categories IN [${category.map(el => `'${el}'`).join(',')}]`;
     }
     const token = getToken()
-    if (!token) { showDialog(DIALOG_ENUM.ACCESS);}
+    if (!token) { showDialog(DIALOG_ENUM.ACCESS); }
   }, [])
 
 
