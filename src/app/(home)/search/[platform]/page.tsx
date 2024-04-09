@@ -17,6 +17,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Screen from '@/components/ui/Screen'
 import Icons from '@/components/Icons'
 import AppActions from '@/app/(static)/app/[platform]/[slug]/AppActions'
+import Head from 'next/head'
 
 
 
@@ -38,6 +39,23 @@ export default function SearchPage() {
   const id = path.split('/search/')[1]
   const platform = getPlatformById(id)
   let filterQuery = `platform = ${platform}`
+
+  useEffect(() => {
+    // Generate a description based on the search keyword, filters, and tags
+    let description = `Dipzin search results for ${keyword}`
+    if (components.length > 0) {
+      description += ` with components: ${components.join(', ')}`
+    }
+    if (tag.length > 0) {
+      description += ` and tags: ${tag.join(', ')}`
+    }
+    if (category.length > 0) {
+      description += ` in categories: ${category.join(', ')}`
+    }
+
+    document.title = description
+
+  }, [keyword, components, tag, category])
 
   useEffect(() => {
     if (Array.isArray(components) && components.length > 0) {
@@ -146,76 +164,81 @@ export default function SearchPage() {
   }, [data]);
   if (data?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
   return (
-    <main className="w-full flex flex-col items-center">
-      {data !== null && data?.length !== 0 &&
-        <VirtuosoGrid
-          className="mt-6 max-w-[90%] mx-auto"
-          useWindowScroll
-          endReached={loadMore}
-          data={data && data}
-          style={{ minHeight: 100, width: "100%" }}
-          listClassName={cn(
-            "grid content-center gap-6 pt-0 grid-cols-2",
-            +platform === 3
-              ? "2xl:grid-cols-3 md:grid-cols-3"
-              : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-4"
-          )}
-          totalCount={data && data?.length}
-          overscan={10}
-          itemContent={(index, data) => {
-            return (
-              <SingleScreen screen={data?.screen} appName={data.app.name} tagLine={data.app.tag_line} setOpen={() => setOpenScreen(data)} icon={data.app.icon} />
-            );
-          }}
-          components={{
-            Footer: () => {
+    <>
+      <Head>
+        <title>Search results for {keyword}</title>
+      </Head>
+      <main className="w-full flex flex-col items-center">
+        {data !== null && data?.length !== 0 &&
+          <VirtuosoGrid
+            className="mt-6 max-w-[90%] mx-auto"
+            useWindowScroll
+            endReached={loadMore}
+            data={data && data}
+            style={{ minHeight: 100, width: "100%" }}
+            listClassName={cn(
+              "grid content-center gap-6 pt-0 grid-cols-2",
+              +platform === 3
+                ? "2xl:grid-cols-3 md:grid-cols-3"
+                : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-4"
+            )}
+            totalCount={data && data?.length}
+            overscan={10}
+            itemContent={(index, data) => {
               return (
-                <>
-                  <div
-                    className="pt-10 pb-48 text-center text-slate-500"
-                  >
-                    {isLoading &&
-                      "Loading More"
-                    }
-                    {!isLoading &&
-                      "End Reached"
-                    }
-                  </div>
-                </>
-              )
-            },
-          }}
-        />
+                <SingleScreen screen={data?.screen} appName={data.app.name} tagLine={data.app.tag_line} setOpen={() => setOpenScreen(data)} icon={data.app.icon} />
+              );
+            }}
+            components={{
+              Footer: () => {
+                return (
+                  <>
+                    <div
+                      className="pt-10 pb-48 text-center text-slate-500"
+                    >
+                      {isLoading &&
+                        "Loading More"
+                      }
+                      {!isLoading &&
+                        "End Reached"
+                      }
+                    </div>
+                  </>
+                )
+              },
+            }}
+          />
 
-      }
-      <AnimatePresence>
-        {openScreen && (
-          <>
-            <motion.div
-              className="fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <ScreenActions appName={openScreen.app.name} screen={openScreen.screen} />
-              <motion.div className="flex flex-wrap justify-center items-center z-[100] w-fit mx-auto h-full gap-10 relative" >
-                <ScreenDetails screenId={openScreen.id} />
-                <Screen
-                  src={openScreen.screen}
-                  quality={50}
-                  className="rounded-2xl h-[90%] w-auto bg-slate-900/80"
-                />
-              </motion.div>
+        }
+        <AnimatePresence>
+          {openScreen && (
+            <>
               <motion.div
-                onClick={() => setOpenScreen(null)}
-                className={
-                  "w-[100%] h-[100%] fixed top-0 bg-transparent"
-                }
-              ></motion.div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </main>
+                className="fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <ScreenActions appName={openScreen.app.name} screen={openScreen.screen} />
+                <motion.div className="flex flex-wrap justify-center items-center z-[100] w-fit mx-auto h-full gap-10 relative" >
+                  <ScreenDetails screenId={openScreen.id} />
+                  <Screen
+                    src={openScreen.screen}
+                    quality={50}
+                    className="rounded-2xl h-[90%] w-auto bg-slate-900/80"
+                  />
+                </motion.div>
+                <motion.div
+                  onClick={() => setOpenScreen(null)}
+                  className={
+                    "w-[100%] h-[100%] fixed top-0 bg-transparent"
+                  }
+                ></motion.div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </main>
+    </>
   )
 }
