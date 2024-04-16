@@ -52,7 +52,7 @@ export default function SearchPage() {
       filterQuery = filterQuery + ` AND app.categories IN [${category.map(el => `'${el}'`).join(',')}]`;
     }
     const token = getToken()
-    if (!token) { showDialog(DIALOG_ENUM.ACCESS);}
+    if (!token) { showDialog(DIALOG_ENUM.ACCESS); }
   }, [])
 
 
