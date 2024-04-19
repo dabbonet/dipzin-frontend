@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Search from './search';
 import Menu from './menu';
 import Icons from '@/components/Icons';
-import { useContentDiscovery } from '@/context/useContentDiscovery';
 import { cn } from '@/lib/utils';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useSelcetedImages } from '@/lib/SelectedToDownload';
@@ -14,16 +13,17 @@ import PlatformSwitcher from '@/components/PlatformSwitcher';
 import { usePathname } from 'next/navigation';
 import { useResponsive } from '@/context/useResponsive';
 import SmallSearchBar from './SmallSearchBar';
+import { useSearchContext } from '@/context/SearchContext';
 
 
 const MainNavigator = ({ type }: any) => {
     const { activeView, setActiveView, activeControls, setActiveControls } = useNavigator()
     const { selectedImages, setSelectedImages } = useSelcetedImages()
-    const { filters, setFilters, searchKeyword, setSearchKeyword } = useContentDiscovery();
+    const { searchKeyword, setSearchKeyword, filters, setFilters } = useSearchContext();
     const inputRef = useRef(null)
     const searchButton = useRef(null)
     const path = usePathname()
-    const { isMobile, isTablet} = useResponsive();
+    const { isMobile, isTablet } = useResponsive();
 
 
     // Logic to handle if user clicks outside of the navigator
@@ -35,7 +35,7 @@ const MainNavigator = ({ type }: any) => {
                 }
             }
             // Bind the event listener
-            (!isMobile &&!isTablet)&&document.addEventListener("mousedown", handleClickOutside);
+            (!isMobile && !isTablet) && document.addEventListener("mousedown", handleClickOutside);
             return () => {
                 // Unbind the event listener on clean up
                 document.removeEventListener("mousedown", handleClickOutside);
@@ -63,7 +63,7 @@ const MainNavigator = ({ type }: any) => {
     const removeFilter = () => {
         setFilters([])
     }
-    if(isMobile || isTablet) return <SmallSearchBar/>
+    if (isMobile || isTablet) return <SmallSearchBar />
 
     if (activeControls === '') return
     return (
@@ -79,19 +79,19 @@ const MainNavigator = ({ type }: any) => {
                             <div className=' flex gap-x-20 flex-wrap justify-center w-fit items-center bg-slate-900 rounded-full pl-5 py-1'>
                                 <div className=' flex items-center text-xs md:text-base'>{selectedImages.images.length} selected <button className=' ml-2' onClick={() => setSelectedImages({ appName: '', images: [] })}><Icons.Clear /></button></div>
                                 <div className='pr-3'>
-                                    <button className=' md:py-1 md:px-3 px-1 py-1 rounded-2xl bg-slate-700 text-xs md:text-base flex items-center gap-1' onClick={() => ImageDownloader(selectedImages.appName + " Showcase", selectedImages.images)}><Icons.Download className=' w-4 h-4'/> Download</button>
+                                    <button className=' md:py-1 md:px-3 px-1 py-1 rounded-2xl bg-slate-700 text-xs md:text-base flex items-center gap-1' onClick={() => ImageDownloader(selectedImages.appName + " Showcase", selectedImages.images)}><Icons.Download className=' w-4 h-4' /> Download</button>
                                 </div>
                             </div>
                         )}
                     </motion.div>
                 </motion.div >
             </div >
- 
 
-        { (isMobile || isTablet) && <SmallSearchBar /> }
 
-                      
-         <div className={cn('relative w-fit', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
+            {(isMobile || isTablet) && <SmallSearchBar />}
+
+
+            <div className={cn('relative w-fit', activeView == 'search' ? 'bg-slate-950 rounded-2xl p-3' : '')}>
 
                 <div className='flex flex-col md:flex-row items-center w-full bg-slate-900 rounded-full'>
                     {(activeControls == 'menu-search') && (
