@@ -13,7 +13,6 @@ import ScreenActions from "./ScreenActions";
 import ScreenDetails from "@/components/ScreenDetails";
 import { useNavigator } from "@/context/useNavigatiorContext";
 import { useSelcetedImages } from "@/lib/SelectedToDownload";
-import useKeyboardNavigation from "@/hooks/useKeyboardNavigation";
 
 interface ContentProps {
   apps: any;
@@ -54,14 +53,6 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   const icon = app.icon.data.attributes.hash + app.icon.data.attributes.ext;
   const categoryName = app.categories.data[0].attributes.name;
   const screens = app.screens.data;
-
-  const activeScreenIndex = useKeyboardNavigation(screens.length);
-
-  useEffect(() => {
-    if (openScreen) {
-      setOpenScreen(screens[activeScreenIndex]);
-    }
-  }, [activeScreenIndex, screens]);
 
   if (!icon || !screens || !categoryName || !app) {
     notFound()
