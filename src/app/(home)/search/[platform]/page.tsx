@@ -17,12 +17,12 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Screen from '@/components/ui/Screen'
 import Icons from '@/components/Icons'
 import AppActions from '@/app/(static)/app/[platform]/[slug]/AppActions'
+import StreamLoader from '@/components/StreamLoader'
 
 
 
 export default function SearchPage() {
 
-  const [data, setdata] = useState([])
   const [openScreen, setOpenScreen] = useState<any | null>();
   const params = useSearchParams()
   const keyword = params.get('q')
@@ -52,7 +52,7 @@ export default function SearchPage() {
       filterQuery = filterQuery + ` AND app.categories IN [${category.map(el => `'${el}'`).join(',')}]`;
     }
     const token = getToken()
-    if (!token) { showDialog(DIALOG_ENUM.ACCESS);}
+    if (!token) { showDialog(DIALOG_ENUM.ACCESS); }
   }, [])
 
 
@@ -62,7 +62,7 @@ export default function SearchPage() {
     }
   }, [selectedImages])
 
-  const { setSearchKeyword, setFilters } = useContentDiscovery();
+  const { streamData, setStreamData, setSearchKeyword, setFilters } = useContentDiscovery();
   const { setSelected, setPlatforms } = usePlatform();
 
   useEffect(() => {
@@ -106,6 +106,7 @@ export default function SearchPage() {
 
   useEffect(() => {
     async function getData() {
+      setIsLoading(true)
       const req = await fetch('/api/search/get-screens', {
         method: 'POST',
         body: JSON.stringify({
@@ -115,11 +116,34 @@ export default function SearchPage() {
         })
       })
       const res = await req.json()
-      setdata(res.screens)
+      const shuffledData = shuffle(res.screens)
+      setStreamData(shuffledData)
     }
+    setIsLoading(false)
     getData()
   }, [params])
 
+  const updateStream = async () => {
+    setIsLoading(true)
+    const req = await fetch('/api/search/get-screens', {
+      method: 'POST',
+      body: JSON.stringify({
+        token: getToken(),
+        keyword,
+        filters: filterQuery
+      })
+    })
+    const res = await req.json()
+    const shuffledData = shuffle(res.screens)
+    setStreamData(shuffledData)
+  }
+
+  useEffect(() => {
+    if (streamData.length === 0) {
+      updateStream();
+    }
+    setIsLoading(false)
+  }, [streamData]);
 
   const loadMore = useCallback(() => {
     return setTimeout(async () => {
@@ -132,27 +156,35 @@ export default function SearchPage() {
             token: getToken(),
             keyword,
             filters: filterQuery,
-            offset: data?.length,
+            offset: streamData?.length,
             limit: 10
           })
         })
         const res = await req.json()
         const shuffledData = shuffle(res.screens)
-        setdata(prev => [...prev, ...shuffledData])
+        setStreamData(prev => [...prev, ...shuffledData])
       }
       getData()
       setIsLoading(false)
     }, 500);
-  }, [data]);
-  if (data?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
+  }, [streamData]);
+
+  if (!isLoading && streamData?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
+
+  if (streamData.length <= 0 || isLoading) return (
+    <div className=' w-[92%] h-full'>
+      <StreamLoader />
+    </div>
+  )
+
   return (
     <main className="w-full flex flex-col items-center">
-      {data !== null && data?.length !== 0 &&
+      {streamData !== null && streamData?.length !== 0 &&
         <VirtuosoGrid
           className="mt-6 max-w-[90%] mx-auto"
           useWindowScroll
           endReached={loadMore}
-          data={data && data}
+          data={streamData && streamData}
           style={{ minHeight: 100, width: "100%" }}
           listClassName={cn(
             "grid content-center gap-6 pt-0 grid-cols-2",
@@ -160,7 +192,7 @@ export default function SearchPage() {
               ? "2xl:grid-cols-3 md:grid-cols-3"
               : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-4"
           )}
-          totalCount={data && data?.length}
+          totalCount={streamData && streamData?.length}
           overscan={10}
           itemContent={(index, data) => {
             return (
