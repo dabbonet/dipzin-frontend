@@ -13,18 +13,22 @@ export const MenuDropdown = ({ screen: screen }) => {
   const image = mergeScreenUrl(screen);
   const downloadScreen = async () => {
 
-   
-      // showDialog(DIALOG_ENUM.UPGRADE_AD, 'Upgrade and get access to exclusive features')
-      setTimeout(() => {
-        image && downloadImage("image " + screen, image);
-      }, 5000)
-    showDialog(DIALOG_ENUM.ACCESS, 'Login to use this features');
+
+    // showDialog(DIALOG_ENUM.UPGRADE_AD, 'Upgrade and get access to exclusive features')
+    setTimeout(() => {
+      image && downloadImage("image " + screen, image);
+    }, 5000)
+
+    if (!user) {
+      showDialog(DIALOG_ENUM.ACCESS, 'Login to use this features');
+    }
+
   }
   return (
     <div className="absolute top-16 right-4 bg-slate-900 p-2.5 w-48 z-50  rounded-xl invisible group-hover/item:visible">
       <DropdownCell
         onClick={async () => {
-          await copyImagesToClipboard([image]);
+          await copyImagesToClipboard([getAssetsURL(image)]);
         }}
       >
         <Icons.Thumbnail className="w-5 h-5" />

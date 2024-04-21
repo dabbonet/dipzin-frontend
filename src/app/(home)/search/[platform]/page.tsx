@@ -172,7 +172,7 @@ export default function SearchPage() {
   if (!isLoading && streamData?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
 
   if (streamData.length <= 0 || isLoading) return (
-    <div className=' w-[92%] h-full'>
+    <div className="mx-auto max-w-[92%]">
       <StreamLoader />
     </div>
   )

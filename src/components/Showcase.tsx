@@ -134,7 +134,7 @@ const Showcase: FC<ShowcaseProps> = ({
                   "/" +
                   selectedShowcase.slug //need fix
                 );
-                toast.success("App Link Copied.");
+                toast.success("App Link Copied.", { position: 'bottom-right' });
               }}
             >
               <SquareButton.Title className="md:w-[70%] w-[40%] text-xs">

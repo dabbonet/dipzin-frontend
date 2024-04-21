@@ -16,9 +16,9 @@ export async function copyImagesToClipboard([image]) {
     const blob = await response.blob();
     const clipboardItem = new ClipboardItem({ 'image/png': blob });
     await navigator.clipboard.write([clipboardItem]);
-    toast.success('Image Copied to Clipboard.')
+    toast.success('Image Copied to Clipboard.', { position: 'bottom-right' })
   } catch (error) {
-    toast.error('An error occurred while copying the image to the clipboard:');
+    toast.error('An error occurred while copying the image to the clipboard:', { position: 'bottom-right' });
   }
 }
 

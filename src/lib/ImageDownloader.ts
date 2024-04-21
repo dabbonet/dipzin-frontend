@@ -7,7 +7,7 @@ export async function ImageDownloader(zipName: string, imageNames: string[]) {
     const downloadImages = imageNames.slice(0, 5);
     try {
         var rand = '?' + Math.random();
-        toast.loading('Images getting ready...')
+        toast.loading('Images getting ready...', { position: 'bottom-right' })
         // Make HTTP requests to download the images
         const imagePromises = downloadImages.map(async (imageName, index) => {
             const url = `https://dipzin.s3.us-east-1.amazonaws.com/${imageName}${rand}`;
@@ -34,12 +34,12 @@ export async function ImageDownloader(zipName: string, imageNames: string[]) {
         link.download = `${zipName}.zip`;
         link.click();
         toast.dismiss()
-        toast.success('Images Downloaded Successfuly')
+        toast.success('Images Downloaded Successfully', { position: 'bottom-right' })
 
     } catch (error) {
         // Handle error
         toast.dismiss()
-        toast.error('Error Downloading Screens');
+        toast.error('Error Downloading Screens', { position: 'bottom-right' });
     }
 
 }
@@ -55,9 +55,9 @@ export async function downloadImage(fileName: string, imageName: string) {
         link.href = URL.createObjectURL(blob);
         link.download = `${fileName}.png`;
         link.click();
-        toast.success('Image Downloaded Successfully');
+        toast.success('Image Downloaded Successfully', { position: 'bottom-right' });
     } catch (error) {
         // Handle error
-        toast.error('Error Downloading Image');
+        toast.error('Error Downloading Image', { position: 'bottom-right' });
     }
 }
