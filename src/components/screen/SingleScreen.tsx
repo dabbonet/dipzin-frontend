@@ -26,7 +26,7 @@ export const mergeScreenUrl = (data) =>
     data.attributes?.screen.data?.attributes.ext
     : data;
 
-const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine , icon}) => {
+const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine, icon }) => {
   const { showDialog, DIALOG_ENUM } = useDialog();
   const { user } = useAuth()
 
@@ -50,7 +50,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
   // if the user has been authentcated i will select and if not app will show access dialog
   const addToChecked = async () => {
     if (!user) {
-      showDialog(DIALOG_ENUM.ACCESS,'Login to use this features')
+      showDialog(DIALOG_ENUM.ACCESS, 'Login to use this features')
       return
     }
 
@@ -81,17 +81,17 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
       return;
     }
 
-    if (selectedImages.images.length >= 5) {
-      setChecked(false);
-      setSelectedImages(prev => {
-        return {
-          ...prev,
-          images: prev.images.slice(0, 5),
-        };
-      });
-      toast.remove();
-      return toast.error("You cannot download more than 5 images");
-    }
+    // if (selectedImages.images.length >= 5) {
+    //   setChecked(false);
+    //   setSelectedImages(prev => {
+    //     return {
+    //       ...prev,
+    //       images: prev.images.slice(0, 5),
+    //     };
+    //   });
+    //   toast.remove();
+    //   return toast.error("You cannot download more than 5 images");
+    // }
   };
 
   if (!mergeScreenUrl(screen))
@@ -137,7 +137,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
             </svg>
           )}
         </motion.div>
-        {hovered && <Actions screen={screen}  appName={appName} icon={icon} tagLine={tagLine}/>}
+        {hovered && <Actions screen={screen} appName={appName} icon={icon} tagLine={tagLine} />}
 
         <div
           className={cn(
