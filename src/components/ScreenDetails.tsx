@@ -41,7 +41,7 @@ const ScreenDetails = ({ screenId }) => {
         const icon = data?.app?.icon?.data?.attributes?.hash + data?.app?.icon?.data?.attributes?.ext
         console.log(slug(), data.app.slug)
         return (
-            <Link href={`/app/${slug()}/${data.app.slug}`}  className='hover:bg-slate-900/60 rounded-xl p-2 flex flex-col gap-1'>
+            <Link href={`/app/${slug()}/${data.app.slug}`} className='hover:bg-slate-900/60 rounded-xl p-2 flex flex-col gap-1'>
                 <Image src={icon} className='rounded-xl' width={56} height={56} alt='' />
                 <h2 className='text-white'>{data.app.name}</h2>
                 <p className=' text-slate-600'>{data.app.tag_line}</p>
@@ -76,7 +76,7 @@ const ScreenDetails = ({ screenId }) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className='absolute -left-[100%]'
+                className='absolute left-0 -translate-x-[110%] hidden md:flex'
             >
                 <div className=' bg-slate-950 p-8 flex flex-col gap-y-8 rounded-3xl w-[370px] h-fit'>
                     {data?.app && <div>

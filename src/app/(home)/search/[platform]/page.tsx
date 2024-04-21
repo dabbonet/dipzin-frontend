@@ -18,6 +18,7 @@ import Screen from '@/components/ui/Screen'
 import Icons from '@/components/Icons'
 import AppActions from '@/app/(static)/app/[platform]/[slug]/AppActions'
 import StreamLoader from '@/components/StreamLoader'
+import useKeyboardNavigation from '@/hooks/useKeyboardNavigation'
 
 
 
@@ -64,6 +65,14 @@ export default function SearchPage() {
 
   const { streamData, setStreamData, setSearchKeyword, setFilters } = useContentDiscovery();
   const { setSelected, setPlatforms } = usePlatform();
+
+  const activeScreenIndex = useKeyboardNavigation(streamData.length);
+
+  useEffect(() => {
+    if (openScreen) {
+      setOpenScreen(streamData[activeScreenIndex]);
+    }
+  }, [activeScreenIndex, streamData]);
 
   useEffect(() => {
     setActiveView('menuWithSearch')
@@ -196,7 +205,7 @@ export default function SearchPage() {
           overscan={10}
           itemContent={(index, data) => {
             return (
-              <SingleScreen screen={data?.screen} appName={data.app.name} tagLine={data.app.tag_line} setOpen={() => setOpenScreen(data)} icon={data.app.icon} />
+              <SingleScreen screen={data?.screen} appName={data.app?.name} tagLine={data.app?.tag_line} setOpen={() => setOpenScreen(data)} icon={data.app?.icon} />
             );
           }}
           components={{
