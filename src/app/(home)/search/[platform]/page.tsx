@@ -115,7 +115,8 @@ export default function SearchPage() {
         })
       })
       const res = await req.json()
-      setdata(res.screens)
+      const shuffledData = shuffle(res.screens)
+      setdata(shuffledData)
     }
     getData()
   }, [params])
