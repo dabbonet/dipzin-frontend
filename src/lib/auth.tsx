@@ -71,7 +71,9 @@ const AuthProvider: FC<props> = ({ children }) => {
 };
 
 export const setToken = (token: string) => {
-  document.cookie = `token=${token}; path=/`;
+  const date = new Date();
+  date.setMonth(date.getMonth() + 1); // set the date to 1 month in the future
+  document.cookie = `token=${token}; expires=${date.toUTCString()}; path=/`;
   return;
 };
 
