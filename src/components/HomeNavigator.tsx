@@ -49,17 +49,6 @@ const HomeNavigator: FC = () => {
             >
                 Search Results
             </span>
-            <motion.div
-                onClick={() => setStreamData([])}
-                whileHover={{ rotate: 90 }}
-                whileTap={{
-                    rotate: 360,
-                }}
-                transition={{ type: "spring", stiffness: 50, damping: 20 }}
-                className={cn("ml-3 transition-opacity cursor-pointer opacity-100")}
-            >
-                <img className="w-6  md:w-8" src="/images/assets/refresh.svg" alt="refresh" title="refresh" />
-            </motion.div>
         </div>
 
     }
