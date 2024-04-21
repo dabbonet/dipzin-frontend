@@ -64,7 +64,7 @@ export default function SearchPage() {
   }, [selectedImages])
 
   const { streamData, setStreamData, setSearchKeyword, setFilters } = useContentDiscovery();
-  const { setSelected, setPlatforms } = usePlatform();
+  const { selected, setSelected, setPlatforms } = usePlatform();
 
   const activeScreenIndex = useKeyboardNavigation(streamData.length);
 
@@ -113,46 +113,38 @@ export default function SearchPage() {
     }
   }, [])
 
-  useEffect(() => {
-    async function getData() {
-      setIsLoading(true)
-      const req = await fetch('/api/search/get-screens', {
-        method: 'POST',
-        body: JSON.stringify({
-          token: getToken(),
-          keyword,
-          filters: filterQuery
-        })
-      })
-      const res = await req.json()
-      const shuffledData = shuffle(res.screens)
-      setStreamData(shuffledData)
-    }
-    setIsLoading(false)
-    getData()
-  }, [params])
-
-  const updateStream = async () => {
+  async function getData() {
     setIsLoading(true)
     const req = await fetch('/api/search/get-screens', {
       method: 'POST',
       body: JSON.stringify({
         token: getToken(),
         keyword,
-        filters: filterQuery
+        filters: filterQuery,
+        offset: streamData?.length,
+        limit: 10
       })
     })
     const res = await req.json()
     const shuffledData = shuffle(res.screens)
     setStreamData(shuffledData)
+    setIsLoading(false)
   }
 
   useEffect(() => {
-    if (streamData.length === 0) {
-      updateStream();
+    if (selected) {
+      setTimeout(() => {
+        setStreamData([]);
+      },);
     }
-    setIsLoading(false)
-  }, [streamData]);
+  }, [selected, params]);
+
+  useEffect(() => {
+    if (streamData.length === 0) {
+      getData()
+    }
+  }, [streamData])
+
 
   const loadMore = useCallback(() => {
     return setTimeout(async () => {
