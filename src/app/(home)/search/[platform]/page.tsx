@@ -17,13 +17,12 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Screen from '@/components/ui/Screen'
 import Icons from '@/components/Icons'
 import AppActions from '@/app/(static)/app/[platform]/[slug]/AppActions'
-import StreamLoader from '@/components/StreamLoader'
-import useKeyboardNavigation from '@/hooks/useKeyboardNavigation'
 
 
 
 export default function SearchPage() {
 
+  const [data, setdata] = useState([])
   const [openScreen, setOpenScreen] = useState<any | null>();
   const params = useSearchParams()
   const keyword = params.get('q')
@@ -63,16 +62,8 @@ export default function SearchPage() {
     }
   }, [selectedImages])
 
-  const { streamData, setStreamData, setSearchKeyword, setFilters } = useContentDiscovery();
-  const { selected, setSelected, setPlatforms } = usePlatform();
-
-  const activeScreenIndex = useKeyboardNavigation(streamData.length);
-
-  useEffect(() => {
-    if (openScreen) {
-      setOpenScreen(streamData[activeScreenIndex]);
-    }
-  }, [activeScreenIndex, streamData]);
+  const { setSearchKeyword, setFilters } = useContentDiscovery();
+  const { setSelected, setPlatforms } = usePlatform();
 
   useEffect(() => {
     setActiveView('menuWithSearch')
@@ -113,37 +104,21 @@ export default function SearchPage() {
     }
   }, [])
 
-  async function getData() {
-    setIsLoading(true)
-    const req = await fetch('/api/search/get-screens', {
-      method: 'POST',
-      body: JSON.stringify({
-        token: getToken(),
-        keyword,
-        filters: filterQuery,
-        offset: streamData?.length,
-        limit: 10
+  useEffect(() => {
+    async function getData() {
+      const req = await fetch('/api/search/get-screens', {
+        method: 'POST',
+        body: JSON.stringify({
+          token: getToken(),
+          keyword,
+          filters: filterQuery
+        })
       })
-    })
-    const res = await req.json()
-    const shuffledData = shuffle(res.screens)
-    setStreamData(shuffledData)
-    setIsLoading(false)
-  }
-
-  useEffect(() => {
-    if (selected) {
-      setTimeout(() => {
-        setStreamData([]);
-      },);
+      const res = await req.json()
+      setdata(res.screens)
     }
-  }, [selected, params]);
-
-  useEffect(() => {
-    if (streamData.length === 0) {
-      getData()
-    }
-  }, [streamData])
+    getData()
+  }, [params])
 
 
   const loadMore = useCallback(() => {
@@ -157,35 +132,27 @@ export default function SearchPage() {
             token: getToken(),
             keyword,
             filters: filterQuery,
-            offset: streamData?.length,
+            offset: data?.length,
             limit: 10
           })
         })
         const res = await req.json()
         const shuffledData = shuffle(res.screens)
-        setStreamData(prev => [...prev, ...shuffledData])
+        setdata(prev => [...prev, ...shuffledData])
       }
       getData()
       setIsLoading(false)
     }, 500);
-  }, [streamData]);
-
-  if (!isLoading && streamData?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
-
-  if (streamData.length <= 0 || isLoading) return (
-    <div className="mx-auto max-w-[92%]">
-      <StreamLoader />
-    </div>
-  )
-
+  }, [data]);
+  if (data?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
   return (
     <main className="w-full flex flex-col items-center">
-      {streamData !== null && streamData?.length !== 0 &&
+      {data !== null && data?.length !== 0 &&
         <VirtuosoGrid
           className="mt-6 max-w-[90%] mx-auto"
           useWindowScroll
           endReached={loadMore}
-          data={streamData && streamData}
+          data={data && data}
           style={{ minHeight: 100, width: "100%" }}
           listClassName={cn(
             "grid content-center gap-6 pt-0 grid-cols-2",
@@ -193,11 +160,11 @@ export default function SearchPage() {
               ? "2xl:grid-cols-3 md:grid-cols-3"
               : " 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-4"
           )}
-          totalCount={streamData && streamData?.length}
+          totalCount={data && data?.length}
           overscan={10}
           itemContent={(index, data) => {
             return (
-              <SingleScreen screen={data?.screen} appName={data.app?.name} tagLine={data.app?.tag_line} setOpen={() => setOpenScreen(data)} icon={data.app?.icon} />
+              <SingleScreen screen={data?.screen} appName={data.app.name} tagLine={data.app.tag_line} setOpen={() => setOpenScreen(data)} icon={data.app.icon} />
             );
           }}
           components={{
