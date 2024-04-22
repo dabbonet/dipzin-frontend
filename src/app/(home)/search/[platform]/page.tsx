@@ -17,6 +17,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Screen from '@/components/ui/Screen'
 import Icons from '@/components/Icons'
 import AppActions from '@/app/(static)/app/[platform]/[slug]/AppActions'
+import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation'
 
 
 
@@ -64,6 +65,9 @@ export default function SearchPage() {
 
   const { setSearchKeyword, setFilters } = useContentDiscovery();
   const { setSelected, setPlatforms } = usePlatform();
+  const {
+    openScreenByIndex,
+  } = useKeyboardNavigation(data, openScreen, setOpenScreen);
 
   useEffect(() => {
     setActiveView('menuWithSearch')
@@ -165,7 +169,7 @@ export default function SearchPage() {
           overscan={10}
           itemContent={(index, data) => {
             return (
-              <SingleScreen screen={data?.screen} appName={data.app.name} tagLine={data.app.tag_line} setOpen={() => setOpenScreen(data)} icon={data.app.icon} />
+              <SingleScreen screen={data?.screen} appName={data.app.name} tagLine={data.app.tag_line} setOpen={() => { setOpenScreen(data); openScreenByIndex(index) }} icon={data.app.icon} />
             );
           }}
           components={{
