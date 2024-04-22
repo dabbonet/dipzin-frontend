@@ -13,6 +13,7 @@ import ScreenActions from "./ScreenActions";
 import ScreenDetails from "@/components/ScreenDetails";
 import { useNavigator } from "@/context/useNavigatiorContext";
 import { useSelcetedImages } from "@/lib/SelectedToDownload";
+import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";
 
 interface ContentProps {
   apps: any;
@@ -25,6 +26,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   const { selectedImages, setSelectedImages } = useSelcetedImages()
   const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
   const [openScreen, setOpenScreen] = useState<any | null>();
+
   useEffect(() => {
     if (selectedImages.images.length > 0) {
       setActiveControls('selection')
@@ -57,6 +59,10 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   if (!icon || !screens || !categoryName || !app) {
     notFound()
   }
+
+  const {
+    openScreenByIndex,
+  } = useKeyboardNavigation(screens, openScreen, setOpenScreen);
 
   return (
     <main className="w-full flex flex-col items-center">
@@ -107,7 +113,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
         )}
         itemContent={(index, data) => {
           return (
-            <SingleScreen screen={data} appName={app.name} setOpen={() => setOpenScreen(data)} />
+            <SingleScreen screen={data} appName={app.name} setOpen={() => { setOpenScreen(data); openScreenByIndex(index) }} />
           );
         }}
       />
