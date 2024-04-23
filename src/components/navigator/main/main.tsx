@@ -7,7 +7,7 @@ import Menu from './menu';
 import Icons from '@/components/Icons';
 import { cn } from '@/lib/utils';
 import { useNavigator } from '@/context/useNavigatiorContext';
-import { useSelcetedImages } from '@/lib/SelectedToDownload';
+import { useSelectedImages } from '@/lib/SelectedToDownload';
 import { ImageDownloader } from '@/lib/ImageDownloader';
 import PlatformSwitcher from '@/components/PlatformSwitcher';
 import { usePathname } from 'next/navigation';
@@ -18,7 +18,7 @@ import { useSearchContext } from '@/context/SearchContext';
 
 const MainNavigator = ({ type }: any) => {
     const { activeView, setActiveView, activeControls, setActiveControls } = useNavigator()
-    const { selectedImages, setSelectedImages } = useSelcetedImages()
+    const { selectedImages, setSelectedImages } = useSelectedImages()
     const { searchKeyword, setSearchKeyword, filters, setFilters } = useSearchContext();
     const inputRef = useRef(null)
     const searchButton = useRef(null)
@@ -110,7 +110,7 @@ const MainNavigator = ({ type }: any) => {
                                 }}
                             />
                             {activeView === 'menuWithSearch' && filters.length !== 0 && <button onClick={removeFilter} className=' text-slate-500 font-medium text-sm'><span className=' text-slate-50 font-bold mr-1'>+{filters.length}</span>filters</button>}
-                            <p className=' text-slate-500 text-sm w-20 mr-2 text-center sm:block hidden'>{searchKeyword.length === 0 ? 'CTRL K' : 'Enter'}</p>
+                            <p className=' text-slate-500 text-sm w-20 mr-2 text-center sm:block hidden'>{searchKeyword?.length === 0 ? 'CTRL K' : 'Enter'}</p>
                         </motion.div>
                     )}
                     <PlatformSwitcher />

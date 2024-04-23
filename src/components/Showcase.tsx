@@ -9,7 +9,7 @@ import { ImageDownloader } from '@/lib/ImageDownloader'
 import { toast } from 'react-hot-toast'
 import { ActionBar, SquareButton } from './ActionBar'
 // import { useRouter } from 'next/navigation'
-import { useSelcetedImages } from '@/lib/SelectedToDownload'
+import { useSelectedImages } from '@/lib/SelectedToDownload'
 import { useContentDiscovery } from '@/context/useContentDiscovery'
 import { useNavigator } from '@/context/useNavigatiorContext'
 import { usePathname } from 'next/navigation'
@@ -27,7 +27,7 @@ const Showcase: FC<ShowcaseProps> = ({
   const path = usePathname()
   const { setActiveControls } = useNavigator()
   const { selected: platform } = usePlatform();
-  const { setSelectedImages, selectedImages } = useSelcetedImages()
+  const { setSelectedImages, selectedImages } = useSelectedImages()
   useEffect(() => {
     setActiveControls('menu-only');
     return () => {

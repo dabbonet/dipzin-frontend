@@ -10,7 +10,7 @@ import Icons from "../Icons";
 import { copyImagesToClipboard } from "@/lib/ImageCopier";
 import toast from "react-hot-toast";
 import { downloadImage } from "@/lib/ImageDownloader";
-import { useSelcetedImages } from "@/lib/SelectedToDownload";
+import { useSelectedImages } from "@/lib/SelectedToDownload";
 import { useDialog } from "@/context/useDialog";
 import { useAuth } from "@/lib/auth";
 import { Actions } from "../Actions";
@@ -32,7 +32,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
   const { showDialog, DIALOG_ENUM } = useDialog();
   const { user } = useAuth()
 
-  const { selectedImages, setSelectedImages } = useSelcetedImages();
+  const { selectedImages, setSelectedImages } = useSelectedImages();
 
 
   useEffect(() => {
