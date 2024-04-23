@@ -1,4 +1,3 @@
-// /search/hooks/useScreenActions.ts
 import { useCallback } from 'react';
 import { downloadImage } from '@/lib/ImageDownloader';
 import { copyImagesToClipboard } from "@/lib/ImageCopier";

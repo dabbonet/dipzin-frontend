@@ -27,6 +27,7 @@ export const useSearch = () => {
     const { setSelected, setPlatforms } = usePlatform();
     const { setActiveView, setActiveControls } = useNavigator();
     const { selectedImages, setSelectedImages } = useSelectedImages()
+    const filterQuery = buildFilterQuery(params, platform)
 
     useEffect(() => {
         if (selectedImages.images.length > 0) {
@@ -34,25 +35,31 @@ export const useSearch = () => {
         }
     }, [selectedImages])
 
-    const filterQuery = buildFilterQuery(params, platform)
+    useEffect(() => {
+        if (!path.includes('/search')) return;
+
+        const token = getToken();
+        if (!token) {
+            showDialog(DIALOG_ENUM.ACCESS);
+        }
+
+        setActiveView('menuWithSearch');
+        setActiveControls('menu-search');
+    }, [path]);
 
     useEffect(() => {
+        if (!path.includes('/search')) return;
 
-        const token = getToken()
-        if (!token) { showDialog(DIALOG_ENUM.ACCESS); }
-
-        setActiveControls('menu-search');
-        setActiveView('menuWithSearch');
         setSearchKeyword(keyword);
-        setPlatforms([2, 1, 3]); // Initialize Platform Switcher
-        setSelected(parseInt(platform))
+        setPlatforms([2, 1, 3]);  // Initialize Platform Switcher
+        setSelected(parseInt(platform));
 
-        // Set the new filters
         const newFilters = constructNewFilters(params);
-
         setFilters(newFilters);
         setSingleApp('search');
+    }, [path, keyword, platform, params]);
 
+    useEffect(() => {
         return () => {
             setSelectedImages({ appName: '', images: [] });
             setActiveControls('');

@@ -17,7 +17,7 @@ const Stream: FC<StreamProps> = () => {
   const { setActiveView, setActiveControls } = useNavigator()
   const { setPlatforms, selected } = usePlatform();
   const { streamData, setStreamData } = useContentDiscovery();
-  const { setSearchKeyword } = useSearchContext();
+  const { setSearchKeyword, setFilters } = useSearchContext();
   const [loadedPages, setLoadedPages] = useState<number[]>([]);
   const [selectedShowcase, setSelectedShowcase] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +25,7 @@ const Stream: FC<StreamProps> = () => {
     // setActiveView('menuWithSearch')
     setActiveControls('menu-search')
     setSearchKeyword('')
+    setFilters([]);
     setPlatforms([2, 1, 3]); // Initialize Platform Switcher
     return () => {
       setActiveView('')
