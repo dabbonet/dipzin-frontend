@@ -12,7 +12,7 @@ import { Toaster } from "react-hot-toast";
 import ScreenActions from "./ScreenActions";
 import ScreenDetails from "@/components/ScreenDetails";
 import { useNavigator } from "@/context/useNavigatiorContext";
-import { useSelcetedImages } from "@/lib/SelectedToDownload";
+import { useSelectedImages } from "@/lib/SelectedToDownload";
 
 interface ContentProps {
   apps: any;
@@ -22,7 +22,7 @@ interface ContentProps {
 
 export default function Content({ apps, selectedApp: app }: ContentProps) {
   const { setActiveControls } = useNavigator()
-  const { selectedImages, setSelectedImages } = useSelcetedImages()
+  const { selectedImages, setSelectedImages } = useSelectedImages()
   const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
   const [openScreen, setOpenScreen] = useState<any | null>();
   useEffect(() => {

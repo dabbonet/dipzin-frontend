@@ -80,7 +80,7 @@ const InitialSearch = () => {
             const filterData = mergeArrays(data?.search?.search?.results)
             setdata(filterData)
         }
-        if (debounce.length > 1) {
+        if (debounce?.length > 1) {
             handleSearch(debounce)
         } else {
             const myArray = ["hello world", "login", "dashboard", "sign up", "sports"];
@@ -164,7 +164,7 @@ const InitialSearch = () => {
                     </div>
                 </div>
             </div>
-            <motion.button disabled={searchKeyword.length === 0 ? true : false} ref={searchButton} onClick={handleGetScreens} className={cn(' absolute w-[95%] font-semibold py-2 left-1/2 -translate-x-1/2 text-center text-white rounded-full bottom-5', searchKeyword.length === 0 ? 'bg-slate-900' : 'bg-aqua-500')}>search</motion.button>
+            <motion.button disabled={searchKeyword?.length === 0 ? true : false} ref={searchButton} onClick={handleGetScreens} className={cn(' absolute w-[95%] font-semibold py-2 left-1/2 -translate-x-1/2 text-center text-white rounded-full bottom-5', searchKeyword?.length === 0 ? 'bg-slate-900' : 'bg-aqua-500')}>search</motion.button>
         </motion.div>
     )
 }

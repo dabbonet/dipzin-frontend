@@ -1,38 +1,48 @@
-import { useState, useEffect, useCallback } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation'; // Assuming you're using Next.js routing
-import { getPlatformById, shuffle } from '@/lib/utils'; // Ensure all necessary imports
 import { getToken } from '@/lib/auth';
-import { useNavigator } from '@/context/useNavigatiorContext';
-import { usePlatform } from '@/context/usePlatforms';
-import { useSelcetedImages } from '@/lib/SelectedToDownload';
 import { useDialog } from '@/context/useDialog';
+import { getPlatformById, shuffle } from '@/lib/utils';
+import { usePlatform } from '@/context/usePlatforms';
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigator } from '@/context/useNavigatiorContext';
+import { useSelectedImages } from '@/lib/SelectedToDownload';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { buildFilterQuery, constructNewFilters } from '@/utils/filterHelpers';
 
 export const useSearch = () => {
 
     const path = usePathname();
-    const platformId = path.split('/search/')[1]; // Or however you're determining it based on URL
-    const platform = getPlatformById(platformId); // Ensure this function can handle conversion from ID
+    const platformId = path.split('/search/')[1];
+    const platform = getPlatformById(platformId);
 
     const params = useSearchParams()
     const keyword = params.get('q')
 
     const [data, setData] = useState<any[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [filters, setFilters] = useState<any[]>([]);
-    const [searchKeyword, setSearchKeyword] = useState('')
+    const [searchKeyword, setSearchKeyword] = useState("")
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const { setSingleApp } = usePlatform();
+    const { showDialog, DIALOG_ENUM } = useDialog();
     const { setSelected, setPlatforms } = usePlatform();
     const { setActiveView, setActiveControls } = useNavigator();
-    const { showDialog, DIALOG_ENUM } = useDialog();
-    const { setSelectedImages } = useSelcetedImages()
+    const { selectedImages, setSelectedImages } = useSelectedImages()
+
+    useEffect(() => {
+        if (selectedImages.images.length > 0) {
+            setActiveControls('selection')
+        }
+    }, [selectedImages])
 
     const filterQuery = buildFilterQuery(params, platform)
 
     useEffect(() => {
-        setActiveView('menuWithSearch');
+
+        const token = getToken()
+        if (!token) { showDialog(DIALOG_ENUM.ACCESS); }
+
         setActiveControls('menu-search');
+        setActiveView('menuWithSearch');
         setSearchKeyword(keyword);
         setPlatforms([2, 1, 3]); // Initialize Platform Switcher
         setSelected(parseInt(platform))
@@ -42,9 +52,6 @@ export const useSearch = () => {
 
         setFilters(newFilters);
         setSingleApp('search');
-
-        const token = getToken()
-        if (!token) { showDialog(DIALOG_ENUM.ACCESS); }
 
         return () => {
             setSelectedImages({ appName: '', images: [] });
@@ -63,18 +70,17 @@ export const useSearch = () => {
                 body: JSON.stringify({
                     token: getToken(),
                     keyword,
-                    platform, // The platform variable now contains the correctly parsed platform ID
+                    platform,
                     filters: filterQuery
                 }),
             });
             const res = await req.json();
             const shuffledData = shuffle(res.screens);
             setData(shuffledData);
-            setIsLoading(false);
         }
-
         fetchData();
-    }, [searchKeyword, platform]);
+        setIsLoading(false);
+    }, [params]);
 
     const loadMore = useCallback(() => {
         return setTimeout(async () => {
@@ -100,5 +106,5 @@ export const useSearch = () => {
         }, 500);
     }, [data]);
 
-    return { data, isLoading, loadMore, filters, setFilters };
+    return { data, isLoading, loadMore, searchKeyword, setSearchKeyword, filters, setFilters };
 }

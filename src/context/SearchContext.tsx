@@ -9,18 +9,17 @@ interface SearchContextProps {
     data: any[];
     isLoading: boolean;
     loadMore: () => void;
-    filters: any;
-    setFilters: React.Dispatch<React.SetStateAction<any>>;
     searchKeyword: string;
     setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
+    filters: any;
+    setFilters: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const SearchContext = createContext<SearchContextProps | undefined>(undefined);
 
 export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [searchKeyword, setSearchKeyword] = useState<string>('');
     const [openScreen, setOpenScreen] = useState<any | null>(null);
-    const { data, isLoading, loadMore, filters, setFilters } = useSearch();
+    const { data, isLoading, loadMore, searchKeyword, setSearchKeyword, filters, setFilters } = useSearch();
 
     return (
         <SearchContext.Provider value={{ searchKeyword, setSearchKeyword, openScreen, setOpenScreen, data, isLoading, loadMore, filters, setFilters }}>
