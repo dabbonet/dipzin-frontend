@@ -6,8 +6,8 @@ import { toast } from 'react-hot-toast'
 import { motion } from 'framer-motion'
 import { usePlatform } from '@/context/usePlatforms'
 import { getPlatformById } from '@/lib/utils'
-import { useContentDiscovery } from '@/context/useContentDiscovery'
 import Image from 'next/image'
+import { useSearchContext } from '@/context/SearchContext';
 const qs = require('qs')
 const ScreenDetails = ({ screenId }) => {
     const [data, setData] = useState(null)
@@ -132,7 +132,7 @@ const ColorSquare = ({ color }) => {
 
 const Tag = ({ name, type }: { name: string, type: string }) => {
     const { selected } = usePlatform()
-    const { searchKeyword } = useContentDiscovery()
+    const { searchKeyword } = useSearchContext()
     const router = useRouter()
     const platform = getPlatformById(selected)
     const searchTag = () => {
