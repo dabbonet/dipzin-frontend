@@ -7,6 +7,7 @@ interface SearchContextProps {
     openScreen: any | null;
     setOpenScreen: React.Dispatch<React.SetStateAction<any | null>>;
     data: any[];
+    setData: React.Dispatch<React.SetStateAction<any[]>>;
     isLoading: boolean;
     loadMore: () => void;
     searchKeyword: string;
@@ -19,10 +20,10 @@ const SearchContext = createContext<SearchContextProps | undefined>(undefined);
 
 export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [openScreen, setOpenScreen] = useState<any | null>(null);
-    const { data, isLoading, loadMore, searchKeyword, setSearchKeyword, filters, setFilters } = useSearch();
+    const { data, setData, isLoading, loadMore, searchKeyword, setSearchKeyword, filters, setFilters } = useSearch();
 
     return (
-        <SearchContext.Provider value={{ searchKeyword, setSearchKeyword, openScreen, setOpenScreen, data, isLoading, loadMore, filters, setFilters }}>
+        <SearchContext.Provider value={{ searchKeyword, setSearchKeyword, openScreen, setOpenScreen, data, setData, isLoading, loadMore, filters, setFilters }}>
             {children}
         </SearchContext.Provider>
     );

@@ -9,7 +9,7 @@ import StreamLoader from "../StreamLoader";
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation'
 
 export const SearchResultsContainer = () => {
-  const { openScreen,setOpenScreen, data, isLoading, loadMore } = useSearchContext();
+  const { openScreen, setOpenScreen, data, isLoading, loadMore } = useSearchContext();
   const { selected } = usePlatform();
   const {
     openScreenByIndex,
@@ -22,9 +22,17 @@ export const SearchResultsContainer = () => {
       </div>
     );
 
+  if (isLoading && data?.length <= 0) return
+  (
+    <div className="w-full h-full max-w-[92%]">
+      <StreamLoader />
+    </div>
+  );
+
+
   return (
     <>
-      {data !== null && data?.length !== 0 ? (
+      {data !== null && data?.length !== 0 && (
         <VirtuosoGrid
           className="mt-6 max-w-[90%] mx-auto"
           useWindowScroll
@@ -57,10 +65,6 @@ export const SearchResultsContainer = () => {
             },
           }}
         />
-      ) : (
-        <div className="w-[92%] h-full">
-          <StreamLoader />
-        </div>
       )}
     </>
   );
