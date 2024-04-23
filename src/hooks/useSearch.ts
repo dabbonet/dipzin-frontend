@@ -69,25 +69,32 @@ export const useSearch = () => {
         };
     }, []);
 
-    useEffect(() => {
-        async function fetchData() {
-            setIsLoading(true);
-            const req = await fetch('/api/search/get-screens', {
-                method: 'POST',
-                body: JSON.stringify({
-                    token: getToken(),
-                    keyword,
-                    platform,
-                    filters: filterQuery
-                }),
-            });
-            const res = await req.json();
-            const shuffledData = shuffle(res.screens);
-            setData(shuffledData);
-        }
-        fetchData();
+    async function fetchData() {
+        setIsLoading(true);
+        const req = await fetch('/api/search/get-screens', {
+            method: 'POST',
+            body: JSON.stringify({
+                token: getToken(),
+                keyword,
+                platform,
+                filters: filterQuery
+            }),
+        });
+        const res = await req.json();
+        const shuffledData = shuffle(res.screens);
+        setData(shuffledData);
         setIsLoading(false);
+    }
+
+    useEffect(() => {
+        fetchData();
     }, [params]);
+
+    useEffect(() => {
+        if (data.length === 0) {
+            fetchData()
+        }
+    }, [data]);
 
     const loadMore = useCallback(() => {
         return setTimeout(async () => {
@@ -113,5 +120,5 @@ export const useSearch = () => {
         }, 500);
     }, [data]);
 
-    return { data, isLoading, loadMore, searchKeyword, setSearchKeyword, filters, setFilters };
+    return { data, setData, isLoading, loadMore, searchKeyword, setSearchKeyword, filters, setFilters };
 }
