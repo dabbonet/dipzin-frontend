@@ -11,7 +11,7 @@ export const SearchResultsContainer = () => {
     const { setOpenScreen, data, isLoading, loadMore } = useSearchContext();
     const { selected } = usePlatform();
 
-    // if (data.length <= 0 || isLoading) return <StreamLoader />
+    if (!isLoading && data?.length === 0) return <div className=' w-full h-full flex justify-center items-center'>there is no screens with this filters</div>
 
     return (
         <>
