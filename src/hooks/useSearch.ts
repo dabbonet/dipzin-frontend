@@ -90,11 +90,6 @@ export const useSearch = () => {
         fetchData();
     }, [params]);
 
-    useEffect(() => {
-        if (data.length === 0) {
-            fetchData()
-        }
-    }, [data]);
 
     const loadMore = useCallback(() => {
         return setTimeout(async () => {
