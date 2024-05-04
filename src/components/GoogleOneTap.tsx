@@ -13,36 +13,21 @@ const GoogleOneTap = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    const checkChildDiv = () => {
-      const parentDiv = ref.current;
-      if (!parentDiv) return;
+    const parentDiv = ref.current;
+    if (!parentDiv) return;
 
-      const childDiv = parentDiv.querySelector('#credential_picker_container');
+    if (getToken()) {
+      setShow(false);
+    } else {
+      setShow(true);
+    }
 
-      if (childDiv) {
-        if (user || getToken()) {
-          setShow(false);
-        } else {
-          setShow(true);
-        }
-      } else {
-        setShow(false);
-      }
-    };
-
-    checkChildDiv(); // Initial check on mount
-
-    const interval = setInterval(checkChildDiv, 100); // Run check periodically
-
-    return () => {
-      clearInterval(interval); // Clean up the interval on component unmount
-    };
   }, [ref, user]);
 
   const { referralToken, invitationToken } = invetaionAndReferralTokens();
 
   useGoogleOneTapLogin({
-    prompt_parent_id: 'google_tap_prompt',
+    prompt_parent_id: "google_tap_prompt",
     cancel_on_tap_outside: true,
     onSuccess: async (credentialResponse) => {
       let { name, email }: { name: string, email: string } = jwt_decode(credentialResponse.credential);
@@ -85,8 +70,8 @@ const GoogleOneTap = () => {
       ref={ref}
       id="google_tap_prompt"
       className={clsx(
-        'w-[25.5rem] fixed top-20 rounded-lg right-10 bg-aqua-500 p-2 z-50',
-        show ? '!block' : 'hidden'
+        'w-[25.5rem] fixed top-20 rounded-lg right-10 bg-aqua-500 p-2 z-50 hidden',
+        show && '!block'
       )}
     >
       <h2 className='text-center mb-2 text-lg font-bold'>

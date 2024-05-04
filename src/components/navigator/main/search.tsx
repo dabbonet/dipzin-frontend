@@ -13,6 +13,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useNavigator } from '@/context/useNavigatiorContext';
 import { useDialog } from '@/context/useDialog';
 import { useResponsive } from '@/context/useResponsive';
+import { useSearchContext } from '@/context/SearchContext';
 const qs = require('qs')
 
 const mergeArrays = (arr) => {
@@ -28,7 +29,7 @@ const mergeArrays = (arr) => {
 }
 
 const InitialSearch = () => {
-    const { searchKeyword, filters, setSearchKeyword } = useContentDiscovery();
+    const { searchKeyword, setSearchKeyword, filters } = useSearchContext();
     const { setActiveView, activeView } = useNavigator()
     const { selected } = usePlatform()
     const [data, setdata] = useState(null)
@@ -79,7 +80,7 @@ const InitialSearch = () => {
             const filterData = mergeArrays(data?.search?.search?.results)
             setdata(filterData)
         }
-        if (debounce.length > 1) {
+        if (debounce?.length > 1) {
             handleSearch(debounce)
         } else {
             const myArray = ["hello world", "login", "dashboard", "sign up", "sports"];
@@ -107,7 +108,7 @@ const InitialSearch = () => {
         const platform = getPlatformById(selected)
         navigateToRoute({ link: `/search/${platform}${query}` })
     }
-  
+
     return (
         <motion.div
             layout
@@ -125,14 +126,14 @@ const InitialSearch = () => {
                 <div className='flex h-full p-2 px-4 flex-col overflow-y-scroll'>
                     <p className=' text-slate-500 text-xs'>Featured Apps</p>
                     <div className=' grid grid-cols-1 lg:grid-cols-2 gap-1 md:gap-3 mt-3 mb-6'>
-    {data ? 
-        data?.apps?.map((el, index) => 
-            <App slug={el.app.slug} key={index} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />
-        ) 
-        : 
-        isMobile ? <VerticalSearchLoader/> : <SearchLoader cellsNumber={6} />
-    }
-</div>
+                        {data ?
+                            data?.apps?.map((el, index) =>
+                                <App slug={el.app.slug} key={index} name={el.app.name} src={el.app.icon} app_catigory={el.app.categories[0]} app_platform={platfroms[el.app.platform]} />
+                            )
+                            :
+                            isMobile ? <VerticalSearchLoader /> : <SearchLoader cellsNumber={6} />
+                        }
+                    </div>
                     <div className='flex justify-between'>
                         <p className=' text-slate-500 text-xs'>Tags</p>
                         <button className=' text-xs md:text-base'>view all</button>
@@ -163,7 +164,7 @@ const InitialSearch = () => {
                     </div>
                 </div>
             </div>
-            <motion.button disabled={searchKeyword.length === 0 ? true : false} ref={searchButton} onClick={handleGetScreens} className={cn(' absolute w-[95%] font-semibold py-2 left-1/2 -translate-x-1/2 text-center text-white rounded-full bottom-5', searchKeyword.length === 0 ? 'bg-slate-900' : 'bg-aqua-500')}>search</motion.button>
+            <motion.button disabled={searchKeyword?.length === 0 ? true : false} ref={searchButton} onClick={handleGetScreens} className={cn(' absolute w-[95%] font-semibold py-2 left-1/2 -translate-x-1/2 text-center text-white rounded-full bottom-5', searchKeyword?.length === 0 ? 'bg-slate-900' : 'bg-aqua-500')}>search</motion.button>
         </motion.div>
     )
 }
@@ -181,7 +182,7 @@ const InitialSearchCard = () => {
 
 
 const FeatureCard = ({ tag, type }) => {
-    const { filters, setFilters } = useContentDiscovery()
+    const { filters, setFilters } = useSearchContext()
 
     const handleClick = () => {
         if (filters.some(el => el.tag === tag && el.type === type)) {
@@ -222,8 +223,8 @@ const SearchLoader = ({ cellsNumber }) => {
         </div>)}
     </div>
 }
-  
-    
+
+
 function VerticalSearchLoader() {
     const [searchBarWidths, setSearchBarWidths] = useState([]);
     const cellCount = 5;

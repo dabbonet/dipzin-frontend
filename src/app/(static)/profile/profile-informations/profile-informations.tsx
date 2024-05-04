@@ -103,7 +103,6 @@ export default function ProfileInformation({ newsLetter }: { newsLetter?: any[] 
     // 
     }
     const submitForm = async (e) => {
-        console.log(userDetails);
         e.preventDefault();
         if (userDetails?.name !== '' && userDetails?.username !== '' && userDetails?.name === userCopyState?.name && userDetails?.username === userCopyState?.username && !userDetails?.file) {
             setProfileUpdated(true)
