@@ -47,7 +47,6 @@ const CommingSoon = () => {
             })
         })
         const res = await req.json()
-        console.log(res)
     }
     return (
         <main className="flex flex-wrap w-[85%] mx-auto justify-center items-center gap-y-10 h-full max-h-screen">

@@ -12,34 +12,36 @@ import { Toaster } from "react-hot-toast";
 import ScreenActions from "./ScreenActions";
 import ScreenDetails from "@/components/ScreenDetails";
 import { useNavigator } from "@/context/useNavigatiorContext";
-import { useSelcetedImages } from "@/lib/SelectedToDownload";
+import { useSelectedImages } from "@/lib/SelectedToDownload";
+import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";
 
 interface ContentProps {
   apps: any;
   selectedApp: any;
-  tagLine?: any
+  tagLine?: any;
 }
 
 export default function Content({ apps, selectedApp: app }: ContentProps) {
-  const { setActiveControls } = useNavigator()
-  const { selectedImages, setSelectedImages } = useSelcetedImages()
+  const { setActiveControls } = useNavigator();
+  const { selectedImages, setSelectedImages } = useSelectedImages();
   const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
   const [openScreen, setOpenScreen] = useState<any | null>();
+
   useEffect(() => {
     if (selectedImages.images.length > 0) {
-      setActiveControls('selection')
+      setActiveControls("selection");
     } else {
-      setActiveControls('menu-search')
+      setActiveControls("menu-search");
     }
-  }, [selectedImages])
+  }, [selectedImages]);
 
   useEffect(() => {
     return () => {
-      setSelectedImages({ appName: '', images: [] })
-      setSingleApp('')
-      setActiveControls('')
-    }
-  }, [])
+      setSelectedImages({ appName: "", images: [] });
+      setSingleApp("");
+      setActiveControls("");
+    };
+  }, []);
 
   // Create an array of platform IDs
   const platformIds = apps.data.map((app) => app.attributes.platform.data.id);
@@ -47,15 +49,22 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   useEffect(() => {
     setPlatforms(platformIds);
     setSelected(app.platform.data.id);
-    setSingleApp('apps');
+    setSingleApp("apps");
   }, [app]);
 
   const icon = app.icon.data.attributes.hash + app.icon.data.attributes.ext;
   const categoryName = app.categories.data[0].attributes.name;
   const screens = app.screens.data;
+
   if (!icon || !screens || !categoryName || !app) {
-    notFound()
+    notFound();
   }
+
+  const { openScreenByIndex } = useKeyboardNavigation(
+    screens,
+    openScreen,
+    setOpenScreen
+  );
 
   return (
     <main className="w-full flex flex-col items-center">
@@ -106,7 +115,14 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
         )}
         itemContent={(index, data) => {
           return (
-            <SingleScreen screen={data} appName={app.name} setOpen={() => setOpenScreen(data)} />
+            <SingleScreen
+              screen={data}
+              appName={app.name}
+              setOpen={() => {
+                setOpenScreen(data);
+                openScreenByIndex(index);
+              }}
+            />
           );
         }}
       />
@@ -121,7 +137,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
               exit={{ opacity: 0 }}
             >
               <ScreenActions appName={app.name} screen={openScreen} />
-              <motion.div className="relative z-[100] h-full flex items-center" >
+              <motion.div className="relative z-[100] h-full flex items-center">
                 <ScreenDetails screenId={openScreen.id} />
                 <Screen
                   src={mergeScreenUrl(openScreen)}
@@ -131,9 +147,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
               </motion.div>
               <motion.div
                 onClick={() => setOpenScreen(null)}
-                className={
-                  "w-[100%] h-[100%] fixed top-0 bg-transparent"
-                }
+                className={"w-[100%] h-[100%] fixed top-0 bg-transparent"}
               ></motion.div>
             </motion.div>
           </>

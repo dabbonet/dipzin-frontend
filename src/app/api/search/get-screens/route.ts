@@ -23,5 +23,5 @@ export async function POST(request: Request) {
     });
 
     const search = await res.json();
-    return NextResponse.json({ screens: search.search.hits }, { status: 200 });
+    return NextResponse.json({ screens: search?.search?.hits }, { status: 200 });
 }
