@@ -3,7 +3,6 @@ import React from 'react'
 
 export default async function page() {
   const data = await pricingList()
-  // console.log(data)
   return (
     <Pricing checkOuts={data} />
   )
