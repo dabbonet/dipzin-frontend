@@ -24,7 +24,7 @@ export function buildFilterQuery(params, platform) {
     if (Array.isArray(category) && category.length > 0) {
         filterQuery = filterQuery + ` AND app.categories IN [${category.map(el => `'${el}'`).join(',')}]`;
     }
-    return filterQuery;
+    return {filterQuery, components, tag, category};
 }
 
 // the function that constructs the new filters from the filter parameters
