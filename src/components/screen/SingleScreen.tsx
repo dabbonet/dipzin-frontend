@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from "framer-motion";
 
 import { FC, useEffect, useRef, useState } from "react";
@@ -8,7 +10,7 @@ import Icons from "../Icons";
 import { copyImagesToClipboard } from "@/lib/ImageCopier";
 import toast from "react-hot-toast";
 import { downloadImage } from "@/lib/ImageDownloader";
-import { useSelcetedImages } from "@/lib/SelectedToDownload";
+import { useSelectedImages } from "@/lib/SelectedToDownload";
 import { useDialog } from "@/context/useDialog";
 import { useAuth } from "@/lib/auth";
 import { Actions } from "../Actions";
@@ -26,11 +28,11 @@ export const mergeScreenUrl = (data) =>
     data.attributes?.screen.data?.attributes.ext
     : data;
 
-const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine , icon}) => {
+const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine, icon }) => {
   const { showDialog, DIALOG_ENUM } = useDialog();
   const { user } = useAuth()
 
-  const { selectedImages, setSelectedImages } = useSelcetedImages();
+  const { selectedImages, setSelectedImages } = useSelectedImages();
 
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
   // if the user has been authentcated i will select and if not app will show access dialog
   const addToChecked = async () => {
     if (!user) {
-      showDialog(DIALOG_ENUM.ACCESS,'Login to use this features')
+      showDialog(DIALOG_ENUM.ACCESS, 'Login to use this features')
       return
     }
 
@@ -81,17 +83,17 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
       return;
     }
 
-    if (selectedImages.images.length >= 5) {
-      setChecked(false);
-      setSelectedImages(prev => {
-        return {
-          ...prev,
-          images: prev.images.slice(0, 5),
-        };
-      });
-      toast.remove();
-      return toast.error("You cannot download more than 5 images");
-    }
+    // if (selectedImages.images.length >= 5) {
+    //   setChecked(false);
+    //   setSelectedImages(prev => {
+    //     return {
+    //       ...prev,
+    //       images: prev.images.slice(0, 5),
+    //     };
+    //   });
+    //   toast.remove();
+    //   return toast.error("You cannot download more than 5 images");
+    // }
   };
 
   if (!mergeScreenUrl(screen))
@@ -137,7 +139,7 @@ const SingleScreen: FC<SingleScreenProps> = ({ screen, setOpen, appName, tagLine
             </svg>
           )}
         </motion.div>
-        {hovered && <Actions screen={screen}  appName={appName} icon={icon} tagLine={tagLine}/>}
+        {hovered && <Actions screen={screen} appName={appName} icon={icon} tagLine={tagLine} />}
 
         <div
           className={cn(

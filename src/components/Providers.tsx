@@ -9,6 +9,7 @@ import SelectedProvider from "@/lib/SelectedToDownload";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { NavigatorContextProvider } from "@/context/useNavigatiorContext";
 import { ResponsiveContextProvider } from "@/context/useResponsive";
+import { SearchProvider } from "@/context/SearchContext";
 
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
@@ -20,7 +21,11 @@ const Providers = ({ children }: { children: ReactNode }) => {
               <AuthProvider>
                 <ContentDiscoveryProvider>
                   <DialogProvider>
-                    <SelectedProvider>{children}</SelectedProvider>
+                    <SelectedProvider>
+                      <SearchProvider>
+                        {children}
+                      </SearchProvider>
+                    </SelectedProvider>
                   </DialogProvider>
                 </ContentDiscoveryProvider>
               </AuthProvider>
