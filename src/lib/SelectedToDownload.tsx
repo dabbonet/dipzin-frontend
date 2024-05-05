@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const SelectedImagesContext = createContext(null!);
 
@@ -7,7 +7,7 @@ const SelectedProvider = ({ children }) => {
     appName: '',
     images: []
   });
-  
+
 
   return (
     <SelectedImagesContext.Provider
@@ -20,4 +20,4 @@ const SelectedProvider = ({ children }) => {
 
 export default SelectedProvider;
 
-export const useSelcetedImages = () => useContext(SelectedImagesContext);
+export const useSelectedImages = () => useContext(SelectedImagesContext);
