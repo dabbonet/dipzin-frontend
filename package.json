@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "dotenv -e .env -- next dev",
-    "build": "next build",
+    "build": "next build && next-sitemap",
     "start": "next start",
     "clean": "rm -rf node_modules",
     "reinstall": "npm run clean && npm install",
@@ -31,6 +31,7 @@
     "lucide-react": "^0.263.0",
     "marked-react": "^1.4.0",
     "next": "14.0.3",
+    "next-sitemap": "^4.2.3",
     "next-themes": "^0.2.1",
     "qs": "^6.11.2",
     "react": "18.2.0",
