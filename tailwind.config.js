@@ -18,6 +18,9 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-outfit)', ...fontFamily.sans],
       },
+      backgroundImage: {
+        "sparkel-button-bg": "linear-gradient(180deg, #14F3C5 0%, #00B390 100%)"
+      },
       colors: {
         'aqua': {
           50: '#e9fff8',
