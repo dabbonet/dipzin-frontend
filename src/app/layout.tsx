@@ -1,6 +1,5 @@
 
 import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer';
 import { Background } from '@/ui/Backgrounds'
 import './globals.css'
 import { Outfit } from 'next/font/google'
@@ -72,7 +71,6 @@ export default function RootLayout({
               <GoogleOneTap />
               {children}
              </main>
-             <Footer />
             <Background />
            </DialogProvider>
           </Providers>

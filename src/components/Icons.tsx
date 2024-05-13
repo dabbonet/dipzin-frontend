@@ -255,53 +255,53 @@ const Thumbnail: FC<Icon> = ({ className }) => {
         </svg>
     )
 }
-const addImage:FC<Icon> = ({className}) =>{
+const addImage: FC<Icon> = ({ className }) => {
     return <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      preserveAspectRatio="xMidYMid meet"
+        width={16}
+        height={16}
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={cn(className)}
+        preserveAspectRatio="xMidYMid meet"
     >
-      <path
-        d="M5.99992 14.6668H9.99992C13.3333 14.6668 14.6666 13.3335 14.6666 10.0002V6.00016C14.6666 2.66683 13.3333 1.3335 9.99992 1.3335H5.99992C2.66659 1.3335 1.33325 2.66683 1.33325 6.00016V10.0002C1.33325 13.3335 2.66659 14.6668 5.99992 14.6668Z"
-        stroke="#1E293B"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M6.00008 6.66667C6.73646 6.66667 7.33342 6.06971 7.33342 5.33333C7.33342 4.59695 6.73646 4 6.00008 4C5.2637 4 4.66675 4.59695 4.66675 5.33333C4.66675 6.06971 5.2637 6.66667 6.00008 6.66667Z"
-        stroke="#1E293B"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <path
-        d="M1.78003 12.6335L5.0667 10.4269C5.59336 10.0735 6.35336 10.1135 6.8267 10.5202L7.0467 10.7135C7.5667 11.1602 8.4067 11.1602 8.9267 10.7135L11.7 8.33354C12.22 7.88687 13.06 7.88687 13.58 8.33354L14.6667 9.26687"
-        stroke="#1E293B"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
+        <path
+            d="M5.99992 14.6668H9.99992C13.3333 14.6668 14.6666 13.3335 14.6666 10.0002V6.00016C14.6666 2.66683 13.3333 1.3335 9.99992 1.3335H5.99992C2.66659 1.3335 1.33325 2.66683 1.33325 6.00016V10.0002C1.33325 13.3335 2.66659 14.6668 5.99992 14.6668Z"
+            stroke="#1E293B"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+        <path
+            d="M6.00008 6.66667C6.73646 6.66667 7.33342 6.06971 7.33342 5.33333C7.33342 4.59695 6.73646 4 6.00008 4C5.2637 4 4.66675 4.59695 4.66675 5.33333C4.66675 6.06971 5.2637 6.66667 6.00008 6.66667Z"
+            stroke="#1E293B"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+        <path
+            d="M1.78003 12.6335L5.0667 10.4269C5.59336 10.0735 6.35336 10.1135 6.8267 10.5202L7.0467 10.7135C7.5667 11.1602 8.4067 11.1602 8.9267 10.7135L11.7 8.33354C12.22 7.88687 13.06 7.88687 13.58 8.33354L14.6667 9.26687"
+            stroke="#1E293B"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
     </svg>;
-    
+
 }
-const PlayVideo:FC<Icon> = ({className}) => {
+const PlayVideo: FC<Icon> = ({ className }) => {
     return <svg
-    viewBox="0 0 42 42"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    preserveAspectRatio="none"
->
-    <path
-    d="M21 3.5C11.34 3.5 3.5 11.34 3.5 21C3.5 30.66 11.34 38.5 21 38.5C30.66 38.5 38.5 30.66 38.5 21C38.5 11.34 30.66 3.5 21 3.5ZM16.625 28.875V13.125L28.875 21L16.625 28.875Z"
-    fill="#C9FFED"
-    />
-</svg>
+        viewBox="0 0 42 42"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={cn(className)}
+        preserveAspectRatio="none"
+    >
+        <path
+            d="M21 3.5C11.34 3.5 3.5 11.34 3.5 21C3.5 30.66 11.34 38.5 21 38.5C30.66 38.5 38.5 30.66 38.5 21C38.5 11.34 30.66 3.5 21 3.5ZM16.625 28.875V13.125L28.875 21L16.625 28.875Z"
+            fill="#C9FFED"
+        />
+    </svg>
 }
 const Clear = () => {
     return <svg
@@ -325,72 +325,101 @@ const Clear = () => {
 }
 const Account = () => {
     return <svg
-    width={16}
-    height={17}
-    viewBox="0 0 16 17"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
-    preserveAspectRatio="none"
-  >
-    <path
-      d="M7.99935 8.49967C9.8403 8.49967 11.3327 7.00729 11.3327 5.16634C11.3327 3.32539 9.8403 1.83301 7.99935 1.83301C6.1584 1.83301 4.66602 3.32539 4.66602 5.16634C4.66602 7.00729 6.1584 8.49967 7.99935 8.49967Z"
-      stroke="#94A3B8"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M13.7268 15.1667C13.7268 12.5867 11.1601 10.5 8.0001 10.5C4.8401 10.5 2.27344 12.5867 2.27344 15.1667"
-      stroke="#94A3B8"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>;
+        width={16}
+        height={17}
+        viewBox="0 0 16 17"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+        preserveAspectRatio="none"
+    >
+        <path
+            d="M7.99935 8.49967C9.8403 8.49967 11.3327 7.00729 11.3327 5.16634C11.3327 3.32539 9.8403 1.83301 7.99935 1.83301C6.1584 1.83301 4.66602 3.32539 4.66602 5.16634C4.66602 7.00729 6.1584 8.49967 7.99935 8.49967Z"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+        <path
+            d="M13.7268 15.1667C13.7268 12.5867 11.1601 10.5 8.0001 10.5C4.8401 10.5 2.27344 12.5867 2.27344 15.1667"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+    </svg>;
 
 }
-const LogOut = () => {
+const LogOut = ({ className }) => {
     return <svg
-    width={16}
-    height={17}
-    viewBox="0 0 16 17"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
-    preserveAspectRatio="xMidYMid meet"
-  >
-    <path
-      d="M11.627 10.2463L13.3336 8.53967L11.627 6.83301"
-      stroke="#94A3B8"
-      stroke-width="1.5"
-      stroke-miterlimit={10}
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M6.50586 8.54004H13.2859"
-      stroke="#94A3B8"
-      stroke-width="1.5"
-      stroke-miterlimit={10}
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M7.83919 13.8337C4.89253 13.8337 2.50586 11.8337 2.50586 8.50033C2.50586 5.16699 4.89253 3.16699 7.83919 3.16699"
-      stroke="#94A3B8"
-      stroke-width="1.5"
-      stroke-miterlimit={10}
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>;
+        width={16}
+        height={17}
+        viewBox="0 0 16 17"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={`flex-grow-0 flex-shrink-0 w-4 h-4 relative ${className}`}
+        preserveAspectRatio="xMidYMid meet"
+    >
+        <path
+            d="M11.627 10.2463L13.3336 8.53967L11.627 6.83301"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-miterlimit={10}
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+        <path
+            d="M6.50586 8.54004H13.2859"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-miterlimit={10}
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+        <path
+            d="M7.83919 13.8337C4.89253 13.8337 2.50586 11.8337 2.50586 8.50033C2.50586 5.16699 4.89253 3.16699 7.83919 3.16699"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-miterlimit={10}
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+    </svg>;
 
+}
+const BurgerMenu: FC<Icon> = ({ className }) => {
+    return (
+        <svg
+            width="18"
+            height="16"
+            viewBox="0 0 18 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={cn(className)}
+            preserveAspectRatio="xMidYMid meet"
+        >
+            <path
+                d="M16.7999 8.75043H1.19995C1.00104 8.75043 0.810273 8.67141 0.669621 8.53076C0.528969 8.39011 0.449951 8.19934 0.449951 8.00043C0.449951 7.80152 0.528969 7.61075 0.669621 7.4701C0.810273 7.32945 1.00104 7.25043 1.19995 7.25043H16.7999C16.9989 7.25043 17.1896 7.32945 17.3303 7.4701C17.4709 7.61075 17.5499 7.80152 17.5499 8.00043C17.5499 8.19934 17.4709 8.39011 17.3303 8.53076C17.1896 8.67141 16.9989 8.75043 16.7999 8.75043ZM15.25 14.8104C15.25 14.6115 15.1709 14.4208 15.0303 14.2801C14.8896 14.1394 14.6989 14.0604 14.5 14.0604H3.49995C3.30104 14.0604 3.11027 14.1394 2.96962 14.2801C2.82897 14.4208 2.74995 14.6115 2.74995 14.8104C2.74995 15.0093 2.82897 15.2001 2.96962 15.3408C3.11027 15.4814 3.30104 15.5604 3.49995 15.5604H14.5C14.6981 15.5578 14.8873 15.478 15.0274 15.3379C15.1675 15.1978 15.2474 15.0085 15.25 14.8104ZM15.25 1.19043C15.2474 0.992323 15.1675 0.803058 15.0274 0.662963C14.8873 0.522869 14.6981 0.44302 14.5 0.44043H3.49995C3.30104 0.44043 3.11027 0.519447 2.96962 0.6601C2.82897 0.800752 2.74995 0.991517 2.74995 1.19043C2.74995 1.38934 2.82897 1.58011 2.96962 1.72076C3.11027 1.86141 3.30104 1.94043 3.49995 1.94043H14.5C14.6989 1.94043 14.8896 1.86141 15.0303 1.72076C15.1709 1.58011 15.25 1.38934 15.25 1.19043Z"
+                fill="#F1F5F9"
+            />
+        </svg>
+    )
+}
+
+
+
+const Settings = ({className}) => {
+    return (
+        <svg width="20" height="21" className={cn(className)} viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 13C11.3807 13 12.5 11.8807 12.5 10.5C12.5 9.11929 11.3807 8 10 8C8.61929 8 7.5 9.11929 7.5 10.5C7.5 11.8807 8.61929 13 10 13Z" stroke="" stroke-width="1.25" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M1.66675 11.2338V9.76718C1.66675 8.90052 2.37508 8.18385 3.25008 8.18385C4.75841 8.18385 5.37508 7.11718 4.61675 5.80885C4.18341 5.05885 4.44175 4.08385 5.20008 3.65052L6.64175 2.82552C7.30008 2.43385 8.15008 2.66718 8.54175 3.32552L8.63341 3.48385C9.38341 4.79218 10.6167 4.79218 11.3751 3.48385L11.4667 3.32552C11.8584 2.66718 12.7084 2.43385 13.3667 2.82552L14.8084 3.65052C15.5667 4.08385 15.8251 5.05885 15.3917 5.80885C14.6334 7.11718 15.2501 8.18385 16.7584 8.18385C17.6251 8.18385 18.3417 8.89218 18.3417 9.76718V11.2338C18.3417 12.1005 17.6334 12.8172 16.7584 12.8172C15.2501 12.8172 14.6334 13.8838 15.3917 15.1922C15.8251 15.9505 15.5667 16.9172 14.8084 17.3505L13.3667 18.1755C12.7084 18.5672 11.8584 18.3339 11.4667 17.6755L11.3751 17.5172C10.6251 16.2089 9.39175 16.2089 8.63341 17.5172L8.54175 17.6755C8.15008 18.3339 7.30008 18.5672 6.64175 18.1755L5.20008 17.3505C4.44175 16.9172 4.18341 15.9422 4.61675 15.1922C5.37508 13.8838 4.75841 12.8172 3.25008 12.8172C2.37508 12.8172 1.66675 12.1005 1.66675 11.2338Z" stroke="" stroke-width="1.25" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    )
 }
 
 const Icons = {
     GoogleIcon, FacebookIcon, Expand, Heart, Apple, CopyFilled, Open, Download, XCircle, Save, Thumbnail,
-    Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2, Clear, Account , LogOut , PlayVideo , addImage
+    Moon, Sun, Laptop, Maximize, Grip, Filter, Image, ImageOff, MoreHorizontal, Copy, BookmarkPlus, Check, Globe2, Clear, Account, LogOut, PlayVideo, addImage, BurgerMenu, Settings
 }
 
 export default Icons
