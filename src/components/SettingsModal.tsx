@@ -3,6 +3,7 @@ import { Button, Card, CardBody, Modal, ModalBody, ModalContent, ModalFooter, Mo
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import Icons from "./Icons";
+import Image from "next/image";
 
 type SettingsModalProps = {
     user: any,
@@ -177,12 +178,12 @@ export const SettingsModal = ({ user, isOpen, onClose }: SettingsModalProps) => 
                                                     <div className=" mb-5">
                                                         <p className=" text-slate-300 text-base font-normal">Profile Picture</p>
                                                         <div className=" grid grid-cols-6 gap-x-2">
-                                                            <img src="/images/assets/manager.png" id='image' onClick={handleChange} className=" cursor-pointer" />
-                                                            <img src="/images/assets/manager2.png" id='image' onClick={handleChange} className=" cursor-pointer" />
-                                                            <img src="/images/assets/manager3.png" id='image' onClick={handleChange} className=" cursor-pointer" />
-                                                            <img src="/images/assets/manager4.png" id='image' onClick={handleChange} className=" cursor-pointer" />
-                                                            <img src="/images/assets/manager5.png" id='image' onClick={handleChange} className=" cursor-pointer" />
-                                                            <img src="/images/assets/manager6.png" id='image' onClick={handleChange} className=" cursor-pointer" />
+                                                            <Image alt="avatar" width={50} height={60} src="/images/assets/manager.png" id='image' onClick={handleChange} className=" cursor-pointer" />
+                                                            <Image alt="avatar" width={50} height={60} src="/images/assets/manager2.png" id='image' onClick={handleChange} className=" cursor-pointer" />
+                                                            <Image alt="avatar" width={50} height={60} src="/images/assets/manager3.png" id='image' onClick={handleChange} className=" cursor-pointer" />
+                                                            <Image alt="avatar" width={50} height={60} src="/images/assets/manager4.png" id='image' onClick={handleChange} className=" cursor-pointer" />
+                                                            <Image alt="avatar" width={50} height={60} src="/images/assets/manager5.png" id='image' onClick={handleChange} className=" cursor-pointer" />
+                                                            <Image alt="avatar" width={50} height={60} src="/images/assets/manager6.png" id='image' onClick={handleChange} className=" cursor-pointer" />
                                                         </div>
                                                     </div>
                                                     <div className="flex gap-4 mt-4 mb-4">
