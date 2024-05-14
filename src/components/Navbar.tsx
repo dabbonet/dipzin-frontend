@@ -10,9 +10,12 @@ import PlatformSwitcher from '@/components/PlatformSwitcher'
 import { AnimatePresence, motion } from 'framer-motion'
 import ReactPlayer from 'react-player'
 import UserIsland from './navigator/main/UserIsland';
+import { useNavigator } from '@/context/useNavigatiorContext';
 
 const Navbar: FC = () => {
   const { user, loading } = useAuth();
+  const { activeControls } = useNavigator();
+
   return (
     <header className="w-full flex justify-between fixed items-start text-white pt-8 px-5 lg:px-10 z-20 top-0 bg-gradient-to-b from-slate-950/80 to-slate-950/0">
       <Link
@@ -35,8 +38,10 @@ const Navbar: FC = () => {
 
       {!loading && (
         <>
-          <Navigator />
-          <UserIsland user={user} />
+          <div className='w-full h-full flex justify-center'>
+            <Navigator />
+          </div>
+          {activeControls !== "selection" && activeControls !== "menu-only" ? <UserIsland user={user} /> : null}
         </>
       )}
     </header>
