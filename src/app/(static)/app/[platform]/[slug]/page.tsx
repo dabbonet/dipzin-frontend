@@ -32,7 +32,7 @@ export default async function AppPage({ params: { slug, platform } }: { params: 
         screen.attributes.components.data.forEach(component => components.add(component.attributes.name));
     });
 
-    const title = `Dipzin - get your inspiration from ${app.name} | ${app.categories.data[0].attributes.name} on ${platform}`;
+    const title = `${app.name}: ${app.tag_line} - ${platform} design inspiration on Dipzin`;
 
     const description = `Discover ${app.name}, a ${app.categories.data[0].attributes.name} app on ${platform}. Features include tags such as ${Array.from(tags).join(', ')} and components like ${Array.from(components).join(', ')}. Learn more about what makes this app unique.`;
 
