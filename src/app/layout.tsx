@@ -10,8 +10,9 @@ import GoogleOneTap from '@/components/GoogleOneTap';
 import Analytics from '@/lib/Analytics';
 import { Suspense } from 'react';
 import { DialogProvider } from '../context/useDialog';
-import Dialogs  from '@/components/dialogs' 
+import Dialogs from '@/components/dialogs'
 import dotenv from 'dotenv'
+import { Viewport } from 'next';
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
 
@@ -47,6 +48,10 @@ export const metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  themeColor: 'black',
+}
+
 export default function RootLayout({
   params,
   children,
@@ -65,7 +70,7 @@ export default function RootLayout({
           <Analytics />
           <Providers>
             <DialogProvider>
-             <Dialogs/>
+              <Dialogs />
               <Navbar />
               <main className='pt-24 max-w-[90%]  mx-auto'>
               <GoogleOneTap />

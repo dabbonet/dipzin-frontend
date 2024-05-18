@@ -27,7 +27,26 @@ export const useSearch = () => {
     const { setSelected, setPlatforms } = usePlatform();
     const { setActiveView, setActiveControls } = useNavigator();
     const { selectedImages, setSelectedImages } = useSelectedImages()
-    const filterQuery = buildFilterQuery(params, platform)
+    const {filterQuery, components, tag, category} = buildFilterQuery(params, platform)
+
+    useEffect(() => {
+        if (!path.includes('/search')) return;
+
+        // Generate a description based on the search keyword, filters, and tags
+        let description = `Dipzin search results for ${keyword}`
+        if (components.length > 0) {
+            description += ` with components: ${components.join(', ')}`
+        }
+        if (tag.length > 0) {
+            description += ` and tags: ${tag.join(', ')}`
+        }
+        if (category.length > 0) {
+            description += ` in categories: ${category.join(', ')}`
+        }
+
+        document.title = description
+
+    }, [keyword, components, tag, category])
 
     useEffect(() => {
         if (selectedImages.images.length > 0) {
