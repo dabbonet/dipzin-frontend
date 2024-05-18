@@ -23,18 +23,16 @@ const navigationItems = [
 ];
 
 const soonItems = [
-    { heading: 'Figma Plugin', description: 'Work from your browser with<br/> our lightweight extension.', badge: 'in progress' },
-    { heading: 'Mobile Application', description: 'Work from your browser with<br/> our lightweight extension.', badge: 'soon' },
-    { heading: 'Flows', description: 'Work from your browser with<br/> our lightweight extension.', badge: 'soon' },
-    { heading: 'Automatic enrichment', description: 'Work from your browser with<br/> our lightweight extension.', badge: 'soon' },
-    { heading: 'test test', description: 'Work from your browser with<br/> our lightweight extension.', badge: 'in progress' },
-    { heading: 'Mobile Application', description: 'Work from your browser with<br/> our lightweight extension.', badge: 'soon' },
-    { heading: 'Flows', description: 'Work from your browser with<br/> our lightweight extension.', badge: 'soon' },
-    { heading: 'Automatic enrichment', description: 'Work from your browser with<br/> our lightweight extension.', badge: 'soon' },
-    { heading: 'test test2', description: 'Work from your browser with<br/> our lightweight extension.', badge: 'in progress' },
-    { heading: 'Mobile Application', description: 'Work from your browser with<br/> our lightweight extension.', badge: 'soon' },
-    { heading: 'Flows', description: 'Work from your browser with<br/> our lightweight extension.', badge: 'soon' },
-    { heading: 'Automatic enrichment', description: 'Work from your browser with<br/> our lightweight extension.', badge: 'soon' },
+    { heading: 'Marketing Pages', description: "Showcases your brand's<br/> offerings effectively.", badge: 'Q2 2024' },
+    { heading: 'Arabic Marketing Pages', description: 'Easily collect your Arabic<br/> marketing pages.', badge: 'Q2 2024' },
+    { heading: 'Collections', description: 'Create, share, comment, and<br/> save in your collection library.', badge: 'Q3 2024' },
+    { heading: 'Flows', description: 'See the flow screens of web<br/> and apps.', badge: 'Q3 2024' },
+    { heading: 'Interactive Prototypes', description: 'Interact with prototype<br/> screens all in one place.', badge: 'Q3 2024' },
+    { heading: 'Journey Interactions', description: 'View Flow Interactions,<br/> Gestures and Collect it.', badge: 'Q3 2024' },
+    { heading: 'Figma Plugin', description: 'Easily download screens with<br/> Figma Plugin.', badge: 'Q4 2024' },
+    { heading: 'Mobile Apps', description: 'Available for download as a<br/> mobile app.', badge: 'Q4 2024' },
+    { heading: '+1000 Apps', description: 'Over 1000 apps available in<br/> one place.', badge: 'Q4 2024' },
+    { heading: 'Comments', description: 'Leave comments in your<br/> collection.', badge: 'Q4 2024' },
 ];
 
 const UserIsland = ({ user }) => {
@@ -179,25 +177,25 @@ const UserIsland = ({ user }) => {
                                     animate={{ x: 0, opacity: 1 }}
                                     exit={{ x: direction < 0 ? 200 : -200, opacity: 0 }}
                                     transition={{ duration: 0.2 }}
-                                    style={{display: "flex"}}
+                                    style={{ display: "flex" }}
                                     className='w-full h-full gap-2 grid grid-cols-2 justify-start items-center text-white'
                                 >
-                                    <div className='grid grid-cols-2 gap-3 overflow-hidden'>
+                                    <div className='w-full h-full grid grid-cols-2 gap-3 overflow-hidden'>
                                         {displayedSoonItems.map(item => (
-                                            <Button key={item.heading} className=' w-fit h-full bg-slate-900 data-[hover=true]:bg-slate-800 rounded-2xl p-4 flex flex-col gap-1 items-start text-start'>
-                                                <h1 className='text-[10px] leading-normal font-medium text-white'>{item.heading}</h1>
+                                            <Button disableRipple key={item.heading} className='w-full  flex-1 h-full bg-slate-900 data-[hover=true]:bg-slate-800 rounded-2xl p-4 flex flex-col gap-1 items-start text-start'>
+                                                <h1 className='text-[10px] leading-normal font-medium text-white' >{item.heading}</h1>
                                                 <p className='text-[10px] leading-normal font-normal text-slate-400' dangerouslySetInnerHTML={{ __html: item.description }} />
-                                                {item.badge === "soon" ? (
+                                                {item.badge === 'Q2 2024' ? (
                                                     <Chip classNames={{
                                                         content: "w-fit h-fit px-1"
-                                                    }} className='w-fit h-fit rounded-[3px] px-[0.5px] py-[0.3px] bg-[#FCEED9] text-[#383B3D] text-[9px]'>
-                                                        Soon
+                                                    }} className='w-fit h-fit rounded-[3px] bg-lime-100 text-lime-900 text-[9px]'>
+                                                        {item.badge}
                                                     </Chip>
                                                 ) : (
                                                     <Chip classNames={{
                                                         content: "w-fit h-fit px-1"
-                                                    }} className='w-fit h-fit rounded-[3px] bg-lime-100 text-lime-900 text-[9px]'>
-                                                        In Progress
+                                                    }} className='w-fit h-fit rounded-[3px] px-[0.5px] py-[0.3px] bg-[#FCEED9] text-[#383B3D] text-[9px]'>
+                                                        {item.badge}
                                                     </Chip>
                                                 )}
                                             </Button>
