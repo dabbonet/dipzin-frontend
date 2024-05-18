@@ -3,7 +3,6 @@ import React, { useCallback, useRef } from 'react'
 import { useEffect } from "react";
 import { AnimatePresence, motion } from 'framer-motion';
 import Search from './search';
-import Menu from './menu';
 import Icons from '@/components/Icons';
 import { cn } from '@/lib/utils';
 import { useNavigator } from '@/context/useNavigatiorContext';
