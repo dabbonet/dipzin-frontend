@@ -34,7 +34,7 @@ const SmallSearchBar = () => {
                     <button onClick={handleCloseButton}><img src='/images/assets/arrow_back.svg' alt='Close Menu' />
                     </button>}
             </div>
-            <div className={cn(' flex  sm:flex-row md:flex-row items-cente w-[100%] bg-slate-900 rounded-full', activeView == 'search' ? 'w-[85%] ml-14' : '')}>
+            <div className={cn(' flex  sm:flex-row md:flex-row items-center w-[100%] bg-slate-900 rounded-full', activeView == 'search' ? 'w-[85%] ml-14' : '')}>
                 {(activeControls == 'menu-search') && (
                     <motion.div className={cn(" flex gap-3 items-center pl-6 w-full")}>
                         <motion.img src='/images/assets/search.svg' className=' mr-2' alt="search" title="search" />
