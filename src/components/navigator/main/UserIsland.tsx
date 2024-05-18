@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
@@ -93,10 +95,12 @@ const UserIsland = ({ user }) => {
                         <Icons.BurgerMenu className='stroke-white' />
                     </span>
                 </DropdownTrigger>
-                <DropdownMenu classNames={{
+                <DropdownMenu
+                 classNames={{
                     list: "w-full h-full flex flex-col items-start gap-5",
                     base: "p-0 gap-0"
-                }} aria-label="Static Actions">
+                }}
+                 aria-label="Static Actions">
                     <DropdownItem className='p-0' isReadOnly>
                         <div className='w-fit h-fit flex items-center justify-between gap-2'>
                             <Button endContent={<Icons.Settings className="stroke-white w-[20px] h-[20px]" />} variant="light" onClick={handleSettingsClick} className='w-full h-fit flex items-center p-2 data-[hover=true]:bg-slate-800'>
@@ -134,10 +138,7 @@ const UserIsland = ({ user }) => {
                             item.comingSoon ? (
                                 <DropdownItem
                                     key={item?.label}
-                                    classNames={{
-                                        title: "font-semibold",
-                                    }}
-                                    className='w-full h-fit text-base text-white data-[hover=true]:bg-slate-800 py-1 px-2 data-[hover=true]:outline-0 data-[hover=true]:text-aqua-500'
+                                    className='w-full h-fit text-base font-semibold text-white data-[hover=true]:bg-slate-800 py-1 px-2 data-[hover=true]:outline-0 data-[hover=true]:text-aqua-500'
                                     onClick={() => setKey(prev => prev + 1)}
                                     isReadOnly
                                 >
@@ -148,10 +149,7 @@ const UserIsland = ({ user }) => {
                             ) : (
                                 <DropdownItem
                                     key={item?.label}
-                                    classNames={{
-                                        title: "font-semibold",
-                                    }}
-                                    className='w-full h-fit text-base text-white data-[hover=true]:bg-slate-800 py-1 px-2 data-[hover=true]:outline-0 data-[hover=true]:text-aqua-500'
+                                        className='w-full h-fit text-base font-semibold text-white data-[hover=true]:bg-slate-800 py-1 px-2 data-[hover=true]:outline-0 data-[hover=true]:text-aqua-500'
                                     href={item?.href}
                                     onClick={() => setKey(prev => prev + 1)}
                                 >
