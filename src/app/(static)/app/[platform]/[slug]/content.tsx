@@ -4,7 +4,7 @@ import Screen from "@/components/ui/Screen";
 import { usePlatform } from "@/context/usePlatforms";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -14,6 +14,8 @@ import ScreenDetails from "@/components/ScreenDetails";
 import { useNavigator } from "@/context/useNavigatiorContext";
 import { useSelectedImages } from "@/lib/SelectedToDownload";
 import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";
+import { Button, Kbd, Tooltip } from "@nextui-org/react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface ContentProps {
   apps: any;
@@ -26,6 +28,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   const { selectedImages, setSelectedImages } = useSelectedImages();
   const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
   const [openScreen, setOpenScreen] = useState<any | null>();
+  const [isOpen, setIsOpen] = useState<boolean>(false); // Add isOpen state here
 
   useEffect(() => {
     if (selectedImages.images.length > 0) {
@@ -43,9 +46,8 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
     };
   }, []);
 
-  // Create an array of platform IDs
   const platformIds = apps.data.map((app) => app.attributes.platform.data.id);
-  // Platform Switcher initialization.
+
   useEffect(() => {
     setPlatforms(platformIds);
     setSelected(app.platform.data.id);
@@ -60,7 +62,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
     notFound();
   }
 
-  const { openScreenByIndex } = useKeyboardNavigation(
+  const { openScreenByIndex, nextScreen, prevScreen } = useKeyboardNavigation(
     screens,
     openScreen,
     setOpenScreen
@@ -128,29 +130,66 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
       />
       <AnimatePresence>
         {openScreen && (
-          <>
-            <motion.div
-              className="fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8"
-              // onClick={() => setOpenScreen(null)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <ScreenActions appName={app.name} screen={openScreen} />
-              <motion.div className="relative z-[100] h-full flex items-center">
-                <ScreenDetails screenId={openScreen.id} />
-                <Screen
-                  src={mergeScreenUrl(openScreen)}
-                  quality={50}
-                  className="rounded-2xl h-[90%] w-auto bg-slate-900/80"
-                />
-              </motion.div>
+          <motion.div
+            className={selected === 3 ? "fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8" : "fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8"}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <ScreenActions appName={app.name} screen={openScreen} />
+            <div className={`${selected ===3?"relative h-fit flex flex-col max-w-[160vh] items-center gap-6":""} `}>
               <motion.div
-                onClick={() => setOpenScreen(null)}
-                className={"w-[100%] h-[100%] fixed top-0 bg-transparent"}
-              ></motion.div>
-            </motion.div>
-          </>
+                className={`w-full h-fit flex items-center justify-center z-[100] ${selected === 3 ? "flex-col justify-start 1 w-fit h-fit " : ""}`}
+              >
+                <ScreenDetails screenId={openScreen.id} isOpen={isOpen} setIsOpen={setIsOpen} /> {/* Pass isOpen and setIsOpen as props */}
+                <div className={`relative ${isOpen?"top-[-60px] transition-[2s]":""} flex h-[540px] w-fit justify-center`}>
+                  <Screen
+                    src={mergeScreenUrl(openScreen)}
+                    quality={50}
+                    className={`rounded-2xl w-full bg-slate-900/80`}
+                  />
+                  <div className={selected === 3 ? "flex absolute justify-between bottom-0 translate-y-[-50%] p-4 w-full h-fit" : "flex absolute justify-between bottom-0 translate-y-[-110%] p-4 w-full h-fit"}>
+                    <Tooltip
+                      showArrow={true}
+                      content={
+                        <p>
+                          Press <Kbd className="mx-2" keys={["left"]} /> to
+                          navigate
+                        </p>
+                      }
+                    >
+                      <Button
+                        className="bg-white rounded-full px-2 py-2 min-w-0 aspect-square w-fit h-fit text-black-900"
+                        onClick={prevScreen}
+                      >
+                        <ArrowLeft />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip
+                      showArrow={true}
+                      content={
+                        <p>
+                          Press <Kbd className="mx-2" keys={["right"]} /> to
+                          navigate
+                        </p>
+                      }
+                    >
+                      <Button
+                        className="bg-white rounded-full px-2 py-2 min-w-0 aspect-square w-fit h-fit text-black-900"
+                        onClick={nextScreen}
+                      >
+                        <ArrowRight />
+                      </Button>
+                    </Tooltip>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+            <motion.div
+              onClick={() => setOpenScreen(null)}
+              className="w-full h-full fixed top-0 bg-transparent"
+            ></motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </main>

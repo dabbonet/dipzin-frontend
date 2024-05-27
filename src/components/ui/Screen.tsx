@@ -15,6 +15,7 @@ const Screen: FC<ScreenProps> = forwardRef(({ src, ...props }, ref) => {
     switch (selected) {
         case 3: {
             return (
+                
                 <Image
                     title="screenshot"
                     alt="screenshot"
