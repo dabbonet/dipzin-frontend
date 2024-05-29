@@ -137,12 +137,12 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
             exit={{ opacity: 0 }}
           >
             <ScreenActions appName={app.name} screen={openScreen} />
-            <div className={`${selected ===3?"relative  flex flex-col h-full max-w-[150vh] items-center gap-6":""} `}>
+            <div className={`${selected ===3?"relative  flex flex-col h-full max-w-[135vh] items-center gap-6":""} `}>
               <motion.div
-                className={`w-full h-fit flex items-center justify-center  ${selected === 3 ? "flex-col justify-start 1 w-fit h-fit " : ""}`}
+                className={`w-full h-fit flex items-center justify-center  ${selected === 3 ? "flex-col justify-start flex-[0.1] w-fit h-fit " : ""}`}
               >
                 <ScreenDetails screenId={openScreen.id} isOpen={isOpen} setIsOpen={setIsOpen} /> {/* Pass isOpen and setIsOpen as props */}
-                <div className={`relative  ${isOpen?"top-[-60px] transition-[2s]":""} flex h-[540px] w-fit justify-center`}>
+                <div className={`relative  ${isOpen?"top-[-60px] transition-[2s]":""} ${selected ==3?"flex-[0.9]":""} flex h-[540px] w-fit justify-center`}>
                   <Screen
                     src={mergeScreenUrl(openScreen)}
                     quality={50}

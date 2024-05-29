@@ -51,7 +51,7 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
     const App = () => {
         const icon = data?.app?.icon?.data?.attributes?.hash + data?.app?.icon?.data?.attributes?.ext;
         return (
-            <Link href={`/app/${slug()}/${data.app.slug}`} className={`hover:bg-slate-900/50  ${selected === 3 ? "items-center rounded-full w-fit h-fit" : ""} ${isOpen ? 'text-lg rounded-xl bg-slate-950 p-3' : ''} p-2 flex gap-1`}>
+            <Link href={`/app/${slug()}/${data.app.slug}`} className={`hover:bg-slate-900/50  ${selected === 3 ? "items-center rounded-xl w-fit h-fit" : ""} ${isOpen ? 'text-lg rounded-xl hover:bg-slate-950/50 bg-slate-900 p-3' : ''} p-2 flex gap-1`}>
                
                     <Image src={icon} width={56} height={56} className={`${!isOpen ? "rounded-full" : "rounded-xl"}`} alt={'app logo'} />
                 
@@ -67,7 +67,7 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
 
 
     const Components = () => (
-        <div className={`flex gap-2 ${isOpen ? 'min-w-[25vh] flex-wrap w-fit h-fit  ' : ""} ${selected === 3 && !isOpen ? "w-fit h-fit  text-nowrap min-w-[10vh] flex-nowrap" : ""} flex-wrap h-full overflow-y-auto overflow-hidden`}>
+        <div className={`flex gap-1 ${isOpen ? 'min-w-[25vh] flex-wrap w-fit h-fit  ' : ""} ${selected === 3 && !isOpen ? "max-h-[30px] w-fit  text-nowrap min-w-[10vh] flex-wrap overflow-y-scroll " : ""} flex-wrap h-full overflow-y-auto overflow-hidden`}>
             {data?.components.map((el, index) => {
                 if (!isOpen && (index === 0 || index === 1)) {
 
@@ -82,7 +82,7 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
     );
 
     const Tags = () => (
-        <div className={`flex gap-2 ${isOpen ? 'min-w-[25vh] flex-wrap w-fit h-fit' : ""} ${selected === 3 && !isOpen ? "w-fit h-fit text-nowrap min-w-[10vh] flex-nowrap" : ""} text-nowrap flex-wrap h-full overflow-y-auto overflow-hidden`}>
+        <div className={`flex gap-1 ${isOpen ? 'min-w-[25vh] flex-wrap w-fit h-fit' : ""} ${selected === 3 && !isOpen ? " max-h-[30px]  w-fit text-nowrap min-w-[10vh] flex-wrap overflow-y-scroll " : ""} text-nowrap flex-wrap h-full overflow-y-auto overflow-hidden`}>
             {data?.tags.map((el, index) => {
                 if (!isOpen && (index === 0 || index === 1)) {
                     return <Tag  name={el.attributes.name} type="tag" key={el.id} />;
@@ -121,7 +121,7 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
         };
     
         return (
-            <button onClick={searchTag} className={` ${selected==3?"w-fit h-fit":""}${isOpen?"max-w-[25vh]":""} bg-slate-800 hover:bg-slate-700 py-1 px-2 text-sm rounded-3xl`}>
+            <button onClick={searchTag} className={` ${selected==3?"w-fit h-fit":""}${isOpen?"max-w-[25vh]":""} bg-slate-700 hover:bg-slate-600 py-1 px-2 text-sm rounded-3xl`}>
                 {name}
             </button>
         );
@@ -134,9 +134,9 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
 
-                className={`${selected === 3 ? 'flex-col w-full justify-center   py-3 items-center ' : 'absolute left-10 translate-x-0 md:flex'}`}
+                className={`${selected === 3 ? 'flex-col w-full justify-center   py-1 items-center ' : 'absolute left-10 translate-x-0 md:flex'}`}
             >
-                <div className={`${isOpen ? 'py-5 relative top-[44px] transition-[2s] z-50' : ''} ${selected === 3 ? 'bg-slate-900 px-5  gap-1 p-2 flex justify-between items-center rounded-3xl w-full h-fit' : 'bg-slate-950 p-8 flex flex-col gap-y-8 rounded-3xl w-[370px] h-fit'}`}>
+                <div className={`${isOpen ? 'py-5 relative top-[44px] transition-[2s] z-50' : ''} ${selected === 3 ? 'bg-slate-800 px-3  gap-1 p-2 flex justify-between items-center rounded-3xl w-full h-fit' : 'bg-slate-950 p-8 flex flex-col gap-y-8 rounded-3xl w-[370px] h-fit'}`}>
                     {data?.app && (
                         <div className='flex flex-col gap-4'>
                             {isOpen && (
@@ -199,8 +199,8 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
                                     tabContent: "text-slate-300 group-data-[selected=true]:text-slate-200",
                                 }}
                             >
-                                <Tab key="photos" title="Photos" />
-                                <Tab key="videos" title="Videos" />
+                                <Tab key="photos" title="Section" />
+                                <Tab key="videos" title="Full Page" />
                             </Tabs>
                             <Button variant='light' className='min-w-0 relative left-2' onClick={() => setIsOpen(!isOpen)}>
                                 <img className='min-w-[20px] min-h-[20px]' src={!isOpen ? '/images/assets/expand.svg' : '/images/assets/collapse.svg'} />
