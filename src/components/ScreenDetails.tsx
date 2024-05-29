@@ -121,7 +121,7 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
         };
     
         return (
-            <button onClick={searchTag} className={` ${selected==3?"w-fit h-fit bg-slate-700":""} ${isOpen?"max-w-[25vh]":""} bg-slate-800 hover:bg-slate-600 py-2 px-3 text-sm rounded-3xl`}>
+            <button onClick={searchTag} className={` ${selected==3?"w-fit h-fit bg-slate-700":""} ${isOpen?"max-w-[25vh]":""} bg-slate-800 hover:bg-slate-600 py-1 px-3 text-sm rounded-3xl`}>
                 {name}
             </button>
         );
@@ -136,7 +136,7 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
 
                 className={`${selected === 3 ? 'flex-col w-full justify-center   py-1 items-center ' : 'absolute left-[230px] translate-x-0 md:flex'}`}
             >
-                <div className={`${isOpen ? 'py-5 relative top-[44px] z-50' : ''} ${selected === 3 ? 'bg-[#1e293b99] backdrop-blur-md px-3  gap-1 p-2 flex justify-between items-center rounded-3xl w-full h-fit' : 'bg-slate-950 p-8 flex flex-col gap-y-5 rounded-3xl w-full h-full'}`}>
+                <div className={`${isOpen ? 'py-5 relative top-[44px] z-50' : ''} ${selected === 3 ? 'bg-screen-details-web-bg backdrop-blur-md px-3  gap-1 p-2 flex justify-between items-center rounded-3xl w-full h-fit' : 'bg-slate-950 p-8 flex flex-col gap-y-5 rounded-3xl w-full h-full'}`}>
                     {data?.app && (
                         <div className={` ${selected ===3?"gap-4":""} flex flex-col gap-2`}>
                             {isOpen && (
@@ -209,9 +209,6 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
                         </div>
                     )}
 
-
-                    {/* ${isOpen ? 'flex gap-6 w-fit h-full flex-col' : ' flex-row'} ${selected === 3 ? 'flex-row' : ""} */}
-
                 </div>
 
             </motion.div>
@@ -241,7 +238,7 @@ const ColorSquare = ({ color, isOpen }) => {
     }
 
     return (
-        <button onClick={copyToClipboard} onMouseEnter={() => setShowColorCode(true)} onMouseLeave={() => setShowColorCode(false)} className={`${selected === 3 ? `border-transparent border-[3px] hover:border-aqua-400 relative rounded-full ${isOpen ? "w-10 h-10 bg-red-500" : "w-5 h-5"} ` : 'w-10 h-10 rounded-xl border-transparent border-[3px] hover:border-aqua-400 relative'}`} style={{ backgroundColor: color }}>
+        <button onClick={copyToClipboard} onMouseEnter={() => setShowColorCode(true)} onMouseLeave={() => setShowColorCode(false)} className={`${selected === 3 ? `border-white border-[2px] hover:border-aqua-400 relative rounded-full ${isOpen ? "w-[2rem] h-[2rem]" : "w-[18px] h-[18px]"} ` : 'w-10 h-10 rounded-xl border-white border-[2px] hover:border-aqua-400 relative'}`} style={{ backgroundColor: color }}>
             {showColorCode && <span className='absolute -bottom-14 left-1/2 transform -translate-x-1/2'>copy {color}</span>}
         </button>
     );

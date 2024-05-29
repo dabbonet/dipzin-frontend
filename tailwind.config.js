@@ -19,7 +19,8 @@ module.exports = {
         sans: ['var(--font-outfit)', ...fontFamily.sans],
       },
       backgroundImage: {
-        "sparkle-button-bg": "linear-gradient(180deg, #14F3C5 0%, #00B390 100%)"
+        "sparkle-button-bg": "linear-gradient(180deg, #14F3C5 0%, #00B390 100%)",
+        "screen-details-web-bg": "rgba(30, 41, 59, 0.60)"
       },
       colors: {
         'aqua': {
