@@ -142,11 +142,11 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
                 className={`w-full h-fit flex items-center justify-center  ${selected === 3 ? "flex-col justify-start flex-[0.1] w-fit h-fit " : ""}`}
               >
                 <ScreenDetails screenId={openScreen.id} isOpen={isOpen} setIsOpen={setIsOpen} /> {/* Pass isOpen and setIsOpen as props */}
-                <div className={`relative  ${isOpen?"top-[-60px] transition-[2s]":""} ${selected ==3?"flex-[0.9]":""} flex h-[540px] w-fit justify-center`}>
+                <div className={`relative  ${isOpen?"top-[-60px] transition-[2s]":""} ${selected ==3?"flex-[0.9]":""} flex h-[640px] w-fit justify-center`}>
                   <Screen
                     src={mergeScreenUrl(openScreen)}
                     quality={50}
-                    className={`rounded-2xl w-full  bg-slate-900/80`}
+                    className={`rounded-2xl w-full h-full  bg-slate-900/80`}
                   />
                   <div className={selected === 3 ? "flex absolute justify-between bottom-0 translate-y-[-50%] p-4 w-full h-fit" : "flex absolute justify-between bottom-0 translate-y-[-30%] p-4 w-full h-fit"}>
                     <Tooltip

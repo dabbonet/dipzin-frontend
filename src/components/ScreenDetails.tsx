@@ -51,14 +51,14 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
     const App = () => {
         const icon = data?.app?.icon?.data?.attributes?.hash + data?.app?.icon?.data?.attributes?.ext;
         return (
-            <Link href={`/app/${slug()}/${data.app.slug}`} className={`hover:bg-slate-900/50  ${selected === 3 ? "items-center rounded-xl w-fit h-fit" : ""} ${isOpen ? 'text-lg rounded-xl hover:bg-slate-950/50 bg-slate-900 p-3' : ''} p-2 flex gap-1`}>
+            <Link href={`/app/${slug()}/${data.app.slug}`} className={`hover:bg-slate-900/50  ${selected === 3 ? "items-center rounded-2xl w-fit h-fit flex-row" : "flex-col"} rounded-xl ${isOpen ? 'text-lg rounded-xl flex-row hover:bg-slate-950/50 bg-slate-900 p-3' : ''} p-2 flex  gap-1`}>
                
-                    <Image src={icon} width={56} height={56} className={`${!isOpen ? "rounded-full" : "rounded-xl"}`} alt={'app logo'} />
+                    <Image src={icon} width={56} height={56} className={`${selected === 3 ? "rounded-full" : "rounded-xl"} ${isOpen?"rounded-xl":""}`} alt={'app logo'} />
                 
                 <div className={` ${selected === 3 ? "flex flex-col px-2" : ""}`}>
-                    <h2 className='text-white'>{data.app.name}</h2>
-                    <p className='text-slate-600'>
-                        {isOpen ? data.app.tag_line : (data.app.tag_line.length > 20 ? `${data.app.tag_line.substring(0, 20)}...` : data.app.tag_line)}
+                    <h2 className={`text-white  ${selected==3 && isOpen ?"text-wrap":"text-nowrap"}`}>{data.app.name}</h2>
+                    <p className={` ${selected==3 && isOpen ?"text-wrap":"text-nowrap   "} text-slate-600 `}>
+                        {isOpen ? data.app.tag_line : (data.app.tag_line.length > 20 ? `${data.app.tag_line.substring(0, 16)}...` : data.app.tag_line)}
                     </p>
                 </div>
             </Link>
@@ -67,7 +67,7 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
 
 
     const Components = () => (
-        <div className={`flex gap-1 ${isOpen ? 'min-w-[25vh] flex-wrap w-fit h-fit  ' : ""} ${selected === 3 && !isOpen ? "max-h-[30px] w-fit  text-nowrap min-w-[10vh] flex-wrap overflow-y-scroll " : ""} flex-wrap h-full overflow-y-auto overflow-hidden`}>
+        <div className={`flex gap-1 ${isOpen ? 'min-w-[25vh] flex-wrap w-fit h-fit  ' : ""} ${selected === 3 && !isOpen ? "max-h-[30px] w-fit  text-nowrap min-w-[10vh]  max-w-[25vh] flex-wrap overflow-y-scroll " : ""} flex-wrap h-full overflow-y-auto overflow-hidden`}>
             {data?.components.map((el, index) => {
                 if (!isOpen && (index === 0 || index === 1)) {
 
@@ -82,7 +82,7 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
     );
 
     const Tags = () => (
-        <div className={`flex gap-1 ${isOpen ? 'min-w-[25vh] flex-wrap w-fit h-fit' : ""} ${selected === 3 && !isOpen ? " max-h-[30px]  w-fit text-nowrap min-w-[10vh] flex-wrap overflow-y-scroll " : ""} text-nowrap flex-wrap h-full overflow-y-auto overflow-hidden`}>
+        <div className={`flex gap-1 ${isOpen ? 'min-w-[25vh] flex-wrap w-fit h-fit' : ""} ${selected === 3 && !isOpen ? " max-h-[30px] max-w-[25vh]  w-fit text-nowrap min-w-[10vh] flex-wrap overflow-y-scroll " : ""} text-nowrap flex-wrap h-full overflow-y-auto overflow-hidden`}>
             {data?.tags.map((el, index) => {
                 if (!isOpen && (index === 0 || index === 1)) {
                     return <Tag  name={el.attributes.name} type="tag" key={el.id} />;
@@ -121,7 +121,7 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
         };
     
         return (
-            <button onClick={searchTag} className={` ${selected==3?"w-fit h-fit":""}${isOpen?"max-w-[25vh]":""} bg-slate-700 hover:bg-slate-600 py-1 px-2 text-sm rounded-3xl`}>
+            <button onClick={searchTag} className={` ${selected==3?"w-fit h-fit bg-slate-700":""} ${isOpen?"max-w-[25vh]":""} bg-slate-800 hover:bg-slate-600 py-2 px-3 text-sm rounded-3xl`}>
                 {name}
             </button>
         );
@@ -134,17 +134,18 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
 
-                className={`${selected === 3 ? 'flex-col w-full justify-center   py-1 items-center ' : 'absolute left-10 translate-x-0 md:flex'}`}
+                className={`${selected === 3 ? 'flex-col w-full justify-center   py-1 items-center ' : 'absolute left-[230px] translate-x-0 md:flex'}`}
             >
-                <div className={`${isOpen ? 'py-5 relative top-[44px] transition-[2s] z-50' : ''} ${selected === 3 ? 'bg-slate-800 px-3  gap-1 p-2 flex justify-between items-center rounded-3xl w-full h-fit' : 'bg-slate-950 p-8 flex flex-col gap-y-8 rounded-3xl w-[370px] h-fit'}`}>
+                <div className={`${isOpen ? 'py-5 relative top-[44px] z-50' : ''} ${selected === 3 ? 'bg-[#1e293b99] backdrop-blur-md px-3  gap-1 p-2 flex justify-between items-center rounded-3xl w-full h-fit' : 'bg-slate-950 p-8 flex flex-col gap-y-5 rounded-3xl w-full h-full'}`}>
                     {data?.app && (
-                        <div className='flex flex-col gap-4'>
+                        <div className={` ${selected ===3?"gap-4":""} flex flex-col gap-2`}>
                             {isOpen && (
                                 <>
                                     <h1 className='text-xl'>Screen Details</h1>
                                     <p className='text-slate-500 text-sm mb-2'>App</p>
                                 </>
                             )}
+                            {selected !== 3? <p className='text-slate-500 text-sm mb-2'>App</p> :null}
                             <App />
                         </div>
                     )}
