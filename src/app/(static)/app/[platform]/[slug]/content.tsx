@@ -137,18 +137,18 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
             exit={{ opacity: 0 }}
           >
             <ScreenActions appName={app.name} screen={openScreen} />
-            <div className={`${selected ===3?"relative h-fit flex flex-col max-w-[160vh] items-center gap-6":""} `}>
+            <div className={`${selected ===3?"relative  flex flex-col h-full max-w-[150vh] items-center gap-6":""} `}>
               <motion.div
-                className={`w-full h-fit flex items-center justify-center z-[100] ${selected === 3 ? "flex-col justify-start 1 w-fit h-fit " : ""}`}
+                className={`w-full h-fit flex items-center justify-center  ${selected === 3 ? "flex-col justify-start 1 w-fit h-fit " : ""}`}
               >
                 <ScreenDetails screenId={openScreen.id} isOpen={isOpen} setIsOpen={setIsOpen} /> {/* Pass isOpen and setIsOpen as props */}
-                <div className={`relative ${isOpen?"top-[-60px] transition-[2s]":""} flex h-[540px] w-fit justify-center`}>
+                <div className={`relative  ${isOpen?"top-[-60px] transition-[2s]":""} flex h-[540px] w-fit justify-center`}>
                   <Screen
                     src={mergeScreenUrl(openScreen)}
                     quality={50}
-                    className={`rounded-2xl w-full bg-slate-900/80`}
+                    className={`rounded-2xl w-full  bg-slate-900/80`}
                   />
-                  <div className={selected === 3 ? "flex absolute justify-between bottom-0 translate-y-[-50%] p-4 w-full h-fit" : "flex absolute justify-between bottom-0 translate-y-[-110%] p-4 w-full h-fit"}>
+                  <div className={selected === 3 ? "flex absolute justify-between bottom-0 translate-y-[-50%] p-4 w-full h-fit" : "flex absolute justify-between bottom-0 translate-y-[-30%] p-4 w-full h-fit"}>
                     <Tooltip
                       showArrow={true}
                       content={
@@ -187,8 +187,8 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
             </div>
             <motion.div
               onClick={() => setOpenScreen(null)}
-              className="w-full h-full fixed top-0 bg-transparent"
-            ></motion.div>
+              className="w-full h-full fixed top-0 -z-10 bg-transparent"
+            />
           </motion.div>
         )}
       </AnimatePresence>
