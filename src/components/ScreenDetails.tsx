@@ -1,4 +1,5 @@
-'use client'
+const  handleDragEnd=useDragAndDrop(screens)
+console.log(handleDragEnd)'use client'
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
 import React, { useEffect, useState } from 'react';
@@ -66,8 +67,8 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
     };
 
 
-    const Components = () => (
-        <div className={`flex gap-1 ${isOpen ? 'min-w-[25vh] flex-wrap w-fit h-fit  ' : ""} ${selected === 3 && !isOpen ? "max-h-[30px] w-fit  text-nowrap min-w-[10vh]  max-w-[25vh] flex-wrap overflow-y-scroll " : ""} flex-wrap h-full overflow-y-auto overflow-hidden`}>
+    const Components = () => ( 
+        <div className={`flex gap-1 ${isOpen ? 'min-w-[25vh] flex-wrap text-nowrap w-fit h-fit  ' : ""} ${selected === 3 && !isOpen ? "max-h-[35px] w-fit  text-nowrap min-w-[10vh]  max-w-[25vh] flex-wrap overflow-y-scroll " : ""} flex-wrap h-full overflow-y-auto overflow-hidden`}>
             {data?.components.map((el, index) => {
                 if (!isOpen && (index === 0 || index === 1)) {
 
@@ -82,7 +83,7 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
     );
 
     const Tags = () => (
-        <div className={`flex gap-1 ${isOpen ? 'min-w-[25vh] flex-wrap w-fit h-fit' : ""} ${selected === 3 && !isOpen ? " max-h-[30px] max-w-[25vh]  w-fit text-nowrap min-w-[10vh] flex-wrap overflow-y-scroll " : ""} text-nowrap flex-wrap h-full overflow-y-auto overflow-hidden`}>
+        <div className={`flex gap-1 ${isOpen ? 'min-w-[25vh] flex-wrap w-fit h-fit text-nowrap' : ""} ${selected === 3 && !isOpen ? " max-h-[35px] max-w-[25vh]  w-fit text-nowrap min-w-[10vh] flex-wrap overflow-y-scroll " : ""} text-nowrap flex-wrap h-full overflow-y-auto overflow-hidden`}>
             {data?.tags.map((el, index) => {
                 if (!isOpen && (index === 0 || index === 1)) {
                     return <Tag  name={el.attributes.name} type="tag" key={el.id} />;
@@ -121,7 +122,7 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
         };
     
         return (
-            <button onClick={searchTag} className={` ${selected==3?"w-fit h-fit bg-slate-700":""} ${isOpen?"max-w-[25vh]":""} bg-slate-800 hover:bg-slate-600 py-1 px-3 text-sm rounded-3xl`}>
+            <button onClick={searchTag} className={` ${selected==3?"w-fit h-fit py-1 px-2 bg-slate-700":"py-2 px-3"} ${isOpen?"max-w-[25vh]":""} bg-slate-700 hover:bg-slate-500  text-sm rounded-3xl`}>
                 {name}
             </button>
         );
@@ -134,9 +135,9 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
 
-                className={`${selected === 3 ? 'flex-col w-full justify-center   py-1 items-center ' : 'absolute left-[230px] translate-x-0 md:flex'}`}
+                className={`${selected === 3 ? 'flex-col w-full justify-center   py-1 items-center ' : 'absolute left-[190px] translate-x-0 md:flex'}`}
             >
-                <div className={`${isOpen ? 'py-5 relative top-[44px] z-50' : ''} ${selected === 3 ? 'bg-screen-details-web-bg backdrop-blur-md px-3  gap-1 p-2 flex justify-between items-center rounded-3xl w-full h-fit' : 'bg-slate-950 p-8 flex flex-col gap-y-5 rounded-3xl w-full h-full'}`}>
+                <div className={`${isOpen ? 'py-3 relative  z-50' : ''} ${selected === 3 ? 'bg-[#1e293bcc] backdrop-blur-md px-3  gap-1 p-2 flex justify-between items-center rounded-3xl w-full h-fit' : 'bg-slate-950 p-8 flex flex-col gap-y-5 rounded-3xl w-full h-full'}`}>
                     {data?.app && (
                         <div className={` ${selected ===3?"gap-4":""} flex flex-col gap-2`}>
                             {isOpen && (
@@ -150,13 +151,14 @@ const ScreenDetails = ({ screenId, isOpen, setIsOpen }) => {
                         </div>
                     )}
                     {data?.tags?.length > 0 && (
-                        <div className={`${isOpen && data.tags.length >= 3 && data.tags.length <= 5 ? "relative top-7" : ""}${isOpen && data.tags.length <= 2 ? "relative top-4" : ""}`}>
+                        <div className={`${isOpen && data.tags.length >= 1 && data.tags.length <= 10 ? "relative top-7" : ""} `}>
                             <p className='text-slate-500 text-sm mb-2'>Tags</p>
                             <Tags />
                         </div>
                     )}
                     {data?.components?.length > 0 && (
-                        <div className={`${isOpen && data.components.length >= 3 && data.components.length <= 5 ? "relative top-7" : ""}${isOpen && data.components.length <= 2 ? "relative top-4" : ""}`}>
+                        <div className={`${isOpen?"max-w-[250px]":""} ${isOpen && data.components.length >= 1 && data.components.length <= 10 ? "relative top-7" : ""} `}>
+                            {/* ${isOpen &&  data.components.length <= 7 ? "" : ""} */}
                             <p className='text-slate-500 text-sm mb-2'>Components</p>
                             <Components />
                         </div>
