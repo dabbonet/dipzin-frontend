@@ -28,7 +28,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
   const { selectedImages, setSelectedImages } = useSelectedImages();
   const { selected, setSelected, setPlatforms, setSingleApp } = usePlatform();
   const [openScreen, setOpenScreen] = useState<any | null>();
-  const [isOpen, setIsOpen] = useState<boolean>(false); // Add isOpen state here
+  const [isDetailsOpen, setIsDetailsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (selectedImages.images.length > 0) {
@@ -131,29 +131,38 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
       <AnimatePresence>
         {openScreen && (
           <motion.div
-            className={selected === 3 ? "fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8" : "fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 z-50 flex items-center justify-center gap-8"}
+            className="z-50 fixed top-0 w-full h-[100vh] backdrop-blur-md bg-slate-900/70 flex items-center justify-center gap-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <ScreenActions appName={app.name} screen={openScreen} />
-            <div className={`${selected ===3?"relative  flex flex-col h-full max-w-[135vh] items-center gap-6":""} `}>
-              <motion.div
-                className={`w-full h-fit flex items-center justify-center  ${selected === 3 ? "flex-col justify-start flex-[0.1] w-fit h-fit " : "gap-10"}`}
-              >
-                <ScreenDetails screenId={openScreen.id} isOpen={isOpen} setIsOpen={setIsOpen} /> {/* Pass isOpen and setIsOpen as props */}
-                <div className={`relative  ${isOpen?"bottom-[130px] transition-[2s]":""} ${selected ==3?" flex-[0.9]":""} flex h-[640px] w-fit justify-center`}>
+            <motion.div
+              className={`w-full h-fit flex items-center justify-center ${selected === 3 ? 'flex flex-col justify-start w-fit h-fit' : 'gap-10'
+                }`}
+            >
+              <div className={`z-20 ${selected === 3 ? "relative flex flex-col h-full w-full max-w-[70vw] -scale-[90%]  rotate-180 items-center gap-6" : ""}`}>
+                <div className={`w-full h-fit ${selected === 3 && openScreen ? "absolute top-0 left-0 right-0 translate-y-[6vh] z-10" : "h-full absolute top-0 translate-y-[20%]"}`}>
+                  <ScreenDetails isDetailsOpen={isDetailsOpen} setIsDetailsOpen={setIsDetailsOpen} screenId={openScreen.id} />
+                </div>
+                <div className={`w-fit relative flex ${selected === 3 ? "mt-[15%] mb-[5%]" : ""} justify-center`}>
                   <Screen
                     src={mergeScreenUrl(openScreen)}
                     quality={50}
-                    className={`rounded-2xl w-full h-full  bg-slate-900/80`}
+                    className={`rounded-2xl w-fit h-fit max-h-[90vh] bg-slate-900/80`}
                   />
-                  <div className={selected === 3 ? "flex absolute justify-between bottom-0 translate-y-[-50%] p-4 w-full h-fit" : "flex absolute justify-between bottom-0 translate-y-[-30%] p-4 w-full h-fit"}>
+                  <div
+                    className={
+                      selected === 3
+                        ? 'flex absolute justify-between bottom-0 translate-y-[-50%] p-4 w-full h-fit'
+                        : 'flex absolute justify-between bottom-0 translate-y-[-30%] p-4 w-full h-fit'
+                    }
+                  >
                     <Tooltip
                       showArrow={true}
                       content={
                         <p>
-                          Press <Kbd className="mx-2" keys={["left"]} /> to
+                          Press <Kbd className="mx-2" keys={['left']} /> to
                           navigate
                         </p>
                       }
@@ -169,7 +178,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
                       showArrow={true}
                       content={
                         <p>
-                          Press <Kbd className="mx-2" keys={["right"]} /> to
+                          Press <Kbd className="mx-2" keys={['right']} /> to
                           navigate
                         </p>
                       }
@@ -183,11 +192,11 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
                     </Tooltip>
                   </div>
                 </div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
             <motion.div
               onClick={() => setOpenScreen(null)}
-              className="w-full h-full fixed top-0 -z-10 bg-transparent"
+              className="w-screen h-screen fixed top-0 -z-5 bg-transparent"
             />
           </motion.div>
         )}
