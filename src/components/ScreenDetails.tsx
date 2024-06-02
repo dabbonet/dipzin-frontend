@@ -122,7 +122,7 @@ const ScreenDetails = ({ screenId, isDetailsOpen, setIsDetailsOpen }) => {
             originY: 0, // Set the origin of the animation to the top of the element
         },
         open: {
-            height: selected === 3 ? "30vh" : null,
+            height: selected === 3 ? "25vh" : null,
             originY: 0, // Set the origin of the animation to the top of the element
         },
     };
