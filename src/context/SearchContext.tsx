@@ -14,16 +14,17 @@ interface SearchContextProps {
     setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
     filters: any;
     setFilters: React.Dispatch<React.SetStateAction<any>>;
+    reload: () => void;
 }
 
 const SearchContext = createContext<SearchContextProps | undefined>(undefined);
 
 export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [openScreen, setOpenScreen] = useState<any | null>(null);
-    const { data, setData, isLoading, loadMore, searchKeyword, setSearchKeyword, filters, setFilters } = useSearch();
+    const { data, setData, isLoading, loadMore, searchKeyword, setSearchKeyword, filters, setFilters, reload } = useSearch();
 
     return (
-        <SearchContext.Provider value={{ searchKeyword, setSearchKeyword, openScreen, setOpenScreen, data, setData, isLoading, loadMore, filters, setFilters }}>
+        <SearchContext.Provider value={{ searchKeyword, setSearchKeyword, openScreen, setOpenScreen, data, setData, isLoading, loadMore, filters, setFilters, reload }}>
             {children}
         </SearchContext.Provider>
     );

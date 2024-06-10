@@ -11,7 +11,7 @@ import { FC, useEffect } from "react"
 const HomeNavigator: FC = () => {
     const path = usePathname();
     const { setStreamData } = useContentDiscovery()
-    const { setData } = useSearchContext();
+    const { reload } = useSearchContext();
     const { selected, platforms, slug } = usePlatform()
     if (!path.startsWith('/search')) {
         return <div className="flex space-x-6 items-center mt-8 h-10 mx-auto  max-w-[90%]">
@@ -52,7 +52,7 @@ const HomeNavigator: FC = () => {
                 Search Results
             </span>
             <motion.div
-                onClick={() => setData([])}
+                onClick={reload}
                 whileHover={{ rotate: 90 }}
                 whileTap={{
                     rotate: 360,
