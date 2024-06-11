@@ -40,7 +40,7 @@ const ScreenDetails = ({ screenId, isDetailsOpen, setIsDetailsOpen }) => {
         }
         getData();
     }, [screenId]);
-
+    
     const App = () => {
         const icon = data?.app?.icon?.data?.attributes?.hash + data?.app?.icon?.data?.attributes?.ext;
         return (
@@ -57,7 +57,7 @@ const ScreenDetails = ({ screenId, isDetailsOpen, setIsDetailsOpen }) => {
     };
 
     const Components = () => (
-        <div className={`flex gap-1  flex-wrap h-fit overflow-y-auto overflow-hidden ${isDetailsOpen ? 'flex-wrap text-nowrap w-fit h-fit' : ""} ${selected === 3 && !isDetailsOpen ? "w-fit  text-nowrap flex-wrap overflow-y-scroll" : ""}`}>
+        <div className={`flex gap-1  h-fit overflow-y-auto overflow-hidden ${isDetailsOpen ? 'flex-wrap  w-fit h-fit' : ""} ${selected === 3 && !isDetailsOpen ? "w-fit max-w-[30vh] max-h-[5vh] text-nowrap flex-wrap overflow-y-scroll" : ""}`}>
             {data?.components.map((el, index) => {
                 if (!isDetailsOpen && (index === 0 || index === 1)) {
                     return <Tag name={el.attributes.name} type="tag" key={el.id} />;
@@ -71,7 +71,7 @@ const ScreenDetails = ({ screenId, isDetailsOpen, setIsDetailsOpen }) => {
     );
 
     const Tags = () => (
-        <div className={`flex gap-1 flex-wrap h-fit overflow-y-auto overflow-hidden`}>
+        <div className={`flex gap-1  h-fit overflow-y-auto overflow-hidden ${isDetailsOpen ? 'flex-wrap  w-fit h-fit' : ""} ${selected === 3 && !isDetailsOpen ? "w-fit max-w-[30vh] max-h-[5vh] text-nowrap flex-wrap overflow-y-scroll" : ""}`}>
             {data?.tags.map((el, index) => {
                 if (!isDetailsOpen && (index === 0 || index === 1)) {
                     return <Tag name={el.attributes.name} type="tag" key={el.id} />;
@@ -156,7 +156,7 @@ const ScreenDetails = ({ screenId, isDetailsOpen, setIsDetailsOpen }) => {
                             </>
                         )}
                     </div>
-                    <div className={`${selected === 3 && isDetailsOpen ? "absolute top-0 translate-y-[30%] h-full w-[10vw]" : "h-[4vw] w-[12vw]" ? "" : ""} ${isDetailsOpen && data.tags.length >= 1 && data.tags.length <= 10 ? "relative top-0" : ""}`}>
+                    <div className={`${selected === 3 && isDetailsOpen ? "absolute top-0 translate-y-[30%] h-full w-[10vw]" : "h-[4vw] w-[12vw]" ? "" : ""} ${isDetailsOpen && data.tags.length >= 1 && data.tags.length <= 10 ? "relative top-0" : ""} ${isDetailsOpen && data.tags.length >= 3 ? "overflow-y-scroll max-h-[15vh] max-w-[35vh] flex-wrap relative top-[-15px]" : ""}`}>
                         {data?.tags?.length > 0 && (
                             <>
                                 <p className='text-slate-500 text-sm'>Tags</p>
@@ -164,7 +164,7 @@ const ScreenDetails = ({ screenId, isDetailsOpen, setIsDetailsOpen }) => {
                             </>
                         )}
                     </div>
-                    <div className={`${selected === 3 && isDetailsOpen ? "absolute top-0 translate-y-[30%] h-full w-[10vw]" : "h-[4vw] w-[12vw]" ? "" : ""} ${isDetailsOpen && data.components.length >= 1 && data.components.length <= 10 ? "relative top-0" : ""} `}>
+                    <div className={` ${selected === 3 && isDetailsOpen ? "absolute top-0 translate-y-[30%] h-full w-[10vw]" : "h-[4vw] w-[12vw]" ? "" : ""} ${isDetailsOpen && data.components.length >= 1 && data.components.length <= 10 ? "relative top-0" : ""}  ${isDetailsOpen && data.components.length >= 3 ? "overflow-y-scroll max-h-[15vh] max-w-[35vh] flex-wrap relative top-[-15px]" : ""}`}>
                         {data?.components?.length > 0 && (
                             <>
                                 <p className='text-slate-500 text-sm'>Components</p>
