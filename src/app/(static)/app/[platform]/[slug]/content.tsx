@@ -168,7 +168,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
                       }
                     >
                       <Button
-                        className="bg-slate-200 rounded-full shadow-black-900	shadow-sm px-2 py-2 min-w-0 aspect-square w-fit h-fit text-black-900"
+                        className="bg-slate-200 rounded-full shadow-arrows-button-shadow px-2 py-2 min-w-0 aspect-square w-fit h-fit text-black-900"
                         onClick={prevScreen}
                       >
                         <ArrowLeft />
@@ -184,7 +184,7 @@ export default function Content({ apps, selectedApp: app }: ContentProps) {
                       }
                     >
                       <Button
-                        className=" bg-slate-200 shadow-black-900	shadow-sm rounded-full px-2 py-2 min-w-0 aspect-square w-fit h-fit text-black-900"
+                        className=" bg-slate-200 shadow-arrows-button-shadow rounded-full px-2 py-2 min-w-0 aspect-square w-fit h-fit text-black-900"
                         onClick={nextScreen}
                       >
                         <ArrowRight />

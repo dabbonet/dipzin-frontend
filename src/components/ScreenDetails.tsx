@@ -44,11 +44,11 @@ const ScreenDetails = ({ screenId, isDetailsOpen, setIsDetailsOpen }) => {
     const App = () => {
         const icon = data?.app?.icon?.data?.attributes?.hash + data?.app?.icon?.data?.attributes?.ext;
         return (
-            <Link href={`/app/${slug()}/${data.app.slug}`} className={`hover:bg-slate-900/50 p-2 flex  gap-1  ${selected === 3 ? "items-center rounded-2xl w-fit h-fit flex-row" : "flex-col"} rounded-xl ${isDetailsOpen ? 'max-w-[25vw] text-lg rounded-xl flex-row hover:bg-slate-950/50 bg-slate-900' : ''}`}>
+            <Link href={`/app/${slug()}/${data.app.slug}`} className={`hover:bg-slate-900/50 p-2 flex group gap-1  ${selected === 3 ? "items-center rounded-2xl w-fit h-fit flex-row bg-transparent" : "flex-col"} rounded-xl ${isDetailsOpen ? 'max-w-[25vw] text-lg rounded-xl flex-row   hover:bg-slate-950/50 ' : ''}`}>
                 <Image src={icon} width={56} height={56} className={`${selected === 3 ? "rounded-full" : "rounded-xl"} ${isDetailsOpen ? "rounded-xl" : ""}`} alt={'app logo'} />
                 <div className={` ${selected === 3 ? "flex flex-col px-2" : ""}`}>
                     <h2 className={`text-white  ${selected == 3 && isDetailsOpen ? "text-wrap" : "text-nowrap"}`}>{data.app.name}</h2>
-                    <p className={` ${selected == 3 && isDetailsOpen ? "text-wrap leading-tight" : "text-nowrap"} text-slate-600 `}>
+                    <p className={` ${selected == 3 && isDetailsOpen ? "text-wrap leading-tight text-[#97989c] group-hover:text-[#8F94A1]" : "text-nowrap"} text-slate-600 `}>
                         {selected == 3 ? (isDetailsOpen ? data.app.tag_line : (data.app.tag_line.length > 20 ? `${data.app.tag_line.substring(0, 16)}...` : data.app.tag_line)) : data.app.tag_line}
                     </p>
                 </div>

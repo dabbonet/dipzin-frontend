@@ -18,6 +18,9 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-outfit)', ...fontFamily.sans],
       },
+      boxShadow:{
+       "arrows-button-shadow":" 0px 3.2px 3.2px 0px rgba(0, 0, 0, 0.45)"
+      },
       backgroundImage: {
         "sparkle-button-bg": "linear-gradient(180deg, #14F3C5 0%, #00B390 100%)",
         "screen-details-web-bg": "rgba(30, 41, 59, 0.60)"
