@@ -24,6 +24,11 @@ storybook-static
 /.next
 /out
 
+# locks
+/yarn.lock
+/pnpm-lock.yaml
+/bun.lockb
+
 # cache
 .swc/
 
