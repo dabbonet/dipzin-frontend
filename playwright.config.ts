@@ -4,7 +4,8 @@ import { defineConfig, devices } from '@playwright/test';
 // Use process.env.PORT by default and fallback to port 3000
 const PORT = process.env.PORT || 3000;
 
-// Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
+// Set webServer.url and use.baseURL with the location
+// of the WebServer respecting the correct set port
 const baseURL = `http://localhost:${PORT}`;
 
 // *.check.spec.ts files use ENVIRONMENT_URL instead of baseURL
@@ -56,15 +57,15 @@ export default defineConfig({
     },
     ...(process.env.CI
       ? [
-          {
-            name: 'firefox',
-            use: { ...devices['Desktop Firefox'] },
-          },
-          {
-            name: 'webkit',
-            use: { ...devices['Desktop Safari'] },
-          },
-        ]
+        {
+          name: 'firefox',
+          use: { ...devices['Desktop Firefox'] },
+        },
+        {
+          name: 'webkit',
+          use: { ...devices['Desktop Safari'] },
+        },
+      ]
       : []),
   ],
 });
