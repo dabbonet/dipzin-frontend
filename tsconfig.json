@@ -60,5 +60,7 @@
     ".storybook/*.ts",
     ".next/types/**/*.ts",
     "**/*.mts"
-  ]
+,
+".storybook/preview.tsx"
+]
 }

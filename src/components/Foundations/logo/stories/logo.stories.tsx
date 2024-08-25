@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/react';
 
-import Logo from '../src/logo';
+import { Logo } from '@/components/Foundations/logo';
 
 export default {
   title: 'Foundations/Logo',

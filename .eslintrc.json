@@ -27,12 +27,17 @@
       "rules": {
         "react/display-name": "off", // Disable read-display-name
         "max-len": "off", // Disable line length
+        "@typescript-eslint/quotes": "off",
+        "@typescript-eslint/semi": "off",
         "import/extensions": "off", // Avoid missing file extension errors, TypeScript already provides a similar feature
+        "tailwindcss/classnames-order": "off", // Disable tailwindcss/classnames-order
         "react/function-component-definition": "off", // Disable Airbnb's specific function type
         "react/destructuring-assignment": "off", // Vscode doesn't support automatically destructuring, it's a pain to add a new variable
+        "import/no-extraneous-dependencies": "off", // Disable import/no-extraneous-dependencies
         "react/require-default-props": "off", // Allow non-defined react props as undefined
         "react/jsx-props-no-spreading": "off", // _app.tsx uses spread operator and also, react-hook-form
         "@typescript-eslint/comma-dangle": "off", // Avoid conflict rule between Eslint and Prettier
+        "import/prefer-default-export": "off", // Disable import/prefer-default-export
         "@typescript-eslint/consistent-type-imports": "error", // Ensure `import type` is used when it's necessary
         "no-restricted-syntax": [
           "error",
@@ -40,9 +45,6 @@
           "LabeledStatement",
           "WithStatement"
         ], // Overrides Airbnb configuration and enable no-restricted-syntax
-        "import/prefer-default-export": "off", // Named export is easier to refactor automatically
-        "simple-import-sort/imports": "error", // Import configuration for `eslint-plugin-simple-import-sort`
-        "simple-import-sort/exports": "error", // Export configuration for `eslint-plugin-simple-import-sort`
         "import/order": "off", // Avoid conflict rule between `eslint-plugin-import` and `eslint-plugin-simple-import-sort`
         "@typescript-eslint/no-unused-vars": "off",
         "unused-imports/no-unused-imports": "error",
@@ -71,15 +73,9 @@
     // Configuration for Storybook
     {
       "files": ["*.stories.*"],
-      "extends": ["plugin:storybook/recommended"],
-      "rules": {
-        "import/no-extraneous-dependencies": [
-          "error",
-          {
-            "devDependencies": true
-          }
-        ]
-      }
+      "extends": [
+        "plugin:storybook/recommended"
+      ]
     }
   ]
 }
