@@ -25,7 +25,7 @@ const Dropdown = ({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <div className={cn(classNames?.base)}>
-        <PopoverTrigger asChild className={cn("w-fit bg-red-500", classNames?.trigger)}>
+        <PopoverTrigger asChild className={cn("w-fit", classNames?.trigger)}>
           {trigger}
         </PopoverTrigger>
         <PopoverContent

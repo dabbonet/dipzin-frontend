@@ -5,16 +5,16 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none ',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none shadow-button',
   {
     variants: {
       variant: {
-        default: 'bg-gradient-to-b from-aqua-400 to-aqua-600 text-primary-foreground shadow ring-aqua-700 hover:to-aqua-800 active:ring-2 active:hover:to-aqua-600 disabled:from-gray-500 disabled:to-gray-600',
-        secondary: 'bg-secondary text-secondary-foreground shadow-sm ring-aqua-900 hover:bg-aqua-900 active:ring-2 active:hover:bg-secondary disabled:bg-gray-800 disabled:text-gray-700',
-        strocked: 'border border-aqua-400 bg-slate-950 text-white shadow-sm hover:bg-slate-900 active:bg-gradient-to-b active:from-[#020617] active:to-[#0F172A] active:hover:bg-slate-950 disabled:border-gray-700 disabled:bg-gray-800 disabled:text-gray-700',
-        link: 'bg-transparent text-primary hover:text-aqua-600 active:text-aqua-800 disabled:text-gray-700',
-        liteGray: 'disable:ring-0 bg-gray-100 text-gray-700 shadow ring-gray-700 hover:bg-gray-400 hover:text-gray-800 active:ring-2 active:hover:bg-gray-100 disabled:bg-gray-500',
-        darkGray: 'bg-gray-800 text-white shadow ring-gray-600 hover:bg-gray-700 active:ring-2 active:hover:bg-gray-800 disabled:bg-gray-500 disabled:text-gray-600',
+        default: 'bg-gradient-to-b from-aqua-400 to-aqua-600 text-primary-foreground ring-aqua-700 hover:to-aqua-800 active:ring-2 active:hover:to-aqua-600 disabled:from-gray-500 disabled:to-gray-600',
+        secondary: 'bg-secondary text-secondary-foreground ring-aqua-900 hover:bg-aqua-900 active:ring-2 active:hover:bg-secondary disabled:bg-gray-800 disabled:text-gray-700',
+        strocked: 'border border-aqua-400 bg-slate-950 text-white hover:bg-slate-900 active:bg-gradient-to-b active:from-[#020617] active:to-[#0F172A] active:hover:bg-slate-950 disabled:border-gray-700 disabled:bg-gray-800 disabled:text-gray-700',
+        link: 'bg-transparent text-primary hover:text-aqua-600 active:text-aqua-800 disabled:text-gray-700 shadow-none',
+        liteGray: 'disable:ring-0 bg-gray-100 text-gray-700 ring-gray-700 hover:bg-gray-400 hover:text-gray-800 active:ring-2 active:hover:bg-gray-100 disabled:bg-gray-500',
+        darkGray: 'bg-gray-800 text-white ring-gray-600 hover:bg-gray-700 active:ring-2 active:hover:bg-gray-800 disabled:bg-gray-500 disabled:text-gray-600',
       },
       size: {
         default: 'gap-2 rounded-xl px-3.5 py-2.5 text-sm',

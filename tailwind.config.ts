@@ -90,6 +90,9 @@ const config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      boxShadow: {
+        button: '0px 1px 2px 0px var(--Colors-Effects-Shadows-shadow-xs, rgba(16, 24, 40, 0.05))',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
@@ -115,7 +118,9 @@ const config = {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [
+    tailwindcssAnimate,
+  ],
 } satisfies Config;
 
 export default config;

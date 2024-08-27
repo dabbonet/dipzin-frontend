@@ -1,7 +1,6 @@
-import type { Meta } from "@storybook/react";
 import React, { useState } from "react";
-
 import { Switcher } from "@/components/Shared/switcher";
+import type { Meta } from "@storybook/react";
 
 export default {
   title: "Shared/Switcher",
@@ -14,22 +13,22 @@ export default {
     },
     value: {
       control: {
-        type: "text",
+        type: "object", // Changed from "array" to "object"
       },
     },
   },
 } as Meta;
 
 const Template: React.FC<any> & { args?: any } = (args: any) => {
-  const [selected, setSelected] = useState(args.value);
+  const [selected, setSelected] = useState<string[]>(args.value || []);
 
   return (
     <div>
       <Switcher {...args} value={selected} onChange={setSelected} />
       <div className="mt-4">
-        <strong>Selected Value:</strong>
+        <strong>Selected Values:</strong>
         {' '}
-        {selected}
+        {selected.join(", ")}
       </div>
     </div>
   );
@@ -44,5 +43,11 @@ Default.args = {
     { label: "Marketing", value: "Marketing" },
     { label: "Flows", value: "Flows" },
   ],
-  value: "Apps",
+  value: ["Apps"], // Must be an array since we're using multiple selection
+};
+
+export const Open = Template.bind({});
+Open.args = {
+  ...Default.args,
+  state: "open",
 };

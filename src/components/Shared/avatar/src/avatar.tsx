@@ -56,7 +56,7 @@ React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
 AvatarImage.displayName = AvatarPrimitive.Image.displayName
 
 const avatarFallbackClass = cva(
-  "flex items-center justify-center bg-muted",
+  "flex items-center justify-center bg-slate-900",
   {
     variants: {
       size: {

@@ -7,7 +7,7 @@ import Label from "@/components/UI/label"
 import { cn } from "@/lib/utils";
 
 const wrapperVariants = cva(
-  "flex items-center gap-3 w-full h-fit p-3 rounded-2xl border border-transparent bg-slate-800 text-sm shadow-sm transition-all disabled:cursor-not-allowed disabled:opacity-50 text-white font-outfit",
+  "flex items-center gap-3 w-full h-fit p-3 rounded-2xl border border-transparent bg-slate-800 text-sm transition-all disabled:cursor-not-allowed disabled:opacity-50 text-white font-outfit",
   {
     variants: {
       state: {
@@ -16,7 +16,8 @@ const wrapperVariants = cva(
         disabled: "bg-gray-600 cursor-not-allowed",
       },
       type: {
-        search: "rounded-full py-[18px] px-6",
+        search: "rounded-full py-[15px] px-6 text-white placeholder:text-white bg-[#1A2333]",
+        default: "",
       }
     },
     defaultVariants: {
@@ -33,7 +34,7 @@ export interface InputProps
   errorMessage?: string;
   startContent?: React.ReactNode;
   endContent?: React.ReactNode;
-  type?: "search";
+  type?: "search" | "default";
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -46,11 +47,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const inputId = React.useId();
 
     return (
-      <div className="flex flex-col gap-2 font-outfit">
+      <div className="w-full h-fit flex flex-col gap-2 font-outfit">
         {label && <Label className="text-gray-400 text-[1rem] leading-6" htmlFor={inputId}>{label}</Label>}
-        <Label htmlFor={inputId} className="cursor-pointer">
+        <Label htmlFor={inputId} className="">
           <form
-            className={cn(wrapperVariants({ type, state, className }), "flex items-center")}
+            className={cn(wrapperVariants({ type, state, className }))}
           >
             {type === "search" && <Icon.Search className="text-white size-6" />}
             {startContent && <div className="flex items-center">{startContent}</div>}
@@ -58,7 +59,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               type={type}
               id={inputId}
               disabled={state === "disabled"}
-              className="bg-transparent outline-none text-[1rem] leading-6 placeholder:text-slate-400 text-white size-full"
+              className={cn("bg-transparent outline-none text-[1rem] leading-6 text-white size-full", type === "search" ? "placeholder:text-white" : "placeholder:text-slate-400")}
               ref={ref}
               {...props}
             />

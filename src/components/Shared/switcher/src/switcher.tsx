@@ -1,4 +1,6 @@
-import React, { useState, useRef } from 'react';
+'use client';
+
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Pill } from '@/components/Shared/pill';
 import { Icon } from '@/components/UI/icon';
@@ -6,29 +8,34 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/Shared/switcher';
 
 interface SwitcherProps {
   data: { label: string; value: string }[];
-  onChange: (value: string) => void;
-  value: string;
+  onChange: (value: string[]) => void;
+  value: string[];
+  state: 'collapsed' | 'open';
 }
 
-const Switcher: React.FC<SwitcherProps> = ({ data, onChange, value }) => {
-  const [isHovered, setIsHovered] = useState(false);
+const Switcher: React.FC<SwitcherProps> = ({
+  data, onChange, value, state
+}) => {
+  const [isExpanded, setIsExpanded] = useState(state === 'open');
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleValueChange = (newValue: string | null) => {
-    if (newValue) {
-      onChange(newValue);
-    }
+  useEffect(() => {
+    setIsExpanded(state === 'open');
+  }, [state]);
+
+  const handleValueChange = (newValues: string[]) => {
+    onChange(newValues);
   };
 
   return (
     <motion.div
       ref={containerRef}
       className="relative"
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+      onHoverStart={() => setIsExpanded(true)}
+      onHoverEnd={() => state !== 'open' && setIsExpanded(false)}
     >
       <ToggleGroup
-        type="single"
+        type="multiple"
         value={value}
         onValueChange={handleValueChange}
         className="flex bg-[#1A2333] rounded-full px-4 py-3 gap-4 relative overflow-hidden"
@@ -37,7 +44,7 @@ const Switcher: React.FC<SwitcherProps> = ({ data, onChange, value }) => {
           className="flex gap-4 items-center"
           initial={false}
           animate={{
-            width: isHovered ? 'auto' : '200px', // Adjust this value as needed
+            width: isExpanded ? 'auto' : '200px',
           }}
           transition={{
             duration: 0.3,
@@ -49,22 +56,18 @@ const Switcher: React.FC<SwitcherProps> = ({ data, onChange, value }) => {
               key={item.value}
               initial={false}
               animate={{
-                opacity: isHovered || index < 2 ? 1 : 0,
-                x: isHovered || index < 2 ? 0 : 20,
+                opacity: isExpanded || index < 2 ? 1 : 0,
+                x: isExpanded || index < 2 ? 0 : 20,
               }}
               transition={{
                 duration: 0.2,
-                delay: isHovered ? index * 0.05 : 0,
+                delay: isExpanded ? index * 0.05 : 0,
               }}
             >
-              <ToggleGroupItem
-                variant="outline"
-                asChild
-                value={item.value}
-              >
+              <ToggleGroupItem variant="outline" asChild value={item.value}>
                 <Pill
                   className="cursor-pointer whitespace-nowrap"
-                  state={value === item.value ? 'selected' : 'default'}
+                  state={value.includes(item.value) ? 'selected' : 'default'}
                 >
                   {item.label}
                 </Pill>
@@ -74,7 +77,7 @@ const Switcher: React.FC<SwitcherProps> = ({ data, onChange, value }) => {
         </motion.div>
       </ToggleGroup>
       <AnimatePresence>
-        {!isHovered && (
+        {!isExpanded && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

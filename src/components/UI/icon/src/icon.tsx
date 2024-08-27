@@ -2,8 +2,15 @@ import React, { memo } from 'react';
 import {
   CheckCircleIcon, MagnifyingGlassIcon, XCircleIcon, CheckIcon,
   ChevronDownIcon,
-  EllipsisVerticalIcon
-} from "@heroicons/react/20/solid"
+  EllipsisVerticalIcon,
+  StarIcon,
+  EllipsisHorizontalIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/solid"
+import {
+  BookmarkIcon,
+  EyeIcon
+} from "@heroicons/react/24/outline"
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -91,15 +98,23 @@ const BurgerMenu = memo(({ className }: IconProps) => (
 const Icon = {
   Example,
   Search: MagnifyingGlassIcon,
+  Star: StarIcon,
+  Bookmark: BookmarkIcon,
+  Eye: EyeIcon,
+
+  ChevronRight: ChevronRightIcon,
+  ChevronDown: ChevronDownIcon,
   ChevronDoubleRight,
   CheckCircleIcon,
+
   XCircleIcon,
+  Check: CheckIcon,
   AnimatedCheckCircleIcon,
   AnimatedXCircleIcon,
-  Check: CheckIcon,
-  ChevronDown: ChevronDownIcon,
+
+  EllipsisHorizontal: EllipsisHorizontalIcon,
   EllipsisVertical: EllipsisVerticalIcon,
-  BurgerMenu
+  BurgerMenu,
 };
 
 export default Icon;
