@@ -7,8 +7,6 @@ import type { IconProps } from '@/components/UI/icon';
 const meta: Meta = {
   title: 'Shared/Icon',
   argTypes: {
-    width: { control: 'number' },
-    height: { control: 'number' },
     className: { control: 'text' },
   },
 };

@@ -26,7 +26,7 @@ const AppItem = ({ name, imgSrc }: AppItemType) => (
 )
 
 const FlowItem = ({ name, imgSrc }: FlowItemType) => (
-  <Link href="/" className="flex flex-1 flex-col items-center gap-2 p-5 rounded-2xl hover:bg-slate-700">
+  <Link href="/" className="flex flex-1 flex-col items-center aspect-square gap-2 p-5 rounded-2xl hover:bg-slate-700">
     <Image src={imgSrc} alt={name} width={40} height={40} />
     <h3 className="text-base whitespace-nowrap">{name}</h3>
   </Link>

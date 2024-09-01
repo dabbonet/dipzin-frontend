@@ -9,7 +9,6 @@ interface AppPillProps {
   isFull?: boolean;
   data: {
     imgSrc: string;
-    fallback: string;
     name: string;
     tagLine: string;
     platform?: string;
@@ -23,7 +22,7 @@ const AppPill: React.FC<AppPillProps> = ({ isFull = false, data }) => (
     <div className={`${isFull ? 'col-span-3 sm:col-span-3 md:col-span-4' : 'col-span-1'} flex items-center gap-4 text-white`}>
       <Avatar>
         <AvatarImage src={data.imgSrc} alt={data.name} />
-        <AvatarFallback>{extractInitials(data.fallback)}</AvatarFallback>
+        <AvatarFallback>{extractInitials(data.name)}</AvatarFallback>
       </Avatar>
       <div className="flex flex-col lg:flex-row items-start lg:items-center gap-0 lg:gap-4">
         <h3 className="text-lg sm:text-xl md:text-2xl font-medium text-white">{data.name}</h3>

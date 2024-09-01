@@ -4,41 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { NavigatorMenuItem, NavigatorMenuInitialContent } from '@/components/Explorer/navigator';
-import { initialContentData } from './mockdata';
-
-type IconType = {
-  imgSrc: string;
-  width: number;
-  height: number;
-};
-
-type Category = {
-  name: string;
-  icon: IconType;
-  blockType: string;
-};
-
-type AppDetails = {
-  name: string;
-  description: string;
-  platform: string;
-  rating: number;
-  category: string;
-  screenshots: string[];
-};
-
-type CategoryDetails = {
-  title: string;
-  items: { name: string; count: number }[];
-};
-
-type SearchResult = {
-  label: string;
-  type: string;
-  avatar?: string;
-  description?: string;
-  content: AppDetails | CategoryDetails;
-};
+import { initialContentData } from '../../../mockdata';
+import type {
+  Category, SearchResult, AppDetails
+} from '@/types/navigation-types';
 
 const categories: Category[] = [
   { name: "App Categories", icon: { imgSrc: "/assets/icons/app-categories.svg", width: 32, height: 32 }, blockType: "list" },
@@ -83,7 +52,7 @@ const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen, searchQuery }
             platform: "iOS, Android",
             rating: 4.5,
             category: "Transportation",
-            screenshots: Array(4).fill("/api/placeholder/200/430"),
+            screenshots: Array(4).fill("https://placehold.co/300x650"),
           },
         },
         {
@@ -97,7 +66,7 @@ const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen, searchQuery }
             platform: "iOS, Android",
             rating: 4.7,
             category: "Food & Drink",
-            screenshots: Array(4).fill("/api/placeholder/200/430"),
+            screenshots: Array(4).fill("https://placehold.co/300x650"),
           },
         },
         {
@@ -146,7 +115,7 @@ const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen, searchQuery }
               {appDetails.category}
             </p>
             <div className="grid grid-cols-2 gap-4">
-              {appDetails.screenshots.map((screenshot, index) => (
+              {appDetails?.screenshots?.map((screenshot, index) => (
                 <Image
                   key={screenshot}
                   src={screenshot}
@@ -157,21 +126,6 @@ const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen, searchQuery }
                 />
               ))}
             </div>
-          </div>
-        );
-      } if (selectedResult.type === "app-category") {
-        const categoryDetails = selectedResult.content as CategoryDetails;
-        return (
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold">{categoryDetails.title}</h2>
-            <ul className="space-y-2">
-              {categoryDetails.items.map((item) => (
-                <li key={item.name} className="flex justify-between">
-                  <span>{item.name}</span>
-                  <span>{item.count}</span>
-                </li>
-              ))}
-            </ul>
           </div>
         );
       }

@@ -1,33 +1,28 @@
 import React from 'react';
 import { Pill } from '@/components/Shared/pill';
+import type { FilterType } from '@/types/navigation-types';
 
 type Suggestion = {
-  label: string;
+  name: string;
   id: string;
 };
 
 type SuggestionsProps = {
   suggestions: Suggestion[];
-  selected: Suggestion['id'][];
-  setSelected: (selected: Suggestion['id'][]) => void;
+  selectedFilters: FilterType[];
+  setSelectedFilters: (selected: Suggestion[]) => void;
 };
 
 const Suggestions: React.FC<SuggestionsProps> = ({
   suggestions,
-  selected,
-  setSelected,
+  selectedFilters,
+  setSelectedFilters,
 }) => {
   const handleSelection = (id: string) => {
-    const isSelected = selected.includes(id);
-    let updatedSelected;
-
-    if (isSelected) {
-      updatedSelected = selected.filter((selectedId) => selectedId !== id);
-    } else {
-      updatedSelected = [...selected, id];
+    const selectedSuggestion = suggestions.find((suggestion) => suggestion.id === id);
+    if (selectedSuggestion) {
+      setSelectedFilters([...selectedFilters, selectedSuggestion]);
     }
-
-    setSelected(updatedSelected);
   };
 
   return (
@@ -42,7 +37,7 @@ const Suggestions: React.FC<SuggestionsProps> = ({
           onClick={() => handleSelection(suggestion.id)}
           key={suggestion.id}
         >
-          {suggestion.label}
+          {suggestion.name}
         </Pill>
       ))}
     </ul>

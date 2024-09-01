@@ -48,9 +48,9 @@ export const ButtonWithIcon: Story = {
     variant: 'default',
     children: (
       <>
-        <Icon.Example />
+        <Icon.Example className="size-5" />
         Button Cta
-        <Icon.Example />
+        <Icon.Example className="size-5" />
       </>
     ),
   },
@@ -61,7 +61,7 @@ export const IconButton: Story = {
   args: {
     variant: 'default',
     isIconOnly: true,
-    children: <Icon.Example />,
+    children: <Icon.Example className="size-5" />,
   },
 };
 

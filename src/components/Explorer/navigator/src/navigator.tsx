@@ -9,18 +9,19 @@ import { motion } from 'framer-motion';
 import { NavigatorMenu } from '@/components/Explorer/navigator';
 import {
   appData, mockData, patternSwitcherData, platformSwitcherData, suggestionsData
-} from './mockdata';
+} from '../../../mockdata';
+import type { FilterType } from '@/types/navigation-types';
 
 const Navigator = () => {
   const [pattern, setPattern] = useState<string[]>(["Apps"]);
   const [platform, setPlatform] = useState<string[]>(["iOS"]);
-  const [selectedSuggestions, setSelectedSuggestions] = useState<string[]>(["avatar"]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedApps] = useState([appData, appData]);
   const navigatorRef = useRef<HTMLDivElement>(null); // Ref to track the navigator
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchResults, setSearchResults] = useState(mockData);
+  const [selectedFilters, setSelectedFilters] = useState<FilterType[]>([]);
 
   // Effect to filter results based on search query
   useEffect(() => {
@@ -63,12 +64,17 @@ const Navigator = () => {
           className="w-full shadow-none"
           type="search"
           placeholder="Try Search"
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
         />
         <Switcher value={platform} onChange={setPlatform} data={platformSwitcherData} state={isMenuOpen ? "collapsed" : "open"} />
       </div>
       {isMenuOpen
         ? (
-          <NavigatorMenu isMenuOpen={isMenuOpen} searchQuery={searchQuery} />
+          <NavigatorMenu
+            isMenuOpen={isMenuOpen}
+            searchQuery={searchQuery}
+          />
         )
         : (
           <>
@@ -76,7 +82,7 @@ const Navigator = () => {
               {selectedApps.length > 0 && selectedApps.map((app) => <AppPill key={app.name} data={app} isFull={selectedApps.length < 2} />)}
             </div>
             <div className={isMenuOpen ? 'hidden' : 'flex'}>
-              <Suggestions suggestions={suggestionsData} selected={selectedSuggestions} setSelected={setSelectedSuggestions} />
+              <Suggestions suggestions={suggestionsData} selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
             </div>
           </>
         )}

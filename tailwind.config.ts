@@ -92,6 +92,11 @@ const config = {
       },
       boxShadow: {
         button: '0px 1px 2px 0px var(--Colors-Effects-Shadows-shadow-xs, rgba(16, 24, 40, 0.05))',
+        "text-shadow": '0px 2px 2.5px 0px rgba(0, 0, 0, 0.30)'
+      },
+      backgroundImage: {
+        "screen-hover-gradient-to-bottom": "linear-gradient(180deg, rgba(15, 23, 42, 0.70) 0%, rgba(15, 23, 42, 0.00) 100%)",
+        "screen-hover-gradient-to-top": "linear-gradient(180deg, rgba(15, 23, 42, 0.00) 8.93%, rgba(15, 23, 42, 0.90) 110.66%)",
       },
       keyframes: {
         'accordion-down': {
