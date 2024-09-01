@@ -1,1 +1,1 @@
-export { default as HorizontalBreak } from './src/HorizontalBreak';
+export { default as HorizontalBreak } from './src/horizontal-break';

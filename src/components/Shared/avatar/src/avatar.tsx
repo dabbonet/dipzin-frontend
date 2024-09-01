@@ -55,35 +55,15 @@ React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
 ))
 AvatarImage.displayName = AvatarPrimitive.Image.displayName
 
-const avatarFallbackClass = cva(
-  "flex items-center justify-center bg-slate-900",
-  {
-    variants: {
-      size: {
-        default: "size-full",
-        large: "size-16",
-      },
-      radius: {
-        circle: "rounded-full",
-        square: "rounded-xl",
-      },
-    },
-    defaultVariants: {
-      size: "default",
-      radius: "circle",
-    },
-  }
-)
-
 const AvatarFallback = React.forwardRef<
 React.ElementRef<typeof AvatarPrimitive.Fallback>,
 React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback> & AvatarProps
 >(({
-  className, size, radius, ...props
+  className, ...props
 }, ref) => (
   <AvatarPrimitive.Fallback
     ref={ref}
-    className={cn(avatarFallbackClass({ size, radius }), className)}
+    className={cn("flex items-center justify-center aspect-square h-full w-full bg-slate-900", className)}
     {...props}
   />
 ))

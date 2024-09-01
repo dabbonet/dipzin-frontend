@@ -1,1 +1,1 @@
-export { default as ScreenDetails } from './src/ScreenDetails';
+export { default as ScreenDetails } from './src/screen-details';

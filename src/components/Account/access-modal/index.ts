@@ -1,1 +1,1 @@
-export { default as AccessModal } from './src/AccessModal';
+export { default as AccessModal } from './src/access-modal';

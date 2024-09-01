@@ -1,1 +1,1 @@
-export { default as InviteModal } from './src/InviteModal';
+export { default as InviteModal } from './src/invite-modal';

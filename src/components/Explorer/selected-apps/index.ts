@@ -1,1 +1,1 @@
-export { default as AppPill } from './src/AppPill';
+export { default as AppPill } from './src/app-pill';

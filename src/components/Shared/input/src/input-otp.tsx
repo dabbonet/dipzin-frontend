@@ -62,7 +62,7 @@ const inputOTPSlotVariants = cva(
   {
     variants: {
       variant: {
-        default: "focus:ring-1 focus:ring-slate-500",
+        default: "",
         success: "ring-1 ring-aqua-400",
         error: "ring-1 ring-danger-400",
       },
@@ -83,12 +83,13 @@ const InputOTPSlot = React.forwardRef<React.ElementRef<"div">, InputOTPSlotProps
   }, ref) => {
     const inputOTPContext = React.useContext(OTPInputContext)
     const { char, isActive } = inputOTPContext.slots[index] as SlotProps
+
     return (
       <div
         ref={ref}
         className={cn(
           inputOTPSlotVariants({ variant }),
-          isActive && "z-10",
+          isActive && "z-10 ring-1 ring-slate-500", // Ensure focus ring is applied when active
           className
         )}
         {...props}
@@ -98,6 +99,5 @@ const InputOTPSlot = React.forwardRef<React.ElementRef<"div">, InputOTPSlotProps
     )
   }
 )
-InputOTPSlot.displayName = "InputOTPSlot"
 
 export { InputOTP, InputOTPGroup, InputOTPSlot }

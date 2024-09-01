@@ -1,4 +1,4 @@
 export { default as Navigator } from './src/navigator';
-export { default as NavigatorMenu } from './src/NavigatorMenu';
-export { default as NavigatorMenuItem } from './src/NavigatorMenuItem';
-export { default as NavigatorMenuInitialContent } from './src/NavigatorMenuInitialContent';
+export { default as NavigatorMenu } from './src/navigator-menu';
+export { default as NavigatorMenuItem } from './src/navigator-menu-item';
+export { default as NavigatorMenuInitialContent } from './src/navigator-menu-Initial-content';
