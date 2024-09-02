@@ -1,11 +1,6 @@
-/* eslint-disable import/no-import-module-exports */
 /* eslint-disable import/no-extraneous-dependencies, import/extensions */
-// const { fileURLToPath } = require('node:url');
-// const withBundleAnalyzer = require('@next/bundle-analyzer');
-// const { withSentryConfig } = require('@sentry/nextjs');
-// const createJiti = require('jiti');
-// const withNextIntl = require('next-intl/plugin');
 import { fileURLToPath } from 'node:url';
+
 import withBundleAnalyzer from '@next/bundle-analyzer';
 import { withSentryConfig } from '@sentry/nextjs';
 import createJiti from 'jiti';
@@ -21,8 +16,21 @@ const bundleAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 });
 
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*',
+        port: '',
+      },
+    ],
+  },
+};
+
 /** @type {import('next').NextConfig} */
-const nextConfig = withSentryConfig(
+export default withSentryConfig(
+  nextConfig,
   bundleAnalyzer(
     withNextIntlConfig({
       eslint: {
@@ -33,23 +41,14 @@ const nextConfig = withSentryConfig(
       experimental: {
         serverComponentsExternalPackages: ['@electric-sql/pglite'],
       },
-      images: {
-        remotePatterns: [
-          {
-            protocol: 'https',
-            hostname: 'placehold.co',
-            port: '',
-          },
-        ],
-      },
     }),
   ),
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
     // FIXME: Add your Sentry organization and project names
-    org: 'nextjs-boilerplate-org',
-    project: 'nextjs-boilerplate',
+    org: 'dabbo',
+    project: 'dipzin',
 
     // Only print logs for uploading source maps in CI
     silent: !process.env.CI,
@@ -62,6 +61,8 @@ const nextConfig = withSentryConfig(
 
     // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
     // This can increase your server load as well as your hosting bill.
+    // Note: Check that the configured route will not match with
+    // your Next.js middleware, otherwise reporting of client-
     // side errors will fail.
     tunnelRoute: '/monitoring',
 
@@ -71,6 +72,8 @@ const nextConfig = withSentryConfig(
     // Automatically tree-shake Sentry logger statements to reduce bundle size
     disableLogger: true,
 
+    // Enables automatic instrumentation of Vercel Cron Monitors.
+    // (Does not yet work with App Router route handlers.)
     // See the following for more information:
     // https://docs.sentry.io/product/crons/
     // https://vercel.com/docs/cron-jobs
@@ -80,5 +83,3 @@ const nextConfig = withSentryConfig(
     telemetry: false,
   },
 );
-
-export default nextConfig;

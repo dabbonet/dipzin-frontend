@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { Spinner } from '@/components/UI/spinner';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none shadow-button',
@@ -94,12 +95,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading ? (
-          <div className="flex size-8">
-            <div className="relative size-8">
-              <div className="size-full rounded-full absolute border-[3px] border-solid border-transparent" />
-              <div className="size-full rounded-full animate-spin absolute border-[3px] border-solid border-transparent border-t-aqua-500" />
-            </div>
-          </div>
+          <Spinner />
         ) : (
           props.children
         )}

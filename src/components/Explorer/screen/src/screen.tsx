@@ -30,7 +30,7 @@ const Screen = ({ screen, view = 'default' }: ScreenType) => {
 
   const imageVariants = {
     initial: {
-      border: 'none',
+      border: '0px',
     },
     hover: {
       border: '4px solid rgb(100, 116, 139)',

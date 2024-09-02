@@ -50,7 +50,7 @@ const Navigator = () => {
     <motion.nav
       ref={navigatorRef}
       key="navigator"
-      className="w-[80vw] top-[10%] -translate-x-1/2 absolute bg-[#0F172AA6]/65 rounded-[1.625rem] p-4 flex flex-col gap-4"
+      className="size-full max-w-max lg:max-w-[70vw] bg-[#0F172AA6]/65 rounded-[1.625rem] p-4 flex flex-col gap-4"
       initial={{ height: 'auto' }}
       animate={{ height: isMenuOpen ? 'auto' : 'auto' }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
