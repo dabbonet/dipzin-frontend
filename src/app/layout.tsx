@@ -1,3 +1,4 @@
+import { Background } from '@/components/UI/background';
 import '@/styles/global.css';
 
 export const metadata = {
@@ -12,7 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-black-950">{children}</body>
+      <body>
+        {children}
+        <Background />
+      </body>
     </html>
   );
 }

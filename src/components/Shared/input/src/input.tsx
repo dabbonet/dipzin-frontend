@@ -57,7 +57,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <form className="w-full h-fit flex flex-col gap-2 font-outfit overflow-hidden">
+      <div className="w-full h-fit flex flex-col gap-2 font-outfit overflow-hidden">
         {label && <Label className="text-gray-400 text-[1rem] leading-6" htmlFor={inputId}>{label}</Label>}
         <Label htmlFor={inputId} className="">
           <div
@@ -98,7 +98,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
         </Label>
         {helpText && <p className={`text-[1rem] leading-6 ${state === "error" ? "text-danger-500" : "text-gray-400"}`}>{helpText}</p>}
-      </form>
+      </div>
     );
   }
 );

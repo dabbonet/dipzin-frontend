@@ -4,7 +4,7 @@ import { Logo } from "@/components/UI/logo";
 import React from "react";
 
 const AccessModal = () => (
-  <div className="bg-slate-900 p-16 rounded-[20px] flex flex-col gap-10 text-white font-outfit">
+  <div className="bg-[#000] p-16 rounded-[20px] flex flex-col gap-10 text-white font-outfit">
     <div className="space-y-[26px]">
       <div className="space-y-3">
         <h1 className="font-semibold lg:text-[40px] text-3xl">

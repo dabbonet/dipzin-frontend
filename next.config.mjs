@@ -1,6 +1,11 @@
+/* eslint-disable import/no-import-module-exports */
 /* eslint-disable import/no-extraneous-dependencies, import/extensions */
+// const { fileURLToPath } = require('node:url');
+// const withBundleAnalyzer = require('@next/bundle-analyzer');
+// const { withSentryConfig } = require('@sentry/nextjs');
+// const createJiti = require('jiti');
+// const withNextIntl = require('next-intl/plugin');
 import { fileURLToPath } from 'node:url';
-
 import withBundleAnalyzer from '@next/bundle-analyzer';
 import { withSentryConfig } from '@sentry/nextjs';
 import createJiti from 'jiti';
@@ -17,7 +22,7 @@ const bundleAnalyzer = withBundleAnalyzer({
 });
 
 /** @type {import('next').NextConfig} */
-export default withSentryConfig(
+const nextConfig = withSentryConfig(
   bundleAnalyzer(
     withNextIntlConfig({
       eslint: {
@@ -27,6 +32,15 @@ export default withSentryConfig(
       reactStrictMode: true,
       experimental: {
         serverComponentsExternalPackages: ['@electric-sql/pglite'],
+      },
+      images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'placehold.co',
+            port: '',
+          },
+        ],
       },
     }),
   ),
@@ -66,3 +80,5 @@ export default withSentryConfig(
     telemetry: false,
   },
 );
+
+export default nextConfig;
