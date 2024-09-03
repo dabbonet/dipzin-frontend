@@ -125,6 +125,8 @@ const config = {
   },
   plugins: [
     tailwindcssAnimate,
+    // eslint-disable-next-line global-require
+    require('@tailwindcss/typography'),
   ],
 } satisfies Config;
 

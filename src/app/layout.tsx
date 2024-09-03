@@ -1,5 +1,6 @@
-import { Background } from '@/components/UI/background';
 import '@/styles/global.css';
+
+import { Background } from '@/components/UI/background';
 
 export const metadata = {
   title: 'Next.js',

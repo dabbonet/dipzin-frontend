@@ -14,8 +14,6 @@ import {
   EyeIcon,
   FolderPlusIcon
 } from "@heroicons/react/24/outline"
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
 
 export interface IconProps {
   className?: string;
@@ -32,64 +30,6 @@ const ChevronDoubleRight = memo(({ className }: IconProps) => (
     <path d="M7.47099 14.6672C7.99161 15.1878 8.8357 15.1878 9.35632 14.6672L15.0802 8.94329C15.6009 8.42259 15.6009 7.57838 15.0802 7.05768L9.35632 1.33382C8.8357 0.813198 7.99161 0.813197 7.47099 1.33382C6.95037 1.85444 6.95037 2.69853 7.47099 3.21915L11.3095 7.05768C11.8302 7.57838 11.8302 8.42259 11.3095 8.94329L7.47099 12.7818C6.95037 13.3024 6.95037 14.1465 7.47099 14.6672Z" fill="#CBD5E1" />
     <path d="M2.6903 14.6672L8.41416 8.94329C8.93486 8.42259 8.93486 7.57838 8.41416 7.05768L2.69031 1.33382C2.16969 0.813198 1.32559 0.813197 0.804973 1.33382C0.284353 1.85444 0.284352 2.69853 0.804973 3.21915L4.6435 7.05768C5.1642 7.57838 5.1642 8.42259 4.6435 8.94329L0.804972 12.7818C0.284352 13.3024 0.284351 14.1465 0.804972 14.6672C1.32559 15.1878 2.16968 15.1878 2.6903 14.6672Z" fill="#64748B" />
   </svg>
-));
-
-const AnimatedCheckCircleIcon = memo(({ className }: IconProps) => (
-  <motion.div
-    initial={{ scale: 0 }}
-    animate={{ scale: 1 }}
-    className={cn("size-8 bg-[#20c55d] fill-transparent rounded-full p-1", className)}
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-    >
-      <motion.path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.5 }}
-        d="M4.5 12.75l6 6 9-13.5"
-      />
-    </svg>
-  </motion.div>
-))
-
-const AnimatedXCircleIcon = memo(({ className }: IconProps) => (
-  <motion.div
-    initial={{ scale: 0 }}
-    animate={{ scale: 1 }}
-    className={cn("size-8 bg-red-500 rounded-full p-1", className)}
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="white"
-      strokeWidth={1.5}
-    >
-      <motion.path
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.5 }}
-        d="M6 6l12 12"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <motion.path
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.5 }}
-        d="M18 6L6 18"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  </motion.div>
 ));
 
 const BurgerMenu = memo(({ className }: IconProps) => (
@@ -170,8 +110,6 @@ const Icon = {
   XCircleIcon,
   Check,
   Close: XMarkIcon,
-  AnimatedCheckCircleIcon,
-  AnimatedXCircleIcon,
 
   EllipsisHorizontal: EllipsisHorizontalIcon,
   EllipsisVertical: EllipsisVerticalIcon,

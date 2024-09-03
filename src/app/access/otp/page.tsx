@@ -1,10 +1,3 @@
-// "use client";
-// import OtpAccessComponent from "@/components/OtpAccessComponent";
+const Otp = () => null;
 
-// const Otp = () => {
-
-//   return <OtpAccessComponent />
-
-// };
-
-// export default Otp;
+export default Otp;

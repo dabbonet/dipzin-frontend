@@ -11,6 +11,7 @@ import {
   appData, mockData, patternSwitcherData, platformSwitcherData, suggestionsData
 } from '../../../mockdata';
 import type { FilterType } from '@/types/navigation-types';
+import { usePathname } from "next/navigation"
 
 const Navigator = () => {
   const [pattern, setPattern] = useState<string[]>(["Apps"]);
@@ -22,6 +23,7 @@ const Navigator = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchResults, setSearchResults] = useState(mockData);
   const [selectedFilters, setSelectedFilters] = useState<FilterType[]>([]);
+  const pathName = usePathname();
 
   // Effect to filter results based on search query
   useEffect(() => {
@@ -45,6 +47,13 @@ const Navigator = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const shouldShowNavigator = pathName.includes('/legal');
+
+  // Return null if the condition is true
+  if (shouldShowNavigator) {
+    return null;
+  }
 
   return (
     <motion.nav

@@ -8,7 +8,7 @@ import {
   ToastViewport,
 } from "@/components/Shared/toaster/src/toast"
 import { useToast } from "@/components/Shared/toaster/src/use-toast"
-import { Icon } from "@/components/UI/icon"
+import { Animation } from "@/components/UI/animation"
 
 function Toaster() {
   const { toasts } = useToast()
@@ -22,10 +22,10 @@ function Toaster() {
           <div className="flex items-center space-x-3 size-full">
             {startContent && <div className="mr-2">{startContent}</div>}
             {variant === "success" && (
-              <Icon.AnimatedCheckCircleIcon />
+              <Animation.CheckCircle />
             )}
             {variant === "error" && (
-              <Icon.AnimatedXCircleIcon />
+              <Animation.XCircle />
             )}
             <div>
               {title && <ToastTitle size={size}>{title}</ToastTitle>}
