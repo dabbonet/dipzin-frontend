@@ -1,6 +1,7 @@
 import '@/styles/global.css';
 
 import { Background } from '@/components/UI/background';
+import { Toaster } from '@/components/Shared/toaster';
 
 export const metadata = {
   title: 'Next.js',
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body>
         {children}
         <Background />
+        <Toaster />
       </body>
     </html>
   );
