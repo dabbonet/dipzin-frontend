@@ -79,3 +79,17 @@
       scrollbar-width: none;  /* Firefox */
 }
 }
+
+/* Apply custom styles to autofill */
+input:-webkit-autofill {
+  background-color: transparent !important; /* Your desired background color */
+  color: #fff !important; /* Your desired text color */
+  -webkit-text-fill-color: #fff !important; /* Ensure text color is applied */
+  transition: background-color 5000s ease-in-out 0s; /* Prevent autofill background from flashing */
+}
+
+/* For Mozilla Firefox (non-webkit browsers) */
+input:-moz-autofill {
+  background-color: #000 !important;
+  color: #fff !important;
+}

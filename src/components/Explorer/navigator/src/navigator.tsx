@@ -1,3 +1,5 @@
+/* eslint-disable import/no-cycle */
+
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -27,7 +29,7 @@ const Navigator = () => {
 
   // Effect to filter results based on search query
   useEffect(() => {
-    if (searchQuery) {
+    if (typeof searchQuery === 'string' && searchQuery.trim() !== '') {
       const filteredResults = mockData.filter((item) => item.label.toLowerCase().includes(searchQuery.toLowerCase()));
       setSearchResults(filteredResults);
     } else {

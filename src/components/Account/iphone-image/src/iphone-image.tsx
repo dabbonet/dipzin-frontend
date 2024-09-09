@@ -14,23 +14,26 @@ const IphoneImage = ({ images } : { images : string[] }) => {
   }, [currentImage, images.length]);
 
   return (
+
     <div className="relative">
       <Image
         src="/assets/mobile-skeleton.svg"
         alt="Mobile Phone"
         width={300}
         height={650}
+        className="max-w-full h-auto"
       />
       {images[currentImage] && (
       <Image
         src={images[currentImage]}
         alt="Screenshot Example"
-        className="absolute top-0 translate-y-[-3.5%] rounded-3xl scale-[90%] -z-10"
+        className="absolute top-0 translate-y-[-3.5%] rounded-3xl scale-[90%] -z-10 max-w-full h-auto"
         width={300}
         height={650}
       />
       )}
     </div>
+
   )
 }
 
