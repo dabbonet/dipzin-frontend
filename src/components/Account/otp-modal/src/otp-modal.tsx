@@ -2,30 +2,27 @@
 
 import { Button } from '@/components/Shared/button';
 import { InputOTP, InputOTPSlot } from '@/components/Shared/input';
-import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useToast } from '@/components/Shared/toaster/src/use-toast';
 import { generateOtp } from '@/utils/auth/generateOtp';
 
-type OtpVariant = 'default' | 'error' | 'success' | null | undefined;
-
-const OtpModal = () => {
-  const searchParams = useSearchParams();
-  const email = searchParams.get('email');
+const OtpModal = ({ email }: { email: string }) => {
   const { toast } = useToast();
   const [otpValue, setOtpValue] = useState('');
-  const [variant, setVariant] = useState<OtpVariant>('default');
+  const [variant, setVariant] = useState<'default' | 'error' | 'success'>('default');
   const [isVerifying, setIsVerifying] = useState(false); // Loading state for verification
   const { handleSubmit } = useForm();
+  const router = useRouter()
 
   const onSubmit = async () => {
     if (!email) {
       toast({
         variant: 'error',
-        title: 'Email is missing in the URL',
-        duration: 1000,
+        title: 'Email is missing',
+        description: 'Please go back and enter your email again.',
       });
       return;
     }
@@ -44,22 +41,20 @@ const OtpModal = () => {
           variant: 'error',
           title: 'Verification Failed',
           description: 'Invalid OTP',
-          duration: 1000,
         });
         setVariant('error');
       } else if (result?.ok) {
         toast({
           variant: 'success',
           title: "OTP Verified! You're logged in.",
-          duration: 1000,
         });
         setVariant('success');
+        router.push('/');
       }
     } catch (error) {
       toast({
         variant: 'error',
         title: 'An error occurred during verification',
-        duration: 1000,
       });
       setVariant('error');
     } finally {
@@ -74,8 +69,8 @@ const OtpModal = () => {
     if (!email) {
       toast({
         variant: 'error',
-        title: 'Email is missing in the URL',
-        duration: 1000,
+        title: 'Email is missing',
+        description: 'Please go back and enter your email again.',
       });
       return;
     }
@@ -87,7 +82,6 @@ const OtpModal = () => {
         variant: 'success',
         title: 'OTP Resent!',
         description: 'A new OTP has been sent to your email.',
-        duration: 1000,
       });
       setVariant('default'); // Reset variant to default
     } catch (error) {
@@ -95,7 +89,6 @@ const OtpModal = () => {
         variant: 'error',
         title: 'Failed to resend OTP',
         description: 'An error occurred while resending the OTP. Please try again.',
-        duration: 1000,
       });
     }
   };
@@ -108,7 +101,6 @@ const OtpModal = () => {
         </h1>
         <p className="text-[#d8d3c0] font-light lg:text-base text-sm mb-7">
           Welcome back! Please enter your details.
-
         </p>
       </div>
 
@@ -120,6 +112,7 @@ const OtpModal = () => {
         >
           {Array.from({ length: 6 }, (_, index) => (
             <InputOTPSlot
+              autoFocus={index === 0}
               variant={variant}
               key={index}
               index={index}

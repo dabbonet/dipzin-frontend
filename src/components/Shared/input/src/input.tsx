@@ -3,7 +3,7 @@ import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 
 import { Icon } from "@/components/UI/icon";
-import Label from "@/components/UI/label";
+import { Label } from "@/components/UI/label";
 import { cn } from "@/lib/utils";
 import { Pill } from "../../pill";
 import type { FilterType } from "@/types/navigation-types";
