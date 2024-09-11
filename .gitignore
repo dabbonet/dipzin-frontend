@@ -55,7 +55,3 @@ local
 # vercel
 .vercel
 
-
-# env files
-.env.*
-.env
