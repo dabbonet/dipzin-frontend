@@ -10,7 +10,7 @@ interface SlotProps {
 }
 
 const inputOTPVariants = cva(
-  "flex items-center gap-6",
+  "flex items-center gap-3 md:gap-6",
   {
     variants: {
       variant: {
@@ -58,7 +58,7 @@ const InputOTPGroup = React.forwardRef<React.ElementRef<"div">, React.ComponentP
 InputOTPGroup.displayName = "InputOTPGroup"
 
 const inputOTPSlotVariants = cva(
-  "bg-slate-800 rounded-2xl relative flex size-20 items-center justify-center border border-transparent text-[1.75rem] text-[#AEAEB2] font-medium font-poppins transition-all",
+  "bg-slate-800 size-8 rounded md:rounded-2xl md:size-20 relative flex items-center justify-center border border-transparent text-[1.75rem] text-[#AEAEB2] font-medium font-poppins transition-all",
   {
     variants: {
       variant: {

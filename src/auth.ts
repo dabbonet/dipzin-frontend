@@ -16,19 +16,11 @@ declare module "next-auth" {
 
     stripe_id?: string | null | undefined;
     emailVerified?: Date | null;
+    token?: string | null | undefined; // Add token here
   }
 
   interface Session {
-    user: {
-      id: string ;
-      name: string;
-      email: string;
-      createdAt: string;
-      updatedAt: string;
-      is_paid: boolean;
-      affiliate_code?: string | null | undefined;
-      stripe_id?: string | null | undefined;
-    };
+    user: User;
   }
 
   interface JWT {
@@ -40,6 +32,7 @@ declare module "next-auth" {
     is_paid: boolean;
     affiliate_code?: string;
     stripe_id?: string;
+    token?: string | null | undefined; // Add token here
   }
 }
 
@@ -83,8 +76,6 @@ export const {
 
         const user = await userResponse.json();
 
-        // console.log("Fetched user:", user);
-
         // Ensure all fields are defined, using null or default values if necessary
         return {
           id: user.id ?? "", // Use an empty string if `id` is missing
@@ -95,13 +86,13 @@ export const {
           is_paid: user.is_paid ?? false, // Default to false if `is_paid` is missing
           affiliate_code: user.affiliate_code ?? null, // Handle optional fields properly
           stripe_id: user.stripe_id ?? null, // Handle optional fields properly
+          token, // Include the token here
         };
       },
     }),
-
   ],
   callbacks: {
-    session: async ({ session, token }) => {
+    session: async ({ session, token } : any) => {
       if (token) {
         session.user = {
           id: String(token.id),
@@ -113,6 +104,7 @@ export const {
           affiliate_code: token.affiliate_code ? String(token.affiliate_code) : null,
           stripe_id: token.stripe_id ? String(token.stripe_id) : null,
           emailVerified: null,
+          token: token.token ? String(token.token) : null, // Add token to session.user
         };
       }
       return session;
@@ -128,6 +120,7 @@ export const {
         token.is_paid = user.is_paid; // Ensure proper boolean type
         token.affiliate_code = user.affiliate_code ?? null;
         token.stripe_id = user.stripe_id ?? null;
+        token.token = user.token ?? null; // Add token to JWT
       }
       return token;
     },

@@ -101,41 +101,34 @@ const OtpModal = () => {
   };
 
   return (
-    <div className="rounded-[20px] flex flex-col gap-10 text-white font-outfit mx-auto subpixel-antialiased">
-      <div className="space-y-[26px]">
-        <div className="space-y-3">
-          <h1 className="font-semibold lg:text-[40px] text-3xl">Account Verification</h1>
-          <p className="text-[#D8D3C0] lg:text-lg text-sm">Welcome back! Please enter your details.</p>
-        </div>
+    <div className="size-full rounded-[20px] flex flex-col justify-center gap-8 text-white font-outfit ">
+      <div className="space-y-1">
+        <h1 className="font-bold !leading-normal bg-clip-text lg:text-4xl text-xl">
+          Account Verification
+        </h1>
+        <p className="text-[#d8d3c0] font-light lg:text-base text-sm mb-7">
+          Welcome back! Please enter your details.
+
+        </p>
       </div>
 
-      <InputOTP
-        maxLength={6}
-        value={otpValue}
-        onChange={(value) => setOtpValue(value)}
-      >
-        {Array.from({ length: 6 }, (_, index) => (
-          <InputOTPSlot
-            variant={variant}
-            key={index}
-            index={index}
-          />
-        ))}
-      </InputOTP>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8 ">
+        <InputOTP
+          maxLength={6}
+          value={otpValue}
+          onChange={(value) => setOtpValue(value)}
+        >
+          {Array.from({ length: 6 }, (_, index) => (
+            <InputOTPSlot
+              variant={variant}
+              key={index}
+              index={index}
+            />
+          ))}
+        </InputOTP>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Button type="submit" size="3xl" className="w-full flex items-center justify-center" disabled={isVerifying}>
-          {isVerifying ? (
-            <>
-              <svg className="animate-spin size-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              Verifying...
-            </>
-          ) : (
-            'Send Code'
-          )}
+        <Button loading={isVerifying} type="submit" size="2xl" className="w-full flex items-center justify-center" disabled={isVerifying}>
+          Verify
         </Button>
       </form>
 

@@ -9,7 +9,7 @@ import { Button } from "@/components/Shared/button";
 import { useToast } from "@/components/Shared/toaster";
 import { useRouter } from "next/navigation";
 import { generateOtp } from "@/utils/auth/generateOtp";
-import Icons from "@/components/UI/Icons";
+import { Logo } from "@/components/UI/logo";
 
 // Zod schema to validate email
 const schema = z.object({
@@ -66,72 +66,89 @@ const AccessModal = () => {
   };
 
   return (
-    <div className="mx-auto subpixel-antialiased max-w-lg lg:max-w-xl">
+    <main className="mx-auto size-full" role="main" aria-labelledby="access-modal-title">
       <div className="space-y-[26px] z-10 opacity-100 ">
-        <div className="space-y-1">
-          <h1 className="font-bold !leading-normal bg-clip-text lg:text-4xl text-xl">
+        <header className="space-y-1">
+          <h1 id="access-modal-title" className="font-bold !leading-normal bg-clip-text lg:text-4xl text-xl">
             Login or Signup
           </h1>
           <p className="text-[#d8d3c0] font-light lg:text-base text-sm mb-7">
             Welcome back! Please enter your details.
-            {' '}
           </p>
-        </div>
+        </header>
 
-        <div className="flex flex-col xl:flex-row mt-4 w-full space-y-3 xl:space-y-0 xl:space-x-3 mx-auto font-medium">
-          <Button
-            href="/api/user/connect?provider=google"
-            variant="strocked"
-            size="2xl"
-            className="w-full flex gap-4 items-center justify-center"
-          >
-            <Icons.GoogleIcon />
-            Continue with Google
-          </Button>
+        <section aria-labelledby="third-party-login">
+          <div className="flex flex-col xl:flex-row mt-4 w-full space-y-3 xl:space-y-0 xl:space-x-3 mx-auto font-medium">
+            <Button
+              href="/api/user/connect?provider=google"
+              variant="strocked"
+              size="2xl"
+              className="w-full flex gap-4 items-center justify-center"
+              aria-label="Continue with Google"
+            >
+              <Logo.Google />
+              Continue with Google
+            </Button>
 
-          <Button
-            href="/api/user/connect?provider=facebook"
-            variant="strocked"
-            size="2xl"
-            className="w-full flex gap-4 items-center justify-center "
-          >
-            <Icons.FacebookIcon />
-            Continue with Facebook
-          </Button>
-        </div>
+            <Button
+              href="/api/user/connect?provider=facebook"
+              variant="strocked"
+              size="2xl"
+              className="w-full flex gap-4 items-center justify-center"
+              aria-label="Continue with Facebook"
+            >
+              <Logo.Facebook />
+              Continue with Facebook
+            </Button>
+          </div>
+        </section>
       </div>
 
-      <div className="flex flex-row items-center justify-center gap-[3px] w-[130px] mx-auto z-20 my-6">
-        <span className="bg-gray-700 h-px w-full" />
-        <p className="text-gray-700">OR</p>
-        <span className="bg-gray-700 h-px w-full" />
+      <div className="flex flex-row items-center justify-center gap-[3px] w-[130px] mx-auto z-20 my-6" aria-label="or continue with email">
+        <span className="bg-gray-700 h-px w-full" aria-hidden="true" />
+        <p className="text-gray-700" id="or-text">OR</p>
+        <span className="bg-gray-700 h-px w-full" aria-hidden="true" />
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 z-0">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 z-0" aria-labelledby="email-form-title">
         <Input
+          id="email"
           className="w-full h-[56px]"
           placeholder="Email"
           state={errors.email ? "error" : "default"}
+          aria-invalid={errors.email ? "true" : "false"}
+          aria-describedby={errors.email ? "email-error" : undefined}
           helpText={errors.email?.message ? errors.email.message : ""}
           {...register("email")}
           type="default"
         />
+        {errors.email && (
+          <span id="email-error" className="text-red-600 text-sm">
+            {errors.email.message}
+          </span>
+        )}
 
-        <Button type="submit" size="2xl" className="w-full flex items-center justify-center" disabled={isLoading}>
+        <Button
+          type="submit"
+          size="2xl"
+          className="w-full flex items-center justify-center"
+          disabled={isLoading}
+          aria-busy={isLoading}
+        >
           {isLoading ? (
             <>
-              <svg className="animate-spin size-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin size-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" role="status">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
               Sending Email...
             </>
           ) : (
-            "Send Code"
+            "Submit Email"
           )}
         </Button>
       </form>
-    </div>
+    </main>
   );
 };
 

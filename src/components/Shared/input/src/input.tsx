@@ -1,9 +1,9 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
 
 import { Icon } from "@/components/UI/icon";
-// eslint-disable-next-line import/no-named-as-default
-import Label from "@/components/UI/label"
+import Label from "@/components/UI/label";
 import { cn } from "@/lib/utils";
 import { Pill } from "../../pill";
 import type { FilterType } from "@/types/navigation-types";
@@ -39,16 +39,28 @@ export interface InputProps
   type?: "search" | "default";
   selectedFilters?: FilterType[];
   setSelectedFilters?: React.Dispatch<React.SetStateAction<FilterType[]>>;
+  asChild?: boolean; // To support using Slot component
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
-      className, type, label, helpText, state, startContent, endContent, selectedFilters, setSelectedFilters, ...props
+      className,
+      type = "default",
+      label,
+      helpText,
+      state,
+      startContent,
+      endContent,
+      selectedFilters,
+      setSelectedFilters,
+      asChild = false,
+      ...props
     },
     ref
   ) => {
     const inputId = React.useId();
+    const Comp = asChild ? Slot : "div"; // If `asChild` is true, use `Slot`; otherwise, use `div`
 
     const handleFilterClose = (filterId: string) => {
       if (setSelectedFilters) {
@@ -59,49 +71,50 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full h-fit flex flex-col gap-2 font-outfit overflow-hidden">
         {label && <Label className="text-gray-400 text-[1rem] leading-6" htmlFor={inputId}>{label}</Label>}
-        <Label htmlFor={inputId} className="">
-          <div
-            className={cn(wrapperVariants({ type, state, className }), {
-              "p-2 overflow-x-scroll  scrollbar-hide": selectedFilters && selectedFilters.length > 0,
-            })}
+        <Label htmlFor={inputId}>
+          <Comp
+            className={cn(
+              wrapperVariants({ type, state, className }),
+              {
+                "p-2 overflow-x-scroll scrollbar-hide": selectedFilters && selectedFilters.length > 0,
+              }
+            )}
           >
             {selectedFilters && selectedFilters.length > 0 ? (
-              selectedFilters?.map((filter) => (
+              selectedFilters.map((filter) => (
                 <Pill
                   key={filter.id}
                   state="selected"
                   startContent={(
                     <Icon.Close onClick={() => handleFilterClose(filter.id)} className="size-4 text-white cursor-pointer hover:text-white/80 transition-colors" />
-            )}
+                  )}
                 >
                   {filter.name}
                 </Pill>
               ))
-            )
-              : (
-                <>
-                  {startContent && <div className="flex items-center">{startContent}</div>}
-
-                  { type === "search" && <Icon.Search className="text-white size-6" />}
-                  <input
-                    type={type}
-                    id={inputId}
-                    disabled={state === "disabled"}
-                    className={cn("bg-transparent outline-none text-[1rem] leading-6 text-white size-full", type === "search" ? "placeholder:text-white" : "placeholder:text-slate-400")}
-                    ref={ref}
-                    {...props}
-                  />
-
-                  {endContent && <div className="flex items-center">{endContent}</div>}
-                </>
-              )}
-          </div>
+            ) : (
+              <>
+                {startContent && <Slot className="flex items-center">{startContent}</Slot>}
+                {type === "search" && <Icon.Search className="text-white size-6" />}
+                <input
+                  type={type}
+                  id={inputId}
+                  disabled={state === "disabled"}
+                  className={cn("bg-transparent outline-none text-[1rem] leading-6 text-white size-full", type === "search" ? "placeholder:text-white" : "placeholder:text-slate-400")}
+                  ref={ref}
+                  {...props}
+                />
+                {endContent && <Slot className="flex items-center">{endContent}</Slot>}
+              </>
+            )}
+          </Comp>
         </Label>
         {helpText && <p className={`text-[1rem] leading-6 ${state === "error" ? "text-danger-500" : "text-gray-400"}`}>{helpText}</p>}
       </div>
     );
   }
 );
+
 Input.displayName = "Input";
 
 export default Input;

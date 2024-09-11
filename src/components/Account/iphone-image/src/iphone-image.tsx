@@ -20,7 +20,7 @@ const IphoneImage = ({ images } : { images : string[] }) => {
         src="/assets/mobile-skeleton.svg"
         alt="Mobile Phone"
         width={300}
-        height={650}
+        height={600}
         className="max-w-full h-auto"
       />
       {images[currentImage] && (

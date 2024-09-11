@@ -49,7 +49,6 @@
     "cmdk": "1.0.0",
     "framer-motion": "^11.3.27",
     "input-otp": "^1.2.4",
-    "lucide-react": "^0.439.0",
     "next": "^14.2.5",
     "next-auth": "^5.0.0-beta.20",
     "next-intl": "^3.17.2",

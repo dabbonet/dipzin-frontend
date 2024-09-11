@@ -14,12 +14,13 @@ export default function AccessLayout({
   ];
 
   return (
-    <main className="flex flex-wrap lg:flex-nowrap size-full lg:w-3/4 mx-auto justify-center items-center p-6 lg:p-12">
-
-      <div className="bg-black-950/50 z-10 flex flex-col justify-center p-8 lg:p-12 rounded-3xl w-full lg:w-auto lg:rounded-r-none">
-        {children}
+    <main className="flex h-screen w-screen size-full justify-center items-center">
+      <div className="bg-black-950/50 z-10 flex flex-col items-center justify-center p-8 lg:p-12 rounded-3xl sm:size-full md:w-[40rem] md:h-[30rem]   lg:rounded-r-none ">
+        <div className="flex size-full flex-col sm:w-full items-center justify-center rounded-[20px] text-white font-outfit">
+          {children}
+        </div>
       </div>
-      <div className="hidden lg:block lg:flex-none lg:shrink-0">
+      <div className="hidden lg:block ">
         <IphoneImage images={images} />
       </div>
     </main>
