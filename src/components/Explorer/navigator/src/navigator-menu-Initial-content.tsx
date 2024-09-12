@@ -41,7 +41,7 @@ type NavigatorMenuInitialContentProps = {
   }
 }
 
-const NavigatorMenuInitialContent = ({ data }: NavigatorMenuInitialContentProps) => (
+export const NavigatorMenuInitialContent = ({ data }: NavigatorMenuInitialContentProps) => (
   <div className="size-full space-y-6 p-4">
     <div className="space-y-4">
       <h2 className="text-[20px] text-aqua-500 font-medium">Most Viewed Apps</h2>
@@ -77,5 +77,3 @@ const NavigatorMenuInitialContent = ({ data }: NavigatorMenuInitialContentProps)
     </div>
   </div>
 )
-
-export default NavigatorMenuInitialContent

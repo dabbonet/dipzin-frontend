@@ -20,7 +20,7 @@ type MenuItemProps = {
   isSearchResult?: boolean; // Added prop for conditional padding
 };
 
-const NavigatorMenuItem: React.FC<MenuItemProps> = ({
+export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
   label, icon, avatar, showArrow = false, isSelected = false, onClick, isSearchResult = false
 }) => (
   <button
@@ -43,5 +43,3 @@ const NavigatorMenuItem: React.FC<MenuItemProps> = ({
     {showArrow && <Icon.ChevronRight className="size-5 text-white" />}
   </button>
 );
-
-export default NavigatorMenuItem;

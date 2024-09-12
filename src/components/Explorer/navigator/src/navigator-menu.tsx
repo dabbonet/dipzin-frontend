@@ -3,11 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { NavigatorMenuItem, NavigatorMenuInitialContent } from '@/components/Explorer/navigator';
 import { initialContentData } from '../../../mockdata';
 import type {
   Category, SearchResult, AppDetails
 } from '@/types/navigation-types';
+import { NavigatorMenuInitialContent } from './navigator-menu-Initial-content';
+import { NavigatorMenuItem } from './navigator-menu-item';
 
 const categories: Category[] = [
   { name: "App Categories", icon: { imgSrc: "/assets/icons/app-categories.svg", width: 32, height: 32 }, blockType: "list" },
@@ -22,7 +23,7 @@ type NavigatorMenuProps = {
   searchQuery: string;
 };
 
-const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen, searchQuery }) => {
+export const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen, searchQuery }) => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [selectedResult, setSelectedResult] = useState<SearchResult | null>(null);
@@ -230,5 +231,3 @@ const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen, searchQuery }
     </motion.div>
   );
 };
-
-export default NavigatorMenu;

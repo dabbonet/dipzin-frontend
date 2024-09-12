@@ -1,5 +1,3 @@
-/* eslint-disable import/no-cycle */
-
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -8,7 +6,7 @@ import { Switcher } from '@/components/Shared/switcher';
 import { Suggestions } from '../../suggestions';
 import { AppPill } from '../../selected-apps';
 import { motion } from 'framer-motion';
-import { NavigatorMenu } from '@/components/Explorer/navigator';
+import { NavigatorMenu } from './navigator-menu';
 import {
   appData, mockData, patternSwitcherData, platformSwitcherData, suggestionsData
 } from '../../../mockdata';
