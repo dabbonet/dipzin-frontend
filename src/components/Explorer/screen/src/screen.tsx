@@ -3,9 +3,9 @@
 import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { ScreenOverlay } from '@/components/Explorer/screen'
 import { Skeleton } from "@/components/UI/skeleton"
 import type { ScreenType } from '@/types/screen-types';
+import { ScreenOverlay } from './screen-overlay';
 
 const NotFoundView = () => (
   <div className="size-full flex items-center justify-center p-4">

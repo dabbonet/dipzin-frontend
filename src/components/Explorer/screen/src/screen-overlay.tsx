@@ -156,11 +156,9 @@ const BottomOverlay = ({ view, app }: { view: ScreenType['view'], app: ScreenTyp
   )
 }
 
-const ScreenOverlay = ({ view, app }: { view: ScreenType['view'], app: ScreenType['screen']['app'] }) => (
+export const ScreenOverlay = ({ view, app }: { view: ScreenType['view'], app: ScreenType['screen']['app'] }) => (
   <>
     <TopOverlay view={view} />
     <BottomOverlay view={view} app={app} />
   </>
 )
-
-export default ScreenOverlay

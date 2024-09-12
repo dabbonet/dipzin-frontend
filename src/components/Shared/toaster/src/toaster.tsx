@@ -7,7 +7,7 @@ import {
   ToastTitle,
   ToastViewport,
 } from "@/components/Shared/toaster/src/toast"
-import { useToast } from "@/components/Shared/toaster/src/use-toast"
+import { useToast } from "./use-toast"
 import { Animation } from "@/components/UI/animation"
 
 function Toaster() {

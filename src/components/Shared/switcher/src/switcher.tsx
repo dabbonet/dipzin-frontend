@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Pill } from '@/components/Shared/pill';
 import { Icon } from '@/components/UI/icon';
-import { ToggleGroup, ToggleGroupItem } from '@/components/Shared/switcher';
+import { ToggleGroup, ToggleGroupItem } from "@/components/UI/toggle-group";
 
 interface SwitcherProps {
   data: { label: string; value: string }[];
