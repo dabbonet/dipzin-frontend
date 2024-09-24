@@ -25,13 +25,17 @@ export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
   label, description, icon, avatar, showArrow = false, isSelected = false, onClick, isSearchResult = false
 }) => (
   <button
-    className={cn("w-full rounded-2xl flex items-center justify-between transition-colors hover:text-white/80", isSelected ? 'bg-slate-700' : '', isSearchResult ? 'p-4' : 'p-6')}
+    className={cn(
+      "w-full rounded-2xl flex items-center justify-between transition-colors hover:text-white/80 hover:bg-slate-700/40", 
+      isSelected ? 'bg-slate-700' : '', 
+      isSearchResult ? 'p-4' : 'p-4'
+    )}
     onClick={onClick}
     type="button"
   >
     <div className={cn("flex items-center", isSearchResult ? 'gap-3' : 'gap-4')}>
       {avatar ? (
-        <Avatar size="default">
+        <Avatar size="medium">
           <AvatarImage src={avatar} alt={label} />
           <AvatarFallback>{extractInitials(label)}</AvatarFallback>
         </Avatar>

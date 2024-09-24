@@ -10,15 +10,14 @@ type NavigatorMenuPreviewProps = {
 export const NavigatorMenuPreview: React.FC<NavigatorMenuPreviewProps> = () => {
   // let state = "search";
   const { results } = useKeyword();
-  useEffect(() => {
-    // console.log("results",results)
-  }, [results]);
+  // const searchResults = results?.hits || [];
   // const results = getResults();
   const appDetails = searchResults[1];
+  
 
   return (
     <KeywordProvider>
-      <div className=" w-[70%] max-h-[50vh] rounded-[30px] p-2 bg-[#1A2333]">
+      <div className="w-[70%] max-h-[50vh] rounded-[30px] p-2 bg-[#1A2333]">
         {/* {state === "initial" &&
           <NavigatorMenuInitialContent data={initialContentData} />
         }

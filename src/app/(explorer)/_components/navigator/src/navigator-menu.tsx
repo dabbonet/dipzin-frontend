@@ -9,21 +9,13 @@ import { NavigatorMenuList } from './menu-list/list';
 import { NavigatorMenuPreview } from './menu-preview/preview';
 import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
 
-const categories: Category[] = [
-  { name: "App Categories", icon: { imgSrc: "/assets/icons/app-categories.svg", width: 28, height: 28 }, blockType: "list" },
-  { name: "Screens", icon: { imgSrc: "/assets/icons/screens.svg", width: 28, height: 28 }, blockType: "grid" },
-  { name: "Marketing Pages", icon: { imgSrc: "/assets/icons/marketing-pages.svg", width: 28, height: 28 }, blockType: "list" },
-  { name: "Elements", icon: { imgSrc: "/assets/icons/elements.svg", width: 28, height: 28 }, blockType: "grid" },
-  { name: "Flows", icon: { imgSrc: "/assets/icons/flows.svg", width: 28, height: 28 }, blockType: "list" },
-];
 
 type NavigatorMenuProps = {
   isMenuOpen: boolean;
 };
 
 export const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen }) => {
-  const { results } = useKeyword();
-  const searchResults = results?.hits
+
   return (
     <motion.div
       key="menu"
@@ -33,7 +25,7 @@ export const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen }) => {
       animate={{ height: isMenuOpen ? "fit-content" : 0 }}
       exit={{ height: 0 }}
     >
-      <NavigatorMenuList categories={categories} searchResults={searchResults} />
+      <NavigatorMenuList />
       <NavigatorMenuPreview />
     </motion.div>
   );

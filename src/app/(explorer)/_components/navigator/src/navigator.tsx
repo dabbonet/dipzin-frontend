@@ -63,6 +63,7 @@ const NavigatorUI = () => {
           className="w-full shadow-none"
           type="search"
           placeholder="Try Search"
+          autoComplete="off"
           selectedFilters={selectedFilters}
           setSelectedFilters={setSelectedFilters}
         />

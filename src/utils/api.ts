@@ -4,6 +4,7 @@ if (!API_BASE_URL) {
   throw new Error('NEXT_PUBLIC_API environment variable is not set');
 }
 
+
 const get = async (endpoint: string, token?: string) => {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: 'GET',
@@ -49,6 +50,8 @@ const del = async (endpoint: string, token?: string) => {
   });
   return response.json();
 };
+
+
 
 export {
   get, post, put, del
