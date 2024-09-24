@@ -9,7 +9,7 @@ import { Pill } from "../../pill";
 import type { FilterType } from "@/types/navigation-types";
 
 const wrapperVariants = cva(
-  "flex items-center gap-3 w-full max-w-full h-fit p-3 rounded-2xl border border-transparent bg-slate-800 text-sm transition-all disabled:cursor-not-allowed disabled:opacity-50 text-white font-outfit",
+  "flex items-center gap-3 w-full max-w-full h-fit rounded-2xl border border-transparent bg-slate-800 text-sm transition-all disabled:cursor-not-allowed disabled:opacity-50 text-white font-outfit",
   {
     variants: {
       state: {
@@ -18,7 +18,7 @@ const wrapperVariants = cva(
         disabled: "bg-gray-600 cursor-not-allowed",
       },
       type: {
-        search: "rounded-full py-[15px] px-6 text-white placeholder:text-white bg-[#1A2333]",
+        search: "rounded-full py-3 px-6 text-white placeholder:text-white bg-[#1A2333]",
         default: "",
       }
     },
@@ -95,7 +95,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ) : (
               <>
                 {startContent && <Slot className="flex items-center">{startContent}</Slot>}
-                {type === "search" && <Icon.Search className="text-white size-6" />}
+                {type === "search" && <Icon.Search className="text-white size-5" />}
                 <input
                   type={type}
                   id={inputId}

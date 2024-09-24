@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Panel } from '@/components/Explorer/panel';
+import { Panel } from '@/app/(explorer)/_components/panel';
 
 const meta: Meta<typeof Panel> = {
   title: 'Explorer/Panel',

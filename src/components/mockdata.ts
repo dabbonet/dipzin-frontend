@@ -106,6 +106,80 @@ const screenData: ScreenType = {
   view: 'default'
 };
 
+const categoriesData = [
+  {
+    title: "First Category",
+    items: [
+      { name: "Business", count: 20 },
+      { name: "Collaboration", count: 4 },
+      { name: "Communication", count: 12 },
+      { name: "CRM", count: 15 },
+      { name: "Education", count: 22 },
+      { name: "Finance", count: 21 },
+      { name: "Food & Drink", count: 26 },
+    ],
+  },
+  {
+    title: "Second Category",
+    items: [
+      { name: "Travel", count: 16 },
+      { name: "Business", count: 20 },
+      { name: "Collaboration", count: 4 },
+      { name: "Communication", count: 12 },
+      { name: "CRM", count: 15 },
+      { name: "Education", count: 22 },
+      { name: "Finance", count: 21 },
+      { name: "Food & Drink", count: 26 },
+    ],
+  },
+];
+
+const searchResults = [
+  {
+    label: "Uber",
+    type: "app",
+    avatar: "https://github.com/shadcn.png",
+    description: "Ride-hailing app",
+    content: {
+      name: "Uber",
+      description: "Ride-hailing app",
+      platform: "iOS, Android",
+      rating: 4.5,
+      category: "Transportation",
+      screenshots: Array(5).fill("https://placehold.co/300x650"),
+    },
+  },
+  {
+    label: "Uber Eats",
+    type: "app",
+    avatar: "https://github.com/shadcn.png",
+    description: "Food delivery app",
+    content: {
+      name: "Uber Eats",
+      description: "Food delivery app",
+      platform: "iOS, Android",
+      rating: 4.7,
+      category: "Food & Drink",
+      screenshots: Array(5).fill("https://placehold.co/300x650"),
+    },
+  },
+  {
+    label: "Utilities",
+    type: "app-category",
+    avatar: "https://github.com/shadcn.png",
+    description: "Utility apps category",
+    content: {
+      title: "Utilities",
+      items: [
+        { name: "Calculators", count: 15 },
+        { name: "Unit Converters", count: 10 },
+        { name: "File Managers", count: 8 },
+        { name: "Battery Savers", count: 5 },
+      ],
+    },
+  },
+];
+
 export {
-  appData, patternSwitcherData, platformSwitcherData, mockData, suggestionsData, initialContentData, screenData
+  appData, patternSwitcherData, platformSwitcherData, mockData, suggestionsData, initialContentData, screenData, categoriesData, searchResults
 };

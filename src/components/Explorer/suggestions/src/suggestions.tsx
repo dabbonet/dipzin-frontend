@@ -26,9 +26,9 @@ const Suggestions: React.FC<SuggestionsProps> = ({
   };
 
   return (
-    <ul className="w-full h-fit flex items-center p-2 gap-3 font-outfit">
-      <span className="size-fit py-2 px-4 rounded-full bg-transparent text-sm font-semibold text-white">
-        suggestions
+    <ul className="w-full h-fit flex items-center gap-3 font-outfit">
+      <span className="size-fit  px-4 rounded-full bg-transparent text-sm font-semibold text-white">
+        Suggestions
       </span>
       {suggestions.map((suggestion) => (
         <Pill

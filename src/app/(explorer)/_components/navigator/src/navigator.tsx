@@ -3,37 +3,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Input } from '@/components/Shared/input';
 import { Switcher } from '@/components/Shared/switcher';
-import { Suggestions } from '../../suggestions';
-import { AppPill } from '../../selected-apps';
+import { Suggestions } from '@/components/Explorer/suggestions';
+import { AppPill } from '@/components/Explorer/selected-apps';
 import { motion } from 'framer-motion';
 import { NavigatorMenu } from './navigator-menu';
 import {
-  appData, mockData, patternSwitcherData, platformSwitcherData, suggestionsData
-} from '../../../mockdata';
+  appData, patternSwitcherData, platformSwitcherData, suggestionsData
+} from '@/components/mockdata';
 import type { FilterType } from '@/types/navigation-types';
 import { usePathname } from "next/navigation"
+import { KeywordProvider, useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
 
-const Navigator = () => {
+const NavigatorUI = () => {
   const [pattern, setPattern] = useState<string[]>(["Apps"]);
   const [platform, setPlatform] = useState<string[]>(["iOS"]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedApps] = useState([appData, appData]);
   const navigatorRef = useRef<HTMLDivElement>(null); // Ref to track the navigator
-
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [searchResults, setSearchResults] = useState(mockData);
   const [selectedFilters, setSelectedFilters] = useState<FilterType[]>([]);
   const pathName = usePathname();
 
-  // Effect to filter results based on search query
-  useEffect(() => {
-    if (typeof searchQuery === 'string' && searchQuery.trim() !== '') {
-      const filteredResults = mockData.filter((item) => item.label.toLowerCase().includes(searchQuery.toLowerCase()));
-      setSearchResults(filteredResults);
-    } else {
-      setSearchResults(mockData);
-    }
-  }, [searchQuery, searchResults]);
+  const { keyword, setKeyword } = useKeyword();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -59,7 +49,7 @@ const Navigator = () => {
     <motion.nav
       ref={navigatorRef}
       key="navigator"
-      className="size-full max-w-max lg:max-w-[70vw] bg-[#0F172AA6]/65 rounded-[1.625rem] p-4 flex flex-col gap-4"
+      className="size-full max-w-max lg:max-w-[70vw] bg-gradient-to-b from-slate-900/85 to-slate-900/60 rounded-[1.625rem] p-2.5 flex flex-col gap-4"
       initial={{ height: 'auto' }}
       animate={{ height: isMenuOpen ? 'auto' : 'auto' }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -67,8 +57,8 @@ const Navigator = () => {
       <div className="w-full h-fit flex items-center gap-4">
         <Switcher value={pattern} onChange={setPattern} data={patternSwitcherData} state={isMenuOpen ? "collapsed" : "open"} />
         <Input
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
           onFocus={() => setIsMenuOpen(true)}
           className="w-full shadow-none"
           type="search"
@@ -82,7 +72,6 @@ const Navigator = () => {
         ? (
           <NavigatorMenu
             isMenuOpen={isMenuOpen}
-            searchQuery={searchQuery}
           />
         )
         : (
@@ -98,5 +87,11 @@ const Navigator = () => {
     </motion.nav>
   );
 };
+
+const Navigator = () => (
+  <KeywordProvider>
+    <NavigatorUI />
+  </KeywordProvider>
+)
 
 export default Navigator;

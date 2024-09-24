@@ -5,7 +5,7 @@ import { cva } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 type AvatarProps = {
-  size?: "default" | "large",
+  size?: "default" | "medium" | "large",
   radius?: "square" | "circle",
 }
 
@@ -14,7 +14,8 @@ const avatarClass = cva(
   {
     variants: {
       size: {
-        default: "size-10",
+        default: "size-9",
+        medium: "size-12",
         large: "size-16",
       },
       radius: {

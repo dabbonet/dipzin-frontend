@@ -12,6 +12,7 @@ type IconType = {
 
 type MenuItemProps = {
   label: string;
+  description?: string;
   icon?: IconType;
   avatar?: string;
   showArrow?: boolean;
@@ -21,7 +22,7 @@ type MenuItemProps = {
 };
 
 export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
-  label, icon, avatar, showArrow = false, isSelected = false, onClick, isSearchResult = false
+  label, description, icon, avatar, showArrow = false, isSelected = false, onClick, isSearchResult = false
 }) => (
   <button
     className={cn("w-full rounded-2xl flex items-center justify-between transition-colors hover:text-white/80", isSelected ? 'bg-slate-700' : '', isSearchResult ? 'p-4' : 'p-6')}
@@ -38,7 +39,10 @@ export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
       {icon ? (
         <Image src={icon.imgSrc} alt={label} width={icon.width ?? 32} height={icon.height ?? 32} />
       ) : null}
-      <span title={label} className="text-2xl text-start whitespace-nowrap truncate font-medium">{label}</span>
+      <div className="flex flex-col items-start">
+        <span title={label} className="text-xl text-start whitespace-nowrap truncate font-medium">{label}</span>
+        {description && <span className="text-sm text-start text-white/60">{description}</span>}
+      </div>
     </div>
     {showArrow && <Icon.ChevronRight className="size-5 text-white" />}
   </button>

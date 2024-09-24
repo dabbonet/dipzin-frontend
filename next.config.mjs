@@ -18,6 +18,8 @@ const bundleAnalyzer = withBundleAnalyzer({
 
 const nextConfig = {
   images: {
+    dangerouslyAllowSVG: true,
+    minimumCacheTTL: 60,
     remotePatterns: [
       {
         protocol: 'https',

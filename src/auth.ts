@@ -2,6 +2,16 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { fetchUserWithToken } from './utils/auth/fetchUserWithToken';
 
+// Define a custom user type to include token
+declare module 'next-auth' {
+  interface User {
+    token: string;
+    role: string;
+    is_paid: boolean;
+    stripe_id: string;
+  }
+}
+
 export const {
   auth,
   signIn,
@@ -33,16 +43,45 @@ export const {
         }
 
         const { token } = await res.json();
-
         // Fetch user data using the token
         const user = await fetchUserWithToken(token);
 
-        // Return the user object with token included
-        return {
-          ...user,
-          token,
-        };
+        if (res.ok && token) {
+          // Return user object with token if authentication was successful
+          return { ...user, token };
+        }
+
+        // If authentication failed, return null
+        return null;
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      // Return a new token object with the properties merged
+      return {
+        ...token,
+        ...(user && {
+          id: user.id,
+          sessionToken: user.token,
+          is_paid: user.is_paid,
+          stripe_id: user.stripe_id,
+        }),
+      };
+    },
+    async session({ session, token }) {
+      // Return a new session object with the properties merged
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          token: token.sessionToken as string,
+          id: token.id as string,
+          is_paid: token.is_paid as boolean,
+          stripe_id: token.stripe_id as string,
+        },
+      };
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 });

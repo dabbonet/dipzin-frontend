@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Navigator } from '@/components/Explorer/navigator';
+import { Navigator } from '@/app/(explorer)/_components/navigator';
 
 const meta: Meta<typeof Navigator> = {
   title: 'Explorer/Navigator',

@@ -38,7 +38,7 @@ const Switcher: React.FC<SwitcherProps> = ({
         type="multiple"
         value={value}
         onValueChange={handleValueChange}
-        className="flex bg-[#1A2333] rounded-full px-4 py-3 gap-4 relative overflow-hidden"
+        className="flex bg-[#1A2333] rounded-full p-2 gap-4 relative overflow-hidden"
       >
         <motion.div
           className="flex gap-4 items-center"

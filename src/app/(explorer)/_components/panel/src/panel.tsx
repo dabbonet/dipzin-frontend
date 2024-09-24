@@ -73,7 +73,7 @@ const ScreensGrid = () => {
         <Screen
           key={screen.id}
           screen={screen}
-          view="default" // Or any other prop you want to pass
+          view="global" // Or any other prop you want to pass
         />
       )}
       listClassName="size-full grid content-center gap-2 md:gap-6 pt-0 grid-cols-2 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3"

@@ -18,7 +18,7 @@ interface AppPillProps {
 }
 
 const AppPill: React.FC<AppPillProps> = ({ isFull = false, data }) => (
-  <div className={`max-w-full w-full h-fit bg-[#1A2333] p-2 rounded-[2rem] grid ${isFull ? 'grid-cols-3 sm:grid-cols-6 md:grid-cols-12' : 'grid-cols-2'} gap-4 items-center font-poppins`}>
+  <div className={`max-w-full w-full h-fit bg-[#1A2333] px-1.5 py-1 rounded-[2rem] grid ${isFull ? 'grid-cols-3 sm:grid-cols-6 md:grid-cols-12' : 'grid-cols-2'} gap-4 items-center font-poppins`}>
     <div className={`${isFull ? 'col-span-3 sm:col-span-3 md:col-span-4' : 'col-span-1'} flex items-center gap-4 text-white`}>
       <Avatar>
         <AvatarImage src={data.imgSrc} alt={data.name} />
