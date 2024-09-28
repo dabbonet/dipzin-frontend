@@ -33,7 +33,40 @@ export type SearchResult = {
   content: AppDetails | CategoryDetails;
 };
 
-export type FilterType = {
-  id: string;
+export type Filter = {
   name: string;
-};
+  pattern: 'tags' | 'components' | 'flowActions' | 'marketing' | "categories";
+}
+
+export type App = {
+  slug: string;
+}
+
+export type UrlQuery = {
+  apps?: App[] | string[];
+  pattern: string;
+  platform: string;
+  tags: string[];
+  components: string[];
+  categories: string[];
+  flows: string[];
+  marketing: string[];
+}
+
+export type DataQuery = {
+  query: {
+    apps: { slug: string }[];
+    pattern: string;
+    platform: string;
+    change: string;
+    filters: {
+      name: string;
+      pattern: string;
+      neglected?: boolean;
+      reason?: string;
+    }[];
+    offset: number;
+    limit: number;
+  };
+  data: any; // Placeholder for fetched data
+}

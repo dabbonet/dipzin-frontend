@@ -2,12 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import type {
-  Category
-} from '@/types/navigation-types';
 import { NavigatorMenuList } from './menu-list/list';
 import { NavigatorMenuPreview } from './menu-preview/preview';
-import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
 
 
 type NavigatorMenuProps = {

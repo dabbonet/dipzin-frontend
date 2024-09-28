@@ -4,12 +4,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Pill } from '@/components/Shared/pill';
 import { Icon } from '@/components/UI/icon';
-import { ToggleGroup, ToggleGroupItem } from "@/components/UI/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from '@/components/UI/toggle-group';
 
 interface SwitcherProps {
   data: { label: string; value: string }[];
-  onChange: (value: string[]) => void;
-  value: string[];
+  onChange: (value: string) => void; // Update to receive a single string
+  value: string; // Single value instead of array
   state: 'collapsed' | 'open';
 }
 
@@ -23,8 +23,8 @@ const Switcher: React.FC<SwitcherProps> = ({
     setIsExpanded(state === 'open');
   }, [state]);
 
-  const handleValueChange = (newValues: string[]) => {
-    onChange(newValues);
+  const handleValueChange = (newValue: string) => {
+    onChange(newValue); // Pass the single value
   };
 
   return (
@@ -35,7 +35,7 @@ const Switcher: React.FC<SwitcherProps> = ({
       onHoverEnd={() => state !== 'open' && setIsExpanded(false)}
     >
       <ToggleGroup
-        type="multiple"
+        type="single" // Updated to single
         value={value}
         onValueChange={handleValueChange}
         className="flex bg-[#1A2333] rounded-full p-2 gap-4 relative overflow-hidden"
@@ -67,7 +67,7 @@ const Switcher: React.FC<SwitcherProps> = ({
               <ToggleGroupItem variant="outline" asChild value={item.value}>
                 <Pill
                   className="cursor-pointer whitespace-nowrap"
-                  state={value.includes(item.value) ? 'selected' : 'default'}
+                  state={value === item.value ? 'selected' : 'default'}
                 >
                   {item.label}
                 </Pill>

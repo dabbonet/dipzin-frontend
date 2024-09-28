@@ -1,3 +1,4 @@
+import type { Filter } from "@/types/navigation-types";
 import type { ScreenType } from "@/types/screen-types";
 import { faker } from "@faker-js/faker";
 
@@ -11,17 +12,17 @@ const appData = {
 };
 
 const patternSwitcherData = [
-  { label: "Apps", value: "Apps" },
-  { label: "Screens", value: "Screens" },
-  { label: "Elements", value: "Elements" },
-  { label: "Marketing", value: "Marketing" },
-  { label: "Flows", value: "Flows" },
+  { label: "Apps", value: "apps" },
+  { label: "Screens", value: "screens" },
+  { label: "Components", value: "components" },
+  { label: "Marketing", value: "marketing" },
+  { label: "Flows", value: "flows" },
 ];
 
 const platformSwitcherData = [
-  { label: "iOS", value: "iOS" },
-  { label: "Android", value: "Android" },
-  { label: "Web", value: "Web" },
+  { label: "iOS", value: "ios" },
+  { label: "Android", value: "android" },
+  { label: "Web", value: "web" },
 ];
 
 // Mock data for search
@@ -32,14 +33,14 @@ const mockData = [
   // Add more mock data as needed
 ];
 
-const suggestionsData = [
-  { name: "Avatar", id: "avatar" },
-  { name: "Card", id: "card" },
-  { name: "Button", id: "button" },
-  { name: "Business", id: "business" },
-  { name: "Education", id: "education" },
-  { name: "Login Page", id: "login-page" },
-  { name: "Onboarding", id: "onboarding" },
+const suggestionsData: Filter[] = [
+  { name: "Avatar", pattern: "components" },
+  { name: "Card", pattern: "components" },
+  { name: "Button",  pattern: "components" },
+  { name: "Business", pattern: "categories" },
+  { name: "Education",  pattern: "categories" },
+  { name: "Login Page", pattern: "marketing" },
+  { name: "Onboarding",  pattern: "flowActions" },
 ];
 
 const initialContentData = {

@@ -28,6 +28,15 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/ios/screens',
+        permanent: true,
+      },
+    ]
+  },
 };
 
 /** @type {import('next').NextConfig} */

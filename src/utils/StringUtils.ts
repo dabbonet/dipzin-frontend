@@ -1,5 +1,5 @@
 export const extractInitials = (name: string): string => {
-  const words = name.split(' ');
+  const words = name?.split(' ');
   let initials = '';
 
   for (let i = 0; i < words.length; i += 1) {

@@ -10,22 +10,35 @@ import { NavigatorMenu } from './navigator-menu';
 import {
   appData, patternSwitcherData, platformSwitcherData, suggestionsData
 } from '@/components/mockdata';
-import type { FilterType } from '@/types/navigation-types';
-import { usePathname } from "next/navigation"
-import { KeywordProvider, useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
+import { useSearchParams } from "next/navigation";
+import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
+import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
+import { getInitialQueryWithSearchParams } from '@/app/(explorer)/_utils/initialQuery';
+import { updateStateAndUrl, useUpdateUrlPart } from '@/app/(explorer)/_utils/queryUtils';
+import type { Filter } from '@/types/navigation-types';
+import { combineFilters } from '@/app/(explorer)/_utils/filtersUtils';
 
-const NavigatorUI = () => {
-  const [pattern, setPattern] = useState<string[]>(["Apps"]);
-  const [platform, setPlatform] = useState<string[]>(["iOS"]);
+const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedApps] = useState([appData, appData]);
   const navigatorRef = useRef<HTMLDivElement>(null); // Ref to track the navigator
-  const [selectedFilters, setSelectedFilters] = useState<FilterType[]>([]);
-  const pathName = usePathname();
 
   const { keyword, setKeyword } = useKeyword();
+  const { urlQuery, setUrlQuery, setPlatform, setPattern, filters, setFilters } = useQuery();
+  const searchParams = useSearchParams();
+
+  const initialQueryWithSearchParams = getInitialQueryWithSearchParams(urlQuery, initialQuery, searchParams);
+  const combinedFilters = combineFilters(searchParams);
+  // Handle Platform and Pattern from initialQuery or urlQuery
+  const platform = initialQueryWithSearchParams.platform;
+  const pattern = initialQueryWithSearchParams.pattern;
+  // Utility hook for URL update
+  const updateUrlPart = useUpdateUrlPart();
 
   useEffect(() => {
+    setUrlQuery(initialQueryWithSearchParams);
+    setFilters(() => combinedFilters);
+    
     const handleClickOutside = (event: MouseEvent) => {
       if (navigatorRef.current && !navigatorRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false); // Close the menu if clicking outside of the navigator
@@ -38,12 +51,23 @@ const NavigatorUI = () => {
     };
   }, []);
 
-  const shouldShowNavigator = pathName.includes('/legal');
-
-  // Return null if the condition is true
-  if (shouldShowNavigator) {
-    return null;
-  }
+  // Helper function to update state and URL
+  const handleStateAndUrlUpdate = (
+    newPlatform?: string,
+    newPattern?: string,
+    newFilters?: Filter[]
+  ) => {
+    updateStateAndUrl({
+      newPlatform,
+      newPattern,
+      newFilters,
+      setPlatform,
+      setPattern,
+      setFilters,
+      updateUrlPart,
+    });
+  };
+  const switcherState = isMenuOpen || combinedFilters.length > 0 ? "collapsed" : "open";
 
   return (
     <motion.nav
@@ -54,45 +78,56 @@ const NavigatorUI = () => {
       animate={{ height: isMenuOpen ? 'auto' : 'auto' }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
+
       <div className="w-full h-fit flex items-center gap-4">
-        <Switcher value={pattern} onChange={setPattern} data={patternSwitcherData} state={isMenuOpen ? "collapsed" : "open"} />
+        <Switcher
+          value={pattern}
+          onChange={(newPattern) => handleStateAndUrlUpdate(undefined, newPattern, undefined)}
+          data={patternSwitcherData}
+          state={switcherState}
+        />
         <Input
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           onFocus={() => setIsMenuOpen(true)}
           className="w-full shadow-none"
           type="search"
-          placeholder="Try Search"
+          placeholder={filters.length > 0 ? "Search" : "Try Search"}
           autoComplete="off"
-          selectedFilters={selectedFilters}
-          setSelectedFilters={setSelectedFilters}
+          selectedFilters={combinedFilters}
+          setSelectedFilters={(updateFn) => handleStateAndUrlUpdate(undefined, undefined, updateFn(filters))}
         />
-        <Switcher value={platform} onChange={setPlatform} data={platformSwitcherData} state={isMenuOpen ? "collapsed" : "open"} />
+        <Switcher
+          value={platform}
+          onChange={(newPlatform) => handleStateAndUrlUpdate(newPlatform, undefined, undefined)}
+          data={platformSwitcherData}
+          state={switcherState}
+        />
       </div>
-      {isMenuOpen
-        ? (
-          <NavigatorMenu
-            isMenuOpen={isMenuOpen}
-          />
-        )
-        : (
-          <>
+      {isMenuOpen ? (
+        <NavigatorMenu isMenuOpen={isMenuOpen} />
+      ) : (
+        <>
+          {urlQuery.apps && urlQuery.apps.length > 0 ? (
             <div className={`size-full flex flex-col lg:flex-row gap-4 ${isMenuOpen ? 'hidden' : 'flex'}`}>
-              {selectedApps.length > 0 && selectedApps.map((app) => <AppPill key={app.name} data={app} isFull={selectedApps.length < 2} />)}
+              {selectedApps.length > 0 &&
+                selectedApps.map((app) => (
+                  <AppPill key={app.name} data={app} isFull={selectedApps.length < 2} />
+                ))}
             </div>
+          ) : (
             <div className={isMenuOpen ? 'hidden' : 'flex'}>
-              <Suggestions suggestions={suggestionsData} selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters} />
+              <Suggestions
+                suggestions={suggestionsData}
+                selectedFilters={combinedFilters}
+                setSelectedFilters={(updateFn) => handleStateAndUrlUpdate(undefined, undefined, updateFn(filters))}
+                />
             </div>
-          </>
-        )}
+          )}
+        </>
+      )}
     </motion.nav>
   );
 };
-
-const Navigator = () => (
-  <KeywordProvider>
-    <NavigatorUI />
-  </KeywordProvider>
-)
 
 export default Navigator;

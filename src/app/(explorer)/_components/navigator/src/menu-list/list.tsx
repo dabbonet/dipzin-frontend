@@ -1,7 +1,7 @@
 import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
 import { NavigatorMenuItem } from './list-item';
 import React from 'react';
-import { getItemDescription, getNavigatorListIcon } from '@/app/(explorer)/_utils/menu';
+import { getItemDescription, getNavigatorListIcon } from '@/app/(explorer)/_utils/keywordUtils';
 import type { Category } from '@/types/navigation-types';
 
 const categories: Category[] = [
@@ -13,7 +13,7 @@ const categories: Category[] = [
 ];
 
 export const NavigatorMenuList: React.FC = () => {
-  const { results, keyword } = useKeyword();
+  const { results, keyword, setSelectedResult } = useKeyword();
   const searchResults = results?.hits || [];
   return (
     <div className="w-[30%] max-h-[50vh] rounded-[30px] p-4 flex flex-col gap-4 bg-[#1A2333] overflow-y-scroll scrollbar-hide">
@@ -26,8 +26,7 @@ export const NavigatorMenuList: React.FC = () => {
           label={result.name}
           description={getItemDescription(result)}
           avatar={getNavigatorListIcon(result)}
-          onClick={() => console.log('clicked')}
-          isSelected={false}
+          onMouseEnter={() => setSelectedResult(result)}
           isSearchResult
         />
       ))
@@ -41,8 +40,7 @@ export const NavigatorMenuList: React.FC = () => {
           label={category.name}
           icon={category.icon}
           showArrow
-          isSelected={false}
-          onClick={() => console.log('clicked')}
+          onMouseEnter={() => console.log('clicked')}
         />
         )
       )}

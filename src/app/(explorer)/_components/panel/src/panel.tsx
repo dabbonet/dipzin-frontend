@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { VirtuosoGrid } from 'react-virtuoso';
 import { Screen } from '@/components/Explorer/screen';
 import { Spinner } from '@/components/UI/spinner';
+import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
+import { cn } from '@/lib/utils';
+
 
 type ScreenType = {
   id: string;
@@ -91,21 +94,27 @@ const ScreensGrid = () => {
     />
   );
 };
-
-const Panel = ({ view }: { view: "screens" | "flows" | "collections" }) => {
-  switch (view) {
+const Panel = ({ pattern, platform }: any) => {
+  const {urlQuery} = useQuery();
+  switch (pattern) {
+    case "marketing":
     case "screens":
-      return <ScreensGrid />;
+    case "components":
+      return  (
+        <div className={cn('relative', (urlQuery?.apps?.length ?? 0) > 0 ? "top-40" :"top-28")}>
+          <ScreensGrid />
+        </div>
+      );
     case "flows":
       return (
         <div>
           {/* UI for flows */}
         </div>
       );
-    case "collections":
+    case "apps":
       return (
-        <div>
-          {/* UI for collections */}
+        <div className={cn('relative', (urlQuery?.apps?.length ?? 0) > 0 ? "top-32" :"top-28")}>
+          <ScreensGrid />
         </div>
       );
     default:

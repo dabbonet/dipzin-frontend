@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react';
-import React, {
-  useState, useEffect, createContext, useContext, useMemo
-} from 'react';
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { useEffect } from 'react';
 import { searchByKeyword } from '../_actions/searchByKeyword';
+import debounce from 'lodash/debounce'; // Import debounce from lodash
 
 // Define the interfaces for Screen, Result, and SearchResults
 interface Screen {
@@ -32,50 +32,46 @@ interface SearchResults {
   estimatedTotalHits: number;
 }
 
-// Define the context state interface
-interface KeywordContextProps {
+// Define the Zustand store
+interface KeywordStoreState {
   keyword: string;
   setKeyword: (keyword: string) => void;
   results: SearchResults | null;
+  selectedResult: Result | null;
+  setSelectedResult: (result: Result | null) => void; // Allow null as a valid value
+  fetchResults: (keyword: string) => void;
 }
 
-// Create the context with an initial value of undefined
-const KeywordContext = createContext<KeywordContextProps | undefined>(undefined);
+const useKeywordStore = create<KeywordStoreState>()(
+  devtools((set) => ({
+    keyword: '',
+    results: null,
+    selectedResult: null,
+    setKeyword: (keyword: string) => {
+      set({ keyword });
+    },
+    setSelectedResult: (selectedResult: Result | null) => set({ selectedResult }),
+    fetchResults: debounce((keyword: string) => {
+      if (keyword) {
+        searchByKeyword(keyword)
+          .then((data) => set({ results: data }))
+          .catch(() => set({ results: null }));
+      } else {
+        set({ results: null, selectedResult: null }); // Reset selectedResult when keyword is empty
+      }
+    }, 500), // Debounce delay of 500ms
+  }))
+);
 
-// Provider component
-const KeywordProvider = ({ children }: { children: ReactNode }) => {
-  const [keyword, setKeyword] = useState<string>('');
-  const [results, setResults] = useState<SearchResults | null>(null);
+// Custom hook to use the Zustand store
+const useKeyword = () => {
+  const { keyword, setKeyword, results, selectedResult, setSelectedResult, fetchResults } = useKeywordStore();
 
   useEffect(() => {
-    if (keyword) {
-      const fetchResults = async () => {
-        const data = await searchByKeyword(keyword);
-        setResults(data);
-      };
+    fetchResults(keyword);
+  }, [keyword, fetchResults]);
 
-      fetchResults();
-    } else {
-      setResults(null);
-    }
-  }, [keyword]);
-  // Memoize the context value to prevent unnecessary re-renders
-  const contextValue = useMemo(() => ({ keyword, setKeyword, results }), [keyword, results]);
-  return (
-    <KeywordContext.Provider value={contextValue}>
-      {children}
-    </KeywordContext.Provider>
-  );
+  return { keyword, setKeyword, results, selectedResult, setSelectedResult };
 };
 
-// Custom hook to use the KeywordContext
-const useKeyword = () => {
-  const context = useContext(KeywordContext);
-  if (!context) {
-    throw new Error('useKeyword must be used within a KeywordProvider');
-  }
-  return context;
-};
-
-// Export the hook and provider together
-export { KeywordProvider, useKeyword };
+export { useKeyword };
