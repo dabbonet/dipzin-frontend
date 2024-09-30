@@ -139,7 +139,8 @@
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^2.0.5",
     "vitest-fail-on-console": "^0.7.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "slugify": "^1.6.6"
   },
   "config": {
     "commitizen": {

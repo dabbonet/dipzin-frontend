@@ -1,7 +1,7 @@
-import type { Filter, UrlQuery } from '@/types/navigation-types';
+import type { Filter, Query } from '@/types/navigation-types';
 
-// This function combines filters from both URLSearchParams and UrlQuery
-export const combineFilters = (searchParams: URLSearchParams, urlQuery: UrlQuery, filters: Filter[]): Filter[] => {
+// This function combines filters from both URLSearchParams and query
+export const combineFilters = (searchParams: URLSearchParams, query: Query, filters: Filter[]): Filter[] => {
   const combinedFilters: Filter[] = [];
   if (filters.length > 0) return filters;
   // Helper function to add filters from an array based on pattern
@@ -11,28 +11,28 @@ export const combineFilters = (searchParams: URLSearchParams, urlQuery: UrlQuery
     });
   };
 
-  // Combine filters from UrlQuery
-  addFiltersFromArray(urlQuery.tags, 'tags');
-  addFiltersFromArray(urlQuery.components, 'components');
-  addFiltersFromArray(urlQuery.categories, 'categories');
-  addFiltersFromArray(urlQuery.flows, 'flowActions');
-  addFiltersFromArray(urlQuery.marketing, 'marketing');
+  // Combine filters from query
+  addFiltersFromArray(query.tags, 'tags');
+  addFiltersFromArray(query.components, 'components');
+  addFiltersFromArray(query.categories, 'categories');
+  addFiltersFromArray(query.flows, 'flowActions');
+  addFiltersFromArray(query.marketing, 'marketing');
 
-  // Combine filters from searchParams, overriding any existing ones from UrlQuery if necessary
+  // Combine filters from searchParams, overriding any existing ones from query if necessary
   searchParams.forEach((value, key) => {
     const decodedValue = decodeURIComponent(value);
     const filterToAdd: Filter | undefined = (() => {
       switch (key) {
         case 'tag':
-          return { pattern: 'tags', name: decodedValue };
+          return { name: decodedValue, pattern: 'tags' };
         case 'component':
-          return { pattern: 'components', name: decodedValue };
+          return { name: decodedValue, pattern: 'components' };
         case 'category':
-          return { pattern: 'categories', name: decodedValue };
+          return { name: decodedValue, pattern: 'categories' };
         case 'flow':
-          return { pattern: 'flowActions', name: decodedValue };
+          return { name: decodedValue, pattern: 'flowActions' };
         case 'marketing':
-          return { pattern: 'marketing', name: decodedValue };
+          return { name: decodedValue, pattern: 'marketing' };
         default:
           return undefined;
       }

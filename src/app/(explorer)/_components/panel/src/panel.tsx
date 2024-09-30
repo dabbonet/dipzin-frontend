@@ -6,69 +6,52 @@ import { Screen } from '@/components/Explorer/screen';
 import { Spinner } from '@/components/UI/spinner';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import { cn } from '@/lib/utils';
+import { useFetchData } from '@/app/(explorer)/_hooks/useFetchData';
 
-
-type ScreenType = {
-  id: string;
-  imgSrc: string;
-  width: number;
-  height: number;
-  app: {
-    id: string;
-    avatar: {
-      imgSrc: string;
-    };
-    name: string;
-    tagLine: string;
-  };
-};
+// type ScreenType = {
+//   id: string;
+//   imgSrc: string;
+//   width: number;
+//   height: number;
+//   app: {
+//     id: string;
+//     avatar: {
+//       imgSrc: string;
+//     };
+//     name: string;
+//     tagLine: string;
+//   };
+// };
 
 const ScreensGrid = () => {
-  const [screens, setScreens] = useState<ScreenType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-
-  // Mock API to simulate loading more data
-  const loadMoreScreens = () => {
-    if (isLoading) return;
-
+  const { query, data } = useQuery();
+  // Destructure fetchData from the hook
+  const { fetchData } = useFetchData();
+  // Function to load screens
+  const loadScreens = async () => {
     setIsLoading(true);
-
-    // Simulating API call
-    setTimeout(() => {
-      const newScreens = Array.from({ length: 10 }).map((_, index) => ({
-        id: `${screens.length + index + 1}`,
-        imgSrc: `https://placehold.co/300x650.png?text=Screen+${screens.length + index + 1}`,
-        width: 300,
-        height: 650,
-        app: {
-          id: `${screens.length + index + 1}`,
-          avatar: {
-            imgSrc: 'https://github.com/shadcn.png',
-          },
-          name: `App Name ${screens.length + index + 1}`,
-          tagLine: 'App Tag Line',
-        },
-      }));
-
-      setScreens((prevScreens) => [...prevScreens, ...newScreens]);
-      setIsLoading(false);
-
-      // Stop loading more after 150 items
-      if (screens.length + newScreens.length >= 150) {
-        setHasMore(false);
-      }
-    }, 1000);
+    // Call the fetchData function
+    await fetchData();
+    // Check if more data is available (based on pagination or data length)
+    // if (data && data.length < pagination.limit) {
+    //   setHasMore(false);
+    // }
+    // Append the new data to the screens state
+    // setScreens((prevScreens) => [...prevScreens, ...data]);
+    setIsLoading(false);
   };
 
+  // UseEffect to load screens initially
   useEffect(() => {
-    loadMoreScreens(); // Initial load
-  }, []);
+    if (query.platform) loadScreens(); // Initial load
+  }, [query]);
 
+  if (!data || data.length < 0) return null;
   return (
     <VirtuosoGrid
-      data={screens}
-      endReached={hasMore ? loadMoreScreens : undefined}
+      data={data}
+      // endReached={hasMore ? loadMoreScreens : undefined}
       overscan={200}
       useWindowScroll
       // eslint-disable-next-line react/no-unstable-nested-components
@@ -94,14 +77,14 @@ const ScreensGrid = () => {
     />
   );
 };
-const Panel = ({ pattern, platform }: any) => {
-  const {urlQuery} = useQuery();
+const Panel = ({ pattern }: any) => {
+  const { query } = useQuery();
   switch (pattern) {
     case "marketing":
     case "screens":
     case "components":
-      return  (
-        <div className={cn('relative', (urlQuery?.apps?.length ?? 0) > 0 ? "top-40" :"top-28")}>
+      return (
+        <div className={cn('relative', (query?.apps?.length ?? 0) > 0 ? "top-40" : "top-28")}>
           <ScreensGrid />
         </div>
       );
@@ -113,7 +96,7 @@ const Panel = ({ pattern, platform }: any) => {
       );
     case "apps":
       return (
-        <div className={cn('relative', (urlQuery?.apps?.length ?? 0) > 0 ? "top-32" :"top-28")}>
+        <div className={cn('relative', (query?.apps?.length ?? 0) > 0 ? "top-32" : "top-28")}>
           <ScreensGrid />
         </div>
       );

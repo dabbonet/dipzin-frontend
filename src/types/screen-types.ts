@@ -1,10 +1,13 @@
 export type ScreenType = {
   screen: {
     id: string;
-    imgSrc: string;
-    width: number;
-    height: number;
-    alt?: string;
+    screen: {
+      hash: string;
+      ext: string;
+      width: number;
+      height: number;
+      alternativeText?: string;
+    }
     app: {
       id: string;
       avatar: {

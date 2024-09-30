@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Skeleton } from "@/components/UI/skeleton"
 import type { ScreenType } from '@/types/screen-types';
-import { ScreenOverlay } from './screen-overlay';
+import { storage } from '@/utils/storage';
 
 const NotFoundView = () => (
   <div className="size-full flex items-center justify-center p-4">
@@ -16,6 +16,8 @@ const NotFoundView = () => (
 const Screen = ({ screen, view = 'default' }: ScreenType) => {
   const [imageLoaded, setImageLoaded] = React.useState(false)
   const [imageError, setImageError] = React.useState(false)
+
+  console.log(view)
 
   const borderVariants = {
     initial: {
@@ -37,6 +39,8 @@ const Screen = ({ screen, view = 'default' }: ScreenType) => {
     },
   }
 
+  if (!screen) return null;
+
   return (
     <motion.div
       className="relative size-full rounded-[2rem] flex items-center justify-center overflow-hidden group"
@@ -55,19 +59,19 @@ const Screen = ({ screen, view = 'default' }: ScreenType) => {
             <NotFoundView />
           ) : (
             <Image
-              src={screen.imgSrc}
-              alt={screen.alt ?? "Screen Shot"}
-              width={screen.width}
-              height={screen.height}
+              src={storage((screen.screen?.hash ?? '') + (screen.screen?.ext ?? ''))}
+              alt={screen.screen.alternativeText ?? "Screen Shot"}
+              width={screen.screen.width ?? 0}
+              height={screen.screen.height ?? 0}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageError(true)}
             />
           )}
-          {imageLoaded && !imageError && <ScreenOverlay view={view} app={screen.app} />}
+          {/* {imageLoaded && !imageError && <ScreenOverlay view={view} app={screen.app} />} */}
         </div>
       </motion.div>
     </motion.div>
   )
 }
 
-export default Screen
+export default Screen;

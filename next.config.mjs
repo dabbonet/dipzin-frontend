@@ -35,6 +35,11 @@ const nextConfig = {
         destination: '/ios/screens',
         permanent: true,
       },
+      {
+        source: '/ios',
+        destination: '/ios/screens',
+        permanent: true,
+      },
     ]
   },
 };

@@ -14,7 +14,7 @@ import { useSearchParams } from "next/navigation";
 import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import { getInitialQueryWithSearchParams } from '@/app/(explorer)/_utils/initialQuery';
-import type { Filter } from '@/types/navigation-types';
+import type { Filter, Query } from '@/types/navigation-types';
 import { combineFilters } from '@/app/(explorer)/_utils/filtersUtils';
 import { useUpdateUrlPart } from '@/app/(explorer)/_hooks/useUpdateUrlPart';
 import { updateStateAndUrl } from '@/app/(explorer)/_utils/updateStateAndUrl';
@@ -25,20 +25,23 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   const navigatorRef = useRef<HTMLDivElement>(null); // Ref to track the navigator
 
   const { keyword, setKeyword } = useKeyword();
-  const { urlQuery, setUrlQuery, setPlatform, setPattern, filters, setFilters, setApps } = useQuery();
+  const {
+    query, setQuery, setPlatform, setPattern, filters, setFilters, setApps
+  } = useQuery();
   const searchParams = useSearchParams();
 
-  const initialQueryWithSearchParams = getInitialQueryWithSearchParams(urlQuery, initialQuery, searchParams);
-  const combinedFilters = combineFilters(searchParams, urlQuery, filters);
-  // Handle Platform and Pattern from initialQuery or urlQuery
-  const platform = initialQueryWithSearchParams.platform;
-  const pattern = initialQueryWithSearchParams.pattern;
+  const initialQueryWithSearchParams = getInitialQueryWithSearchParams(query, initialQuery, searchParams);
+  const combinedFilters = combineFilters(searchParams, query, filters);
+
+  // Handle Platform and Pattern from initialQuery or query
+  const { platform } = initialQueryWithSearchParams;
+  const { pattern } = initialQueryWithSearchParams;
   // Utility hook for URL update
   const updateUrlPart = useUpdateUrlPart();
 
   useEffect(() => {
-    setUrlQuery(initialQueryWithSearchParams);
-    
+    setQuery(initialQueryWithSearchParams);
+
     const handleClickOutside = (event: MouseEvent) => {
       if (navigatorRef.current && !navigatorRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false); // Close the menu if clicking outside of the navigator
@@ -49,18 +52,20 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [initialQueryWithSearchParams, setQuery]); // Added dependencies here
 
   // Helper function to update state and URL
   const handleStateAndUrlUpdate = (
     newPlatform?: string,
     newPattern?: string,
-    newFilters?: Filter[]
+    newFilters?: Filter[],
+    newApps?: any,
   ) => {
     updateStateAndUrl({
       newPlatform,
       newPattern,
       newFilters,
+      newApps,
       setPlatform,
       setPattern,
       setFilters,
@@ -68,6 +73,7 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
       updateUrlPart
     });
   };
+
   const switcherState = isMenuOpen || combinedFilters.length > 0 ? "collapsed" : "open";
 
   return (
@@ -96,7 +102,7 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
           placeholder={filters.length > 0 ? "Search" : "Try Search"}
           autoComplete="off"
           selectedFilters={combinedFilters}
-          setSelectedFilters={(updateFn) => handleStateAndUrlUpdate(undefined, undefined, updateFn(filters))}
+          setSelectedFilters={(updateFn) => handleStateAndUrlUpdate(undefined, undefined, updateFn(filters), undefined)}
         />
         <Switcher
           value={platform}
@@ -105,27 +111,38 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
           state={switcherState}
         />
       </div>
-      {isMenuOpen ? (
-        <NavigatorMenu isMenuOpen={isMenuOpen} />
-      ) : (
-        <>
-          {urlQuery.apps && urlQuery.apps.length > 0 ? (
-            <div className={`size-full flex flex-col lg:flex-row gap-4 ${isMenuOpen ? 'hidden' : 'flex'}`}>
-              {selectedApps.length > 0 &&
-                selectedApps.map((app) => (
-                  <AppPill key={app.name} data={app} isFull={selectedApps.length < 2} />
-                ))}
-            </div>
-          ) : (
-            <div className={isMenuOpen ? 'hidden' : 'flex'}>
-              <Suggestions
-                suggestions={suggestionsData}
-                selectedFilters={combinedFilters}
-                setSelectedFilters={(updateFn) => handleStateAndUrlUpdate(undefined, undefined, updateFn(filters))}
-                />
-            </div>
+
+      {isMenuOpen && (
+        <NavigatorMenu
+          isMenuOpen={isMenuOpen}
+          handleUpdate={(
+            updateFn: (state: any) => any,
+            target: keyof Query | any
+          ) => handleStateAndUrlUpdate(
+            undefined,
+            undefined,
+            target === 'filters' ? updateFn(filters) : undefined, // Update filters if target is 'filters'
+            target === 'apps' ? updateFn(query.apps) : undefined // Update apps if target is 'apps'
           )}
-        </>
+        />
+      )}
+
+      {!isMenuOpen && query.apps && query.apps.length > 0 && (
+        <div className={`size-full flex flex-col lg:flex-row gap-4 ${isMenuOpen ? 'hidden' : 'flex'}`}>
+          {query.apps?.map((app:any) => (
+            <AppPill key={app.slug} data={app} isFull={selectedApps.length < 2} />
+          ))}
+        </div>
+      )}
+
+      {!isMenuOpen && (!query.apps || query.apps.length === 0) && (
+        <div className={isMenuOpen ? 'hidden' : 'flex'}>
+          <Suggestions
+            suggestions={suggestionsData}
+            selectedFilters={combinedFilters}
+            setSelectedFilters={(updateFn) => handleStateAndUrlUpdate(undefined, undefined, updateFn(filters))}
+          />
+        </div>
       )}
     </motion.nav>
   );

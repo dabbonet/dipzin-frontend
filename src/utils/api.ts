@@ -9,7 +9,7 @@ const getHeaders = (token?: string) => {
     'Content-Type': 'application/json',
   };
   if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+    headers.Authorization = `Bearer ${token}`;
   }
   return headers;
 };
@@ -23,11 +23,22 @@ const get = async (endpoint: string, token?: string) => {
 };
 
 const post = async (endpoint: string, data: any, token?: string) => {
+  const body = JSON.stringify(data);
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: 'POST',
     headers: getHeaders(token),
-    body: JSON.stringify(data),
+    body,
   });
+
+  if (!response.ok) {
+    console.error('Request failed:', {
+      endpoint,
+      status: response.status,
+      statusText: response.statusText,
+      body,
+    });
+  }
+
   return response.json();
 };
 

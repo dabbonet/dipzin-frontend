@@ -1,13 +1,45 @@
-export const getInitialQuery = (explorer: any) => {
-  const app = explorer?.[1] === "app" && explorer?.[2] ? [explorer[2]] : [];
-  const categories = explorer?.[1] === "apps" && explorer?.[2] ? [explorer[2]] : [];
-  const tags = explorer?.[1] === "screens" && explorer?.[2] ? [explorer[2]] : [];
-  const components = explorer?.[1] === "components" && explorer?.[2] ? [explorer[2]] : [];
-  const marketing = explorer?.[1] === "marketing" && explorer?.[2] ? [explorer[2]] : [];
-  const flows = explorer?.[1] === "flows" && explorer?.[2] ? [explorer[2]] : [];
+export const getInitialQuery = (explorer: string[]) => {
+  let app:any = [];
+  let categories:any = [];
+  let tags:any = [];
+  let components:any = [];
+  let marketing:any = [];
+  let flows:any = [];
+
+  // Handle app logic
+  if (explorer?.[2] === "app" && explorer?.[3]) {
+    app = [explorer[3]];
+  }
+
+  // Handle categories logic
+  if (explorer?.[1] === "apps" && explorer?.[2]) {
+    categories = [explorer[2]];
+  }
+
+  // Handle tags logic
+  if (explorer?.[1] === "screens" && explorer?.[2]) {
+    if (explorer[2] !== "app") {
+      tags = [explorer[2]];
+    }
+  }
+
+  // Handle components logic
+  if (explorer?.[1] === "components" && explorer?.[2]) {
+    components = [explorer[2]];
+  }
+
+  // Handle marketing logic
+  if (explorer?.[1] === "marketing" && explorer?.[2]) {
+    marketing = [explorer[2]];
+  }
+
+  // Handle flows logic
+  if (explorer?.[1] === "flows" && explorer?.[2]) {
+    flows = [explorer[2]];
+  }
 
   return {
-    apps:app,
+    apps: app,
     platform: explorer?.[0] || "ios",
     pattern: explorer?.[1] || "screens",
     categories,
@@ -18,9 +50,7 @@ export const getInitialQuery = (explorer: any) => {
   };
 };
 
-
-export const getInitialQueryWithSearchParams = (urlQuery:any, initialQuery: any, searchParams: any) => {
-  
+export const getInitialQueryWithSearchParams = (query: any, initialQuery: any, searchParams: any) => {
   const apps = initialQuery.apps.length > 0 ? initialQuery.apps : searchParams.getAll('app');
   const tags = initialQuery.tags.length > 0 ? initialQuery.tags : searchParams.getAll('tag');
   const categories = initialQuery.categories.length > 0 ? initialQuery.categories : searchParams.getAll('category');
@@ -29,13 +59,13 @@ export const getInitialQueryWithSearchParams = (urlQuery:any, initialQuery: any,
   const marketing = initialQuery.marketing.length > 0 ? initialQuery.marketing : searchParams.getAll('marketing');
 
   return {
-    apps: apps,
-    platform: urlQuery.platform ? urlQuery.platform : initialQuery.platform,
-    pattern: urlQuery.pattern ? urlQuery.pattern : initialQuery.pattern,
+    apps,
+    platform: query.platform || initialQuery.platform,
+    pattern: query.pattern || initialQuery.pattern,
     categories,
     tags,
     components,
     flows,
     marketing
-  }
-}
+  };
+};

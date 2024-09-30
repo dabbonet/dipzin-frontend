@@ -1,6 +1,6 @@
 import { storage } from "@/utils/storage";
 
-const getNavigatorListIcon = (item:any) => {
+const getNavigatorListIcon = (item: any) => {
   let url = "";
   switch (item.type) {
     case "app":
@@ -21,10 +21,12 @@ const getNavigatorListIcon = (item:any) => {
     case "component":
       url = "/assets/icons/components.svg";
       break;
+    default:
+      url = "/assets/icons/default-icon.svg"; // Fallback to a default icon
+      break;
   }
   return url;
-}
-
+};
 
 const getItemDescription = (item:any) => {
   let description = "";
@@ -50,13 +52,12 @@ const getItemDescription = (item:any) => {
   return description;
 }
 
-
 const mapItemPattern = (selectedResult: any) => {
   switch (selectedResult.id) {
     case 'appCategories':
       return 'apps';
     case 'tagCategories':
-      return 'screens';
+      return 'tags';
     case 'marketingCategories':
       return 'marketing';
     case 'componentCategories':
@@ -64,17 +65,12 @@ const mapItemPattern = (selectedResult: any) => {
     case 'flowCategories':
       return 'flows';
     default:
-      return '';
+      return 'unknown'; // Fallback in case no matching category is found
   }
-}
-
-
-
+};
 
 export {
   getNavigatorListIcon,
   getItemDescription,
   mapItemPattern
 }
-
-

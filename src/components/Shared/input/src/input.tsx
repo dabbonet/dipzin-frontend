@@ -76,16 +76,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const handleFilterClose = (filterToRemove: Filter) => {
       if (setSelectedFilters) {
         setPreventFocus(true);
-        setSelectedFilters((prevFilters) =>{
-          return prevFilters.filter(
-            (filter) =>
-              !(filter.name === filterToRemove.name && filter.pattern === filterToRemove.pattern)
-          )
-        }
-        );
+        setSelectedFilters((prevFilters) => prevFilters.filter(
+          (filter) => !(filter.name === filterToRemove.name && filter.pattern === filterToRemove.pattern)
+        ));
       }
     };
-    
+
     const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
       if (preventFocus) {
         event.preventDefault(); // Prevent focus behavior
@@ -100,12 +96,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <div className="w-full h-fit flex flex-col gap-2 font-outfit overflow-hidden">
         {label && <Label className="text-gray-400 text-[1rem] leading-6" htmlFor={inputId}>{label}</Label>}
         <Label htmlFor={inputId}>
-            <Comp
-              className={cn(
-                wrapperVariants({ type, state, className }),
-                selectedFilters && selectedFilters.length > 0 && "px-[0.1rem] py-[0.25rem] overflow-x-scroll scrollbar-hide",
-              )}
-            >
+          <Comp
+            className={cn(
+              wrapperVariants({ type, state, className }),
+              selectedFilters && selectedFilters.length > 0 && "px-[0.1rem] py-[0.25rem] overflow-x-scroll scrollbar-hide",
+            )}
+          >
 
             {selectedFilters && selectedFilters.length > 0 && (
               <div className="flex gap-1.5">
@@ -115,7 +111,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     initial={isInitialRender ? false : { opacity: 0, x: 0 }} // Only apply initial animation on subsequent renders
                     animate={{ opacity: 1, x: 5 }}
                     exit={{ opacity: 0, x: 0 }}
-                    transition={{ duration: 0.2, delay: index * 0.1 }} 
+                    transition={{ duration: 0.2, delay: index * 0.1 }}
                   >
                     <Pill
                       state="selected"
@@ -145,7 +141,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               {...props}
             />
             {endContent && <Slot className="flex items-center">{endContent}</Slot>}
-            </Comp>
+          </Comp>
         </Label>
         {helpText && <p className={`text-[1rem] leading-6 ${state === "error" ? "text-danger-500" : "text-gray-400"}`}>{helpText}</p>}
       </div>

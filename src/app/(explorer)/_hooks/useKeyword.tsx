@@ -4,12 +4,7 @@ import { useEffect, useRef } from 'react';
 import { suggestSearch } from '../_actions/suggestedSearch';
 import debounce from 'lodash/debounce'; // Import debounce from lodash
 import { searchByKeyword } from '../_actions/searchByKeyword';
-import type { KeywordResult, Category } from '@/types/navigation-types';
-
-// Define the interfaces for Screen, Result, and SearchResults
-interface Screen {
-  [key: string]: any; // Define specific properties if known
-}
+import type { KeywordResult } from '@/types/navigation-types';
 
 interface SearchResults {
   hits: KeywordResult[];
@@ -26,7 +21,7 @@ interface KeywordStoreState {
   setKeyword: (keyword: string) => void;
   results: SearchResults | null;
   selectedResult: any;
-  setSelectedResult: (result:  any) => void; // Allow null as a valid value
+  setSelectedResult: (result: any) => void; // Allow null as a valid value
   fetchResults: (keyword: string) => void;
   suggestedSearch: any;
   setSuggestedSearch: (suggestedSearch: any) => void;
@@ -52,12 +47,14 @@ const useKeywordStore = create<KeywordStoreState>()(
         set({ results: null, selectedResult: null }); // Reset selectedResult when keyword is empty
       }
     }, 500), // Debounce delay of 500ms
-  }),{enabled: true})
+  }), { enabled: true })
 );
 
 // Custom hook to use the Zustand store
 const useKeyword = () => {
-  const { keyword, setKeyword, results, selectedResult, setSelectedResult, fetchResults, suggestedSearch, setSuggestedSearch } = useKeywordStore();
+  const {
+    keyword, setKeyword, results, selectedResult, setSelectedResult, fetchResults, suggestedSearch, setSuggestedSearch
+  } = useKeywordStore();
 
   // Ref to prevent the effect from running multiple times
   const isFirstRender = useRef(true);
@@ -78,7 +75,9 @@ const useKeyword = () => {
     }
   }, [suggestedSearch, setSuggestedSearch]);
 
-  return { keyword, setKeyword, results, selectedResult, setSelectedResult, suggestedSearch };
+  return {
+    keyword, setKeyword, results, selectedResult, setSelectedResult, suggestedSearch
+  };
 };
 
 export { useKeyword };

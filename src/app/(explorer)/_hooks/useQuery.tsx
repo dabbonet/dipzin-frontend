@@ -1,25 +1,28 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { useMemo } from 'react';
-import type { Filter, UrlQuery, DataQuery } from '@/types/navigation-types';
+import type { Filter, Query, DataQuery } from '@/types/navigation-types';
 
 interface QueryStoreState {
   filters: Filter[]; // Parent state for all filters
-  urlQuery: UrlQuery;
+  change: string;
+  query: Query;
+  data: any;
   dataQuery: DataQuery | null;
-  setUrlQuery: (query: UrlQuery) => void;
-  setDataQuery: (data: DataQuery) => void;
-  setFilters: (updateFn: (currentFilters: Filter[]) => Filter[]) => void; 
+  setQuery: (query: Query) => void;
+  setDataQuery: (response: any) => void;
+  setFilters: (updateFn: (currentFilters: Filter[]) => Filter[]) => void;
   setPlatform: (platform: string) => void;
   setPattern: (pattern: string) => void;
-  setApps: (apps: string[]) => void; // New function to set apps
+  setApps: (updateFn: (currentApps: Filter[]) => Filter[]) => void; // New function to set apps
 }
 
 // Create the Zustand store with devtools middleware
 const useQueryStore = create<QueryStoreState>()(
   devtools((set) => ({
-    filters: [], 
-    urlQuery: {
+    filters: [],
+    change: "",
+    query: {
       apps: [],
       pattern: '',
       platform: '',
@@ -29,26 +32,28 @@ const useQueryStore = create<QueryStoreState>()(
       flows: [],
       marketing: [],
     },
+    data: null,
     dataQuery: null,
-    setUrlQuery: (query: UrlQuery) => set({ urlQuery: query }),
-    setDataQuery: (query: DataQuery) => set({ dataQuery: query }),
+    setQuery: (query: Query) => set({ query }),
+    setDataQuery: (response: any) => set({ data: response.data, dataQuery: response.query }),
     setFilters: (updateFn: (currentFilters: Filter[]) => Filter[]) => {
       // Apply the update function to the current filters state
-      set((state) => ({ filters: updateFn(state.filters) }));
+      set((state) => ({ filters: updateFn(state.filters), change: 'filters' }));
     },
     setPlatform: (platform: string) => {
       set((state) => ({
-        urlQuery: { ...state.urlQuery, platform },
+        query: { ...state.query, platform, change: 'platform' },
       }));
     },
     setPattern: (pattern: string) => {
       set((state) => ({
-        urlQuery: { ...state.urlQuery, pattern },
+        query: { ...state.query, pattern, change: 'pattern' },
       }));
     },
-    setApps: (apps: string[]) => {
+    setApps: (updateFn: (currentApps: any[]) => any[]) => {
       set((state) => ({
-        urlQuery: { ...state.urlQuery, apps },
+        query: { ...state.query, apps: updateFn(state.query.apps || []) },
+        change: 'filters',
       }));
     },
   }))
@@ -58,9 +63,11 @@ const useQueryStore = create<QueryStoreState>()(
 const useQuery = () => {
   const {
     filters,
-    urlQuery,
+    change,
+    query,
+    data,
     dataQuery,
-    setUrlQuery,
+    setQuery,
     setDataQuery,
     setFilters,
     setPlatform,
@@ -72,16 +79,18 @@ const useQuery = () => {
   return useMemo(
     () => ({
       filters,
-      urlQuery,
+      change,
+      query,
+      data,
       dataQuery,
-      setUrlQuery,
+      setQuery,
       setDataQuery,
       setFilters,
       setPlatform,
       setPattern,
       setApps, // Add setApps here
     }),
-    [filters, urlQuery, dataQuery]
+    [filters, query, dataQuery]
   );
 };
 

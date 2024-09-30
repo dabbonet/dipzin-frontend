@@ -58,10 +58,11 @@ export type App = {
   slug: string;
 }
 
-export type UrlQuery = {
+export type Query = {
   apps?: App[] | string[];
   pattern: string;
   platform: string;
+  change?: string;
   tags: string[];
   components: string[];
   categories: string[];

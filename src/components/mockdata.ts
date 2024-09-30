@@ -1,5 +1,4 @@
 import type { Filter } from "@/types/navigation-types";
-import type { ScreenType } from "@/types/screen-types";
 import { faker } from "@faker-js/faker";
 
 const appData = {
@@ -36,11 +35,11 @@ const mockData = [
 const suggestionsData: Filter[] = [
   { name: "Avatar", pattern: "components" },
   { name: "Card", pattern: "components" },
-  { name: "Button",  pattern: "components" },
+  { name: "Button", pattern: "components" },
   { name: "Business", pattern: "categories" },
-  { name: "Education",  pattern: "categories" },
+  { name: "Education", pattern: "categories" },
   { name: "Login Page", pattern: "marketing" },
-  { name: "Onboarding",  pattern: "flowActions" },
+  { name: "Onboarding", pattern: "flowActions" },
 ];
 
 const initialContentData = {
@@ -89,7 +88,7 @@ const initialContentData = {
   ]
 }
 
-const screenData: ScreenType = {
+const screenData = {
   screen: {
     id: `${Math.random()}`,
     imgSrc: `https://placehold.co/300x650`,

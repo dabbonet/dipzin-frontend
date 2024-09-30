@@ -17,20 +17,22 @@ type MenuItemProps = {
   avatar?: string;
   showArrow?: boolean;
   isSelected?: boolean;
-  onMouseEnter: () => void;
+  onMouseEnter?: () => void;
   isSearchResult?: boolean; // Added prop for conditional padding
+  onClick?: () => void;
 };
 
 export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
-  label, description, icon, avatar, showArrow = false, onMouseEnter, isSearchResult = false
+  label, description, icon, avatar, showArrow = false, onMouseEnter, isSearchResult = false, onClick
 }) => (
   <button
     key={`search-result-${label}`}
     className={cn(
-      "w-full rounded-2xl flex items-center justify-between transition-colors hover:text-white/80 hover:bg-slate-700/60",  
+      "w-full rounded-2xl flex items-center justify-between transition-colors hover:text-white/80 hover:bg-slate-700/60",
       isSearchResult ? 'p-4' : 'p-4'
     )}
     onMouseEnter={onMouseEnter}
+    onClick={onClick}
     type="button"
   >
     <div className={cn("flex items-center", isSearchResult ? 'gap-3' : 'gap-4')}>

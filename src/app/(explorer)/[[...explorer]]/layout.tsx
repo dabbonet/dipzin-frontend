@@ -13,7 +13,7 @@ const Nav = ({ session, initialQuery }: { session: Session | null, initialQuery:
     <Link href="/" passHref>
       <Logo.Dipzin className="text-white" />
     </Link>
-    <Navigator initialQuery={initialQuery}/>
+    <Navigator initialQuery={initialQuery} />
     {session ? (
       <>
         {/* <Button className="rounded-full" size="xl" href="/account">
@@ -44,16 +44,16 @@ export default async function RootLayout({
   params
 }: {
   children: React.ReactNode;
-  params: { [key: string]: string };
+  params: any;
 }) {
   const session = await auth()
   const initialQuery = getInitialQuery(params.explorer)
   return (
     <div className="space-y-[52px]">
-        <Nav session={session} initialQuery={initialQuery} />
-        <main className="size-full px-4 md:px-6 lg:px-14 xl:px-20 2xl:px-[100px]">
-          {children}
-        </main>
+      <Nav session={session} initialQuery={initialQuery} />
+      <main className="size-full px-4 md:px-6 lg:px-14 xl:px-20 2xl:px-[100px]">
+        {children}
+      </main>
     </div>
   );
 }
