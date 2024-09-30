@@ -3,7 +3,6 @@ import { devtools } from 'zustand/middleware';
 import { useMemo } from 'react';
 import type { Filter, UrlQuery, DataQuery } from '@/types/navigation-types';
 
-
 interface QueryStoreState {
   filters: Filter[]; // Parent state for all filters
   urlQuery: UrlQuery;
@@ -13,24 +12,26 @@ interface QueryStoreState {
   setFilters: (updateFn: (currentFilters: Filter[]) => Filter[]) => void; 
   setPlatform: (platform: string) => void;
   setPattern: (pattern: string) => void;
+  setApps: (apps: string[]) => void; // New function to set apps
 }
 
 // Create the Zustand store with devtools middleware
 const useQueryStore = create<QueryStoreState>()(
   devtools((set) => ({
-    filters: [], // Initialize an empty filters array
+    filters: [], 
     urlQuery: {
       apps: [],
       pattern: '',
       platform: '',
       tags: [],
       components: [],
+      categories: [],
       flows: [],
       marketing: [],
     },
-    dataQuery: null, // Initialize dataQuery as null
+    dataQuery: null,
     setUrlQuery: (query: UrlQuery) => set({ urlQuery: query }),
-    setDataQuery: (data: DataQuery) => set({ dataQuery: data }),
+    setDataQuery: (query: DataQuery) => set({ dataQuery: query }),
     setFilters: (updateFn: (currentFilters: Filter[]) => Filter[]) => {
       // Apply the update function to the current filters state
       set((state) => ({ filters: updateFn(state.filters) }));
@@ -43,6 +44,11 @@ const useQueryStore = create<QueryStoreState>()(
     setPattern: (pattern: string) => {
       set((state) => ({
         urlQuery: { ...state.urlQuery, pattern },
+      }));
+    },
+    setApps: (apps: string[]) => {
+      set((state) => ({
+        urlQuery: { ...state.urlQuery, apps },
       }));
     },
   }))
@@ -59,6 +65,7 @@ const useQuery = () => {
     setFilters,
     setPlatform,
     setPattern,
+    setApps, // Add setApps to the hook return value
   } = useQueryStore();
 
   // Memoize the return value to prevent unnecessary re-renders
@@ -72,6 +79,7 @@ const useQuery = () => {
       setFilters,
       setPlatform,
       setPattern,
+      setApps, // Add setApps here
     }),
     [filters, urlQuery, dataQuery]
   );

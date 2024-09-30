@@ -4,7 +4,23 @@ export type IconType = {
   height: number;
 };
 
+export type KeywordResult = {
+  name: string;
+  _meilisearch_id: string;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  screens: Screen | null;
+  type?: string;
+  flow_category?: string | null;
+  types?: string[];
+  component_category?: string | null;
+  blockType?: string;
+}
+
 export type Category = {
+  id?: string;
   name: string;
   icon: IconType;
   blockType: string;

@@ -50,7 +50,31 @@ const getItemDescription = (item:any) => {
   return description;
 }
 
+
+const mapItemPattern = (selectedResult: any) => {
+  switch (selectedResult.id) {
+    case 'appCategories':
+      return 'apps';
+    case 'tagCategories':
+      return 'screens';
+    case 'marketingCategories':
+      return 'marketing';
+    case 'componentCategories':
+      return 'components';
+    case 'flowCategories':
+      return 'flows';
+    default:
+      return '';
+  }
+}
+
+
+
+
 export {
   getNavigatorListIcon,
-  getItemDescription
+  getItemDescription,
+  mapItemPattern
 }
+
+

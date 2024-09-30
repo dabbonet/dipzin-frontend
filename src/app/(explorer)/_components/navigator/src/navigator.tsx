@@ -14,9 +14,10 @@ import { useSearchParams } from "next/navigation";
 import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import { getInitialQueryWithSearchParams } from '@/app/(explorer)/_utils/initialQuery';
-import { updateStateAndUrl, useUpdateUrlPart } from '@/app/(explorer)/_utils/queryUtils';
 import type { Filter } from '@/types/navigation-types';
 import { combineFilters } from '@/app/(explorer)/_utils/filtersUtils';
+import { useUpdateUrlPart } from '@/app/(explorer)/_hooks/useUpdateUrlPart';
+import { updateStateAndUrl } from '@/app/(explorer)/_utils/updateStateAndUrl';
 
 const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,11 +25,11 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   const navigatorRef = useRef<HTMLDivElement>(null); // Ref to track the navigator
 
   const { keyword, setKeyword } = useKeyword();
-  const { urlQuery, setUrlQuery, setPlatform, setPattern, filters, setFilters } = useQuery();
+  const { urlQuery, setUrlQuery, setPlatform, setPattern, filters, setFilters, setApps } = useQuery();
   const searchParams = useSearchParams();
 
   const initialQueryWithSearchParams = getInitialQueryWithSearchParams(urlQuery, initialQuery, searchParams);
-  const combinedFilters = combineFilters(searchParams);
+  const combinedFilters = combineFilters(searchParams, urlQuery, filters);
   // Handle Platform and Pattern from initialQuery or urlQuery
   const platform = initialQueryWithSearchParams.platform;
   const pattern = initialQueryWithSearchParams.pattern;
@@ -37,7 +38,6 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
 
   useEffect(() => {
     setUrlQuery(initialQueryWithSearchParams);
-    setFilters(() => combinedFilters);
     
     const handleClickOutside = (event: MouseEvent) => {
       if (navigatorRef.current && !navigatorRef.current.contains(event.target as Node)) {
@@ -64,7 +64,8 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
       setPlatform,
       setPattern,
       setFilters,
-      updateUrlPart,
+      setApps,
+      updateUrlPart
     });
   };
   const switcherState = isMenuOpen || combinedFilters.length > 0 ? "collapsed" : "open";

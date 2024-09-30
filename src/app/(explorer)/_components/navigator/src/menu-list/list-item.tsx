@@ -25,6 +25,7 @@ export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
   label, description, icon, avatar, showArrow = false, onMouseEnter, isSearchResult = false
 }) => (
   <button
+    key={`search-result-${label}`}
     className={cn(
       "w-full rounded-2xl flex items-center justify-between transition-colors hover:text-white/80 hover:bg-slate-700/60",  
       isSearchResult ? 'p-4' : 'p-4'

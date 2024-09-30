@@ -12,6 +12,7 @@ type NavigatorMenuProps = {
 
 export const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen }) => {
 
+
   return (
     <motion.div
       key="menu"
