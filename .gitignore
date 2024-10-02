@@ -55,3 +55,7 @@ local
 # vercel
 .vercel
 
+.env
+.env*
+!.env.vault
+
