@@ -22,12 +22,12 @@ const AppPill: React.FC<AppPillProps> = ({ isFull = false, data }) => {
   useEffect(() => {
     const getApps = async () => {
       if (apps.length > 0) {
-        const fullApps = await Promise.all(apps.map(async (app: string) => getAppPreview(app, query.platform)));
+        const fullApps = await Promise.all(apps.map(async (app: string) => getAppPreview(app)));
         setApps(() => fullApps);
       }
     };
     getApps();
-  }, [apps, query.platform, setApps]); // Removed the direct use of 'apps' in the dependency array
+  }, []); // Removed the direct use of 'apps' in the dependency array
 
   if (typeof data === 'string' || !data) {
     return null;
@@ -38,7 +38,7 @@ const AppPill: React.FC<AppPillProps> = ({ isFull = false, data }) => {
       <div className={`${isFull ? 'col-span-3 sm:col-span-3 md:col-span-4' : 'col-span-3'} flex items-center gap-4 text-white`}>
         <Avatar>
           <AvatarImage src={storage(data?.icon)} alt={data?.name} />
-          <AvatarFallback>{extractInitials(data.name)}</AvatarFallback>
+          <AvatarFallback>{data.name && extractInitials(data?.name)}</AvatarFallback>
         </Avatar>
         <div className="flex flex-col lg:flex-row items-start lg:items-center gap-0 lg:gap-4 w-full">
           <h3 className="text-lg sm:text-xl md:text-2xl font-medium text-white">{data.name}</h3>

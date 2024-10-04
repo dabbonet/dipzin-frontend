@@ -51,7 +51,9 @@ export type SearchResult = {
 
 export type Filter = {
   name: string;
-  pattern: 'tags' | 'components' | 'flowActions' | 'marketing' | "categories";
+  pattern: 'tags' | 'components' | 'flowActions' | 'marketing' | "categories" | string;
+  neglected?: boolean;
+  reason?: string;
 }
 
 export type App = {
@@ -63,11 +65,11 @@ export type Query = {
   pattern: string;
   platform: string;
   change?: string;
-  tags: string[];
-  components: string[];
-  categories: string[];
-  flows: string[];
-  marketing: string[];
+  filters: Filter[];
+  initialized?: boolean;
+  offset?: number;
+  limit?: number;
+  totalRecords?: number;
 }
 
 export type DataQuery = {

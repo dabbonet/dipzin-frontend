@@ -91,7 +91,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         onFocus(event);
       }
     };
-
     return (
       <div className="w-full h-fit flex flex-col gap-2 font-outfit overflow-hidden">
         {label && <Label className="text-gray-400 text-[1rem] leading-6" htmlFor={inputId}>{label}</Label>}
@@ -106,14 +105,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {selectedFilters && selectedFilters.length > 0 && (
               <div className="flex gap-1.5">
                 {selectedFilters.map((filter, index) => (
+                  // TODO: Handle negelections.
                   <motion.div
                     key={filter.name}
                     initial={isInitialRender ? false : { opacity: 0, x: 0 }} // Only apply initial animation on subsequent renders
                     animate={{ opacity: 1, x: 5 }}
                     exit={{ opacity: 0, x: 0 }}
                     transition={{ duration: 0.2, delay: index * 0.1 }}
-                  >
+                    >
                     <Pill
+                      className={cn(filter.neglected === true ? 'opacity-50' : 'opacity-100')}
                       state="selected"
                       startContent={(
                         <Icon.Close

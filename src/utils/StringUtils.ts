@@ -2,7 +2,7 @@ export const extractInitials = (name: string): string => {
   const words = name?.split(' ');
   let initials = '';
 
-  for (let i = 0; i < words.length; i += 1) {
+  for (let i = 0; i < words?.length; i += 1) {
     const firstChar = words[i]?.[0];
     if (firstChar) {
       initials += firstChar;

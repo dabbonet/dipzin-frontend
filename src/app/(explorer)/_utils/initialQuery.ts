@@ -1,10 +1,16 @@
+// getInitialQuery.ts
+
+import type { Filter } from '@/types/navigation-types';
+import { safeDecode, singularToPlural } from './queryUtils';
+
+// Function to get the initial query from the URL segments
 export const getInitialQuery = (explorer: string[]) => {
-  let app:any = [];
-  let categories:any = [];
-  let tags:any = [];
-  let components:any = [];
-  let marketing:any = [];
-  let flows:any = [];
+  let app: any = [];
+  let categories: any = [];
+  let tags: any = [];
+  let components: any = [];
+  let marketing: any = [];
+  let flows: any = [];
 
   // Handle app logic
   if (explorer?.[2] === "app" && explorer?.[3]) {
@@ -46,26 +52,43 @@ export const getInitialQuery = (explorer: string[]) => {
     tags,
     components,
     marketing,
-    flows
+    flows,
   };
 };
 
-export const getInitialQueryWithSearchParams = (query: any, initialQuery: any, searchParams: any) => {
-  const apps = initialQuery.apps.length > 0 ? initialQuery.apps : searchParams.getAll('app');
-  const tags = initialQuery.tags.length > 0 ? initialQuery.tags : searchParams.getAll('tag');
-  const categories = initialQuery.categories.length > 0 ? initialQuery.categories : searchParams.getAll('category');
-  const components = initialQuery.components.length > 0 ? initialQuery.components : searchParams.getAll('component');
-  const flows = initialQuery.flows.length > 0 ? initialQuery.flows : searchParams.getAll('flow');
-  const marketing = initialQuery.marketing.length > 0 ? initialQuery.marketing : searchParams.getAll('marketing');
 
+// Function to get the initial query with search parameters
+export const getInitialQueryWithSearchParams = (query: any, initialQuery: any, searchParams: any) => {
+  const apps = initialQuery.apps?.length > 0 ? initialQuery.apps : searchParams.getAll('app');
+
+  // Combine tags, categories, components, flows, and marketing into filters
+  const patterns = ['tag', 'category', 'component', 'flow', 'marketing'];
+  const filters: Filter[] = [];
+
+
+  for (const pattern of patterns) {
+    // Use optional chaining (?.) and provide a default empty array if undefined
+    const items = initialQuery[singularToPlural(pattern)]?.length > 0
+      ? initialQuery[singularToPlural(pattern)]
+      : searchParams.getAll(pattern).map((item: string) => safeDecode(item)); // Decode all items safely
+    for (const item of items) {
+      filters.push({
+        name: safeDecode(item), // Make sure to safely decode the name
+        pattern: singularToPlural(pattern), // TODO: this is not the correct pattern for this item!
+      });
+    }
+  }
+
+  // Determine the value of correctedChange based on the logic provided
+  const correctedChange = searchParams.get('change');
+  //  || (filters.length > 0 ? 'filters' : 'pattern')
   return {
     apps,
-    platform: query.platform || initialQuery.platform,
-    pattern: query.pattern || initialQuery.pattern,
-    categories,
-    tags,
-    components,
-    flows,
-    marketing
+    platform: query?.platform || initialQuery.platform,
+    pattern: query?.pattern || initialQuery.pattern,
+    change: correctedChange,
+    filters,
+    offset: query?.offset || 0,
+    limit: query?.limit || 10,
   };
 };

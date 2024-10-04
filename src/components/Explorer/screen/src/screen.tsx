@@ -13,11 +13,9 @@ const NotFoundView = () => (
   </div>
 )
 
-const Screen = ({ screen, view = 'default' }: ScreenType) => {
+const Screen = ({ screen }: ScreenType) => {
   const [imageLoaded, setImageLoaded] = React.useState(false)
   const [imageError, setImageError] = React.useState(false)
-
-  console.log(view)
 
   const borderVariants = {
     initial: {
@@ -60,11 +58,12 @@ const Screen = ({ screen, view = 'default' }: ScreenType) => {
           ) : (
             <Image
               src={storage((screen.screen?.hash ?? '') + (screen.screen?.ext ?? ''))}
-              alt={screen.screen.alternativeText ?? "Screen Shot"}
-              width={screen.screen.width ?? 0}
-              height={screen.screen.height ?? 0}
+              alt={screen?.screen?.alternativeText ?? "Screen Shot"}
+              width={screen.screen?.width ?? 0}
+              height={screen.screen?.height ?? 0}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageError(true)}
+              unoptimized
             />
           )}
           {/* {imageLoaded && !imageError && <ScreenOverlay view={view} app={screen.app} />} */}

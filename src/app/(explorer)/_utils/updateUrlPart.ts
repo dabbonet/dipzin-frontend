@@ -1,17 +1,20 @@
+// createUpdateUrlPart.ts
+
 import type { Filter } from '@/types/navigation-types';
-import { getPatternHandle } from './queryUtils';
+import { pluralToSingular, getPatternHandle } from '../_utils/queryUtils'; // Import utility functions
 
 type UpdateUrlPartType = (
-  part: 'platform' | 'pattern' | 'filters' | 'apps',
-  value: string | Filter[] | string[] | any
+  part: 'platform' | 'pattern' | 'filters' | 'apps' | ('platform' | 'pattern' | 'filters' | 'apps')[],
+  value: any
 ) => string;
 
 export const createUpdateUrlPart = (
   router: any,
   pathname: string,
   searchParams: URLSearchParams
-): UpdateUrlPartType => (part, value) => { // The updateUrlPart Function
+): UpdateUrlPartType => (part, value) => {
   const updatedSearchParams = new URLSearchParams(searchParams.toString());
+  console.log(value)
 
   // Utility functions
   const deleteAllFilters = () => {
@@ -25,80 +28,81 @@ export const createUpdateUrlPart = (
     }
   };
 
-  // Logic to update the URL based on the 'part' and 'value' parameters
+  // Split the current pathname into segments
   let pathSegments = pathname.split('/').filter(Boolean);
 
-  switch (part) {
-    case 'platform':
-      pathSegments[0] = (value as string).toLowerCase();
-      break;
-    case 'pattern':
-      pathSegments[1] = (value as string).toLowerCase();
-      break;
-    case 'apps':
-      if (value.slug) {
-        pathSegments = pathSegments.slice(0, 2);
-        pathSegments[3] = 'app';
-        pathSegments[4] = (value.slug as string).toLowerCase();
-        updatedSearchParams.delete('app');
-      } else if (Array.isArray(value) && value.length === 0) {
-        pathSegments = pathSegments.slice(0, 2);
-        updatedSearchParams.delete('app');
-      } else {
-        updatedSearchParams.delete('app');
-        pathSegments = pathSegments.slice(0, 2);
-        (value as any[]).forEach((app) => appendFilterWithoutDuplication('app', app.slug));
-      }
-      break;
-    case 'filters':
-      if (typeof value === 'string') {
-        const [pattern, name] = value.split('/') ?? [];
-        const patternHandle = getPatternHandle(pattern || '');
+  // Handle multiple parts update
+  const parts = Array.isArray(part) ? part : [part];
 
-        if (pattern && name) {
-          pathSegments = pathSegments.slice(0, 1);
-          pathSegments.push(patternHandle.toLowerCase(), name);
-          deleteAllFilters();
+  // If value is the full query object
+  const query = value;
+
+  parts.forEach((partKey) => {
+    switch (partKey) {
+      case 'platform':
+        // Update platform in pathSegments[0]
+        if (query.platform) {
+          pathSegments[0] = (query.platform as string).toLowerCase();
         }
-      } else if (Array.isArray(value) && value.length === 0) {
-        pathSegments = pathSegments.slice(0, 2);
-        deleteAllFilters();
-      } else {
-        pathSegments = pathSegments.slice(0, 2);
+        break;
+      case 'pattern':
+        // Update pattern in pathSegments[1]
+        if (query.pattern) {
+          pathSegments[1] = (query.pattern as string).toLowerCase();
+        }
+        break;
+      case 'apps':
+        // Handle apps in query
+        console.log(value)
+        updatedSearchParams.delete('app');
+        if (query.apps && Array.isArray(query.apps) && query.apps.length > 0) {
+          query.apps.forEach((app: any) => {
+            const appSlug = app.slug;
+            console.log(appSlug)
+            appendFilterWithoutDuplication('app', appSlug);
+          });
+        } else {
+          // No apps: Clear apps from URL
+          pathSegments = pathSegments.slice(0, 2);
+        }
+        break;
+      case 'filters':
         deleteAllFilters();
 
-        (value as Filter[]).forEach((filter) => {
-          switch (filter.pattern) {
-            case 'tags':
-              appendFilterWithoutDuplication('tag', filter.name);
-              break;
-            case 'components':
-              appendFilterWithoutDuplication('component', filter.name);
-              break;
-            case 'categories':
-              appendFilterWithoutDuplication('category', filter.name);
-              break;
-            case 'flowActions':
-              appendFilterWithoutDuplication('flow', filter.name);
-              break;
-            case 'marketing':
-              appendFilterWithoutDuplication('marketing', filter.name);
-              break;
-            default:
-              // Default case for unrecognized patterns
-              break;
-          }
-        });
-      }
-      break;
-    default:
-      // Default case for unrecognized part types
-      break;
+        // Handle single filter with getPatternHandle
+        if (query.filters && query.filters.length === 1) {
+          const singleFilter = query.filters[0];
+          const paramName = getPatternHandle(singleFilter.pattern); // Convert pattern based on custom logic (e.g., categories -> apps)
+          // Slice the pathSegments to keep platform and pattern (0, 1)
+          pathSegments = pathSegments.slice(0, 1);
+
+          // Update the path with the new pattern and entity (e.g., /ios/apps/Business)
+          pathSegments = [...pathSegments, `${paramName}`, `${encodeURIComponent(singleFilter.name)}`];
+        } else if (query.filters && query.filters.length > 1) {
+          // Multiple filters should be query parameters
+          pathSegments = pathSegments.slice(0, 2); // Keep platform and pattern
+          query.filters.forEach((filter: Filter) => {
+            const patternName = pluralToSingular(filter.pattern); // Convert plural to singular using the utility function
+            const paramName = getPatternHandle(patternName);
+            appendFilterWithoutDuplication(paramName, filter.name);
+          });
+        } else {
+          // No filters: Clear filters from URL
+          pathSegments = pathSegments.slice(0, 2); // Keep platform and pattern
+        }
+        break;
+      default:
+        break;
+    }
+  });
+
+  // Add the change parameter if it exists
+  if (query.change) {
+    updatedSearchParams.set('change', query.change);
   }
 
   const updatedPath = `/${pathSegments.join('/')}`;
   const newUrl = `${updatedPath}?${updatedSearchParams.toString()}`;
-  const pattern = pathSegments[2]?.toString() || '';
-  router.push(newUrl);
-  return pattern; // Return Pattern
+  router.push(newUrl, undefined, { shallow: true });
+  return pathSegments[1] || ''; // Return pattern
 };

@@ -3,6 +3,7 @@ import { NavigatorMenuItem } from './list-item';
 import React from 'react';
 import { getItemDescription, getNavigatorListIcon } from '@/app/(explorer)/_utils/keywordUtils';
 import type { Category, Query } from '@/types/navigation-types';
+import { getPatternHandle } from '@/app/(explorer)/_utils/queryUtils';
 
 const categories: Category[] = [
   {
@@ -48,7 +49,8 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
     if (result.type === 'app') {
       handleUpdate((prev: any) => [...prev, { name: result.name, slug: result.slug }], 'apps');
     } else {
-      handleUpdate((prev: any) => [...prev, { name: result.name, pattern: result.type }], 'filters');
+      const pattern = getPatternHandle(result.type);
+      handleUpdate((prev: any) => [...prev, { name: result.name, pattern }], 'filters');
     }
   };
 

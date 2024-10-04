@@ -1,38 +1,57 @@
-import type { Filter } from '@/types/navigation-types';
-import { fetchDataAction } from '../_actions/fetchData';
-import { useQuery } from "./useQuery"; // assuming your Zustand hook is in the hooks folder
-import { useState } from 'react';
-import { pluralToSingular } from '../_utils/queryUtils';
+// useFetchData.ts
 
-// FetchData function using Next.js server actions
+import { fetchDataAction } from '../_actions/fetchData';
+import { useQuery } from "./useQuery";
+import { pluralToSingular, singularToPlural } from '../_utils/queryUtils';
+
 export function useFetchData() {
-  const { query, filters, setDataQuery } = useQuery();
-  const [pagination, setPagination] = useState({ offset: 0, limit: 50 }); // default pagination
+  const { query, data, setData } = useQuery();
 
   // Function to build and fetch data
-  const fetchData = async () => {
-    // Build the query object
-    const dataQuery = {
-      apps: (query.apps || []).map((app) => (typeof app === 'object' && 'slug' in app ? { slug: app.slug } : {})),
-      pattern: pluralToSingular(query.pattern),
-      platform: query.platform,
-      change: query.change || "pattern", // Ensure this is defined in query
-      filters: filters.map((filter: Filter) => ({
-        name: filter.name,
-        pattern: filter.pattern,
-      })),
-      offset: pagination.offset,
-      limit: pagination.limit,
+  const fetchData = async (isPagination = false, queryOverride = query) => {
+    console.log(queryOverride.platform, queryOverride.pattern, queryOverride.change)
+    const correctPattern = (pattern: string) => {
+      if (pattern === 'marketing' || pattern === 'screens') return 'tags';
+      // if (pattern === 'components') return 'component';
+      return pattern;
     };
-    // Fetch data from server action
+
+    const correctedPattern = queryOverride.filters.map(filter => correctPattern(filter.pattern));
+    const dataQuery = {
+      apps: (queryOverride.apps || []).map(app => typeof app === 'object' && 'slug' in app ? { slug: app.slug } : { slug: app }),
+      pattern: pluralToSingular(queryOverride.pattern),
+      platform: queryOverride.platform,
+      change: queryOverride.change,
+      filters: queryOverride.filters.map((filter, index) => ({ name: filter.name, pattern: correctedPattern[index] })),
+      offset: queryOverride.offset,  // Use query's offset (number of records)
+      limit: queryOverride.limit,    // Use query's limit (page size)
+    };
     try {
-      const response = await fetchDataAction(dataQuery);// set the returned data
-      setPagination({ offset: response.offset, limit: response.limit }); // update pagination from response
-      setDataQuery(response); // set dataQuery to response.query
+      console.log('Fetching data:', dataQuery);
+      const response = await fetchDataAction(dataQuery);
+      console.log(response)
+      if (response.error) return console.error('Error fetching data:', response.error);
+      if (isPagination) {
+        // Append data during pagination
+        setData([...data, ...response.data]); // Append new data to existing data
+      } else {
+        // Replace data on first load
+        setData(response.data);
+      }
+      // Map the pagination values to the query
+      const updatedQuery = {
+        ...response.query,
+        pattern: singularToPlural(response.query.pattern), // Pluralize pattern before setting
+        offset: response.pagination.pageSize * (response.pagination.page - 1),  // Correct offset calculation
+        limit: response.pagination.pageSize,  // Set limit based on page size
+        totalPages: response.pagination.totalPages, // Include total pages
+        totalRecords: response.pagination.totalRecords, // Include total records
+      };
+      return updatedQuery;
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  return { pagination, fetchData };
+  return { fetchData };
 }

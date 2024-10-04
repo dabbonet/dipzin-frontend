@@ -38,7 +38,7 @@ const suggestionsData: Filter[] = [
   { name: "Button", pattern: "components" },
   { name: "Business", pattern: "categories" },
   { name: "Education", pattern: "categories" },
-  { name: "Login Page", pattern: "marketing" },
+  { name: "Landing Page", pattern: "marketing" },
   { name: "Onboarding", pattern: "flowActions" },
 ];
 

@@ -1,98 +1,76 @@
+// useQuery.ts
+
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { useMemo } from 'react';
-import type { Filter, Query, DataQuery } from '@/types/navigation-types';
+import type { Filter, Query } from '@/types/navigation-types';
+
+// useQuery.ts
 
 interface QueryStoreState {
-  filters: Filter[]; // Parent state for all filters
-  change: string;
   query: Query;
   data: any;
-  dataQuery: DataQuery | null;
   setQuery: (query: Query) => void;
-  setDataQuery: (response: any) => void;
-  setFilters: (updateFn: (currentFilters: Filter[]) => Filter[]) => void;
+  setData: (data: any) => void;
   setPlatform: (platform: string) => void;
   setPattern: (pattern: string) => void;
-  setApps: (updateFn: (currentApps: Filter[]) => Filter[]) => void; // New function to set apps
+  setFilters: (updateFn: (currentFilters: Filter[]) => Filter[]) => void;
+  setApps: (updateFn: (currentApps: any[]) => any[]) => void;
 }
 
-// Create the Zustand store with devtools middleware
 const useQueryStore = create<QueryStoreState>()(
   devtools((set) => ({
-    filters: [],
-    change: "",
+    // Initial state of the query
     query: {
       apps: [],
       pattern: '',
       platform: '',
-      tags: [],
-      components: [],
-      categories: [],
-      flows: [],
-      marketing: [],
+      change: '',
+      filters: [],
+      offset: 0,
+      limit: 20,
+      totalPages: 0,
+      totalRecords: 0,
+      initialized: undefined,
     },
     data: null,
-    dataQuery: null,
+    // Function to set the entire query object
     setQuery: (query: Query) => set({ query }),
-    setDataQuery: (response: any) => set({ data: response.data, dataQuery: response.query }),
-    setFilters: (updateFn: (currentFilters: Filter[]) => Filter[]) => {
-      // Apply the update function to the current filters state
-      set((state) => ({ filters: updateFn(state.filters), change: 'filters' }));
-    },
+    // Function to set the data
+    setData: (data: any) => set({ data }),
     setPlatform: (platform: string) => {
+      console.log(platform)
       set((state) => ({
-        query: { ...state.query, platform, change: 'platform' },
-      }));
+        query: { ...state.query, platform, change: 'platform' }
+      }))
     },
     setPattern: (pattern: string) => {
       set((state) => ({
-        query: { ...state.query, pattern, change: 'pattern' },
-      }));
+        query: { ...state.query, pattern, change: 'pattern' }
+      }))
     },
-    setApps: (updateFn: (currentApps: any[]) => any[]) => {
-      set((state) => ({
-        query: { ...state.query, apps: updateFn(state.query.apps || []) },
-        change: 'filters',
-      }));
-    },
+    setFilters: (updateFn: (currentFilters: Filter[]) => Filter[]) => set((state) => ({
+      query: { ...state.query, filters: updateFn(state.query.filters), change: 'filters' }
+    })),
+    setApps: (updateFn: (currentApps: any[]) => any[]) => set((state) => ({
+      query: { ...state.query, apps: updateFn(state.query.apps || []), change: 'apps' }
+    })),
   }))
 );
 
-// Custom hook to use the Zustand store
 const useQuery = () => {
-  const {
-    filters,
-    change,
+  const { query, data, setQuery, setData, setPlatform, setPattern, setFilters, setApps } = useQueryStore();
+
+  return useMemo(() => ({
     query,
     data,
-    dataQuery,
     setQuery,
-    setDataQuery,
-    setFilters,
+    setData,
     setPlatform,
     setPattern,
-    setApps, // Add setApps to the hook return value
-  } = useQueryStore();
-
-  // Memoize the return value to prevent unnecessary re-renders
-  return useMemo(
-    () => ({
-      filters,
-      change,
-      query,
-      data,
-      dataQuery,
-      setQuery,
-      setDataQuery,
-      setFilters,
-      setPlatform,
-      setPattern,
-      setApps, // Add setApps here
-    }),
-    [filters, query, dataQuery]
-  );
+    setFilters,
+    setApps,
+  }), [query, data]);
 };
 
-// Export the hook and provider together
 export { useQuery };
