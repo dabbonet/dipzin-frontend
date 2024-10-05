@@ -19,7 +19,7 @@ const patternSwitcherData = [
 ];
 
 const platformSwitcherData = [
-  { label: "iOS", value: "ios" },
+  { label: "IOS", value: "ios" },
   { label: "Android", value: "android" },
   { label: "Web", value: "web" },
 ];

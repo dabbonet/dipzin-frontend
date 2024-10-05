@@ -56,7 +56,6 @@ export const getInitialQuery = (explorer: string[]) => {
   };
 };
 
-
 // Function to get the initial query with search parameters
 export const getInitialQueryWithSearchParams = (query: any, initialQuery: any, searchParams: any) => {
   const apps = initialQuery.apps?.length > 0 ? initialQuery.apps : searchParams.getAll('app');
@@ -64,7 +63,6 @@ export const getInitialQueryWithSearchParams = (query: any, initialQuery: any, s
   // Combine tags, categories, components, flows, and marketing into filters
   const patterns = ['tag', 'category', 'component', 'flow', 'marketing'];
   const filters: Filter[] = [];
-
 
   for (const pattern of patterns) {
     // Use optional chaining (?.) and provide a default empty array if undefined
@@ -80,7 +78,7 @@ export const getInitialQueryWithSearchParams = (query: any, initialQuery: any, s
   }
 
   // Determine the value of correctedChange based on the logic provided
-  const correctedChange = searchParams.get('change');
+  const correctedChange = searchParams.get('change') || 'pattern';
   //  || (filters.length > 0 ? 'filters' : 'pattern')
   return {
     apps,

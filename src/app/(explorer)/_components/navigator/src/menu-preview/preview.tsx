@@ -13,9 +13,10 @@ type NavigatorMenuPreviewProps = {
 };
 
 export const NavigatorMenuPreview: React.FC<NavigatorMenuPreviewProps> = () => {
-  
   const { selectedResult, suggestedSearch } = useKeyword();
-  const { setPlatform, setPattern, setFilters, setApps, filters} = useQuery();
+  const {
+    query, setPlatform, setPattern, setFilters, setApps
+  } = useQuery();
   // Utility hook for URL update
   const updateUrlPart = useUpdateUrlPart();
   // Helper function to update state and URL
@@ -27,31 +28,28 @@ export const NavigatorMenuPreview: React.FC<NavigatorMenuPreviewProps> = () => {
     updateStateAndUrl({
       newPlatform,
       newPattern,
-      newFilters: filters ? [...filters, ...(newFilters || [])] : newFilters,
+      newFilters: query.filters ? [...query.filters, ...(newFilters || [])] : newFilters,
       setPlatform,
       setPattern,
       setFilters,
       setApps,
-      updateUrlPart
+      updateUrlPart,
+      query
     });
   };
   // Log when selectedResult changes
 
   // if(!selectedResult) return null;
   return (
-      <div className="w-[70%] max-h-[50vh] rounded-[30px] p-2 bg-[#1A2333]">
-        {!selectedResult && 
-          <NavigatorMenuInitialContent data={suggestedSearch} handleUpdate={handleStateAndUrlUpdate}/>
-        }
-         
+    <div className="w-[70%] max-h-[50vh] rounded-[30px] p-2 bg-[#1A2333]">
+      {!selectedResult
+          && <NavigatorMenuInitialContent data={suggestedSearch} handleUpdate={handleStateAndUrlUpdate} />}
 
-        {selectedResult && selectedResult.blockType === "list" &&
-          <CategoriesContent selectedResult={selectedResult} suggestedSearch={suggestedSearch} handleUpdate={handleStateAndUrlUpdate}/>
-        }
+      {selectedResult && selectedResult.blockType === "list"
+          && <CategoriesContent selectedResult={selectedResult} suggestedSearch={suggestedSearch} handleUpdate={handleStateAndUrlUpdate} />}
 
-        {selectedResult && selectedResult.blockType !== "list" && 
-          <SearchContent selectedResult={selectedResult} />
-        }
-      </div>
+      {selectedResult && selectedResult.blockType !== "list"
+          && <SearchContent selectedResult={selectedResult} />}
+    </div>
   )
 }

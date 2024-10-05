@@ -60,16 +60,26 @@ export type App = {
   slug: string;
 }
 
+export type UrlQuery = {
+  tags: string[];
+  components: string[];
+  categories: string[];
+  flows: string[];
+  marketing: string[];
+}
+
 export type Query = {
-  apps?: App[] | string[];
+  apps?: App[] | string[] | any;
   pattern: string;
   platform: string;
   change?: string;
   filters: Filter[];
-  initialized?: boolean;
   offset?: number;
   limit?: number;
+  totalPages?: number;
   totalRecords?: number;
+  initialized?: boolean;
+  changed?: boolean;
 }
 
 export type DataQuery = {

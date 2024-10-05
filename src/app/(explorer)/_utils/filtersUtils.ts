@@ -1,7 +1,7 @@
-import type { Filter, Query } from '@/types/navigation-types';
+import type { Filter, UrlQuery } from '@/types/navigation-types';
 
 // This function combines filters from both URLSearchParams and query
-export const combineFilters = (searchParams: URLSearchParams, query: Query, filters: Filter[]): Filter[] => {
+export const combineFilters = (searchParams: URLSearchParams, query: UrlQuery, filters: Filter[]): Filter[] => {
   const combinedFilters: Filter[] = [];
   if (filters.length > 0) return filters;
   // Helper function to add filters from an array based on pattern

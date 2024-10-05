@@ -17,6 +17,7 @@ const bundleAnalyzer = withBundleAnalyzer({
 });
 
 const nextConfig = {
+  reactStrictMode: false,
   images: {
     dangerouslyAllowSVG: true,
     minimumCacheTTL: 60,

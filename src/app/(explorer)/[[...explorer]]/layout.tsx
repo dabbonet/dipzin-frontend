@@ -10,7 +10,7 @@ import { getInitialQuery } from '../_utils/initialQuery';
 
 const Nav = ({ session, initialQuery }: { session: Session | null, initialQuery:any }) => (
   <header className="w-full h-fit px-8 pt-7 flex items-start justify-between gap-8 z-10 fixed top-0">
-    <Link href="/" passHref>
+    <Link href="/">
       <Logo.Dipzin className="text-white" />
     </Link>
     <Navigator initialQuery={initialQuery} />

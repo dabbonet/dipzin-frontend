@@ -5,14 +5,21 @@ import type { Filter } from '@/types/navigation-types';
 interface UpdateStateAndUrlParams {
   newPlatform?: string;
   newPattern?: string;
-  newFilters?: Filter[] | undefined;
-  newApps?: any;
+  newFilters?: Filter[] | ((currentFilters: Filter[]) => Filter[]);
+  newApps?: any[] | ((currentApps: any[]) => any[]);
   setPlatform: (platform: string) => void;
   setPattern: (pattern: string) => void;
-  setFilters: (updateFn: (currentFilters: Filter[]) => Filter[]) => void;
-  setApps: (updateFn: (currentApps: any[]) => any[]) => void;
+  setFilters: (
+    filters: Filter[] | ((currentFilters: Filter[]) => Filter[])
+  ) => void;
+  setApps: (apps: any[] | ((currentApps: any[]) => any[])) => void;
   updateUrlPart: (
-    part: 'platform' | 'pattern' | 'filters' | 'apps' | ('platform' | 'pattern' | 'filters' | 'apps')[],
+    part:
+    | 'platform'
+    | 'pattern'
+    | 'filters'
+    | 'apps'
+    | ('platform' | 'pattern' | 'filters' | 'apps')[],
     value: any
   ) => string;
   query: any;
@@ -31,21 +38,38 @@ export const updateStateAndUrl = ({
   query
 }: UpdateStateAndUrlParams) => {
   // Handle platform and pattern update
-  if (newPlatform || newPattern) {
-    newPlatform !== undefined && setPlatform(newPlatform);
-    newPattern !== undefined && setPattern(newPattern);
-    updateUrlPart(['platform', 'pattern'], { platform: newPlatform, pattern: newPattern, change: query.change });
+  if (newPlatform !== undefined || newPattern !== undefined) {
+    if (newPlatform !== undefined) {
+      setPlatform(newPlatform);
+    }
+    if (newPattern !== undefined) {
+      setPattern(newPattern);
+    }
+    updateUrlPart(['platform', 'pattern'], {
+      platform: newPlatform || query.platform,
+      pattern: newPattern || query.pattern,
+      change: query.change,
+    });
   }
 
   // Handle filters update
   if (newFilters !== undefined) {
-    setFilters(() => newFilters as Filter[]);
-    updateUrlPart('filters', { filters: newFilters, change:query.change });
+    setFilters(newFilters);
+    updateUrlPart('filters', {
+      filters:
+        typeof newFilters === 'function'
+          ? newFilters(query.filters)
+          : newFilters,
+      change: query.change,
+    });
   }
 
   // Handle apps update
   if (newApps !== undefined) {
-    setApps(() => newApps);
-    updateUrlPart('apps', { apps: newApps, change: query.change });
+    setApps(newApps);
+    updateUrlPart('apps', {
+      apps: typeof newApps === 'function' ? newApps(query.apps) : newApps,
+      change: query.change,
+    });
   }
 };
