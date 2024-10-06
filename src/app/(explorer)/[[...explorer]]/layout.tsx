@@ -2,7 +2,6 @@ import { Logo } from '@/components/UI/logo';
 import { Icon } from '@/components/UI/icon';
 import '@/styles/global.css';
 import { Button } from '@/components/Shared/button';
-import Link from 'next/link';
 import { Navigator } from '../_components/navigator';
 import { auth, signOut } from '@/auth';
 import { type Session } from 'next-auth';
@@ -10,9 +9,9 @@ import { getInitialQuery } from '../_utils/initialQuery';
 
 const Nav = ({ session, initialQuery }: { session: Session | null, initialQuery:any }) => (
   <header className="w-full h-fit px-8 pt-7 flex items-start justify-between gap-8 z-10 fixed top-0">
-    <Link href="/">
+    <a href="/" aria-label="Home">
       <Logo.Dipzin className="text-white" />
-    </Link>
+    </a>
     <Navigator initialQuery={initialQuery} />
     {session ? (
       <>
