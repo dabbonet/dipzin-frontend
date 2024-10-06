@@ -5,7 +5,7 @@
     "package-lock.json": true
   },
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": [
     "source.addMissingImports",
     "source.fixAll.eslint"
@@ -24,7 +24,7 @@
   // Multiple language settings for json and jsonc files
   "[json][jsonc][yaml]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "prettier.ignorePath": ".gitignore", // Don't run prettier for files listed in .gitignore
   "i18n-ally.localesPaths": [
@@ -32,7 +32,7 @@
   ],
   "i18n-ally.keystyle": "nested",
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "typescript.suggest.autoImports": true,
   "tailwindCSS.emmetCompletions": true,
@@ -41,4 +41,10 @@
     "strings": true
   },
   "css.validate": false,
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
 }

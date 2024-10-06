@@ -22,7 +22,8 @@ const get = async (endpoint: string, token?: string) => {
   return response.json();
 };
 
-const post = async (endpoint: string, data: any, token?: string) => {
+// Use a generic type <T> for the post and put functions to specify the data type.
+const post = async <T>(endpoint: string, data: T, token?: string) => {
   const body = JSON.stringify(data);
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: 'POST',
@@ -31,7 +32,7 @@ const post = async (endpoint: string, data: any, token?: string) => {
   });
 
   if (!response.ok) {
-    console.error('Request failed:', {
+    return ({
       endpoint,
       status: response.status,
       statusText: response.statusText,
@@ -42,7 +43,7 @@ const post = async (endpoint: string, data: any, token?: string) => {
   return response.json();
 };
 
-const put = async (endpoint: string, data: any, token?: string) => {
+const put = async <T>(endpoint: string, data: T, token?: string) => {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: 'PUT',
     headers: getHeaders(token),

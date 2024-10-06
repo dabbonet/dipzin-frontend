@@ -21,7 +21,7 @@ const wrapperVariants = cva(
       type: {
         search: "rounded-full py-3 px-6 text-white placeholder:text-white bg-[#1A2333]",
         default: "",
-      }
+      },
     },
     defaultVariants: {
       state: "default",
@@ -30,7 +30,10 @@ const wrapperVariants = cva(
 );
 
 export interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "label" | "helpText" | "errorMessage" | "startContent" | "endContent">,
+  extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "label" | "helpText" | "errorMessage" | "startContent" | "endContent"
+  >,
   VariantProps<typeof wrapperVariants> {
   label?: string;
   helpText?: string;
@@ -76,9 +79,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const handleFilterClose = (filterToRemove: Filter) => {
       if (setSelectedFilters) {
         setPreventFocus(true);
-        setSelectedFilters((prevFilters) => prevFilters.filter(
-          (filter) => !(filter.name === filterToRemove.name && filter.pattern === filterToRemove.pattern)
-        ));
+        setSelectedFilters((prevFilters) => prevFilters.filter((filter) => !(filter.name === filterToRemove.name && filter.pattern === filterToRemove.pattern)));
       }
     };
 
@@ -93,15 +94,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
     return (
       <div className="w-full h-fit flex flex-col gap-2 font-outfit overflow-hidden">
-        {label && <Label className="text-gray-400 text-[1rem] leading-6" htmlFor={inputId}>{label}</Label>}
+        {label && (
+          <Label className="text-gray-400 text-[1rem] leading-6" htmlFor={inputId}>
+            {label}
+          </Label>
+        )}
         <Label htmlFor={inputId}>
           <Comp
             className={cn(
               wrapperVariants({ type, state, className }),
-              selectedFilters && selectedFilters.length > 0 && "px-[0.1rem] py-[0.25rem] overflow-x-scroll scrollbar-hide",
+              selectedFilters
+                && selectedFilters.length > 0
+                && "px-[0.1rem] py-[0.25rem] overflow-x-scroll scrollbar-hide"
             )}
           >
-
             {selectedFilters && selectedFilters.length > 0 && (
               <div className="flex gap-1.5">
                 {selectedFilters.map((filter, index) => (
@@ -112,16 +118,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     animate={{ opacity: 1, x: 5 }}
                     exit={{ opacity: 0, x: 0 }}
                     transition={{ duration: 0.2, delay: index * 0.1 }}
-                    >
+                  >
                     <Pill
-                      className={cn(filter.neglected === true ? 'opacity-50' : 'opacity-100')}
+                      className={cn(filter.neglected === true ? "opacity-50" : "opacity-100")}
                       state="selected"
                       startContent={(
                         <Icon.Close
                           onClick={() => handleFilterClose(filter)}
                           className="size-4 text-white cursor-pointer hover:text-white/80 transition-colors"
                         />
-                      )}
+                        )}
                     >
                       {filter.name}
                     </Pill>
@@ -131,12 +137,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             )}
 
             {startContent && <Slot className="flex items-center">{startContent}</Slot>}
-            {type === "search" && selectedFilters?.length === 0 && <Icon.Search className="text-white size-5" />}
+            {type === "search" && selectedFilters?.length === 0 && (
+              <Icon.Search className="text-white size-5" />
+            )}
             <input
               type={type}
               id={inputId}
               disabled={state === "disabled"}
-              className={cn("bg-transparent outline-none text-[1rem] leading-6 text-white size-full", type === "search" ? "placeholder:text-white" : "placeholder:text-slate-400")}
+              className={cn(
+                "bg-transparent outline-none text-[1rem] leading-6 text-white size-full",
+                type === "search" ? "placeholder:text-white" : "placeholder:text-slate-400"
+              )}
               ref={inputRef}
               onFocus={handleFocus}
               {...props}
@@ -144,7 +155,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {endContent && <Slot className="flex items-center">{endContent}</Slot>}
           </Comp>
         </Label>
-        {helpText && <p className={`text-[1rem] leading-6 ${state === "error" ? "text-danger-500" : "text-gray-400"}`}>{helpText}</p>}
+        {helpText && (
+          <p
+            className={`text-[1rem] leading-6 ${state === "error" ? "text-danger-500" : "text-gray-400"}`}
+          >
+            {helpText}
+          </p>
+        )}
       </div>
     );
   }

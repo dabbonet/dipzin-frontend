@@ -31,7 +31,7 @@ export const singularToPlural = (word: string): string => {
   if (word.endsWith('y') && !word.endsWith('ies')) {
     return `${word.slice(0, -1)}ies`;
   }
-  
+
   // Avoid pluralizing words that end with 'ing'
   if (word.endsWith('ing')) {
     return word;
@@ -41,10 +41,9 @@ export const singularToPlural = (word: string): string => {
   if (!word.endsWith('s')) {
     return `${word}s`;
   }
-  
+
   return word; // If the word is already plural, return as is
 };
-
 
 // Helper function to safely decode items
 export const safeDecode = (item: string) => {

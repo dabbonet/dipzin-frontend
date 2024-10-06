@@ -2,12 +2,18 @@
   // Configuration for JavaScript files
   "extends": [
     "airbnb-base",
-    "next/core-web-vitals" // Needed to avoid warning in next.js build: 'The Next.js plugin was not detected in your ESLint configuration'
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:tailwindcss/recommended"
   ],
   "overrides": [
     // Configuration for TypeScript files
     {
-      "files": ["**/*.ts", "**/*.tsx", "**/*.mts"],
+      "files": [
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.mts"
+      ],
       "plugins": [
         "@typescript-eslint",
         "unused-imports",
@@ -15,7 +21,8 @@
         "simple-import-sort"
       ],
       "extends": [
-        "plugin:tailwindcss/recommended",
+        "eslint:recommended",
+        "plugin:react/recommended",
         "airbnb",
         "airbnb-typescript",
         "next/core-web-vitals"
@@ -29,6 +36,7 @@
         "max-len": "off", // Disable line length
         "@typescript-eslint/quotes": "off",
         "@typescript-eslint/semi": "off",
+        "@typescript-eslint/no-explicit-any": "off",
         "import/extensions": "off", // Avoid missing file extension errors, TypeScript already provides a similar feature
         "tailwindcss/classnames-order": "off", // Disable tailwindcss/classnames-order
         "react/function-component-definition": "off", // Disable Airbnb's specific function type
@@ -51,14 +59,24 @@
         "unused-imports/no-unused-imports": "error",
         "unused-imports/no-unused-vars": [
           "error",
-          { "argsIgnorePattern": "^_" }
+          {
+            "argsIgnorePattern": "^_"
+          }
         ]
       }
     },
     // Configuration for testing
     {
-      "files": ["**/*.test.ts", "**/*.test.tsx"],
-      "plugins": ["vitest", "jest-formatting", "testing-library", "jest-dom"],
+      "files": [
+        "**/*.test.ts",
+        "**/*.test.tsx"
+      ],
+      "plugins": [
+        "vitest",
+        "jest-formatting",
+        "testing-library",
+        "jest-dom"
+      ],
       "extends": [
         "plugin:vitest/recommended",
         "plugin:jest-formatting/recommended",
@@ -68,12 +86,18 @@
     },
     // Configuration for e2e testing (Playwright)
     {
-      "files": ["**/*.spec.ts"],
-      "extends": ["plugin:playwright/recommended"]
+      "files": [
+        "**/*.spec.ts"
+      ],
+      "extends": [
+        "plugin:playwright/recommended"
+      ]
     },
     // Configuration for Storybook
     {
-      "files": ["*.stories.*"],
+      "files": [
+        "*.stories.*"
+      ],
       "extends": [
         "plugin:storybook/recommended"
       ]
