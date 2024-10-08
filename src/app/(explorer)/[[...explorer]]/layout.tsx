@@ -8,11 +8,32 @@ import { type Session } from 'next-auth';
 import { getInitialQuery } from '../_utils/initialQuery';
 
 const Nav = ({ session, initialQuery }: { session: Session | null, initialQuery: any }) => (
-  <header className="w-full h-fit px-8 pt-7 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 z-10 fixed top-0">
-    <div className="flex w-full justify-between items-center">
+  <header className="w-full h-fit px-8 pt-7 flex flex-col md:flex-row md:justify-between items-start gap-8 z-10 fixed top-0">
+    <div className="flex w-full md:w-auto justify-between items-center">
       <a href="/" aria-label="Home">
         <Logo.Dipzin className="text-white" />
       </a>
+      <div className="flex md:hidden">
+        {session ? (
+          <form
+            action={async () => {
+              "use server"
+
+              await signOut()
+            }}
+          >
+            <Button type="submit">Sign Out</Button>
+          </form>
+        ) : (
+          <Button className="rounded-full" size="xl" href="/access">
+            <Icon.Example className="size-5" />
+            Login
+          </Button>
+        )}
+      </div>
+    </div>
+    <Navigator initialQuery={initialQuery} />
+    <div className="hidden md:flex">
       {session ? (
         <form
           action={async () => {
@@ -30,7 +51,6 @@ const Nav = ({ session, initialQuery }: { session: Session | null, initialQuery:
         </Button>
       )}
     </div>
-    <Navigator initialQuery={initialQuery} />
   </header>
 )
 

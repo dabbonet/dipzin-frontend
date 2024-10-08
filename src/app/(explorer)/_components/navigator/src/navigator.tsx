@@ -16,23 +16,7 @@ import { Suggestions } from '@/components/Explorer/suggestions';
 import { AppPill } from '@/components/Explorer/selected-apps';
 import MobileNavigatorView from './mobile-navigator-view';
 import DesktopNavigatorView from './desktop-navigator-view';
-
-const useIsMobile = (breakpoint = 768) => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < breakpoint);
-    };
-
-    checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
-
-    return () => window.removeEventListener('resize', checkIsMobile);
-  }, [breakpoint]);
-
-  return isMobile;
-};
+import useIsMobile from '@/hooks/useIsMobile';
 
 const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

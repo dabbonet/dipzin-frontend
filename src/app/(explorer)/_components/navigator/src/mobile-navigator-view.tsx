@@ -13,7 +13,7 @@ interface MobileNavigatorViewProps {
   keyword: string;
   setKeyword: (value: string) => void;
   filters: any[];
-  setFilters: (filters: any[]) => void;
+  setFilters: (updateFn: (currentFilters: any[]) => any[]) => void;
   pattern: string;
   setPattern: (pattern: string) => void;
   platform: string;
@@ -46,7 +46,7 @@ const MobileNavigatorView: React.FC<MobileNavigatorViewProps> = ({
       placeholder={filters?.length > 0 ? 'Search' : 'Try Search'}
       autoComplete="off"
       selectedFilters={filters}
-      setSelectedFilters={setFilters}
+      setSelectedFilters={(updateFn) => setFilters(updateFn)}
     />
     <div className="flex gap-4">
       <Select value={pattern} onValueChange={setPattern}>
