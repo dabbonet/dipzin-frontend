@@ -1,19 +1,8 @@
 import ReactMarkdown from 'react-markdown';
+import { getData } from './_actions/getData';
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  async function getData() {
-    const res = await fetch(`https://rah.dipzin.com/api/${params.slug}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 1 }
-    });
-    const data = await res.json();
-
-    return data;
-  }
-  const data = await getData();
+  const data = await getData(params.slug);
   if (!data.data || !data.data.attributes) return;
   const { data: { attributes: content } } = data;
   const options = { year: 'numeric', month: 'long', day: 'numeric' };

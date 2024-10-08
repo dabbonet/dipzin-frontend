@@ -1,12 +1,6 @@
-// Navigator.tsx
-
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Input } from '@/components/Shared/input';
-import { Switcher } from '@/components/Shared/switcher';
-import { Suggestions } from '@/components/Explorer/suggestions';
-import { AppPill } from '@/components/Explorer/selected-apps';
 import { motion } from 'framer-motion';
 import { NavigatorMenu } from './navigator-menu';
 import {
@@ -18,11 +12,32 @@ import { useSearchParams } from 'next/navigation';
 import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import { getInitialQueryWithSearchParams } from '@/app/(explorer)/_utils/initialQuery';
-import type { Query } from '@/types/navigation-types';
+import { Suggestions } from '@/components/Explorer/suggestions';
+import { AppPill } from '@/components/Explorer/selected-apps';
+import MobileNavigatorView from './mobile-navigator-view';
+import DesktopNavigatorView from './desktop-navigator-view';
+
+const useIsMobile = (breakpoint = 768) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < breakpoint);
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, [breakpoint]);
+
+  return isMobile;
+};
 
 const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigatorRef = useRef<HTMLDivElement>(null); // Ref to track the navigator
+  const navigatorRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   const { keyword, setKeyword } = useKeyword();
   const {
@@ -31,7 +46,6 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   const { filters } = query || {};
   const searchParams = useSearchParams();
 
-  // Get the initial query with search params
   const initialQueryWithSearchParams = getInitialQueryWithSearchParams(
     query,
     initialQuery,
@@ -44,13 +58,12 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
       setQuery({ ...query, ...initialQueryWithSearchParams, initialized: true });
     }
 
-    // Handle click outside to close menu
     const handleClickOutside = (event: MouseEvent) => {
       if (
         navigatorRef.current
         && !navigatorRef.current.contains(event.target as Node)
       ) {
-        setIsMenuOpen(false); // Close the menu if clicking outside of the navigator
+        setIsMenuOpen(false);
       }
     };
 
@@ -71,41 +84,43 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
       animate={{ height: isMenuOpen ? 'auto' : 'auto' }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
-      <div className="w-full h-fit flex items-center gap-4">
-        <Switcher
-          value={pattern}
-          onChange={(newPattern) => setPattern(newPattern)} // Update state directly
-          data={patternSwitcherData}
-          state={switcherState}
+      {isMobile ? (
+        <MobileNavigatorView
+          keyword={keyword}
+          setKeyword={setKeyword}
+          filters={filters}
+          setFilters={setFilters}
+          pattern={pattern}
+          setPattern={setPattern}
+          platform={platform}
+          setPlatform={setPlatform}
+          patternData={patternSwitcherData}
+          platformData={platformSwitcherData}
+          onInputFocus={() => setIsMenuOpen(true)}
         />
-        <Input
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-          onFocus={() => setIsMenuOpen(true)}
-          className="w-full shadow-none"
-          type="search"
-          placeholder={filters?.length > 0 ? 'Search' : 'Try Search'}
-          autoComplete="off"
-          selectedFilters={filters}
-          setSelectedFilters={setFilters} // Update filters directly
+      ) : (
+        <DesktopNavigatorView
+          keyword={keyword}
+          setKeyword={setKeyword}
+          filters={filters}
+          setFilters={setFilters}
+          pattern={pattern}
+          setPattern={setPattern}
+          platform={platform}
+          setPlatform={setPlatform}
+          patternData={patternSwitcherData}
+          platformData={platformSwitcherData}
+          onInputFocus={() => setIsMenuOpen(true)}
+          switcherState={switcherState}
         />
-        <Switcher
-          value={platform}
-          onChange={(newPlatform) => setPlatform(newPlatform)} // Update state directly
-          data={platformSwitcherData}
-          state={switcherState}
-        />
-      </div>
+      )}
 
       {isMenuOpen && (
         <NavigatorMenu
           isMenuOpen={isMenuOpen}
-          handleUpdate={(
-            updateFn: (state: any) => any,
-            target: keyof Query | any
-          ) => {
+          handleUpdate={(updateFn, target) => {
             if (target === 'filters') {
-              setFilters(updateFn);
+              setFilters(updateFn(query.filters));
             } else if (target === 'apps') {
               setApps(updateFn(query.apps));
             }
@@ -115,9 +130,7 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
 
       {!isMenuOpen && query?.apps && query?.apps?.length > 0 && (
         <div
-          className={`size-full flex flex-col lg:flex-row gap-4 ${
-            isMenuOpen ? 'hidden' : 'flex'
-          }`}
+          className={`size-full flex flex-col lg:flex-row gap-4 ${isMenuOpen ? 'hidden' : 'flex'}`}
         >
           {query.apps?.map((app: any, index: number) => (
             <AppPill
@@ -129,12 +142,12 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
         </div>
       )}
 
-      {!isMenuOpen && (!query?.apps || query?.apps?.length === 0) && (
+      {!isMobile && !isMenuOpen && (!query?.apps || query?.apps?.length === 0) && (
         <div className={isMenuOpen ? 'hidden' : 'flex'}>
           <Suggestions
             suggestions={suggestionsData}
-            selectedFilters={filters}
-            setSelectedFilters={setFilters} // Update filters directly
+            selectedFilters={query.filters}
+            setSelectedFilters={setFilters}
           />
         </div>
       )}

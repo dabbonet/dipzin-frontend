@@ -7,18 +7,13 @@ import { auth, signOut } from '@/auth';
 import { type Session } from 'next-auth';
 import { getInitialQuery } from '../_utils/initialQuery';
 
-const Nav = ({ session, initialQuery }: { session: Session | null, initialQuery:any }) => (
-  <header className="w-full h-fit px-8 pt-7 flex items-start justify-between gap-8 z-10 fixed top-0">
-    <a href="/" aria-label="Home">
-      <Logo.Dipzin className="text-white" />
-    </a>
-    <Navigator initialQuery={initialQuery} />
-    {session ? (
-      <>
-        {/* <Button className="rounded-full" size="xl" href="/account">
-          <Icon.Example className="size-5" />
-          Account
-        </Button> */}
+const Nav = ({ session, initialQuery }: { session: Session | null, initialQuery: any }) => (
+  <header className="w-full h-fit px-8 pt-7 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 z-10 fixed top-0">
+    <div className="flex w-full justify-between items-center">
+      <a href="/" aria-label="Home">
+        <Logo.Dipzin className="text-white" />
+      </a>
+      {session ? (
         <form
           action={async () => {
             "use server"
@@ -28,13 +23,14 @@ const Nav = ({ session, initialQuery }: { session: Session | null, initialQuery:
         >
           <Button type="submit">Sign Out</Button>
         </form>
-      </>
-    ) : (
-      <Button className="rounded-full" size="xl" href="/access">
-        <Icon.Example className="size-5" />
-        Login
-      </Button>
-    )}
+      ) : (
+        <Button className="rounded-full" size="xl" href="/access">
+          <Icon.Example className="size-5" />
+          Login
+        </Button>
+      )}
+    </div>
+    <Navigator initialQuery={initialQuery} />
   </header>
 )
 
