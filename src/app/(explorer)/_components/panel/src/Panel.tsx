@@ -82,10 +82,11 @@ const Panel = () => {
   }, [pagination, query, loadData, isLoading, hasError, noData, setPagination]);
 
   useEffect(() => {
+    console.log(query)
     if ((query.initialized || query.changed) && !isLoading && !hasError) {
       loadData(false, query);
     }
-  }, [query, isLoading, hasError]);
+  }, [query, isLoading, hasError, loadData]);
 
   // Fallback UI for errors
   if (hasError) {

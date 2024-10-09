@@ -13,7 +13,7 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   const isMobile = useIsMobile();
   const { keyword, setKeyword } = useKeyword();
   const {
-    query, setQuery, setPlatform, setPattern, setFilters, setApps
+    query, setQuery, setPlatform, setPattern, setFilters, setApps, pagination
   } = useQuery();
   const { filters } = query || {};
   const searchParams = useSearchParams();
@@ -26,7 +26,7 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   const { platform, pattern } = initialQueryWithSearchParams;
 
   useEffect(() => {
-    if (!query.initialized && query.totalPages === 0) {
+    if (!query.initialized && pagination.totalPages === 0) {
       setQuery({ ...query, ...initialQueryWithSearchParams, initialized: true });
     }
   }, []);
@@ -45,18 +45,7 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
       setApps={setApps}
     />
   ) : (
-    <DesktopNavigatorView
-      keyword={keyword}
-      setKeyword={setKeyword}
-      filters={filters}
-      setFilters={setFilters}
-      pattern={pattern}
-      setPattern={setPattern}
-      platform={platform}
-      setPlatform={setPlatform}
-      query={query}
-      setApps={setApps}
-    />
+    <DesktopNavigatorView />
   )
 };
 

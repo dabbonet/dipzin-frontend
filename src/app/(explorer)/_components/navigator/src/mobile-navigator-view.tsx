@@ -10,8 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/select";
+import { AppPill } from "@/app/(explorer)/_components/navigator/selected-apps";
 import MobileNavigatorMenu from "./mobile-navigator-menu";
-import { AppPill } from "../selected-apps";
 
 interface MobileNavigatorViewProps {
   keyword: string;

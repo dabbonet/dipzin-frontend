@@ -5,21 +5,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Input } from '@/components/Shared/input';
 import { Switcher } from '@/components/Shared/switcher';
 import { NavigatorMenu } from './navigator-menu';
-import { AppPill } from '../selected-apps';
-import { Suggestions } from '../suggestions';
-
-interface DesktopNavigatorViewProps {
-  keyword: string;
-  setKeyword: (value: string) => void;
-  filters: any[];
-  setFilters: (updateFn: (currentFilters: any[]) => any[]) => void;
-  pattern: string;
-  setPattern: (pattern: string) => void;
-  platform: string;
-  setPlatform: (platform: string) => void;
-  query: any;
-  setApps: (updateFn: (currentApps: any[]) => any[]) => void;
-}
+import { AppPill } from "@/app/(explorer)/_components/navigator/selected-apps";
+import { Suggestions } from '@/app/(explorer)/_components/navigator/suggestions';
+import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
+import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
 
 const patterns = [
   { label: "Apps", value: "apps" },
@@ -45,21 +34,17 @@ const suggestions = [
   { name: "Onboarding", pattern: "flowActions" },
 ];
 
-const DesktopNavigatorView: React.FC<DesktopNavigatorViewProps> = ({
-  keyword,
-  setKeyword,
-  filters,
-  setFilters,
-  pattern,
-  setPattern,
-  platform,
-  setPlatform,
-  query,
-  setApps
-}) => {
+const DesktopNavigatorView: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false); // New state to track hover
+  const [isHovered, setIsHovered] = useState(false);
   const navigatorRef = useRef<HTMLInputElement | null>(null);
+
+  const { keyword, setKeyword } = useKeyword();
+  const {
+    query, setFilters, setPattern, setPlatform, setApps
+  } = useQuery();
+  const { filters, platform, pattern } = query || {};
+  console.log(filters)
 
   const handleClickOutside = (event: MouseEvent) => {
     if (navigatorRef.current && !navigatorRef.current.contains(event.target as Node)) {
@@ -102,6 +87,8 @@ const DesktopNavigatorView: React.FC<DesktopNavigatorViewProps> = ({
           type="search"
           placeholder={filters?.length > 0 ? 'Search' : 'Try Search'}
           autoComplete="off"
+          selectedFilters={filters}
+          setSelectedFilters={(updateFn) => setFilters(updateFn)}
         />
         <Switcher
           value={platform}
@@ -133,20 +120,20 @@ const DesktopNavigatorView: React.FC<DesktopNavigatorViewProps> = ({
 
       {/* Animate the Suggestions section */}
       <AnimatePresence>
-        {(!isMenuOpen && (isHovered || !query?.apps || query?.apps?.length === 0)) && (
-        <motion.div
-          className={isMenuOpen ? 'hidden' : 'flex'}
-          initial={{ opacity: 0, height: 0, y: -10 }} // Animate opacity and height
-          animate={{ opacity: 1, height: 'auto', y: 0 }} // Animate in
-          exit={{ opacity: 0, height: 0, y: -10 }} // Animate out
-          transition={{ duration: 0.3 }}
-        >
-          <Suggestions
-            suggestions={suggestions}
-            selectedFilters={query.filters}
-            setSelectedFilters={setFilters}
-          />
-        </motion.div>
+        {!isMenuOpen && (isHovered || !query?.apps || query?.apps?.length === 0) && (
+          <motion.div
+            className={isMenuOpen ? 'hidden' : 'flex'}
+            initial={{ opacity: 0, height: 0, y: -10 }} // Animate opacity and height
+            animate={{ opacity: 1, height: 'auto', y: 0 }} // Animate in
+            exit={{ opacity: 0, height: 0, y: -10 }} // Animate out
+            transition={{ duration: 0.3 }} // Smooth animation
+          >
+            <Suggestions
+              suggestions={suggestions}
+              selectedFilters={query.filters}
+              setSelectedFilters={setFilters}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
     </motion.div>
