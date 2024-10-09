@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ScreenDetails } from '@/components/Explorer/screen-details';
+import { ScreenDetails } from "..";
 import { Tabs } from '@/components/UI/tabs';
 
 const mockData = {
@@ -25,7 +25,7 @@ const mockData = {
 };
 
 const meta: Meta<typeof ScreenDetails> = {
-  title: 'Explorer/ScreenDetails',
+  title: 'Shared/screen/ScreenDetails',
   component: ScreenDetails,
   tags: ['autodocs'],
   args: {

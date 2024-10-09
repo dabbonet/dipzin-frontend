@@ -7,8 +7,20 @@ import type { Filter, Query } from '@/types/navigation-types';
 
 interface QueryStoreState {
   query: Query;
+  pagination: {
+    offset: number;
+    limit: number;
+    totalPages: number;
+    totalRecords: number;
+  };
   data: any;
   setQuery: (query: Query) => void;
+  setPagination: (pagination: {
+    offset: number;
+    limit: number;
+    totalPages: number;
+    totalRecords: number;
+  }) => void;
   setData: (data: any) => void;
   setPlatform: (platform: string) => void;
   setPattern: (pattern: string) => void;
@@ -20,36 +32,51 @@ interface QueryStoreState {
 
 const useQueryStore = create<QueryStoreState>()(
   devtools((set) => ({
-    // Initial state of the query
     query: {
       apps: [],
       pattern: '',
       platform: '',
       change: '',
       filters: [],
+      initialized: false,
+      changed: false,
+    },
+    pagination: {
       offset: 0,
       limit: 20,
       totalPages: 0,
       totalRecords: 0,
-      initialized: false,
-      changed: false
     },
     data: null,
-    // Function to set the entire query object
     setQuery: (query: Query) => set({ query }),
-    // Function to set the data
+    setPagination: (pagination) => set({ pagination }),
     setData: (data: any) => set({ data }),
+
+    // Update the setPlatform function to reset data
     setPlatform: (platform: string) => set((state) => ({
       query: {
-        ...state.query, platform, change: 'platform', changed: true, offset: 0
+        ...state.query,
+        platform,
+        change: 'platform',
+        changed: true,
+        offset: 0, // Reset offset
       },
+      data: null, // Reset data when platform changes
     })),
+
+    // Update the setPattern function to reset data
     setPattern: (pattern: string) => set((state) => ({
       query: {
-        ...state.query, pattern, change: 'pattern', changed: true, offset: 0
+        ...state.query,
+        pattern,
+        change: 'pattern',
+        changed: true,
+        offset: 0, // Reset offset
       },
-
+      data: null, // Reset data when pattern changes
     })),
+
+    // Update the setFilters function to reset data
     setFilters: (
       filters: Filter[] | ((currentFilters: Filter[]) => Filter[])
     ) => set((state) => ({
@@ -61,9 +88,12 @@ const useQueryStore = create<QueryStoreState>()(
               : filters,
         change: 'filters',
         changed: true,
-        offset: 0
+        offset: 0, // Reset offset
       },
+      data: null, // Reset data when filters change
     })),
+
+    // Update the setApps function to reset data
     setApps: (apps: any[] | ((currentApps: any[]) => any[])) => set((state) => ({
       query: {
         ...state.query,
@@ -73,8 +103,9 @@ const useQueryStore = create<QueryStoreState>()(
               : apps,
         change: 'apps',
         changed: true,
-        offset: 0
+        offset: 0, // Reset offset
       },
+      data: null, // Reset data when apps change
     })),
   }))
 );
@@ -82,27 +113,31 @@ const useQueryStore = create<QueryStoreState>()(
 const useQuery = () => {
   const {
     query,
+    pagination,
     data,
     setQuery,
+    setPagination,
     setData,
     setPlatform,
     setPattern,
     setFilters,
-    setApps
+    setApps,
   } = useQueryStore();
 
   return useMemo(
     () => ({
       query,
+      pagination,
       data,
       setQuery,
+      setPagination,
       setData,
       setPlatform,
       setPattern,
       setFilters,
-      setApps
+      setApps,
     }),
-    [query, data, setQuery, setData, setPlatform, setPattern, setFilters, setApps]
+    [query, pagination, data, setQuery, setPagination, setData, setPlatform, setPattern, setFilters, setApps]
   );
 };
 
