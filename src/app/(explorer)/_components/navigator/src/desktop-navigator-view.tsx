@@ -1,12 +1,12 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Input } from '@/components/Shared/input';
 import { Switcher } from '@/components/Shared/switcher';
 import { NavigatorMenu } from './navigator-menu';
-import { AppPill } from '@/components/Explorer/selected-apps';
-import { Suggestions } from '@/components/Explorer/suggestions';
+import { AppPill } from '../selected-apps';
+import { Suggestions } from '../suggestions';
 
 interface DesktopNavigatorViewProps {
   keyword: string;
@@ -58,6 +58,7 @@ const DesktopNavigatorView: React.FC<DesktopNavigatorViewProps> = ({
   setApps
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false); // New state to track hover
   const navigatorRef = useRef<HTMLInputElement | null>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -83,6 +84,8 @@ const DesktopNavigatorView: React.FC<DesktopNavigatorViewProps> = ({
       initial={{ height: 'auto' }}
       animate={{ height: isMenuOpen ? 'auto' : 'auto' }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
+      onMouseEnter={() => setIsHovered(true)} // Set hover state to true
+      onMouseLeave={() => setIsHovered(false)} // Set hover state to false
     >
       <div className="w-full h-fit flex items-center gap-4">
         <Switcher
@@ -128,13 +131,24 @@ const DesktopNavigatorView: React.FC<DesktopNavigatorViewProps> = ({
         </div>
       )}
 
-      {!isMenuOpen && (!query?.apps || query?.apps?.length === 0) && (
-        <Suggestions
-          suggestions={suggestions}
-          selectedFilters={filters}
-          setSelectedFilters={setFilters}
-        />
-      )}
+      {/* Animate the Suggestions section */}
+      <AnimatePresence>
+        {(!isMenuOpen && (isHovered || !query?.apps || query?.apps?.length === 0)) && (
+        <motion.div
+          className={isMenuOpen ? 'hidden' : 'flex'}
+          initial={{ opacity: 0, height: 0, y: -10 }} // Animate opacity and height
+          animate={{ opacity: 1, height: 'auto', y: 0 }} // Animate in
+          exit={{ opacity: 0, height: 0, y: -10 }} // Animate out
+          transition={{ duration: 0.3 }}
+        >
+          <Suggestions
+            suggestions={suggestions}
+            selectedFilters={query.filters}
+            setSelectedFilters={setFilters}
+          />
+        </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

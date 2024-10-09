@@ -17,11 +17,11 @@ import type { Filter, Query } from "@/types/navigation-types";
 import { NavigatorMenuInitialContent } from "./menu-preview/Initial-content";
 import CategoriesContent from "./menu-preview/categories-content";
 import SearchContent from "./menu-preview/search-content";
-import { Suggestions } from "@/components/Explorer/suggestions";
 import { Button } from "@/components/Shared/button";
 import { Icon } from "@/components/UI/icon";
 import { NavigatorMenuItem } from "./menu-list/list-item";
 import { motion, AnimatePresence } from "framer-motion";
+import { Suggestions } from "../suggestions";
 
 const suggestions = [
   { name: "Avatar", pattern: "components" },
