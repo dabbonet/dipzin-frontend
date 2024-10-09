@@ -121,7 +121,7 @@ const config: Config = {
         outfit: ['Outfit', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
       },
-    },
+    }
   },
   plugins: [
     tailwindcssAnimate,

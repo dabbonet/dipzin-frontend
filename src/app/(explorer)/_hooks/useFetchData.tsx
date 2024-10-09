@@ -1,61 +1,62 @@
+// useFetchData.ts
+
+import { useCallback } from 'react';
 import { fetchDataAction } from '../_actions/fetchData';
 import { useQuery } from './useQuery';
-import { singularToPlural } from '../_utils/queryUtils';
-import { useCallback } from 'react';
 
 export function useFetchData() {
   const {
-    query, data, setData, setQuery
+    data, setData, pagination, setPagination
   } = useQuery();
-  const correctPattern = (pattern: string) => {
-    if (pattern === 'screens') return 'tags';
-    return pattern;
-  };
 
   const fetchData = useCallback(
-    async (isPagination = false, queryOverride = query) => {
-      const correctedFilters = queryOverride.filters.map((filter) => ({
+    async (queryOverride, isPagination = false) => {
+      const correctedFilters = (queryOverride.filters || []).map((filter) => ({
         ...filter,
-        pattern: correctPattern(filter.pattern),
       }));
-      console.log(queryOverride)
+
       const dataQuery = {
-        apps: (queryOverride.apps || []).map((app: { slug: string } | string) => (typeof app === 'object' && 'slug' in app ? { slug: app.slug } : { slug: app })),
+        apps: (queryOverride.apps || []).map((app) => (typeof app === 'object' && 'slug' in app ? { slug: app.slug } : { slug: app })),
         pattern: queryOverride.pattern,
         platform: queryOverride.platform,
         change: queryOverride.change,
-        filters: correctedFilters.map((filter) => ({
-          name: filter.name,
-          pattern: filter.pattern,
-        })),
-        offset: queryOverride.offset,
-        limit: queryOverride.limit,
+        filters: correctedFilters,
+        offset: queryOverride.offset, // Use pagination offset
+        limit: pagination.limit, // Use pagination limit
       };
-      console.log(dataQuery)
+
       try {
         const response = await fetchDataAction(dataQuery);
-
-        // Check for 500 error status
+        console.log(response)
         if (response.status === 500) {
-          return null; // Return null to signal failure and stop any further processing
+          throw new Error('Server error');
         }
 
+        if (response.status === 404) {
+          throw new Error('No data found');
+        }
+        // Update the data in store
         if (isPagination) {
-          setData([...(data || []), ...response.data]);
+          setData([...data, ...response.data]);
         } else {
           setData(response.data);
         }
 
-        const updatedQuery = {
-          ...query,
-          ...response.query,
-          pattern: singularToPlural(response.query.pattern),
+        // Update the pagination separately
+        setPagination({
           offset: response.pagination.pageSize * (response.pagination.page - 1),
           limit: response.pagination.pageSize,
           totalPages: response.pagination.totalPages,
           totalRecords: response.pagination.totalRecords,
+        });
+
+        const updatedQuery = {
+          ...queryOverride,
+          ...response.query,
+          offset: response.pagination.pageSize * (response.pagination.page - 1),
+          limit: response.pagination.pageSize,
           initialized: false,
-          changed: false,
+          changed: false
         };
 
         return updatedQuery;
@@ -63,7 +64,7 @@ export function useFetchData() {
         return error;
       }
     },
-    [query, data, setData, setQuery]
+    [pagination, setData, setPagination] // Add pagination as dependency
   );
 
   return { fetchData };

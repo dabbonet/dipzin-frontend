@@ -4,19 +4,19 @@ import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Skeleton } from "@/components/UI/skeleton"
-import type { ScreenType } from '@/types/screen-types';
+import type { ScreenType } from '@/types/app-types';
 import { storage } from '@/utils/storage';
+import { ScreenOverlay } from './screen-overlay';
 
 const NotFoundView = () => (
-  <div className="size-full flex items-center justify-center p-4">
+  <div className="size-full flex items-center justify-center p-4 bg-slate-800">
     404 not found
   </div>
 )
 
-const Screen = ({ screen }: ScreenType) => {
+const Screen = ({ screen, overllay = true }: ScreenType | any) => {
   const [imageLoaded, setImageLoaded] = React.useState(false)
   const [imageError, setImageError] = React.useState(false)
-
   const borderVariants = {
     initial: {
       borderWidth: '10px',
@@ -41,7 +41,7 @@ const Screen = ({ screen }: ScreenType) => {
 
   return (
     <motion.div
-      className="relative size-full rounded-[2rem] flex items-center justify-center overflow-hidden group"
+      className="relative size-full rounded-[2rem] flex items-center justify-center overflow-hidden group hover:cursor-pointer"
       initial="initial"
       whileHover="hover"
       animate="initial"
@@ -57,6 +57,7 @@ const Screen = ({ screen }: ScreenType) => {
             <NotFoundView />
           ) : (
             <Image
+              className="object-contain"
               src={storage((screen.screen?.hash ?? '') + (screen.screen?.ext ?? ''))}
               alt={screen?.screen?.alternativeText ?? "Screen Shot"}
               width={screen.screen?.width ?? 0}
@@ -66,7 +67,7 @@ const Screen = ({ screen }: ScreenType) => {
               unoptimized
             />
           )}
-          {/* {imageLoaded && !imageError && <ScreenOverlay view={view} app={screen.app} />} */}
+          {imageLoaded && !imageError && overllay && <ScreenOverlay app={screen.app} />}
         </div>
       </motion.div>
     </motion.div>
