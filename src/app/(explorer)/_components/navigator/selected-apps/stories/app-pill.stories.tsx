@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { AppPill } from '@/components/Explorer/selected-apps';
+import { AppPill } from '@/app/(explorer)/_components/navigator/selected-apps';
 
 const meta: Meta<typeof AppPill> = {
   title: 'Explorer/AppPill',

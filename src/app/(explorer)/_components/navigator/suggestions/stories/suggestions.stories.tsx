@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react";
 import React, { useState } from "react";
 
-import { Suggestions } from "@/components/Explorer/suggestions";
+import { Suggestions } from "..";
 import { suggestionsData } from "@/components/mockdata";
 
 export default {

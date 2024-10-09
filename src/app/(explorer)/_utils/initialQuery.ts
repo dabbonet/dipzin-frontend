@@ -88,5 +88,6 @@ export const getInitialQueryWithSearchParams = (query: any, initialQuery: any, s
     filters,
     offset: query?.offset || 0,
     limit: query?.limit || 10,
+    initialized: false
   };
 };
