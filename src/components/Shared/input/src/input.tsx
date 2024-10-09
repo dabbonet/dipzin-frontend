@@ -19,15 +19,14 @@ const wrapperVariants = cva(
         disabled: "bg-gray-600 cursor-not-allowed",
       },
       type: {
-        default: "px-5",
-        search:
-          "rounded-full py-3 px-6 text-white placeholder:text-white bg-[#1A2333]",
+        search: "rounded-full py-3 px-6 text-white placeholder:text-white bg-[#1A2333]",
+        default: "",
       },
     },
     defaultVariants: {
       state: "default",
     },
-  },
+  }
 );
 
 export interface InputProps
@@ -43,9 +42,7 @@ export interface InputProps
   endContent?: React.ReactNode;
   type?: "search" | "default";
   selectedFilters?: Filter[];
-  setSelectedFilters?: (
-    updateFn: (currentFilters: Filter[]) => Filter[],
-  ) => void;
+  setSelectedFilters?: (updateFn: (currentFilters: Filter[]) => Filter[]) => void;
   asChild?: boolean; // To support using Slot component
 }
 
@@ -65,7 +62,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       onFocus,
       ...props
     },
-    ref,
+    ref
   ) => {
     const inputId = React.useId();
     const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -82,12 +79,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const handleFilterClose = (filterToRemove: Filter) => {
       if (setSelectedFilters) {
         setPreventFocus(true);
-        setSelectedFilters((prevFilters) => prevFilters.filter(
-          (filter) => !(
-            filter.name === filterToRemove.name
-                && filter.pattern === filterToRemove.pattern
-          ),
-        ),);
+        setSelectedFilters((prevFilters) => prevFilters.filter((filter) => !(filter.name === filterToRemove.name && filter.pattern === filterToRemove.pattern)));
       }
     };
 
@@ -103,10 +95,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full h-fit flex flex-col gap-2 font-outfit overflow-hidden">
         {label && (
-          <Label
-            className="text-gray-400 text-[1rem] leading-6"
-            htmlFor={inputId}
-          >
+          <Label className="text-gray-400 text-[1rem] leading-6" htmlFor={inputId}>
             {label}
           </Label>
         )}
@@ -116,7 +105,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               wrapperVariants({ type, state, className }),
               selectedFilters
                 && selectedFilters.length > 0
-                && "px-[0.1rem] py-[0.25rem] overflow-x-scroll scrollbar-hide",
+                && "px-[0.1rem] py-[0.25rem] overflow-x-scroll scrollbar-hide"
             )}
           >
             {selectedFilters && selectedFilters.length > 0 && (
@@ -131,18 +120,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     transition={{ duration: 0.2, delay: index * 0.1 }}
                   >
                     <Pill
-                      className={cn(
-                        filter.neglected === true
-                          ? "opacity-50"
-                          : "opacity-100",
-                      )}
+                      className={cn(filter.neglected === true ? "opacity-50" : "opacity-100")}
                       state="selected"
                       startContent={(
                         <Icon.Close
                           onClick={() => handleFilterClose(filter)}
                           className="size-4 text-white cursor-pointer hover:text-white/80 transition-colors"
                         />
-                      )}
+                        )}
                     >
                       {filter.name}
                     </Pill>
@@ -151,9 +136,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               </div>
             )}
 
-            {startContent && (
-              <Slot className="flex items-center">{startContent}</Slot>
-            )}
+            {startContent && <Slot className="flex items-center">{startContent}</Slot>}
             {type === "search" && selectedFilters?.length === 0 && (
               <Icon.Search className="text-white size-5" />
             )}
@@ -163,17 +146,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               disabled={state === "disabled"}
               className={cn(
                 "bg-transparent outline-none text-[1rem] leading-6 text-white size-full",
-                type === "search"
-                  ? "placeholder:text-white"
-                  : "placeholder:text-slate-400",
+                type === "search" ? "placeholder:text-white" : "placeholder:text-slate-400"
               )}
               ref={inputRef}
               onFocus={handleFocus}
               {...props}
             />
-            {endContent && (
-              <Slot className="flex items-center">{endContent}</Slot>
-            )}
+            {endContent && <Slot className="flex items-center">{endContent}</Slot>}
           </Comp>
         </Label>
         {helpText && (
@@ -185,7 +164,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
       </div>
     );
-  },
+  }
 );
 
 Input.displayName = "Input";
