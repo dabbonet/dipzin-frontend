@@ -5,6 +5,7 @@ import { VirtuosoGrid } from 'react-virtuoso';
 import { App } from '@/components/Shared/app';
 import { Spinner } from '@/components/UI/spinner';
 import type { AppType } from '@/types/app-types';
+import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 
 /** Footer for AppsGrid */
 const Footer = ({ context: { loading } }: any) => (
@@ -22,8 +23,12 @@ const ItemContent = (_: number, app: AppType) => (
  * - Handles loading more data as the user scrolls.
  */
 const AppsGrid = ({ data, isLoading, loadMoreData }: any) => {
+  const { query } = useQuery();
+  const listClassName = query.platform !== 'web'
+    ? 'size-full grid content-center gap-2 md:gap-6 pt-0 grid-cols-2 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3'
+    : 'size-full grid content-center gap-2 md:gap-6 pt-0 grid-cols-1 2xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2';
+
   if (!data || data.length === 0) return null;
-  console.log(data)
   return (
     <VirtuosoGrid
       data={data}
@@ -33,7 +38,7 @@ const AppsGrid = ({ data, isLoading, loadMoreData }: any) => {
       totalCount={data.length}
       useWindowScroll
       itemContent={ItemContent}
-      listClassName="size-full grid content-center gap-2 md:gap-6 pt-0 grid-cols-2 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3"
+      listClassName={listClassName}
       style={{ height: 100, width: '100%' }}
       className="mb-24"
       components={{ Footer }}

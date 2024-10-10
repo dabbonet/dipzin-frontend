@@ -1,7 +1,7 @@
 // createUpdateUrlPart.ts
 
 import type { Filter } from '@/types/navigation-types';
-import { pluralToSingular, getPatternHandle } from "./queryUtils";
+import { getPatternHandle } from "./queryUtils";
 
 type UpdateUrlPartType = (
   value: any
@@ -25,7 +25,6 @@ export const createUpdateUrlPart = (
   let pathSegments: string[] = [];
 
   const query = value;
-
   // Start building pathSegments
   if (query.platform) {
     pathSegments.push(query.platform.toLowerCase());
@@ -36,7 +35,7 @@ export const createUpdateUrlPart = (
   }
 
   // Remove existing filters from updatedSearchParams
-  ['tag', 'component', 'category', 'flow', 'marketing', 'screens', 'tags'].forEach((param) => updatedSearchParams.delete(param));
+  ['tags', 'components', 'categories', 'flows', 'marketing', 'screens', 'tags'].forEach((param) => updatedSearchParams.delete(param));
 
   // Handle filters
   if (query.filters && query.filters.length > 0) {
@@ -56,7 +55,7 @@ export const createUpdateUrlPart = (
     } else {
       // Multiple filters, add them as query parameters
       query.filters.forEach((filter: Filter) => {
-        const patternName = pluralToSingular(filter.pattern);
+        const patternName = filter.pattern;
         const paramName = getPatternHandle(patternName).toLowerCase();
         appendFilterWithoutDuplication(paramName, filter.name);
       });

@@ -44,7 +44,6 @@ const DesktopNavigatorView: React.FC = () => {
     query, setFilters, setPattern, setPlatform, setApps
   } = useQuery();
   const { filters, platform, pattern } = query || {};
-  console.log(filters)
 
   const handleClickOutside = (event: MouseEvent) => {
     if (navigatorRef.current && !navigatorRef.current.contains(event.target as Node)) {

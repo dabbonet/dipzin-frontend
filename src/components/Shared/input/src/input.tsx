@@ -74,7 +74,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const Comp = asChild ? Slot : "div"; // If `asChild` is true, use `Slot`; otherwise, use `div`
     const [preventFocus, setPreventFocus] = React.useState(false);
     const [isInitialRender, setIsInitialRender] = React.useState(true);
-    console.log(selectedFilters)
     React.useEffect(() => {
       // Disable initial state after the first render
       setIsInitialRender(false);

@@ -25,19 +25,19 @@ const App = ({ app }: { app: AppType }) => {
   // Extract the screens from app.screens and map them to their URLs
   const screens = app.screens ? app.screens.map(({ screen }) => mergeIconFromObject(screen)).map(storage) : [];
 
-  // Function to start image rotation
-  const startImageRotation = () => {
-    intervalRef.current = setInterval(() => {
-      setImageIndex((prevIndex) => (prevIndex + 1) % screens.length); // Loop through screens
-    }, 700); // Switch image every 0.5 seconds
-  };
-
   // Function to stop image rotation
   const stopImageRotation = () => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
+  };
+  // Function to start image rotation
+  const startImageRotation = () => {
+    stopImageRotation(); // Clear any existing intervals before starting a new one
+    intervalRef.current = setInterval(() => {
+      setImageIndex((prevIndex) => (prevIndex + 1) % screens.length); // Loop through screens continuously
+    }, 700);
   };
 
   // Event listener setup and cleanup
@@ -56,9 +56,10 @@ const App = ({ app }: { app: AppType }) => {
         container.removeEventListener('mouseleave', stopImageRotation);
       }
     };
-  }, [screens]); // Only run effect when the number of screens changes
+  }, [screens.length]); // Only run effect when the number of screens changes
 
-  if (!app || !app?.screens) return null;
+  if (!app || !app?.screens || screens.length === 0) return null;
+
   const borderVariants = {
     initial: {
       borderWidth: '10px',
@@ -82,7 +83,7 @@ const App = ({ app }: { app: AppType }) => {
   return (
     <motion.div
       ref={containerRef} // Attach the ref to the container
-      className="relative size-full rounded-[2rem] flex items-center justify-center overflow-hidden group app-container hover:cursor-pointer"
+      className="relative size-full rounded-[2rem] flex items-center justify-center overflow-hidden group hover:cursor-pointer"
       initial="initial"
       whileHover="hover"
       animate="initial"
