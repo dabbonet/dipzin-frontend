@@ -33,12 +33,9 @@ const Panel = () => {
       }
 
       setIsLoading(true);
-      setHasError(false);
-      setNoData(false);
-
+      // TODO: Url doesn't update when there is no data
       try {
         const newQuery = await fetchData(updatedQuery, isPagination);
-
         if (newQuery) {
           // Set the new query and clear the 'changed' flag
           setQuery(newQuery);
@@ -82,11 +79,12 @@ const Panel = () => {
   }, [pagination, query, loadData, isLoading, hasError, noData, setPagination]);
 
   useEffect(() => {
-    console.log(query)
-    if ((query.initialized || query.changed) && !isLoading && !hasError) {
+    if ((query.initialized || query.changed) && !isLoading && !hasError && !noData) {
+      setHasError(false);
+      setNoData(false);
       loadData(false, query);
     }
-  }, [query, isLoading, hasError, loadData]);
+  }, [query, isLoading, hasError, loadData, noData]);
 
   // Fallback UI for errors
   if (hasError) {
@@ -95,7 +93,7 @@ const Panel = () => {
 
   if (noData) {
     return (
-      <div>
+      <div className="relative top-32">
         No data found for the given query, and no further suggestions are available.
       </div>
     );

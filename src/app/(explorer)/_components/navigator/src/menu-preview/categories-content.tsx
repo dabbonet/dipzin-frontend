@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 interface CategoriesContentProps {
   selectedResult: any;
   suggestedSearch: any;
-  handleUpdate: any;
+  handleUpdate: (pattern: string, value: string) => void;
 }
 
 const CategoriesContent: React.FC<CategoriesContentProps> = ({
@@ -14,18 +14,13 @@ const CategoriesContent: React.FC<CategoriesContentProps> = ({
   handleUpdate,
 }) => {
   const categories = suggestedSearch[selectedResult?.id as string];
-  const itemHandler = (item: any) => [
-    { name: item, pattern: mapItemPattern(selectedResult) },
-  ];
+  const pattern = mapItemPattern(selectedResult);
 
   if (!categories) return null;
   return (
     <div className="size-full overflow-y-auto">
       {categories.map((category: any) => (
-        <div
-          className="flex flex-col gap-2 p-0 px-2 md:p-2"
-          key={uuidv4()}
-        >
+        <div className="flex flex-col gap-2 p-0 px-2 md:p-2" key={uuidv4()}>
           <span className="text-base p-2 font-medium text-slate-400 hidden md:flex">
             {category.title}
           </span>
@@ -37,7 +32,7 @@ const CategoriesContent: React.FC<CategoriesContentProps> = ({
               >
                 <button
                   type="button"
-                  onClick={() => handleUpdate(undefined, undefined, itemHandler(item))}
+                  onClick={() => handleUpdate(pattern, item)}
                   className="w-full h-fit flex items-start text-[20px] text-slate-100 font-medium hover:text-slate-300 active:text-slate-400 transition-colors"
                 >
                   {item}

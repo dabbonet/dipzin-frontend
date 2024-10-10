@@ -1,16 +1,11 @@
 export const getPatternHandle = (pattern: string): string => {
   switch (pattern) {
-    case 'categories':
-      return 'apps';
-    case 'tag':
     case 'tags':
       return 'screens';
-    case 'flowActions':
+    case 'flowactions':
       return 'flows';
     case 'flowAction':
       return 'flow';
-    case 'component':
-      return 'components';
     default:
       return pattern || '';
   }

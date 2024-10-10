@@ -55,7 +55,7 @@ const getItemDescription = (item:any) => {
 const mapItemPattern = (selectedResult: any) => {
   switch (selectedResult.id) {
     case 'appCategories':
-      return 'apps';
+      return 'categories';
     case 'tagCategories':
       return 'tags';
     case 'marketingCategories':
