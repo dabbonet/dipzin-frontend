@@ -28,7 +28,7 @@
     "@logtail/pino": "^0.4.22",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",
-    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-popover": "^1.1.1",
     "@radix-ui/react-select": "^2.1.2",
@@ -69,6 +69,7 @@
     "sharp": "^0.33.4",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
+    "vaul": "^1.0.0",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
