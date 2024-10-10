@@ -1,4 +1,7 @@
+"use client"
+
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Pill } from '@/components/Shared/pill';
 import { extractInitials } from '@/utils/StringUtils';
@@ -8,6 +11,7 @@ import { TabsList, TabsTrigger } from '@/components/UI/tabs';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/Shared/button';
 import { Dropdown } from '@/components/Shared/dropdown';
+import type { ScreenData } from '@/types/screen-types';
 
 type TagProps = {
   name: string;
@@ -36,27 +40,22 @@ const ColorSquare = ({ color, type }: ColorSquareProps) => (
 );
 
 type ScreenDetailsProps = {
-  data: {
-    app: {
-      slug: string;
-      icon: string;
-      name: string;
-      tag_line: string;
-    };
-    tags: Array<{ id: number; attributes: { name: string } }>;
-    components: Array<{ id: number; attributes: { name: string } }>;
-    colors: string;
-  };
-  type: 'wide' | 'default';
+  data: ScreenData;
+  type?: 'wide' | 'default';
 };
 
 const ScreenDetails = ({ data, type }: ScreenDetailsProps) => {
   const [isDetailsOpen, setIsDetailsOpen] = React.useState(false);
+  const router = useRouter();
+
+  const handleClose = () => {
+    router.back();
+  };
 
   return (
     <motion.div
       className={cn(
-        type === 'wide' ? 'w-[1300px]' : 'w-[850px]',
+        type === 'wide' ? 'w-[1000px]' : 'w-[850px]',
         'bg-[#1F2937CC]/80 backdrop-blur-md px-6 py-4 flex flex-col gap-4 rounded-2xl overflow-hidden'
       )}
       initial={{ opacity: 0, height: 'auto' }}
@@ -67,7 +66,7 @@ const ScreenDetails = ({ data, type }: ScreenDetailsProps) => {
         <div className="flex items-center justify-center gap-4">
           <div className="flex items-center justify-center gap-3">
             <Avatar className="size-12">
-              <AvatarImage src={data.app.icon} alt={data.app.name} />
+              <AvatarImage src={data.app.icon.url} alt={data.app.name} />
               <AvatarFallback>{extractInitials(data.app.name)}</AvatarFallback>
             </Avatar>
             <div>
@@ -75,7 +74,7 @@ const ScreenDetails = ({ data, type }: ScreenDetailsProps) => {
                 {data.app.name}
               </h3>
               {type === 'wide' && (
-              <p className="text-[#8F94A1] font-poppins">{data.app.tag_line}</p>
+                <p className="text-[#8F94A1] font-poppins">{data.app.tag_line}</p>
               )}
             </div>
           </div>
@@ -89,14 +88,16 @@ const ScreenDetails = ({ data, type }: ScreenDetailsProps) => {
           </button>
         </div>
 
-        <TabsList>
-          <TabsTrigger value="section" className="py-2 px-2.5 text-white rounded-[10px]">
-            Section
-          </TabsTrigger>
-          <TabsTrigger value="fullPage" className="py-2 px-2.5 text-white rounded-[10px]">
-            Full Page
-          </TabsTrigger>
-        </TabsList>
+        {data.platform === "web" && (
+          <TabsList>
+            <TabsTrigger value="section" className="py-2 px-2.5 text-white rounded-[10px]">
+              Section
+            </TabsTrigger>
+            <TabsTrigger value="fullPage" className="py-2 px-2.5 text-white rounded-[10px]">
+              Full Page
+            </TabsTrigger>
+          </TabsList>
+        )}
 
         <div className="flex items-center justify-end gap-4 font-medium whitespace-nowrap font-poppins">
           <Button
@@ -133,7 +134,7 @@ const ScreenDetails = ({ data, type }: ScreenDetailsProps) => {
               >
                 <Icon.EllipsisHorizontal className="size-6 text-white" />
               </Button>
-          )}
+            )}
             content="content"
             placement="end"
           />
@@ -142,6 +143,7 @@ const ScreenDetails = ({ data, type }: ScreenDetailsProps) => {
             className="rounded-full p-2 bg-gray-600"
             variant="darkGray"
             isIconOnly
+            onClick={handleClose}
           >
             <Icon.Close className="size-6" />
           </Button>
@@ -162,7 +164,7 @@ const ScreenDetails = ({ data, type }: ScreenDetailsProps) => {
                 <p className="text-slate-500 text-sm mb-2">Tags</p>
                 <div className="flex gap-2 flex-wrap">
                   {data.tags.map((tag) => (
-                    <Tag key={tag.id} name={tag.attributes.name} onClick={() => {}} />
+                    <Tag key={tag.id} name={tag.name} onClick={() => { }} />
                   ))}
                 </div>
               </div>
@@ -174,8 +176,8 @@ const ScreenDetails = ({ data, type }: ScreenDetailsProps) => {
                   {data.components.map((component) => (
                     <Tag
                       key={component.id}
-                      name={component.attributes.name}
-                      onClick={() => {}}
+                      name={component.name}
+                      onClick={() => { }}
                     />
                   ))}
                 </div>

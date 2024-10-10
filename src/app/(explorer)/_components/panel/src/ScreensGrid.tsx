@@ -5,11 +5,14 @@ import { VirtuosoGrid } from 'react-virtuoso';
 import { Screen } from '@/components/Shared/screen';
 import { Spinner } from '@/components/UI/spinner';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
+import Link from 'next/link';
 
 const Footer = ({ context }: { context?: { loading: boolean } }) => (context?.loading ? <Spinner className="py-8 flex mx-auto" /> : null);
 
 const ItemContent = (_: number, screen: any) => (
-  <Screen key={screen.id} screen={screen} view="global" />
+  <Link key={screen.id} href={`/screen/${screen.id}`} scroll={false}>
+    <Screen screen={screen} view="global" />
+  </Link>
 );
 
 /**
