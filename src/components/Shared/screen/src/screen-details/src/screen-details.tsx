@@ -55,7 +55,7 @@ const ScreenDetails = ({ data, type }: ScreenDetailsProps) => {
   return (
     <motion.div
       className={cn(
-        type === 'wide' ? 'w-[1000px]' : 'w-[850px]',
+        type === 'wide' ? 'w-[1000px]' : 'w-[400px]',
         'bg-[#1F2937CC]/80 backdrop-blur-md px-6 py-4 flex flex-col gap-4 rounded-2xl overflow-hidden'
       )}
       initial={{ opacity: 0, height: 'auto' }}

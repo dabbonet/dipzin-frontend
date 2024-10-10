@@ -2,13 +2,14 @@
 
 import {
   Toast,
+  ToastClose,
   ToastDescription,
   ToastProvider,
   ToastTitle,
   ToastViewport,
 } from "@/components/Shared/toaster/src/toast"
-import { useToast } from "./use-toast"
 import { Animation } from "@/components/UI/animation"
+import { useToast } from "@/hooks/use-toast"
 
 function Toaster() {
   const { toasts } = useToast()
@@ -30,12 +31,12 @@ function Toaster() {
             <div>
               {title && <ToastTitle size={size}>{title}</ToastTitle>}
               {description && (
-              <ToastDescription>{description}</ToastDescription>
+                <ToastDescription>{description}</ToastDescription>
               )}
             </div>
           </div>
           {action}
-          {/* <ToastClose /> */}
+          <ToastClose />
         </Toast>
       ))}
       <ToastViewport />

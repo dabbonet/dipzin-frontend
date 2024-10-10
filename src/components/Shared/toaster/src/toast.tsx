@@ -4,6 +4,7 @@ import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
+import { XMarkIcon } from "@heroicons/react/20/solid";
 
 const ToastProvider = ToastPrimitives.Provider
 
@@ -90,7 +91,7 @@ React.ComponentPropsWithoutRef<typeof ToastPrimitives.Close>
     toast-close=""
     {...props}
   >
-    {/* <Cross2Icon className="size-4" /> */}
+    <XMarkIcon className="size-4" />
   </ToastPrimitives.Close>
 ))
 ToastClose.displayName = ToastPrimitives.Close.displayName

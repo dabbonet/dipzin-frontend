@@ -3,25 +3,32 @@ import { ScreenDetails } from "..";
 import { Tabs } from '@/components/UI/tabs';
 
 const mockData = {
+  id: 1,
+  platform: "web",
+  is_published: true,
+  is_showcase: false,
+  colors: "#FF0000,#00FF00,#0000FF,#FFFF00,#00FFFF",
+  screen: {
+    id: 1,
+    url: "https://placehold.co/1000x600/black/white.png"
+  },
   app: {
-    slug: 'uber',
-    icon: 'https://via.placeholder.com/56',
-    name: 'Uber',
-    tag_line: 'Find no stress rides, anytime.',
+    id: 1,
+    name: "Example App",
+    slug: "example-app",
+    tag_line: "This is an example app",
+    icon: {
+      url: "https://example.com/icon.png"
+    }
   },
   tags: [
-    { id: 1, attributes: { name: 'UI' } },
-    { id: 2, attributes: { name: 'Design' } },
-    { id: 3, attributes: { name: 'Mobile' } },
-    { id: 4, attributes: { name: 'Web' } },
+    { id: 1, name: "tag1" },
+    { id: 2, name: "tag2" }
   ],
   components: [
-    { id: 1, attributes: { name: 'Button' } },
-    { id: 2, attributes: { name: 'Card' } },
-    { id: 3, attributes: { name: 'Dialog' } },
-    { id: 4, attributes: { name: 'Tabs' } },
+    { id: 1, name: "component1" },
+    { id: 2, name: "component2" }
   ],
-  colors: '#FF0000,#00FF00,#0000FF,#FFFF00,#00FFFF',
 };
 
 const meta: Meta<typeof ScreenDetails> = {

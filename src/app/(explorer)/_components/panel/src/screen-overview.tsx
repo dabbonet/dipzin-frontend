@@ -14,6 +14,7 @@ const ScreenOverview = ({ screen }: ScreenOverviewProps) => {
   return (
     <Tabs className="flex flex-col items-center justify-center relative pt-[7vh]">
       {/* Keep the container relative for absolute positioning of ScreenDetails */}
+      {JSON.stringify(screen.screen.url)}
       <div className="fixed top-0">
         <ScreenDetails data={screen} type={isWeb ? "wide" : "default"} />
       </div>

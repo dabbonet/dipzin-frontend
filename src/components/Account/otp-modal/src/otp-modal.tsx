@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useToast } from '@/components/Shared/toaster/src/use-toast';
 import { generateOtp } from '@/utils/auth/generateOtp';
+import { useToast } from '@/hooks/use-toast';
 
 const OtpModal = ({ email }: { email: string }) => {
   const { toast } = useToast();
