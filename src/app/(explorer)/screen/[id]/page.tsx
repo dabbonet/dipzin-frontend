@@ -1,6 +1,7 @@
 import React from "react";
-import { getScreen } from "../../_actions/getScreen";
+import { getScreen } from "../../_actions/screen/getScreen";
 import ScreenOverview from "../../_components/panel/src/screen-overview";
+import Modal from "../../@modal/modal";
 
 export default async function ScreenPage({
   params,
@@ -12,8 +13,8 @@ export default async function ScreenPage({
   const screen = await getScreen(id)
 
   return (
-    <div className="size-full flex items-center justify-center">
+    <Modal>
       <ScreenOverview screen={screen} />
-    </div>
+    </Modal>
   )
 }

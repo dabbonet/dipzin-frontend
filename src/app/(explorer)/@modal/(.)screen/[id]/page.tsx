@@ -1,7 +1,7 @@
 import React from "react";
-import Modal from "./modal";
 import ScreenOverview from "@/app/(explorer)/_components/panel/src/screen-overview";
-import { getScreen } from "@/app/(explorer)/_actions/getScreen";
+import { getScreen } from "@/app/(explorer)/_actions/screen/getScreen";
+import Modal from "../../modal";
 
 export default async function ScreenPage({
   params,

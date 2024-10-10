@@ -1,4 +1,4 @@
-'use client';
+"use client"
 
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -10,18 +10,18 @@ import { Screen } from '@/components/Shared/screen';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import { Button } from '../../button';
 import { Icon } from '@/components/UI/icon';
+import Link from 'next/link';
+import {
+  Carousel, CarouselContent, CarouselItem
+} from "@/components/UI/carousel";
+import { FolderPlusIcon } from '@heroicons/react/24/outline';
 
-const Flow = ({ flow }: { flow: FlowType }) => {
-  const { query } = useQuery(); // Get query data from useQuery hook
+const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) => {
+  const { query } = useQuery();
 
   if (!flow) return null;
-
-  const icon = mergeIconFromObject(flow.app.icon as any);
-
-  // Determine the width class based on the platform
-  const widthClass = query.platform !== 'web'
-    ? 'w-[calc(100%/6)]'
-    : 'w-[calc(100%/2.5)]';
+  const icon = mergeIconFromObject(flow?.app?.icon as any || "");
+  const widthClass = query.platform !== 'web' ? 'w-[calc(100%/6)]' : 'w-[calc(100%/2.5)]';
 
   return (
     <motion.div
@@ -31,16 +31,18 @@ const Flow = ({ flow }: { flow: FlowType }) => {
       animate="initial"
       transition={{ duration: 0.3 }}
     >
-      <div className="bg-slate-900 size-full overflow-x-auto rounded-2xl">
+      <div className="bg-slate-900 size-full rounded-2xl">
         <div className="flex justify-between w-full py-4 px-8">
           <div className="flex gap-4 items-center">
-            <h3 className="text-white text-xl font-semibold whitespace-nowrap">
-              {flow.name}
-            </h3>
+            <Link href={`/flow/${flow.id}`} scroll={false}>
+              <h3 className="text-white text-xl font-semibold whitespace-nowrap">
+                {flow.name}
+              </h3>
+            </Link>
             <p className="text-slate-400 whitespace-nowrap">
               (
               {' '}
-              { flow && flow?.flow_screens?.length }
+              {flow && flow?.flow_screens?.length}
               {' '}
               Screens )
             </p>
@@ -52,12 +54,12 @@ const Flow = ({ flow }: { flow: FlowType }) => {
                 </AvatarFallback>
               </Avatar>
               <h3 className="text-lg font-medium text-white">{flow.app?.name}</h3>
-              <p className="text-xs text-slate-400 whitespace-nowrap">
+              <p className="hidden md:flex text-xs text-slate-400 whitespace-nowrap">
                 {flow.app?.tag_line}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4">
             <Button variant="darkGray" className="bg-slate-800">
               <Icon.Download className="size-6 fill-white stroke-white" />
               Download
@@ -65,21 +67,37 @@ const Flow = ({ flow }: { flow: FlowType }) => {
             <Button className="rounded-full p-2 bg-slate-800" variant="darkGray">
               <Icon.EllipsisHorizontal className="size-6 fill-white stroke-white" />
             </Button>
-
           </div>
         </div>
-
-        <div className="flex overflow-x-auto px-8">
-          {flow && flow?.flow_screens?.map((screen) => (
-            <div
-              key={screen.id}
-              className={`shrink-0 ${widthClass} h-auto flex justify-center items-center mb-6`}
-            >
-              <Screen screen={screen.screen || {}} overllay={false} />
+        <div>
+          {view === "opened" ? (
+            <Carousel className="w-[200px] h-[400px]">
+              <CarouselContent>
+                {flow && flow?.flow_screens?.map((screen) => (
+                  <CarouselItem key={screen.id} className="flex flex-col items-center">
+                    <Screen screen={screen.screen || {}} overllay={false} />
+                    <div className="mt-4 flex gap-2">
+                      <Button variant="darkGray">Download</Button>
+                      <Button variant="darkGray">Copy</Button>
+                      <Button isIconOnly className="p-2" variant="darkGray"><FolderPlusIcon /></Button>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          ) : (
+            <div className="flex overflow-x-auto">
+              {flow && flow?.flow_screens?.map((screen) => (
+                <div
+                  key={screen.id}
+                  className={`shrink-0 ${widthClass} h-auto flex justify-center items-center mb-6`}
+                >
+                  <Screen screen={screen.screen || {}} overllay={false} />
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
-
       </div>
     </motion.div>
   );
