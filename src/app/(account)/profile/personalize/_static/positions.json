@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Product Designer",
+    "icon": "/assets/positions/product-designer.svg"
+  },
+  {
+    "id": 2,
+    "name": "Product Manager",
+    "icon": "/assets/positions/product-manager.svg"
+  },
+  {
+    "id": 3,
+    "name": "Mobile Developer",
+    "icon": "/assets/positions/mobile-developer.svg"
+  },
+  {
+    "id": 4,
+    "name": "Web Developer",
+    "icon": "/assets/positions/web-developer.svg"
+  },
+  {
+    "id": 5,
+    "name": "Digital Marketer",
+    "icon": "/assets/positions/digital-marketer.svg"
+  },
+  {
+    "id": 6,
+    "name": "Growth Hacker",
+    "icon": "/assets/positions/growth-hacker.svg"
+  }
+]
