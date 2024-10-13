@@ -22,6 +22,7 @@ const buttonVariants = cva(
           "disable:ring-0 bg-gray-100 text-gray-700 ring-gray-700 hover:bg-gray-400 hover:text-gray-800 active:ring-2 active:hover:bg-gray-100 disabled:bg-gray-500",
         darkGray:
           "bg-gray-800 text-white ring-gray-600 hover:bg-gray-700 active:ring-2 active:hover:bg-gray-800 disabled:bg-gray-500 disabled:text-gray-600",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
       },
       size: {
         sm: "h-9 gap-1 rounded-xl px-3 py-2 text-sm",
