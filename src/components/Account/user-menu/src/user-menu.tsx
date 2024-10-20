@@ -30,13 +30,13 @@ import {
 const navigationItems = [
   { label: "Stream", href: "/" },
   { label: "Pricing", href: "/pricing" },
-  { label: "Collections", href: "#", comingSoon: true },
+  { label: "Collections", href: "/collections" },
   { label: "Blog", href: "#", comingSoon: true },
-  { label: "Apps", href: "apps", },
+  { label: "Apps", href: "apps" },
   { label: "About", href: "#", comingSoon: true },
-  { label: "Flows", href: "flows", },
+  { label: "Flows", href: "flows" },
   { label: "Support", href: "mailto:support@dipzin.com" },
-  { label: "Screens", href: "screens", },
+  { label: "Screens", href: "screens" },
 ];
 
 const soonItems = [

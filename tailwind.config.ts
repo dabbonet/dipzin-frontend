@@ -87,7 +87,8 @@ const config: Config = {
       },
       boxShadow: {
         button: '0px 1px 2px 0px var(--Colors-Effects-Shadows-shadow-xs, rgba(16, 24, 40, 0.05))',
-        "text-shadow": '0px 2px 2.5px 0px rgba(0, 0, 0, 0.30)'
+        "text-shadow": '0px 2px 2.5px 0px rgba(0, 0, 0, 0.30)',
+        'collection-thumbnail': '19.141px 28.711px 38.281px rgba(62,68,128,0.25), -0.957px -4.785px 9.57px rgba(102,131,188,0.25) inset, 4.785px 0.957px 9.57px #FFF inset',
       },
       backgroundImage: {
         "screen-hover-gradient-to-bottom": "linear-gradient(180deg, rgba(15, 23, 42, 0.70) 0%, rgba(15, 23, 42, 0.00) 100%)",

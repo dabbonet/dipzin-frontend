@@ -1,0 +1,266 @@
+[
+  {
+    "id": 1,
+    "name": "Collection Name",
+    "updatedAt": "2024-10-14T07:50:00.000Z",
+    "screens": [
+      {
+        "id": 1,
+        "name": "Screen Name",
+        "platform": "ios",
+        "is_showcase": true,
+        "screen": {
+          "id": 1,
+          "name": "Screen Name",
+          "imgSrc": "https://placehold.co/350x650/000000/FFFFFF?text=Screen"
+        },
+        "app": {
+          "id": 1,
+          "name": "Component Name",
+          "icon": {
+            "id": 1,
+            "imgSrc": "https://placehold.co/40x40/000000/FFFFFF?text=App"
+          }
+        }
+      },
+      {
+        "id": 2,
+        "name": "Web Screen",
+        "platform": "web",
+        "is_showcase": true,
+        "screen": {
+          "id": 2,
+          "name": "Web Screen",
+          "imgSrc": "https://placehold.co/900x400/000000/FFFFFF?text=Web-Screen"
+        },
+        "app": {
+          "id": 2,
+          "name": "Web Component",
+          "icon": {
+            "id": 2,
+            "imgSrc": "https://placehold.co/40x40/000000/FFFFFF?text=App"
+          }
+        }
+      },
+      {
+        "id": 3,
+        "name": "Android Screen",
+        "platform": "android",
+        "is_showcase": true,
+        "screen": {
+          "id": 3,
+          "name": "Android Screen",
+          "imgSrc": "https://placehold.co/350x650/000000/FFFFFF?text=Android-Screen"
+        },
+        "app": {
+          "id": 3,
+          "name": "Android Component",
+          "icon": {
+            "id": 3,
+            "imgSrc": "https://placehold.co/40x40/000000/FFFFFF?text=App"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "iOS and Android Collection",
+    "updatedAt": "2024-10-14T07:50:00.000Z",
+    "screens": [
+      {
+        "id": 4,
+        "name": "iOS Screen 2",
+        "platform": "ios",
+        "is_showcase": true,
+        "screen": {
+          "id": 4,
+          "name": "iOS Screen 2",
+          "imgSrc": "https://placehold.co/350x650/000000/FFFFFF?text=iOS-Screen-2"
+        },
+        "app": {
+          "id": 4,
+          "name": "iOS Component 2",
+          "icon": {
+            "id": 4,
+            "imgSrc": "https://placehold.co/40x40/000000/FFFFFF?text=App"
+          }
+        }
+      },
+      {
+        "id": 5,
+        "name": "Android Screen 2",
+        "platform": "android",
+        "is_showcase": true,
+        "screen": {
+          "id": 5,
+          "name": "Android Screen 2",
+          "imgSrc": "https://placehold.co/350x650/000000/FFFFFF?text=Android-Screen-2"
+        },
+        "app": {
+          "id": 5,
+          "name": "Android Component 2",
+          "icon": {
+            "id": 5,
+            "imgSrc": "https://placehold.co/40x40/000000/FFFFFF?text=App"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Single Web Screen Collection",
+    "updatedAt": "2024-10-14T07:50:00.000Z",
+    "screens": [
+      {
+        "id": 6,
+        "name": "Web Screen 2",
+        "platform": "web",
+        "is_showcase": true,
+        "screen": {
+          "id": 6,
+          "name": "Web Screen 2",
+          "imgSrc": "https://placehold.co/900x400/000000/FFFFFF?text=Web-Screen-2"
+        },
+        "app": {
+          "id": 6,
+          "name": "Web Component 2",
+          "icon": {
+            "id": 6,
+            "imgSrc": "https://placehold.co/40x40/000000/FFFFFF?text=App"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Mixed Platform Collection",
+    "updatedAt": "2024-10-14T07:50:00.000Z",
+    "screens": [
+      {
+        "id": 7,
+        "name": "iOS Screen 3",
+        "platform": "ios",
+        "is_showcase": true,
+        "screen": {
+          "id": 7,
+          "name": "iOS Screen 3",
+          "imgSrc": "https://placehold.co/350x650/000000/FFFFFF?text=iOS-Screen-3"
+        },
+        "app": {
+          "id": 7,
+          "name": "iOS Component 3",
+          "icon": {
+            "id": 7,
+            "imgSrc": "https://placehold.co/40x40/000000/FFFFFF?text=App"
+          }
+        }
+      },
+      {
+        "id": 8,
+        "name": "Web Screen 3",
+        "platform": "web",
+        "is_showcase": true,
+        "screen": {
+          "id": 8,
+          "name": "Web Screen 3",
+          "imgSrc": "https://placehold.co/900x400/000000/FFFFFF?text=Web-Screen-3"
+        },
+        "app": {
+          "id": 8,
+          "name": "Web Component 3",
+          "icon": {
+            "id": 8,
+            "imgSrc": "https://placehold.co/40x40/000000/FFFFFF?text=App"
+          }
+        }
+      },
+      {
+        "id": 9,
+        "name": "Android Screen 3",
+        "platform": "android",
+        "is_showcase": true,
+        "screen": {
+          "id": 9,
+          "name": "Android Screen 3",
+          "imgSrc": "https://placehold.co/350x650/000000/FFFFFF?text=Android-Screen-3"
+        },
+        "app": {
+          "id": 9,
+          "name": "Android Component 3",
+          "icon": {
+            "id": 9,
+            "imgSrc": "https://placehold.co/40x40/000000/FFFFFF?text=App"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Large Collection",
+    "updatedAt": "2024-10-14T07:50:00.000Z",
+    "screens": [
+      {
+        "id": 10,
+        "name": "iOS Screen 4",
+        "platform": "ios",
+        "is_showcase": true,
+        "screen": {
+          "id": 10,
+          "name": "iOS Screen 4",
+          "imgSrc": "https://placehold.co/350x650/000000/FFFFFF?text=iOS-Screen-4"
+        },
+        "app": {
+          "id": 10,
+          "name": "iOS Component 4",
+          "is_showcase": true,
+          "icon": {
+            "id": 10,
+            "imgSrc": "https://placehold.co/40x40/000000/FFFFFF?text=App"
+          }
+        }
+      },
+      {
+        "id": 11,
+        "name": "Web Screen 4",
+        "platform": "web",
+        "is_showcase": true,
+        "screen": {
+          "id": 11,
+          "name": "Web Screen 4",
+          "imgSrc": "https://placehold.co/900x400/000000/FFFFFF?text=Web-Screen-4"
+        },
+        "app": {
+          "id": 11,
+          "name": "Web Component 4",
+          "icon": {
+            "id": 11,
+            "imgSrc": "https://placehold.co/40x40/000000/FFFFFF?text=App"
+          }
+        }
+      },
+      {
+        "id": 12,
+        "name": "Android Screen 4",
+        "platform": "android",
+        "is_showcase": true,
+        "screen": {
+          "id": 12,
+          "name": "Android Screen 4",
+          "imgSrc": "https://placehold.co/350x650/000000/FFFFFF?text=Android-Screen-4"
+        },
+        "app": {
+          "id": 12,
+          "name": "Android Component 4",
+          "icon": {
+            "id": 12,
+            "imgSrc": "https://placehold.co/40x40/000000/FFFFFF?text=App"
+          }
+        }
+      }
+    ]
+  }
+]
