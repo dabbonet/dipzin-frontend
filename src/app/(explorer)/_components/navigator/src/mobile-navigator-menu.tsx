@@ -137,13 +137,14 @@ const MobileNavigatorMenu: React.FC<{
 
   return (
     <Drawer
-      defaultOpen
-      modal
-      direction="left"
       open={isOpen}
+      direction="left"
+      dismissible
+      onOpenChange={setIsOpen}
+      // snapPoints={[0, 1]} // Add snap points for better swipe behavior
       shouldScaleBackground={false}
     >
-      <DrawerContent className="h-screen w-screen bg-slate-900 rounded-none border-0">
+      <DrawerContent className="fixed inset-0 mt-0 bg-slate-900 rounded-none border-0 overflow-hidden">
         <DrawerHeader className="p-0 px-4">
           <Input
             className="w-full shadow-none"
@@ -160,22 +161,22 @@ const MobileNavigatorMenu: React.FC<{
           />
           <div className="flex items-center gap-2 my-4">
             {navigationState === "initial" && (
-              <Button onClick={handleAllFiltersClick} variant="secondary">
-                <Icon.Filter className="size-5" />
-                All Filters
-              </Button>
+            <Button onClick={handleAllFiltersClick} variant="secondary">
+              <Icon.Filter className="size-5" />
+              All Filters
+            </Button>
             )}
             {navigationState !== "initial" && (
-              <Button
-                id="back"
-                type="button"
-                aria-label="Back"
-                variant="darkGray"
-                isIconOnly
-                onClick={handleBackClick}
-              >
-                <ChevronLeftIcon className="text-white size-6" />
-              </Button>
+            <Button
+              id="back"
+              type="button"
+              aria-label="Back"
+              variant="darkGray"
+              isIconOnly
+              onClick={handleBackClick}
+            >
+              <ChevronLeftIcon className="text-white size-6" />
+            </Button>
             )}
             <span className="text-slate-500">{navigationTitle}</span>
           </div>

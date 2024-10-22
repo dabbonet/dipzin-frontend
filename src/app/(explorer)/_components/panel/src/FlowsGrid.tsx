@@ -4,6 +4,7 @@ import React from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { Flow } from '@/components/Shared/flow';
 import { Spinner } from '@/components/UI/spinner';
+import { Dialog, DialogTrigger, DialogContent } from '@/components/UI/dialog';
 
 /** Footer for FlowsGrid */
 const Footer = ({ context: { loading } }: any) => (
@@ -12,7 +13,14 @@ const Footer = ({ context: { loading } }: any) => (
 
 /** Item content logic for FlowsGrid */
 const ItemContent = (_: number, flow: any) => (
-  <Flow key={flow.id} flow={flow} />
+  <Dialog modal>
+    <DialogTrigger>
+      <Flow key={flow.id} flow={flow} />
+    </DialogTrigger>
+    <DialogContent className="max-w-[80vw] p-0">
+      <Flow key={flow.id} flow={flow} view="opened" />
+    </DialogContent>
+  </Dialog>
 );
 
 /**

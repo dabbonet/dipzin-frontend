@@ -8,6 +8,7 @@ import {
   StarIcon,
   EllipsisHorizontalIcon,
   ChevronRightIcon,
+  ChevronLeftIcon,
   XMarkIcon,
   ArrowDownTrayIcon,
 } from "@heroicons/react/24/solid";
@@ -268,6 +269,7 @@ const Icon = {
   Eye: EyeIcon,
 
   ChevronRight: ChevronRightIcon,
+  ChevronLeft: ChevronLeftIcon,
   ChevronDown: ChevronDownIcon,
   ChevronDoubleRight,
   CheckCircleIcon,

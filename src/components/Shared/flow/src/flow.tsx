@@ -10,14 +10,15 @@ import { Screen } from '@/components/Shared/screen';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import { Button } from '../../button';
 import { Icon } from '@/components/UI/icon';
-import Link from 'next/link';
 import {
   Carousel, CarouselContent, CarouselItem
 } from "@/components/UI/carousel";
 import { FolderPlusIcon } from '@heroicons/react/24/outline';
+import useIsMobile from '@/hooks/useIsMobile';
 
 const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) => {
   const { query } = useQuery();
+  const isMobile = useIsMobile()
 
   if (!flow) return null;
   const icon = mergeIconFromObject(flow?.app?.icon as any || "");
@@ -31,14 +32,12 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
       animate="initial"
       transition={{ duration: 0.3 }}
     >
-      <div className="bg-slate-900 size-full rounded-2xl">
+      <div className="bg-transparent md:bg-slate-900 size-full rounded-2xl">
         <div className="flex justify-between w-full py-4 px-8">
           <div className="flex gap-4 items-center">
-            <Link href={`/flow/${flow.id}`} scroll={false}>
-              <h3 className="text-white text-xl font-semibold whitespace-nowrap">
-                {flow.name}
-              </h3>
-            </Link>
+            <h3 className="text-white text-xl font-semibold whitespace-nowrap">
+              {flow.name}
+            </h3>
             <p className="text-slate-400 whitespace-nowrap">
               (
               {' '}
@@ -46,7 +45,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
               {' '}
               Screens )
             </p>
-            <div className="flex items-center gap-4 bg-slate-800/60 py-2 ps-2 pe-6 rounded-full">
+            <div className="flex items-center gap-4 bg-transparent md:bg-slate-800/60 py-2 ps-2 pe-6 rounded-full">
               <Avatar>
                 <AvatarImage src={storage(icon)} alt={flow.app?.name} />
                 <AvatarFallback>
@@ -70,20 +69,20 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
           </div>
         </div>
         <div>
-          {view === "opened" ? (
-            <Carousel className="w-[200px] h-[400px]">
+          {view === "opened" && isMobile ? (
+            <Carousel className="flex flex-col items-center justify-center gap-4 size-full px-4">
               <CarouselContent>
                 {flow && flow?.flow_screens?.map((screen) => (
-                  <CarouselItem key={screen.id} className="flex flex-col items-center">
-                    <Screen screen={screen.screen || {}} overllay={false} />
-                    <div className="mt-4 flex gap-2">
-                      <Button variant="darkGray">Download</Button>
-                      <Button variant="darkGray">Copy</Button>
-                      <Button isIconOnly className="p-2" variant="darkGray"><FolderPlusIcon /></Button>
-                    </div>
+                  <CarouselItem key={screen.id} className="max-w-[80vw]">
+                    <Screen screen={screen.screen || {}} overlay={false} />
                   </CarouselItem>
                 ))}
               </CarouselContent>
+              <div className="mt-4 flex gap-2">
+                <Button variant="darkGray">Download</Button>
+                <Button variant="darkGray">Copy</Button>
+                <Button isIconOnly className="p-2" variant="darkGray"><FolderPlusIcon /></Button>
+              </div>
             </Carousel>
           ) : (
             <div className="flex overflow-x-auto">
@@ -92,7 +91,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
                   key={screen.id}
                   className={`shrink-0 ${widthClass} h-auto flex justify-center items-center mb-6`}
                 >
-                  <Screen screen={screen.screen || {}} overllay={false} />
+                  <Screen screen={screen.screen || {}} overlay={false} />
                 </div>
               ))}
             </div>
