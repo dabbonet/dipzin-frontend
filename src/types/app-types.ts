@@ -44,7 +44,8 @@ export interface ScreenBlob {
 export type ScreenType = {
   screen: Screen
   view?: 'app' | 'global' | 'in-app'
-  overllay?: boolean
+  overlay?: boolean
+  borderless?: boolean
 }
 
 // FlowType

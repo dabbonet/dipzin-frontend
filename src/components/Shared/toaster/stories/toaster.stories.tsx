@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@/components/Shared/button';
-import { useToast } from '../src/use-toast';
 import {
   Toaster, ToastAction
 } from '..';
 import {
   Avatar, AvatarFallback, AvatarImage
 } from '@/components/Shared/avatar';
+import { useToast } from '@/hooks/use-toast';
 
 const meta: Meta<typeof Button> = {
   title: 'Shared/Toaster',

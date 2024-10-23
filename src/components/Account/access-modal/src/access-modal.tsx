@@ -6,10 +6,10 @@ import { z } from "zod"; // Import Zod
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/Shared/input";
 import { Button } from "@/components/Shared/button";
-import { useToast } from "@/components/Shared/toaster";
 import { useRouter } from "next/navigation";
 import { generateOtp } from "@/utils/auth/generateOtp";
 import { Logo } from "@/components/UI/logo";
+import { useToast } from "@/hooks/use-toast";
 
 // Zod schema to validate email
 const schema = z.object({

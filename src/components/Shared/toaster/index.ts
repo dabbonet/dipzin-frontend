@@ -10,5 +10,3 @@ export {
   ToastClose,
   ToastAction,
 } from './src/toast';
-
-export { useToast, toast } from './src/use-toast';

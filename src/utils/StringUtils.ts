@@ -17,4 +17,9 @@ export function camelCaseToWords(s: string):string {
   return result.charAt(0).toUpperCase() + result.slice(1);
 }
 
-export const mergeIconFromObject = (icon: any | { hash: string, ext: string }): string => `${icon.hash}${icon.ext}`;
+export const mergeIconFromObject = (icon: any | { hash: string, ext: string }): string => {
+  if (icon && icon.hash && icon.ext) {
+    return `${icon.hash}${icon.ext}`;
+  }
+  return '';
+};
