@@ -12,19 +12,8 @@ import {
 } from "@/components/UI/select";
 import { AppPill } from "@/app/(explorer)/_components/navigator/selected-apps";
 import MobileNavigatorMenu from "./mobile-navigator-menu";
-
-interface MobileNavigatorViewProps {
-  keyword: string;
-  setKeyword: (value: string) => void;
-  filters: any[];
-  setFilters: (updateFn: (currentFilters: any[]) => any[]) => void;
-  pattern: string;
-  setPattern: (pattern: string) => void;
-  platform: string;
-  setPlatform: (platform: string) => void;
-  query: any;
-  setApps: (updateFn: (currentApps: any[]) => any[]) => void;
-}
+import { useKeyword } from "@/app/(explorer)/_hooks/useKeyword";
+import { useQuery } from "@/app/(explorer)/_hooks/useQuery";
 
 const patterns = [
   { label: "Apps", value: "apps" },
@@ -40,19 +29,13 @@ const platforms = [
   { label: "Web", value: "web" },
 ];
 
-const MobileNavigatorView: React.FC<MobileNavigatorViewProps> = ({
-  keyword,
-  setKeyword,
-  filters,
-  setFilters,
-  pattern,
-  setPattern,
-  platform,
-  setPlatform,
-  query,
-  setApps,
-}) => {
+const MobileNavigatorView: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { keyword, setKeyword } = useKeyword();
+  const {
+    query, setFilters, setPattern, setPlatform, setApps
+  } = useQuery();
+  const { filters, platform, pattern } = query || {};
 
   return (
     <div

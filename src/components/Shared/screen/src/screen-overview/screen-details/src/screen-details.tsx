@@ -89,7 +89,7 @@ const ScreenDetails = ({ screen, type }: ScreenDetailsProps) => {
 
         {screen.app.platform === "web" && (
           <TabsList>
-            <TabsTrigger value="section" className="py-2 px-2.5 text-white rounded-[10px]">
+            <TabsTrigger defaultChecked value="section" className="py-2 px-2.5 text-white rounded-[10px]">
               Section
             </TabsTrigger>
             <TabsTrigger value="fullPage" className="py-2 px-2.5 text-white rounded-[10px]">
@@ -102,26 +102,26 @@ const ScreenDetails = ({ screen, type }: ScreenDetailsProps) => {
           <Button
             size="md"
             className={cn(
-              type === 'wide' ? 'px-4 py-2' : 'p-2',
+              type === 'wide' ? 'px-2 lg:px-4 py-2' : 'p-2',
               'rounded-full text-base font-medium bg-gray-600'
             )}
             variant="darkGray"
             isIconOnly={type !== 'wide'}
           >
             <Icon.Copy2 className="size-6" />
-            {type === 'wide' && 'Copy'}
+            {type === 'wide' && <p className="hidden lg:flex">Copy</p>}
           </Button>
           <Button
             size="md"
             className={cn(
-              type === 'wide' ? 'px-4 py-2' : 'p-2',
+              type === 'wide' ? 'px-2 lg:px-4 py-2' : 'p-2',
               'rounded-full text-base font-medium bg-gray-600'
             )}
             variant="darkGray"
             isIconOnly={type !== 'wide'}
           >
             <Icon.Download className="size-6" />
-            {type === 'wide' && 'Download'}
+            {type === 'wide' && <p className="hidden lg:flex">Download</p>}
           </Button>
           <Dropdown
             trigger={(
@@ -157,7 +157,7 @@ const ScreenDetails = ({ screen, type }: ScreenDetailsProps) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.1 }}
           >
             {screen.tags.length > 0 && (
               <div>
