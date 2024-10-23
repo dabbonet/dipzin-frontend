@@ -2,7 +2,7 @@ import { Button } from "@/components/Shared/button";
 import { Icon } from "@/components/UI/icon";
 
 export const MobileActions = () => (
-  <div className="flex flex-col gap-4 absolute -right-3 top-1/2 -translate-y-1/2">
+  <div className="flex flex-col gap-4 fixed right-0 -translate-x-1/2 top-1/2 -translate-y-1/2 z-50">
     <Button className="p-2 rounded-full" variant="darkGray" isIconOnly>
       <Icon.Copy2 className="size-5" />
     </Button>

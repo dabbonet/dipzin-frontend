@@ -70,6 +70,25 @@
   }
 }
 
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #030304;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  position: absolute;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #334155;
+}
+
 
 @layer utilities {
 
@@ -86,7 +105,6 @@
     /* Firefox */
   }
 }
-
 
 /* Apply custom styles to autofill */
 input:-webkit-autofill {
@@ -106,25 +124,6 @@ input:-moz-autofill {
   color: #fff !important;
 }
 
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: #030304;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  background: #334155;
-}
-
-
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
@@ -133,22 +132,4 @@ input[type="search"]::-webkit-search-cancel-button {
 /* For Internet Explorer */
 input[type="search"]::-ms-clear {
   display: none;
-}
-
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: #030304;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  background: #334155;
 }

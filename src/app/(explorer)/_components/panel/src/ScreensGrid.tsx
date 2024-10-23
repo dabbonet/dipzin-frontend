@@ -6,13 +6,13 @@ import { Spinner } from '@/components/UI/spinner';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import type { ScreenData } from '@/types/screen-types';
 import {
-  Dialog, DialogTrigger, DialogContent
+  Dialog, DialogContent
 } from '@/components/UI/dialog';
 import ScreenOverview from '@/components/Shared/screen/src/screen-overview/screen-overview';
 import { Screen } from '@/components/Shared/screen';
 
 const Footer = ({ context }: { context?: { loading: boolean } }) => (
-  context?.loading ? <Spinner className="py-8 flex mx-auto" /> : null
+  context?.loading ? <Spinner className="pt-8 pb-16 flex mx-auto" /> : null
 );
 
 const ItemContent = (_: number, screen: ScreenData, screens: ScreenData[]) => {
@@ -21,9 +21,7 @@ const ItemContent = (_: number, screen: ScreenData, screens: ScreenData[]) => {
 
   return (
     <Dialog modal>
-      <DialogTrigger>
-        <Screen screen={screen} view="global" />
-      </DialogTrigger>
+      <Screen screen={screen} view="global" />
       <DialogContent className="max-w-max p-0">
         <ScreenOverview
           key={screen.id}
@@ -56,8 +54,7 @@ const ScreensGrid = ({ data, isLoading, loadMoreData }: any) => {
       useWindowScroll
       itemContent={itemContentWrapper}
       listClassName={listClassName}
-      style={{ height: 100, width: '100%' }}
-      className="mb-24"
+      style={{ height: 1920, width: '100%' }}
       components={{ Footer }}
     />
   );
