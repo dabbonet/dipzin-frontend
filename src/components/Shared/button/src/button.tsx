@@ -22,15 +22,15 @@ const buttonVariants = cva(
           "disable:ring-0 bg-gray-100 text-gray-700 ring-gray-700 hover:bg-gray-400 hover:text-gray-800 active:ring-2 active:hover:bg-gray-100 disabled:bg-gray-500",
         darkGray:
           "bg-gray-800 text-white ring-gray-600 hover:bg-gray-700 active:ring-2 active:hover:bg-gray-800 disabled:bg-gray-500 disabled:text-gray-600",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        ghost: "bg-transparent hover:bg-accent hover:text-accent-foreground",
       },
       size: {
-        sm: "h-9 gap-1 rounded-xl px-6 py-2 text-sm",
-        md: "h-10 gap-2 rounded-xl px-7 py-2.5 text-sm",
-        lg: "h-11 gap-1.5 rounded-xl px-8 py-2.5 text-base",
-        xl: "h-12 gap-1.5 rounded-xl px-9 py-2.5 text-base",
-        "2xl": "h-16 gap-2.5 rounded-xl px-10 py-2.5 text-lg",
-        "3xl": "h-20 gap-2.5 rounded-xl px-11 py-3 text-2xl",
+        sm: "h-9 gap-1 rounded-xl px-3 py-2 text-sm",
+        md: "h-10 gap-2 rounded-xl px-3.5 py-2.5 text-sm",
+        lg: "h-11 gap-1.5 rounded-xl px-4 py-2.5 text-base",
+        xl: "h-12 gap-1.5 rounded-xl px-[1.375rem] py-2.5 text-base",
+        "2xl": "h-16 gap-2.5 rounded-xl px-[1.125rem] py-2.5 text-lg",
+        "3xl": "h-20 gap-2.5 rounded-xl px-[1.125rem] py-3 text-2xl",
       },
       isIconOnly: {
         true: "p-0",

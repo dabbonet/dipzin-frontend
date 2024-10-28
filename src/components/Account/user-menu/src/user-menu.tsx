@@ -187,11 +187,11 @@ const UserMenu = () => {
       role="combobox"
       className="flex items-center gap-x-2 p-1 pr-2 size-fit rounded-full bg-slate-900"
     >
-      <Avatar className="size-6">
+      <Avatar className="size-8">
         <AvatarImage src={user.image ?? undefined} alt={user.name ?? undefined} />
         <AvatarFallback>{extractInitials(user.name || "User")}</AvatarFallback>
       </Avatar>
-      <Icon.BurgerMenu className="size-6 text-slate-400" />
+      <Icon.BurgerMenu className="size-8 text-slate-400" />
     </Button>
   );
 

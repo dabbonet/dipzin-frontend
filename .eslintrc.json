@@ -38,6 +38,7 @@
         "@typescript-eslint/semi": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "import/extensions": "off", // Avoid missing file extension errors, TypeScript already provides a similar feature
+        "consistent-return": "off", // Disable consistent-return
         "tailwindcss/classnames-order": "off", // Disable tailwindcss/classnames-order
         "react/function-component-definition": "off", // Disable Airbnb's specific function type
         "react/destructuring-assignment": "off", // Vscode doesn't support automatically destructuring, it's a pain to add a new variable

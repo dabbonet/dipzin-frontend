@@ -14,7 +14,7 @@ React.ComponentPropsWithoutRef<typeof CommandPrimitive>
   <CommandPrimitive
     ref={ref}
     className={cn(
-      "flex h-full w-full flex-col overflow-hidden gap-y-[1rem] rounded-md text-popover-foreground",
+      "flex h-full w-full flex-col overflow-hidden gap-y-[1rem] rounded-md text-popover-foreground outline-none",
       className
     )}
     {...props}

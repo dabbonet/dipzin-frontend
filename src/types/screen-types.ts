@@ -1,28 +1,30 @@
 export interface ScreenData {
-  id: number;
-  platform: string;
-  is_published: boolean;
-  is_showcase: boolean;
-  colors: string;
-  screen: {
-    id: number;
-    url: string;
-  };
+  id: string;
   app: {
-    id: number;
+    id: string;
+    platform: string;
     name: string;
     slug: string;
     tag_line: string;
     icon: {
-      url: string;
-    }
-  }
+      hash: string;
+      ext: string;
+    };
+  };
+  is_published: boolean;
+  is_showcased: boolean;
+  colors: string;
+  screen: {
+    id: string;
+    hash: string;
+    ext: string;
+  };
   tags: {
-    id: number;
+    id: string;
     name: string;
   }[];
   components: {
-    id: number;
+    id: string;
     name: string;
-  }[];
+  }[]
 }
