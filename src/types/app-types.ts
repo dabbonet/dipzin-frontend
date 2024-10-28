@@ -27,6 +27,7 @@ export interface Screen {
     id: string;
     icon: { hash: string, ext: string };
     name: string;
+    platform: string;
     tagLine: string;
   }
 }

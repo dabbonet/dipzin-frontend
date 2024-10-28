@@ -12,6 +12,7 @@ import { ScreenDetails } from './screen-details';
 import { NavigationButtons } from './components/NavigationButtons';
 import { MobileActions } from './components/MobileActions';
 import { PaginationDots } from './components/PaginationDots';
+import { cn } from '@/lib/utils';
 
 interface ScreenOverviewProps {
   screens: ScreenData[];
@@ -41,31 +42,28 @@ const ScreenOverview = ({ screens, initialIndex }: ScreenOverviewProps) => {
   });
 
   return (
-    <Tabs className="flex flex-col size-full items-center justify-center">
+    <Tabs className="flex flex-col size-full items-start md:items-center justify-center">
       {isMobile && currentScreen && <MobileHeader screen={currentScreen} />}
 
       {!isMobile && currentScreen && (
         <div className="fixed top-0 z-20 flex items-center justify-center">
           <ScreenDetails
-            key={`${currentScreen.id}-${currentIndex}`} // Add screen.id to the key
             screen={currentScreen}
             type={isWeb ? "wide" : "default"}
           />
         </div>
       )}
 
-      <div className="size-full flex flex-col items-center justify-center relative md:pt-[10vh]">
-        <div className="w-full max-w-[90vw] md:max-w-[calc(18vw+2rem)] mx-auto pr-[5vw] pl-0 md:pr-0">
-          <div className="overflow-hidden" ref={emblaRef}>
+      <div className="size-fit flex flex-col items-center justify-center relative md:pt-[10vh]">
+        <div className={cn(`w-full mx-auto pr-[5vw] pl-0 md:pr-0 max-w-[75vw] ${isWeb ? 'md:max-w-[60vw]' : 'md:max-w-[calc(18vw+2rem)]'}`)}>
+          <div className="border-[10px] bg-black-950 border-[#0f172aa6] rounded-[2rem] overflow-hidden p-0" ref={emblaRef}>
             <div className="flex">
               {screens.map((screenItem) => (
                 <div
                   key={screenItem.id}
-                  className="relative flex-[0_0_100%] min-w-0 flex justify-center items-center px-4"
+                  className="relative flex-[0_0_100%] min-w-0 flex justify-center items-center rounded-3xl overflow-hidden"
                 >
-                  <div className="w-full">
-                    <Screen screen={screenItem} borderless={!isMobile} overlay={false} />
-                  </div>
+                  <Screen screen={screenItem} borderless overlay={false} />
                 </div>
               ))}
             </div>
