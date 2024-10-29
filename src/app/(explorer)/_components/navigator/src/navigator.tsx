@@ -7,6 +7,7 @@ import { getInitialQueryWithSearchParams } from '@/app/(explorer)/_utils/initial
 import useIsMobile from '@/hooks/useIsMobile';
 import MobileNavigatorView from './mobile-navigator-view';
 import DesktopNavigatorView from './desktop-navigator-view';
+import NavigatorSkeleton from './navigator-skeleton';
 
 const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   const isMobile = useIsMobile();
@@ -28,7 +29,7 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   }, []);
 
   if (isMobile === null) {
-    return null
+    return <NavigatorSkeleton />;
   }
 
   return isMobile ? (
