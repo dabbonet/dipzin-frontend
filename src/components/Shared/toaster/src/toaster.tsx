@@ -20,7 +20,7 @@ function Toaster() {
         id, startContent, title, description, action, variant, size, ...props
       }) => (
         <Toast key={id} {...props}>
-          <div className="flex items-center space-x-3 size-full">
+          <div className="flex space-x-3 size-full">
             {startContent && <div className="mr-2">{startContent}</div>}
             {variant === "success" && (
               <Animation.CheckCircle />

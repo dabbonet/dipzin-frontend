@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { updateUserProfile } from "../_actions/updateUserProfile";
 import { updateUserNewsletters } from "../_actions/updateUserNewsletters";
-import { useSession } from "next-auth/react";
 
 type FormData = {
   name: string;
@@ -18,8 +17,6 @@ export const useProfileInformation = (
   initialUserDetails: any,
   newsletters: any[]
 ) => {
-  const { data: session } = useSession();
-  const token = session?.user?.token;
   const router = useRouter();
 
   const {
@@ -48,8 +45,8 @@ export const useProfileInformation = (
 
     try {
       await Promise.all([
-        updateUserProfile(token, formData),
-        updateUserNewsletters(token, data.newsletters),
+        updateUserProfile(formData),
+        updateUserNewsletters(data.newsletters),
       ]);
 
       toast({
@@ -65,6 +62,9 @@ export const useProfileInformation = (
         description: error.message || "Something went wrong.",
         variant: "error",
       });
+
+      // Ensure the router pushes to the profile page even if there's an error
+      router.push("/profile/personalize");
     }
   };
 

@@ -1,6 +1,12 @@
 "use server";
 
+// import { auth } from "@/auth";
+
 export const fetchNewsletters = async () => {
+  // const session = await auth();
+
+  // const token = session?.user?.token;
+
   const response = await fetch(
     "https://rah.dipzin.com/api/system-news-letters",
     {
@@ -8,6 +14,7 @@ export const fetchNewsletters = async () => {
       cache: "no-cache",
       headers: {
         "Content-Type": "application/json",
+        // Authorization: `Bearer ${token}`
       },
     }
   );

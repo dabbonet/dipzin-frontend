@@ -1,8 +1,13 @@
 'use server';
 
+import { auth } from '@/auth';
 import queryString from 'qs';
 
-export const fetchInterests = async (token: string | undefined) => {
+export const fetchInterests = async () => {
+  const session = await auth()
+
+  const token = session?.user?.token;
+
   const query = queryString.stringify({
     fields: ["name"]
   });

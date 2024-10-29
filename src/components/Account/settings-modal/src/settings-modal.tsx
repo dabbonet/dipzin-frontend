@@ -10,6 +10,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/Shared/avatar"
 import Image from "next/image";
 import { Input } from "@/components/Shared/input";
 import { Dropdown } from "@/components/Shared/dropdown";
+import { DialogClose } from "@/components/UI/dialog";
 
 const avatars = [
   "https://github.com/shadcn.png",
@@ -86,10 +87,10 @@ const SettingsModal = ({ userDetails }: { userDetails: UserDetails }) => (
             <Dropdown
               trigger={
                 <Input className="py-5 w-full" placeholder="ex:US213A" label="country" value={userDetails.country} name="country" />
-            }
+              }
               content={
                 <p>content</p>
-            }
+              }
             />
           </form>
         </TabsContent>
@@ -103,9 +104,11 @@ const SettingsModal = ({ userDetails }: { userDetails: UserDetails }) => (
         Need help?
       </button>
       <div className="flex items-center gap-2.5">
-        <Button variant="darkGray" size="xl">
-          Cancel
-        </Button>
+        <DialogClose asChild>
+          <Button variant="darkGray" size="xl">
+            Cancel
+          </Button>
+        </DialogClose>
         <Button size="xl">
           Save Updates
         </Button>

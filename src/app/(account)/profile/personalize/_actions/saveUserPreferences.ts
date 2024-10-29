@@ -1,10 +1,14 @@
 'use server';
 
+import { auth } from "@/auth";
+
 export const saveUserPreferences = async (
-  token: string | undefined,
   positions: number[],
   interests: number[]
 ) => {
+  const session = await auth()
+
+  const token = session?.user?.token;
   const savePositions = fetch(`https://rah.dipzin.com/api/user-positions`, {
     method: "POST",
     headers: {

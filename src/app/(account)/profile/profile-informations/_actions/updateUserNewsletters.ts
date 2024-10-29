@@ -1,10 +1,13 @@
 "use server";
 
+import { auth } from "@/auth";
+
 export const updateUserNewsletters = async (
-  token: string | undefined,
   newsletterIds: number[]
 ) => {
-  if (!token) throw new Error("No token provided");
+  const session = await auth()
+
+  const token = session?.user?.token;
 
   const response = await fetch(
     "https://rah.dipzin.com/api/user-system-news-letters",

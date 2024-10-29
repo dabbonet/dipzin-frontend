@@ -1,16 +1,20 @@
 "use server";
 
+import { auth } from "@/auth";
+
 export const updateUserProfile = async (
-  token: string | undefined,
   formData: FormData
 ) => {
-  if (!token) throw new Error("No token provided");
+  const session = await auth()
 
-  formData.append("auth", token);
+  const token = session?.user?.token;
 
   const response = await fetch("https://rah.dipzin.com/api/account/update", {
     method: "POST",
     body: formData,
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   });
 
   if (!response.ok) {

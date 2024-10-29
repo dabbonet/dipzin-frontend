@@ -1,7 +1,11 @@
 "use server";
 
-export const fetchUserDetails = async (token: string | undefined) => {
-  if (!token) throw new Error("No token provided");
+import { auth } from "@/auth";
+
+export const fetchUserDetails = async () => {
+  const session = await auth()
+
+  const token = session?.user?.token;
 
   const response = await fetch("https://rah.dipzin.com/api/account/info", {
     method: "GET",

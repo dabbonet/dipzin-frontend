@@ -20,12 +20,14 @@ import {
 import { extractInitials } from "@/utils/StringUtils";
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
 import useEmblaCarousel from 'embla-carousel-react';
-import { ArrowRightStartOnRectangleIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
+import { ArrowRightStartOnRectangleIcon, ArrowRightEndOnRectangleIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import {
   Drawer, DrawerTrigger, DrawerContent,
   DrawerFooter,
   DrawerClose
 } from '@/components/UI/drawer';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/UI/dialog';
+import { SettingsModal } from '../../settings-modal';
 
 const navigationItems = [
   { label: "Stream", href: "/" },
@@ -78,25 +80,37 @@ const UserMenu = () => {
     };
   }, [emblaApi, onSelect]);
 
-  if (!user) return null;
+  if (!user) {
+    return (
+      <Button size="lg" className="rounded-full" href="/access">
+        <ArrowRightEndOnRectangleIcon className="size-6" />
+        Login
+      </Button>
+    );
+  }
 
   const menuContent = (
     <Command className="w-full p-4 md:p-0">
       <CommandList>
         <CommandGroup>
           <CommandItem className="w-full h-fit flex items-center justify-between p-2">
+            <Dialog>
+              <DialogTrigger className="flex items-center gap-2 rounded-full hover:bg-slate-900 py-2 px-2.5">
+                <Avatar>
+                  <AvatarImage src={user.image ?? undefined} alt={user.name ?? undefined} />
+                  <AvatarFallback>{extractInitials(user.name || "User")}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-medium">{user.name}</p>
+                  <p className="text-sm text-gray-500">{user?.email}</p>
+                </div>
+              </DialogTrigger>
+              <DialogContent className="w-full max-w-4xl">
+                <SettingsModal userDetails={user as any} />
+              </DialogContent>
+            </Dialog>
             <div className="flex items-center gap-2">
-              <Avatar>
-                <AvatarImage src={user.image ?? undefined} alt={user.name ?? undefined} />
-                <AvatarFallback>{extractInitials(user.name || "User")}</AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="font-medium">{user.name}</p>
-                <p className="text-sm text-gray-500">{user?.email}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" className="rounded-full hover:bg-slate-800" onClick={() => signOut()}>
+              <Button variant="ghost" size="sm" className="rounded-full hover:bg-slate-900" onClick={() => signOut()}>
                 <ArrowRightStartOnRectangleIcon className="size-4" />
                 Logout
               </Button>
@@ -105,13 +119,13 @@ const UserMenu = () => {
         </CommandGroup>
 
         <CommandGroup heading="Navigation">
-          <div className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-3'} gap-2 p-2`}>
+          <div className={`grid ${isMobile ? 'grid-cols-3' : 'grid-cols-2'} gap-2 p-2 max-w-max md:max-w-[70%]`}>
             {navigationItems.map((item) => (
               item.comingSoon ? (
                 <TooltipProvider delayDuration={200} key={item.label}>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <span className="w-full h-fit rounded-xl text-base font-semibold text-white hover:bg-slate-800 py-1 px-2 hover:outline-0 hover:text-aqua-500">
+                      <span className="w-full h-fit rounded-xl text-base font-semibold text-white hover:bg-slate-900 py-1 px-2 hover:outline-0 hover:text-aqua-500">
                         {item.label}
                       </span>
                     </TooltipTrigger>
@@ -123,7 +137,7 @@ const UserMenu = () => {
               ) : (
                 <Link
                   key={item.label}
-                  className="w-full h-fit rounded-xl text-base font-semibold text-white hover:bg-slate-800 py-1 px-2 hover:outline-0 hover:text-aqua-500"
+                  className="w-full h-fit rounded-xl text-base font-semibold text-white hover:bg-slate-900 py-1 px-2 hover:outline-0 hover:text-aqua-500"
                   href={item.href}
                 >
                   {item.label}
@@ -140,7 +154,7 @@ const UserMenu = () => {
                 <div key={page} className="mx-2 md:mx-4 flex-[0_0_100%]">
                   <div className="grid grid-cols-2 gap-3">
                     {soonItems.slice(page * (4), (page + 1) * (4)).map((item) => (
-                      <div key={item.heading} className="size-full flex-1 bg-slate-900 hover:bg-slate-800 rounded-2xl p-4 flex flex-col gap-1 items-start justify-between text-start">
+                      <div key={item.heading} className="size-full flex-1 bg-slate-800 hover:bg-slate-900 rounded-2xl p-4 flex flex-col gap-1 items-start justify-between text-start">
                         <h3 className="text-[12px] leading-normal font-medium text-white">{item.heading}</h3>
                         <p className="text-[11px] leading-normal font-normal text-slate-400">{item.description}</p>
                         <Pill className={`mt-2 ${item.badge === 'Q2 2024' ? 'bg-lime-100 text-lime-900' : 'bg-[#FCEED9] text-[#383B3D]'} text-[11px] rounded-[3px] px-1`}>
@@ -161,9 +175,7 @@ const UserMenu = () => {
                   key={i}
                   type="button"
                   aria-label={`Go to page ${i + 1}`}
-                  className={`size-2.5 rounded-full mx-1 ${
-                    current === i ? 'bg-slate-300' : 'bg-slate-800'
-                  }`}
+                  className={`size-2.5 rounded-full mx-1 ${current === i ? 'bg-[#CBD5E1]' : 'bg-slate-900'}`}
                   onClick={() => emblaApi?.scrollTo(i)}
                 />
               ))}
@@ -185,7 +197,6 @@ const UserMenu = () => {
     <Button
       variant="darkGray"
       role="combobox"
-      className="flex items-center gap-x-2 p-1 pr-2 size-fit rounded-full bg-slate-900"
     >
       <Avatar className="size-8">
         <AvatarImage src={user.image ?? undefined} alt={user.name ?? undefined} />
@@ -207,7 +218,7 @@ const UserMenu = () => {
         <DrawerTrigger asChild>
           {triggerButton}
         </DrawerTrigger>
-        <DrawerContent className="h-screen w-screen bg-slate-950 rounded-none border-0">
+        <DrawerContent className="h-screen w-screen bg-[#1A2333] rounded-none border-0">
           {menuContent}
           <DrawerFooter>
             <DrawerClose onClick={() => setIsDrawerOpen(false)} asChild>
@@ -222,10 +233,12 @@ const UserMenu = () => {
   return (
     <Dropdown
       classNames={{
-        content: "w-fit h-fit bg-[#050814] border-1 rounded-2xl p-6 border-[#1E293B]"
+        trigger: "bg-[#1A2333] hover:bg-slate-900 border-[1px] border-slate-900 rounded-full flex items-center gap-x-2 p-1 pr-2",
+        content: "w-fit h-fit bg-[#1A2333] border-[1px] border-slate-900 rounded-2xl p-6"
       }}
       trigger={triggerButton}
       content={menuContent}
+      placement="end"
     />
   );
 };
