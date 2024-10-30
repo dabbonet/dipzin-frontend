@@ -5,33 +5,26 @@ import { VirtuosoGrid } from 'react-virtuoso';
 import { Spinner } from '@/components/UI/spinner';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import type { ScreenData } from '@/types/screen-types';
-import {
-  Dialog, DialogContent
-} from '@/components/UI/dialog';
-import ScreenOverview from '@/components/Shared/screen/src/screen-overview/screen-overview';
 import { Screen } from '@/components/Shared/screen';
 
 const Footer = ({ context }: { context?: { loading: boolean } }) => (
   context?.loading ? <Spinner className="pt-8 pb-16 flex mx-auto" /> : null
 );
 
-const ItemContent = (_: number, screen: ScreenData, screens: ScreenData[]) => {
-  // Find the index of the clicked screen in the array
-  const initialIndex = screens.findIndex((s) => s.id === screen.id);
+const ItemContent = (_: number, screen: ScreenData) => (
+  <Screen screen={screen} view="global" />
+);
+// Find the index of the clicked screen in the array
+// const initialIndex = screens.findIndex((s) => s.id === screen.id);
 
-  return (
-    <Dialog modal>
-      <Screen screen={screen} view="global" />
-      <DialogContent className="max-w-max p-0">
-        <ScreenOverview
-          key={screen.id}
-          screens={screens}
-          initialIndex={initialIndex}
-        />
-      </DialogContent>
-    </Dialog>
-  );
-};
+// <Dialog modal>
+// <DialogContent className="max-w-max p-0">
+//     <ScreenOverview
+//       key={screen.id}
+//       initialIndex={initialIndex}
+//     />
+//     </DialogContent>
+//      </Dialog>
 const ScreensGrid = ({ data, isLoading, loadMoreData }: any) => {
   const { pagination, query } = useQuery();
 
@@ -42,7 +35,7 @@ const ScreensGrid = ({ data, isLoading, loadMoreData }: any) => {
     : 'size-full grid content-center gap-2 md:gap-6 pt-0 grid-cols-1 2xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2';
 
   // Modified to pass the full data array to ItemContent
-  const itemContentWrapper = (index: number, screen: ScreenData) => ItemContent(index, screen, data);
+  const itemContentWrapper = (index: number, screen: ScreenData) => ItemContent(index, screen);
 
   return (
     <VirtuosoGrid

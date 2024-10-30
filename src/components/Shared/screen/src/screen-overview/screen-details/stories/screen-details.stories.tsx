@@ -1,18 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ScreenDetails } from "..";
 import { Tabs } from '@/components/UI/tabs';
+import type { ScreenData } from '@/types/screen-types';
 
-const mockData = {
-  id: "1",
-  platform: "web",
+const mockData: ScreenData = {
+  id: 1,
   is_published: true,
   is_showcase: false,
-  is_showcased: false,
   colors: "#FF0000,#00FF00,#0000FF,#FFFF00,#00FFFF",
   screen: {
     id: "1",
     hash: "example-hash",
-    ext: ".png"
+    ext: ".png",
+    width: 1920,
+    height: 1080,
   },
   app: {
     id: "1",

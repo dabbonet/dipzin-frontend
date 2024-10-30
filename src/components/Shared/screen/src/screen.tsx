@@ -3,13 +3,22 @@
 import React from 'react'
 import Image from 'next/image'
 import { Skeleton } from "@/components/UI/skeleton"
-import type { ScreenType } from '@/types/app-types';
 import { storage } from '@/utils/storage';
 import { ScreenOverlay } from './screen-overlay';
 import { cn } from '@/lib/utils';
-import { DialogTrigger } from '@/components/UI/dialog';
+// import { DialogTrigger } from '@/components/UI/dialog';
+import Link from 'next/link';
+import type { Screen as ScreenData } from '@/types/app-types';
 
-const Screen = ({ screen, overlay = true, borderless }: ScreenType | any) => {
+// ScreenType
+export type ScreenProps = {
+  screen: ScreenData
+  view?: 'app' | 'global' | 'in-app'
+  overlay?: boolean
+  borderless?: boolean
+}
+
+const Screen = ({ screen, overlay = true, borderless }: ScreenProps | any) => {
   const [imageLoaded, setImageLoaded] = React.useState(false)
   const [imageError, setImageError] = React.useState(false)
 
@@ -23,16 +32,16 @@ const Screen = ({ screen, overlay = true, borderless }: ScreenType | any) => {
     <div className={cn("relative size-full rounded-[2rem] group", outerBorder)}>
       <div className={cn("size-full rounded-3xl", innerBorder2)}>
         {!imageLoaded && !imageError && (
-        <Skeleton className="size-full absolute inset-0" />
+          <Skeleton className="size-full absolute inset-0" />
         )}
         {imageError ? (
           <div className="size-full absolute inset-0 flex items-center justify-center bg-slate-600">
             404 not found
           </div>
         ) : (
-          <DialogTrigger asChild>
+          <Link href={`/screen/${screen.id}`} scroll={false}>
             <Image
-              className="object-contain z-20"
+              className="object-contain bg-black-950 z-20"
               src={storage((screen.screen?.hash ?? '') + (screen.screen?.ext ?? ''))}
               alt={screen?.screen?.alternativeText ?? "Screen Shot"}
               width={screen.screen?.width ?? 0}
@@ -41,7 +50,7 @@ const Screen = ({ screen, overlay = true, borderless }: ScreenType | any) => {
               onError={() => setImageError(true)}
               unoptimized
             />
-          </DialogTrigger>
+          </Link>
         )}
         {imageLoaded && !imageError && overlay && <ScreenOverlay app={screen.app} />}
       </div>

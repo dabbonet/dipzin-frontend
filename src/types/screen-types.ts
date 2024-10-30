@@ -1,5 +1,14 @@
 export interface ScreenData {
-  id: string;
+  id: number;
+  is_published: boolean;
+  is_showcase: boolean;
+  screen: {
+    id: string;
+    hash: string;
+    ext: string;
+    width: number;
+    height: number;
+  };
   app: {
     id: string;
     platform: string;
@@ -11,14 +20,7 @@ export interface ScreenData {
       ext: string;
     };
   };
-  is_published: boolean;
-  is_showcased: boolean;
   colors: string;
-  screen: {
-    id: string;
-    hash: string;
-    ext: string;
-  };
   tags: {
     id: string;
     name: string;

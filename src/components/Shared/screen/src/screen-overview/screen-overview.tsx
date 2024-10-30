@@ -1,89 +1,65 @@
-"use client";
+"use client"
 
-import React from 'react';
-import { Screen } from "@/components/Shared/screen";
 import { Tabs } from "@/components/UI/tabs";
 import useIsMobile from "@/hooks/useIsMobile";
-import type { ScreenData } from '@/types/screen-types';
-import useKeyboardNavigation from '@/hooks/useKeyboardNavigation';
-import { useCarousel } from './_hooks/useCarousel';
-import { MobileHeader } from './components/MobileHeader';
-import { ScreenDetails } from './screen-details';
-import { NavigationButtons } from './components/NavigationButtons';
+import React from 'react';
 import { MobileActions } from './components/MobileActions';
-import { PaginationDots } from './components/PaginationDots';
+import { MobileHeader } from './components/MobileHeader';
+import { NavigationButtons } from './components/NavigationButtons';
+import { ScreenDetails } from './screen-details';
+// import { PaginationDots } from './components/PaginationDots';
+import { Screen } from "@/components/Shared/screen";
 import { cn } from '@/lib/utils';
+import useScreensOverview from './_hooks/useScreensOverview';
 
 interface ScreenOverviewProps {
-  screens: ScreenData[];
-  initialIndex: number;
+  screenId: number;
 }
 
-const ScreenOverview = ({ screens, initialIndex }: ScreenOverviewProps) => {
+const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
   const {
-    emblaRef,
-    currentIndex,
-    prevBtnDisabled,
-    nextBtnDisabled,
-    scrollPrev,
-    scrollNext
-  } = useCarousel(initialIndex);
-
-  // Get the current screen based on currentIndex
-  const currentScreen = screens[currentIndex];
-  const isWeb = currentScreen?.app.platform === "web";
+    currentScreen,
+    goToNextScreen,
+    goToPrevScreen,
+    hasNextScreen,
+    hasPrevScreen,
+  } = useScreensOverview(screenId);
   const isMobile = useIsMobile();
 
-  useKeyboardNavigation({
-    onNext: scrollNext,
-    onPrev: scrollPrev,
-    isFirstItem: prevBtnDisabled,
-    isLastItem: nextBtnDisabled
-  });
+  if (!currentScreen) return null;
 
   return (
-    <Tabs className="flex flex-col size-full items-start md:items-center justify-center">
-      {isMobile && currentScreen && <MobileHeader screen={currentScreen} />}
+    <Tabs key={currentScreen.id} className="flex flex-col size-full items-start md:items-center justify-center transition-opacity duration-500 opacity-100">
+      {isMobile && <MobileHeader screen={currentScreen} />}
 
-      {!isMobile && currentScreen && (
+      {!isMobile && (
         <div className="fixed top-0 z-20 flex items-center justify-center">
           <ScreenDetails
             screen={currentScreen}
-            type={isWeb ? "wide" : "default"}
+            type={currentScreen?.app?.platform === "web" ? "wide" : "default"}
           />
         </div>
       )}
 
       <div className="size-fit flex flex-col items-center justify-center relative md:pt-[10vh]">
-        <div className={cn(`w-full mx-auto pr-[5vw] pl-0 md:pr-0 max-w-[75vw] ${isWeb ? 'md:max-w-[60vw]' : 'md:max-w-[calc(18vw+2rem)]'}`)}>
-          <div className="border-[10px] bg-black-950 border-[#0f172aa6] rounded-[2rem] overflow-hidden p-0" ref={emblaRef}>
-            <div className="flex">
-              {screens.map((screenItem) => (
-                <div
-                  key={screenItem.id}
-                  className="relative flex-[0_0_100%] min-w-0 flex justify-center items-center rounded-3xl overflow-hidden"
-                >
-                  <Screen screen={screenItem} borderless overlay={false} />
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className={cn(`w-full mx-auto pr-[5vw] pl-0 md:pr-0 max-w-[75vw] ${currentScreen.app.platform === "web" ? 'md:max-w-[60vw]' : 'md:max-w-[calc(18vw+2rem)]'}`)}>
+          <Screen screen={currentScreen} overlay={false} />
 
           <NavigationButtons
-            onPrevClick={scrollPrev}
-            onNextClick={scrollNext}
-            prevDisabled={prevBtnDisabled}
-            nextDisabled={nextBtnDisabled}
+            onPrevClick={goToPrevScreen}
+            onNextClick={goToNextScreen}
+            prevDisabled={!hasPrevScreen}
+            nextDisabled={!hasNextScreen}
           />
 
           {isMobile && (
-          <>
-            <MobileActions />
-            <PaginationDots
-              totalSlides={screens.length}
-              currentIndex={currentIndex}
-            />
-          </>
+            <>
+              <MobileActions />
+              {/* <PaginationDots
+                totalSlides={pagination.totalPages}
+                currentIndex={pagination.offset}
+              /> */}
+            </>
           )}
         </div>
       </div>
