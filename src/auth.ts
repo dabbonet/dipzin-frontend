@@ -69,7 +69,7 @@ export const {
         ...token,
         ...(user && {
           id: user.id,
-          // sessionToken: user.token,
+          sessionToken: user.token,
           is_paid: user.is_paid,
           stripe_id: user.stripe_id,
         }),

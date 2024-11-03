@@ -4,8 +4,8 @@ import ProfileInformation from "./_components/profile-information";
 
 export default async function Page() {
   const [newsletters, userDetails] = await Promise.all([
-    fetchUserDetails(),
     fetchNewsletters(),
+    fetchUserDetails(),
   ]);
 
   return (
