@@ -1,3 +1,5 @@
+import type { ScreenData } from "./screen-types"
+
 // AppType
 export interface AppType {
   id: number
@@ -5,9 +7,9 @@ export interface AppType {
   slug: string
   tag_line: string
   platform: string
-  icon: Icon | string
+  icon: Icon;
   categories?: Category[]
-  screens?: Screen[]
+  screens?: ScreenData[]
 }
 
 export interface Icon {
@@ -18,18 +20,6 @@ export interface Icon {
 export interface Category {
   id: number
   name: string
-}
-
-export interface Screen {
-  id: number
-  screen: ScreenBlob,
-  app?: {
-    id: string;
-    icon: { hash: string, ext: string };
-    name: string;
-    platform: string;
-    tagLine: string;
-  }
 }
 
 export interface ScreenBlob {
@@ -52,5 +42,5 @@ export interface FlowType {
 
 export interface FlowScreen {
   id: number
-  screen: Screen
+  screen: ScreenData
 }

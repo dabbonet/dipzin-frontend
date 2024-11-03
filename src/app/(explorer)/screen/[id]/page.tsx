@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "../../@modal/modal";
-import ScreenOverview from "@/components/Shared/screen/src/screen-overview/screen-overview";
+import ScreenOverview from "../../_components/panel/src/screen-overview/screen-overview";
 
 export default async function ScreenPage({
   params,
@@ -13,5 +13,5 @@ export default async function ScreenPage({
     <Modal>
       <ScreenOverview screenId={id} />
     </Modal>
-  )
+  );
 }

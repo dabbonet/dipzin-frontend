@@ -12,19 +12,9 @@ const Footer = ({ context }: { context?: { loading: boolean } }) => (
 );
 
 const ItemContent = (_: number, screen: ScreenData) => (
-  <Screen screen={screen} view="global" />
+  <Screen screen={screen} href={`/screen/${screen.id}`} />
 );
-// Find the index of the clicked screen in the array
-// const initialIndex = screens.findIndex((s) => s.id === screen.id);
 
-// <Dialog modal>
-// <DialogContent className="max-w-max p-0">
-//     <ScreenOverview
-//       key={screen.id}
-//       initialIndex={initialIndex}
-//     />
-//     </DialogContent>
-//      </Dialog>
 const ScreensGrid = ({ data, isLoading, loadMoreData }: any) => {
   const { pagination, query } = useQuery();
 

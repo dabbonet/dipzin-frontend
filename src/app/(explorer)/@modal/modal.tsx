@@ -20,7 +20,7 @@ export default function Modal({ children }: { children: React.ReactNode }) {
 
   return (
     <Dialog modal defaultOpen onOpenChange={handleOpenChange}>
-      <DialogContent className="max-w-max p-0">
+      <DialogContent className="size-full sm:h-[90vh] sm:max-w-[95vw] backdrop-blur-[45px] bg-transparent sm:bg-slate-800/60 rounded-2xl p-0 sm:p-8">
         {children}
       </DialogContent>
     </Dialog>

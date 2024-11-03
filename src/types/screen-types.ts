@@ -1,3 +1,5 @@
+import type { AppType } from "./app-types";
+
 export interface ScreenData {
   id: number;
   is_published: boolean;
@@ -9,17 +11,7 @@ export interface ScreenData {
     width: number;
     height: number;
   };
-  app: {
-    id: string;
-    platform: string;
-    name: string;
-    slug: string;
-    tag_line: string;
-    icon: {
-      hash: string;
-      ext: string;
-    };
-  };
+  app: AppType;
   colors: string;
   tags: {
     id: string;
