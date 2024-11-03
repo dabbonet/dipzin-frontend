@@ -1,14 +1,15 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { fetchUserWithToken } from './utils/auth/fetchUserWithToken';
+import { validateToken } from './actions/validateToken';
 
 // Define a custom user type to include token
 declare module 'next-auth' {
   interface User {
-    token: string;
-    role: string;
-    is_paid: boolean;
-    stripe_id: string;
+    token?: string;
+    role?: string;
+    is_paid?: boolean;
+    stripe_id?: string;
   }
 }
 
@@ -58,12 +59,17 @@ export const {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // Return a new token object with the properties merged
+      if (user && user.token) {
+        const isValid = await validateToken(user?.token as string);
+        if (!isValid) {
+          return {};
+        }
+      }
       return {
         ...token,
         ...(user && {
           id: user.id,
-          sessionToken: user.token,
+          // sessionToken: user.token,
           is_paid: user.is_paid,
           stripe_id: user.stripe_id,
         }),
