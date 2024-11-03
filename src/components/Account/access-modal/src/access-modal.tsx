@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { generateOtp } from "@/utils/auth/generateOtp";
 import { Logo } from "@/components/UI/logo";
 import { useToast } from "@/hooks/use-toast";
+import useIsMobile from "@/hooks/useIsMobile";
 
 // Zod schema to validate email
 const schema = z.object({
@@ -24,6 +25,7 @@ type FormValues = z.infer<typeof schema>; // Infer type from schema
 const AccessModal = () => {
   const router = useRouter();
   const { toast } = useToast();
+  const isMobile = useIsMobile()
   const [isLoading, setIsLoading] = useState(false); // Loading state for the button
 
   // Initialize useForm with zodResolver and schema
@@ -93,8 +95,9 @@ const AccessModal = () => {
             <Button
               href="#"
               variant="strocked"
+              isIconOnly={isMobile}
               size="2xl"
-              className="w-fit lg:w-full flex gap-4 items-center justify-center"
+              className="w-fit flex gap-4 items-center justify-center"
               aria-label="Continue with Google"
             >
               <Logo.Google />
@@ -104,8 +107,9 @@ const AccessModal = () => {
             <Button
               href="#"
               variant="strocked"
+              isIconOnly={isMobile}
               size="2xl"
-              className="w-fit lg:w-full flex gap-4 items-center justify-center"
+              className="w-fit flex gap-4 items-center justify-center"
               aria-label="Continue with Facebook"
             >
               <Logo.Facebook />

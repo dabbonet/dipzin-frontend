@@ -25,7 +25,7 @@ const Dropdown = ({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <div className={cn(classNames?.base)}>
-        <PopoverTrigger asChild className={cn("w-fit", classNames?.trigger)}>
+        <PopoverTrigger asChild className={cn("w-fit border-[1px] bg-[#1A2333] border-slate-900", classNames?.trigger)}>
           {trigger}
         </PopoverTrigger>
         <PopoverContent

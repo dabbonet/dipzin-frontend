@@ -2,10 +2,16 @@ import { cn } from "@/lib/utils";
 import * as LabelPrimitive from "@radix-ui/react-label";
 import React from "react";
 
+interface LabelProps extends React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> {
+  required?: boolean;
+}
+
 export const Label = React.forwardRef<
 React.ElementRef<typeof LabelPrimitive.Root>,
-React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref) => (
+LabelProps
+>(({
+  className, required, children, ...props
+}, ref) => (
   <LabelPrimitive.Root
     ref={ref}
     className={cn(
@@ -13,6 +19,10 @@ React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
       className
     )}
     {...props}
-  />
+  >
+    {children}
+    {" "}
+    {required && <span className="text-aqua-300 text-lg">*</span>}
+  </LabelPrimitive.Root>
 ));
 Label.displayName = LabelPrimitive.Root.displayName;

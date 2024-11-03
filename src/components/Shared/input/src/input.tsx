@@ -19,7 +19,7 @@ const wrapperVariants = cva(
         disabled: "bg-gray-600 cursor-not-allowed",
       },
       type: {
-        default: "px-5",
+        default: "px-5 py-4",
         search:
           "rounded-full py-3 px-6 text-white placeholder:text-white bg-[#1A2333]",
       },

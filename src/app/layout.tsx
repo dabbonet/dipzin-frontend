@@ -2,6 +2,7 @@ import '@/styles/global.css';
 
 import { Background } from '@/components/UI/background';
 import { Toaster } from '@/components/Shared/toaster';
+import { SessionProvider } from 'next-auth/react';
 
 export const metadata = {
   title: 'Next.js',
@@ -15,8 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="font-poppins">
-        {children}
+      <body className="font-poppins size-full">
+        <SessionProvider>
+          {children}
+        </SessionProvider>
         <Background />
         <Toaster />
       </body>

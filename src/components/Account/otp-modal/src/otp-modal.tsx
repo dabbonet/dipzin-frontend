@@ -51,7 +51,7 @@ const OtpModal = ({ email }: { email: string }) => {
           title: "OTP Verified! You're logged in.",
         });
         setVariant("success");
-        router.push("/");
+        router.push("/profile/profile-informations");
       }
     } catch (error) {
       toast({

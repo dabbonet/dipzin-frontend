@@ -85,11 +85,6 @@ const config: Config = {
         },
         'slate-950': '#020617'
       },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
       boxShadow: {
         button: '0px 1px 2px 0px var(--Colors-Effects-Shadows-shadow-xs, rgba(16, 24, 40, 0.05))',
         "text-shadow": '0px 2px 2.5px 0px rgba(0, 0, 0, 0.30)'
