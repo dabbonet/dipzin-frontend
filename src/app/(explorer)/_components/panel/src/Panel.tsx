@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import ScreensGrid from './ScreensGrid';
 import AppsGrid from './AppsGrid';
 import FlowsGrid from './FlowsGrid';
+import { toast } from '@/hooks/use-toast';
 
 /**
  * Panel Component
@@ -92,64 +93,76 @@ const Panel = () => {
   }
 
   if (noData) {
-    return (
-      <div className="relative top-32">
-        No data found for the given query, and no further suggestions are available.
-      </div>
-    );
+    toast({
+      title: 'No data found',
+      description: 'No data found for the given query, and no further suggestions are available.',
+      variant: 'error',
+      duration: 5000,
+    })
   }
 
-  switch (query.pattern) {
-    case 'marketing':
-    case 'screens':
-    case 'components':
-      return (
-        <div
-          className={cn(
-            'relative',
-            (query?.apps?.length ?? 0) > 0 ? 'top-40' : 'top-28'
-          )}
-        >
-          <ScreensGrid
-            data={data}
-            isLoading={isLoading}
-            loadMoreData={loadMoreData}
-          />
+  return (
+    <>
+      {(() => {
+        switch (query.pattern) {
+          case 'marketing':
+          case 'screens':
+          case 'components':
+            return (
+              <div
+                className={cn(
+                  'relative',
+                  (query?.apps?.length ?? 0) > 0 ? 'top-40' : 'top-28'
+                )}
+              >
+                <ScreensGrid
+                  data={data}
+                  isLoading={isLoading}
+                  loadMoreData={loadMoreData}
+                />
+              </div>
+            );
+          case 'flows':
+            return (
+              <div
+                className={cn(
+                  'relative',
+                  (query?.apps?.length ?? 0) > 0 ? 'top-32' : 'top-28'
+                )}
+              >
+                <FlowsGrid
+                  data={data}
+                  isLoading={isLoading}
+                  loadMoreData={loadMoreData}
+                />
+              </div>
+            );
+          case 'apps':
+            return (
+              <div
+                className={cn(
+                  'relative',
+                  (query?.apps?.length ?? 0) > 0 ? 'top-32' : 'top-28'
+                )}
+              >
+                <AppsGrid
+                  data={data}
+                  isLoading={isLoading}
+                  loadMoreData={loadMoreData}
+                />
+              </div>
+            );
+          default:
+            return null; // Handle invalid view
+        }
+      })()}
+      {noData && (
+        <div className="text-center p-16 m-auto">
+          No data found for the given query, and no further suggestions are available.
         </div>
-      );
-    case 'flows':
-      return (
-        <div
-          className={cn(
-            'relative',
-            (query?.apps?.length ?? 0) > 0 ? 'top-32' : 'top-28'
-          )}
-        >
-          <FlowsGrid
-            data={data}
-            isLoading={isLoading}
-            loadMoreData={loadMoreData}
-          />
-        </div>
-      );
-    case 'apps':
-      return (
-        <div
-          className={cn(
-            'relative',
-            (query?.apps?.length ?? 0) > 0 ? 'top-32' : 'top-28'
-          )}
-        >
-          <AppsGrid
-            data={data}
-            isLoading={isLoading}
-            loadMoreData={loadMoreData}
-          />
-        </div>
-      );
-    default:
-      return null; // Handle invalid view
-  }
+      )}
+    </>
+  );
 };
 
 export default Panel;

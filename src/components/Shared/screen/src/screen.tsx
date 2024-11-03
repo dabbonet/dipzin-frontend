@@ -54,8 +54,8 @@ const Screen = ({
               "medium",
             )}
             alt={`${screen?.app?.name} - screen`}
-            width={screen.app.platform === "web" ? 750 : 346}
-            height={screen.app.platform === "web" ? 469 : 750}
+            width={screen?.app?.platform === "web" ? 750 : 346}
+            height={screen?.app?.platform === "web" ? 469 : 750}
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageError(true)}
             unoptimized
