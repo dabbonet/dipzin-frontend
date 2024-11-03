@@ -6,16 +6,21 @@ import {
   ChevronDownIcon,
   EllipsisVerticalIcon,
   StarIcon,
-  EllipsisHorizontalIcon,
   ChevronRightIcon,
   ChevronLeftIcon,
   XMarkIcon,
   ArrowDownTrayIcon,
+  ArrowRightIcon,
+  ArrowLeftIcon,
+  ArrowRightCircleIcon,
+  ArrowLeftCircleIcon,
+  EllipsisHorizontalIcon,
 } from "@heroicons/react/24/solid";
 import {
   BookmarkIcon,
   EyeIcon,
   FolderPlusIcon,
+  Square2StackIcon,
 } from "@heroicons/react/24/outline";
 
 export interface IconProps {
@@ -136,32 +141,6 @@ const DownloadPhoto = memo(({ className }: IconProps) => (
   </svg>
 ));
 
-const Copy = memo(({ className }: IconProps) => (
-  <svg
-    className={className}
-    width="18"
-    height="18"
-    viewBox="0 0 18 18"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M11.9993 9.67476V12.8248C11.9993 15.4498 10.9491 16.4998 8.32383 16.4998H5.17347C2.54817 16.4998 1.49805 15.4498 1.49805 12.8248V9.67476C1.49805 7.04976 2.54817 5.99976 5.17347 5.99976H8.32383C10.9491 5.99976 11.9993 7.04976 11.9993 9.67476Z"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M16.5012 5.17549V8.32549C16.5012 10.9505 15.4511 12.0005 12.8258 12.0005H12.0007V9.67549C12.0007 7.05049 10.9506 6.00049 8.32527 6.00049H6V5.17549C6 2.55049 7.05012 1.50049 9.67542 1.50049H12.8258C15.4511 1.50049 16.5012 2.55049 16.5012 5.17549Z"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-));
-
 const Check = memo(({ className }: IconProps) => (
   <svg
     className={className}
@@ -219,29 +198,6 @@ const Collapse3 = memo(({ className }: IconProps) => (
   </svg>
 ));
 
-const Copy2 = memo(({ className }: IconProps) => (
-  <svg
-    className={className}
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <g clipPath="url(#clip0_2402_8644)">
-      <path
-        d="M20.6016 23.2383H8.64844C7.1944 23.2383 6.01172 22.0556 6.01172 20.6016V8.64844C6.01172 7.1944 7.1944 6.01172 8.64844 6.01172H20.6016C22.0556 6.01172 23.2383 7.1944 23.2383 8.64844V20.6016C23.2383 22.0556 22.0556 23.2383 20.6016 23.2383ZM8.64844 7.76953C8.1638 7.76953 7.76953 8.1638 7.76953 8.64844V20.6016C7.76953 21.0862 8.1638 21.4805 8.64844 21.4805H20.6016C21.0862 21.4805 21.4805 21.0862 21.4805 20.6016V8.64844C21.4805 8.1638 21.0862 7.76953 20.6016 7.76953H8.64844ZM4.25391 16.207H3.375C2.89037 16.207 2.49609 15.8128 2.49609 15.3281V3.375C2.49609 2.89037 2.89037 2.49609 3.375 2.49609H15.3281C15.8128 2.49609 16.207 2.89037 16.207 3.375V4.20996H17.9648V3.375C17.9648 1.92096 16.7822 0.738281 15.3281 0.738281H3.375C1.92096 0.738281 0.738281 1.92096 0.738281 3.375V15.3281C0.738281 16.7822 1.92096 17.9648 3.375 17.9648H4.25391V16.207Z"
-        fill="white"
-      />
-    </g>
-    <defs>
-      <clipPath id="clip0_2402_8644">
-        <rect width="24" height="24" fill="white" />
-      </clipPath>
-    </defs>
-  </svg>
-));
-
 const Filter = memo(({ className }: IconProps) => (
   <svg
     className={className}
@@ -268,6 +224,10 @@ const Icon = {
   Bookmark: BookmarkIcon,
   Eye: EyeIcon,
 
+  ArrowRight: ArrowRightIcon,
+  ArrowLeft: ArrowLeftIcon,
+  ArrowCircleRight: ArrowRightCircleIcon,
+  ArrowCircleLeft: ArrowLeftCircleIcon,
   ChevronRight: ChevronRightIcon,
   ChevronLeft: ChevronLeftIcon,
   ChevronDown: ChevronDownIcon,
@@ -280,14 +240,13 @@ const Icon = {
   Check,
   Close: XMarkIcon,
 
-  EllipsisHorizontal: EllipsisHorizontalIcon,
+  Dots: EllipsisHorizontalIcon,
   EllipsisVertical: EllipsisVerticalIcon,
   Filter,
   BurgerMenu,
   Expand,
   DownloadPhoto,
-  Copy,
-  Copy2,
+  Copy: Square2StackIcon,
   Save: FolderPlusIcon,
   Download: ArrowDownTrayIcon,
 };

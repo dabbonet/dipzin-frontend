@@ -79,7 +79,7 @@ const AppPill: React.FC<AppPillProps> = ({ isFull = false, data }) => {
         <Dropdown
           trigger={(
             <Button size="md" className="rounded-full p-2" variant="darkGray" isIconOnly>
-              <Icon.EllipsisHorizontal className="size-6 text-white" />
+              <Icon.Dots className="size-6 text-white" />
             </Button>
           )}
           content="content"

@@ -1,4 +1,4 @@
-import { extractInitials } from '@/utils/StringUtils';
+import { extractInitials, mergeIconFromObject } from '@/utils/StringUtils';
 import React from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/Shared/avatar';
 import Image from 'next/image';
@@ -43,19 +43,17 @@ type NavigatorMenuInitialContentProps = {
 };
 
 export const NavigatorMenuInitialContent = ({ data: initialData, handleUpdate }: NavigatorMenuInitialContentProps) => {
-  const iconName = (data: any) => data.hash + data.ext;
-
   if (!initialData) return null;
 
   return (
-    <div className="size-full space-y-2 p-4 size-full overflow-y-auto">
+    <div className="size-full space-y-2 p-4 overflow-y-auto">
       <div className="space-y-2">
         <h2 className="text-lg text-aqua-500 font-medium">Most Viewed Apps</h2>
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
           {initialData.apps?.map((item: any) => (
             <AppItem
               name={item.name}
-              imgSrc={storage(iconName(item.icon))}
+              imgSrc={storage(mergeIconFromObject(item.icon))}
               key={item.name}
               onClick={() => handleUpdate('apps', item.name)}
             />

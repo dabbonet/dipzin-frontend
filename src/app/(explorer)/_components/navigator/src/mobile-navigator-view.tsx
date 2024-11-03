@@ -40,13 +40,13 @@ const MobileNavigatorView: React.FC = () => {
   return (
     <div
       key="mobile-navigator"
-      className="size-full bg-gradient-to-b from-slate-900/85 to-slate-900/60 rounded-[1.625rem] p-2.5 flex flex-col gap-4"
+      className="w-full h-fit bg-gradient-to-b from-slate-900/85 to-slate-900/60 rounded-[1.625rem] p-2.5 flex flex-col gap-4"
     >
       <Input
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
         onFocus={() => setIsMenuOpen(true)}
-        className="w-full shadow-none"
+        className="w-full shadow-none "
         type="search"
         placeholder={filters?.length > 0 ? "Search" : "Try Search"}
         autoComplete="off"
@@ -87,9 +87,9 @@ const MobileNavigatorView: React.FC = () => {
           isOpen={isMenuOpen}
           setIsOpen={setIsMenuOpen}
           handleUpdate={(updateFn, target) => {
-            if (target === 'filters') {
+            if (target === "filters") {
               setFilters((prevFilters) => updateFn(prevFilters)); // Updates filters
-            } else if (target === 'apps') {
+            } else if (target === "apps") {
               setApps((prevApps) => updateFn(prevApps)); // Updates apps
             }
           }}

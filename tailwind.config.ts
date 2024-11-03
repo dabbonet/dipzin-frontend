@@ -92,6 +92,7 @@ const config: Config = {
       backgroundImage: {
         "screen-hover-gradient-to-bottom": "linear-gradient(180deg, rgba(15, 23, 42, 0.70) 0%, rgba(15, 23, 42, 0.00) 100%)",
         "screen-hover-gradient-to-top": "linear-gradient(180deg, rgba(15, 23, 42, 0.00) 8.93%, rgba(15, 23, 42, 0.90) 110.66%)",
+        "blur-bg": "linear-gradient(85deg, rgba(13, 16, 24, 0.50) -31.47%, rgba(9, 19, 46, 0.50) 109.59%)",
       },
       keyframes: {
         'accordion-down': {

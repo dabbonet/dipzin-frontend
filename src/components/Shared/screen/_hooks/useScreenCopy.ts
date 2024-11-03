@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useCallback } from 'react';
-import { copyImageToClipboard } from '../../_actions/screen/copyScreen';
 import { useToast } from '@/hooks/use-toast';
+import { copyImageToClipboard } from '../_utils/copyScreen';
 
 const useScreenCopy = () => {
   const { toast } = useToast();

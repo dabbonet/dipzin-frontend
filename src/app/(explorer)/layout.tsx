@@ -1,9 +1,9 @@
 import { Logo } from '@/components/UI/logo';
-import '@/styles/global.css';
-import { Navigator } from '../_components/navigator';
-import { getInitialQuery } from '../_utils/initialQuery';
 import UserMenu from '@/components/Account/user-menu/src/user-menu';
 import OnboardingModal from '@/components/Account/onboarding-modal/onboarding-modal';
+import { Navigator } from './_components/navigator';
+import { getInitialQuery } from './_utils/initialQuery';
+import '@/styles/global.css';
 
 const Nav = ({ initialQuery }: { initialQuery: any }) => (
   <header className="w-full h-fit px-4 pt-5 md:px-8 md:pt-7 flex flex-col md:flex-row md:justify-between items-start gap-4 md:gap-8 z-10 fixed top-0">
@@ -24,9 +24,11 @@ const Nav = ({ initialQuery }: { initialQuery: any }) => (
 
 export default async function RootLayout({
   children,
+  modal,
   params
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
   params: any;
 }) {
   const initialQuery = getInitialQuery(params.explorer)
@@ -35,6 +37,7 @@ export default async function RootLayout({
       <Nav initialQuery={initialQuery} />
       <main className="size-full px-2 md:px-4 lg:px-10 xl:px-16 2xl:px-[100px]">
         {children}
+        {modal}
       </main>
       <OnboardingModal />
     </div>
