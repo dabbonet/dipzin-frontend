@@ -26,7 +26,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
 
   return (
     <motion.div
-      className="relative size-full rounded-2xl flex items-center justify-center group pb-10"
+      className="relative size-full rounded-2xl flex items-center justify-center pb-10"
       initial="initial"
       whileHover="hover"
       animate="initial"
@@ -91,7 +91,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
                   key={screen.id}
                   className={`shrink-0 ${widthClass} h-auto flex justify-center items-center mb-6`}
                 >
-                  <Screen screen={screen.screen || {}} overlay={false} />
+                  <Screen key={screen.id} screen={screen.screen || {}} overlay={false} />
                 </div>
               ))}
             </div>
