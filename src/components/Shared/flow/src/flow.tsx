@@ -64,7 +64,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
               Download
             </Button>
             <Button className="rounded-full p-2 bg-slate-800" variant="darkGray">
-              <Icon.EllipsisHorizontal className="size-6 fill-white stroke-white" />
+              <Icon.Dots className="size-6 fill-white stroke-white" />
             </Button>
           </div>
         </div>
@@ -74,7 +74,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
               <CarouselContent>
                 {flow && flow?.flow_screens?.map((screen) => (
                   <CarouselItem key={screen.id} className="max-w-[80vw]">
-                    <Screen screen={screen.screen || {}} overlay={false} />
+                    <Screen screen={screen.screen} overlay={false} />
                   </CarouselItem>
                 ))}
               </CarouselContent>

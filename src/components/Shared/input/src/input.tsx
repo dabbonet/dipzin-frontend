@@ -100,7 +100,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       }
     };
     return (
-      <div className="w-full h-fit flex flex-col gap-2 font-outfit overflow-hidden">
+      <div className="w-full h-fit flex flex-col gap-2 font-outfit">
         {label && (
           <Label
             className="text-gray-400 text-[1rem] leading-6"

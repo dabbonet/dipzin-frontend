@@ -1,5 +1,3 @@
-"use server";
-
 import clipboardy from 'clipboardy';
 
 export async function copyImageToClipboard(imageUrl: string) {

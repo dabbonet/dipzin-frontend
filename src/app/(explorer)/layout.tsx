@@ -2,13 +2,13 @@ import { Logo } from '@/components/UI/logo';
 import { Icon } from '@/components/UI/icon';
 import '@/styles/global.css';
 import { Button } from '@/components/Shared/button';
-import { Navigator } from '../_components/navigator';
 import { auth, signOut } from '@/auth';
 import { type Session } from 'next-auth';
-import { getInitialQuery } from '../_utils/initialQuery';
+import { Navigator } from './_components/navigator';
+import { getInitialQuery } from './_utils/initialQuery';
 
 const Nav = ({ session, initialQuery }: { session: Session | null, initialQuery: any }) => (
-  <header className="w-screen h-fit px-4 pt-5 md:px-8 md:pt-7 flex flex-col md:flex-row md:justify-between items-start gap-4 md:gap-8 z-10 fixed top-0">
+  <header className="w-screen h-fit px-4 pt-5 md:px-8 md:pt-7 flex flex-col md:flex-row md:justify-between items-start gap-4 md:gap-8 z-50 fixed top-0">
     <div className="flex w-full md:w-auto justify-between items-center">
       <a href="/" aria-label="Home">
         <Logo.Dipzin className="text-white" />
@@ -56,9 +56,11 @@ const Nav = ({ session, initialQuery }: { session: Session | null, initialQuery:
 
 export default async function RootLayout({
   children,
+  modal,
   params
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
   params: any;
 }) {
   const session = await auth()
@@ -68,6 +70,7 @@ export default async function RootLayout({
       <Nav session={session} initialQuery={initialQuery} />
       <main className="size-full px-2 md:px-4 lg:px-10 xl:px-16 2xl:px-[100px]">
         {children}
+        {modal}
       </main>
     </div>
   );
