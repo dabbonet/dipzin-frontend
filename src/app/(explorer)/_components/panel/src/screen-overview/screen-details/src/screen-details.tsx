@@ -15,6 +15,8 @@ import { DialogClose } from "@/components/UI/dialog";
 import { storage } from "@/utils/storage";
 import type { ScreenData as ScreenType } from "@/types/screen-types";
 import { Separator } from "@/components/UI/separator";
+import { useCopyScreen } from "@/hooks/useCopyScreen";
+import { useDownloadScreen } from "@/hooks/useDownloadScreen";
 
 type ColorSquareProps = {
   color: string;
@@ -57,51 +59,64 @@ export const ScreenAppDetails = ({ app }: { app: ScreenType["app"] }) => (
 export const WebScreenTabs = () => (
   <div className="absolute top-0 left-1/2 -translate-x-1/2">
     <TabsList>
-      <TabsTrigger
-        value="section"
-      >
-        Section
-      </TabsTrigger>
-      <TabsTrigger
-        value="full-page"
-      >
-        Full Page
-      </TabsTrigger>
+      <TabsTrigger value="section">Section</TabsTrigger>
+      <TabsTrigger value="full-page">Full Page</TabsTrigger>
     </TabsList>
   </div>
 );
 
-export const ActionButtons = () => (
-  <div className="flex items-center justify-end gap-4 font-medium whitespace-nowrap font-poppins">
-    <Button size="xl" variant="liteGray">
-      <Icon.Copy className="size-6" />
-      Copy
-    </Button>
-    <Button size="xl" variant="darkGray">
-      <Icon.Download className="size-6" />
-      Download
-    </Button>
-    <Dropdown
-      classNames={{
-        trigger: "hidden sm:flex",
-      }}
-      trigger={
-        // eslint-disable-next-line react/jsx-wrap-multilines
-        <Button size="xl" variant="darkGray" isIconOnly>
-          <Icon.Dots className="size-6" />
-        </Button>
-      }
-      content="content"
-      placement="end"
-    />
-    <Separator orientation="vertical" className="h-8" />
-    <DialogClose className="hidden sm:flex" asChild>
-      <Button className="rounded-full" size="xl" variant="darkGray" isIconOnly>
-        <Icon.Close className="size-6" />
+export const ActionButtons = ({ screen }: { screen: ScreenType }) => {
+  const { copyImageToClipboard, loading: copying } = useCopyScreen();
+  const { downloadScreen, loading: downloading } = useDownloadScreen();
+
+  return (
+    <div className="flex items-center justify-end gap-4 font-medium whitespace-nowrap font-poppins">
+      <Button
+        onClick={() => copyImageToClipboard(storage(screen.screen.hash + screen.screen.ext))}
+        disabled={copying}
+        size="xl"
+        variant="liteGray"
+      >
+        <Icon.Copy className="size-6" />
+        {copying ? "Copying..." : "Copy"}
       </Button>
-    </DialogClose>
-  </div>
-);
+
+      <Button
+        onClick={() => downloadScreen(storage(screen.screen.hash + screen.screen.ext))}
+        disabled={downloading}
+        size="xl"
+        variant="darkGray"
+      >
+        <Icon.Download className="size-6" />
+        {downloading ? "Downloading..." : "Download"}
+      </Button>
+      <Dropdown
+        classNames={{
+          trigger: "hidden sm:flex",
+        }}
+        trigger={
+          // eslint-disable-next-line react/jsx-wrap-multilines
+          <Button size="xl" variant="darkGray" isIconOnly>
+            <Icon.Dots className="size-6" />
+          </Button>
+        }
+        content="content"
+        placement="end"
+      />
+      <Separator orientation="vertical" className="h-8" />
+      <DialogClose className="hidden sm:flex" asChild>
+        <Button
+          className="rounded-full"
+          size="xl"
+          variant="darkGray"
+          isIconOnly
+        >
+          <Icon.Close className="size-6" />
+        </Button>
+      </DialogClose>
+    </div>
+  );
+};
 
 export const ScreenData = ({
   tags,
@@ -147,9 +162,7 @@ export const ScreenData = ({
   };
 
   return (
-    <div
-      className="flex flex-wrap gap-y-6 gap-x-16"
-    >
+    <div className="flex flex-wrap gap-y-6 gap-x-16">
       {tags.length > 0 && (
         <div className=" transition-all">
           <p className="mb-2 text-2xl font-semibold font-outfit">Tags</p>

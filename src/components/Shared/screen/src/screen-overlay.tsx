@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Avatar,
@@ -10,7 +12,9 @@ import { extractInitials, mergeIconFromObject } from "@/utils/StringUtils";
 import { Dropdown } from "@/components/Shared/dropdown";
 import { Checkbox } from "@/components/UI/checkbox";
 import { storage } from "@/utils/storage";
+import { useCopyScreen } from "@/hooks/useCopyScreen";
 import type { AppType } from "@/types/app-types";
+import type { ScreenData } from "@/types/screen-types";
 
 // App Info Component
 const AppInfo = ({ app }: { app: AppType }) => (
@@ -32,44 +36,52 @@ const AppInfo = ({ app }: { app: AppType }) => (
 );
 
 // Global Top Overlay
-const GlobalTopOverlay = () => (
-  <div className="w-full h-fit flex items-center justify-between px-5">
-    <Checkbox className="size-[28px] rounded-[0.4rem] border-[2.5px]" />
-    <div className="size-fit flex items-center gap-2">
-      <Button
-        variant="darkGray"
-        className="bg-slate-800 p-2 md:px-3.5 md:py-2.5 rounded-full"
-      >
-        <Icon.Copy className="size-6 text-white" />
-        <p className="hidden md:flex">Copy</p>
-      </Button>
-      <Dropdown
-        trigger={(
-          <Button
-            size="md"
-            className="rounded-full p-2 bg-slate-800"
-            variant="darkGray"
-            isIconOnly
-          >
-            <Icon.Dots className="size-6 text-white" />
-          </Button>
-        )}
-        content="content"
-        classNames={{
-          content: "w-fit",
-        }}
-        placement="end"
-      />
+const GlobalTopOverlay = ({ screen }: { screen: ScreenData }) => {
+  const { copyImageToClipboard, loading: copying } = useCopyScreen();
+
+  return (
+    <div className="w-full h-fit flex items-center justify-between px-5">
+      <Checkbox className="size-[28px] rounded-[0.4rem] border-[2.5px]" />
+      <div className="size-fit flex items-center gap-2">
+        <Button
+          onClick={() => copyImageToClipboard(
+            storage(screen.screen.hash + screen.screen.ext),
+          )}
+          disabled={copying}
+          variant="darkGray"
+          className="bg-slate-800 p-2 md:px-3.5 md:py-2.5 rounded-full"
+        >
+          <Icon.Copy className="size-6 text-white" />
+          <p className="hidden md:flex">{copying ? "Copying..." : "Copy"}</p>
+        </Button>
+        <Dropdown
+          trigger={(
+            <Button
+              size="md"
+              className="rounded-full p-2 bg-slate-800"
+              variant="darkGray"
+              isIconOnly
+            >
+              <Icon.Dots className="size-6 text-white" />
+            </Button>
+          )}
+          content="content"
+          classNames={{
+            content: "w-fit",
+          }}
+          placement="end"
+        />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Top Overlay Component
-const TopOverlay = ({ app }: { app: AppType }) => (
+const TopOverlay = ({ screen }: { screen: ScreenData }) => (
   <div
-    className={`absolute z-20 top-0 inset-x-0 flex ${app?.platform === "web" ? "pt-2 pb-[5px] sm:pt-2 sm:pb-[20px] md:pt-2 md:pb-[25px] lg:pt-3 lg:pb-[30px] xl:pt-4 xl:pb-[35px]" : "pt-4 pb-[10px] sm:pt-3 sm:pb-[30px] md:pt-4 md:pb-[35px] lg:pt-5 lg:pb-[40px] xl:pt-6 xl:pb-[45px]"} items-center justify-center gap-4 bg-screen-hover-gradient-to-bottom opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out`}
+    className={`absolute z-20 top-0 inset-x-0 flex ${screen.app?.platform === "web" ? "pt-2 pb-[5px] sm:pt-2 sm:pb-[20px] md:pt-2 md:pb-[25px] lg:pt-3 lg:pb-[30px] xl:pt-4 xl:pb-[35px]" : "pt-4 pb-[10px] sm:pt-3 sm:pb-[30px] md:pt-4 md:pb-[35px] lg:pt-5 lg:pb-[40px] xl:pt-6 xl:pb-[45px]"} items-center justify-center gap-4 bg-screen-hover-gradient-to-bottom opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out`}
   >
-    <GlobalTopOverlay />
+    <GlobalTopOverlay screen={screen} />
   </div>
 );
 
@@ -83,9 +95,9 @@ const BottomOverlay = ({ app }: { app: AppType }) => (
 );
 
 // Screen Overlay component that triggers hover animation
-export const ScreenOverlay = ({ app }: { app: AppType }) => (
+export const ScreenOverlay = ({ screen }: { screen: ScreenData }) => (
   <>
-    <TopOverlay app={app} />
-    <BottomOverlay app={app} />
+    <TopOverlay screen={screen} />
+    <BottomOverlay app={screen.app} />
   </>
 );
