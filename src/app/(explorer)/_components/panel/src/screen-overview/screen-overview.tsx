@@ -41,7 +41,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
         <ScreenAppDetails app={currentScreen.app} />
         {currentScreen.app.platform === "web" && <WebScreenTabs />}
         {!isMobile && (
-          <ActionButtons />
+          <ActionButtons screen={currentScreen} />
         )}
       </div>
 
@@ -110,7 +110,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
       )}
 
       {isMobile && (
-        <ActionButtons />
+        <ActionButtons screen={currentScreen} />
       )}
     </Tabs>
   );

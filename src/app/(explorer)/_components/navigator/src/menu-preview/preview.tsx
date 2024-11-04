@@ -16,8 +16,6 @@ export const NavigatorMenuPreview: React.FC<NavigatorMenuPreviewProps> = () => {
     setFilters
   } = useQuery();
 
-  console.log('selectedResult', selectedResult, suggestedSearch);
-
   // Refactored handleStateAndUrlUpdate function
   const handleStateAndUrlUpdate = (pattern: string, value: string) => {
     const newFilter: Filter = { name: value, pattern };

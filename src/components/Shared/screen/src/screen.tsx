@@ -18,10 +18,7 @@ export type ScreenProps = {
 };
 
 const Screen = ({
-  screen,
-  overlay = true,
-  borderless,
-  href,
+  screen, overlay = true, borderless, href
 }: ScreenProps) => {
   const [imageLoaded, setImageLoaded] = React.useState(false);
   const [imageError, setImageError] = React.useState(false);
@@ -62,7 +59,7 @@ const Screen = ({
           />
         )}
         {imageLoaded && !imageError && overlay && screen.app && (
-          <ScreenOverlay app={screen.app} />
+          <ScreenOverlay screen={screen} />
         )}
         {imageLoaded && !imageError && href && (
           <Link

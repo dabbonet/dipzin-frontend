@@ -30,6 +30,7 @@ const useScreensOverview = (initialScreenId: number) => {
       }
     } catch (error) {
       console.error("Error fetching screen:", error);
+      throw error;
     }
   }, [initialScreenId, screens]);
 
