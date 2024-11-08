@@ -6,7 +6,7 @@ import { getInitialQuery } from './_utils/initialQuery';
 import '@/styles/global.css';
 
 const Nav = ({ initialQuery }: { initialQuery: any }) => (
-  <header className="w-full h-fit px-4 pt-5 md:px-8 md:pt-7 flex flex-col md:flex-row md:justify-between items-start gap-4 md:gap-8 z-10 fixed top-0">
+  <header className="w-full h-fit px-4 pt-5 md:px-8 md:pt-7 flex flex-col md:flex-row md:justify-between items-start gap-4 md:gap-8 z-50 fixed top-0">
     <div className="flex w-full md:w-auto justify-between items-center">
       <a href="/" aria-label="Home">
         <Logo.Dipzin className="text-white" />

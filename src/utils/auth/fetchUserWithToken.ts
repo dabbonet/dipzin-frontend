@@ -1,13 +1,18 @@
+import QueryString from "qs";
+
 export async function fetchUserWithToken(token: string) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API}/users/me`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API}/users/me?${QueryString.stringify({ populate: "*" })}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     },
-  });
+  );
 
   if (!response.ok) {
-    throw new Error('Failed to fetch user data');
+    throw new Error("Failed to fetch user data");
   }
 
   const user = await response.json();

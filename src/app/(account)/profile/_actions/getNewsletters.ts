@@ -4,7 +4,7 @@ import { get } from "@/utils/api";
 
 import { auth } from "@/auth";
 
-export const fetchNewsletters = async () => {
+export const getNewsletters = async () => {
   const session = await auth();
 
   const token = session?.user?.token;
@@ -13,5 +13,8 @@ export const fetchNewsletters = async () => {
     throw new Error("Failed to fetch newsletters");
   }
 
-  return response;
+  return response.data.map((item: any) => ({
+    id: item.id,
+    name: item.attributes.name,
+  }));
 };
