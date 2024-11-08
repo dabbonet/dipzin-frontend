@@ -12,7 +12,7 @@ export const extractInitials = (name: string): string => {
   return initials;
 };
 
-export function camelCaseToWords(s: string):string {
+export function camelCaseToWords(s: string): string {
   const result = s.replace(/([A-Z])/g, ' $1');
   return result.charAt(0).toUpperCase() + result.slice(1);
 }
@@ -22,4 +22,9 @@ export const mergeIconFromObject = (icon: any | { hash: string, ext: string }): 
     return `${icon.hash}${icon.ext}`;
   }
   return '';
+};
+
+export const capitalizeFirstLetter = (str: string): string => {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1);
 };

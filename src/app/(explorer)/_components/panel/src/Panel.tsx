@@ -9,6 +9,7 @@ import ScreensGrid from './ScreensGrid';
 import AppsGrid from './AppsGrid';
 import FlowsGrid from './FlowsGrid';
 import { toast } from '@/hooks/use-toast';
+import PanelHeader from './panel-header';
 
 /**
  * Panel Component
@@ -27,16 +28,15 @@ const Panel = () => {
   const [noData, setNoData] = useState(false);
 
   // Function to load data (fetch data and handle errors)
-  const loadData = useCallback(
-    async (isPagination = false, updatedQuery = query) => {
-      if (!updatedQuery.platform || !updatedQuery.pattern) {
-        return;
-      }
+  const loadData = useCallback((isPagination = false, updatedQuery = query) => {
+    if (!updatedQuery.platform || !updatedQuery.pattern) {
+      return Promise.resolve();
+    }
 
-      setIsLoading(true);
-      // TODO: Url doesn't update when there is no data
-      try {
-        const newQuery = await fetchData(updatedQuery, isPagination);
+    setIsLoading(true);
+
+    return fetchData(updatedQuery, isPagination)
+      .then((newQuery) => {
         if (newQuery) {
           // Set the new query and clear the 'changed' flag
           setQuery(newQuery);
@@ -44,23 +44,25 @@ const Panel = () => {
             updateUrlPart(newQuery); // Update URL when not paginating
           }
         }
-      } catch (error) {
+        return newQuery;
+      })
+      .catch((error) => {
         const err = error as Error;
         if (err.message === 'No data found') {
           setNoData(true);
         } else {
           setHasError(true);
         }
-      } finally {
+        throw error;
+      })
+      .finally(() => {
         setIsLoading(false);
-      }
-    },
-    [fetchData, updateUrlPart, setQuery]
-  );
+      });
+  }, [fetchData, updateUrlPart, setQuery]);
 
   // Load more data for pagination
-  const loadMoreData = useCallback(async () => {
-    if (isLoading || hasError || noData) return;
+  const loadMoreData = useCallback(() => {
+    if (isLoading || hasError || noData) return Promise.resolve();
 
     const newOffset = pagination.offset + pagination.limit;
 
@@ -76,7 +78,7 @@ const Panel = () => {
     }
     const updatedQuery = { ...query, offset: newOffset };
 
-    await loadData(true, updatedQuery);
+    return loadData(true, updatedQuery);
   }, [pagination, query, loadData, isLoading, hasError, noData, setPagination]);
 
   useEffect(() => {
@@ -102,55 +104,40 @@ const Panel = () => {
   }
 
   return (
-    <>
+    <div
+      className={cn(
+        'relative',
+        (query?.apps?.length ?? 0) > 0 ? 'top-32' : 'top-28'
+      )}
+    >
+      <PanelHeader />
       {(() => {
         switch (query.pattern) {
           case 'marketing':
           case 'screens':
           case 'components':
             return (
-              <div
-                className={cn(
-                  'relative',
-                  (query?.apps?.length ?? 0) > 0 ? 'top-40' : 'top-28'
-                )}
-              >
-                <ScreensGrid
-                  data={data}
-                  isLoading={isLoading}
-                  loadMoreData={loadMoreData}
-                />
-              </div>
+              <ScreensGrid
+                data={data}
+                isLoading={isLoading}
+                loadMoreData={loadMoreData}
+              />
             );
           case 'flows':
             return (
-              <div
-                className={cn(
-                  'relative',
-                  (query?.apps?.length ?? 0) > 0 ? 'top-32' : 'top-28'
-                )}
-              >
-                <FlowsGrid
-                  data={data}
-                  isLoading={isLoading}
-                  loadMoreData={loadMoreData}
-                />
-              </div>
+              <FlowsGrid
+                data={data}
+                isLoading={isLoading}
+                loadMoreData={loadMoreData}
+              />
             );
           case 'apps':
             return (
-              <div
-                className={cn(
-                  'relative',
-                  (query?.apps?.length ?? 0) > 0 ? 'top-32' : 'top-28'
-                )}
-              >
-                <AppsGrid
-                  data={data}
-                  isLoading={isLoading}
-                  loadMoreData={loadMoreData}
-                />
-              </div>
+              <AppsGrid
+                data={data}
+                isLoading={isLoading}
+                loadMoreData={loadMoreData}
+              />
             );
           default:
             return null; // Handle invalid view
@@ -161,7 +148,7 @@ const Panel = () => {
           No data found for the given query, and no further suggestions are available.
         </div>
       )}
-    </>
+    </div>
   );
 };
 
