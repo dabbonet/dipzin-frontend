@@ -8,29 +8,25 @@ export async function middleware(request: NextRequest) {
     const session = await auth();
     const { pathname } = request.nextUrl;
 
-    if (session) {
-      if (pathname === "/access") {
-        // Redirect authenticated users away from the access (login) page
-        return NextResponse.redirect(new URL("/", request.url));
+    if (session?.user && pathname === "/access") {
+      // Redirect authenticated users away from the access (login) page
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    if (pathname.startsWith("/profile")) {
+      if (!session?.user) {
+        // Disallow access to /profile/* pages if there is no session.user
+        return NextResponse.redirect(new URL("/access", request.url));
       }
 
-      if (pathname.startsWith("/access/profile")) {
-        if (session.user?.confirmed) {
-          // Restrict access for confirmed users to profile routes
-          return NextResponse.redirect(new URL("/", request.url));
-        }
-        // Redirect unconfirmed users to the profile setup page
-        if (!session.user?.confirmed) {
-          return NextResponse.redirect(
-            new URL("/access/profile/profile-information", request.url),
-          );
-        }
+      if (session?.user.confirmed) {
+        // Disallow access to /profile/* pages if user.confirmed is true
+        return NextResponse.redirect(new URL("/", request.url));
       }
     }
 
     return NextResponse.next();
   } catch (error) {
-    console.error("Middleware error:", error);
     return NextResponse.redirect(new URL("/access", request.url));
   }
 }

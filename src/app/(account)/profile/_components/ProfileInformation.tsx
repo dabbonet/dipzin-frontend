@@ -12,7 +12,7 @@ import { PhotoIcon, UserIcon } from "@heroicons/react/24/solid";
 import { Label } from "@/components/UI/label";
 import { Controller } from "react-hook-form";
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useProfileInformation } from "../_hooks/useProfileInformation";
 import { Skeleton } from "@/components/UI/skeleton";
@@ -28,9 +28,11 @@ export default function ProfileInformation() {
     error,
     setValue,
     watch,
+    getValues,
   } = useProfileInformation();
 
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
+  const [isUsernameChanged, setIsUsernameChanged] = useState(false);
 
   const avatars = [
     "/assets/avatars/avatar-1.png",
@@ -40,7 +42,14 @@ export default function ProfileInformation() {
     "/assets/avatars/avatar-5.png",
   ];
 
-  const uploadedFile = watch("file");
+  const uploadedFile = watch("avatar");
+  const name = watch("name");
+
+  useEffect(() => {
+    if (!isUsernameChanged && name) {
+      setValue("username", name);
+    }
+  }, [name, isUsernameChanged, setValue]);
 
   const handleAvatarClick = useCallback(
     (avatar: string) => {
@@ -53,28 +62,78 @@ export default function ProfileInformation() {
           const file = new File([blob], fileName, { type: blob.type });
           const dataTransfer = new DataTransfer();
           dataTransfer.items.add(file);
-          setValue("file", dataTransfer.files);
+          setValue("avatar", dataTransfer.files);
         } catch (err: any) {
-          console.error("Error fetching avatar image:", err);
+          throw new Error(`Error fetching avatar image: ${err.message}`);
         }
       })();
     },
     [setSelectedAvatar, setValue],
   );
 
-  if (error) {
-    toast({
-      title: "Error",
-      description: error,
-      variant: "error",
+  useEffect(() => {
+    const subscription = watch((value) => {
+      if (value.avatar && value.avatar.length > 0) {
+        setSelectedAvatar(null);
+      }
     });
-  }
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
+  const handleUsernameChange = () => {
+    setIsUsernameChanged(true);
+  };
+
+  // Logic for handling "No Emails" selection
+  const noEmailsNewsletter = newsletters.find(
+    (newsletter) => newsletter.name === "No Emails"
+  );
+
+  const handleNewsletterChange = useCallback(
+    (newsletterId, checked) => {
+      let selectedNewsletters = getValues("newsletters");
+      if (checked) {
+        if (
+          noEmailsNewsletter
+          && newsletterId === noEmailsNewsletter.id
+        ) {
+          // If "No Emails" is selected, unselect all others
+          selectedNewsletters = [newsletterId];
+        } else {
+          // Remove "No Emails" if it's selected
+          selectedNewsletters = selectedNewsletters.filter(
+            (id) => id !== noEmailsNewsletter?.id
+          );
+          selectedNewsletters.push(newsletterId);
+        }
+      } else {
+        selectedNewsletters = selectedNewsletters.filter(
+          (id) => id !== newsletterId
+        );
+      }
+      setValue("newsletters", selectedNewsletters);
+    },
+    [getValues, setValue, noEmailsNewsletter],
+  );
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Error",
+        description: error,
+        variant: "error",
+      });
+    }
+  }, [error]);
 
   return (
     <form onSubmit={handleSubmit}>
       {/* Profile Picture Section */}
       <div className="mb-5">
-        <p className="text-slate-300 text-base font-normal">Profile Picture</p>
+        <p className="text-slate-300 text-base font-normal">
+          Profile Picture
+        </p>
         {/* Predefined Avatars */}
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mt-3">
           {avatars.map((avatar, index) => (
@@ -107,7 +166,7 @@ export default function ProfileInformation() {
         <div className="size-fit bg-slate-800 p-1 border border-dotted border-slate-600 rounded-2xl">
           <div className="bg-slate-700 size-14 rounded-xl mx-auto md:mx-0 overflow-hidden">
             <Label
-              htmlFor="file"
+              htmlFor="avatar"
               className="size-full cursor-pointer flex justify-center items-center relative z-50"
             >
               {uploadedFile && uploadedFile[0] && (
@@ -128,7 +187,7 @@ export default function ProfileInformation() {
                   className="object-cover size-full"
                 />
               )}
-              {!uploadedFile && !selectedAvatar && (
+              {uploadedFile?.length < 1 && !selectedAvatar && (
                 <PhotoIcon className="text-slate-900 size-6" />
               )}
             </Label>
@@ -136,14 +195,14 @@ export default function ProfileInformation() {
               type="file"
               accept="image/*"
               className="hidden"
-              id="file"
-              {...register("file")}
+              id="avatar"
+              {...register("avatar")}
               onClick={() => setSelectedAvatar(null)}
             />
           </div>
         </div>
         <div className="flex flex-col justify-center">
-          <Label htmlFor="file" className="text-sm text-white">
+          <Label htmlFor="avatar" className="text-sm text-white">
             Upload a Profile Picture
           </Label>
           <p className="text-slate-600 text-sm">
@@ -151,7 +210,9 @@ export default function ProfileInformation() {
           </p>
         </div>
       </div>
-
+      {error && (
+        <p className="text-red-500 text-sm mb-4">{error}</p>
+      )}
       {/* Name Input */}
       <div className="flex flex-col gap-y-2 mb-4">
         <Label required htmlFor="name" className="text-slate-300">
@@ -175,10 +236,14 @@ export default function ProfileInformation() {
         </Label>
         <Input
           required
+          className="gap-[2px]"
           id="username"
-          placeholder="@username"
-          defaultValue="@"
+          placeholder="username"
+          startContent={
+            <span className="text-slate-500">@</span>
+          }
           {...register("username", { required: "Username is required" })}
+          onChange={handleUsernameChange}
         />
         {errors.username && (
           <p className="text-red-500 text-sm">{errors.username.message}</p>
@@ -204,17 +269,7 @@ export default function ProfileInformation() {
                     <Checkbox
                       id={`newsletter-${newsletter.id}`}
                       checked={field.value.includes(newsletter.id)}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          field.onChange([...field.value, newsletter.id]);
-                        } else {
-                          field.onChange(
-                            field.value.filter(
-                              (id: number) => id !== newsletter.id,
-                            ),
-                          );
-                        }
-                      }}
+                      onCheckedChange={(checked) => handleNewsletterChange(newsletter.id, checked)}
                     />
                   )}
                 />
@@ -228,16 +283,18 @@ export default function ProfileInformation() {
             ))
             : Array.from({ length: 5 }).map((_, index) => (
               <Skeleton
-                  // eslint-disable-next-line react/no-array-index-key
+                // eslint-disable-next-line react/no-array-index-key
                 key={index}
                 className="w-full h-6 rounded bg-slate-800"
               />
             ))}
         </div>
+        {errors.newsletters && (
+          <p className="text-red-500 text-sm mt-2">
+            {errors.newsletters.message}
+          </p>
+        )}
       </div>
-
-      {/* Display Error if any */}
-      {error && <p className="text-red-500">{error}</p>}
 
       {/* Submit Button */}
       <div className="flex justify-end gap-x-4">
