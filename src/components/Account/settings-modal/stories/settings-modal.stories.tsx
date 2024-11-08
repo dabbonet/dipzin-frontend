@@ -11,16 +11,6 @@ export default {
   tags: ['autodocs'],
 } as Meta;
 
-const userDetails = {
-  name: "John Doe",
-  username: "johndoe",
-  bio: "This is a bio",
-  email: "a.mahmoud@dabbo.net",
-  title: "The great title",
-  country: "United States",
-  image: "https://via.placeholder.com/150",
-}
-
 export const Default: StoryObj<typeof SettingsModal> = {
   render: () => (
     <Dialog>
@@ -30,7 +20,7 @@ export const Default: StoryObj<typeof SettingsModal> = {
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <SettingsModal userDetails={userDetails} />
+        <SettingsModal />
       </DialogContent>
     </Dialog>
   )
