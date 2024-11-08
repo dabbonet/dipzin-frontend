@@ -148,7 +148,7 @@ const UserMenu = () => {
   }
 
   const menuContent = (
-    <Command className="w-full p-4 md:p-0">
+    <Command className="w-full p-2 sm:p-0">
       <CommandList>
         <CommandGroup>
           <CommandItem className="w-full h-fit flex items-center justify-between p-2">
@@ -293,7 +293,7 @@ const UserMenu = () => {
   );
 
   const triggerButton = (
-    <Button variant="darkGray" role="combobox">
+    <Button variant="darkGray" className="py-3 px-1.5 rounded-full" role="combobox">
       <Avatar className="size-8">
         <AvatarImage
           src={storage((user.avatar?.hash ?? "") + (user.avatar?.ext ?? ""))}
@@ -317,7 +317,7 @@ const UserMenu = () => {
         <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
         <DrawerContent className="h-screen w-screen bg-[#1A2333] rounded-none border-0">
           {menuContent}
-          <DrawerFooter>
+          <DrawerFooter className="pt-0 pl-2">
             <DrawerClose onClick={() => setIsDrawerOpen(false)} asChild>
               <Button isIconOnly variant="darkGray">
                 <ChevronRightIcon className="size-4" />
@@ -339,7 +339,7 @@ const UserMenu = () => {
           trigger:
           "bg-[#1A2333] hover:bg-slate-900 border-[1px] border-slate-900 rounded-full flex items-center gap-x-2 p-1 pr-2",
           content:
-          "w-fit h-fit bg-[#1A2333] border-[1px] border-slate-900 rounded-2xl p-6",
+          "w-fit h-fit bg-[#1A2333] border-[1px] border-slate-900 rounded-2xl p-4",
         }}
         trigger={triggerButton}
         content={menuContent}

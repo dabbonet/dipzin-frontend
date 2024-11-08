@@ -89,9 +89,6 @@
   background: #334155;
 }
 
-html {
-  scrollbar-gutter: stable;
-}
 
 @layer utilities {
 

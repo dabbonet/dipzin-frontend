@@ -37,7 +37,7 @@ const ScreensGrid = ({ data, isLoading, loadMoreData }: any) => {
       useWindowScroll
       itemContent={itemContentWrapper}
       listClassName={listClassName}
-      style={{ height: 1920, width: '100%' }}
+      style={{ height: "100dvh", width: '100%' }}
       components={{ Footer }}
     />
   );

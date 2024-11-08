@@ -40,7 +40,7 @@ const Screen = ({
           <Skeleton className="size-full absolute inset-0" />
         )}
         {imageError ? (
-          <div className="size-full absolute inset-0 flex items-center justify-center bg-slate-600">
+          <div className="size-full absolute inset-0 flex items-center justify-center">
             404 not found
           </div>
         ) : (
