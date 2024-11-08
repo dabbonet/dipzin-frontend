@@ -24,7 +24,6 @@ export const updateUser = async (user: any, token: string, id: string) => {
         ? { avatar: userAvatar?.id }
         : {}),
     };
-    console.log("payload", payload);
 
     // Update user data
     const updatedUserRes = await put(
@@ -33,8 +32,14 @@ export const updateUser = async (user: any, token: string, id: string) => {
       token,
     );
 
-    return { ...updatedUserRes, ...(userAvatar && { avatar: userAvatar }) };
+    console.log("updatedUserRes", updatedUserRes);
+
+    if (updatedUserRes.error) {
+      throw new Error(updatedUserRes.error.message);
+    }
+
+    return { ...updatedUserRes, ...(userAvatar && { avatar: userAvatar }) }
   } catch (error: any) {
-    throw new Error(error.message || "Failed to update user");
+    throw new Error(error.message);
   }
 };

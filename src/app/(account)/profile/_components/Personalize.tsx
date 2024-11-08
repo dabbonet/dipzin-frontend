@@ -2,7 +2,7 @@
 
 import { Controller } from "react-hook-form";
 import { Button } from "@/components/Shared/button";
-import React, { type FC } from "react";
+import React, { type FC, useEffect } from "react";
 import { Checkbox } from "@/components/UI/checkbox";
 import Image from "next/image";
 import { usePersonalize } from "../_hooks/usePersonalize";
@@ -76,20 +76,23 @@ export default function Personalize() {
     handleSubmit,
     error,
     submissionError,
+    errors,
   } = usePersonalize();
 
-  if (error || submissionError) {
-    toast({
-      title: "Error",
-      description: error || submissionError,
-      variant: "error",
-    });
-  }
+  useEffect(() => {
+    if (error || submissionError) {
+      toast({
+        title: "Error",
+        description: error || submissionError,
+        variant: "error",
+      });
+    }
+  }, [error, submissionError]);
 
   return (
     <form onSubmit={handleSubmit}>
       <p className="text-slate-300">Which best describes you?</p>
-      <div className="grid grid-cols-2 mt-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 mt-3 gap-4">
         {positions.length > 0
           ? positions.map((position) => (
             <Position
@@ -108,8 +111,15 @@ export default function Personalize() {
             />
           ))}
       </div>
+      {errors.positions && (
+        <p className="text-red-500 text-sm mt-2">
+          {errors.positions.message}
+        </p>
+      )}
       <div className="mt-9">
-        <h3 className="text-slate-300 mb-1 text-base font-normal">Interests</h3>
+        <h3 className="text-slate-300 mb-1 text-base font-normal">
+          Interests
+        </h3>
         <p className="text-slate-500 mb-4">
           Help us develop and prioritize features, and customize your
           experience.
@@ -147,6 +157,11 @@ export default function Personalize() {
               />
             ))}
         </div>
+        {errors.interests && (
+          <p className="text-red-500 text-sm mt-2">
+            {errors.interests.message}
+          </p>
+        )}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <Button
             href="/"

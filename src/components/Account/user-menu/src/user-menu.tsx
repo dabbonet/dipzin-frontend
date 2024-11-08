@@ -171,7 +171,7 @@ const UserMenu = () => {
                 </div>
               </DialogTrigger>
               <DialogContent className="w-full max-w-4xl">
-                <SettingsModal userDetails={user as any} />
+                <SettingsModal />
               </DialogContent>
             </Dialog>
             <div className="flex items-center gap-2">
