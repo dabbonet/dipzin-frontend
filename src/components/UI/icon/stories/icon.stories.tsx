@@ -20,7 +20,7 @@ const IconGrid: React.FC<IconProps> = (args) => {
   return (
     <div className="size-full flex flex-wrap items-center justify-center gap-10">
       {iconNames.map((name) => {
-        const IconComponent = Icon[name];
+        const IconComponent = Icon[name] as React.FC<IconProps>;
         return (
           <div key={name} className="flex flex-col items-center">
             <IconComponent {...args} />

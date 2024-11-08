@@ -15,6 +15,7 @@ import { storage } from "@/utils/storage";
 import { useCopyScreen } from "@/hooks/useCopyScreen";
 import type { AppType } from "@/types/app-types";
 import type { ScreenData } from "@/types/screen-types";
+import { useBulkActionStore } from "@/stores/useBulkActionStore";
 
 // App Info Component
 const AppInfo = ({ app }: { app: AppType }) => (
@@ -36,12 +37,27 @@ const AppInfo = ({ app }: { app: AppType }) => (
 );
 
 // Global Top Overlay
-const GlobalTopOverlay = ({ screen }: { screen: ScreenData }) => {
+const GlobalTopOverlay = ({ screen, isSelected }: { screen: ScreenData, isSelected: boolean }) => {
   const { copyImageToClipboard, loading: copying } = useCopyScreen();
+
+  const { selectScreen, deselectScreen } = useBulkActionStore();
+  const selected = isSelected;
+
+  const handleCheckboxChange = () => {
+    if (selected) {
+      deselectScreen(screen.id.toString());
+    } else {
+      selectScreen(screen);
+    }
+  };
 
   return (
     <div className="w-full h-fit flex items-center justify-between px-5">
-      <Checkbox className="size-[28px] rounded-[0.4rem] border-[2.5px]" />
+      <Checkbox
+        className="size-[28px] rounded-[0.4rem] border-[2.5px]"
+        checked={selected}
+        onCheckedChange={handleCheckboxChange}
+      />
       <div className="size-fit flex items-center gap-2">
         <Button
           onClick={() => copyImageToClipboard(
@@ -77,27 +93,32 @@ const GlobalTopOverlay = ({ screen }: { screen: ScreenData }) => {
 };
 
 // Top Overlay Component
-const TopOverlay = ({ screen }: { screen: ScreenData }) => (
+const TopOverlay = ({ screen, isSelected }: { screen: ScreenData, isSelected: boolean }) => (
   <div
-    className={`absolute z-20 top-0 inset-x-0 flex ${screen.app?.platform === "web" ? "pt-2 pb-[5px] sm:pt-2 sm:pb-[20px] md:pt-2 md:pb-[25px] lg:pt-3 lg:pb-[30px] xl:pt-4 xl:pb-[35px]" : "pt-4 pb-[10px] sm:pt-3 sm:pb-[30px] md:pt-4 md:pb-[35px] lg:pt-5 lg:pb-[40px] xl:pt-6 xl:pb-[45px]"} items-center justify-center gap-4 bg-screen-hover-gradient-to-bottom opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out`}
+    className={`absolute z-20 top-0 inset-x-0 flex ${screen.app?.platform === "web" ? "pt-2 pb-[5px] sm:pt-2 sm:pb-[20px] md:pt-2 md:pb-[25px] lg:pt-3 lg:pb-[30px] xl:pt-4 xl:pb-[35px]" : "pt-4 pb-[10px] sm:pt-3 sm:pb-[30px] md:pt-4 md:pb-[35px] lg:pt-5 lg:pb-[40px] xl:pt-6 xl:pb-[45px]"} items-center justify-center gap-4 bg-screen-hover-gradient-to-bottom opacity-0 group-hover:opacity-100 ${isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300 ease-in-out`}
   >
-    <GlobalTopOverlay screen={screen} />
+    <GlobalTopOverlay screen={screen} isSelected={isSelected} />
   </div>
 );
 
 // Bottom Overlay Component
-const BottomOverlay = ({ app }: { app: AppType }) => (
+const BottomOverlay = ({ app, isSelected }: { app: AppType, isSelected: boolean }) => (
   <div
-    className={`absolute z-20 bottom-0 inset-x-0 flex px-3 sm:px-4 md:px-4 lg:px-5 xl:px-6 ${app?.platform === "web" ? "pt-[5px] pb-[10px] sm:pb-[12px] sm:pt-[22px] md:pb-[10px] md:pt-[21px] lg:pb-[15px] lg:pt-[30px] xl:pb-[20px] xl:pt-[40px]" : "pb-[14px] pt-[15px] sm:pb-[15px] sm:pt-[27px] md:pb-[16px] md:pt-[33px] lg:pb-[21px] lg:pt-[45px] xl:pb-[26px] xl:pt-[55px]"} items-center justify-between bg-screen-hover-gradient-to-top opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out`}
+    className={`absolute z-20 bottom-0 inset-x-0 flex px-3 sm:px-4 md:px-4 lg:px-5 xl:px-6 ${app?.platform === "web" ? "pt-[5px] pb-[10px] sm:pb-[12px] sm:pt-[22px] md:pb-[10px] md:pt-[21px] lg:pb-[15px] lg:pt-[30px] xl:pb-[20px] xl:pt-[40px]" : "pb-[14px] pt-[15px] sm:pb-[15px] sm:pt-[27px] md:pb-[16px] md:pt-[33px] lg:pb-[21px] lg:pt-[45px] xl:pb-[26px] xl:pt-[55px]"} items-center justify-between bg-screen-hover-gradient-to-top opacity-0 group-hover:opacity-100 ${isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300 ease-in-out`}
   >
     <AppInfo app={app} />
   </div>
 );
 
 // Screen Overlay component that triggers hover animation
-export const ScreenOverlay = ({ screen }: { screen: ScreenData }) => (
-  <>
-    <TopOverlay screen={screen} />
-    <BottomOverlay app={screen.app} />
-  </>
-);
+export const ScreenOverlay = ({ screen }: { screen: ScreenData }) => {
+  const { isSelected } = useBulkActionStore();
+  const selected = isSelected(screen.id.toString());
+
+  return (
+    <>
+      <TopOverlay screen={screen} isSelected={selected} />
+      <BottomOverlay app={screen.app} isSelected={selected} />
+    </>
+  );
+};

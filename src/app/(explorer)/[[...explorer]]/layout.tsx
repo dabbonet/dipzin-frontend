@@ -4,6 +4,7 @@ import OnboardingModal from '@/components/Account/onboarding-modal/onboarding-mo
 import { Navigator } from '../_components/navigator';
 import { getInitialQuery } from '../_utils/initialQuery';
 import '@/styles/global.css';
+import BulkActions from '@/components/Explorer/bulk-actions';
 
 const Nav = ({ initialQuery }: { initialQuery: any }) => (
   <header className="w-full h-fit px-4 pt-5 md:px-8 md:pt-7 flex flex-col md:flex-row md:justify-between items-start gap-4 md:gap-8 z-50 fixed top-0">
@@ -37,6 +38,7 @@ export default async function RootLayout({
         {children}
       </main>
       <OnboardingModal />
+      <BulkActions />
     </div>
   );
 }
