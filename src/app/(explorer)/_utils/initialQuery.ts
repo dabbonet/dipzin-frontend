@@ -43,7 +43,6 @@ export const getInitialQuery = (explorer: string[]) => {
   if (explorer?.[1] === "flows" && explorer?.[2]) {
     flows = [explorer[2]];
   }
-
   return {
     apps: app,
     platform: explorer?.[0] || "ios",
