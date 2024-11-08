@@ -1,15 +1,25 @@
-import NextAuth from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-import { fetchUserWithToken } from './utils/auth/fetchUserWithToken';
-import { validateToken } from './actions/validateToken';
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import { fetchUserWithToken } from "./utils/auth/fetchUserWithToken";
+import { validateToken } from "./actions/validateToken";
 
 // Define a custom user type to include token
-declare module 'next-auth' {
+declare module "next-auth" {
   interface User {
-    token?: string;
-    role?: string;
-    is_paid?: boolean;
-    stripe_id?: string;
+    token: string;
+    avatar: {
+      id: number;
+      hash: string;
+      ext: string;
+      width: number;
+      height: number;
+    };
+    username: string;
+    role: string;
+    confirmed: boolean;
+    is_paid: boolean;
+    affiliate_code: string;
+    stripe_id: string;
   }
 }
 
@@ -21,16 +31,16 @@ export const {
 } = NextAuth({
   providers: [
     Credentials({
-      name: 'credentials',
+      name: "credentials",
       credentials: {
-        email: { label: 'Email', type: 'text' },
-        otp: { label: 'OTP', type: 'text' },
+        email: { label: "Email", type: "text" },
+        otp: { label: "OTP", type: "text" },
       },
       async authorize(credentials) {
         // Verify the OTP
         const res = await fetch(`${process.env.NEXT_PUBLIC_API}/otps/verify`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             data: {
               email: credentials.email,
@@ -40,7 +50,7 @@ export const {
         });
 
         if (!res.ok) {
-          throw new Error('Invalid OTP');
+          throw new Error("Invalid OTP");
         }
 
         const { token } = await res.json();
@@ -58,19 +68,34 @@ export const {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, trigger, user }) {
+      if (trigger === "update") {
+        const updatedUser = await fetchUserWithToken(
+          token.sessionToken as string,
+        );
+        return {
+          ...token,
+          ...updatedUser,
+        };
+      }
+
       if (user && user.token) {
         const isValid = await validateToken(user?.token as string);
         if (!isValid) {
           return {};
         }
       }
+
       return {
         ...token,
         ...(user && {
           id: user.id,
+          avatar: user.avatar,
+          username: user.username,
           sessionToken: user.token,
+          confirmed: user.confirmed,
           is_paid: user.is_paid,
+          affiliate_code: user.affiliate_code,
           stripe_id: user.stripe_id,
         }),
       };
@@ -82,8 +107,18 @@ export const {
         user: {
           ...session.user,
           token: token.sessionToken as string,
+          avatar: token.avatar as {
+            id: number;
+            hash: string;
+            ext: string;
+            width: number;
+            height: number;
+          },
+          username: token.username as string,
+          confirmed: token.confirmed as boolean,
           id: token.id as string,
           is_paid: token.is_paid as boolean,
+          affiliate_code: token.affiliate_code as string,
           stripe_id: token.stripe_id as string,
         },
       };

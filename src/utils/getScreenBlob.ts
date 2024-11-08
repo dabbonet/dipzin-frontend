@@ -3,7 +3,6 @@ export async function getScreenBlob(imageUrl: string): Promise<Blob> {
   try {
     const response = await fetch(imageUrl, {
       method: "GET",
-      mode: "cors",
       cache: "no-cache",
     });
     if (!response.ok) {

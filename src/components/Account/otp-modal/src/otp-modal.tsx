@@ -4,9 +4,9 @@ import { Button } from "@/components/Shared/button";
 import { InputOTP, InputOTPSlot } from "@/components/Shared/input";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useToast } from '@/hooks/use-toast';
+import { useState, useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useToast } from "@/hooks/use-toast";
 import { generateOtp } from "@/utils/auth/generateOtp";
 
 const OtpModal = ({ email }: { email: string }) => {
@@ -18,6 +18,17 @@ const OtpModal = ({ email }: { email: string }) => {
   const [isVerifying, setIsVerifying] = useState(false); // Loading state for verification
   const { handleSubmit } = useForm();
   const router = useRouter();
+  const session = useSession();
+
+  useEffect(() => {
+    if (session?.data?.user) {
+      if (session.data.user.confirmed) {
+        router.push("/");
+      } else {
+        router.push("/profile/profile-information");
+      }
+    }
+  }, [session?.data?.user, router]);
 
   const onSubmit = async () => {
     if (!email) {
@@ -51,7 +62,6 @@ const OtpModal = ({ email }: { email: string }) => {
           title: "OTP Verified! You're logged in.",
         });
         setVariant("success");
-        router.push("/profile/profile-informations");
       }
     } catch (error) {
       toast({
@@ -136,7 +146,7 @@ const OtpModal = ({ email }: { email: string }) => {
 
       <div className="flex gap-x-3">
         <p className="text-[#d8d3c0] text-lg font-normal font-['Poppins'] leading-snug">
-          Didn’t get the code ?
+          Didn&apos;t get the code ?
         </p>
         <form onSubmit={onResend}>
           <button
