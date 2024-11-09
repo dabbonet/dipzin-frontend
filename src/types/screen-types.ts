@@ -21,4 +21,11 @@ export interface ScreenData {
     id: string;
     name: string;
   }[]
+  full_page?: {
+    id: string;
+    hash: string;
+    ext: string;
+    width: number;
+    height: number;
+  }
 }

@@ -7,7 +7,6 @@ import {
   AvatarFallback,
 } from "@/components/Shared/avatar";
 import { Icon } from "@/components/UI/icon";
-import { TabsList, TabsTrigger } from "@/components/UI/tabs";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/Shared/button";
 import { Dropdown } from "@/components/Shared/dropdown";
@@ -56,12 +55,30 @@ export const ScreenAppDetails = ({ app }: { app: ScreenType["app"] }) => (
   </div>
 );
 
-export const WebScreenTabs = () => (
+export const WebScreenTabs = ({
+  toggleFullScreen,
+  isFullScreen
+}: {
+  toggleFullScreen: () => void;
+  isFullScreen: boolean;
+}) => (
   <div className="absolute top-0 left-1/2 -translate-x-1/2">
-    <TabsList>
-      <TabsTrigger value="section">Section</TabsTrigger>
-      <TabsTrigger value="full-page">Full Page</TabsTrigger>
-    </TabsList>
+    <div className="inline-flex h-fit items-center justify-center rounded-full bg-slate-800 text-white">
+      <button
+        type="button"
+        className={`inline-flex items-center justify-center whitespace-nowrap rounded-full py-3.5 px-4 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${!isFullScreen ? 'bg-slate-700 shadow' : ''}`}
+        onClick={toggleFullScreen}
+      >
+        Section
+      </button>
+      <button
+        type="button"
+        className={`inline-flex items-center justify-center whitespace-nowrap rounded-full py-3.5 px-4 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${isFullScreen ? 'bg-slate-700 shadow' : ''}`}
+        onClick={toggleFullScreen}
+      >
+        Full Page
+      </button>
+    </div>
   </div>
 );
 
