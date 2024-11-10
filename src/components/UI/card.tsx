@@ -9,7 +9,7 @@ React.HTMLAttributes<HTMLDivElement>
   <div
     ref={ref}
     className={cn(
-      "rounded-xl border bg-card text-card-foreground shadow",
+      "rounded-xl bg-slate-900/70 text-white shadow",
       className
     )}
     {...props}

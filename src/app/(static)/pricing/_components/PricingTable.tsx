@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/Shared/button";
 import { Icon } from '@/components/UI/icon';
 
-interface Checkout {
+export interface Checkout {
   unit_amount: number;
   recurring: {
     interval: 'day' | 'week' | 'month' | 'year';
@@ -27,7 +27,7 @@ interface PricingTableProps {
 const renderCellContent = (value: boolean | string) => {
   if (typeof value === 'boolean') {
     return value ? (
-      <span className="size-6 flex items-center justify-center mx-auto rounded-[6px] bg-aqua-600 p-[5px]">
+      <span className="size-6 flex items-center justify-center mx-auto rounded-[6px] bg-aqua-600">
         <Icon.Check className="size-3.5 text-aqua-100" />
       </span>
     ) : (
@@ -91,7 +91,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ checkout, currentPlan = 'fr
   ];
 
   return (
-    <Table className="w-[1500px] text-slate-100 font-poppins">
+    <Table className="py-8 mx-auto max-w-screen-2xl lg:py-16 text-slate-100 font-poppins">
       <TableHeader>
         <TableHead className="w-1/4 text-left align-bottom">
           <h1 className="text-[40px] font-semibold leading-[56px] text-slate-100">
@@ -144,7 +144,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ checkout, currentPlan = 'fr
       </TableHeader>
       <TableBody>
         <TableRow>
-          <TableCell className="w-1/4 py-5 text-2xl font-semibold">Features</TableCell>
+          <TableCell className="w-1/4 py-5 pt-14 text-2xl font-semibold">Features</TableCell>
           <TableCell className="w-1/4" />
           <TableCell className="w-1/4" />
           <TableCell className="w-1/4" />

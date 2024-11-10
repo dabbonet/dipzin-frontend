@@ -22,6 +22,8 @@ export const NavigatorMenuPreview: React.FC<NavigatorMenuPreviewProps> = () => {
     setFilters((prevFilters) => [...prevFilters, newFilter]);
   };
 
+  console.log("content: ", JSON.stringify(suggestedSearch, null, 2));
+
   return (
     <div className="w-[70%] max-h-[50vh] rounded-[30px] p-2 bg-[#1A2333]">
       {!selectedResult && (
