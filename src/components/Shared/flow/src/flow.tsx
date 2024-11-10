@@ -15,12 +15,32 @@ import {
 } from "@/components/UI/carousel";
 import { FolderPlusIcon } from '@heroicons/react/24/outline';
 import useIsMobile from '@/hooks/useIsMobile';
+import Link from 'next/link';
+import { useDownloadScreen } from '@/hooks/useDownloadScreen';
+import {
+  DropdownMenuItem,
+} from "@/components/UI/dropdown-menu"
+import { Dropdown } from '../../dropdown';
 
 const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) => {
   const { query } = useQuery();
   const isMobile = useIsMobile()
+  const { downloadScreen, loading: downloading } = useDownloadScreen();
 
   if (!flow) return null;
+
+  const handleDownload = () => {
+    const imageUrls = flow.flow_screens.map(
+      (screen) => storage(screen.screen.screen.hash + screen.screen.screen.ext)
+    );
+    downloadScreen(imageUrls, `${flow.name}-flow`);
+  };
+
+  const handleCopyLink = () => {
+    const link = `${window.location.origin}/flow/${flow.id}`;
+    navigator.clipboard.writeText(link);
+  }
+
   const icon = mergeIconFromObject(flow?.app?.icon as any || "");
   const widthClass = query.platform !== 'web' ? 'w-[calc(100%/6)]' : 'w-[calc(100%/2.5)]';
 
@@ -35,9 +55,9 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
       <div className="bg-transparent md:bg-slate-900 size-full rounded-2xl">
         <div className="flex justify-between w-full py-4 px-8">
           <div className="flex gap-4 items-center">
-            <h3 className="text-white text-xl font-semibold whitespace-nowrap">
+            <Link className="text-white text-xl font-semibold whitespace-nowrap" href={`/flow/${flow.id}`}>
               {flow.name}
-            </h3>
+            </Link>
             <p className="text-slate-400 whitespace-nowrap">
               (
               {' '}
@@ -59,13 +79,25 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
             </div>
           </div>
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="darkGray" className="bg-slate-800">
+            <Button onClick={handleDownload} disabled={downloading} variant="darkGray" className="bg-slate-800">
               <Icon.Download className="size-6 fill-white stroke-white" />
               Download
             </Button>
-            <Button className="rounded-full p-2 bg-slate-800" variant="darkGray">
-              <Icon.Dots className="size-6 fill-white stroke-white" />
-            </Button>
+
+            <Dropdown
+              trigger={(
+                <Button className="rounded-full p-2 bg-slate-800" variant="darkGray">
+                  <Icon.Dots className="size-6 fill-white stroke-white" />
+                </Button>
+            )}
+              content={(
+                <DropdownMenuItem onClick={handleCopyLink}>
+                  <Icon.Link className="size-6" />
+                  Copy Link
+                </DropdownMenuItem>
+            )}
+              placement="end"
+            />
           </div>
         </div>
         <div>
@@ -74,7 +106,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
               <CarouselContent>
                 {flow && flow?.flow_screens?.map((screen) => (
                   <CarouselItem key={screen.id} className="max-w-[80vw]">
-                    <Screen screen={screen.screen} overlay={false} />
+                    <Screen size="medium" screen={screen.screen} overlay={false} />
                   </CarouselItem>
                 ))}
               </CarouselContent>
@@ -91,7 +123,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
                   key={screen.id}
                   className={`shrink-0 ${widthClass} h-auto flex justify-center items-center mb-6`}
                 >
-                  <Screen key={screen.id} screen={screen.screen || {}} overlay={false} />
+                  <Screen size="medium" key={screen.id} screen={screen.screen || {}} overlay={false} />
                 </div>
               ))}
             </div>

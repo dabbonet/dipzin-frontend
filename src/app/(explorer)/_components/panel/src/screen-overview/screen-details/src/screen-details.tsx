@@ -179,7 +179,7 @@ export const ScreenData = ({
   };
 
   return (
-    <div className="flex flex-wrap gap-y-6 gap-x-16">
+    <div className="w-full h-fit flex items-center gap-4 md:gap-36 flex-wrap gap-y-6">
       {tags.length > 0 && (
         <div className=" transition-all">
           <p className="mb-2 text-2xl font-semibold font-outfit">Tags</p>

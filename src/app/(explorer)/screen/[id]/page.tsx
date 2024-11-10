@@ -10,7 +10,7 @@ export default async function ScreenPage({
   const { id } = await params;
 
   return (
-    <Modal>
+    <Modal className="sm:h-[90vh] sm:max-w-[95vw] backdrop-blur-[45px] bg-transparent sm:bg-slate-800/60 rounded-none sm:rounded-2xl p-0 sm:p-8">
       <ScreenOverview screenId={id} />
     </Modal>
   );

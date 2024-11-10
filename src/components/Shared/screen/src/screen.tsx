@@ -15,10 +15,11 @@ export type ScreenProps = {
   overlay?: boolean;
   borderless?: boolean;
   href?: string;
-};
+  size?: "medium" | "large" | null;
+} & React.HTMLAttributes<HTMLDivElement>; // Extend with div props
 
 const Screen = ({
-  screen, overlay = true, borderless, href
+  screen, overlay = true, borderless, href, size, ...props // Destructure additional props
 }: ScreenProps) => {
   const [imageLoaded, setImageLoaded] = React.useState(false);
   const [imageError, setImageError] = React.useState(false);
@@ -34,43 +35,41 @@ const Screen = ({
     : "border-[2px] md:border-[4px] border-[#0f172aa6] group-hover:border-slate-500 transition-colors overflow-hidden";
 
   return (
-    <div className={cn("relative size-full rounded-[2rem] group", outerBorder)}>
-      <div className={cn("size-full rounded-3xl", innerBorder2)}>
-        {!imageLoaded && !imageError && (
-          <Skeleton className="size-full absolute inset-0" />
-        )}
-        {imageError ? (
-          <div className="size-full absolute inset-0 flex items-center justify-center">
-            404 not found
-          </div>
-        ) : (
-          <Image
-            className="size-full bg-black-950 z-20"
-            src={storage(
-              (screen.screen?.hash ?? "") + (screen.screen?.ext ?? ""),
-              "medium",
-            )}
-            alt={`${screen?.app?.name} - screen`}
-            width={screen?.app?.platform === "web" ? 750 : 346}
-            height={screen?.app?.platform === "web" ? 469 : 750}
-            onLoad={() => setImageLoaded(true)}
-            onError={() => setImageError(true)}
-            unoptimized
-          />
-        )}
-        {imageLoaded && !imageError && overlay && screen.app && (
-          <ScreenOverlay screen={screen} />
-        )}
-        {imageLoaded && !imageError && href && (
-          <Link
-            className="size-full absolute inset-0"
-            href={href}
-            scroll={false}
-          >
-            <p className="sr-only"> Open Screen Overview </p>
-          </Link>
-        )}
-      </div>
+    <div className={cn("relative size-full rounded-[2rem] group", outerBorder)} {...props}>
+      {!imageLoaded && !imageError && (
+      <Skeleton className="size-full absolute inset-0" />
+      )}
+      {imageError ? (
+        <div className="size-full absolute inset-0 bg-slate-950 flex items-center justify-center">
+          404 not found
+        </div>
+      ) : (
+        <Image
+          className={cn("w-full h-auto rounded-3xl z-10", innerBorder2)}
+          src={storage(
+            (screen.screen?.hash ?? "") + (screen.screen?.ext ?? ""),
+            size,
+          )}
+          alt={`${screen?.app?.name} - screen`}
+          width={screen.screen?.width ?? 0}
+          height={screen.screen?.height ?? 0}
+          onLoad={() => setImageLoaded(true)}
+          onError={() => setImageError(true)}
+          unoptimized
+        />
+      )}
+      {imageLoaded && !imageError && overlay && screen.app && (
+      <ScreenOverlay screen={screen} />
+      )}
+      {imageLoaded && !imageError && href && (
+      <Link
+        className="size-full absolute inset-0"
+        href={href}
+        scroll={false}
+      >
+        <p className="sr-only"> Open Screen Overview </p>
+      </Link>
+      )}
     </div>
   );
 };

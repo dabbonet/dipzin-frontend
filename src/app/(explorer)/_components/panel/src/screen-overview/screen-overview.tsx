@@ -18,8 +18,9 @@ import {
   ScreenData,
   WebScreenTabs,
 } from "./screen-details";
-import FullScreen from "./_components/FullScreen";
 import { Screen } from "@/components/Shared/screen";
+import { storage } from "@/utils/storage";
+import Image from "next/image";
 
 interface ScreenOverviewProps {
   screenId: number;
@@ -44,7 +45,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
   return (
     <div
       key={currentScreen.id}
-      className="flex flex-col gap-8 size-full items-start justify-center sm:justify-between transition-opacity duration-500 opacity-100 overflow-hidden"
+      className="flex flex-col gap-8 size-full items-start justify-center sm:justify-between transition-opacity duration-500 opacity-100"
     >
       <div className="relative w-full h-fit flex items-center justify-between">
         <ScreenAppDetails app={currentScreen.app} />
@@ -57,7 +58,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
         {!isMobile && <ActionButtons screen={currentScreen} />}
       </div>
 
-      <div className="size-full max-w-[55vw] overflow-hidden mx-auto flex items-center justify-between gap-2">
+      <div className="size-full max-w-[55vw] mx-auto flex items-center justify-between gap-2">
         <TooltipProvider>
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
@@ -77,7 +78,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
               <TooltipArrow style={{ fill: "#007160" }} width={14} height={8} />
             </TooltipContent>
           </Tooltip>
-          <div className="flex-1 flex justify-center items-center">
+          <div className="size-full flex justify-center items-center">
             {showFullScreen && loading && (
             <div className="text-slate-500">Loading full page view...</div>
             )}
@@ -85,10 +86,22 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
             <div className="text-slate-500">Screen Does Not Have A Full Page</div>
             )}
             {showFullScreen && hasFullPage && (
-            <FullScreen currentScreen={currentScreen} />
+              <div className="w-full h-[60vh] rounded-[2rem] overflow-y-auto">
+                <Screen borderless overlay={false} screen={currentScreen} />
+              </div>
             )}
             {!showFullScreen && (
-            <Screen screen={currentScreen} overlay={false} />
+              <Image
+                className="w-fit h-[60vh] max-h-full max-w-full rounded-3xl z-10 bg-slate-950"
+                src={storage(
+                  (currentScreen.screen?.hash ?? "") + (currentScreen.screen?.ext ?? "")
+                )}
+                style={{ maxHeight: "100%", maxWidth: "100%" }}
+                alt={`${currentScreen?.app?.name} - screen`}
+                width={currentScreen.screen?.width ?? 0}
+                height={currentScreen.screen?.height ?? 0}
+                unoptimized
+              />
             )}
           </div>
           <Tooltip delayDuration={0}>
