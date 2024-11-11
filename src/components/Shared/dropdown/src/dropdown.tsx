@@ -1,10 +1,9 @@
 'use client';
 
 import * as React from "react";
-import {
-  Popover, PopoverContent, PopoverTrigger
-} from "@/components/UI/popover";
+
 import { cn } from "@/lib/utils";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/UI/dropdown-menu";
 
 type DropdownProps = {
   trigger?: React.ReactNode;
@@ -19,24 +18,15 @@ type DropdownProps = {
 
 const Dropdown = ({
   trigger, content, classNames, placement = "center"
-}: DropdownProps) => {
-  const [open, setOpen] = React.useState(false);
-
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <div className={cn(classNames?.base)}>
-        <PopoverTrigger asChild className={cn("w-fit border-[1px] bg-[#1A2333] border-slate-900", classNames?.trigger)}>
-          {trigger}
-        </PopoverTrigger>
-        <PopoverContent
-          className={cn(classNames?.content)}
-          align={placement}
-        >
-          {content}
-        </PopoverContent>
-      </div>
-    </Popover>
-  );
-};
+}: DropdownProps) => (
+  <DropdownMenu>
+    <DropdownMenuTrigger className={cn("outline-none", classNames?.trigger)}>
+      {trigger}
+    </DropdownMenuTrigger>
+    <DropdownMenuContent align={placement} className={cn(classNames?.content)}>
+      {content}
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
 
 export default Dropdown;

@@ -133,7 +133,7 @@ const SettingsModal = () => {
                   required
                   {...register("name", { required: "Name is required" })}
                 />
-                {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+                {errors.name && <p className="text-danger-400">{errors.name.message}</p>}
 
                 <Input
                   className="py-5 w-full"
@@ -143,7 +143,7 @@ const SettingsModal = () => {
                   required
                   {...register("username", { required: "Username is required" })}
                 />
-                {errors.username && <p className="text-red-500">{errors.username.message}</p>}
+                {errors.username && <p className="text-danger-400">{errors.username.message}</p>}
 
                 <Input
                   className="py-5 w-full"

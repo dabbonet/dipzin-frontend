@@ -75,7 +75,7 @@ export const useProfileInformation = () => {
 
     setFormData({
       name,
-      username: `@${username}`,
+      username,
       avatar,
       system_news_letters: selectedNewsletters,
     });

@@ -32,8 +32,6 @@ export const updateUser = async (user: any, token: string, id: string) => {
       token,
     );
 
-    console.log("updatedUserRes", updatedUserRes);
-
     if (updatedUserRes.error) {
       throw new Error(updatedUserRes.error.message);
     }

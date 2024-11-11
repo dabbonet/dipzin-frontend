@@ -1,9 +1,9 @@
 import { extractInitials, mergeIconFromObject } from '@/utils/StringUtils';
 import React from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/Shared/avatar';
-import Image from 'next/image';
 import { Pill } from '@/components/Shared/pill';
 import { storage } from '@/utils/storage';
+import { Icon } from '@/components/UI/icon';
 
 type AppItemType = {
   name: string;
@@ -12,7 +12,6 @@ type AppItemType = {
 
 type FlowItemType = {
   name: string;
-  imgSrc: string;
 };
 
 const AppItem = ({ name, imgSrc, onClick }: AppItemType & { onClick: () => void }) => (
@@ -25,10 +24,10 @@ const AppItem = ({ name, imgSrc, onClick }: AppItemType & { onClick: () => void 
   </button>
 );
 
-const FlowItem = ({ name, imgSrc, onClick }: FlowItemType & { onClick: () => void }) => (
-  <button onClick={onClick} className="flex flex-1 flex-col items-center aspect-square gap-2 p-4 rounded-2xl hover:bg-slate-700" type="button">
-    <Image src={imgSrc} alt={name} width={40} height={40} />
-    <h3 className="text-base whitespace-nowrap font-semibold">{name}</h3>
+const FlowItem = ({ name, onClick }: FlowItemType & { onClick: () => void }) => (
+  <button onClick={onClick} className="flex flex-1 flex-col items-center justify-between aspect-square gap-2 p-4 rounded-2xl hover:bg-slate-700" type="button">
+    <Icon.ChevronDoubleRight className="size-8" />
+    <h3 className="text-base font-semibold">{name}</h3>
   </button>
 );
 
@@ -66,7 +65,6 @@ export const NavigatorMenuInitialContent = ({ data: initialData, handleUpdate }:
           {initialData.flows?.map((item) => (
             <FlowItem
               name={item.name}
-              imgSrc={item.imgSrc}
               key={item.name}
               onClick={() => handleUpdate('flows', item.name)}
             />

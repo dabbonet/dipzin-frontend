@@ -12,7 +12,7 @@ const Footer = ({ context }: { context?: { loading: boolean } }) => (
 );
 
 const ItemContent = (_: number, screen: ScreenData) => (
-  <Screen screen={screen} href={`/screen/${screen.id}`} />
+  <Screen size="medium" screen={screen} href={`/screen/${screen.id}`} />
 );
 
 const ScreensGrid = ({ data, isLoading, loadMoreData }: any) => {

@@ -11,9 +11,7 @@ import {
 import { XMarkIcon, ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { useKeyword } from "@/app/(explorer)/_hooks/useKeyword";
 import { useQuery } from "@/app/(explorer)/_hooks/useQuery";
-import { useUpdateUrlPart } from "@/app/(explorer)/_hooks/useUpdateUrlPart";
-import { updateStateAndUrl } from "@/app/(explorer)/_utils/updateStateAndUrl";
-import type { Filter, Query } from "@/types/navigation-types";
+import type { Filter } from "@/types/navigation-types";
 import { NavigatorMenuInitialContent } from "./menu-preview/Initial-content";
 import CategoriesContent from "./menu-preview/categories-content";
 import SearchContent from "./menu-preview/search-content";
@@ -59,11 +57,7 @@ type NavigationState = "initial" | "allFilters" | "category";
 const MobileNavigatorMenu: React.FC<{
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleUpdate: (
-    updateFn: (prevState: any) => any,
-    target: keyof Query,
-  ) => void;
-}> = ({ isOpen, setIsOpen, handleUpdate }) => {
+}> = ({ isOpen, setIsOpen }) => {
   const [navigationState, setNavigationState] = useState<NavigationState>("initial");
   const [navigationTitle, setNavigationTitle] = useState("");
   const [isNavigatingBack, setIsNavigatingBack] = useState(false);
@@ -75,10 +69,9 @@ const MobileNavigatorMenu: React.FC<{
     suggestedSearch,
   } = useKeyword();
   const {
-    query, setPlatform, setPattern, setFilters, setApps
+    query, setFilters
   } = useQuery();
   const { filters } = query || {};
-  const updateUrlPart = useUpdateUrlPart();
 
   const slideVariants = {
     enter: (isBack: boolean) => ({
@@ -95,34 +88,10 @@ const MobileNavigatorMenu: React.FC<{
     })
   };
 
-  const handleStateAndUrlUpdate = (
-    newPlatform?: string,
-    newPattern?: string,
-    newFilters?: Filter[],
-  ) => {
-    updateStateAndUrl({
-      newPlatform,
-      newPattern,
-      newFilters: query.filters
-        ? [...query.filters, ...(newFilters || [])]
-        : newFilters,
-      setPlatform,
-      setPattern,
-      setFilters,
-      setApps,
-      updateUrlPart,
-      query,
-    });
-
-    handleUpdate(
-      (prevState) => ({
-        ...prevState,
-        filters: newFilters || [],
-        platform: newPlatform,
-        pattern: newPattern,
-      }),
-      "filters",
-    );
+  const handleStateAndUrlUpdate = (pattern: string, value: string) => {
+    const newFilter: Filter = { name: value, pattern };
+    setFilters((prevFilters) => [...prevFilters, newFilter]);
+    setIsOpen(false); // close the menu on select
   };
 
   const handleCategoryClick = (category: { id: string; name: string }) => {

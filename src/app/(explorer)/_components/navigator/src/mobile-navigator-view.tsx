@@ -33,7 +33,7 @@ const MobileNavigatorView: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { keyword, setKeyword } = useKeyword();
   const {
-    query, setFilters, setPattern, setPlatform, setApps
+    query, setPattern, setPlatform
   } = useQuery();
   const { filters, platform, pattern } = query || {};
 
@@ -86,13 +86,6 @@ const MobileNavigatorView: React.FC = () => {
         <MobileNavigatorMenu
           isOpen={isMenuOpen}
           setIsOpen={setIsMenuOpen}
-          handleUpdate={(updateFn, target) => {
-            if (target === "filters") {
-              setFilters((prevFilters) => updateFn(prevFilters)); // Updates filters
-            } else if (target === "apps") {
-              setApps((prevApps) => updateFn(prevApps)); // Updates apps
-            }
-          }}
         />
       )}
 

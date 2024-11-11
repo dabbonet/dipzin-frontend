@@ -1,19 +1,27 @@
 "use client";
 
-import { Tabs, TabsContent } from "@/components/UI/tabs";
 import useIsMobile from "@/hooks/useIsMobile";
 import React from "react";
-import { Screen } from "@/components/Shared/screen";
 import useScreensOverview from "./_hooks/useScreensOverview";
 import { Button } from "@/components/Shared/button";
 import { Icon } from "@/components/UI/icon";
 import {
-  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from "@/components/UI/tooltip";
 import { TooltipArrow } from "@radix-ui/react-tooltip";
 import {
-  ActionButtons, ScreenAppDetails, ScreenData, WebScreenTabs
+  ActionButtons,
+  ScreenAppDetails,
+  ScreenData,
+  WebScreenTabs,
 } from "./screen-details";
+import { Screen } from "@/components/Shared/screen";
+import { storage } from "@/utils/storage";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 interface ScreenOverviewProps {
   screenId: number;
@@ -22,35 +30,41 @@ interface ScreenOverviewProps {
 const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
   const {
     currentScreen,
+    toggleFullScreen,
+    showFullScreen,
     goToNextScreen,
     goToPrevScreen,
     hasNextScreen,
     hasPrevScreen,
+    loading,
+    hasFullPage
   } = useScreensOverview(screenId);
   const isMobile = useIsMobile();
 
   if (!currentScreen) return null;
 
   return (
-    <Tabs
+    <div
       key={currentScreen.id}
-      defaultValue="section"
-      className="flex flex-col gap-8 size-full items-start justify-center sm:justify-between transition-opacity duration-500 opacity-100 overflow-hidden"
+      className="flex flex-col gap-8 size-full items-start justify-center sm:justify-between transition-opacity duration-500 opacity-100"
     >
       <div className="relative w-full h-fit flex items-center justify-between">
         <ScreenAppDetails app={currentScreen.app} />
-        {currentScreen.app.platform === "web" && <WebScreenTabs />}
-        {!isMobile && (
-          <ActionButtons screen={currentScreen} />
+        {currentScreen.app.platform === "web" && (
+          <WebScreenTabs
+            toggleFullScreen={toggleFullScreen}
+            isFullScreen={showFullScreen}
+          />
         )}
+        {!isMobile && <ActionButtons screen={currentScreen} />}
       </div>
 
-      <div className="size-full max-w-[55vw] overflow-hidden mx-auto flex items-center justify-between gap-2">
+      <div className="size-full max-w-full sm:max-w-[55vw] mx-auto flex items-center justify-between gap-2">
         <TooltipProvider>
-          <Tooltip>
+          <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
               <Button
-                className="hidden md:flex size-16 bg-slate-300 text-slate-900 rounded-full p-4"
+                className="hidden md:flex size-16 bg-slate-300 text-slate-900 rounded-full p-4 shrink-0"
                 variant="liteGray"
                 isIconOnly
                 disabled={!hasPrevScreen}
@@ -62,24 +76,42 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
             <TooltipContent className="flex items-center justify-center gap-1">
               Previous
               <Icon.ArrowCircleLeft className="size-6" />
-              <TooltipArrow
-                style={{ fill: '#007160' }}
-                width={14}
-                height={8}
-              />
+              <TooltipArrow style={{ fill: "#007160" }} width={14} height={8} />
             </TooltipContent>
           </Tooltip>
-          <TabsContent value="section">
-            <Screen screen={currentScreen} overlay={false} />
-          </TabsContent>
-          <TabsContent value="full-page">
-            {/* <FullScreen screen={currentScreen} /> */}
-            full screen
-          </TabsContent>
-          <Tooltip>
+          <div className="size-full flex justify-center items-center">
+            {showFullScreen && loading && (
+            <div className="text-slate-500">Loading full page view...</div>
+            )}
+            {showFullScreen && !hasFullPage && !loading && (
+            <div className="text-slate-500">Screen Does Not Have A Full Page</div>
+            )}
+            {showFullScreen && hasFullPage && (
+              <div className="w-full h-[60vh] rounded-[2rem] overflow-y-auto">
+                <Screen borderless overlay={false} screen={currentScreen} />
+              </div>
+            )}
+            {!showFullScreen && (
+              <div className="size-full flex flex-col items-center justify-center gap-4">
+                <Image
+                  className={cn(`w-fit ${currentScreen.app.platform === "web" ? "h-fit" : "h-[60vh] "} max-h-full max-w-full rounded-3xl z-10 bg-slate-950`)}
+                  src={storage(
+                    (currentScreen.screen?.hash ?? "") + (currentScreen.screen?.ext ?? "")
+                  )}
+                  style={{ maxHeight: "100%", maxWidth: "100%" }}
+                  alt={`${currentScreen?.app?.name} - screen`}
+                  width={currentScreen.screen?.width ?? 0}
+                  height={currentScreen.screen?.height ?? 0}
+                  unoptimized
+                />
+                {isMobile && <ActionButtons screen={currentScreen} />}
+              </div>
+            )}
+          </div>
+          <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
               <Button
-                className="hidden sm:flex size-16 bg-slate-300 text-slate-900 rounded-full p-4"
+                className="hidden sm:flex size-16 bg-slate-300 text-slate-900 rounded-full p-4 shrink-0"
                 variant="liteGray"
                 isIconOnly
                 disabled={!hasNextScreen}
@@ -91,11 +123,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
             <TooltipContent className="flex items-center justify-center gap-1">
               Next
               <Icon.ArrowCircleRight className="size-6" />
-              <TooltipArrow
-                style={{ fill: '#007160' }}
-                width={14}
-                height={8}
-              />
+              <TooltipArrow style={{ fill: "#007160" }} width={14} height={8} />
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -108,11 +136,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
           colors={currentScreen.colors}
         />
       )}
-
-      {isMobile && (
-        <ActionButtons screen={currentScreen} />
-      )}
-    </Tabs>
+    </div>
   );
 };
 

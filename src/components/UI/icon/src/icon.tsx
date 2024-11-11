@@ -15,6 +15,8 @@ import {
   ArrowRightCircleIcon,
   ArrowLeftCircleIcon,
   EllipsisHorizontalIcon,
+  Cog8ToothIcon,
+  LinkIcon,
 } from "@heroicons/react/24/solid";
 import {
   BookmarkIcon,
@@ -235,7 +237,9 @@ const Icon = {
   Save: FolderPlusIcon,
   Download: ArrowDownTrayIcon,
   Collection,
-  Rocket
+  Rocket,
+  Settings: Cog8ToothIcon,
+  Link: LinkIcon
 };
 
 export default Icon;

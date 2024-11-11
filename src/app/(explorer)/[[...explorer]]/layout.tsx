@@ -7,7 +7,7 @@ import '@/styles/global.css';
 import BulkActions from '@/components/Explorer/bulk-actions';
 
 const Nav = ({ initialQuery }: { initialQuery: any }) => (
-  <header className="bg-navigator-bg w-full h-fit px-4 pt-5 md:px-8 md:pt-7 flex flex-col md:flex-row md:justify-between items-start gap-4 md:gap-8 z-50 fixed top-0">
+  <header className="bg-navigator-bg w-screen h-fit px-4 pt-5 md:px-8 md:pt-7 flex flex-col md:flex-row md:justify-between items-start gap-4 md:gap-8 z-50 fixed top-0">
     <div className="flex w-full md:w-auto justify-between items-center">
       <a href="/" aria-label="Home">
         <Logo.Dipzin className="text-white" />
