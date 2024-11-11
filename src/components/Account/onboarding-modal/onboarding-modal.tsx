@@ -76,6 +76,10 @@ export default function OnboardingModal() {
     }
   };
 
+  const handleStepClick = (index: number) => {
+    setCurrentStep(index);
+  };
+
   return (
     <Dialog modal open={showModal}>
       <DialogContent className="bg-slate-900 border-2 border-slate-800 p-10 max-w-[730px]">
@@ -92,6 +96,7 @@ export default function OnboardingModal() {
                   src={onboardingSteps[currentStep].image}
                   alt={onboardingSteps[currentStep].heading}
                   priority
+                  loading="eager"
                   width={650}
                   height={335}
                   className="w-[650px] h-[335px]"
@@ -131,6 +136,7 @@ export default function OnboardingModal() {
                 initial={{ scale: 0.8 }}
                 animate={{ scale: currentStep === index ? 1.2 : 1 }}
                 transition={{ duration: 0.3 }}
+                onClick={() => handleStepClick(index)}
               />
             ))}
           </div>

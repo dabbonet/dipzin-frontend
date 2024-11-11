@@ -112,7 +112,7 @@ export default function Personalize() {
           ))}
       </div>
       {errors.positions && (
-        <p className="text-red-500 text-sm mt-2">
+        <p className="text-danger-400 text-sm mt-2">
           {errors.positions.message}
         </p>
       )}
@@ -158,7 +158,7 @@ export default function Personalize() {
             ))}
         </div>
         {errors.interests && (
-          <p className="text-red-500 text-sm mt-2">
+          <p className="text-danger-400 text-sm mt-2">
             {errors.interests.message}
           </p>
         )}

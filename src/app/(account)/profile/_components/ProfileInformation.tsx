@@ -211,7 +211,7 @@ export default function ProfileInformation() {
         </div>
       </div>
       {error && (
-        <p className="text-red-500 text-sm mb-4">{error}</p>
+        <p className="text-danger-400 text-sm mb-4">{error}</p>
       )}
       {/* Name Input */}
       <div className="flex flex-col gap-y-2 mb-4">
@@ -225,7 +225,7 @@ export default function ProfileInformation() {
           {...register("name", { required: "Name is required" })}
         />
         {errors.name && (
-          <p className="text-red-500 text-sm">{errors.name.message}</p>
+          <p className="text-danger-400 text-sm">{errors.name.message}</p>
         )}
       </div>
 
@@ -246,7 +246,7 @@ export default function ProfileInformation() {
           onChange={handleUsernameChange}
         />
         {errors.username && (
-          <p className="text-red-500 text-sm">{errors.username.message}</p>
+          <p className="text-danger-400 text-sm">{errors.username.message}</p>
         )}
       </div>
 
@@ -290,7 +290,7 @@ export default function ProfileInformation() {
             ))}
         </div>
         {errors.newsletters && (
-          <p className="text-red-500 text-sm mt-2">
+          <p className="text-danger-400 text-sm mt-2">
             {errors.newsletters.message}
           </p>
         )}

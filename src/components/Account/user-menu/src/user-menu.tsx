@@ -169,6 +169,7 @@ const UserMenu = () => {
                   <p className="font-medium">{user.name}</p>
                   <p className="text-sm text-gray-500">{user?.email}</p>
                 </div>
+                <Icon.Settings className="size-6 ml-4" />
               </DialogTrigger>
               <DialogContent className="w-full max-w-4xl">
                 <SettingsModal />
@@ -198,7 +199,7 @@ const UserMenu = () => {
                   <TooltipProvider delayDuration={200} key={item.label}>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <span className="w-full h-fit rounded-xl text-base font-semibold text-white hover:bg-slate-900 py-1 px-2 hover:outline-0 hover:text-aqua-500">
+                        <span className="w-full h-fit rounded-xl text-base font-semibold font-outfit text-white hover:bg-slate-900 py-1 px-2 hover:outline-0 hover:text-aqua-500">
                           {item.label}
                         </span>
                       </TooltipTrigger>
