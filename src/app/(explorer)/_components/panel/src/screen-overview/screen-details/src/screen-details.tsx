@@ -16,6 +16,7 @@ import type { ScreenData as ScreenType } from "@/types/screen-types";
 import { Separator } from "@/components/UI/separator";
 import { useCopyScreen } from "@/hooks/useCopyScreen";
 import { useDownloadScreen } from "@/hooks/useDownloadScreen";
+import useIsMobile from "@/hooks/useIsMobile";
 
 type ColorSquareProps = {
   color: string;
@@ -62,7 +63,7 @@ export const WebScreenTabs = ({
   toggleFullScreen: () => void;
   isFullScreen: boolean;
 }) => (
-  <div className="absolute top-0 left-1/2 -translate-x-1/2">
+  <div className="hidden sm:absolute top-0 left-1/2 -translate-x-1/2">
     <div className="inline-flex h-fit items-center justify-center rounded-full bg-slate-800 text-white">
       <button
         type="button"
@@ -85,14 +86,16 @@ export const WebScreenTabs = ({
 export const ActionButtons = ({ screen }: { screen: ScreenType }) => {
   const { copyImageToClipboard, loading: copying } = useCopyScreen();
   const { downloadScreen, loading: downloading } = useDownloadScreen();
+  const isMobile = useIsMobile()
 
   return (
-    <div className="flex items-center justify-end gap-4 font-medium whitespace-nowrap font-poppins">
+    <div className="w-full sm:w-fit flex items-center justify-end gap-2 sm:gap-4 font-medium whitespace-nowrap font-poppins">
       <Button
         onClick={() => copyImageToClipboard(storage(screen.screen.hash + screen.screen.ext))}
         disabled={copying}
-        size="xl"
+        size={isMobile ? "md" : "xl"}
         variant="liteGray"
+        className="flex-1"
       >
         <Icon.Copy className="size-6" />
         {copying ? "Copying..." : "Copy"}
@@ -101,8 +104,9 @@ export const ActionButtons = ({ screen }: { screen: ScreenType }) => {
       <Button
         onClick={() => downloadScreen(storage(screen.screen.hash + screen.screen.ext))}
         disabled={downloading}
-        size="xl"
+        size={isMobile ? "md" : "xl"}
         variant="darkGray"
+        className="flex-1"
       >
         <Icon.Download className="size-6" />
         {downloading ? "Downloading..." : "Download"}
@@ -120,7 +124,16 @@ export const ActionButtons = ({ screen }: { screen: ScreenType }) => {
         content="content"
         placement="end"
       />
-      <Separator orientation="vertical" className="h-8" />
+      <Button
+        isIconOnly
+        size={isMobile ? "md" : "xl"}
+        variant="darkGray"
+        className="flex sm:hidden"
+      >
+        <Icon.Save className="size-6" />
+      </Button>
+
+      <Separator orientation="vertical" className="hidden sm:flex h-8" />
       <DialogClose className="hidden sm:flex" asChild>
         <Button
           className="rounded-full"

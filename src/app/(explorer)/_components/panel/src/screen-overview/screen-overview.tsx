@@ -21,6 +21,7 @@ import {
 import { Screen } from "@/components/Shared/screen";
 import { storage } from "@/utils/storage";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 interface ScreenOverviewProps {
   screenId: number;
@@ -58,7 +59,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
         {!isMobile && <ActionButtons screen={currentScreen} />}
       </div>
 
-      <div className="size-full max-w-[55vw] mx-auto flex items-center justify-between gap-2">
+      <div className="size-full max-w-full sm:max-w-[55vw] mx-auto flex items-center justify-between gap-2">
         <TooltipProvider>
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
@@ -91,17 +92,20 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
               </div>
             )}
             {!showFullScreen && (
-              <Image
-                className="w-fit h-[60vh] max-h-full max-w-full rounded-3xl z-10 bg-slate-950"
-                src={storage(
-                  (currentScreen.screen?.hash ?? "") + (currentScreen.screen?.ext ?? "")
-                )}
-                style={{ maxHeight: "100%", maxWidth: "100%" }}
-                alt={`${currentScreen?.app?.name} - screen`}
-                width={currentScreen.screen?.width ?? 0}
-                height={currentScreen.screen?.height ?? 0}
-                unoptimized
-              />
+              <div className="size-full flex flex-col items-center justify-center gap-4">
+                <Image
+                  className={cn(`w-fit ${currentScreen.app.platform === "web" ? "h-fit" : "h-[60vh] "} max-h-full max-w-full rounded-3xl z-10 bg-slate-950`)}
+                  src={storage(
+                    (currentScreen.screen?.hash ?? "") + (currentScreen.screen?.ext ?? "")
+                  )}
+                  style={{ maxHeight: "100%", maxWidth: "100%" }}
+                  alt={`${currentScreen?.app?.name} - screen`}
+                  width={currentScreen.screen?.width ?? 0}
+                  height={currentScreen.screen?.height ?? 0}
+                  unoptimized
+                />
+                {isMobile && <ActionButtons screen={currentScreen} />}
+              </div>
             )}
           </div>
           <Tooltip delayDuration={0}>
@@ -132,8 +136,6 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
           colors={currentScreen.colors}
         />
       )}
-
-      {isMobile && <ActionButtons screen={currentScreen} />}
     </div>
   );
 };

@@ -13,7 +13,6 @@ import { Icon } from '@/components/UI/icon';
 import {
   Carousel, CarouselContent, CarouselItem
 } from "@/components/UI/carousel";
-import { FolderPlusIcon } from '@heroicons/react/24/outline';
 import useIsMobile from '@/hooks/useIsMobile';
 import Link from 'next/link';
 import { useDownloadScreen } from '@/hooks/useDownloadScreen';
@@ -21,15 +20,19 @@ import {
   DropdownMenuItem,
 } from "@/components/UI/dropdown-menu"
 import { Dropdown } from '../../dropdown';
+import { cn } from '@/lib/utils';
+import { DialogClose } from '@/components/UI/dialog';
+import { useCopyScreen } from '@/hooks/useCopyScreen';
 
 const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) => {
   const { query } = useQuery();
   const isMobile = useIsMobile()
+  const { copyImageToClipboard, loading: copying } = useCopyScreen();
   const { downloadScreen, loading: downloading } = useDownloadScreen();
 
   if (!flow) return null;
 
-  const handleDownload = () => {
+  const handleBulkDownload = () => {
     const imageUrls = flow.flow_screens.map(
       (screen) => storage(screen.screen.screen.hash + screen.screen.screen.ext)
     );
@@ -42,30 +45,32 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
   }
 
   const icon = mergeIconFromObject(flow?.app?.icon as any || "");
-  const widthClass = query.platform !== 'web' ? 'w-[calc(100%/6)]' : 'w-[calc(100%/2.5)]';
+  const widthClass = query.platform !== 'web' ? 'w-[calc(100%/3)] sm:w-[calc(100%/6)]' : 'w-[calc(100%/1.5)] sm:w-[calc(100%/2.5)]';
 
   return (
     <motion.div
-      className="relative size-full rounded-2xl flex items-center justify-center pb-10"
+      className={cn(`relative size-full rounded-2xl flex items-center justify-center ${view === "opened" ? "pb-0" : "pb-10"}`)}
       initial="initial"
       whileHover="hover"
       animate="initial"
       transition={{ duration: 0.3 }}
     >
-      <div className="bg-transparent md:bg-slate-900 size-full rounded-2xl">
-        <div className="flex justify-between w-full py-4 px-8">
-          <div className="flex gap-4 items-center">
-            <Link className="text-white text-xl font-semibold whitespace-nowrap" href={`/flow/${flow.id}`}>
-              {flow.name}
-            </Link>
-            <p className="text-slate-400 whitespace-nowrap">
-              (
-              {' '}
-              {flow && flow?.flow_screens?.length}
-              {' '}
-              Screens )
-            </p>
-            <div className="flex items-center gap-4 bg-transparent md:bg-slate-800/60 py-2 ps-2 pe-6 rounded-full">
+      <div className={cn(`${view === "opened" ? "bg-transparent" : "bg-slate-900"} size-full rounded-2xl`)}>
+        <div className={cn(`flex justify-between w-full ${view === "opened" ? "p-0" : "p-4"} sm:px-8`)}>
+          <div className="flex gap-1.5 sm:gap-4 items-center">
+            <div className="flex flex-wrap gap-1.5 sm:gap-4 items-center">
+              <Link className="text-white text-xl font-semibold whitespace-normal sm:whitespace-nowrap" href={`/flow/${flow.id}`} scroll={false}>
+                {flow.name}
+              </Link>
+              <p className="text-slate-400 whitespace-nowrap">
+                (
+                {' '}
+                {flow && flow?.flow_screens?.length}
+                {' '}
+                Screens )
+              </p>
+            </div>
+            <div className={cn(`${view === "opened" ? "bg-transparent" : "bg-slate-800/60"} flex items-center gap-1.5 sm:gap-4 pt-2 ps-2 pe-6 rounded-full`)}>
               <Avatar>
                 <AvatarImage src={storage(icon)} alt={flow.app?.name} />
                 <AvatarFallback>
@@ -77,9 +82,14 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
                 {flow.app?.tag_line}
               </p>
             </div>
+            {view === "opened" && isMobile && (
+            <DialogClose>
+              <Icon.Close className="size-6" />
+            </DialogClose>
+            )}
           </div>
           <div className="hidden md:flex items-center gap-4">
-            <Button onClick={handleDownload} disabled={downloading} variant="darkGray" className="bg-slate-800">
+            <Button onClick={handleBulkDownload} disabled={downloading} variant="darkGray" className="bg-slate-800">
               <Icon.Download className="size-6 fill-white stroke-white" />
               Download
             </Button>
@@ -100,35 +110,58 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
             />
           </div>
         </div>
-        <div>
-          {view === "opened" && isMobile ? (
-            <Carousel className="flex flex-col items-center justify-center gap-4 size-full px-4">
-              <CarouselContent>
-                {flow && flow?.flow_screens?.map((screen) => (
-                  <CarouselItem key={screen.id} className="max-w-[80vw]">
-                    <Screen size="medium" screen={screen.screen} overlay={false} />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <div className="mt-4 flex gap-2">
-                <Button variant="darkGray">Download</Button>
-                <Button variant="darkGray">Copy</Button>
-                <Button isIconOnly className="p-2" variant="darkGray"><FolderPlusIcon /></Button>
-              </div>
-            </Carousel>
-          ) : (
-            <div className="flex overflow-x-auto">
+        {view === "opened" && isMobile ? (
+          <Carousel>
+            <CarouselContent>
               {flow && flow?.flow_screens?.map((screen) => (
-                <div
-                  key={screen.id}
-                  className={`shrink-0 ${widthClass} h-auto flex justify-center items-center mb-6`}
-                >
-                  <Screen size="medium" key={screen.id} screen={screen.screen || {}} overlay={false} />
-                </div>
+                <CarouselItem className="flex flex-col items-center justify-center gap-2 size-full pr-8" key={screen.id}>
+                  <Screen screen={screen.screen} overlay={false} />
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={() => copyImageToClipboard(storage(screen.screen.screen.hash + screen.screen.screen.ext))}
+                      disabled={copying}
+                      size="md"
+                      variant="liteGray"
+                      className="flex-1"
+                    >
+                      <Icon.Copy className="size-6" />
+                      {copying ? "Copying..." : "Copy"}
+                    </Button>
+
+                    <Button
+                      onClick={() => downloadScreen(storage(screen.screen.screen.hash + screen.screen.screen.ext))}
+                      disabled={downloading}
+                      size="md"
+                      variant="darkGray"
+                      className="flex-1"
+                    >
+                      <Icon.Download className="size-6" />
+                      {downloading ? "Downloading..." : "Download"}
+                    </Button>
+                    <Button
+                      isIconOnly
+                      size="md"
+                      variant="darkGray"
+                    >
+                      <Icon.Save className="size-6" />
+                    </Button>
+                  </div>
+                </CarouselItem>
               ))}
-            </div>
-          )}
-        </div>
+            </CarouselContent>
+          </Carousel>
+        ) : (
+          <div className="size-full flex overflow-x-auto">
+            {flow && flow?.flow_screens?.map((screen) => (
+              <div
+                key={screen.id}
+                className={`shrink-0 ${widthClass} h-auto flex justify-center items-center mb-6`}
+              >
+                <Screen size="medium" key={screen.id} screen={screen.screen || {}} overlay={false} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </motion.div>
   );

@@ -35,7 +35,7 @@ const Screen = ({
     : "border-[2px] md:border-[4px] border-[#0f172aa6] group-hover:border-slate-500 transition-colors overflow-hidden";
 
   return (
-    <div className={cn("relative size-full rounded-[2rem] group", outerBorder)} {...props}>
+    <div className={cn("relative size-full rounded-2xl sm:rounded-[2rem] group", outerBorder)} {...props}>
       {!imageLoaded && !imageError && (
       <Skeleton className="size-full absolute inset-0" />
       )}
@@ -45,7 +45,7 @@ const Screen = ({
         </div>
       ) : (
         <Image
-          className={cn("w-full h-auto rounded-3xl z-10", innerBorder2)}
+          className={cn("w-full h-auto rounded-xl sm:rounded-3xl z-10", innerBorder2)}
           src={storage(
             (screen.screen?.hash ?? "") + (screen.screen?.ext ?? ""),
             size,

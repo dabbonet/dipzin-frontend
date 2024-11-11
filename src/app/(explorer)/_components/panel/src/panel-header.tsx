@@ -13,9 +13,9 @@ const PanelHeader: React.FC = () => {
 
   return (
     <div className="w-full h-fit flex items-center justify-between gap-3 mt-4 mb-6">
-      <h1 className="text-2xl sm:text-[2.5rem] font-semibold text-slate-300 font-outfit flex items-center">
+      <h1 className="text-2xl sm:text-[2.5rem] font-semibold text-slate-300 font-outfit flex flex-wrap items-center">
         Welcome,
-        {status === 'loading' && <Skeleton className="w-32 h-8 bg-slate-800 ml-2" />}
+        {status === 'loading' && <Skeleton className="w-24 sm:w-32 h-8 bg-slate-800 ml-2" />}
         {status === 'authenticated' && <span className="ml-2">{capitalizeFirstLetter(user?.name ?? 'User')}</span>}
         {status !== 'loading' && status !== 'authenticated' && <span className="ml-2">Guest</span>}
       </h1>

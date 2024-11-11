@@ -10,7 +10,7 @@ export default async function FlowModalPage({
   const { id } = await params;
 
   return (
-    <Modal className="max-w-[1450px]">
+    <Modal className="max-w-[1450px] p-0">
       <FlowOverview flowId={id} />
     </Modal>
   );
