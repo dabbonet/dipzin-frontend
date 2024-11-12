@@ -16,6 +16,7 @@ const mockData : Checkout = {
   id: '1',
 }
 
+// const pricingData = await getPricing();
 const PricingPage: React.FC = () => (
   <div>
     <PricingNav />
@@ -25,6 +26,6 @@ const PricingPage: React.FC = () => (
     <CustomerLoveCorner />
     <PricingFooter />
   </div>
-);
+)
 
 export default PricingPage;

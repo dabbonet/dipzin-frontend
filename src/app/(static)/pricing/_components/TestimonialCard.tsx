@@ -19,22 +19,22 @@ interface TestimonialCardProps {
 }
 
 const TestimonialCard = ({ testimonial }: TestimonialCardProps) => (
-  <Card className="max-w-[50vw] bg-slate-800 border-0 p-8 mb-6 rounded-3xl font-outfit break-inside-avoid">
-    <CardHeader className="size-full flex flex-row items-center justify-between gap-4">
-      <div className="size-full flex items-center gap-6">
-        <Avatar size="large">
+  <Card className="max-w-full md:max-w-[50vw] bg-slate-800 border-0 p-4 md:p-8 mb-6 rounded-3xl font-outfit break-inside-avoid">
+    <CardHeader className="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="flex items-center gap-4 md:gap-6">
+        <Avatar size="large" className="size-12 md:size-20">
           <AvatarImage src={testimonial.user.imgSrc} alt={testimonial.user.name} />
           <AvatarFallback>{extractInitials(testimonial.user.name)}</AvatarFallback>
         </Avatar>
-        <div className="space-y-2">
-          <h4 className="text-[32px] font-medium leading-[40px] text-white">{testimonial.user.name}</h4>
-          <p className="text-2xl text-white/60">{testimonial.user.position}</p>
+        <div className="space-y-1 md:space-y-2">
+          <h4 className="text-lg sm:text-xl md:text-[32px] font-medium leading-6 md:leading-[40px] text-white">{testimonial.user.name}</h4>
+          <p className="text-base sm:text-lg md:text-2xl leading-normal text-white/60">{testimonial.user.position}</p>
         </div>
       </div>
-      <Logo.X className="size-[40px]" />
+      <Logo.X className="size-6 sm:size-8 md:size-[40px]" />
     </CardHeader>
     <CardContent>
-      <ReactMarkdown className="text-[32px] text-white/60">
+      <ReactMarkdown className="text-base sm:text-lg md:text-[32px] text-white/60">
         {testimonial.testimonial}
       </ReactMarkdown>
     </CardContent>

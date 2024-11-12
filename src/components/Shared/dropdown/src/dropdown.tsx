@@ -20,7 +20,7 @@ const Dropdown = ({
   trigger, content, classNames, placement = "center"
 }: DropdownProps) => (
   <DropdownMenu>
-    <DropdownMenuTrigger className={cn("outline-none", classNames?.trigger)}>
+    <DropdownMenuTrigger asChild className={cn("outline-none", classNames?.trigger)}>
       {trigger}
     </DropdownMenuTrigger>
     <DropdownMenuContent align={placement} className={cn(classNames?.content)}>
