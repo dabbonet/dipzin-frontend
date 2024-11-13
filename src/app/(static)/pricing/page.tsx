@@ -1,9 +1,8 @@
 import React from 'react';
 import PricingHero from './_components/PricingHero';
 import PricingNav from './_components/PricingNav';
-import type { Checkout } from './_components/PricingTable';
 import { TopFeatures } from './_components/top-features';
-import PricingTable from './_components/PricingTable';
+import PricingTable, { type Checkout } from './_components/PricingTable';
 import CustomerLoveCorner from './_components/CustomerLoveCorner';
 import PricingFooter from './_components/PricingFooter';
 
