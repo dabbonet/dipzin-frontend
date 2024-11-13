@@ -8,7 +8,6 @@ import { cn } from '@/lib/utils';
 import ScreensGrid from './ScreensGrid';
 import AppsGrid from './AppsGrid';
 import FlowsGrid from './FlowsGrid';
-import { toast } from '@/hooks/use-toast';
 import PanelHeader from './panel-header';
 
 /**
@@ -89,20 +88,6 @@ const Panel = () => {
     }
   }, [query, isLoading, hasError, loadData, noData]);
 
-  // Fallback UI for errors
-  if (hasError) {
-    return <div>Error loading data. Please try again later.</div>;
-  }
-
-  if (noData) {
-    toast({
-      title: 'No data found',
-      description: 'No data found for the given query, and no further suggestions are available.',
-      variant: 'error',
-      duration: 5000,
-    })
-  }
-
   return (
     <div
       className={cn(
@@ -144,9 +129,14 @@ const Panel = () => {
         }
       })()}
       {noData && (
-        <div className="text-center p-16 m-auto">
+        <p className="text-center text-slate-500 text-lg font-semibold p-16 m-auto">
           No data found for the given query, and no further suggestions are available.
-        </div>
+        </p>
+      )}
+      {hasError && (
+        <p className="text-center text-slate-500 text-lg font-semibold p-16 m-auto">
+          An error occurred while fetching data. Please try again later.
+        </p>
       )}
     </div>
   );

@@ -1,15 +1,16 @@
 import type { MetadataRoute } from 'next';
 
-import { getBaseUrl } from '@/utils/Helpers';
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = process.env.BASE_URL;
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+  const staticRoutes = [
     {
-      url: `${getBaseUrl()}/`,
+      url: `${baseUrl}/`,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: 'monthly' as const,
       priority: 0.7,
     },
-    // Add more URLs here
   ];
+
+  return [...staticRoutes];
 }

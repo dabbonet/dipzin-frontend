@@ -36,6 +36,10 @@ const buttonVariants = cva(
         true: "p-0",
         false: "",
       },
+      fullWidth: {
+        true: "w-full",
+        false: "w-fit",
+      },
     },
     compoundVariants: [
       { isIconOnly: true, size: "sm", className: "size-9 min-w-9" },
@@ -53,6 +57,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "md",
       isIconOnly: false,
+      fullWidth: false,
     },
   },
 );
@@ -63,6 +68,7 @@ export interface ButtonProps
   asChild?: boolean;
   loading?: boolean;
   href?: string;
+  fullWidth?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -75,6 +81,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isIconOnly = false,
       loading = false,
       href,
+      fullWidth = false,
       ...props
     },
     ref,
@@ -83,31 +90,26 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     if (href) {
       // Check if href prop exists
       return (
-        <Link href={href} passHref>
-          <Comp
-            className={cn(
-              buttonVariants({
-                variant,
-                size,
-                isIconOnly,
-                className,
-              }),
-            )}
-            disabled={loading}
-            ref={ref}
-            {...props}
-          >
-            {loading ? (
-              <div className="flex size-8">
-                <div className="relative size-8">
-                  <div className="size-full rounded-full absolute border-[3px] border-solid border-transparent" />
-                  <div className="size-full rounded-full animate-spin absolute border-[3px] border-solid border-transparent border-t-aqua-500" />
-                </div>
-              </div>
-            ) : (
-              props.children
-            )}
-          </Comp>
+        <Link
+          href={href}
+          className={cn(
+            buttonVariants({
+              variant,
+              size,
+              isIconOnly,
+              fullWidth,
+              className,
+            }),
+          )}
+          aria-disabled={loading}
+          ref={ref as React.Ref<HTMLAnchorElement>}
+          {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        >
+          {loading ? (
+            <Spinner />
+          ) : (
+            props.children
+          )}
         </Link>
       );
     }
@@ -118,6 +120,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             variant,
             size,
             isIconOnly,
+            fullWidth,
             className,
           }),
         )}

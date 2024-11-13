@@ -131,7 +131,7 @@ export default function OnboardingModal() {
                 key={`step-${index}`}
                 aria-label={`onboarding step ${index + 1}`}
                 className={`size-2.5 rounded-full ${
-                  currentStep === index ? "bg-aqua-600" : "bg-slate-800"
+                  currentStep === index ? "bg-aqua-600" : "bg-slate-800 cursor-pointer"
                 }`}
                 initial={{ scale: 0.8 }}
                 animate={{ scale: currentStep === index ? 1.2 : 1 }}

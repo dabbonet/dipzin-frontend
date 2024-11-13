@@ -8,6 +8,11 @@ import { cn } from "@/lib/utils";
 import { Pill } from "../../pill";
 import type { Filter } from "@/types/navigation-types";
 import { motion } from "framer-motion";
+import {
+  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger
+} from "@/components/UI/tooltip";
+import { TooltipArrow } from "@radix-ui/react-tooltip";
+import { snakeCaseToWords } from "@/utils/StringUtils";
 
 const wrapperVariants = cva(
   "flex items-center gap-4 w-full max-w-full h-fit rounded-2xl border border-transparent bg-slate-800 text-sm transition-transform disabled:cursor-not-allowed disabled:opacity-50 text-white font-outfit",
@@ -99,6 +104,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         onFocus(event);
       }
     };
+
+    console.log('selectedFilters: ', JSON.stringify(selectedFilters, null, 2));
+
     return (
       <div className="w-full h-fit flex flex-col gap-2 font-outfit">
         {label && (
@@ -121,31 +129,41 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {selectedFilters && selectedFilters.length > 0 && (
               <div className="flex gap-1.5">
                 {selectedFilters.map((filter, index) => (
-                  // TODO: Handle negelections.
-                  <motion.div
-                    key={filter.name}
-                    initial={isInitialRender ? false : { opacity: 0, x: 0 }} // Only apply initial animation on subsequent renders
-                    animate={{ opacity: 1, x: 5 }}
-                    exit={{ opacity: 0, x: 0 }}
-                    transition={{ duration: 0.2, delay: index * 0.1 }}
-                  >
-                    <Pill
-                      className={cn(
-                        filter.neglected === true
-                          ? "opacity-50"
-                          : "opacity-100",
+                  <TooltipProvider key={filter.name}>
+                    <Tooltip delayDuration={0}>
+                      <TooltipTrigger asChild>
+                        <motion.div
+                          initial={isInitialRender ? false : { opacity: 0, x: 0 }} // Only apply initial animation on subsequent renders
+                          animate={{ opacity: 1, x: 5 }}
+                          exit={{ opacity: 0, x: 0 }}
+                          transition={{ duration: 0.2, delay: index * 0.1 }}
+                        >
+                          <Pill
+                            className={cn(
+                              filter.neglected === true
+                                ? "opacity-50"
+                                : "opacity-100",
+                            )}
+                            state="selected"
+                            startContent={(
+                              <Icon.Close
+                                onClick={() => handleFilterClose(filter)}
+                                className="size-4 text-white cursor-pointer hover:text-white/80 transition-colors"
+                              />
+                            )}
+                          >
+                            {filter.name}
+                          </Pill>
+                        </motion.div>
+                      </TooltipTrigger>
+                      {filter.neglected && filter.reason && (
+                        <TooltipContent className="flex items-center justify-center gap-1">
+                          {snakeCaseToWords(filter.reason)}
+                          <TooltipArrow style={{ fill: "#007160" }} width={14} height={5} />
+                        </TooltipContent>
                       )}
-                      state="selected"
-                      startContent={(
-                        <Icon.Close
-                          onClick={() => handleFilterClose(filter)}
-                          className="size-4 text-white cursor-pointer hover:text-white/80 transition-colors"
-                        />
-                      )}
-                    >
-                      {filter.name}
-                    </Pill>
-                  </motion.div>
+                    </Tooltip>
+                  </TooltipProvider>
                 ))}
               </div>
             )}

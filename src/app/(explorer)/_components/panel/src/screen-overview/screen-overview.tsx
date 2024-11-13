@@ -46,7 +46,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
   return (
     <div
       key={currentScreen.id}
-      className="flex flex-col gap-8 size-full items-start justify-center sm:justify-between transition-opacity duration-500 opacity-100"
+      className="flex flex-col gap-2 size-full items-start justify-center sm:justify-between transition-opacity duration-500 opacity-100 p-6"
     >
       <div className="relative w-full h-fit flex items-center justify-between">
         <ScreenAppDetails app={currentScreen.app} />
@@ -59,7 +59,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
         {!isMobile && <ActionButtons screen={currentScreen} />}
       </div>
 
-      <div className="size-full max-w-full sm:max-w-[55vw] mx-auto flex items-center justify-between gap-2">
+      <div className="size-full max-w-full sm:max-w-[60vw] mx-auto flex items-center justify-between gap-2">
         <TooltipProvider>
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
@@ -92,9 +92,9 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
               </div>
             )}
             {!showFullScreen && (
-              <div className="size-full flex flex-col items-center justify-center gap-4">
+              <div className="size-full flex flex-col items-center justify-center">
                 <Image
-                  className={cn(`w-fit ${currentScreen.app.platform === "web" ? "h-fit" : "h-[60vh] "} max-h-full max-w-full rounded-3xl z-10 bg-slate-950`)}
+                  className={cn(`w-fit ${currentScreen.app.platform === "web" ? "h-fit" : "h-[69vh] "} max-h-full max-w-full rounded-3xl z-10 bg-slate-950`)}
                   src={storage(
                     (currentScreen.screen?.hash ?? "") + (currentScreen.screen?.ext ?? "")
                   )}
@@ -104,7 +104,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
                   height={currentScreen.screen?.height ?? 0}
                   unoptimized
                 />
-                {isMobile && <ActionButtons screen={currentScreen} />}
+                {isMobile && <div className="w-full h-fit mt-4"><ActionButtons screen={currentScreen} /></div>}
               </div>
             )}
           </div>
