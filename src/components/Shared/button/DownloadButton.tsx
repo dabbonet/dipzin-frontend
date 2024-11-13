@@ -20,11 +20,7 @@ export const DownloadButton = ({
   const [showDownloaded, setShowDownloaded] = useState(false);
 
   const handleDownload = async () => {
-    if (Array.isArray(url)) {
-      await Promise.all(url.map((u) => downloadScreen(u)));
-    } else {
-      await downloadScreen(url);
-    }
+    await downloadScreen(url);
 
     if (!downloadError) {
       setShowDownloaded(true);

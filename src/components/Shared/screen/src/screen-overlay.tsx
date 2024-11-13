@@ -82,12 +82,19 @@ const GlobalTopOverlay = ({ screen, isSelected }: { screen: ScreenData, isSelect
       <div className="size-fit flex items-center gap-2">
         <CopyButton
           url={screenUrl}
-          then="Copied!"
+          then={
+            (
+              <>
+                <Icon.Check className="size-6" />
+                <p className="hidden sm:block">Copied!</p>
+              </>
+            )
+          }
           variant="darkGray"
           className="flex-1"
         >
           <Icon.Copy className="size-6 text-white" />
-          Copy
+          <p className="hidden sm:block">Copy</p>
         </CopyButton>
 
         <Dropdown

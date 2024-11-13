@@ -33,9 +33,13 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
 
   if (!flow) return null;
 
-  const screensUrls = flow.flow_screens.map(
-    (screen) => storage(screen.screen.screen.hash + screen.screen.screen.ext)
-  );
+  const screensUrls = flow?.flow_screens?.map(
+    (screen) => {
+      const hash = screen.screen?.screen?.hash || '';
+      const ext = screen.screen?.screen?.ext || '';
+      return storage(hash + ext);
+    }
+  ) || [];
 
   const handleCopyLink = () => {
     const link = `${window.location.origin}/flow/${flow.id}`;
@@ -106,7 +110,6 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
           )}
             >
               <Icon.Download className="size-6 fill-white stroke-white" />
-              Download
               <p className="hidden sm:block">Download</p>
             </DownloadButton>
 
