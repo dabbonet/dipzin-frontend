@@ -40,7 +40,7 @@ export const useSettingsModal = () => {
     try {
       const updatedData = {
         name: data.name,
-        username: `@${data.username}`,
+        username: data.username,
         title: data.title,
         bio: data.bio,
         avatar: data.avatar ? data.avatar[0] : null,

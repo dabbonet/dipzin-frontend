@@ -8,6 +8,7 @@ import { mergeIconFromObject } from '@/utils/StringUtils';
 import type { AppType } from '../../../../types/app-types';
 import { AppOverlay } from './app-overlay';
 import { cn } from '@/lib/utils';
+import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 
 const App = ({ app }: { app: AppType }) => {
   const [imageIndex, setImageIndex] = useState(0);
@@ -15,6 +16,10 @@ const App = ({ app }: { app: AppType }) => {
   const [imageError, setImageError] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null); // Ref to hold the interval
   const containerRef = useRef<HTMLDivElement | null>(null); // Ref for app-container
+
+  const {
+    setFilters
+  } = useQuery();
 
   // Extract the screens from app.screens and map them to objects with width, height, and url
   const screens = app.screens ? app.screens.map(({ screen }) => ({
@@ -58,6 +63,14 @@ const App = ({ app }: { app: AppType }) => {
 
   if (!app || !app?.screens || screens.length === 0) return null;
 
+  const handleAppClick = () => {
+    const handleStateAndUrlUpdate = (pattern: string, value: string) => {
+      const newFilter = { name: value, pattern };
+      setFilters((prevFilters) => [...prevFilters, newFilter]);
+    };
+    handleStateAndUrlUpdate('apps', app.name);
+  }
+
   const outerBorder = 'border-[3px] md:border-[6px] border-[#0f172aa6] hover:border-[#64748b26] transition-colors overflow-hidden'
 
   const innerBorder2 = 'border-[2px] md:border-[4px] border-[#0f172aa6] group-hover:border-slate-500 transition-colors overflow-hidden'
@@ -80,6 +93,8 @@ const App = ({ app }: { app: AppType }) => {
             height={screens[imageIndex]?.height ?? 0}
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageError(true)}
+            onClick={handleAppClick}
+            className="cursor-pointer"
             unoptimized
           />
         )}

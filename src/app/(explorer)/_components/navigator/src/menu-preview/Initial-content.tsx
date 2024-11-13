@@ -25,7 +25,7 @@ const AppItem = ({ name, imgSrc, onClick }: AppItemType & { onClick: () => void 
 );
 
 const FlowItem = ({ name, onClick }: FlowItemType & { onClick: () => void }) => (
-  <button onClick={onClick} className="flex flex-1 flex-col items-center justify-between aspect-square gap-2 p-4 rounded-2xl hover:bg-slate-700" type="button">
+  <button onClick={onClick} className="w-9 h-32 flex flex-1 flex-col items-center justify-between aspect-square gap-2 p-4 rounded-2xl hover:bg-slate-700" type="button">
     <Icon.ChevronDoubleRight className="size-8" />
     <h3 className="text-base font-semibold">{name}</h3>
   </button>

@@ -136,7 +136,7 @@ const SettingsModal = () => {
                 {errors.name && <p className="text-danger-400">{errors.name.message}</p>}
 
                 <Input
-                  className="py-5 w-full"
+                  className="py-5 w-full gap-1"
                   placeholder="Enter your username"
                   label="Username"
                   startContent={<span className="text-slate-500">@</span>}

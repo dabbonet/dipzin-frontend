@@ -224,15 +224,15 @@ const UserMenu = () => {
         </CommandGroup>
 
         <CommandGroup heading="Coming Soon">
-          <div className="overflow-hidden max-w-fit md:max-w-sm" ref={emblaRef}>
+          <div className="max-w-fit md:max-w-sm" ref={emblaRef}>
             <div className="flex">
               {[0, 1, 2].map((page) => (
-                <div key={page} className="mx-2 md:mx-4 flex-[0_0_100%]">
+                <div key={page} className="mx-1 flex-[0_0_100%]">
                   <div className="grid grid-cols-2 gap-3">
                     {soonItems.slice(page * 4, (page + 1) * 4).map((item) => (
                       <div
                         key={item.heading}
-                        className="size-full flex-1 bg-slate-800 hover:bg-slate-900 rounded-2xl p-4 flex flex-col gap-1 items-start justify-between text-start"
+                        className="w-full h-[135px] bg-slate-800 hover:bg-slate-900 rounded-2xl p-4 flex flex-col gap-1 items-start justify-between text-start"
                       >
                         <h3 className="text-[12px] leading-normal font-medium text-white">
                           {item.heading}

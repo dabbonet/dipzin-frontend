@@ -23,25 +23,31 @@ import { Dropdown } from '../../dropdown';
 import { cn } from '@/lib/utils';
 import { DialogClose } from '@/components/UI/dialog';
 import { useCopyScreen } from '@/hooks/useCopyScreen';
+import { DownloadButton } from '../../button/DownloadButton';
 
 const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) => {
-  const { query } = useQuery();
+  const { query, setFilters } = useQuery();
   const isMobile = useIsMobile()
   const { copyImageToClipboard, loading: copying } = useCopyScreen();
   const { downloadScreen, loading: downloading } = useDownloadScreen();
 
   if (!flow) return null;
 
-  const handleBulkDownload = () => {
-    const imageUrls = flow.flow_screens.map(
-      (screen) => storage(screen.screen.screen.hash + screen.screen.screen.ext)
-    );
-    downloadScreen(imageUrls, `${flow.name}-flow`);
-  };
+  const screensUrls = flow.flow_screens.map(
+    (screen) => storage(screen.screen.screen.hash + screen.screen.screen.ext)
+  );
 
   const handleCopyLink = () => {
     const link = `${window.location.origin}/flow/${flow.id}`;
     navigator.clipboard.writeText(link);
+  }
+
+  const handleAppClick = () => {
+    const handleStateAndUrlUpdate = (pattern: string, value: string) => {
+      const newFilter = { name: value, pattern };
+      setFilters((prevFilters) => [...prevFilters, newFilter]);
+    };
+    handleStateAndUrlUpdate('apps', flow.app.name);
   }
 
   const icon = mergeIconFromObject(flow?.app?.icon as any || "");
@@ -70,7 +76,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
                 Screens )
               </p>
             </div>
-            <div className={cn(`${view === "opened" ? "bg-transparent" : "bg-slate-800/60"} flex items-center gap-1.5 sm:gap-4 pt-2 ps-2 pe-6 rounded-full`)}>
+            <button type="button" onClick={handleAppClick} className={cn(`${view === "opened" ? "bg-transparent" : "bg-slate-800/60"} flex items-center gap-1.5 sm:gap-4 py-2 ps-2 pe-6 rounded-full`)}>
               <Avatar>
                 <AvatarImage src={storage(icon)} alt={flow.app?.name} />
                 <AvatarFallback>
@@ -81,7 +87,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
               <p className="hidden md:flex text-xs text-slate-400 whitespace-nowrap">
                 {flow.app?.tag_line}
               </p>
-            </div>
+            </button>
             {view === "opened" && isMobile && (
             <DialogClose>
               <Icon.Close className="size-6" />
@@ -89,10 +95,20 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
             )}
           </div>
           <div className="hidden md:flex items-center gap-4">
-            <Button onClick={handleBulkDownload} disabled={downloading} variant="darkGray" className="bg-slate-800">
+            <DownloadButton
+              variant="darkGray"
+              url={screensUrls as unknown as string[]}
+              then={(
+                <>
+                  <Icon.Check className="size-6" />
+                  <p className="hidden sm:block">Downloaded!</p>
+                </>
+          )}
+            >
               <Icon.Download className="size-6 fill-white stroke-white" />
               Download
-            </Button>
+              <p className="hidden sm:block">Download</p>
+            </DownloadButton>
 
             <Dropdown
               trigger={(
