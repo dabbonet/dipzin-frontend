@@ -88,24 +88,38 @@ export const ActionButtons = ({ screen }: { screen: ScreenType }) => {
     <div className="w-full sm:w-fit flex items-center justify-end gap-2 sm:gap-4 font-medium whitespace-nowrap font-poppins">
       <CopyButton
         url={screenUrl}
-        then="Copied!"
+        then={
+          (
+            <>
+              <Icon.Check className="size-6" />
+              <p className="hidden sm:block">Copied!</p>
+            </>
+          )
+        }
         size={isMobile ? "md" : "xl"}
         variant="liteGray"
         className="flex-1"
       >
         <Icon.Copy className="size-6" />
-        Copy
+        <p className="hidden sm:block">Copy</p>
       </CopyButton>
 
       <DownloadButton
         url={screenUrl}
-        then="Downloaded!"
+        then={
+          (
+            <>
+              <Icon.Check className="size-6" />
+              <p className="hidden sm:block">Downloaded!</p>
+            </>
+          )
+        }
         size={isMobile ? "md" : "xl"}
         variant="darkGray"
         className="flex-1"
       >
         <Icon.Download className="size-6" />
-        Download
+        <p className="hidden sm:block">Download</p>
       </DownloadButton>
 
       <Dropdown

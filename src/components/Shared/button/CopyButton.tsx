@@ -6,7 +6,7 @@ import Button, { type ButtonProps } from "./src/button";
 
 type CopyButtonProps = {
   url: string;
-  then: string;
+  then: React.ReactNode;
   children: React.ReactNode;
 } & Omit<ButtonProps, 'onClick' | 'disabled'>;
 
