@@ -28,3 +28,10 @@ export const capitalizeFirstLetter = (str: string): string => {
   if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const snakeCaseToWords = (string: string): string => {
+  if (!string) return '';
+  const words = string.toLowerCase().split('_');
+  const formattedWords = words.map((word) => capitalizeFirstLetter(word));
+  return formattedWords.join(' ');
+};

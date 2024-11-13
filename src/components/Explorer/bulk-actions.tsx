@@ -2,30 +2,27 @@
 
 import React from 'react';
 import { Icon } from '../UI/icon';
-import { Button } from '../Shared/button';
-import { useDownloadScreen } from '@/hooks/useDownloadScreen';
-import { storage } from '@/utils/storage';
 import { useBulkActionStore } from '@/stores/useBulkActionStore';
+import { DownloadButton } from '../Shared/button/DownloadButton';
+import { storage } from '@/utils/storage';
 
 const BulkActions: React.FC = () => {
   const { selectedScreens, clearSelection } = useBulkActionStore();
   const selectedScreensArray = Object.values(selectedScreens);
 
-  const { downloadScreen, loading: downloading } = useDownloadScreen();
   // const { copyImageToClipboard, loading: copying } = useCopyScreen();
-
-  const handleDownload = () => {
-    const imageUrls = selectedScreensArray.map(
-      (screen) => storage(screen.screen.hash + screen.screen.ext)
-    );
-    downloadScreen(imageUrls, 'Screenshots');
-  };
 
   // const handleCopy = async () => {
   //   await Promise.all(
   //     selectedScreensArray.map((screen) => copyImageToClipboard(storage(screen.screen.hash + screen.screen.ext)))
   //   );
   // };
+
+  const screensUrls = selectedScreensArray.map(
+    (screen) => storage(screen.screen.hash + screen.screen.ext)
+  );
+
+  console.log('screensUrls: ', JSON.stringify(screensUrls, null, 2));
 
   const hasSelectedScreens = selectedScreensArray.length > 0;
 
@@ -50,15 +47,20 @@ const BulkActions: React.FC = () => {
         </button>
       </span>
       <div className="size-fit flex items-center justify-center gap-3">
-        <Button
+        <DownloadButton
           variant="darkGray"
-          aria-label="download selected files"
-          onClick={handleDownload}
-          disabled={downloading}
+          url={screensUrls as unknown as string[]}
+          then={(
+            <>
+              <Icon.Check className="size-6" />
+              <p className="hidden sm:block">Downloaded!</p>
+            </>
+          )}
         >
           <Icon.Download className="size-6" />
           <p className="hidden sm:block">Download</p>
-        </Button>
+        </DownloadButton>
+
         {/* <Button
           variant="darkGray"
           aria-label="Copy selected files"
@@ -68,9 +70,9 @@ const BulkActions: React.FC = () => {
           <Icon.Copy className='size-6' />
           <p className="hidden sm:block">Copy</p>
         </Button> */}
-        <Button aria-label="Save selected files">
+        {/* <Button aria-label="Save selected files">
           Save
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

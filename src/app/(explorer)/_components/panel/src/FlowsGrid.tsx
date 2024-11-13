@@ -11,9 +11,14 @@ const Footer = ({ context: { loading } }: any) => (
 );
 
 /** Item content logic for FlowsGrid */
-const ItemContent = (_: number, flow: any) => (
-  <Flow key={flow.id} flow={flow} />
-);
+const ItemContent = (_: number, flow: any) => {
+  console.log('flow: ', JSON.stringify(flow, null, 2));
+  const hasValidScreens = flow.flow_screens.some((screen: any) => screen.screen !== null);
+  if (hasValidScreens) {
+    return <Flow key={flow.id} flow={flow} />;
+  }
+  return null;
+};
 
 /**
  * FlowsGrid Component

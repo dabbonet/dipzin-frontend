@@ -12,34 +12,48 @@ import { extractInitials, mergeIconFromObject } from "@/utils/StringUtils";
 import { Dropdown } from "@/components/Shared/dropdown";
 import { Checkbox } from "@/components/UI/checkbox";
 import { storage } from "@/utils/storage";
-import { useCopyScreen } from "@/hooks/useCopyScreen";
 import type { AppType } from "@/types/app-types";
 import type { ScreenData } from "@/types/screen-types";
 import { useBulkActionStore } from "@/stores/useBulkActionStore";
+import { CopyButton } from "../../button/CopyButton";
+import { DropdownMenuItem } from "@/components/UI/dropdown-menu";
+import { useQuery } from "@/app/(explorer)/_hooks/useQuery";
 
 // App Info Component
-const AppInfo = ({ app }: { app: AppType }) => (
-  <div className="flex items-center gap-2 md:gap-4">
-    <Avatar>
-      <AvatarImage
-        width={80}
-        height={80}
-        src={storage(mergeIconFromObject(app?.icon))}
-        alt={app?.name}
-      />
-      <AvatarFallback>{extractInitials(app?.name || "")}</AvatarFallback>
-    </Avatar>
-    <div className="font-poppins">
-      <h3 className="text-white text-lg font-semibold">{app?.name}</h3>
-      <p className="text-white text-sm">{app?.tag_line}</p>
-    </div>
-  </div>
-);
+const AppInfo = ({ app }: { app: AppType }) => {
+  const {
+    setFilters
+  } = useQuery();
+
+  const handleAppClick = () => {
+    const handleStateAndUrlUpdate = (pattern: string, value: string) => {
+      const newFilter = { name: value, pattern };
+      setFilters((prevFilters) => [...prevFilters, newFilter]);
+    };
+    handleStateAndUrlUpdate('apps', app.name);
+  }
+
+  return (
+    <button onClick={handleAppClick} className="flex items-center text-start gap-2 md:gap-4 cursor-pointer" type="button" aria-label="App">
+      <Avatar>
+        <AvatarImage
+          width={80}
+          height={80}
+          src={storage(mergeIconFromObject(app?.icon))}
+          alt={app?.name}
+        />
+        <AvatarFallback>{extractInitials(app?.name || "")}</AvatarFallback>
+      </Avatar>
+      <div className="font-poppins">
+        <h3 className="text-white text-lg font-semibold">{app?.name}</h3>
+        <p className="text-white text-sm">{app?.tag_line}</p>
+      </div>
+    </button>
+  );
+}
 
 // Global Top Overlay
 const GlobalTopOverlay = ({ screen, isSelected }: { screen: ScreenData, isSelected: boolean }) => {
-  const { copyImageToClipboard, loading: copying } = useCopyScreen();
-
   const { selectScreen, deselectScreen } = useBulkActionStore();
   const selected = isSelected;
 
@@ -51,6 +65,13 @@ const GlobalTopOverlay = ({ screen, isSelected }: { screen: ScreenData, isSelect
     }
   };
 
+  const screenUrl = storage(screen.screen.hash + screen.screen.ext);
+
+  const handleCopyLink = () => {
+    const link = `${window.location.origin}/screen/${screen.id}`;
+    navigator.clipboard.writeText(link);
+  }
+
   return (
     <div className="w-full h-fit flex items-center justify-between px-5">
       <Checkbox
@@ -59,17 +80,16 @@ const GlobalTopOverlay = ({ screen, isSelected }: { screen: ScreenData, isSelect
         onCheckedChange={handleCheckboxChange}
       />
       <div className="size-fit flex items-center gap-2">
-        <Button
-          onClick={() => copyImageToClipboard(
-            storage(screen.screen.hash + screen.screen.ext),
-          )}
-          disabled={copying}
+        <CopyButton
+          url={screenUrl}
+          then="Copied!"
           variant="darkGray"
-          className="bg-slate-800 p-2 md:px-3.5 md:py-2.5 rounded-full"
+          className="flex-1"
         >
           <Icon.Copy className="size-6 text-white" />
-          <p className="hidden md:flex">{copying ? "Copying..." : "Copy"}</p>
-        </Button>
+          Copy
+        </CopyButton>
+
         <Dropdown
           trigger={(
             <Button
@@ -81,7 +101,12 @@ const GlobalTopOverlay = ({ screen, isSelected }: { screen: ScreenData, isSelect
               <Icon.Dots className="size-6 text-white" />
             </Button>
           )}
-          content="content"
+          content={(
+            <DropdownMenuItem onClick={handleCopyLink}>
+              <Icon.Link className="size-6" />
+              Copy Link
+            </DropdownMenuItem>
+          )}
           classNames={{
             content: "w-fit",
           }}

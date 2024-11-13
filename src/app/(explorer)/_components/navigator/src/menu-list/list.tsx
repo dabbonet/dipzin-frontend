@@ -4,6 +4,7 @@ import React from 'react';
 import { getItemDescription, getNavigatorListIcon } from '@/app/(explorer)/_utils/keywordUtils';
 import type { Category, Query } from '@/types/navigation-types';
 import { getPatternHandle } from '@/app/(explorer)/_utils/queryUtils';
+import ListItemSkeleton from './list-item-skeleton';
 
 const categories: Category[] = [
   {
@@ -54,8 +55,20 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
     }
   };
 
+  console.log('searchResults: ', JSON.stringify(searchResults, null, 2));
+
   if (hasKeyword) {
-    if (searchResults.length > 0) {
+    if (!results) {
+      // Show loading skeleton when results are not yet available
+      return (
+        <div className="w-[30%] max-h-[50vh] rounded-[30px] p-4 flex flex-col gap-4 bg-[#1A2333] overflow-y-scroll scrollbar-hide">
+          {Array.from({ length: 5 }).map((_, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <ListItemSkeleton key={index} />
+          ))}
+        </div>
+      );
+    } if (searchResults.length > 0) {
       return (
         <div className="w-[30%] max-h-[50vh] rounded-[30px] p-4 flex flex-col gap-4 bg-[#1A2333] overflow-y-scroll scrollbar-hide">
           {searchResults.map((result: any) => {
@@ -75,7 +88,12 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
         </div>
       );
     }
-    return <div>No results found</div>;
+    // Show "No results found" message when there are no search results
+    return (
+      <div className="w-[30%] max-h-[50vh] rounded-[30px] p-4 flex items-center justify-center bg-[#1A2333] overflow-y-scroll scrollbar-hide">
+        <p className="text-slate-500 font-semibold text-lg">No results found</p>
+      </div>
+    );
   }
   return (
     <div className="w-[30%] max-h-[50vh] rounded-[30px] p-4 flex flex-col gap-4 bg-[#1A2333] overflow-y-scroll scrollbar-hide">
