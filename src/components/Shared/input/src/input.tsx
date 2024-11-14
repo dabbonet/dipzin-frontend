@@ -105,8 +105,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       }
     };
 
-    console.log('selectedFilters: ', JSON.stringify(selectedFilters, null, 2));
-
     return (
       <div className="w-full h-fit flex flex-col gap-2 font-outfit">
         {label && (

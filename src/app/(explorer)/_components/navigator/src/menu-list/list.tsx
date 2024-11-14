@@ -55,8 +55,6 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
     }
   };
 
-  console.log('searchResults: ', JSON.stringify(searchResults, null, 2));
-
   if (hasKeyword) {
     if (!results) {
       // Show loading skeleton when results are not yet available

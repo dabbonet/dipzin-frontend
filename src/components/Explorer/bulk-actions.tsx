@@ -22,8 +22,6 @@ const BulkActions: React.FC = () => {
     (screen) => storage(screen.screen.hash + screen.screen.ext)
   );
 
-  console.log('screensUrls: ', JSON.stringify(screensUrls, null, 2));
-
   const hasSelectedScreens = selectedScreensArray.length > 0;
 
   return (

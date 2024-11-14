@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { useEffect, useRef } from 'react';
-import debounce from 'lodash/debounce';
+import { useCallback, useEffect } from 'react';
 import { suggestSearch } from '../_actions/suggestedSearch';
 import { searchByKeyword } from '../_actions/searchByKeyword';
 import type { KeywordResult } from '@/types/navigation-types';
@@ -54,23 +53,27 @@ const useKeyword = () => {
     setSuggestedSearch,
   } = useKeywordStore();
 
-  const fetchResults = useRef(
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    debounce((keyword: string) => {
-      if (keyword) {
-        searchByKeyword(keyword)
-          .then((data) => setResults(data))
-          .catch(() => setResults(null));
+  const fetchResults = useCallback(
+    async (keywordInput: string) => {
+      if (keywordInput) {
+        try {
+          const data = await searchByKeyword(keywordInput);
+          setResults(data);
+        } catch {
+          setResults(null);
+        }
       } else {
         setResults(null);
         setSelectedResult(null);
       }
-    }, 300)
-  ).current;
+    },
+    [setResults, setSelectedResult]
+  );
 
-  useEffect(() => {
-    fetchResults(keyword);
-  }, [keyword, fetchResults]);
+  const memoizedSetKeyword = useCallback((newKeyword: string) => {
+    setKeyword(newKeyword);
+    fetchResults(newKeyword);
+  }, [setKeyword, fetchResults]);
 
   useEffect(() => {
     if (!suggestedSearch) {
@@ -84,7 +87,7 @@ const useKeyword = () => {
 
   return {
     keyword,
-    setKeyword,
+    setKeyword: memoizedSetKeyword,
     results,
     selectedResult,
     setSelectedResult,
