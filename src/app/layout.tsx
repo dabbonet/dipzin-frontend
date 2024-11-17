@@ -1,6 +1,5 @@
 import '@/styles/global.css';
 
-import { Background } from '@/components/UI/background';
 import { Toaster } from '@/components/Shared/toaster';
 import { SessionProvider } from 'next-auth/react';
 
@@ -16,11 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="font-poppins">
+      <body className="font-poppins bg-slate-950">
         <SessionProvider>
           {children}
         </SessionProvider>
-        <Background />
+        {/* <Background /> */}
         <Toaster />
       </body>
     </html>

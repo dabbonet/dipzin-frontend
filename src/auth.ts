@@ -125,5 +125,6 @@ export const {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
+  redirectProxyUrl: process.env.BASE_URL,
   trustHost: true,
 });

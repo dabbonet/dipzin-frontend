@@ -8,18 +8,19 @@ import { ScreenOverlay } from "./screen-overlay";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import type { ScreenData } from "@/types/screen-types";
+import { GlobalScreenOverlay } from "./global-screen-overlay";
 
 // ScreenType
 export type ScreenProps = {
   screen: ScreenData;
-  overlay?: boolean;
+  overlay?: false | "global" | "default";
   borderless?: boolean;
   href?: string;
   size?: "medium" | "large" | null;
 } & React.HTMLAttributes<HTMLDivElement>; // Extend with div props
 
 const Screen = ({
-  screen, overlay = true, borderless, href, size, ...props // Destructure additional props
+  screen, overlay = "default", borderless, href, size, ...props // Destructure additional props
 }: ScreenProps) => {
   const [imageLoaded, setImageLoaded] = React.useState(false);
   const [imageError, setImageError] = React.useState(false);
@@ -58,8 +59,11 @@ const Screen = ({
           unoptimized
         />
       )}
-      {imageLoaded && !imageError && overlay && screen.app && (
-      <ScreenOverlay screen={screen} />
+      {imageLoaded && !imageError && overlay === "global" && (
+        <GlobalScreenOverlay screen={screen} />
+      )}
+      {imageLoaded && !imageError && overlay === "default" && screen.app && (
+        <ScreenOverlay screen={screen} />
       )}
       {imageLoaded && !imageError && href && (
       <Link

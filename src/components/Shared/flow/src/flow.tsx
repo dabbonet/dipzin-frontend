@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+
 "use client"
 
 import React from 'react';
@@ -14,7 +17,6 @@ import {
   Carousel, CarouselContent, CarouselItem
 } from "@/components/UI/carousel";
 import useIsMobile from '@/hooks/useIsMobile';
-import Link from 'next/link';
 import { useDownloadScreen } from '@/hooks/useDownloadScreen';
 import {
   DropdownMenuItem,
@@ -24,10 +26,12 @@ import { cn } from '@/lib/utils';
 import { DialogClose } from '@/components/UI/dialog';
 import { useCopyScreen } from '@/hooks/useCopyScreen';
 import { DownloadButton } from '../../button/DownloadButton';
+import { useRouter } from 'next/navigation';
 
 const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) => {
   const { query, setApps } = useQuery();
   const isMobile = useIsMobile()
+  const router = useRouter()
   const { copyImageToClipboard, loading: copying } = useCopyScreen();
   const { downloadScreen, loading: downloading } = useDownloadScreen();
 
@@ -46,7 +50,15 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
     navigator.clipboard.writeText(link);
   }
 
-  const handleAppClick = () => {
+  const handleRedirect = () => {
+    router.push(`/flow/${flow.id}`, { scroll: false });
+  };
+
+  const stopPropagation = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  const handleAppClick = (e: React.MouseEvent) => {
     setApps((prevApps) => {
       const isAppSelected = prevApps.some((selectedApp: AppType) => selectedApp.id === flow.app.id);
       if (!isAppSelected) {
@@ -54,29 +66,30 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
       }
       return prevApps;
     });
+    stopPropagation(e)
   };
 
   const icon = mergeIconFromObject(flow?.app?.icon as any || "");
   // eslint-disable-next-line no-nested-ternary
   const widthClass = view === "opened"
-    ? query.platform !== 'web' ? 'w-[calc(100%/2)] sm:w-[calc(100%/5)]' : 'w-[calc(100%/1)] sm:w-[calc(100%/2)]'
+    ? query.platform !== 'web' ? 'w-[calc(100%/2)] sm:w-[calc(100%/5)]' : 'w-[calc(100%/1)] sm:w-[calc(100%/1.5)]'
     : query.platform !== 'web' ? 'w-[calc(100%/3)] sm:w-[calc(100%/6)]' : 'w-[calc(100%/1.5)] sm:w-[calc(100%/2.5)]';
 
   return (
     <motion.div
-      className={cn(`relative size-full rounded-2xl flex items-center justify-center ${view === "opened" ? "pb-0" : "pb-10"}`)}
+      className={cn(`relative size-full rounded-2xl flex items-center justify-center cursor-pointer ${view === "opened" ? "pb-0" : "pb-10"}`)}
       initial="initial"
       whileHover="hover"
       animate="initial"
       transition={{ duration: 0.3 }}
+      onClick={handleRedirect}
+
     >
-      <div className={cn(`bg-slate-900 size-full rounded-2xl`)}>
+      <div className={cn(`bg-slate-900 size-full rounded-2xl z-5`)}>
         <div className={cn(`flex justify-between w-full ${view === "opened" ? "p-0" : "p-4"} sm:px-8`)}>
           <div className="flex gap-1.5 sm:gap-4 items-center">
             <div className="flex flex-wrap gap-1.5 sm:gap-4 items-center">
-              <Link className="text-white text-xl font-semibold whitespace-normal sm:whitespace-nowrap" href={`/flow/${flow.id}`} scroll={false}>
-                {flow.name}
-              </Link>
+              {flow.name}
               <p className="text-slate-400 whitespace-nowrap">
                 (
                 {' '}
@@ -103,7 +116,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
             </DialogClose>
             )}
           </div>
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4 z-10" onClick={stopPropagation}>
             <DownloadButton
               variant="darkGray"
               url={screensUrls as unknown as string[]}
@@ -179,9 +192,9 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
             {flow && flow?.flow_screens?.map((screen) => (
               <div
                 key={screen.id}
-                className={`shrink-0 ${widthClass} h-auto flex justify-center items-center mb-6`}
+                className={`shrink-0 ${widthClass} h-fit flex justify-center items-center mb-6`}
               >
-                <Screen size={view === "opened" ? "large" : "medium"} key={screen.id} screen={screen.screen || {}} overlay={false} />
+                <Screen onClick={stopPropagation} size={view === "opened" ? "large" : "medium"} key={screen.id} screen={screen.screen || {}} overlay="global" />
               </div>
             ))}
           </div>

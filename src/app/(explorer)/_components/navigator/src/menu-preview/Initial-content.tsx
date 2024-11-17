@@ -4,6 +4,8 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/Shared/avatar'
 import { Pill } from '@/components/Shared/pill';
 import { storage } from '@/utils/storage';
 import { Icon } from '@/components/UI/icon';
+import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
+import type { AppType } from '@/types/app-types';
 
 type AppItemType = {
   name: string;
@@ -42,19 +44,30 @@ type NavigatorMenuInitialContentProps = {
 };
 
 export const NavigatorMenuInitialContent = ({ data: initialData, handleUpdate }: NavigatorMenuInitialContentProps) => {
+  const { setApps } = useQuery();
   if (!initialData) return null;
+
+  const handleAppClick = (appName: string) => {
+    setApps((prevApps) => {
+      const isAppSelected = prevApps.some((selectedApp: AppType) => selectedApp.name === appName);
+      if (!isAppSelected) {
+        return [...prevApps, appName.toLowerCase()];
+      }
+      return prevApps;
+    });
+  };
 
   return (
     <div className="size-full space-y-2 p-4 overflow-y-auto">
       <div className="space-y-2">
         <h2 className="text-lg text-aqua-500 font-medium">Most Viewed Apps</h2>
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
-          {initialData.apps?.map((item: any) => (
+          {initialData.apps?.map((app: any) => (
             <AppItem
-              name={item.name}
-              imgSrc={storage(mergeIconFromObject(item.icon))}
-              key={item.name}
-              onClick={() => handleUpdate('apps', item.name)}
+              name={app.name}
+              imgSrc={storage(mergeIconFromObject(app.icon))}
+              key={app.name}
+              onClick={() => handleAppClick(app.name)}
             />
           ))}
         </div>

@@ -31,7 +31,7 @@ const DesktopNavigatorView: React.FC = () => {
 
   const { keyword, setKeyword } = useKeyword();
   const {
-    query, setFilters, setPattern, suggestions, setPlatform, setApps
+    query, setFilters, setPattern, suggestions, setPlatform
   } = useQuery();
   const { filters, platform, pattern } = query || {};
 
@@ -97,8 +97,6 @@ const DesktopNavigatorView: React.FC = () => {
           handleUpdate={(updateFn, target) => {
             if (target === 'filters') {
               setFilters(updateFn(query.filters));
-            } else if (target === 'apps') {
-              setApps(updateFn(query.apps));
             }
           }}
         />
