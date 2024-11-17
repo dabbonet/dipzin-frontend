@@ -8,10 +8,10 @@ export default function Modal({ children, className }: { children: React.ReactNo
   const router = useRouter();
 
   function onDismiss() {
-    if (window.history.length > 1) {
+    if (window.history.length > 2) {
       router.back();
     } else {
-      router.push("/");
+      router.replace("/");
     }
   }
 

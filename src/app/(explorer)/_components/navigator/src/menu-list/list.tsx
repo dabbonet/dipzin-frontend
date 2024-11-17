@@ -88,13 +88,11 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
     }
     // Show "No results found" message when there are no search results
     return (
-      <div className="w-[30%] max-h-[50vh] rounded-[30px] p-4 flex items-center justify-center bg-[#1A2333] overflow-y-scroll scrollbar-hide">
-        <p className="text-slate-500 font-semibold text-lg">No results found</p>
-      </div>
+      <p className="text-slate-500 font-semibold text-lg">No results found</p>
     );
   }
   return (
-    <div className="w-[30%] max-h-[50vh] rounded-[30px] p-4 flex flex-col gap-4 bg-[#1A2333] overflow-y-scroll scrollbar-hide">
+    <>
       {categories.map((category: Category) => (
         <div key={category.id}>
           <NavigatorMenuItem
@@ -105,6 +103,6 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
           />
         </div>
       ))}
-    </div>
+    </>
   );
 };

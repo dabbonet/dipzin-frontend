@@ -24,29 +24,43 @@ import {
   TooltipProvider, Tooltip, TooltipTrigger, TooltipContent
 } from "@/components/UI/tooltip";
 import { TooltipArrow } from "@radix-ui/react-tooltip";
+import type { AppType } from "@/types/app-types";
 
-export const ScreenAppDetails = ({ app }: { app: ScreenType["app"] }) => (
-  <div className="w-full sm:w-fit h-fit flex items-center gap-3 sm:gap-4">
-    <Avatar size="medium">
-      <AvatarImage
-        src={storage(mergeIconFromObject(app.icon))}
-        alt={app.name}
-      />
-      <AvatarFallback>{extractInitials(app.name)}</AvatarFallback>
-    </Avatar>
-    <div className="space-y-0 sm:space-y-1 flex flex-col">
-      <h3 className="text-2xl font-medium leading-6 text-white font-outfit sm:text-xl">
-        {app.name}
-      </h3>
-      <p className="text-gray-200 font-poppins sm:text-sm sm:text-gray-400 sm:truncate sm:whitespace-nowrap sm:max-w-[50vw]">
-        {app.tag_line}
-      </p>
-    </div>
-    <DialogClose className="block sm:hidden ml-auto p-3">
-      <Icon.Close className="size-7" />
+export const ScreenAppDetails = ({ app }: { app: ScreenType["app"] }) => {
+  const { setApps } = useQuery();
+  const handleAppClick = () => {
+    setApps((prevApps) => {
+      const isAppSelected = prevApps.some((selectedApp: AppType) => selectedApp.id === app.id);
+      if (!isAppSelected) {
+        return [...prevApps, app];
+      }
+      return prevApps;
+    });
+  };
+
+  return (
+    <DialogClose className="w-full sm:w-fit h-fit flex items-center gap-3 sm:gap-4 text-start" onClick={handleAppClick} aria-label="select app">
+      <Avatar size="medium">
+        <AvatarImage
+          src={storage(mergeIconFromObject(app.icon))}
+          alt={app.name}
+        />
+        <AvatarFallback>{extractInitials(app.name)}</AvatarFallback>
+      </Avatar>
+      <div className="space-y-0 sm:space-y-1 flex flex-col">
+        <h3 className="text-2xl font-medium leading-6 text-white font-outfit sm:text-xl">
+          {app.name}
+        </h3>
+        <p className="text-gray-200 font-poppins sm:text-sm sm:text-gray-400 sm:truncate sm:whitespace-nowrap sm:max-w-[50vw]">
+          {app.tag_line}
+        </p>
+      </div>
+      <DialogClose className="block sm:hidden ml-auto p-3">
+        <Icon.Close className="size-7" />
+      </DialogClose>
     </DialogClose>
-  </div>
-);
+  )
+};
 
 export const WebScreenTabs = ({
   toggleFullScreen,
