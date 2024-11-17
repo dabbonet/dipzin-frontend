@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { storage } from '@/utils/storage';
-import type { FlowType } from '@/types/app-types';
+import type { AppType, FlowType } from '@/types/app-types';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/Shared/avatar";
 import { extractInitials, mergeIconFromObject } from '@/utils/StringUtils';
 import { Screen } from '@/components/Shared/screen';
@@ -26,7 +26,7 @@ import { useCopyScreen } from '@/hooks/useCopyScreen';
 import { DownloadButton } from '../../button/DownloadButton';
 
 const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) => {
-  const { query, setFilters } = useQuery();
+  const { query, setApps } = useQuery();
   const isMobile = useIsMobile()
   const { copyImageToClipboard, loading: copying } = useCopyScreen();
   const { downloadScreen, loading: downloading } = useDownloadScreen();
@@ -47,15 +47,20 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
   }
 
   const handleAppClick = () => {
-    const handleStateAndUrlUpdate = (pattern: string, value: string) => {
-      const newFilter = { name: value, pattern };
-      setFilters((prevFilters) => [...prevFilters, newFilter]);
-    };
-    handleStateAndUrlUpdate('apps', flow.app.name);
-  }
+    setApps((prevApps) => {
+      const isAppSelected = prevApps.some((selectedApp: AppType) => selectedApp.id === flow.app.id);
+      if (!isAppSelected) {
+        return [...prevApps, flow.app];
+      }
+      return prevApps;
+    });
+  };
 
   const icon = mergeIconFromObject(flow?.app?.icon as any || "");
-  const widthClass = query.platform !== 'web' ? 'w-[calc(100%/3)] sm:w-[calc(100%/6)]' : 'w-[calc(100%/1.5)] sm:w-[calc(100%/2.5)]';
+  // eslint-disable-next-line no-nested-ternary
+  const widthClass = view === "opened"
+    ? query.platform !== 'web' ? 'w-[calc(100%/2)] sm:w-[calc(100%/5)]' : 'w-[calc(100%/1)] sm:w-[calc(100%/2)]'
+    : query.platform !== 'web' ? 'w-[calc(100%/3)] sm:w-[calc(100%/6)]' : 'w-[calc(100%/1.5)] sm:w-[calc(100%/2.5)]';
 
   return (
     <motion.div
@@ -65,7 +70,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
       animate="initial"
       transition={{ duration: 0.3 }}
     >
-      <div className={cn(`${view === "opened" ? "bg-transparent" : "bg-slate-900"} size-full rounded-2xl`)}>
+      <div className={cn(`bg-slate-900 size-full rounded-2xl`)}>
         <div className={cn(`flex justify-between w-full ${view === "opened" ? "p-0" : "p-4"} sm:px-8`)}>
           <div className="flex gap-1.5 sm:gap-4 items-center">
             <div className="flex flex-wrap gap-1.5 sm:gap-4 items-center">
@@ -157,13 +162,13 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
                       <Icon.Download className="size-6" />
                       {downloading ? "Downloading..." : "Download"}
                     </Button>
-                    <Button
+                    {/* <Button
                       isIconOnly
                       size="md"
                       variant="darkGray"
                     >
                       <Icon.Save className="size-6" />
-                    </Button>
+                    </Button> */}
                   </div>
                 </CarouselItem>
               ))}
@@ -176,7 +181,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
                 key={screen.id}
                 className={`shrink-0 ${widthClass} h-auto flex justify-center items-center mb-6`}
               >
-                <Screen size="medium" key={screen.id} screen={screen.screen || {}} overlay={false} />
+                <Screen size={view === "opened" ? "large" : "medium"} key={screen.id} screen={screen.screen || {}} overlay={false} />
               </div>
             ))}
           </div>

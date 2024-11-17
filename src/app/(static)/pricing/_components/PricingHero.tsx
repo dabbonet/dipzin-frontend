@@ -67,7 +67,7 @@ interface PricingHeroProps {
 }
 
 const PricingHero: React.FC<PricingHeroProps> = ({ checkoutPlans }) => (
-  <section className="py-8 mx-auto max-w-screen-2xl lg:py-16">
+  <section className="py-8 mx-auto max-w-screen-xl lg:py-16">
     <div className="mx-auto max-w-screen-lg text-center mb-8 lg:mb-12">
       <span className="text-aqua-500 text-base font-medium mb-1">Our Plans</span>
       <h2 className="mb-4 text-6xl tracking-tight">Tailored Pricing for Every Business</h2>

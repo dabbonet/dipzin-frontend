@@ -11,7 +11,7 @@ const CheckCircle = memo(({ className }: AnimationProps) => (
   <motion.div
     initial={{ scale: 0 }}
     animate={{ scale: 1 }}
-    className={cn("w-8 h-8 aspect-square bg-[#20c55d] fill-transparent rounded-full p-1", className)}
+    className={cn("w-7 h-7 aspect-square bg-[#20c55d] fill-transparent rounded-full p-1", className)}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +36,7 @@ const XCircle = memo(({ className }: AnimationProps) => (
   <motion.div
     initial={{ scale: 0 }}
     animate={{ scale: 1 }}
-    className={cn("w-8 h-8 bg-red-500 rounded-full aspect-square p-1", className)}
+    className={cn("w-7 h-7 bg-danger-400 rounded-full aspect-square p-1", className)}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"

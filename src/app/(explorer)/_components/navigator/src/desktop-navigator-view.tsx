@@ -24,16 +24,6 @@ const platforms = [
   { label: "Web", value: "web" },
 ];
 
-const suggestions = [
-  { name: "Avatar", pattern: "components" },
-  { name: "Card", pattern: "components" },
-  { name: "Button", pattern: "components" },
-  { name: "Business", pattern: "categories" },
-  { name: "Education", pattern: "categories" },
-  { name: "Landing Page", pattern: "marketing" },
-  { name: "Onboarding", pattern: "flowActions" },
-];
-
 const DesktopNavigatorView: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -41,7 +31,7 @@ const DesktopNavigatorView: React.FC = () => {
 
   const { keyword, setKeyword } = useKeyword();
   const {
-    query, setFilters, setPattern, setPlatform, setApps
+    query, setFilters, setPattern, suggestions, setPlatform, setApps
   } = useQuery();
   const { filters, platform, pattern } = query || {};
 
@@ -59,6 +49,11 @@ const DesktopNavigatorView: React.FC = () => {
   }, []);
 
   const switcherState = isMenuOpen || (filters && filters.length > 0) ? 'collapsed' : 'open';
+
+  const mappedSuggestions = suggestions?.map((name: string) => ({
+    name,
+    pattern: query.pattern,
+  })) || [];
 
   return (
     <motion.div
@@ -128,7 +123,7 @@ const DesktopNavigatorView: React.FC = () => {
             transition={{ duration: 0.3 }} // Smooth animation
           >
             <Suggestions
-              suggestions={suggestions}
+              suggestions={mappedSuggestions}
               selectedFilters={query.filters}
               setSelectedFilters={setFilters}
             />

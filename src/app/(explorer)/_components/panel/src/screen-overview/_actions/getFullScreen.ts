@@ -52,9 +52,6 @@ export const getFullScreen = async (screenId: number): Promise<Partial<ScreenDat
     }
 
     const screenResult = await screenResponse.json();
-
-    console.log("screenResult: ", JSON.stringify(screenResult, null, 2));
-
     const screen = cleanData(screenResult.data);
     return screen;
   } catch (err) {

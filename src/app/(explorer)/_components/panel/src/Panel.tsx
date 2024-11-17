@@ -91,7 +91,7 @@ const Panel = () => {
   return (
     <div
       className={cn(
-        'relative',
+        'relative max-w-[1920px] mx-auto',
         (query?.apps?.length ?? 0) > 0 ? 'top-32' : 'top-28'
       )}
     >

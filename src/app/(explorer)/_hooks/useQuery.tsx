@@ -14,6 +14,7 @@ interface QueryStoreState {
     totalRecords: number;
   };
   data: any;
+  suggestions: string[];
   setQuery: (query: Query) => void;
   setPagination: (pagination: {
     offset: number;
@@ -28,6 +29,7 @@ interface QueryStoreState {
     filters: Filter[] | ((currentFilters: Filter[]) => Filter[])
   ) => void;
   setApps: (apps: any[] | ((currentApps: any[]) => any[])) => void;
+  setSuggestions: (suggestions: string[]) => void;
 }
 
 const useQueryStore = create<QueryStoreState>()(
@@ -48,6 +50,7 @@ const useQueryStore = create<QueryStoreState>()(
       totalRecords: 0,
     },
     data: null,
+    suggestions: [],
     setQuery: (query: Query) => set({ query }),
     setPagination: (pagination) => set({ pagination }),
     setData: (data: any) => set({ data }),
@@ -107,6 +110,9 @@ const useQueryStore = create<QueryStoreState>()(
       },
       data: null, // Reset data when apps change
     })),
+
+    // Add setSuggestions function
+    setSuggestions: (suggestions: string[]) => set({ suggestions }),
   }))
 );
 
@@ -115,6 +121,7 @@ const useQuery = () => {
     query,
     pagination,
     data,
+    suggestions,
     setQuery,
     setPagination,
     setData,
@@ -122,6 +129,7 @@ const useQuery = () => {
     setPattern,
     setFilters,
     setApps,
+    setSuggestions,
   } = useQueryStore();
 
   return useMemo(
@@ -129,6 +137,7 @@ const useQuery = () => {
       query,
       pagination,
       data,
+      suggestions,
       setQuery,
       setPagination,
       setData,
@@ -136,8 +145,9 @@ const useQuery = () => {
       setPattern,
       setFilters,
       setApps,
+      setSuggestions,
     }),
-    [query, pagination, data, setQuery, setPagination, setData, setPlatform, setPattern, setFilters, setApps]
+    [query, pagination, data, suggestions, setQuery, setPagination, setData, setPlatform, setPattern, setFilters, setApps, setSuggestions]
   );
 };
 

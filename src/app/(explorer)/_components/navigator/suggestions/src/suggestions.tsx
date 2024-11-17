@@ -14,8 +14,8 @@ const Suggestions: React.FC<SuggestionsProps> = ({
   selectedFilters,
   setSelectedFilters,
 }) => {
-  const handleSelection = (id: string) => {
-    const selectedSuggestion = suggestions.find((suggestion) => suggestion.name === id);
+  const handleSelection = (name: string) => {
+    const selectedSuggestion = suggestions.find((suggestion) => suggestion.name === name);
     if (selectedSuggestion) {
       setSelectedFilters(() => [...selectedFilters, selectedSuggestion]);
     }

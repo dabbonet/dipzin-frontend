@@ -6,7 +6,7 @@ import { useQuery } from './useQuery';
 
 export function useFetchData() {
   const {
-    data, setData, pagination, setPagination
+    data, setData, pagination, setPagination, setSuggestions
   } = useQuery();
 
   const fetchData = useCallback(
@@ -50,6 +50,9 @@ export function useFetchData() {
         totalRecords: response.pagination.totalRecords,
       });
 
+      // Update the suggestions
+      setSuggestions(response.suggestions);
+
       const updatedQuery = {
         ...queryOverride,
         ...response.query,
@@ -61,7 +64,7 @@ export function useFetchData() {
 
       return updatedQuery;
     },
-    [pagination, setData, setPagination] // Add pagination as dependency
+    [pagination, setData, setPagination, setSuggestions]
   );
 
   return { fetchData };

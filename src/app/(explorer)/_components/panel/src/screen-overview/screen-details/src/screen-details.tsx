@@ -98,7 +98,7 @@ export const ActionButtons = ({ screen }: { screen: ScreenType }) => {
         }
         size={isMobile ? "md" : "xl"}
         variant="liteGray"
-        className="flex-1"
+        className="flex-1 hidden md:flex"
       >
         <Icon.Copy className="size-6" />
         <p className="hidden sm:block">Copy</p>
@@ -139,14 +139,14 @@ export const ActionButtons = ({ screen }: { screen: ScreenType }) => {
         )}
         placement="end"
       />
-      <Button
+      {/* <Button
         isIconOnly
         size={isMobile ? "md" : "xl"}
         variant="darkGray"
         className="flex sm:hidden"
       >
         <Icon.Save className="size-6" />
-      </Button>
+      </Button> */}
 
       <Separator orientation="vertical" className="hidden sm:flex h-8" />
       <DialogClose className="hidden sm:flex" asChild>

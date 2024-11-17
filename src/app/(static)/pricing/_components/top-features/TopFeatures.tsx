@@ -86,7 +86,7 @@ const features: Feature[] = [
 ]
 
 const TopFeatures: React.FC = () => (
-  <section className="py-8 mx-auto max-w-screen-xl lg:py-16 gap-4 lg:gap-8 grid grid-cols-1 sm:grid-cols-7">
+  <section className="py-8 mx-auto max-w-screen-2xl lg:py-16 gap-4 lg:gap-8 grid grid-cols-1 sm:grid-cols-7">
     <div className="col-span-7 sm:col-span-4">
       <FeatureCard {...(features[0] as Feature)} />
     </div>

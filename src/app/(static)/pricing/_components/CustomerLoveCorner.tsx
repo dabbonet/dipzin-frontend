@@ -37,8 +37,8 @@ const testimonials = [
 ]
 
 const CustomerLoveCorner: React.FC = () => (
-  <section className="py-8 mx-auto max-w-screen-xl lg:py-16 container">
-    <div className="md:columns-2 gap-6 p-4 sm:p-1 mt-2">
+  <section className="py-8 mx-auto max-w-screen-2xl container">
+    <div className="md:columns-2 gap-6 mt-2">
       {testimonials.map((testimonial) => (
         <TestimonialCard key={testimonial.user.name} testimonial={testimonial} />
       ))}

@@ -24,7 +24,9 @@ const Switcher: React.FC<SwitcherProps> = ({
   }, [state]);
 
   const handleValueChange = (newValue: string) => {
-    onChange(newValue); // Pass the single value
+    if (newValue !== "") {
+      onChange(newValue);
+    }
   };
 
   return (
@@ -35,7 +37,7 @@ const Switcher: React.FC<SwitcherProps> = ({
       onHoverEnd={() => state !== 'open' && setIsExpanded(false)}
     >
       <ToggleGroup
-        type="single" // Updated to single
+        type="single"
         value={value}
         onValueChange={handleValueChange}
         className="flex bg-[#1A2333] rounded-full p-2 gap-4 relative overflow-hidden"

@@ -37,9 +37,7 @@ const FlowOverview = ({ flowId }: FlowOverviewProps) => {
   if (!currentFlow) return null;
 
   return (
-    <div className="w-full h-fit flex items-center justify-center">
-      <Flow flow={currentFlow} view="opened" />
-    </div>
+    <Flow flow={currentFlow} view="opened" />
   );
 };
 

@@ -20,7 +20,9 @@ export const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen, handle
     animate={{ height: isMenuOpen ? "fit-content" : 0 }}
     exit={{ height: 0 }}
   >
-    <NavigatorMenuList handleUpdate={handleUpdate} />
+    <div className="w-[30%] max-h-[50vh] rounded-[30px] p-4 flex flex-col gap-4 bg-[#1A2333] overflow-y-scroll scrollbar-hide">
+      <NavigatorMenuList handleUpdate={handleUpdate} />
+    </div>
     <NavigatorMenuPreview />
   </motion.div>
 );

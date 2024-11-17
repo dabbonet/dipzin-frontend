@@ -14,36 +14,31 @@ const App = ({ app }: { app: AppType }) => {
   const [imageIndex, setImageIndex] = useState(0);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null); // Ref to hold the interval
-  const containerRef = useRef<HTMLDivElement | null>(null); // Ref for app-container
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const {
-    setFilters
-  } = useQuery();
+  const { setApps } = useQuery();
 
-  // Extract the screens from app.screens and map them to objects with width, height, and url
   const screens = app.screens ? app.screens.map(({ screen }) => ({
     width: screen.width,
     height: screen.height,
     imageSrc: storage(mergeIconFromObject(screen))
   })) : [];
 
-  // Function to stop image rotation
   const stopImageRotation = () => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
   };
-  // Function to start image rotation
+
   const startImageRotation = () => {
-    stopImageRotation(); // Clear any existing intervals before starting a new one
+    stopImageRotation();
     intervalRef.current = setInterval(() => {
-      setImageIndex((prevIndex) => (prevIndex + 1) % screens.length); // Loop through screens continuously
+      setImageIndex((prevIndex) => (prevIndex + 1) % screens.length);
     }, 700);
   };
 
-  // Event listener setup and cleanup
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
@@ -51,35 +46,36 @@ const App = ({ app }: { app: AppType }) => {
       container.addEventListener('mouseleave', stopImageRotation);
     }
 
-    // Cleanup on component unmount or when container changes
     return () => {
-      stopImageRotation(); // Ensure interval is cleared
+      stopImageRotation();
       if (container) {
         container.removeEventListener('mouseenter', startImageRotation);
         container.removeEventListener('mouseleave', stopImageRotation);
       }
     };
-  }, [screens.length]); // Only run effect when the number of screens changes
+  }, [screens.length]);
 
   if (!app || !app?.screens || screens.length === 0) return null;
 
   const handleAppClick = () => {
-    const handleStateAndUrlUpdate = (pattern: string, value: string) => {
-      const newFilter = { name: value, pattern };
-      setFilters((prevFilters) => [...prevFilters, newFilter]);
-    };
-    handleStateAndUrlUpdate('apps', app.name);
-  }
+    setApps((prevApps) => {
+      const isAppSelected = prevApps.some((selectedApp: AppType) => selectedApp.id === app.id);
+      if (!isAppSelected) {
+        return [...prevApps, app];
+      }
+      return prevApps;
+    });
+  };
 
-  const outerBorder = 'border-[3px] md:border-[6px] border-[#0f172aa6] hover:border-[#64748b26] transition-colors overflow-hidden'
+  const outerBorder = 'border-[3px] md:border-[6px] border-[#0f172aa6] hover:border-[#64748b26] transition-colors overflow-hidden';
 
-  const innerBorder2 = 'border-[2px] md:border-[4px] border-[#0f172aa6] group-hover:border-slate-500 transition-colors overflow-hidden'
+  const innerBorder2 = 'border-[2px] md:border-[4px] border-[#0f172aa6] group-hover:border-slate-500 transition-colors overflow-hidden';
 
   return (
     <div className={cn("relative size-full rounded-[2rem] group", outerBorder)} ref={containerRef}>
       <div className={cn("size-full rounded-3xl", innerBorder2)}>
         {!imageLoaded && !imageError && (
-        <Skeleton className="size-full absolute inset-0" />
+          <Skeleton className="size-full absolute inset-0" />
         )}
         {imageError ? (
           <div className="size-full absolute inset-0 flex items-center justify-center bg-slate-600">
@@ -87,7 +83,7 @@ const App = ({ app }: { app: AppType }) => {
           </div>
         ) : (
           <Image
-            src={screens[imageIndex]?.imageSrc || ''} // Dynamically switch images based on imageIndex
+            src={screens[imageIndex]?.imageSrc || ''}
             alt={app.name}
             width={screens[imageIndex]?.width ?? 0}
             height={screens[imageIndex]?.height ?? 0}

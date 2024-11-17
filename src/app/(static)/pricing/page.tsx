@@ -20,13 +20,13 @@ export default async function PricingPage() {
   }
 
   return (
-    <div>
+    <>
       <PricingNav />
       <PricingHero checkoutPlans={pricingData} />
       <PricingTable checkout={mockData as any} currentPlan="free" />
       <TopFeatures />
       <CustomerLoveCorner />
       <PricingFooter />
-    </div>
+    </>
   );
 }

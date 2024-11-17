@@ -15,6 +15,8 @@ import { useSettingsModal } from "./_hooks/useSettingsModal";
 import { Dropdown } from "@/components/Shared/dropdown";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { storage } from "@/utils/storage";
+import Membership from "./membership";
+import { useState } from "react";
 
 const avatars = [
   "/assets/avatars/avatar-1.png",
@@ -36,18 +38,28 @@ const SettingsModal = () => {
     uploadedFile,
     handleAvatarClick,
   } = useSettingsModal();
+  const [tabValue, setTabValue] = useState('account-settings');
 
   return (
-    <Card className="bg-slate-900 border-4 border-[#171f31] rounded-[20px] p-6 text-white font-outfit">
+    <Card className="bg-slate-900/95 border-4 border-[#171f31] rounded-[20px] p-6 text-white font-outfit">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Tabs>
+        <Tabs value={tabValue} onValueChange={setTabValue}>
           <CardHeader className="w-full flex flex-row items-center justify-between gap-4">
-            <div className="space-y-1">
-              <h1 className="text-white text-2xl">Account Information</h1>
-              <p className="text-sm font-medium text-slate-300">
-                Here you can view and edit your account information
-              </p>
-            </div>
+            {tabValue === 'account-settings' ? (
+              <div>
+                <h1 className="text-white text-2xl">Account Information</h1>
+                <p className="text-sm font-medium text-slate-300">
+                  Here you can view and edit your account information
+                </p>
+              </div>
+            ) : (
+              <div>
+                <h1 className="text-white text-2xl">Manage Membership Plan</h1>
+                <p className="text-sm font-medium text-slate-300">
+                  Easily upgrade, downgrade, or cancel your membership plan
+                </p>
+              </div>
+            )}
             <TabsList>
               <TabsTrigger className="py-2 px-2.5 text-white" value="account-settings">
                 Account Settings
@@ -179,7 +191,7 @@ const SettingsModal = () => {
               </div>
             </TabsContent>
             <TabsContent value="membership">
-              {/* Membership content */}
+              <Membership />
             </TabsContent>
           </CardContent>
         </Tabs>

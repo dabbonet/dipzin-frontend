@@ -59,7 +59,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
         {!isMobile && <ActionButtons screen={currentScreen} />}
       </div>
 
-      <div className="size-full max-w-full sm:max-w-[60vw] mx-auto flex items-center justify-between gap-2">
+      <div className="size-full max-w-full sm:max-w-[65vw] mx-auto flex items-center justify-between gap-2">
         <TooltipProvider>
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>

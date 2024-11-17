@@ -66,15 +66,15 @@ export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
           height={icon.height ?? 32}
         />
       ) : null}
-      <div className="flex flex-col items-start">
+      <div className="flex flex-col text-center sm:text-start items-center sm:items-start">
         <span
           title={label}
-          className="text-base md:text-xl text-start whitespace-nowrap truncate font-medium"
+          className="text-base md:text-xl whitespace-nowrap truncate font-medium"
         >
           {label}
         </span>
         {description && (
-          <span className="text-sm text-start text-white/60">
+          <span className="text-sm text-white/60">
             {description}
           </span>
         )}

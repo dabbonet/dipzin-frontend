@@ -21,17 +21,17 @@ import { useQuery } from "@/app/(explorer)/_hooks/useQuery";
 
 // App Info Component
 const AppInfo = ({ app }: { app: AppType }) => {
-  const {
-    setFilters
-  } = useQuery();
+  const { setApps } = useQuery();
 
   const handleAppClick = () => {
-    const handleStateAndUrlUpdate = (pattern: string, value: string) => {
-      const newFilter = { name: value, pattern };
-      setFilters((prevFilters) => [...prevFilters, newFilter]);
-    };
-    handleStateAndUrlUpdate('apps', app.name);
-  }
+    setApps((prevApps) => {
+      const isAppSelected = prevApps.some((selectedApp: AppType) => selectedApp.id === app.id);
+      if (!isAppSelected) {
+        return [...prevApps, app];
+      }
+      return prevApps;
+    });
+  };
 
   return (
     <button onClick={handleAppClick} className="flex items-center text-start gap-2 md:gap-4 cursor-pointer" type="button" aria-label="App">
@@ -91,7 +91,7 @@ const GlobalTopOverlay = ({ screen, isSelected }: { screen: ScreenData, isSelect
             )
           }
           variant="darkGray"
-          className="flex-1"
+          className="flex-1 hidden md:flex"
         >
           <Icon.Copy className="size-6 text-white" />
           <p className="hidden sm:block">Copy</p>

@@ -20,10 +20,10 @@ const PanelHeader: React.FC = () => {
         {status !== 'loading' && status !== 'authenticated' && <span className="ml-2">Guest</span>}
       </h1>
       <div className="size-fit flex items-center gap-4">
-        <Button href="/collections" variant="darkGray">
+        {/* <Button href="/collections" variant="darkGray">
           <Icon.Collection className="text-aqua-400" />
           <p className="hidden sm:block">Collections</p>
-        </Button>
+        </Button> */}
         <Button href="/pricing" variant="darkGray">
           <Icon.Rocket className="text-aqua-400" />
           <p className="hidden sm:block">Upgrade</p>

@@ -46,7 +46,6 @@ import { SettingsModal } from "../../settings-modal";
 import { storage } from "@/utils/storage";
 
 const navigationItems = [
-  { label: "Stream", href: "/" },
   { label: "Pricing", href: "/pricing" },
   { label: "Collections", href: "#", comingSoon: true },
   { label: "Blog", href: "#", comingSoon: true },
@@ -171,7 +170,7 @@ const UserMenu = () => {
                 </div>
                 <Icon.Settings className="size-6 ml-4" />
               </DialogTrigger>
-              <DialogContent className="w-full max-w-4xl">
+              <DialogContent className="w-full max-w-screen-lg">
                 <SettingsModal />
               </DialogContent>
             </Dialog>

@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 "use client";
 
 import React, { useState } from "react";
@@ -14,22 +16,12 @@ import { useQuery } from "@/app/(explorer)/_hooks/useQuery";
 import type { Filter } from "@/types/navigation-types";
 import { NavigatorMenuInitialContent } from "./menu-preview/Initial-content";
 import CategoriesContent from "./menu-preview/categories-content";
-import SearchContent from "./menu-preview/search-content";
 import { Button } from "@/components/Shared/button";
 import { Icon } from "@/components/UI/icon";
 import { NavigatorMenuItem } from "./menu-list/list-item";
 import { motion, AnimatePresence } from "framer-motion";
 import { Suggestions } from "../suggestions";
-
-const suggestions = [
-  { name: "Avatar", pattern: "components" },
-  { name: "Card", pattern: "components" },
-  { name: "Button", pattern: "components" },
-  { name: "Business", pattern: "categories" },
-  { name: "Education", pattern: "categories" },
-  { name: "Landing Page", pattern: "marketing" },
-  { name: "Onboarding", pattern: "flowActions" },
-];
+import { NavigatorMenuList } from "./menu-list/list";
 
 const categories = [
   {
@@ -51,7 +43,6 @@ const categories = [
   { id: "flowCategories", name: "Flows", icon: "/assets/icons/flows.svg" },
 ];
 
-// Navigation state type for better type safety
 type NavigationState = "initial" | "allFilters" | "category";
 
 const MobileNavigatorMenu: React.FC<{
@@ -64,34 +55,38 @@ const MobileNavigatorMenu: React.FC<{
   const {
     keyword,
     setKeyword,
+    results,
     selectedResult,
     setSelectedResult,
     suggestedSearch,
   } = useKeyword();
   const {
-    query, setFilters
+    query,
+    setFilters,
+    setApps,
+    suggestions,
   } = useQuery();
   const { filters } = query || {};
 
   const slideVariants = {
     enter: (isBack: boolean) => ({
       x: isBack ? -300 : 300,
-      opacity: 0
+      opacity: 0,
     }),
     center: {
       x: 0,
-      opacity: 1
+      opacity: 1,
     },
     exit: (isBack: boolean) => ({
       x: isBack ? 300 : -300,
-      opacity: 0
-    })
+      opacity: 0,
+    }),
   };
 
   const handleStateAndUrlUpdate = (pattern: string, value: string) => {
     const newFilter: Filter = { name: value, pattern };
     setFilters((prevFilters) => [...prevFilters, newFilter]);
-    setIsOpen(false); // close the menu on select
+    setIsOpen(false);
   };
 
   const handleCategoryClick = (category: { id: string; name: string }) => {
@@ -99,10 +94,11 @@ const MobileNavigatorMenu: React.FC<{
     setNavigationState("category");
     setNavigationTitle(category.name);
 
-    const selectedCategory = categories.find((cat) => cat.id === category.id);
-    if (selectedCategory) {
-      setSelectedResult(selectedCategory);
-    }
+    const selectedCategory = {
+      ...category,
+      blockType: "list",
+    };
+    setSelectedResult(selectedCategory);
   };
 
   const handleBackClick = () => {
@@ -124,81 +120,95 @@ const MobileNavigatorMenu: React.FC<{
     setSelectedResult(null);
   };
 
+  const mappedSuggestions = suggestions?.map((name: string) => ({
+    name,
+    pattern: query.pattern,
+  })) || [];
+
   const renderContent = () => (
     <AnimatePresence mode="wait" custom={isNavigatingBack}>
-      {navigationState === "initial" && !selectedResult && (
-      <motion.div
-        key="initial"
-        custom={isNavigatingBack}
-        variants={slideVariants}
-        initial="enter"
-        animate="center"
-        exit="exit"
-        transition={{ duration: 0.15 }}
-      >
-        <Suggestions
-          suggestions={suggestions}
-          selectedFilters={filters}
-          setSelectedFilters={setFilters}
-        />
-        <NavigatorMenuInitialContent
-          data={suggestedSearch}
-          handleUpdate={handleStateAndUrlUpdate}
-        />
-      </motion.div>
-      )}
-      {navigationState === "allFilters" && (
-      <motion.div
-        key="allFilters"
-        custom={isNavigatingBack}
-        variants={slideVariants}
-        initial="enter"
-        animate="center"
-        exit="exit"
-        transition={{ duration: 0.15 }}
-        className="grid grid-cols-2 p-4 gap-4"
-      >
-        {categories.map((category) => (
-          <NavigatorMenuItem
-            key={category.id}
-            label={category.name}
-            icon={{ imgSrc: category.icon, width: 48, height: 48 }}
-            onClick={() => handleCategoryClick(category)}
+      {keyword && results?.hits && results?.hits.length > 0 ? (
+        <motion.div
+          key="searchResults"
+          custom={isNavigatingBack}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.15 }}
+          className="grid grid-cols-2 pt-0 p-4 gap-4"
+        >
+          {/* Render search results here */}
+          <NavigatorMenuList
+            handleUpdate={(updateFn, target) => {
+              if (target === "filters") {
+                setFilters(updateFn(query.filters));
+                setIsOpen(false);
+              } else if (target === "apps") {
+                setApps(updateFn(query.apps));
+                setIsOpen(false);
+              }
+            }}
           />
-        ))}
-      </motion.div>
-      )}
-      {navigationState === "category" && selectedResult && (
-      <motion.div
-        key="category"
-        custom={isNavigatingBack}
-        variants={slideVariants}
-        initial="enter"
-        animate="center"
-        exit="exit"
-        transition={{ duration: 0.15 }}
-        className="size-full overflow-y-auto"
-      >
-        <CategoriesContent
-          selectedResult={selectedResult}
-          suggestedSearch={suggestedSearch}
-          handleUpdate={handleStateAndUrlUpdate}
-        />
-      </motion.div>
-      )}
-      {selectedResult && selectedResult.blockType !== "list" && (
-      <motion.div
-        key="searchContent"
-        custom={isNavigatingBack}
-        variants={slideVariants}
-        initial="enter"
-        animate="center"
-        exit="exit"
-        transition={{ duration: 0.15 }}
-      >
-        <SearchContent selectedResult={selectedResult} />
-      </motion.div>
-      )}
+        </motion.div>
+      ) : navigationState === "initial" && !selectedResult ? (
+        <motion.div
+          key="initial"
+          custom={isNavigatingBack}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.15 }}
+        >
+          <Suggestions
+            suggestions={mappedSuggestions}
+            selectedFilters={filters}
+            setSelectedFilters={setFilters}
+          />
+          <NavigatorMenuInitialContent
+            data={suggestedSearch}
+            handleUpdate={handleStateAndUrlUpdate}
+          />
+        </motion.div>
+      ) : navigationState === "allFilters" ? (
+        <motion.div
+          key="allFilters"
+          custom={isNavigatingBack}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.15 }}
+          className="grid grid-cols-2 pt-0 p-4 gap-4"
+        >
+          {categories.map((category) => (
+            <NavigatorMenuItem
+              key={category.id}
+              label={category.name}
+              icon={{ imgSrc: category.icon, width: 48, height: 48 }}
+              onClick={() => handleCategoryClick(category)}
+            />
+          ))}
+        </motion.div>
+      ) : navigationState === "category" && selectedResult ? (
+        <motion.div
+          key="category"
+          custom={isNavigatingBack}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.15 }}
+          className="size-full overflow-y-auto"
+        >
+          <CategoriesContent
+            selectedResult={selectedResult}
+            suggestedSearch={suggestedSearch}
+            handleUpdate={handleStateAndUrlUpdate}
+          />
+        </motion.div>
+      ) : null}
     </AnimatePresence>
   );
 
@@ -211,12 +221,14 @@ const MobileNavigatorMenu: React.FC<{
       shouldScaleBackground={false}
     >
       <DrawerContent className="fixed inset-0 mt-0 bg-slate-900 rounded-none border-0 overflow-hidden">
-        <DrawerHeader className="p-0 px-4">
+        <DrawerHeader className="p-4">
           <Input
             className="w-full shadow-none"
             type="search"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
+            selectedFilters={filters}
+            setSelectedFilters={(updateFn) => setFilters(updateFn)}
             autoComplete="off"
             autoFocus
             endContent={(
@@ -247,9 +259,7 @@ const MobileNavigatorMenu: React.FC<{
             <span className="text-slate-500">{navigationTitle}</span>
           </div>
         </DrawerHeader>
-        <div className="size-full overflow-hidden">
-          {renderContent()}
-        </div>
+        <div className="size-full overflow-y-scroll">{renderContent()}</div>
       </DrawerContent>
     </Drawer>
   );

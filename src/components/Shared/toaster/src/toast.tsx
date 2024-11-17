@@ -104,7 +104,7 @@ React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title> & { size?: "default
     ref={ref}
     className={cn(
       "tracking-tight",
-      size === 'wider' ? 'text-[20px]' : 'text-2xl',
+      size === 'wider' ? 'text-[20px]' : 'text-xl',
       className
     )}
     {...props}
@@ -119,7 +119,7 @@ React.ComponentPropsWithoutRef<typeof ToastPrimitives.Description>
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Description
     ref={ref}
-    className={cn("text-lg text-slate-400", className)}
+    className={cn("text-md text-slate-400", className)}
     {...props}
   />
 ))

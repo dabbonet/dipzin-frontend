@@ -51,12 +51,12 @@ const BulkActions: React.FC = () => {
           then={(
             <>
               <Icon.Check className="size-6" />
-              <p className="hidden sm:block">Downloaded!</p>
+              Downloaded!
             </>
           )}
         >
           <Icon.Download className="size-6" />
-          <p className="hidden sm:block">Download</p>
+          Download
         </DownloadButton>
 
         {/* <Button
@@ -64,6 +64,7 @@ const BulkActions: React.FC = () => {
           aria-label="Copy selected files"
           onClick={handleCopy}
           disabled={copying}
+          className="hidden md:flex"
         >
           <Icon.Copy className='size-6' />
           <p className="hidden sm:block">Copy</p>

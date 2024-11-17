@@ -43,7 +43,7 @@ const TopOverlay = ({ app }: { app: AppType }) => {
           <Icon.DownloadPhoto className="size-[18px] stroke-white fill-transparent" />
         </DownloadButton>
 
-        {/* <Button size="md" className="rounded-full" variant="darkGray" isIconOnly>
+        {/* <Button size="md" className="rounded-full hidden md:flex" variant="darkGray" isIconOnly>
           <Icon.Copy className="size-[18px] stroke-white fill-transparent" />
         </Button> */}
         {/* <Button size="md" className="rounded-full" variant="darkGray" isIconOnly>
