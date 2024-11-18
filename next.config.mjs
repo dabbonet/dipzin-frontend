@@ -4,13 +4,10 @@ import { fileURLToPath } from 'node:url';
 import withBundleAnalyzer from '@next/bundle-analyzer';
 import { withSentryConfig } from '@sentry/nextjs';
 import createJiti from 'jiti';
-import withNextIntl from 'next-intl/plugin';
 
 const jiti = createJiti(fileURLToPath(import.meta.url));
 
 jiti('./src/lib/Env');
-
-const withNextIntlConfig = withNextIntl('./src/lib/i18n.ts');
 
 const bundleAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -49,7 +46,7 @@ const nextConfig = {
 export default withSentryConfig(
   nextConfig,
   bundleAnalyzer(
-    withNextIntlConfig({
+    {
       eslint: {
         dirs: ['.'],
       },
@@ -58,7 +55,7 @@ export default withSentryConfig(
       experimental: {
         serverComponentsExternalPackages: ['@electric-sql/pglite'],
       },
-    }),
+    },
   ),
   {
     // For all available options, see:
