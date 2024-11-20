@@ -59,8 +59,9 @@ export const getInitialQuery = (explorer: string[]) => {
 export const getInitialQueryWithSearchParams = (query: any, initialQuery: any, searchParams: any) => {
   const apps = initialQuery.apps?.length > 0 ? initialQuery.apps : searchParams.getAll('app');
 
+  const correctedPattern = (pattern:any) => (pattern === 'screens' ? 'tags' : pattern);
   // Combine tags, categories, components, flows, and marketing into filters
-  const patterns = ['tags', 'categories', 'components', 'flows', 'marketing'];
+  const patterns = ['screens', 'categories', 'components', 'flows', 'marketing'];
   const filters: Filter[] = [];
   for (const pattern of patterns) {
     // Use optional chaining (?.) and provide a default empty array if undefined
@@ -70,7 +71,7 @@ export const getInitialQueryWithSearchParams = (query: any, initialQuery: any, s
     for (const item of items) {
       filters.push({
         name: safeDecode(item), // Make sure to safely decode the name
-        pattern,
+        pattern: correctedPattern(pattern),
       });
     }
   }
