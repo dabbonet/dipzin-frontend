@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Spinner } from "@/components/UI/spinner";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none shadow-button",
+  "inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none shadow-button rounded-xl",
   {
     variants: {
       variant: {
@@ -25,12 +25,12 @@ const buttonVariants = cva(
         ghost: "bg-transparent hover:bg-accent hover:text-accent-foreground",
       },
       size: {
-        sm: "h-9 gap-1 rounded-xl px-3 py-2 text-sm",
-        md: "h-10 gap-2 rounded-xl px-3.5 py-2.5 text-sm",
-        lg: "h-11 gap-1.5 rounded-xl px-4 py-2.5 text-base",
-        xl: "h-12 gap-1.5 rounded-xl px-[1.375rem] py-2.5 text-base",
-        "2xl": "h-16 gap-2.5 rounded-xl px-[1.125rem] py-2.5 text-lg",
-        "3xl": "h-20 gap-2.5 rounded-xl px-[1.125rem] py-3 text-2xl",
+        sm: "h-9 gap-1 px-3 py-2 text-sm",
+        md: "h-10 gap-2 px-3.5 py-2.5 text-sm",
+        lg: "h-11 gap-1.5 px-4 py-2.5 text-base",
+        xl: "h-12 gap-1.5 px-[1.375rem] py-2.5 text-base",
+        "2xl": "h-12 gap-1.5 px-[1.375rem] py-2.5 text-base sm:h-16 sm:gap-2.5 sm:px-[1.125rem] sm:py-2.5 sm:text-lg",
+        "3xl": "h-20 gap-2.5 px-[1.125rem] py-3 text-2xl",
       },
       isIconOnly: {
         true: "p-0",
@@ -42,16 +42,16 @@ const buttonVariants = cva(
       },
     },
     compoundVariants: [
-      { isIconOnly: true, size: "sm", className: "size-9 min-w-9" },
-      { isIconOnly: true, size: "md", className: "size-10 min-w-10" },
-      { isIconOnly: true, size: "lg", className: "size-11 min-w-11" },
-      { isIconOnly: true, size: "xl", className: "size-12 min-w-12" },
+      { isIconOnly: true, size: "sm", className: "aspect-square w-9 shrink-0" },
+      { isIconOnly: true, size: "md", className: "aspect-square w-10 shrink-0" },
+      { isIconOnly: true, size: "lg", className: "aspect-square w-11 shrink-0" },
+      { isIconOnly: true, size: "xl", className: "aspect-square w-12 shrink-0" },
       {
         isIconOnly: true,
         size: "2xl",
-        className: "size-[3.75rem] min-w-[3.75rem]",
+        className: "w-12 aspect-square shrink-0",
       },
-      { isIconOnly: true, size: "3xl", className: "size-20 min-w-20" },
+      { isIconOnly: true, size: "3xl", className: "w-20 aspect-square shrink-0" },
     ],
     defaultVariants: {
       variant: "default",

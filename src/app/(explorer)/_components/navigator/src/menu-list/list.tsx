@@ -48,7 +48,13 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
 
   const handleMouseClick = (result: any) => {
     if (result.type === 'app') {
-      handleUpdate((prev: any) => [...prev, { name: result.name, slug: result.slug }], 'apps');
+      handleUpdate((prev: any) => {
+        const isAppSelected = prev.some((selectedApp: any) => selectedApp.name === result.name);
+        if (!isAppSelected) {
+          return [...prev, { name: result.name, slug: result.slug }];
+        }
+        return prev;
+      }, 'apps');
     } else {
       const pattern = singularToPlural(result.type);
       handleUpdate((prev: any) => [...prev, { name: result.name, pattern }], 'filters');

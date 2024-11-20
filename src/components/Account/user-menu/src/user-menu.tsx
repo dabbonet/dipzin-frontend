@@ -198,7 +198,7 @@ const UserMenu = () => {
                   <TooltipProvider delayDuration={200} key={item.label}>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <span className="w-full h-fit rounded-xl text-base font-semibold font-outfit text-white hover:bg-slate-900 py-1 px-2 hover:outline-0 hover:text-aqua-500">
+                        <span className="w-full h-fit rounded-xl text-base font-semibold   text-white hover:bg-slate-900 py-1 px-2 hover:outline-0 hover:text-aqua-500">
                           {item.label}
                         </span>
                       </TooltipTrigger>
@@ -293,7 +293,7 @@ const UserMenu = () => {
   );
 
   const triggerButton = (
-    <Button variant="darkGray" className="py-3 px-1.5 rounded-full" role="combobox">
+    <Button variant="darkGray" className="sm:py-3 sm:px-1.5 p-1 rounded-full" role="combobox">
       <Avatar className="size-8">
         <AvatarImage
           src={storage((user.avatar?.hash ?? "") + (user.avatar?.ext ?? ""))}
@@ -301,7 +301,7 @@ const UserMenu = () => {
         />
         <AvatarFallback>{extractInitials(user.name || "User")}</AvatarFallback>
       </Avatar>
-      <Icon.BurgerMenu className="size-8 text-slate-400" />
+      <Icon.BurgerMenu className="size-8 hidden sm:block text-slate-400" />
     </Button>
   );
 

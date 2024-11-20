@@ -61,7 +61,7 @@ const DesktopNavigatorView: React.FC = () => {
     <motion.div
       ref={navigatorRef}
       key="desktop-navigator"
-      className="size-full max-w-[70vw] bg-gradient-to-b from-slate-900/85 to-slate-900/60 rounded-[1.625rem] p-2.5 flex flex-col gap-4"
+      className="size-full max-w-[70vw] bg-gradient-to-b from-slate-900/85 to-slate-900/60 rounded-[1.625rem] p-2.5 hidden lg:flex flex-col gap-4"
       initial={{ height: 'auto' }}
       animate={{ height: isMenuOpen ? 'auto' : 'auto' }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}

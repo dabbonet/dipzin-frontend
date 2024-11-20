@@ -7,6 +7,8 @@ import { Dialog, DialogContent, DialogFooter } from "@/components/UI/dialog";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { updateUser } from "@/actions/updateUser";
+import MobileOnboarding from "./mobile-onboarding";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const onboardingSteps = [
   {
@@ -31,6 +33,7 @@ const onboardingSteps = [
 
 export default function OnboardingModal() {
   const [currentStep, setCurrentStep] = useState(0);
+  const isMobile = useIsMobile()
   const [showModal, setShowModal] = useState(false);
 
   const { data: session, status, update } = useSession();
@@ -80,47 +83,50 @@ export default function OnboardingModal() {
     setCurrentStep(index);
   };
 
+  if (isMobile) {
+    return <MobileOnboarding />
+  }
   return (
     <Dialog modal open={showModal}>
       <DialogContent className="bg-slate-900 border-2 border-slate-800 p-10 max-w-[730px]">
-        <div className="flex flex-col gap-4 font-outfit">
+        <div className="flex flex-col gap-4  ">
           {onboardingSteps[currentStep] && (
-            <>
-              <motion.div
-                key={onboardingSteps[currentStep].image}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Image
-                  src={onboardingSteps[currentStep].image}
-                  alt={onboardingSteps[currentStep].heading}
-                  priority
-                  loading="eager"
-                  width={650}
-                  height={335}
-                  className="w-[650px] h-[335px]"
-                />
-              </motion.div>
-              <motion.h1
-                key={onboardingSteps[currentStep].heading}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="text-[2rem] leading-snug font-semibold text-white"
-              >
-                {onboardingSteps[currentStep].heading}
-              </motion.h1>
-              <motion.p
-                key={onboardingSteps[currentStep].content}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="text-[1.25rem] text-slate-400"
-              >
-                {onboardingSteps[currentStep].content}
-              </motion.p>
-            </>
+          <>
+            <motion.div
+              key={onboardingSteps[currentStep].image}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Image
+                src={onboardingSteps[currentStep].image}
+                alt={onboardingSteps[currentStep].heading}
+                priority
+                loading="eager"
+                width={650}
+                height={335}
+                className="w-[650px] h-[335px]"
+              />
+            </motion.div>
+            <motion.h1
+              key={onboardingSteps[currentStep].heading}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="text-[2rem] leading-snug font-semibold text-white"
+            >
+              {onboardingSteps[currentStep].heading}
+            </motion.h1>
+            <motion.p
+              key={onboardingSteps[currentStep].content}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="text-[1.25rem] text-slate-400"
+            >
+              {onboardingSteps[currentStep].content}
+            </motion.p>
+          </>
           )}
         </div>
         <DialogFooter className="w-full flex items-center justify-between">

@@ -12,7 +12,7 @@ React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(
-      "peer size-5 shrink-0 rounded-[5px] border border-white shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-aqua-500 data-[state=checked]:text-white",
+      "peer size-5 shrink-0 rounded-[5px] bg-slate-800 shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-0 data-[state=checked]:bg-aqua-500 data-[state=checked]:text-white",
       className
     )}
     {...props}

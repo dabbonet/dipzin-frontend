@@ -9,7 +9,7 @@ interface SlotProps {
   hasFakeCaret: boolean;
 }
 
-const inputOTPVariants = cva("flex items-center gap-3 md:gap-6", {
+const inputOTPVariants = cva("flex items-center justify-center gap-3 md:gap-6", {
   variants: {
     variant: {
       default: "",
@@ -58,7 +58,7 @@ React.ComponentPropsWithoutRef<"div">
 InputOTPGroup.displayName = "InputOTPGroup";
 
 const inputOTPSlotVariants = cva(
-  "bg-slate-800 size-14 rounded-2xl md:size-20 relative flex items-center justify-center border border-transparent text-[1.75rem] text-[#AEAEB2] font-medium font-poppins transition-all",
+  "bg-slate-800 w-full aspect-square md:w-full rounded-xl sm:rounded-2xl relative flex items-center justify-center border border-transparent text-lg sm:text-[1.75rem] text-[#AEAEB2] font-medium  transition-all",
   {
     variants: {
       variant: {

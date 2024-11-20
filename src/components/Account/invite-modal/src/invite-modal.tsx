@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter } from '@/components/UI/card'
 import { Input } from '@/components/Shared/input'
 
 const InviteModal = () => (
-  <Card className="bg-slate-900 border-4 border-[#171f31] relative size-full rounded-3xl flex flex-col items-center text-white font-outfit">
+  <Card className="bg-slate-900 border-4 border-[#171f31] relative size-full rounded-3xl flex flex-col items-center text-white  ">
     {/* image */}
     <div className="w-full h-[200px] relative">
       <Image className="absolute top-0" width={750} height={220} src="/assets/thumb-print.svg" alt="thumb print visual" />

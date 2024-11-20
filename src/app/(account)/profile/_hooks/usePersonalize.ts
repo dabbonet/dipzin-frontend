@@ -84,7 +84,7 @@ export const usePersonalize = () => {
         description: "User information updated",
         variant: "success",
       });
-      router.push("/");
+      router.push("/profile/enjoy");
     } catch (err: any) {
       setSubmissionError(err.message || "Failed to update user information");
     }

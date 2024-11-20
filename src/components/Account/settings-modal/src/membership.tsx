@@ -59,7 +59,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
   pillText,
   isCurrentPlan,
 }) => (
-  <Card className="w-full h-fit p-4 flex items-center justify-between font-outfit border border-slate-700">
+  <Card className="w-full h-fit p-4 flex items-center justify-between   border border-slate-700">
     <div className="size-fit flex flex-col gap-4 mr-12">
       <div>
         <h1 className="text-2xl font-medium">
@@ -92,7 +92,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
         {featuresList.map((feature) => (
           <li key={feature} className="flex items-center space-x-1">
             <Icon.Check className="size-5 text-aqua-100" />
-            <span className="text-lg font-medium font-outfit leading-6">{feature}</span>
+            <span className="text-lg font-medium   leading-6">{feature}</span>
           </li>
         ))}
       </ul>

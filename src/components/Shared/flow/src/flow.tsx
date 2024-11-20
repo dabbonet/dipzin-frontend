@@ -194,7 +194,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
                 key={screen.id}
                 className={`shrink-0 ${widthClass} h-fit flex justify-center items-center mb-6`}
               >
-                <Screen onClick={stopPropagation} size={view === "opened" ? "large" : "medium"} key={screen.id} screen={screen.screen || {}} overlay="global" />
+                <Screen onClick={stopPropagation} size={view === "opened" ? "large" : "medium"} key={screen.id} screen={{ ...screen.screen, app: flow.app }} overlay="global" />
               </div>
             ))}
           </div>

@@ -135,13 +135,13 @@ export default function ProfileInformation() {
           Profile Picture
         </p>
         {/* Predefined Avatars */}
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 mt-3">
+        <div className="flex flex-wrap items-center gap-4 mt-3">
           {avatars.map((avatar, index) => (
             <Avatar
               key={avatar}
               size="large"
               className={cn(
-                "cursor-pointer size-22 bg-slate-800 border-2 border-dotted border-slate-600 rounded-2xl",
+                "cursor-pointer size-14 sm:size-18 xl:size-22 aspect-square bg-slate-800 border-2 border-dotted border-slate-600 rounded-2xl",
                 selectedAvatar === avatar
                   ? "border-cyan-500"
                   : "border-transparent",
@@ -251,14 +251,14 @@ export default function ProfileInformation() {
       </div>
 
       {/* Newsletters */}
-      <div className="mb-4">
+      <div>
         <Label required className="text-slate-300">
           Notifications
         </Label>
         <p className="text-slate-500 font-medium text-xs">
           Choose the types of notifications you want to receive
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-2 gap-4 mt-4">
           {newsletters.length > 0
             ? newsletters.map((newsletter: any) => (
               <div key={newsletter.id} className="flex items-center">
@@ -297,8 +297,11 @@ export default function ProfileInformation() {
       </div>
 
       {/* Submit Button */}
-      <div className="flex justify-end gap-x-4">
-        <Button type="submit" size="lg">
+      <div className="w-full h-fit flex justify-end gap-x-4 mt-4">
+        <Button className="flex-1" href="/profile/enjoy" variant="ghost" fullWidth size="lg">
+          Skip
+        </Button>
+        <Button className="flex-1" type="submit" fullWidth size="lg">
           Next
         </Button>
       </div>

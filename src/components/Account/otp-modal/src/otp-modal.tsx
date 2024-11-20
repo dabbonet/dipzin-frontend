@@ -107,17 +107,17 @@ const OtpModal = ({ email }: { email: string }) => {
   };
 
   return (
-    <div className="size-full rounded-[20px] flex flex-col justify-center gap-0 md:gap-8 text-white font-outfit ">
-      <header className="w-full h-fit items-center px-4 pt-4 md:pt-0 md:px-0 text-center md:text-start justify-center md:justify-start space-y-1 mb-7">
-        <h1 className="font-bold !leading-normal bg-clip-text lg:text-4xl text-2xl">
+    <div className="w-full h-fit rounded-[20px] flex flex-col text-white">
+      <header className="w-full h-fit items-center px-4 pt-4 md:pt-0 md:px-0 text-center md:text-start justify-center md:justify-start space-y-1 mb-6">
+        <h1 className="font-medium leading-normal sm:font-bold text-2xl lg:text-4xl">
           Account Verification
         </h1>
-        <p className="text-[#d8d3c0] font-light mb-7">
+        <p className="text-white/60 font-light text-sm sm:text-base">
           Welcome back! Please enter your details.
         </p>
       </header>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8 ">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 sm:gap-6">
         <InputOTP
           maxLength={6}
           value={otpValue}
@@ -137,26 +137,24 @@ const OtpModal = ({ email }: { email: string }) => {
           loading={isVerifying}
           type="submit"
           size="2xl"
-          className="w-full flex items-center justify-center"
+          fullWidth
           disabled={isVerifying}
         >
           Verify
         </Button>
       </form>
 
-      <div className="flex gap-x-3">
-        <p className="text-[#d8d3c0] text-lg font-normal font-['Poppins'] leading-snug">
+      <form onSubmit={onResend} className="inline-flex items-center text-sm sm:text-base leading-snug space-x-2 mt-3">
+        <p className="text-[#d8d3c0]">
           Didn&apos;t get the code ?
         </p>
-        <form onSubmit={onResend}>
-          <button
-            type="submit"
-            className="text-[#00dbae] text-lg font-normal font-['Poppins'] leading-snug cursor-pointer"
-          >
-            Resend
-          </button>
-        </form>
-      </div>
+        <button
+          type="submit"
+          className="text-aqua-500 font-semibold"
+        >
+          Resend
+        </button>
+      </form>
     </div>
   );
 };

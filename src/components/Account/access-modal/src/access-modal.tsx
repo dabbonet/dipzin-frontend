@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import { generateOtp } from "@/utils/auth/generateOtp";
 import { Logo } from "@/components/UI/logo";
 import { useToast } from "@/hooks/use-toast";
-import useIsMobile from "@/hooks/useIsMobile";
 
 // Zod schema to validate email
 const schema = z.object({
@@ -25,7 +24,6 @@ type FormValues = z.infer<typeof schema>; // Infer type from schema
 const AccessModal = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const isMobile = useIsMobile()
   const [isLoading, setIsLoading] = useState(false); // Loading state for the button
 
   // Initialize useForm with zodResolver and schema
@@ -75,45 +73,40 @@ const AccessModal = () => {
       role="main"
       aria-labelledby="access-modal-title"
     >
-      <header className="w-full h-fit items-center p-4 md:p-0 text-center md:text-start justify-center md:justify-start space-y-1 mb-7">
+      <header className="w-full h-fit items-center p-4 md:p-0 text-center md:text-start md:justify-start space-y-1 mb-2 sm:mb-7">
         <h1
-          id="access-modal-title"
-          className="font-bold !leading-normal bg-clip-text lg:text-4xl text-2xl"
+          className="font-medium leading-normal sm:font-bold text-2xl lg:text-4xl"
         >
-          Login or Signup
+          Login in to your account
         </h1>
-        <p className="text-[#d8d3c0] font-light">
+        <p className="text-white/60 font-light text-sm sm:text-base">
           Welcome back! Please enter your details.
         </p>
       </header>
-      <div className="flex gap-[26px] flex-col-reverse md:flex-col">
-        <div className="flex gap-[26px] flex-col-reverse md:flex-col">
+      <div className="flex gap-3 sm:gap-[26px] flex-col-reverse md:flex-col">
+        <div className="flex gap-3 sm:gap-[26px] flex-col-reverse md:flex-col">
           <section
             aria-labelledby="third-party-login"
-            className="flex flex-row items-center justify-center w-full space-x-3 mx-auto font-medium"
+            className="flex flex-row items-center justify-center w-full space-x-3 mb-3 mx-auto font-medium"
           >
             <Button
               href="#"
               variant="strocked"
-              isIconOnly={isMobile}
               size="2xl"
-              className="w-fit flex gap-4 items-center justify-center"
               aria-label="Continue with Google"
             >
-              <Logo.Google />
-              <p className="hidden lg:flex">Continue with Google</p>
+              <Logo.Google className="size-6 sm:size-8 shrink-0" />
+              <p className="hidden sm:flex">Continue with Google</p>
             </Button>
 
             <Button
               href="#"
               variant="strocked"
-              isIconOnly={isMobile}
               size="2xl"
-              className="w-fit flex gap-4 items-center justify-center"
               aria-label="Continue with Facebook"
             >
-              <Logo.Facebook />
-              <p className="hidden lg:flex">Continue with Facebook</p>
+              <Logo.Facebook className="size-6 sm:size-8 shrink-0" />
+              <p className="hidden sm:flex">Continue with Facebook</p>
             </Button>
           </section>
 
@@ -131,13 +124,13 @@ const AccessModal = () => {
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-6 z-0"
+          className="space-y-3 sm:space-y-6 z-0"
           aria-labelledby="email-form-title"
         >
           <Input
             id="email"
-            className="w-full h-[56px]"
-            placeholder="Email"
+            placeholder="enter your Email"
+            label="Email"
             state={errors.email ? "error" : "default"}
             aria-invalid={errors.email ? "true" : "false"}
             aria-describedby={errors.email ? "email-error" : undefined}
@@ -150,11 +143,11 @@ const AccessModal = () => {
           <Button
             type="submit"
             size="2xl"
-            className="w-full flex items-center justify-center"
+            fullWidth
             loading={isLoading}
             aria-busy={isLoading}
           >
-            Submit Email
+            Send Code
           </Button>
         </form>
       </div>

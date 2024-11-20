@@ -48,10 +48,10 @@ export const ScreenAppDetails = ({ app }: { app: ScreenType["app"] }) => {
         <AvatarFallback>{extractInitials(app.name)}</AvatarFallback>
       </Avatar>
       <div className="space-y-0 sm:space-y-1 flex flex-col">
-        <h3 className="text-2xl font-medium leading-6 text-white font-outfit sm:text-xl">
+        <h3 className="text-2xl font-medium leading-6 text-white   sm:text-xl">
           {app.name}
         </h3>
-        <p className="text-gray-200 font-poppins sm:text-sm sm:text-gray-400 sm:truncate sm:whitespace-nowrap sm:max-w-[50vw]">
+        <p className="text-gray-200  sm:text-sm sm:text-gray-400 sm:truncate sm:whitespace-nowrap sm:max-w-[50vw]">
           {app.tag_line}
         </p>
       </div>
@@ -99,7 +99,7 @@ export const ActionButtons = ({ screen }: { screen: ScreenType }) => {
   }
 
   return (
-    <div className="w-full sm:w-fit flex items-center justify-end gap-2 sm:gap-4 font-medium whitespace-nowrap font-poppins">
+    <div className="w-full sm:w-fit flex items-center justify-end gap-2 sm:gap-4 font-medium whitespace-nowrap ">
       <CopyButton
         url={screenUrl}
         then={
@@ -250,19 +250,19 @@ export const ScreenData = ({
     <div className="w-full h-fit flex items-center justify-evenly gap-4 md:gap-36 flex-wrap gap-y-6">
       {tags.length > 0 && (
         <div>
-          <p className="mb-1 text-xl font-semibold font-outfit">Tags</p>
+          <p className="mb-1 text-xl font-semibold  ">Tags</p>
           {renderPills(tags, showAllTags, setShowAllTags, handleTagClick)}
         </div>
       )}
       {components.length > 0 && (
         <div>
-          <p className="mb-1 text-xl font-semibold font-outfit">Components</p>
+          <p className="mb-1 text-xl font-semibold  ">Components</p>
           {renderPills(components, showAllComponents, setShowAllComponents, handleComponentClick)}
         </div>
       )}
       {colors && (
         <div>
-          <p className="mb-1 text-xl font-semibold font-outfit">Colors</p>
+          <p className="mb-1 text-xl font-semibold  ">Colors</p>
           <div className="flex gap-2 flex-wrap">
             {colors.split(",").map((color) => (
               <TooltipProvider key={color}>

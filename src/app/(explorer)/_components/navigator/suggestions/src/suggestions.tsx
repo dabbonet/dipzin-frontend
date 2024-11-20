@@ -22,7 +22,7 @@ const Suggestions: React.FC<SuggestionsProps> = ({
   };
 
   return (
-    <div className="w-full h-fit flex flex-col md:flex-row md:items-center gap-3 font-outfit">
+    <div className="w-full h-fit flex flex-col md:flex-row md:items-center gap-3  ">
       <Label className="size-fit  px-4 rounded-full bg-transparent text-sm font-semibold text-white">
         Suggestions
       </Label>

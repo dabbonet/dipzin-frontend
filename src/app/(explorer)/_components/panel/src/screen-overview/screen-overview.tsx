@@ -19,13 +19,48 @@ import {
   WebScreenTabs,
 } from "./screen-details";
 import { Screen } from "@/components/Shared/screen";
-import { storage } from "@/utils/storage";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
 
 interface ScreenOverviewProps {
   screenId: number;
 }
+
+const ScreenContent = ({
+  currentScreen,
+  showFullScreen,
+  hasFullPage,
+  loading,
+  isMobile
+}) => {
+  if (showFullScreen) {
+    if (loading) {
+      return <p className="text-slate-500">Loading full page view...</p>;
+    }
+
+    if (!hasFullPage) {
+      return <p className="text-slate-500">Screen Does Not Have A Full Page</p>;
+    }
+
+    return (
+      <Screen className="overflow-y-auto" borderless overlay={false} screen={currentScreen} />
+    );
+  }
+
+  return (
+    <div className="size-full flex flex-col items-center justify-center">
+      <Screen
+        className="w-fit"
+        screen={currentScreen}
+        overlay={false}
+        borderless
+      />
+      {isMobile && (
+        <div className="w-full h-fit mt-4">
+          <ActionButtons screen={currentScreen} />
+        </div>
+      )}
+    </div>
+  );
+};
 
 const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
   const {
@@ -79,35 +114,13 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
               <TooltipArrow style={{ fill: "#007160" }} width={14} height={8} />
             </TooltipContent>
           </Tooltip>
-          <div className="size-full flex justify-center items-center">
-            {showFullScreen && loading && (
-            <div className="text-slate-500">Loading full page view...</div>
-            )}
-            {showFullScreen && !hasFullPage && !loading && (
-            <div className="text-slate-500">Screen Does Not Have A Full Page</div>
-            )}
-            {showFullScreen && hasFullPage && (
-              <div className="w-full h-[60vh] rounded-[2rem] overflow-y-auto">
-                <Screen borderless overlay={false} screen={currentScreen} />
-              </div>
-            )}
-            {!showFullScreen && (
-              <div className="size-full flex flex-col items-center justify-center">
-                <Image
-                  className={cn(`w-fit ${currentScreen.app.platform === "web" ? "h-fit" : "h-[69vh] "} max-h-full max-w-full rounded-3xl z-10 bg-slate-950`)}
-                  src={storage(
-                    (currentScreen.screen?.hash ?? "") + (currentScreen.screen?.ext ?? "")
-                  )}
-                  style={{ maxHeight: "100%", maxWidth: "100%" }}
-                  alt={`${currentScreen?.app?.name} - screen`}
-                  width={currentScreen.screen?.width ?? 0}
-                  height={currentScreen.screen?.height ?? 0}
-                  unoptimized
-                />
-                {isMobile && <div className="w-full h-fit mt-4"><ActionButtons screen={currentScreen} /></div>}
-              </div>
-            )}
-          </div>
+          <ScreenContent
+            currentScreen={currentScreen}
+            showFullScreen={showFullScreen}
+            hasFullPage={hasFullPage}
+            loading={loading}
+            isMobile={isMobile}
+          />
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
               <Button

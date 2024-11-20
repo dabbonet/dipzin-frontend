@@ -69,12 +69,12 @@ export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
       <div className="flex flex-col text-center sm:text-start items-center sm:items-start">
         <span
           title={label}
-          className="text-base md:text-xl whitespace-nowrap truncate font-medium"
+          className="text-sm md:text-lg xl:text-base 2xl:text-xl whitespace-nowrap truncate font-medium"
         >
           {label}
         </span>
         {description && (
-          <span className="text-sm text-white/60">
+          <span className="text-xs text-white/60 xl:text-xs 2xl:text-sm">
             {description}
           </span>
         )}

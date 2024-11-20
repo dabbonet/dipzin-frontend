@@ -14,8 +14,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="font-poppins bg-slate-950">
+    <html lang="en" className="dark">
+      <body className="font-outfit bg-slate-950">
         <SessionProvider>
           {children}
         </SessionProvider>

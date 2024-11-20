@@ -32,7 +32,7 @@ const AppPill: React.FC<AppPillProps> = ({ isFull = false, data }) => {
         data.neglected === true ? 'opacity-50' : 'opacity-100',
         `max-w-full w-full h-fit bg-[#1A2333] px-1.5 py-1 rounded-[2rem] grid
         ${isFull ? 'grid-cols-4 sm:grid-cols-7 md:grid-cols-12' : 'grid-cols-4'}
-        gap-4 items-center font-poppins`
+        gap-4 items-center `
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
