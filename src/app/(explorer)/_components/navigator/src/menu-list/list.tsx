@@ -3,7 +3,7 @@ import { NavigatorMenuItem } from './list-item';
 import React from 'react';
 import { getItemDescription, getNavigatorListIcon } from '@/app/(explorer)/_utils/keywordUtils';
 import type { Category, Query } from '@/types/navigation-types';
-import { getPatternHandle } from '@/app/(explorer)/_utils/queryUtils';
+import { singularToPlural } from '@/app/(explorer)/_utils/queryUtils';
 import ListItemSkeleton from './list-item-skeleton';
 
 const categories: Category[] = [
@@ -50,7 +50,7 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
     if (result.type === 'app') {
       handleUpdate((prev: any) => [...prev, { name: result.name, slug: result.slug }], 'apps');
     } else {
-      const pattern = getPatternHandle(result.type);
+      const pattern = singularToPlural(result.type);
       handleUpdate((prev: any) => [...prev, { name: result.name, pattern }], 'filters');
     }
   };

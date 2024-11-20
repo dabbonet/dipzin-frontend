@@ -6,6 +6,21 @@ export const getPatternHandle = (pattern: string): string => {
       return 'flows';
     case 'flowAction':
       return 'flow';
+    case 'category':
+      return 'categories';
+    default:
+      return pattern || '';
+  }
+};
+
+export const getPatternHandleForAPI = (pattern: string): string => {
+  switch (pattern) {
+    case 'screens':
+      return 'tags';
+    case 'flows':
+      return 'flowActions';
+    case 'apps':
+      return 'categories';
     default:
       return pattern || '';
   }

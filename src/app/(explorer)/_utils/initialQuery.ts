@@ -1,7 +1,7 @@
 // getInitialQuery.ts
 
 import type { Filter } from '@/types/navigation-types';
-import { safeDecode, singularToPlural } from './queryUtils';
+import { safeDecode } from './queryUtils';
 
 // Function to get the initial query from the URL segments
 export const getInitialQuery = (explorer: string[]) => {
@@ -59,20 +59,18 @@ export const getInitialQuery = (explorer: string[]) => {
 export const getInitialQueryWithSearchParams = (query: any, initialQuery: any, searchParams: any) => {
   const apps = initialQuery.apps?.length > 0 ? initialQuery.apps : searchParams.getAll('app');
 
-  const correctedPattern = (pattern:any) => (pattern === 'screens' ? 'tags' : pattern);
   // Combine tags, categories, components, flows, and marketing into filters
-  const patterns = ['screens', 'categories', 'components', 'flows', 'marketing'];
+  const patterns = ['tags', 'categories', 'components', 'flows', 'marketing'];
   const filters: Filter[] = [];
-
   for (const pattern of patterns) {
     // Use optional chaining (?.) and provide a default empty array if undefined
-    const items = initialQuery[singularToPlural(pattern)]?.length > 0
-      ? initialQuery[singularToPlural(pattern)]
+    const items = initialQuery[pattern]?.length > 0
+      ? initialQuery[pattern]
       : searchParams.getAll(pattern).map((item: string) => safeDecode(item)); // Decode all items safely
     for (const item of items) {
       filters.push({
         name: safeDecode(item), // Make sure to safely decode the name
-        pattern: correctedPattern(pattern),
+        pattern,
       });
     }
   }

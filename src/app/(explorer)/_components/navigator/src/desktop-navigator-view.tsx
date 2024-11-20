@@ -9,6 +9,7 @@ import { AppPill } from "@/app/(explorer)/_components/navigator/selected-apps";
 import { Suggestions } from '@/app/(explorer)/_components/navigator/suggestions';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
+import { getPatternHandleForAPI } from '@/app/(explorer)/_utils/queryUtils';
 
 const patterns = [
   { label: "Apps", value: "apps" },
@@ -31,7 +32,7 @@ const DesktopNavigatorView: React.FC = () => {
 
   const { keyword, setKeyword } = useKeyword();
   const {
-    query, setFilters, setPattern, suggestions, setPlatform
+    query, setFilters, setApps, setPattern, suggestions, setPlatform
   } = useQuery();
   const { filters, platform, pattern } = query || {};
 
@@ -50,9 +51,10 @@ const DesktopNavigatorView: React.FC = () => {
 
   const switcherState = isMenuOpen || (filters && filters.length > 0) ? 'collapsed' : 'open';
 
+  const correctedPattern = getPatternHandleForAPI(pattern);
   const mappedSuggestions = suggestions?.map((name: string) => ({
     name,
-    pattern: query.pattern,
+    pattern: correctedPattern,
   })) || [];
 
   return (
@@ -97,6 +99,8 @@ const DesktopNavigatorView: React.FC = () => {
           handleUpdate={(updateFn, target) => {
             if (target === 'filters') {
               setFilters(updateFn(query.filters));
+            } else if (target === 'apps') {
+              setApps(updateFn(query.apps));
             }
           }}
         />
