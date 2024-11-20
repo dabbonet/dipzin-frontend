@@ -41,7 +41,7 @@ const SettingsModal = () => {
   const [tabValue, setTabValue] = useState('account-settings');
 
   return (
-    <Card className="bg-slate-900/95 border-4 border-[#171f31] rounded-[20px] p-6 text-white font-outfit">
+    <Card className="bg-slate-900/95 border-4 border-[#171f31] rounded-[20px] p-6 text-white  ">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Tabs value={tabValue} onValueChange={setTabValue}>
           <CardHeader className="w-full flex flex-row items-center justify-between gap-4">

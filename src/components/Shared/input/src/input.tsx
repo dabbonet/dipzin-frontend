@@ -15,7 +15,7 @@ import { TooltipArrow } from "@radix-ui/react-tooltip";
 import { snakeCaseToWords } from "@/utils/StringUtils";
 
 const wrapperVariants = cva(
-  "flex items-center gap-4 w-full max-w-full h-fit rounded-2xl border border-transparent bg-slate-800 text-sm transition-transform disabled:cursor-not-allowed disabled:opacity-50 text-white font-outfit",
+  "flex items-center gap-4 w-full max-w-full h-fit rounded-lg sm:rounded-2xl border border-transparent bg-slate-800 text-sm transition-transform disabled:cursor-not-allowed disabled:opacity-50 text-white",
   {
     variants: {
       state: {
@@ -24,9 +24,9 @@ const wrapperVariants = cva(
         disabled: "bg-gray-600 cursor-not-allowed",
       },
       type: {
-        default: "px-5 py-4",
+        default: "p-3 sm:p-4",
         search:
-          "rounded-full py-3 px-6 text-white placeholder:text-white bg-[#1A2333]",
+          "rounded-full sm:rounded-full py-2 xl:py-3 px-4 xl:px-6 text-white placeholder:text-white bg-[#1A2333]",
       },
     },
     defaultVariants: {
@@ -106,7 +106,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div className="w-full h-fit flex flex-col gap-2 font-outfit">
+      <div className="w-full h-fit flex flex-col gap-2  ">
         {label && (
           <Label
             className="text-gray-400 text-[1rem] leading-6"
@@ -177,7 +177,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               id={inputId}
               disabled={state === "disabled"}
               className={cn(
-                "bg-transparent outline-none text-[1rem] leading-6 text-white size-full",
+                "bg-transparent outline-none text-base sm:text-[1rem] text-white size-full",
                 type === "search"
                   ? "placeholder:text-white"
                   : "placeholder:text-slate-400",

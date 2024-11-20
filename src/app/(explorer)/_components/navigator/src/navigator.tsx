@@ -31,11 +31,12 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
     return null
   }
 
-  return isMobile ? (
-    <MobileNavigatorView />
-  ) : (
-    <DesktopNavigatorView />
-  );
+  return (
+    <>
+      <MobileNavigatorView />
+      <DesktopNavigatorView />
+    </>
+  )
 };
 
 export default Navigator;

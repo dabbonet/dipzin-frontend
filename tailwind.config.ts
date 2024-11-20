@@ -116,7 +116,6 @@ const config: Config = {
       },
       fontFamily: {
         outfit: ['Outfit', 'sans-serif'],
-        poppins: ['Poppins', 'sans-serif'],
       },
     }
   },

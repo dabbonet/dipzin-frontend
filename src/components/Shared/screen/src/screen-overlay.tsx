@@ -44,7 +44,7 @@ const AppInfo = ({ app }: { app: AppType }) => {
         />
         <AvatarFallback>{extractInitials(app?.name || "")}</AvatarFallback>
       </Avatar>
-      <div className="font-poppins">
+      <div className="">
         <h3 className="text-white text-lg font-semibold">{app?.name}</h3>
         <p className="text-white text-sm">{app?.tag_line}</p>
       </div>
@@ -75,7 +75,7 @@ const GlobalTopOverlay = ({ screen, isSelected }: { screen: ScreenData, isSelect
   return (
     <div className="w-full h-fit flex items-center justify-between px-5">
       <Checkbox
-        className="size-[28px] rounded-[0.4rem] border-[2.5px]"
+        className="size-[28px] bg-transparent rounded-[0.4rem] border-[2.5px]"
         checked={selected}
         onCheckedChange={handleCheckboxChange}
       />

@@ -13,14 +13,14 @@ const listItemsData = [
 ];
 
 const ListItem = ({ item }: { item:string }) => (
-  <div className="flex items-center gap-2 whitespace-nowrap font-poppins">
+  <div className="flex items-center gap-2 whitespace-nowrap ">
     <Icon.Check className="size-6" />
     <p className="text-sm font-medium">{item}</p>
   </div>
 );
 
 const UpgradeAdDialog = () => (
-  <Card className="bg-slate-900 w-[790px] h-[660px] border-0 rounded-[26px] font-outfit text-white">
+  <Card className="bg-slate-900 w-[790px] h-[660px] border-0 rounded-[26px]   text-white">
     {/* image */}
 
     <Image

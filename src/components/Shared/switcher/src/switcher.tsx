@@ -40,7 +40,7 @@ const Switcher: React.FC<SwitcherProps> = ({
         type="single"
         value={value}
         onValueChange={handleValueChange}
-        className="flex bg-[#1A2333] rounded-full p-2 gap-4 relative overflow-hidden"
+        className="flex bg-[#1A2333] rounded-full p-1 xl:p-2 gap-4 relative overflow-hidden"
       >
         <motion.div
           className="flex gap-4 items-center"

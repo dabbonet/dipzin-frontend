@@ -15,7 +15,7 @@ export const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen, handle
   <motion.div
     key="menu"
     transition={{ duration: 0.3, ease: "easeIn" }}
-    className="size-full contain-layout bg-transparent flex gap-4 text-white font-outfit overflow-hidden "
+    className="size-full contain-layout bg-transparent flex gap-4 text-white   overflow-hidden "
     initial={{ height: 0 }}
     animate={{ height: isMenuOpen ? "fit-content" : 0 }}
     exit={{ height: 0 }}

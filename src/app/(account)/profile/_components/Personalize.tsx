@@ -19,7 +19,7 @@ const Position: FC<{
 }) => (
   <label
     htmlFor={id.toString()}
-    className="flex items-center justify-start gap-4 bg-slate-900 py-2 px-3 rounded-xl"
+    className="flex items-center justify-start gap-2 sm:gap-4 bg-slate-900 p-2 sm:py-2 sm:px-3 rounded-xl"
   >
     <Controller
       name="positions"
@@ -41,10 +41,12 @@ const Position: FC<{
         />
       )}
     />
-    <span className="w-9 flex justify-center items-center bg-slate-800 border border-solid border-cyan-700 rounded-xl overflow-hidden p-1.5 aspect-square">
+    <span className="w-6 sm:w-9 flex justify-center items-center bg-slate-800 border border-solid border-aqua-300 rounded-md sm:rounded-xl overflow-hidden p-1 sm:p-1.5 aspect-square shrink-0">
       <Image src={icon} alt={name} width={50} height={50} />
     </span>
-    {name}
+    <p className="text-xs leading-tight whitespace-nowrap sm:text-base">
+      {name}
+    </p>
   </label>
 );
 
@@ -59,8 +61,8 @@ const Interest: FC<{
   <button
     key={id}
     type="button"
-    className={`text-slate-200 text-sm py-2 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 transition-colors border ${
-      selected ? "border-cyan-600" : "border-transparent"
+    className={`text-slate-200 text-sm py-2 px-4 rounded-full bg-slate-900 hover:bg-slate-800 transition-colors border ${
+      selected ? "border-aqua-300" : "border-transparent"
     }`}
     onClick={toggleInterest}
   >
@@ -92,7 +94,7 @@ export default function Personalize() {
   return (
     <form onSubmit={handleSubmit}>
       <p className="text-slate-300">Which best describes you?</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 mt-3 gap-4">
+      <div className="grid grid-cols-2 mt-3 justify-between sm:justify-center gap-2 sm:gap-4">
         {positions.length > 0
           ? positions.map((position) => (
             <Position
@@ -116,67 +118,58 @@ export default function Personalize() {
           {errors.positions.message}
         </p>
       )}
-      <div className="mt-9">
-        <h3 className="text-slate-300 mb-1 text-base font-normal">
-          Interests
-        </h3>
-        <p className="text-slate-500 mb-4">
-          Help us develop and prioritize features, and customize your
-          experience.
-        </p>
-        <div className="flex flex-wrap gap-3 mb-8">
-          {interests.length > 0
-            ? interests.map((el: { id: number; name: string }) => (
-              <Controller
-                key={el.id}
-                name="interests"
-                control={control}
-                render={({ field }) => (
-                  <Interest
-                    id={el.id}
-                    title={el.name}
-                    selected={field.value.includes(el.id)}
-                    toggleInterest={() => {
-                      if (field.value.includes(el.id)) {
-                        field.onChange(
-                          field.value.filter((id: number) => id !== el.id),
-                        );
-                      } else {
-                        field.onChange([...field.value, el.id]);
-                      }
-                    }}
-                  />
-                )}
-              />
-            ))
-            : Array.from({ length: 10 }).map((_, index) => (
-              <Skeleton
+      <h3 className="text-slate-300 mb-1 text-base font-normal mt-9">
+        Interests
+      </h3>
+      <p className="text-slate-500 mb-4">
+        Help us develop and prioritize features, and customize your
+        experience.
+      </p>
+      <div className="size-full flex flex-wrap overflow-y-scroll gap-3">
+        {interests.length > 0
+          ? interests.map((el: { id: number; name: string }) => (
+            <Controller
+              key={el.id}
+              name="interests"
+              control={control}
+              render={({ field }) => (
+                <Interest
+                  id={el.id}
+                  title={el.name}
+                  selected={field.value.includes(el.id)}
+                  toggleInterest={() => {
+                    if (field.value.includes(el.id)) {
+                      field.onChange(
+                        field.value.filter((id: number) => id !== el.id),
+                      );
+                    } else {
+                      field.onChange([...field.value, el.id]);
+                    }
+                  }}
+                />
+              )}
+            />
+          ))
+          : Array.from({ length: 10 }).map((_, index) => (
+            <Skeleton
                 // eslint-disable-next-line react/no-array-index-key
-                key={index}
-                className="w-36 h-10 rounded-xl bg-slate-800 "
-              />
-            ))}
-        </div>
-        {errors.interests && (
-          <p className="text-danger-400 text-sm mt-2">
-            {errors.interests.message}
-          </p>
-        )}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <Button
-            href="/"
-            variant="ghost"
-            className="rounded-full hover:bg-slate-800"
-          >
-            Skip
-          </Button>
-          <div className="flex items-center gap-4">
-            <Button href="/profile/profile-information" variant="darkGray">
-              Back
-            </Button>
-            <Button type="submit">Next</Button>
-          </div>
-        </div>
+              key={index}
+              className="w-36 h-9 rounded-full bg-slate-800 "
+            />
+          ))}
+      </div>
+      {errors.interests && (
+      <p className="text-danger-400 text-sm mt-2">
+        {errors.interests.message}
+      </p>
+      )}
+      <div className="w-full h-fit flex justify-end gap-x-4 mt-4">
+        <Button className="flex-1" href="/" variant="ghost" fullWidth size="lg">
+          Skip
+        </Button>
+        <Button className="flex-1" type="submit" fullWidth size="lg">
+          Next
+        </Button>
       </div>
     </form>
   );

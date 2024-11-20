@@ -15,7 +15,7 @@ const AppInfo = ({ app }: { app: AppType }) => (
       <AvatarImage width={80} height={80} src={storage(mergeIconFromObject(app.icon as any))} alt={app.name} />
       <AvatarFallback>{extractInitials(app.name)}</AvatarFallback>
     </Avatar>
-    <div className="font-poppins">
+    <div className="">
       <h3 className="text-white text-lg font-semibold">{app.name}</h3>
       <p className="text-white text-sm">{app.tag_line}</p>
     </div>

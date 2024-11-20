@@ -18,15 +18,18 @@ const ProfileContent: FC<{ slug: string }> = ({ slug }) => {
     case "profile-information":
       return (
         <>
-          <p className="text-slate-400 text-base font-normal">
+          <p className="text-slate-400 text-base font-normal hidden sm:flex">
             <span className="text-aqua-500">1/2</span>
             {' '}
             Basic Info
           </p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white font-medium mb-3">
-            Let’s set up your account.
-          </h1>
-          <p className="text-slate-400 mb-8">
+          <div className="flex items-center justify-between mb-3">
+            <h1 className="text-2xl sm:text-5xl leading-tight text-white font-medium">
+              Let’s set up your account.
+            </h1>
+            <span className="text-aqua-500 text-2xl flex sm:hidden">01</span>
+          </div>
+          <p className="text-slate-400 text-sm sm:text-base mb-8">
             Let&apos;s get to know you better! Please review our
             {" "}
             <Link
@@ -52,15 +55,18 @@ const ProfileContent: FC<{ slug: string }> = ({ slug }) => {
     case "personalize":
       return (
         <>
-          <p className="text-slate-400 text-base font-normal">
+          <p className="text-slate-400 text-base font-normal hidden sm:flex">
             <span className="text-aqua-500">2/2</span>
             {' '}
             Customize Experience
           </p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white font-medium mb-3">
-            Personalize Your Experience
-          </h1>
-          <p className="text-slate-400 mb-8">
+          <div className="flex items-center justify-between mb-3">
+            <h1 className="text-2xl sm:text-5xl leading-tight text-white font-medium">
+              Personalize Your Experience
+            </h1>
+            <span className="text-aqua-500 text-2xl flex sm:hidden">02</span>
+          </div>
+          <p className="text-slate-400 text-sm sm:text-base mb-8">
             Please answer a few questions about your interests and preferences.
             Review our
             {" "}
@@ -93,9 +99,11 @@ const ProfileLayout: FC<ProfileLayoutProps> = ({ children, params }) => {
   const { slug } = params;
 
   return (
-    <main className="flex flex-col gap-2 px-4 pt-5 md:px-8 md:pt-7">
-      <Logo.Dipzin className="flex mr-auto" />
-      <div className="flex size-full items-center justify-center px-[10vw] py-[2.5vw]">
+    <main className="size-full flex flex-col gap-2 p-4 md:p-8">
+      <a className="flex sm:hidden" href="/" aria-label="Home">
+        <Logo.Dipzin className="text-white mr-auto" />
+      </a>
+      <div className="flex mt-4 size-full items-center justify-center p-0 sm:px-[10vw] sm:py-[2.5vw]">
         <div className="flex gap-x-36 flex-wrap justify-center items-center w-full">
           <motion.div
             className="flex-1"

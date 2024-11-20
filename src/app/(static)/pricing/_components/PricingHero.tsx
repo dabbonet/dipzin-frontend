@@ -77,11 +77,11 @@ const PricingHero: React.FC<PricingHeroProps> = ({ checkoutPlans }) => (
       {pricingPlans.map((plan, i) => (
         <Card key={plan.id} className="size-full mx-auto max-w-lg">
           <CardHeader className="text-2xl font-semibold">
-            <h3 className="font-outfit text-2xl font-semibold">{plan.duration}</h3>
+            <h3 className="  text-2xl font-semibold">{plan.duration}</h3>
             <p className="text-lg font-medium text-slate-300">{plan.accountType}</p>
           </CardHeader>
           <CardContent>
-            <h2 className="text-7xl font-semibold font-outfit">
+            <h2 className="text-7xl font-semibold  ">
               $
               {(checkoutPlans[i]?.unit_amount ?? 0) / 100}
               <span className="text-5xl font-medium text-slate-300">$</span>
@@ -92,7 +92,7 @@ const PricingHero: React.FC<PricingHeroProps> = ({ checkoutPlans }) => (
               {plan.features.map((feature) => (
                 <li key={feature} className="flex items-center space-x-1">
                   <Icon.Check className="size-5 text-aqua-100" />
-                  <span className="text-lg font-medium font-outfit leading-6">{feature}</span>
+                  <span className="text-lg font-medium   leading-6">{feature}</span>
                 </li>
               ))}
             </ul>

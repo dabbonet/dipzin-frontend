@@ -7,7 +7,7 @@ import '@/styles/global.css';
 import BulkActions from '@/components/Explorer/bulk-actions';
 
 const Nav = ({ initialQuery }: { initialQuery: any }) => (
-  <nav className="bg-navigator-bg w-screen h-fit px-4 pt-5 md:px-8 md:pt-7 flex flex-col md:flex-row md:justify-between items-start gap-4 md:gap-8 z-50 fixed top-0">
+  <nav className="bg-gradient-to-b from-slate-950 to-slate-950 sm:to-transparent pb-3 sm:pb-0 w-screen h-fit px-4 pt-5 md:px-8 md:pt-7 flex flex-col md:flex-row md:justify-between items-start gap-4 md:gap-8 z-50 fixed top-0">
     <div className="flex w-full md:w-auto justify-between items-center">
       <a href="/" aria-label="Home">
         <Logo.Dipzin className="text-white" />
@@ -34,7 +34,7 @@ export default async function RootLayout({
   return (
     <div className="space-y-[15vh] md:space-y-[8vh]">
       <Nav initialQuery={initialQuery} />
-      <main className="size-full px-2 md:px-4 lg:px-10 xl:px-16 2xl:px-[100px]">
+      <main className="size-full px-4 md:px-8 lg:px-10 xl:px-16 2xl:px-[100px]">
         {children}
       </main>
       <OnboardingModal />

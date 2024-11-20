@@ -61,7 +61,6 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
           </div>
           )
         }
-
         </div>
 
       </div>

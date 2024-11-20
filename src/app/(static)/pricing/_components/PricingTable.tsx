@@ -91,7 +91,7 @@ const PricingTable: React.FC<PricingTableProps> = ({ checkout, currentPlan = 'fr
   ];
 
   return (
-    <Table className="py-8 mx-auto max-w-screen-2xl lg:py-16 text-slate-100 font-poppins">
+    <Table className="py-8 mx-auto max-w-screen-2xl lg:py-16 text-slate-100 ">
       <TableHeader>
         <TableHead className="w-1/4 text-left align-bottom sm:w-1/3 lg:w-1/4">
           <h1 className="text-[40px] font-semibold leading-[56px] text-slate-100">
