@@ -41,7 +41,7 @@ const Screen = ({
   return (
     <div
       className={cn(
-        "relative group size-full overflow-hidden flex items-center justify-center rounded-lg sm:rounded-3xl bg-black-950",
+        "relative group size-full overflow-hidden flex items-center justify-center rounded-2xl sm:rounded-3xl bg-black-950",
         border,
         aspectRatio,
         className

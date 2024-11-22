@@ -41,20 +41,20 @@ const ScreenContent = ({
     }
 
     return (
-      <Screen className="overflow-y-auto" borderless overlay={false} screen={currentScreen} />
+      <Screen className="fixed inset-0 z-40 left-1/2 -translate-x-1/2 translate-y-[-5vh] w-screen h-screen max-h-none overflow-y-auto rounded-none sm:rounded-none" borderless overlay={false} screen={currentScreen} />
     );
   }
 
   return (
     <div className="size-full flex flex-col items-center justify-center">
       <Screen
-        className="w-fit"
+        className={currentScreen.app.platform === "web" ? "h-fit w-full" : "w-fit h-full"}
         screen={currentScreen}
         overlay={false}
-        borderless
+        borderless={!isMobile}
       />
       {isMobile && (
-        <div className="w-full h-fit mt-4">
+        <div className="w-full h-fit flex mt-4 mx-[20%]">
           <ActionButtons screen={currentScreen} />
         </div>
       )}
@@ -81,7 +81,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
   return (
     <div
       key={currentScreen.id}
-      className="flex flex-col gap-2 size-full items-start justify-center sm:justify-between transition-opacity duration-500 opacity-100 p-6"
+      className="flex flex-col gap-2 size-full items-start justify-center sm:justify-between transition-opacity duration-500 opacity-100 p-4 xl:p-6"
     >
       <div className="relative w-full h-fit flex items-center justify-between">
         <ScreenAppDetails app={currentScreen.app} />
@@ -94,12 +94,12 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
         {!isMobile && <ActionButtons screen={currentScreen} />}
       </div>
 
-      <div className="size-full max-w-full sm:max-w-[65vw] mx-auto flex items-center justify-between gap-2">
+      <div className="size-full max-w-full sm:max-w-[80vw] xl:max-w-[65vw] mx-auto flex items-center justify-between gap-2">
         <TooltipProvider>
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
               <Button
-                className="hidden md:flex size-16 bg-slate-300 text-slate-900 rounded-full p-4 shrink-0"
+                className="hidden md:flex size-10 xl:size-16 bg-slate-300 text-slate-900 rounded-full p-4 shrink-0"
                 variant="liteGray"
                 isIconOnly
                 disabled={!hasPrevScreen}
@@ -124,7 +124,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
               <Button
-                className="hidden sm:flex size-16 bg-slate-300 text-slate-900 rounded-full p-4 shrink-0"
+                className="hidden sm:flex size-10 xl:size-16 bg-slate-300 text-slate-900 rounded-full p-4 shrink-0"
                 variant="liteGray"
                 isIconOnly
                 disabled={!hasNextScreen}

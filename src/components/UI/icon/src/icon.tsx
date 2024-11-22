@@ -21,8 +21,10 @@ import {
 import {
   BookmarkIcon,
   EyeIcon,
+  EyeSlashIcon,
   FolderPlusIcon,
   Square2StackIcon,
+  Squares2X2Icon
 } from "@heroicons/react/24/outline";
 
 export interface IconProps extends React.SVGProps<SVGSVGElement> {}
@@ -212,6 +214,8 @@ const Icon = {
   Star: StarIcon,
   Bookmark: BookmarkIcon,
   Eye: EyeIcon,
+  EyeSlash: EyeSlashIcon,
+  Group: Squares2X2Icon,
 
   ArrowRight: ArrowRightIcon,
   ArrowLeft: ArrowLeftIcon,

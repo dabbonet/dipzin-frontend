@@ -65,8 +65,8 @@ const DesktopNavigatorView: React.FC = () => {
       initial={{ height: 'auto' }}
       animate={{ height: isMenuOpen ? 'auto' : 'auto' }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      onMouseEnter={() => setIsHovered(true)} // Set hover state to true
-      onMouseLeave={() => setIsHovered(false)} // Set hover state to false
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <div className="w-full h-fit flex items-center gap-4">
         <Switcher
@@ -79,7 +79,6 @@ const DesktopNavigatorView: React.FC = () => {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           onFocus={() => setIsMenuOpen(true)}
-          className="w-full shadow-none"
           type="search"
           placeholder={filters?.length > 0 ? 'Search' : 'Try Search'}
           autoComplete="off"
@@ -90,7 +89,7 @@ const DesktopNavigatorView: React.FC = () => {
           value={platform}
           onChange={setPlatform}
           data={platforms}
-          state={switcherState}
+          state="open"
         />
       </div>
       {isMenuOpen && (
@@ -109,20 +108,23 @@ const DesktopNavigatorView: React.FC = () => {
       {!isMenuOpen && query?.apps?.length > 0 && (
         <div className="size-full flex gap-4">
           {query.apps.map((app: any, index: number) => (
-            <AppPill key={app.id || index} data={app} />
+            <AppPill
+              key={app.id || index}
+              data={app}
+              isFull={query?.apps?.length === 1}
+            />
           ))}
         </div>
       )}
 
-      {/* Animate the Suggestions section */}
       <AnimatePresence>
         {!isMenuOpen && (isHovered || !query?.apps || query?.apps?.length === 0) && (
           <motion.div
             className={isMenuOpen ? 'hidden' : 'flex'}
-            initial={{ opacity: 0, height: 0, y: -10 }} // Animate opacity and height
-            animate={{ opacity: 1, height: 'auto', y: 0 }} // Animate in
-            exit={{ opacity: 0, height: 0, y: -10 }} // Animate out
-            transition={{ duration: 0.3 }} // Smooth animation
+            initial={{ opacity: 0, height: 0, y: -10 }}
+            animate={{ opacity: 1, height: 'auto', y: 0 }}
+            exit={{ opacity: 0, height: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
           >
             <Suggestions
               suggestions={mappedSuggestions}

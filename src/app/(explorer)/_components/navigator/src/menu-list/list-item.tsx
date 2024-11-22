@@ -24,6 +24,7 @@ type MenuItemProps = {
   onMouseEnter?: () => void;
   isSearchResult?: boolean; // Added prop for conditional padding
   onClick?: () => void;
+  isActive?: boolean;
 };
 
 export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
@@ -35,12 +36,14 @@ export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
   onMouseEnter,
   isSearchResult = false,
   onClick,
+  isActive
 }) => (
   <button
     key={`search-result-${label}`}
     className={cn(
       "w-full rounded-2xl flex items-center justify-between transition-colors bg-[#1A2333] md:bg-transparent hover:text-white/80 hover:bg-slate-700/60",
       isSearchResult ? "p-4" : "p-4",
+      isActive && "md:bg-slate-700/60"
     )}
     onMouseEnter={onMouseEnter}
     onClick={onClick}
@@ -62,6 +65,7 @@ export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
         <Image
           src={icon.imgSrc}
           alt={label}
+          className="size-8 2xl:size-10 aspect-square shrink-0"
           width={icon.width ?? 32}
           height={icon.height ?? 32}
         />
@@ -69,7 +73,7 @@ export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
       <div className="flex flex-col text-center sm:text-start items-center sm:items-start">
         <span
           title={label}
-          className="text-sm md:text-lg xl:text-base 2xl:text-xl whitespace-nowrap truncate font-medium"
+          className="text-sm md:text-base 2xl:text-xl whitespace-nowrap font-medium"
         >
           {label}
         </span>
@@ -80,6 +84,6 @@ export const NavigatorMenuItem: React.FC<MenuItemProps> = ({
         )}
       </div>
     </div>
-    {showArrow && <Icon.ChevronRight className="size-5 text-white" />}
+    {showArrow && <Icon.ChevronRight className="size-5 shrink-0 aspect-square text-white" />}
   </button>
 );

@@ -25,6 +25,7 @@ import {
   CommandGroup,
   CommandItem,
   CommandList,
+  CommandSeparator,
 } from "@/components/UI/command";
 import { extractInitials } from "@/utils/StringUtils";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
@@ -32,15 +33,8 @@ import useEmblaCarousel from "embla-carousel-react";
 import {
   ArrowRightStartOnRectangleIcon,
   ArrowRightEndOnRectangleIcon,
-  ChevronRightIcon,
 } from "@heroicons/react/24/solid";
-import {
-  Drawer,
-  DrawerTrigger,
-  DrawerContent,
-  DrawerFooter,
-  DrawerClose,
-} from "@/components/UI/drawer";
+
 import { Dialog, DialogContent, DialogTrigger } from "@/components/UI/dialog";
 import { SettingsModal } from "../../settings-modal";
 import { storage } from "@/utils/storage";
@@ -110,12 +104,11 @@ const soonItems = [
 ];
 
 const UserMenu = () => {
-  const session = useSession();
-  const user = session.data?.user;
+  const { data, status } = useSession();
+  const user = data?.user
   const isMobile = useIsMobile();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     WheelGesturesPlugin(),
@@ -137,7 +130,11 @@ const UserMenu = () => {
     };
   }, [emblaApi, onSelect]);
 
-  if (!user) {
+  if (status === 'loading') {
+    return null;
+  }
+
+  if (status === "unauthenticated" || !user) {
     return (
       <Button size="lg" className="rounded-full" href="/access">
         <ArrowRightEndOnRectangleIcon className="size-6" />
@@ -147,10 +144,10 @@ const UserMenu = () => {
   }
 
   const menuContent = (
-    <Command className="w-full p-2 sm:p-0">
+    <Command className="w-full">
       <CommandList>
         <CommandGroup>
-          <CommandItem className="w-full h-fit flex items-center justify-between p-2">
+          <CommandItem className="w-full h-fit flex gap-4 sm:gap-1 items-center justify-between p-2">
             <Dialog>
               <DialogTrigger className="flex items-center gap-2 rounded-full hover:bg-slate-900 py-2 px-2.5">
                 <Avatar>
@@ -166,9 +163,13 @@ const UserMenu = () => {
                 </Avatar>
                 <div className="flex flex-col items-start">
                   <p className="font-medium">{user.name}</p>
-                  <p className="text-sm text-gray-500">{user?.email}</p>
+                  <p className="text-sm text-gray-500 hidden sm:flex">{user?.email}</p>
+                  <p className="text-sm text-slate-400 flex sm:hidden">
+                    @
+                    {user?.username}
+                  </p>
                 </div>
-                <Icon.Settings className="size-6 ml-4" />
+                <Icon.Settings className="size-6 ml-4 hidden sm:flex" />
               </DialogTrigger>
               <DialogContent className="w-full max-w-screen-lg">
                 <SettingsModal />
@@ -178,11 +179,12 @@ const UserMenu = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="rounded-full hover:bg-slate-900"
+                // isIconOnly={isMobile}
+                className="rounded-full sm:hover:bg-slate-900"
                 onClick={() => signOut()}
               >
-                <ArrowRightStartOnRectangleIcon className="size-4" />
-                Logout
+                <ArrowRightStartOnRectangleIcon className="size-6 sm:size-4 text-danger-400 sm:text-white" />
+                <p className="hidden sm:flex">Logout</p>
               </Button>
             </div>
           </CommandItem>
@@ -190,7 +192,7 @@ const UserMenu = () => {
 
         <CommandGroup heading="Navigation">
           <div
-            className={`grid ${isMobile ? "grid-cols-3" : "grid-cols-2"} gap-2 p-2 max-w-max md:max-w-[70%]`}
+            className={`grid ${isMobile ? "grid-cols-1" : "grid-cols-2"} gap-2 p-2 max-w-max md:max-w-[70%]`}
           >
             {navigationItems.map((item) => {
               if (item.comingSoon) {
@@ -221,9 +223,8 @@ const UserMenu = () => {
             })}
           </div>
         </CommandGroup>
-
-        <CommandGroup heading="Coming Soon">
-          <div className="max-w-fit md:max-w-sm" ref={emblaRef}>
+        <CommandGroup>
+          <div className="hidden sm:flex max-w-fit md:max-w-sm" ref={emblaRef}>
             <div className="flex">
               {[0, 1, 2].map((page) => (
                 <div key={page} className="mx-1 flex-[0_0_100%]">
@@ -253,7 +254,7 @@ const UserMenu = () => {
           </div>
 
           <div className="mt-4 w-full h-fit flex p-0 items-center justify-between">
-            <div className="flex justify-center">
+            <div className="hidden sm:flex justify-center">
               {Array.from({ length: count }, (_, i) => (
                 <button
                   key={i}
@@ -264,8 +265,10 @@ const UserMenu = () => {
                 />
               ))}
             </div>
-            <CommandGroup>
-              <CommandItem className="flex items-center gap-2 text-sm text-gray-500 p-0">
+            <CommandGroup className="size-full">
+              <CommandSeparator className="flex sm:hidden" />
+
+              <CommandItem className="size-full flex items-center justify-center sm:justify-end gap-2 text-sm text-gray-500 p-2 sm:p-0">
                 <Link
                   href="/legal/terms"
                   className="text-slate-500 hover:text-aqua-500 transition-all font-medium text-[10px]"
@@ -305,30 +308,6 @@ const UserMenu = () => {
     </Button>
   );
 
-  if (isMobile) {
-    return (
-      <Drawer
-        modal
-        direction="right"
-        dismissible={false}
-        open={isDrawerOpen}
-        onOpenChange={setIsDrawerOpen}
-      >
-        <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
-        <DrawerContent className="h-screen w-screen bg-[#1A2333] rounded-none border-0">
-          {menuContent}
-          <DrawerFooter className="pt-0 pl-2">
-            <DrawerClose onClick={() => setIsDrawerOpen(false)} asChild>
-              <Button isIconOnly variant="darkGray">
-                <ChevronRightIcon className="size-4" />
-              </Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
   return (
     <div className="flex items-center justify-center gap-4">
       <Button href="/pricing" className="rounded-xl">
@@ -339,7 +318,7 @@ const UserMenu = () => {
           trigger:
           "bg-[#1A2333] hover:bg-slate-900 border-[1px] border-slate-900 rounded-full flex items-center gap-x-2 p-1 pr-2",
           content:
-          "w-fit h-fit bg-[#1A2333] border-[1px] border-slate-900 rounded-2xl p-4",
+          "w-fit h-fit bg-[#1A2333] border-[1px] border-slate-900 rounded-2xl p-0 sm:p-4",
         }}
         trigger={triggerButton}
         content={menuContent}

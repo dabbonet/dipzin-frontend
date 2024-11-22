@@ -27,6 +27,7 @@ import { DialogClose } from '@/components/UI/dialog';
 import { useCopyScreen } from '@/hooks/useCopyScreen';
 import { DownloadButton } from '../../button/DownloadButton';
 import { useRouter } from 'next/navigation';
+import { Checkbox } from '@/components/UI/checkbox';
 
 const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) => {
   const { query, setApps } = useQuery();
@@ -85,7 +86,7 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
       onClick={handleRedirect}
 
     >
-      <div className={cn(`bg-slate-900 size-full rounded-2xl z-5`)}>
+      <div className={cn(`bg-transparent sm:bg-slate-900 size-full rounded-2xl z-5`)}>
         <div className={cn(`flex justify-between w-full ${view === "opened" ? "p-0" : "p-4"} sm:px-8`)}>
           <div className="flex gap-1.5 sm:gap-4 items-center">
             <div className="flex flex-wrap gap-1.5 sm:gap-4 items-center">
@@ -122,8 +123,8 @@ const Flow = ({ flow, view }: { flow: FlowType, view?: "default" | "opened" }) =
               url={screensUrls as unknown as string[]}
               then={(
                 <>
-                  <Icon.Check className="size-6" />
-                  <p className="hidden sm:block">Downloaded!</p>
+                  <Checkbox checked className="size-6" />
+                  <p className="hidden sm:block">Downloaded</p>
                 </>
           )}
             >

@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const pillVariants = cva(
   "inline-flex items-center rounded-full font-semibold transition-colors text-[10px] xl:text-xs  group whitespace-nowrap",
@@ -42,12 +43,13 @@ function Pill({
   ...props
 }: PillProps) {
   const type = startContent || endContent ? "withAction" : "label";
+  const isMobile = useIsMobile();
 
   return (
     <motion.span
       className={cn(pillVariants({ state, type }), className)}
       initial={false}
-      whileHover="hover"
+      whileHover={!isMobile && "hover" as any}
       variants={{
         hover: { gap: "10px" },
       }}
@@ -59,6 +61,7 @@ function Pill({
       {startContent && (
         <motion.span
           initial={{ opacity: 0, width: 0 }}
+          animate={isMobile && type === "withAction" ? { opacity: 1, width: "auto" } : undefined}
           variants={{
             hover: { opacity: 1, width: "auto" }
           }}
@@ -75,6 +78,7 @@ function Pill({
       {endContent && (
         <motion.span
           initial={{ opacity: 0, width: 0 }}
+          animate={isMobile && type === "withAction" ? { opacity: 1, width: "auto" } : undefined}
           variants={{
             hover: { opacity: 1, width: "auto" }
           }}

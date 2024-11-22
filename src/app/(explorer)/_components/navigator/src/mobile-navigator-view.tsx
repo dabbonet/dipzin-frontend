@@ -14,6 +14,7 @@ import { AppPill } from "@/app/(explorer)/_components/navigator/selected-apps";
 import MobileNavigatorMenu from "./mobile-navigator-menu";
 import { useKeyword } from "@/app/(explorer)/_hooks/useKeyword";
 import { useQuery } from "@/app/(explorer)/_hooks/useQuery";
+import { Icon } from "@/components/UI/icon";
 
 const patterns = [
   { label: "Apps", value: "apps" },
@@ -46,8 +47,10 @@ const MobileNavigatorView: React.FC = () => {
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
         onFocus={() => setIsMenuOpen(true)}
-        className="w-full shadow-none "
         type="search"
+        startContent={
+          <Icon.Search className="text-white size-5 shrink-0" />
+        }
         placeholder={filters?.length > 0 ? "Search" : "Try Search"}
         autoComplete="off"
       />

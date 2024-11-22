@@ -35,6 +35,7 @@ export default async function RootLayout({
     <div className="space-y-[15vh] md:space-y-[8vh]">
       <Nav initialQuery={initialQuery} />
       <main className="size-full px-4 md:px-8 lg:px-10 xl:px-16 2xl:px-[100px]">
+        {/* <PanelHeader /> */}
         {children}
       </main>
       <OnboardingModal />

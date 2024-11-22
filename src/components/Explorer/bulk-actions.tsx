@@ -5,6 +5,7 @@ import { Icon } from '../UI/icon';
 import { useBulkActionStore } from '@/stores/useBulkActionStore';
 import { DownloadButton } from '../Shared/button/DownloadButton';
 import { storage } from '@/utils/storage';
+import { Checkbox } from '../UI/checkbox';
 
 const BulkActions: React.FC = () => {
   const { selectedScreens, clearSelection } = useBulkActionStore();
@@ -50,8 +51,8 @@ const BulkActions: React.FC = () => {
           url={screensUrls as unknown as string[]}
           then={(
             <>
-              <Icon.Check className="size-6" />
-              Downloaded!
+              <Checkbox checked className="size-6" />
+              Downloaded
             </>
           )}
         >

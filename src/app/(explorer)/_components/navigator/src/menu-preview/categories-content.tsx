@@ -15,35 +15,38 @@ const CategoriesContent: React.FC<CategoriesContentProps> = ({
 }) => {
   const categories = suggestedSearch[selectedResult?.id as string];
   const pattern = mapItemPattern(selectedResult);
+  console.log('categories: ', JSON.stringify(categories, null, 2));
 
   if (!categories) return null;
   return (
-    <div className="size-full overflow-y-auto">
+    <>
       {categories.map((category: any) => (
-        <div className="flex flex-col gap-2 p-0 px-2 md:p-2" key={uuidv4()}>
-          <span className="text-base p-2 font-medium text-slate-400 hidden md:flex">
-            {category.title}
-          </span>
-          <ul>
-            {category.items.map((item: any) => (
-              <li
-                key={uuidv4()}
-                className="py-1 px-2 flex justify-between gap-2 hover:bg-slate-700/60 rounded-xl"
-              >
-                <button
-                  type="button"
-                  onClick={() => handleUpdate(pattern, item)}
-                  className="w-full h-fit flex items-start text-[20px] text-slate-100 font-medium hover:text-slate-300 active:text-slate-400 transition-colors"
+        <div key={uuidv4()} className="size-full overflow-y-auto">
+          <div className="flex flex-col gap-2 p-0 px-2 md:p-2" key={uuidv4()}>
+            <span className="text-base p-2 font-medium text-slate-400 hidden md:flex">
+              {category.title}
+            </span>
+            <ul>
+              {category.items.map((item: any) => (
+                <li
+                  key={uuidv4()}
+                  className="p-2 flex justify-between gap-2 hover:bg-slate-700/60 rounded-xl"
                 >
-                  {item}
-                </button>
-                {/* <span className="text-slate-300 text-base">{item.count}</span> */}
-              </li>
-            ))}
-          </ul>
+                  <button
+                    type="button"
+                    onClick={() => handleUpdate(pattern, item)}
+                    className="w-full h-fit flex items-start text-sm sm:text-[20px] text-slate-100 font-medium hover:text-slate-300 active:text-slate-400 transition-colors"
+                  >
+                    {item}
+                  </button>
+                  {/* <span className="text-slate-300 text-base">{item.count}</span> */}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       ))}
-    </div>
+    </>
   );
 };
 

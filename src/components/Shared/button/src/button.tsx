@@ -68,6 +68,7 @@ export interface ButtonProps
   asChild?: boolean;
   loading?: boolean;
   href?: string;
+  scroll?: boolean;
   fullWidth?: boolean;
 }
 
@@ -81,6 +82,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isIconOnly = false,
       loading = false,
       href,
+      scroll,
       fullWidth = false,
       ...props
     },
@@ -92,6 +94,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <Link
           href={href}
+          scroll={scroll}
           className={cn(
             buttonVariants({
               variant,

@@ -7,7 +7,7 @@ const PricingNav: React.FC = () => (
     <a href="/" aria-label="Home">
       <Logo.Dipzin className="text-white" />
     </a>
-    <Button size="sm" className="w-28">
+    <Button href="/access" size="sm" className="w-28">
       Join Us
     </Button>
   </nav>

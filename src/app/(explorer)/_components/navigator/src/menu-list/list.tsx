@@ -1,6 +1,6 @@
 import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
 import { NavigatorMenuItem } from './list-item';
-import React from 'react';
+import React, { useState } from 'react';
 import { getItemDescription, getNavigatorListIcon } from '@/app/(explorer)/_utils/keywordUtils';
 import type { Category, Query } from '@/types/navigation-types';
 import { singularToPlural } from '@/app/(explorer)/_utils/queryUtils';
@@ -29,6 +29,7 @@ type NavigatorMenuListProps = {
 };
 
 export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpdate }) => {
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const {
     results, keyword, selectedResult, setSelectedResult
   } = useKeyword();
@@ -100,12 +101,16 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
   return (
     <>
       {categories.map((category: Category) => (
-        <div key={category.id}>
+        <div key={category.name}>
           <NavigatorMenuItem
             label={category.name}
             icon={category.icon}
             showArrow
-            onClick={() => handleMouseEnter(category)}
+            onClick={() => {
+              handleMouseEnter(category);
+              setSelectedCategory(category);
+            }}
+            isActive={selectedCategory?.id === category.id}
           />
         </div>
       ))}

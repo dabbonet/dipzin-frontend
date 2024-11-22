@@ -7,18 +7,22 @@ import { extractInitials, mergeIconFromObject } from '@/utils/StringUtils'
 import { storage } from '@/utils/storage'
 import type { AppType } from '../../../../types/app-types'
 import { DownloadButton } from '../../button/DownloadButton'
+import { Button } from '../../button'
 
 // App Info Component
 const AppInfo = ({ app }: { app: AppType }) => (
-  <div className="flex items-center gap-4">
-    <Avatar>
-      <AvatarImage width={80} height={80} src={storage(mergeIconFromObject(app.icon as any))} alt={app.name} />
+  <div className="w-full h-fit flex items-center gap-1 sm:gap-4 bg-slate-800/90 sm:bg-background rounded-full p-1 sm:p-0">
+    <Avatar className="size-10 sm:size-12 shrink-0 aspect-square">
+      <AvatarImage src={storage(mergeIconFromObject(app.icon as any))} alt={app.name} />
       <AvatarFallback>{extractInitials(app.name)}</AvatarFallback>
     </Avatar>
-    <div className="">
-      <h3 className="text-white text-lg font-semibold">{app.name}</h3>
-      <p className="text-white text-sm">{app.tag_line}</p>
+    <div>
+      <h3 title={app.name} className="text-white text-sm sm:text-lg line-clamp-1 font-medium sm:font-semibold">{app.name}</h3>
+      <p className="text-white hidden sm:flex leading-tight text-sm">{app.tag_line}</p>
     </div>
+    <Button scroll={false} href={`/app/${app.id}`} variant="ghost" className="flex aspect-square shrink-0 items-center justify-center rounded-full ml-auto sm:hidden bg-aqua-800 hover:bg-aqua-800 p-1">
+      <Icon.Group className="size-5 text-white" />
+    </Button>
   </div>
 )
 
@@ -29,7 +33,7 @@ const TopOverlay = ({ app }: { app: AppType }) => {
   );
 
   return (
-    <div className={`absolute top-0 inset-x-0 flex ${app.platform === 'web' ? 'pt-4 pb-[30px]' : 'pt-6 pb-[93px]'} items-center justify-center gap-4 bg-screen-hover-gradient-to-bottom opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out`}>
+    <div className={`absolute hidden sm:flex top-0 inset-x-0 ${app.platform === 'web' ? 'pt-4 pb-[30px]' : 'pt-6 pb-[93px]'} items-center justify-center gap-4 bg-screen-hover-gradient-to-bottom opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out`}>
       <div className="flex justify-center gap-4 w-full">
         <DownloadButton
           className="rounded-full"
@@ -56,7 +60,7 @@ const TopOverlay = ({ app }: { app: AppType }) => {
 
 // Bottom Overlay Component
 const BottomOverlay = ({ app }: { app: AppType }) => (
-  <div className={`absolute bottom-0 inset-x-0 flex px-4 ${app.platform === 'web' ? 'pb-[14px] pt-[36px]' : 'pb-[26px] pt-[48px]'} bg-screen-hover-gradient-to-top opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out`}>
+  <div className={`absolute bottom-0 inset-x-0 flex px-1 sm:px-3 ${app.platform === 'web' ? 'pb-2 sm:pb-[14px] pt-[36px]' : 'pb-2 sm:pb-[26px] pt-[48px]'} bg-transparent sm:bg-screen-hover-gradient-to-top opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out`}>
     <AppInfo app={app} />
   </div>
 )

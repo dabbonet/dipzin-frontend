@@ -67,35 +67,31 @@ const App = ({ app }: { app: AppType }) => {
     });
   };
 
-  const outerBorder = 'border-[3px] md:border-[6px] border-[#0f172aa6] hover:border-[#64748b26] transition-colors overflow-hidden';
-
-  const innerBorder2 = 'border-[2px] md:border-[4px] border-[#0f172aa6] group-hover:border-slate-500 transition-colors overflow-hidden';
+  const border = "ring-[3px] md:ring-[6px] ring-[#0f172aa6] hover:[#64748b26] transition-colors border-[2px] md:border-[4px] border-[#0f172aa6] hover:border-slate-500/50";
 
   return (
-    <div className={cn("relative size-full rounded-[2rem] group", outerBorder)} ref={containerRef}>
-      <div className={cn("size-full rounded-3xl", innerBorder2)}>
-        {!imageLoaded && !imageError && (
-          <Skeleton className="size-full absolute inset-0" />
-        )}
-        {imageError ? (
-          <div className="size-full absolute inset-0 flex items-center justify-center bg-slate-600">
-            404 not found
-          </div>
-        ) : (
-          <Image
-            src={screens[imageIndex]?.imageSrc || ''}
-            alt={app.name}
-            width={screens[imageIndex]?.width ?? 0}
-            height={screens[imageIndex]?.height ?? 0}
-            onLoad={() => setImageLoaded(true)}
-            onError={() => setImageError(true)}
-            onClick={handleAppClick}
-            className="cursor-pointer"
-            unoptimized
-          />
-        )}
-        {imageLoaded && !imageError && <AppOverlay app={app} />}
-      </div>
+    <div className={cn("relative size-full rounded-xl sm:rounded-[2rem] group overflow-hidden", border)} ref={containerRef}>
+      {!imageLoaded && !imageError && (
+      <Skeleton className="size-full absolute inset-0" />
+      )}
+      {imageError ? (
+        <div className="size-full absolute inset-0 flex items-center justify-center bg-slate-600">
+          404 not found
+        </div>
+      ) : (
+        <Image
+          src={screens[imageIndex]?.imageSrc || ''}
+          alt={app.name}
+          width={screens[imageIndex]?.width ?? 0}
+          height={screens[imageIndex]?.height ?? 0}
+          onLoad={() => setImageLoaded(true)}
+          onError={() => setImageError(true)}
+          onClick={handleAppClick}
+          className="cursor-pointer"
+          unoptimized
+        />
+      )}
+      {imageLoaded && !imageError && <AppOverlay app={app} />}
     </div>
   );
 };
