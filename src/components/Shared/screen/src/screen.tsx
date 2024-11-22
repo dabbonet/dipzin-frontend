@@ -61,7 +61,7 @@ const Screen = ({
       ) : (
         <Image
           className="absolute inset-0 object-contain
-           w-full h-auto"
+           size-full"
           src={storage(
             (screen.screen?.hash ?? "") + (screen.screen?.ext ?? ""),
             size

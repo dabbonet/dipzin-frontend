@@ -14,7 +14,7 @@ const Footer = ({ context: { loading } }: any) => (
 const ItemContent = (_: number, flow: any) => {
   const hasValidScreens = flow.flow_screens.some((screen: any) => screen.screen !== null);
   if (hasValidScreens) {
-    return <Flow key={flow.id} flow={flow} view="default" />;
+    return <Flow key={flow.id} flow={flow} />;
   }
   return null;
 };

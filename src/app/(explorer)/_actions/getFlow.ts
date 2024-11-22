@@ -44,7 +44,7 @@ export const getFlow = async (flowId: number): Promise<any> => {
       fields: ["*"],
       populate: {
         app: {
-          fields: ["name", "tag_line"],
+          fields: ["name", "tag_line", "platform"],
           populate: {
             icon: {
               fields: ["hash", "ext", "width", "height"],

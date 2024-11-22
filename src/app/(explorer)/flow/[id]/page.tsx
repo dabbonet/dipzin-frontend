@@ -1,5 +1,5 @@
 import React from "react";
-import FlowOverview from "@/app/(explorer)/_components/panel/src/FlowOverview";
+import FlowOverview from "@/app/(explorer)/_components/panel/src/flow-overview/FlowOverview";
 import Modal from "../../@modal/modal";
 
 export default async function FlowModalPage({
@@ -10,7 +10,7 @@ export default async function FlowModalPage({
   const { id } = await params;
 
   return (
-    <Modal className="h-full sm:max-h-[90vh] sm:max-w-[95vw] p-5">
+    <Modal className="h-full sm:max-h-[90vh] sm:max-w-[95vw] backdrop-blur-[45px] bg-transparent sm:bg-slate-800/60 rounded-none sm:rounded-2xl">
       <FlowOverview flowId={id} />
     </Modal>
   );
