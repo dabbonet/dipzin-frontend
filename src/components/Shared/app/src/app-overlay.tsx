@@ -9,7 +9,7 @@ import type { AppType } from '../../../../types/app-types'
 import { DownloadButton } from '../../button/DownloadButton'
 import { Button } from '../../button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/UI/dialog'
-import MobileAppOverview from './mobile-app-showcase'
+import MobileAppShowcase from './mobile-app-showcase'
 
 // App Info Component
 const AppInfo = ({ app }: { app: AppType }) => (
@@ -29,7 +29,7 @@ const AppInfo = ({ app }: { app: AppType }) => (
         </Button>
       </DialogTrigger>
       <DialogContent className="backdrop-blur-[45px]">
-        <MobileAppOverview app={app} />
+        <MobileAppShowcase app={app} />
       </DialogContent>
     </Dialog>
   </div>

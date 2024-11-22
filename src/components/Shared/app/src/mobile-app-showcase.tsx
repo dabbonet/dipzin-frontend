@@ -13,7 +13,7 @@ import { DropdownMenuItem } from '@/components/UI/dropdown-menu';
 import useEmblaCarousel from 'embla-carousel-react';
 import { Screen } from '../../screen';
 
-const MobileAppOverview = ({ app }: { app: AppType }) => {
+const MobileAppShowcase = ({ app }: { app: AppType }) => {
   const isWeb = app.platform === 'web';
   const [currentScreen, setCurrentScreen] = useState(0);
   const [emblaRef, emblaApi] = useEmblaCarousel();
@@ -115,4 +115,4 @@ const MobileAppOverview = ({ app }: { app: AppType }) => {
   );
 };
 
-export default MobileAppOverview;
+export default MobileAppShowcase;

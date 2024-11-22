@@ -31,12 +31,12 @@ const Screen = ({
 }: ScreenProps) => {
   const [imageLoaded, setImageLoaded] = React.useState(false);
   const [imageError, setImageError] = React.useState(false);
-  console.log('screen: ', JSON.stringify(screen, null, 2));
+
   const border = borderless
     ? "ring-0 border-0"
     : "ring-[3px] md:ring-[6px] ring-[#0f172aa6] hover:[#64748b26] transition-colors border-[2px] md:border-[4px] border-[#0f172aa6] hover:border-slate-500/50";
 
-  const aspectRatio = screen.app?.platform === "web" ? "aspect-[100/62]" : "aspect-[10/21.5]";
+  const aspectRatio = screen.app?.platform === "web" ? "aspect-[100/62]" : "aspect-[10/21.25]";
 
   return (
     <div
