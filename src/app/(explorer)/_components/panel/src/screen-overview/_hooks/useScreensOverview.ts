@@ -2,18 +2,52 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useQuery } from "@/app/(explorer)/_hooks/useQuery";
+import { useFetchData } from "@/app/(explorer)/_hooks/useFetchData";
 import type { ScreenData } from "@/types/screen-types";
 import { getScreen } from "../_actions/getScreen";
 import { getFullScreen } from "../_actions/getFullScreen";
 import useKeyboardNavigation from "@/hooks/useKeyboardNavigation";
 
 const useScreensOverview = (initialScreenId: number) => {
-  const { data: screens } = useQuery();
+  const {
+    query, setQuery, data: screens, pagination, setPagination
+  } = useQuery();
+  const { fetchData } = useFetchData();
   const [currentScreen, setCurrentScreen] = useState<ScreenData | null>(null);
   const [originalScreen, setOriginalScreen] = useState<ScreenData | null>(null);
   const [showFullScreen, setShowFullScreen] = useState(false);
   const [hasFullPage, setHasFullPage] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [nextScreenAfterLoad, setNextScreenAfterLoad] = useState<ScreenData | null>(null);
+
+  const loadMoreData = useCallback(async () => {
+    if (isLoadingMore) return null;
+
+    const newOffset = pagination.offset + pagination.limit;
+    if (pagination.offset === newOffset) return null;
+
+    setIsLoadingMore(true);
+
+    try {
+      const updatedQuery = { ...query, offset: newOffset };
+      const newQuery = await fetchData(updatedQuery, true);
+
+      if (newQuery) {
+        setQuery(newQuery);
+        setPagination({
+          ...pagination,
+          offset: newOffset,
+        });
+        return newQuery;
+      }
+    } catch (error) {
+      console.error('Error loading more data:', error);
+    } finally {
+      setIsLoadingMore(false);
+    }
+    return null;
+  }, [pagination, query, fetchData, isLoadingMore, setQuery, setPagination]);
 
   const loadScreenData = useCallback(async () => {
     if (!screens || screens.length === 0) {
@@ -37,9 +71,8 @@ const useScreensOverview = (initialScreenId: number) => {
     if (!currentScreen) return;
 
     if (!showFullScreen) {
-      // Switching to full screen view
       setLoading(true);
-      setShowFullScreen(true); // Set this first to trigger loading state
+      setShowFullScreen(true);
 
       try {
         const fullScreenData = await getFullScreen(currentScreen.id);
@@ -63,7 +96,6 @@ const useScreensOverview = (initialScreenId: number) => {
         setLoading(false);
       }
     } else {
-      // Switching back to normal view
       if (originalScreen) {
         setCurrentScreen(originalScreen);
       }
@@ -80,19 +112,43 @@ const useScreensOverview = (initialScreenId: number) => {
     setLoading(false);
   }, []);
 
-  const goToNextScreen = useCallback(() => {
-    if (!screens || screens.length === 0 || !currentScreen) return;
+  // Modify the useEffect to run only once on mount
+  useEffect(() => {
+    loadScreenData();
+  }, []);
+
+  // Update the useEffect for handling nextScreenAfterLoad
+  useEffect(() => {
+    if (!isLoadingMore && nextScreenAfterLoad && screens) {
+      const screen = screens.find((s) => s.id === nextScreenAfterLoad.id);
+      if (screen) {
+        resetScreenStates();
+        setCurrentScreen(screen);
+        window.history.replaceState(null, "", `/screen/${screen.id}`);
+        setNextScreenAfterLoad(null);
+      }
+    }
+  }, [isLoadingMore, nextScreenAfterLoad, screens, resetScreenStates]);
+
+  const goToNextScreen = useCallback(async () => {
+    if (!screens || !currentScreen) return;
 
     const currentIndex = screens.findIndex(
       (screen) => screen.id === currentScreen.id
     );
+
     if (currentIndex < screens.length - 1) {
       resetScreenStates();
       const nextScreen = screens[currentIndex + 1];
       setCurrentScreen(nextScreen);
       window.history.replaceState(null, "", `/screen/${nextScreen.id}`);
+    } else if (currentIndex === screens.length - 1 && !isLoadingMore) {
+      const newQuery = await loadMoreData();
+      if (newQuery?.data?.[0]) {
+        setNextScreenAfterLoad(newQuery.data[0]);
+      }
     }
-  }, [screens, currentScreen, resetScreenStates]);
+  }, [screens, currentScreen, resetScreenStates, loadMoreData, isLoadingMore]);
 
   const goToPrevScreen = useCallback(() => {
     if (!screens || screens.length === 0 || !currentScreen) return;
@@ -112,12 +168,8 @@ const useScreensOverview = (initialScreenId: number) => {
     onNext: goToNextScreen,
     onPrev: goToPrevScreen,
     isFirstItem: screens?.[0]?.id === currentScreen?.id,
-    isLastItem: screens?.[screens.length - 1]?.id === currentScreen?.id,
+    isLastItem: false // Always allow "next" to handle loading more data
   });
-
-  useEffect(() => {
-    loadScreenData();
-  }, [loadScreenData]);
 
   return {
     currentScreen,
@@ -125,15 +177,12 @@ const useScreensOverview = (initialScreenId: number) => {
     toggleFullScreen,
     goToNextScreen,
     goToPrevScreen,
-    hasNextScreen:
-      !!currentScreen
-      && screens
-      && screens.findIndex((s) => s.id === currentScreen.id) < screens.length - 1,
+    hasNextScreen: !isLoadingMore, // Always allow next unless loading
     hasPrevScreen:
       !!currentScreen
       && screens
       && screens.findIndex((s) => s.id === currentScreen.id) > 0,
-    loading,
+    loading: loading || isLoadingMore,
     hasFullPage,
   };
 };

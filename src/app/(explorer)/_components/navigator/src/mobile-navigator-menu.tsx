@@ -128,14 +128,7 @@ const MobileNavigatorMenu: React.FC<{
   const renderContent = () => (
     <AnimatePresence mode="wait" custom={isNavigatingBack}>
       {keyword && results?.hits && results?.hits.length > 0 ? (
-        <motion.div
-          key="searchResults"
-          custom={isNavigatingBack}
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.15 }}
+        <div
           className="grid grid-cols-2 pt-0 p-4 gap-4"
         >
           {/* Render search results here */}
@@ -150,7 +143,7 @@ const MobileNavigatorMenu: React.FC<{
               }
             }}
           />
-        </motion.div>
+        </div>
       ) : navigationState === "initial" && !selectedResult ? (
         <motion.div
           key="initial"
@@ -237,7 +230,7 @@ const MobileNavigatorMenu: React.FC<{
               </DrawerClose>
             )}
           />
-          <div className="flex items-center gap-2 my-4">
+          <div className="flex items-center gap-2 mt-4">
             {navigationState === "initial" && (
               <Button onClick={handleAllFiltersClick} variant="secondary">
                 <Icon.Filter className="size-5" />

@@ -10,7 +10,7 @@ export default async function FlowModalPage({
   const { id } = await params;
 
   return (
-    <Modal className="h-full sm:max-h-[90vh] sm:max-w-[95vw] p-5">
+    <Modal className="h-full sm:max-h-[90vh] sm:max-w-[95vw] backdrop-blur-[45px] bg-transparent sm:bg-slate-800/60 rounded-none sm:rounded-2xl p-5">
       <FlowOverview flowId={id} />
     </Modal>
   );

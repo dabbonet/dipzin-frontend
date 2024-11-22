@@ -26,7 +26,7 @@ const wrapperVariants = cva(
       type: {
         default: "p-3 sm:p-4",
         search:
-          "rounded-full sm:rounded-full py-2 xl:py-3 px-4 xl:px-6 text-white placeholder:text-white bg-[#1A2333]",
+          "rounded-full sm:rounded-full py-2.5 sm:py-2 xl:py-3 px-3 gap-2 sm:gap-4 sm:px-4 xl:px-6 text-white placeholder:text-white bg-[#1A2333]",
       },
     },
     defaultVariants: {
@@ -170,7 +170,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               <Slot className="flex items-center">{startContent}</Slot>
             )}
             {type === "search" && selectedFilters?.length === 0 && (
-              <Icon.Search className="text-white size-5" />
+              <Icon.Search className="text-white size-5 shrink-0" />
             )}
             <input
               type={type}

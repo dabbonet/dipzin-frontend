@@ -1,14 +1,15 @@
+// OnboardingModal.tsx
+
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/Shared/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/UI/dialog";
 import { motion } from "framer-motion";
-import { useSession } from "next-auth/react";
-import { updateUser } from "@/actions/updateUser";
-import MobileOnboarding from "./mobile-onboarding";
 import useIsMobile from "@/hooks/useIsMobile";
+import MobileOnboarding from "./mobile-onboarding";
+import { useOnboarding } from "./_hooks/useOnboarding";
 
 const onboardingSteps = [
   {
@@ -32,101 +33,65 @@ const onboardingSteps = [
 ];
 
 export default function OnboardingModal() {
-  const [currentStep, setCurrentStep] = useState(0);
-  const isMobile = useIsMobile()
-  const [showModal, setShowModal] = useState(false);
+  const isMobile = useIsMobile();
+  const {
+    currentStep,
+    showModal,
+    status,
+    user,
+    onboardingStep,
+    handleNextStep,
+    handleSkip,
+    handleStepClick,
+  } = useOnboarding(onboardingSteps);
 
-  const { data: session, status, update } = useSession();
-  const user = session?.user;
-
-  useEffect(() => {
-    if (status === "authenticated" && user) {
-      if (!user.confirmed) {
-        setShowModal(true);
-      }
-    }
-  }, [status, user]);
-
-  if (status === "loading") return null;
-  if (status === "authenticated" && user?.confirmed) return null;
+  if (status === "loading" || (status === "authenticated" && user?.confirmed)) return null;
   if (!showModal) return null;
-
-  const handleComplete = async () => {
-    try {
-      if (user?.token && user?.id) {
-        await updateUser({ confirmed: true }, user.token, user.id);
-      }
-      await update({});
-      setShowModal(false);
-    } catch (error) {
-      console.error("Failed to update user: ", error);
-    }
-  };
-
-  const handleNextStep = () => {
-    setCurrentStep((prevStep) => prevStep + 1);
-  };
-
-  const handleSkip = async () => {
-    try {
-      if (user?.token && user?.id) {
-        await updateUser({ confirmed: true }, user.token, user.id);
-      }
-      await update({});
-      setShowModal(false);
-    } catch (error) {
-      console.error("Failed to update user: ", error);
-    }
-  };
-
-  const handleStepClick = (index: number) => {
-    setCurrentStep(index);
-  };
-
   if (isMobile) {
-    return <MobileOnboarding />
+    return <MobileOnboarding />;
   }
+
   return (
     <Dialog modal open={showModal}>
       <DialogContent className="bg-slate-900 border-2 border-slate-800 p-10 max-w-[730px]">
-        <div className="flex flex-col gap-4  ">
-          {onboardingSteps[currentStep] && (
-          <>
-            <motion.div
-              key={onboardingSteps[currentStep].image}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Image
-                src={onboardingSteps[currentStep].image}
-                alt={onboardingSteps[currentStep].heading}
-                priority
-                loading="eager"
-                width={650}
-                height={335}
-                className="w-[650px] h-[335px]"
-              />
-            </motion.div>
-            <motion.h1
-              key={onboardingSteps[currentStep].heading}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="text-[2rem] leading-snug font-semibold text-white"
-            >
-              {onboardingSteps[currentStep].heading}
-            </motion.h1>
-            <motion.p
-              key={onboardingSteps[currentStep].content}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="text-[1.25rem] text-slate-400"
-            >
-              {onboardingSteps[currentStep].content}
-            </motion.p>
-          </>
+        <div className="flex flex-col gap-4">
+          {onboardingStep && (
+            <>
+              <motion.div
+                key={onboardingStep.image}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Image
+                  src={onboardingStep.image!}
+                  alt={onboardingStep.heading!}
+                  priority
+                  loading="eager"
+                  width={650}
+                  height={335}
+                  className="w-[650px] h-[335px]"
+                />
+              </motion.div>
+              <motion.h1
+                key={onboardingStep.heading}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="text-[2rem] leading-snug font-semibold text-white"
+              >
+                {onboardingStep.heading}
+              </motion.h1>
+              <motion.p
+                key={onboardingStep.content}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="text-[1.25rem] text-slate-400"
+              >
+                {onboardingStep.content}
+              </motion.p>
+            </>
           )}
         </div>
         <DialogFooter className="w-full flex items-center justify-between">
@@ -147,23 +112,12 @@ export default function OnboardingModal() {
             ))}
           </div>
           <div className="flex items-center gap-4">
-            <Button
-              className="w-full max-w-[170px]"
-              variant="darkGray"
-              onClick={handleSkip}
-            >
+            <Button className="w-full max-w-[170px]" variant="darkGray" onClick={handleSkip}>
               Skip
             </Button>
-
-            {currentStep === onboardingSteps.length - 1 ? (
-              <Button className="w-full max-w-[170px]" onClick={handleComplete}>
-                Explore
-              </Button>
-            ) : (
-              <Button className="w-full max-w-[170px]" onClick={handleNextStep}>
-                Next
-              </Button>
-            )}
+            <Button className="w-full max-w-[170px]" onClick={handleNextStep}>
+              {currentStep === onboardingSteps.length - 1 ? "Explore" : "Next"}
+            </Button>
           </div>
         </DialogFooter>
       </DialogContent>

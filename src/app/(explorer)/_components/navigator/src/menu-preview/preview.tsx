@@ -23,7 +23,7 @@ export const NavigatorMenuPreview: React.FC<NavigatorMenuPreviewProps> = () => {
   };
 
   return (
-    <div className="w-[70%] max-h-[50vh] rounded-[30px] p-2 bg-[#1A2333]">
+    <>
       {!selectedResult && (
         <NavigatorMenuInitialContent
           data={suggestedSearch}
@@ -42,6 +42,6 @@ export const NavigatorMenuPreview: React.FC<NavigatorMenuPreviewProps> = () => {
       {selectedResult && selectedResult.blockType !== 'list' && (
         <SearchContent selectedResult={selectedResult} />
       )}
-    </div>
+    </>
   );
 };

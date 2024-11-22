@@ -30,41 +30,33 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
   })();
 
   return (
-    <div className="space-y-4 h-full flex flex-col">
-      <div className="flex gap-4 justify-between px-4 pt-2 grow-0">
-
+    <div className="space-y-0 xl:space-y-4 h-full flex flex-col">
+      <div className="flex flex-col sm:flex-row gap-4 justify-between px-4 pt-2 grow-0">
         <div className="flex items-center gap-4">
-          <Avatar>
+          <Avatar className="size-10 xl:size-12">
             <AvatarImage src={storage(selectedResult.icon)} alt={selectedResult.name} />
             <AvatarFallback>{extractInitials(selectedResult.name)}</AvatarFallback>
           </Avatar>
-          <h2 className="text-xl font-semibold">{selectedResult.name}</h2>
-          <p className="text-slate-400">{selectedResult.tag_line}</p>
+          <div>
+            <h2 className="text-sm xl:text-xl font-semibold">{selectedResult.name}</h2>
+            <p className="text-xs xl:text-base text-slate-400">{selectedResult.tag_line}</p>
+          </div>
         </div>
 
-        <div className="flex gap-8">
-
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">
           <div className="flex flex-col">
-            <p className="text-slate-400">
-              Platform:
-            </p>
-            <p className="text-white font-semibold capitalize">{platforms}</p>
+            <p className="text-xs xl:text-base text-slate-400">Platform:</p>
+            <p className="text-xs xl:text-base text-white font-semibold capitalize">{platforms}</p>
           </div>
-          {
-          category
-          && (
+          {category && (
           <div className="flex flex-col">
-            <p className="text-slate-400">
-              Category:
-            </p>
-            <p className="text-white font-semibold capitalize">{category}</p>
+            <p className="text-xs xl:text-base text-slate-400">Category:</p>
+            <p className="text-xs xl:text-base text-white font-semibold capitalize">{category}</p>
           </div>
-          )
-        }
+          )}
         </div>
-
       </div>
-      <div className="flex justify-around min-h-0 p-2">
+      <div className="flex overflow-x-scroll justify-around min-h-0 p-2">
         {selectedResult && selectedResult.screens && selectedResult?.screens[resultPlatform]?.map((screenshot: string, index: number) => (
           <Image
             key={screenshot}
@@ -72,7 +64,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
             alt={`${selectedResult.name} screenshot ${index + 1}`}
             width={200}
             height={430}
-            className="h-full w-fit rounded-2xl"
+            className="h-full w-fit rounded-xl xl:rounded-2xl mx-1 xl:mx-2"
           />
         ))}
       </div>
