@@ -8,6 +8,8 @@ import { storage } from '@/utils/storage'
 import type { AppType } from '../../../../types/app-types'
 import { DownloadButton } from '../../button/DownloadButton'
 import { Button } from '../../button'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/UI/dialog'
+import MobileAppOverview from './mobile-app-showcase'
 
 // App Info Component
 const AppInfo = ({ app }: { app: AppType }) => (
@@ -20,9 +22,16 @@ const AppInfo = ({ app }: { app: AppType }) => (
       <h3 title={app.name} className="text-white text-sm sm:text-lg line-clamp-1 font-medium sm:font-semibold">{app.name}</h3>
       <p className="text-white hidden sm:flex leading-tight text-sm">{app.tag_line}</p>
     </div>
-    <Button scroll={false} href={`/app/${app.id}`} variant="ghost" className="flex aspect-square shrink-0 items-center justify-center rounded-full ml-auto sm:hidden bg-aqua-800 hover:bg-aqua-800 p-1">
-      <Icon.Group className="size-5 text-white" />
-    </Button>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button scroll={false} variant="ghost" className="flex aspect-square shrink-0 items-center justify-center rounded-full ml-auto sm:hidden bg-aqua-800 hover:bg-aqua-800 p-1">
+          <Icon.Group className="size-5 text-white" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="backdrop-blur-[45px]">
+        <MobileAppOverview app={app} />
+      </DialogContent>
+    </Dialog>
   </div>
 )
 
