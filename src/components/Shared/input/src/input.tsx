@@ -26,7 +26,7 @@ const wrapperVariants = cva(
       type: {
         default: "p-3 sm:p-4",
         search:
-          "rounded-full sm:rounded-full py-2.5 sm:py-2 xl:py-3 px-3 gap-2 sm:gap-4 sm:px-4 xl:px-6 text-white placeholder:text-white bg-[#1A2333]",
+          "rounded-full sm:rounded-full text-white placeholder:text-white bg-[#1A2333]",
       },
     },
     defaultVariants: {
@@ -105,6 +105,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       }
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Backspace" && inputRef.current?.value === "" && selectedFilters?.length) {
+        event.preventDefault();
+        const lastFilter = selectedFilters[selectedFilters.length - 1];
+        if (lastFilter) {
+          handleFilterClose(lastFilter);
+        }
+      }
+    };
+
     return (
       <div className="w-full h-fit flex flex-col gap-2  ">
         {label && (
@@ -121,7 +131,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               wrapperVariants({ type, state, className }),
               selectedFilters
                 && selectedFilters.length > 0
-                && "px-[0.1rem] py-[0.25rem] overflow-x-scroll scrollbar-hide",
+                ? "py-[0.25rem] overflow-x-scroll scrollbar-hide" : " py-2.5 sm:py-2 xl:py-3 px-3 gap-2 sm:gap-4 sm:px-4 xl:px-6",
             )}
           >
             {selectedFilters && selectedFilters.length > 0 && (
@@ -184,6 +194,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               )}
               ref={inputRef}
               onFocus={handleFocus}
+              onKeyDown={handleKeyDown}
               {...props}
             />
             {endContent && (

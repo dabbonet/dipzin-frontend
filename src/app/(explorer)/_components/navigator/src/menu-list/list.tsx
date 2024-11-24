@@ -52,7 +52,7 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
       handleUpdate((prev: any) => {
         const isAppSelected = prev.some((selectedApp: any) => selectedApp.name === result.name);
         if (!isAppSelected) {
-          return [...prev, { name: result.name, slug: result.slug }];
+          return [...prev, { ...result }];
         }
         return prev;
       }, 'apps');

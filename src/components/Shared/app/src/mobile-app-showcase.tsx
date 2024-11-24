@@ -58,19 +58,19 @@ const MobileAppShowcase = ({ app }: { app: AppType }) => {
         </DialogClose>
       </div>
 
-      <div className={`flex ${isWeb ? "w-full h-fit flex-col-reverse" : "size-full flex-row"} items-center gap-2`}>
-        <div className={`relative flex ${isWeb ? "w-full h-fit" : "size-full"} overflow-hidden`}>
-          <div ref={emblaRef} className={`${isWeb ? "w-full h-fit" : "size-full"} overflow-hidden`}>
+      <div className={`flex ${isWeb ? "w-full h-fit flex-col-reverse" : "size-full flex-row"} items-center pl-4 gap-2`}>
+        <div className={`relative flex ${isWeb ? "w-full h-fit" : "size-full"} `}>
+          <div ref={emblaRef} className={`${isWeb ? "w-full h-fit" : "size-full"} `}>
             <div className="flex size-full ">
               {app.screens?.map((screen) => (
-                <div key={screen.id} className={`size-full mx-1 ${isWeb ? "flex-[0_0_90%]" : "flex-[0_0_80%]"}`}>
-                  <Screen className={`w-fit ${isWeb ? "w-full h-fit" : "h-full"}`} borderless screen={{ ...screen, app: { ...app } }} />
+                <div key={screen.id} className={`size-full flex my-auto ${isWeb ? "flex-[0_0_90%]" : "flex-[0_0_90%]"}`}>
+                  <Screen className={`w-fit flex my-auto mx-1 ${isWeb ? "w-full h-fit" : "h-full max-h-[80vh]"}`} borderless screen={{ ...screen, app: { ...app } }} />
                 </div>
               ))}
             </div>
           </div>
         </div>
-        <div className={`flex ${isWeb ? "flex-row" : "flex-col pr-2"} gap-4`}>
+        <div className={`flex ${isWeb ? "flex-row" : "flex-col pr-2"} gap-4 z-50`}>
           <DownloadButton
             url={app.screens?.[currentScreen]?.screen
               ? storage(app.screens[currentScreen].screen.hash + app.screens[currentScreen].screen.ext)

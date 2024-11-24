@@ -31,12 +31,11 @@ const FlowOverview = ({ flowId }: FlowOverviewProps) => {
     emblaRef,
   } = useFlowOverview(flowId);
 
-  const { query, setApps } = useQuery();
+  const { setApps } = useQuery();
   const isMobile = useIsMobile();
   const router = useRouter();
 
   const icon = mergeIconFromObject(currentFlow?.app?.icon as any || "");
-  const widthClass = query.platform !== 'web' ? 'w-[calc(100%/2)] sm:w-[calc(100%/5)]' : 'w-[calc(100%/1)] sm:w-[calc(100%/1.4)]';
 
   if (!currentFlow) return null;
 
@@ -74,8 +73,6 @@ const FlowOverview = ({ flowId }: FlowOverviewProps) => {
     stopPropagation(e)
   };
 
-  console.log('currentScreen: ', JSON.stringify(currentScreen, null, 2));
-
   return (
     <motion.div
       className={cn(`relative size-full rounded-2xl flex flex-col items-center justify-center cursor-pointer`)}
@@ -107,7 +104,7 @@ const FlowOverview = ({ flowId }: FlowOverviewProps) => {
                 {currentFlow.app && extractInitials(currentFlow.app.name)}
               </AvatarFallback>
             </Avatar>
-            <h3 className="text-lg font-medium text-white">{currentFlow.app?.name}</h3>
+            <h3 className="text-lg font-medium text-white line-clamp-1 truncate">{currentFlow.app?.name}</h3>
             <p className="hidden md:flex text-xs text-slate-400 whitespace-nowrap">
               {currentFlow.app?.tag_line}
             </p>
@@ -179,8 +176,8 @@ const FlowOverview = ({ flowId }: FlowOverviewProps) => {
             <div ref={emblaRef} className={`${isWeb ? "w-full h-fit" : "size-full"} overflow-hidden`}>
               <div className="flex size-full">
                 {currentFlow?.flow_screens?.map((screen) => (
-                  <div key={screen.id} className={`size-full mx-1 ${isWeb ? "flex-[0_0_90%]" : "flex-[0_0_65%]"}`}>
-                    <Screen className={`w-fit ${isWeb ? "w-full h-fit" : "h-full"}`} borderless screen={{ ...screen.screen, app: { ...currentFlow.app } }} />
+                  <div key={screen.id} className={`size-full mx-1 ${isWeb ? "flex-[0_0_90%]" : "flex-[0_0_70%]"}`}>
+                    <Screen className={`w-fit flex m-auto ${isWeb ? "w-full h-fit" : "h-full max-h-[70vh]"}`} borderless screen={{ ...screen.screen, app: { ...currentFlow.app } }} />
                   </div>
                 ))}
               </div>
@@ -205,14 +202,15 @@ const FlowOverview = ({ flowId }: FlowOverviewProps) => {
           </div>
         </div>
       ) : (
-        <div className="size-full flex overflow-x-auto px-5 gap-2 p-2">
+        <div className="size-full flex overflow-x-auto px-5 p-2">
           {currentFlow?.flow_screens?.map((screen) => (
-            <div
+            <Screen
               key={screen.id}
-              className={`shrink-0 ${widthClass} h-fit flex justify-center items-center`}
-            >
-              <Screen onClick={stopPropagation} key={screen.id} screen={{ ...screen.screen, app: currentFlow.app }} overlay="global" />
-            </div>
+              className="shrink-0 w-fit max-h-[75vh]"
+              onClick={stopPropagation}
+              screen={{ ...screen.screen, app: currentFlow.app }}
+              overlay="global"
+            />
           ))}
         </div>
       )}
