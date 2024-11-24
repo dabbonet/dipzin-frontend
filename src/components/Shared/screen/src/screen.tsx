@@ -33,17 +33,14 @@ const Screen = ({
   const [imageError, setImageError] = React.useState(false);
 
   const border = borderless
-    ? "ring-0 border-0"
-    : "ring-[3px] md:ring-[6px] ring-[#0f172aa6] hover:[#64748b26] transition-colors border-[2px] md:border-[4px] border-[#0f172aa6] hover:border-slate-500/50";
-
-  const aspectRatio = screen.app?.platform === "web" ? "aspect-[100/62]" : "aspect-[10/21.25]";
+    ? "border-0 ring-0"
+    : " border-[2px] md:border-[4px] border-slate-900/80 hover:border-slate-500/50 ring-[3px] md:ring-[6px] ring-slate-900/60 hover:[#64748b26] transition-colors";
 
   return (
     <div
       className={cn(
         "relative group size-full overflow-hidden flex items-center justify-center rounded-2xl sm:rounded-3xl bg-black-950",
         border,
-        aspectRatio,
         className
       )}
       {...props}
@@ -60,7 +57,7 @@ const Screen = ({
         </div>
       ) : (
         <Image
-          className="absolute inset-0 object-contain
+          className="object-contain
            size-full"
           src={storage(
             (screen.screen?.hash ?? "") + (screen.screen?.ext ?? ""),

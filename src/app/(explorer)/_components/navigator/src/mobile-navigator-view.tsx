@@ -10,11 +10,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/select";
-import { AppPill } from "@/app/(explorer)/_components/navigator/selected-apps";
+import { AppPill } from "@/app/(explorer)/_components/navigator/app-pill";
 import MobileNavigatorMenu from "./mobile-navigator-menu";
 import { useKeyword } from "@/app/(explorer)/_hooks/useKeyword";
 import { useQuery } from "@/app/(explorer)/_hooks/useQuery";
 import { Icon } from "@/components/UI/icon";
+import useAppPill from "@/app/(explorer)/_components/navigator/app-pill/_hooks/useAppPill";
 
 const patterns = [
   { label: "Apps", value: "apps" },
@@ -34,9 +35,16 @@ const MobileNavigatorView: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { keyword, setKeyword } = useKeyword();
   const {
-    query, setPattern, setPlatform
+    query, setPattern, setPlatform, setApps
   } = useQuery();
   const { filters, platform, pattern } = query || {};
+
+  const {
+    allApps, hiddenAppSlugs, handleToggleVisibility, handleRemoveApp
+  } = useAppPill({
+    query,
+    setApps,
+  });
 
   return (
     <div
@@ -92,10 +100,16 @@ const MobileNavigatorView: React.FC = () => {
         />
       )}
 
-      {!isMenuOpen && query?.apps?.length > 0 && (
+      {!isMenuOpen && allApps.length > 0 && (
         <div className="size-full flex gap-4">
-          {query.apps.map((app: any, index: number) => (
-            <AppPill key={app.id || index} data={app} />
+          {allApps.map((app, index) => (
+            <AppPill
+              key={app.id || index}
+              data={app}
+              isHidden={hiddenAppSlugs.includes(app.slug)}
+              onToggleVisibility={() => handleToggleVisibility(app.slug)}
+              onRemove={() => handleRemoveApp(app.slug)}
+            />
           ))}
         </div>
       )}

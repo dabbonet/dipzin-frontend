@@ -19,6 +19,7 @@ import {
   WebScreenTabs,
 } from "./screen-details";
 import { Screen } from "@/components/Shared/screen";
+import { cn } from "@/lib/utils";
 
 interface ScreenOverviewProps {
   screenId: number;
@@ -41,17 +42,23 @@ const ScreenContent = ({
     }
 
     return (
-      <Screen className="fixed inset-0 z-40 left-1/2 -translate-x-1/2 translate-y-[-5vh] w-screen h-screen max-h-none overflow-y-auto rounded-none sm:rounded-none" borderless overlay={false} screen={currentScreen} />
+      <div className="fixed inset-0 z-40 left-1/2 -translate-x-1/2 translate-y-[-5vh] w-screen h-screen max-h-none overflow-y-auto">
+        <Screen className="h-auto rounded-none sm:rounded-none" borderless overlay={false} screen={currentScreen} />
+      </div>
     );
   }
 
   return (
     <div className="size-full flex flex-col items-center justify-center">
       <Screen
-        className={currentScreen.app.platform === "web" ? "h-fit w-full" : "w-fit h-full"}
+        className={cn(
+          "w-fit h-auto",
+          currentScreen.app.platform === "web" && "h-fit w-fit",
+          // aspectRatio
+        )}
         screen={currentScreen}
         overlay={false}
-        borderless={!isMobile}
+        borderless
       />
       {isMobile && (
         <div className="w-full h-fit flex mt-4 mx-[20%]">
@@ -94,7 +101,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
         {!isMobile && <ActionButtons screen={currentScreen} />}
       </div>
 
-      <div className="size-full max-w-full sm:max-w-[80vw] xl:max-w-[65vw] mx-auto flex items-center justify-between gap-2">
+      <div className="size-full max-w-full sm:max-w-[80vw] xl:max-w-[65vw] max-h-[75vh] sm:max-h-[65vh] 2xl:max-h-[69vh] mx-auto flex items-center justify-between gap-2">
         <TooltipProvider>
           <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>

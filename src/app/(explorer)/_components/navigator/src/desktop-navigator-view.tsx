@@ -1,28 +1,29 @@
-"use client"
+"use client";
 
 import React, { useState, useRef, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Input } from '@/components/Shared/input';
 import { Switcher } from '@/components/Shared/switcher';
 import { NavigatorMenu } from './navigator-menu';
-import { AppPill } from "@/app/(explorer)/_components/navigator/selected-apps";
 import { Suggestions } from '@/app/(explorer)/_components/navigator/suggestions';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
 import { getPatternHandleForAPI } from '@/app/(explorer)/_utils/queryUtils';
+import { AppPill } from '../app-pill';
+import useAppPill from '../app-pill/_hooks/useAppPill';
 
 const patterns = [
-  { label: "Apps", value: "apps" },
-  { label: "Screens", value: "screens" },
-  { label: "Components", value: "components" },
-  { label: "Marketing", value: "marketing" },
-  { label: "Flows", value: "flows" },
+  { label: 'Apps', value: 'apps' },
+  { label: 'Screens', value: 'screens' },
+  { label: 'Components', value: 'components' },
+  { label: 'Marketing', value: 'marketing' },
+  { label: 'Flows', value: 'flows' },
 ];
 
 const platforms = [
-  { label: "IOS", value: "ios" },
-  { label: "Android", value: "android" },
-  { label: "Web", value: "web" },
+  { label: 'IOS', value: 'ios' },
+  { label: 'Android', value: 'android' },
+  { label: 'Web', value: 'web' },
 ];
 
 const DesktopNavigatorView: React.FC = () => {
@@ -35,6 +36,13 @@ const DesktopNavigatorView: React.FC = () => {
     query, setFilters, setApps, setPattern, suggestions, setPlatform
   } = useQuery();
   const { filters, platform, pattern } = query || {};
+
+  const {
+    allApps, hiddenAppSlugs, handleToggleVisibility, handleRemoveApp
+  } = useAppPill({
+    query,
+    setApps,
+  });
 
   const handleClickOutside = (event: MouseEvent) => {
     if (navigatorRef.current && !navigatorRef.current.contains(event.target as Node)) {
@@ -105,20 +113,25 @@ const DesktopNavigatorView: React.FC = () => {
         />
       )}
 
-      {!isMenuOpen && query?.apps?.length > 0 && (
-        <div className="size-full flex gap-4">
-          {query.apps.map((app: any, index: number) => (
+      {!isMenuOpen && allApps.length > 0 && (
+      <div className="size-full flex gap-4">
+        {allApps.map((app, index) => (
+          app && app.slug ? (
             <AppPill
               key={app.id || index}
               data={app}
-              isFull={query?.apps?.length === 1}
+              isFull={allApps.length === 1}
+              isHidden={hiddenAppSlugs.includes(app.slug)}
+              onToggleVisibility={() => handleToggleVisibility(app.slug)}
+              onRemove={() => handleRemoveApp(app.slug)}
             />
-          ))}
-        </div>
+          ) : null
+        ))}
+      </div>
       )}
 
       <AnimatePresence>
-        {!isMenuOpen && (isHovered || !query?.apps || query?.apps?.length === 0) && (
+        {!isMenuOpen && (isHovered || !allApps.length) && (
           <motion.div
             className={isMenuOpen ? 'hidden' : 'flex'}
             initial={{ opacity: 0, height: 0, y: -10 }}
