@@ -20,6 +20,12 @@ import {
 } from "./screen-details";
 import { Screen } from "@/components/Shared/screen";
 import { cn } from "@/lib/utils";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/UI/dialog";
 
 interface ScreenOverviewProps {
   screenId: number;
@@ -30,7 +36,7 @@ const ScreenContent = ({
   showFullScreen,
   hasFullPage,
   loading,
-  isMobile
+  isMobile,
 }) => {
   if (showFullScreen) {
     if (loading) {
@@ -42,8 +48,43 @@ const ScreenContent = ({
     }
 
     return (
-      <div className="fixed inset-0 z-40 left-1/2 -translate-x-1/2 translate-y-[-5vh] w-screen h-screen max-h-none overflow-y-auto">
-        <Screen className="h-auto rounded-none sm:rounded-none" borderless overlay={false} screen={currentScreen} />
+      <div className="size-full relative">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="darkGray"
+              className="absolute p-2 rounded-full top-4 right-4 z-10 opacity-75 text-white"
+            >
+              <Icon.Expand className="size-6" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="size-full fixed sm:max-h-[90vh] sm:max-w-[95vw]">
+            <DialogClose asChild>
+              <Button
+                variant="darkGray"
+                className="absolute p-2 rounded-full top-4 right-4 z-10 opacity-75 text-white"
+              >
+                <Icon.Collapse className="size-6" />
+              </Button>
+            </DialogClose>
+            <div className="size-full overflow-y-auto">
+              <Screen
+                className="h-auto sm:rounded-none"
+                borderless
+                overlay={false}
+                screen={currentScreen}
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
+        <div className="size-full overflow-y-auto">
+          <Screen
+            className="h-auto sm:rounded-none"
+            borderless
+            overlay={false}
+            screen={currentScreen}
+          />
+        </div>
       </div>
     );
   }
@@ -61,7 +102,7 @@ const ScreenContent = ({
         borderless
       />
       {isMobile && (
-        <div className="w-full h-fit flex mt-4 mx-[20%]">
+        <div className="w-full h-fit flex mt-4">
           <ActionButtons screen={currentScreen} />
         </div>
       )}
@@ -79,7 +120,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
     hasNextScreen,
     hasPrevScreen,
     loading,
-    hasFullPage
+    hasFullPage,
   } = useScreensOverview(screenId);
   const isMobile = useIsMobile();
 
