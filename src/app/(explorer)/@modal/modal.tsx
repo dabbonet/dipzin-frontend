@@ -4,7 +4,13 @@ import { Dialog, DialogContent } from "@/components/UI/dialog";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
-export default function Modal({ children, className }: { children: React.ReactNode, className?: string }) {
+export default function Modal({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   const router = useRouter();
 
   function onDismiss() {
@@ -21,7 +27,9 @@ export default function Modal({ children, className }: { children: React.ReactNo
 
   return (
     <Dialog modal defaultOpen onOpenChange={handleOpenChange}>
-      <DialogContent className={cn("flex items-center justify-center", className)}>
+      <DialogContent
+        className={cn("flex items-center justify-center", className)}
+      >
         {children}
       </DialogContent>
     </Dialog>
