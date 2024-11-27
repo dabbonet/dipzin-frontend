@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Virtuoso } from 'react-virtuoso';
-import { Flow } from '@/components/Shared/flow';
-import { Spinner } from '@/components/UI/spinner';
+import React from "react";
+import { Virtuoso } from "react-virtuoso";
+import { Flow } from "@/components/Shared/flow";
+import { Spinner } from "@/components/UI/spinner";
 
 /** Footer for FlowsGrid */
-const Footer = ({ context: { loading } }: any) => (
-  loading ? <Spinner className="py-8 flex mx-auto" /> : null
-);
+const Footer = ({ context: { loading } }: any) => (loading ? <Spinner className="py-8 flex mx-auto" /> : null);
 
 /** Item content logic for FlowsGrid */
 const ItemContent = (_: number, flow: any) => {
-  const hasValidScreens = flow.flow_screens.some((screen: any) => screen.screen !== null);
+  const hasValidScreens = flow.flow_screens.some(
+    (screen: any) => screen.screen !== null,
+  );
   if (hasValidScreens) {
     return <Flow key={flow.id} flow={flow} />;
   }
@@ -35,7 +35,7 @@ const FlowsGrid = ({ data, isLoading, loadMoreData }: any) => {
       // overscan={50}
       context={{ loading: isLoading }}
       itemContent={ItemContent}
-      style={{ height: '100vh', width: '100%' }}
+      style={{ height: "100vh", width: "100%" }}
       className="mb-24 size-full"
       components={{ Footer }}
     />
