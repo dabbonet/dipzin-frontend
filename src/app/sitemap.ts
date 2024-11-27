@@ -9,118 +9,326 @@ interface App {
   };
 }
 
-interface Tag {
+interface Category {
+  id: number;
   attributes: {
     name: string;
   };
 }
 
-async function getAppsSlug(page: number): Promise<{ data: App[] }> {
-  const query = QueryString.stringify(
-    {
-      fields: ["slug", "platform"],
-      pagination: {
-        page,
-        pageSize: 100,
-      },
-    },
-    {
-      encodeValuesOnly: true,
-    },
-  );
-
-  const response = await get(`/apps?${query}`);
-  return response;
+interface Tag {
+  id: number;
+  attributes: {
+    name: string;
+    types: {
+      data: {
+        id: number;
+        attributes: {
+          name: "mobile" | "web" | "marketing";
+        };
+      }[];
+    };
+  };
 }
 
-async function getTags(page: number): Promise<{ data: Tag[] }> {
-  const query = QueryString.stringify(
-    {
-      fields: ["name"],
-      pagination: {
-        page,
-        pageSize: 100,
-      },
-    },
-    {
-      encodeValuesOnly: true,
-    },
-  );
+interface Component {
+  id: number;
+  attributes: {
+    name: string;
+  };
+}
 
-  const response = await get(`/tags?${query}`);
-  return response;
+interface FlowAction {
+  id: number;
+  attributes: {
+    name: string;
+  };
+}
+
+// Generic function to fetch paginated data from a given endpoint
+async function fetchPaginatedData<T>(
+  endpoint: string,
+  fields: string[],
+  populate?: any
+): Promise<T[]> {
+  let page = 1;
+  let hasMore = true;
+  let results: T[] = [];
+
+  while (hasMore) {
+    const query = QueryString.stringify(
+      {
+        fields,
+        populate,
+        pagination: {
+          page,
+          pageSize: 100,
+        },
+      },
+      {
+        encodeValuesOnly: true,
+      }
+    );
+
+    // eslint-disable-next-line no-await-in-loop
+    const response = await get(`/${endpoint}?${query}`);
+    const data = response.data as T[];
+
+    if (data.length > 0) {
+      results = results.concat(data);
+      page += 1;
+    } else {
+      hasMore = false;
+    }
+  }
+
+  return results;
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.BASE_URL;
-  const staticRoutes = [
+
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/ios/apps`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/android/apps`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/web/apps`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/ios/screens`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/android/screens`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/web/screens`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/ios/components`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/android/components`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/web/components`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/web/marketing`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/ios/flows`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/android/flows`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/web/flows`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/pricing`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/legal/terms`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/legal/terms-of-service`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/legal/privacy-policy`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
   ];
 
-  let page = 1;
-  let apps: App[] = [];
-  let hasMoreApps = true;
+  const apps = await fetchPaginatedData<App>("apps", ["slug", "platform"]);
 
-  while (hasMoreApps) {
-    // eslint-disable-next-line no-await-in-loop
-    const response = await getAppsSlug(page);
-    if (response.data.length > 0) {
-      apps = apps.concat(response.data);
-      page += 1;
-    } else {
-      hasMoreApps = false;
-    }
-  }
-
-  page = 1;
-  let tags: Tag[] = [];
-  let hasMoreTags = true;
-
-  while (hasMoreTags) {
-    // eslint-disable-next-line no-await-in-loop
-    const response = await getTags(page);
-    if (response.data.length > 0) {
-      tags = tags.concat(response.data);
-      page += 1;
-    } else {
-      hasMoreTags = false;
-    }
-  }
-
+  // Generate routes for apps
   const appRoutes = apps.map((app) => ({
-    url: `${baseUrl}/${app.attributes.platform}/screens?app=${app.attributes.slug}`,
+    url: `${baseUrl}/${app.attributes.platform}/apps/${encodeURIComponent(
+      app.attributes.slug
+    )}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.8,
   }));
 
-  // const tagRoutes = tags.flatMap((tag) => [
-  //   {
-  //     url: `${baseUrl}/ios/screens?screens=${tag.attributes.name}`,
-  //     lastModified: new Date(),
-  //     changeFrequency: "weekly" as const,
-  //     priority: 0.8,
-  //   },
-  //   {
-  //     url: `${baseUrl}/android/screens?screens=${tag.attributes.name}`,
-  //     lastModified: new Date(),
-  //     changeFrequency: "weekly" as const,
-  //     priority: 0.8,
-  //   },
-  //   {
-  //     url: `${baseUrl}/web/screens?screens=${tag.attributes.name}`,
-  //     lastModified: new Date(),
-  //     changeFrequency: "weekly" as const,
-  //     priority: 0.8,
-  //   },
-  // ]);
+  const categories = await fetchPaginatedData<Category>("categories", ["name"]);
 
-  return [...staticRoutes, ...appRoutes,
-    //  ...tagRoutes
+  // Generate routes for categories
+  const categoryRoutes = categories.flatMap((category) => {
+    const platforms = ["ios", "android", "web"];
+    return platforms.map((platform) => ({
+      url: `${baseUrl}/${platform}/apps?categories=${encodeURIComponent(
+        category.attributes.name
+      )}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }));
+  });
+
+  const tags = await fetchPaginatedData<Tag>("tags", ["name"], {
+    types: {
+      fields: ["name"],
+    },
+  });
+
+  // Generate routes for tags based on their types
+  const tagRoutes = tags.flatMap((tag) => {
+    const routes: MetadataRoute.Sitemap = [];
+    const tagName = encodeURIComponent(tag.attributes.name);
+    const lastModified = new Date();
+    const changeFrequency = "weekly" as const;
+    const priority = 0.8;
+
+    tag.attributes.types.data.forEach((type) => {
+      switch (type.attributes.name) {
+        case "mobile":
+          routes.push(
+            {
+              url: `${baseUrl}/ios/screens?screens=${tagName}`,
+              lastModified,
+              changeFrequency,
+              priority,
+            },
+            {
+              url: `${baseUrl}/android/screens?screens=${tagName}`,
+              lastModified,
+              changeFrequency,
+              priority,
+            }
+          );
+          break;
+        case "web":
+          routes.push({
+            url: `${baseUrl}/web/screens?screens=${tagName}`,
+            lastModified,
+            changeFrequency,
+            priority,
+          });
+          break;
+        case "marketing":
+          routes.push({
+            url: `${baseUrl}/web/marketing/${tagName}`,
+            lastModified,
+            changeFrequency,
+            priority,
+          });
+          break;
+        default:
+          // Handle unexpected types
+          console.warn(`Unexpected type: ${type.attributes.name}`);
+          break;
+      }
+    });
+
+    return routes;
+  });
+
+  const components = await fetchPaginatedData<Component>("components", ["name"]);
+
+  // Generate routes for components
+  const componentRoutes = components.flatMap((component) => {
+    const platforms = ["ios", "android", "web"];
+    const changeFrequency = "weekly" as const;
+    return platforms.map((platform) => ({
+      url: `${baseUrl}/${platform}/components/${encodeURIComponent(
+        component.attributes.name
+      )}`,
+      lastModified: new Date(),
+      changeFrequency,
+      priority: 0.8,
+    }));
+  });
+
+  const flowActions = await fetchPaginatedData<FlowAction>(
+    "flow-actions",
+    ["name"]
+  );
+
+  // Generate routes for flow actions
+  const flowActionRoutes = flowActions.flatMap((flowAction) => {
+    const platforms = ["ios", "android", "web"];
+    const changeFrequency = "weekly" as const;
+    return platforms.map((platform) => ({
+      url: `${baseUrl}/${platform}/flows?flows=${encodeURIComponent(
+        flowAction.attributes.name
+      )}`,
+      lastModified: new Date(),
+      changeFrequency,
+      priority: 0.8,
+    }));
+  });
+
+  // Combine all routes
+  const sitemapRoutes = [
+    ...staticRoutes,
+    ...appRoutes,
+    ...categoryRoutes,
+    ...tagRoutes,
+    ...componentRoutes,
+    ...flowActionRoutes,
   ];
+
+  // Return the combined sitemap
+  return sitemapRoutes;
 }
