@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { fetchUserWithToken } from "./utils/auth/fetchUserWithToken";
-import { validateToken } from "./actions/validateToken";
 
 // Define a custom user type to include token
 declare module "next-auth" {
@@ -77,13 +76,6 @@ export const {
           ...token,
           ...updatedUser,
         };
-      }
-
-      if (user && user.token) {
-        const isValid = await validateToken(user?.token as string);
-        if (!isValid) {
-          return {};
-        }
       }
 
       return {
