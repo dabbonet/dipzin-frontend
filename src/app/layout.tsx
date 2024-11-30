@@ -2,6 +2,7 @@ import "@/styles/global.css";
 
 import { Toaster } from "@/components/Shared/toaster";
 import { SessionProvider } from "next-auth/react";
+import Analytics from "@/lib/Analytics";
 
 export const metadata = {
   applicationName: "Dipzin",
@@ -31,7 +32,6 @@ export const metadata = {
   icons: {
     icon: "/favicon.ico",
   },
-  themeColor: "#020617",
   appleWebApp: {
     title: "Dipzin",
     statusBarStyle: "black-translucent",
@@ -64,6 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="font-outfit bg-slate-950">
+        <Analytics />
         <SessionProvider>{children}</SessionProvider>
         {/* <Background /> */}
         <Toaster />

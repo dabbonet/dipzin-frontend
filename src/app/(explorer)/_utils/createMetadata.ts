@@ -16,7 +16,6 @@ async function fetchRandomKeywords(
     filters: filter,
   });
   const response = await get(`/${endpoint}?${query}`);
-  console.log('response: ', JSON.stringify(response, null, 2));
   return response.data.map((item: any) => item.attributes[fieldName]);
 }
 
