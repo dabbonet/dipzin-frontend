@@ -6,7 +6,6 @@ import UserMenu from '@/components/Account/user-menu/src/user-menu';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const data = await getData(params.slug);
-  // console.log('data: ', JSON.stringify(data, null, 2));
   if (!data.data || !data.data.attributes) return;
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const content = data.data.attributes;

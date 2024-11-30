@@ -41,8 +41,6 @@ const AppPill: React.FC<AppPillProps> = ({
     return null;
   }
 
-  console.log('data: ', JSON.stringify(data, null, 2));
-
   return (
     <div
       className={cn(

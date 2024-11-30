@@ -8,7 +8,6 @@ import { Input } from "@/components/Shared/input";
 import { Button } from "@/components/Shared/button";
 import { useRouter } from "next/navigation";
 import { generateOtp } from "@/utils/auth/generateOtp";
-import { Logo } from "@/components/UI/logo";
 import { useToast } from "@/hooks/use-toast";
 
 // Zod schema to validate email
@@ -85,7 +84,7 @@ const AccessModal = () => {
       </header>
       <div className="flex gap-3 sm:gap-[26px] flex-col-reverse md:flex-col">
         <div className="flex gap-3 sm:gap-[26px] flex-col-reverse md:flex-col">
-          <section
+          {/* <section
             aria-labelledby="third-party-login"
             className="flex flex-row items-center justify-center w-full space-x-3 mb-3 mx-auto font-medium"
           >
@@ -108,7 +107,7 @@ const AccessModal = () => {
               <Logo.Facebook className="size-6 sm:size-8 shrink-0" />
               <p className="hidden sm:flex">Continue with Facebook</p>
             </Button>
-          </section>
+          </section> */}
 
           <div
             className="flex flex-row items-center justify-center gap-[3px] w-[130px] mx-auto"

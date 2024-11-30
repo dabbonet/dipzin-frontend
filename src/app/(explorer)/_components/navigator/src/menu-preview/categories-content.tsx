@@ -15,7 +15,6 @@ const CategoriesContent: React.FC<CategoriesContentProps> = ({
 }) => {
   const categories = suggestedSearch[selectedResult?.id as string];
   const pattern = mapItemPattern(selectedResult);
-  console.log('categories: ', JSON.stringify(categories, null, 2));
 
   if (!categories) return null;
   return (
