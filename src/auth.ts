@@ -14,6 +14,7 @@ declare module "next-auth" {
       height: number;
     };
     username: string;
+    bio: string;
     role: string;
     confirmed: boolean;
     is_paid: boolean;
@@ -84,6 +85,7 @@ export const {
           id: user.id,
           avatar: user.avatar,
           username: user.username,
+          bio: user.bio,
           sessionToken: user.token,
           confirmed: user.confirmed,
           is_paid: user.is_paid,
@@ -107,6 +109,7 @@ export const {
             height: number;
           },
           username: token.username as string,
+          bio: token.bio as string,
           confirmed: token.confirmed as boolean,
           id: token.id as string,
           is_paid: token.is_paid as boolean,

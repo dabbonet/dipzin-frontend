@@ -24,9 +24,9 @@ const wrapperVariants = cva(
         disabled: "bg-gray-600 cursor-not-allowed",
       },
       type: {
-        default: "p-3 sm:p-4",
+        default: "gap-2 p-3 sm:p-4 xl:p-5",
         search:
-          "rounded-full sm:rounded-full text-white placeholder:text-white bg-[#1A2333]",
+          "rounded-full sm:rounded-full text-white placeholder:text-white bg-[#1A2333] py-2.5 sm:py-2 xl:py-3 px-3 gap-2 sm:gap-4 sm:px-4 xl:px-6",
       },
     },
     defaultVariants: {
@@ -131,7 +131,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               wrapperVariants({ type, state, className }),
               selectedFilters
                 && selectedFilters.length > 0
-                ? "py-[0.25rem] overflow-x-scroll scrollbar-hide" : " py-2.5 sm:py-2 xl:py-3 px-3 gap-2 sm:gap-4 sm:px-4 xl:px-6",
+                && "py-[0.25rem] overflow-x-scroll scrollbar-hide",
             )}
           >
             {selectedFilters && selectedFilters.length > 0 && (

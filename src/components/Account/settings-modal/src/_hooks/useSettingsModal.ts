@@ -22,7 +22,7 @@ export const useSettingsModal = () => {
       username: user?.username?.replace("@", "") || "",
       avatar: undefined as FileList | undefined,
       // title: user?.title || "",
-      // bio: user?.bio || "",
+      bio: user?.bio || "",
       email: user?.email || "",
     },
   });

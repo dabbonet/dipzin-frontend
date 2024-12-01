@@ -1,22 +1,24 @@
 "use client";
 
-import { Button } from "@/components/Shared/button";
+import { useState } from "react";
 import {
   Card, CardContent, CardFooter, CardHeader
 } from "@/components/UI/card";
-import {
-  Tabs, TabsContent, TabsList, TabsTrigger
-} from "@/components/UI/tabs";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/Shared/avatar";
-import Image from "next/image";
-import { Input } from "@/components/Shared/input";
+import { Button } from "@/components/Shared/button";
 import { DialogClose } from "@/components/UI/dialog";
-import { useSettingsModal } from "./_hooks/useSettingsModal";
+import { Input } from "@/components/Shared/input";
 import { Dropdown } from "@/components/Shared/dropdown";
-import { PhotoIcon } from "@heroicons/react/24/solid";
-import { storage } from "@/utils/storage";
+import {
+  Tabs, TabsList, TabsTrigger, TabsContent
+} from "@/components/UI/tabs";
+import { useSettingsModal } from "./_hooks/useSettingsModal";
+import useIsMobile from "@/hooks/useIsMobile";
 import Membership from "./membership";
-import { useState } from "react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/Shared/avatar";
+import { PhotoIcon } from "@heroicons/react/20/solid";
+import Image from "next/image";
+import { storage } from "@/utils/storage";
+import MobileSettingsModal from "./mobile-settings-modal";
 
 const avatars = [
   "/assets/avatars/avatar-1.png",
@@ -32,16 +34,21 @@ const SettingsModal = () => {
     register,
     handleSubmit,
     onSubmit,
-    errors,
-    isDirty,
+    handleAvatarClick,
     selectedAvatar,
     uploadedFile,
-    handleAvatarClick,
+    errors,
+    isDirty,
   } = useSettingsModal();
   const [tabValue, setTabValue] = useState('account-settings');
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <MobileSettingsModal />;
+  }
 
   return (
-    <Card className="bg-slate-900/95 border-4 border-[#171f31] rounded-[20px] p-6 text-white  ">
+    <Card className="bg-slate-900/95 border-4 border-[#171f31] rounded-[20px] p-6 text-white">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Tabs value={tabValue} onValueChange={setTabValue}>
           <CardHeader className="w-full flex flex-row items-center justify-between gap-4">
@@ -170,23 +177,21 @@ const SettingsModal = () => {
                   placeholder="Select your role"
                   label="Role"
                   disabled
-                  // {...register("title")}
                 />
 
                 <Input
                   className="py-5 w-full"
                   placeholder="Write a bio about yourself"
                   label="Bio"
-
-                  // {...register("bio")}
+                  {...register("bio")}
                 />
                 <Dropdown
                   trigger={
                     <Input className="py-5 w-full" placeholder="ex:US213A" label="country" disabled name="country" />
-              }
+                    }
                   content={
                     <p>content</p>
-              }
+                    }
                 />
               </div>
             </TabsContent>

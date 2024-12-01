@@ -59,47 +59,88 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
   pillText,
   isCurrentPlan,
 }) => (
-  <Card className="w-full h-fit p-4 flex items-center justify-between   border border-slate-700">
-    <div className="size-fit flex flex-col gap-4 mr-12">
-      <div>
-        <h1 className="text-2xl font-medium">
-          {planName}
-        </h1>
-        <p className="text-slate-300 text-lg font-medium">
-          {description}
-        </p>
+  <Card className="w-full h-fit p-2 sm:p-4 border border-slate-700">
+    <div className="hidden sm:flex flex-row items-center justify-between">
+      <div className="size-fit flex flex-col gap-4 mr-12">
+        <div>
+          <h1 className="text-2xl font-medium">
+            {planName}
+          </h1>
+          <p className="text-slate-300 text-lg font-medium">
+            {description}
+          </p>
+        </div>
+        <div>
+          <h1 className="text-[40px] leading-8 font-semibold">
+            {price}
+            <span className="text-2xl font-medium text-slate-300">$</span>
+          </h1>
+          <p className="text-slate-300 text-lg font-medium">
+            {period}
+          </p>
+        </div>
       </div>
-      <div>
-        <h1 className="text-[40px] leading-8 font-semibold">
-          {price}
-          <span className="text-2xl font-medium text-slate-300">$</span>
-        </h1>
-        <p className="text-slate-300 text-lg font-medium">
-          {period}
-        </p>
-      </div>
-    </div>
-    <div className="size-fit flex flex-col gap-10 mr-6">
-      <div className="flex items-center gap-4">
-        <p className="text-sm font-semibold">{isCurrentPlan ? 'Current Plan' : 'Try It Now'}</p>
-        {pillText && (
+      <div className="size-fit flex flex-col gap-10 mr-6">
+        <div className="flex items-center gap-4">
+          <p className="text-sm font-semibold">{isCurrentPlan ? 'Current Plan' : 'Try It Now'}</p>
+          {pillText && (
           <Pill className="bg-aqua-800 text-white">
+            {pillText}
+          </Pill>
+          )}
+        </div>
+        <ul className="list-none p-0 m-0 grid grid-cols-2 gap-4">
+          {featuresList.map((feature) => (
+            <li key={feature} className="flex items-center space-x-1">
+              <Icon.Check className="size-5 aspect-square shrink-0 text-aqua-100" />
+              <span className="text-lg font-medium   leading-6">{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <Button className="mb-auto" size="lg" variant={buttonVariant}>
+        {buttonLabel}
+      </Button>
+    </div>
+    <div className="size-full flex sm:hidden flex-col gap-3 items-center justify-center ">
+      <div className="w-full h-fit flex items-center justify-between gap-2">
+        <div>
+          <h1 className="text-slate-300 text-xl leading-tight font-semibold">
+            {planName}
+          </h1>
+          <p className="text-white/60 text-sm font-medium">
+            {description}
+          </p>
+        </div>
+        {pillText && (
+          <Pill className="bg-slate-800 text-white">
             {pillText}
           </Pill>
         )}
       </div>
-      <ul className="list-none p-0 m-0 grid grid-cols-2 gap-4">
+      <ul className="w-full h-fit list-none p-0 m-0 grid grid-cols-2 items-center justify-between gap-2">
         {featuresList.map((feature) => (
           <li key={feature} className="flex items-center space-x-1">
-            <Icon.Check className="size-5 text-aqua-100" />
-            <span className="text-lg font-medium   leading-6">{feature}</span>
+            <Icon.Check className="size-5 aspect-square shrink-0 text-aqua-500" />
+            <span className="text-[10px] whitespace-nowrap font-semibold leading-6">{feature}</span>
           </li>
         ))}
       </ul>
+      <div className="w-full h-fit flex items-center justify-between gap-2">
+        <div className="w-full h-fit flex flex-1 items-center justify-center gap-[2px]">
+          <h1 className="text-xl leading-8 font-semibold">
+            {price}
+            <span className="text-sm font-medium">$</span>
+          </h1>
+          <p className="text-slate-300 text-xs mt-1 leading-normal font-medium">
+            {`(${period})`}
+          </p>
+        </div>
+        <Button fullWidth className="mb-auto flex-1" size="sm" variant={buttonVariant}>
+          {buttonLabel}
+        </Button>
+      </div>
     </div>
-    <Button className="mb-auto" size="lg" variant={buttonVariant}>
-      {buttonLabel}
-    </Button>
   </Card>
 );
 
@@ -112,7 +153,7 @@ const Membership: React.FC = () => {
 
   return (
     <div className="size-full">
-      <div className="flex flex-col sm:flex-row items-center justify-between mb-6">
+      <div className="hidden sm:flex flex-col sm:flex-row items-center justify-between mb-6">
         <Switcher
           data={[
             { label: 'Monthly', value: 'monthly' },
@@ -128,7 +169,7 @@ const Membership: React.FC = () => {
         </Button>
       </div>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2 sm:gap-6">
         <MembershipCard
           planName="Free"
           description="Great for freelancers"
