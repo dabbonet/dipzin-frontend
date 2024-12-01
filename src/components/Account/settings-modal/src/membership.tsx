@@ -178,7 +178,6 @@ const Membership: React.FC = () => {
           featuresList={features.free}
           buttonLabel="Cancel Plan"
           buttonVariant="darkGray"
-          pillText="Expires on: Dec 31, 2024"
           isCurrentPlan
         />
         <MembershipCard
