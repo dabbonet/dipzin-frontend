@@ -15,7 +15,7 @@ import { TooltipArrow } from "@radix-ui/react-tooltip";
 import { snakeCaseToWords } from "@/utils/StringUtils";
 
 const wrapperVariants = cva(
-  "flex items-center gap-4 w-full max-w-full h-fit rounded-lg sm:rounded-2xl border border-transparent bg-slate-800 text-sm transition-transform disabled:cursor-not-allowed disabled:opacity-50 text-white",
+  "flex items-center gap-4 w-full max-w-full h-fit border border-transparent bg-slate-800 text-sm transition-transform disabled:cursor-not-allowed disabled:opacity-50 text-white",
   {
     variants: {
       state: {
@@ -24,9 +24,9 @@ const wrapperVariants = cva(
         disabled: "bg-gray-600 cursor-not-allowed",
       },
       type: {
-        default: "gap-2 p-3 sm:p-4 xl:p-5",
+        default: "rounded-lg sm:rounded-2xl gap-2 p-3 sm:p-4 xl:p-5",
         search:
-          "rounded-full sm:rounded-full text-white placeholder:text-white bg-[#1A2333] py-2.5 sm:py-2 xl:py-3 px-3 gap-2 sm:gap-4 sm:px-4 xl:px-6",
+          "rounded-full text-white placeholder:text-white bg-[#1A2333] py-2.5 sm:py-2 xl:py-3 px-3 gap-2 sm:gap-4 sm:px-4 xl:px-6",
       },
     },
     defaultVariants: {
@@ -115,6 +115,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       }
     };
 
+    console.log('selectedFilters: ', JSON.stringify(selectedFilters, null, 2));
+
     return (
       <div className="w-full h-fit flex flex-col gap-2  ">
         {label && (
@@ -128,10 +130,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <Label htmlFor={inputId}>
           <Comp
             className={cn(
-              wrapperVariants({ type, state, className }),
-              selectedFilters
-                && selectedFilters.length > 0
-                && "py-[0.25rem] overflow-x-scroll scrollbar-hide",
+              selectedFilters && selectedFilters.length > 0
+                ? "py-[0.25rem] rounded-full overflow-x-scroll scrollbar-hide"
+                : wrapperVariants({ type, state, className }),
+              wrapperVariants({ state, className })
             )}
           >
             {selectedFilters && selectedFilters.length > 0 && (
