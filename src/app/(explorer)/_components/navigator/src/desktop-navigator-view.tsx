@@ -65,6 +65,8 @@ const DesktopNavigatorView: React.FC = () => {
     pattern: correctedPattern,
   })) || [];
 
+  console.log('query: ', JSON.stringify(query, null, 2));
+
   return (
     <motion.div
       ref={navigatorRef}

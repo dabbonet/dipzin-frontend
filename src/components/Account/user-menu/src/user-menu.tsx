@@ -38,6 +38,7 @@ import {
 import { Dialog, DialogContent, DialogTrigger } from "@/components/UI/dialog";
 import { SettingsModal } from "../../settings-modal";
 import { storage } from "@/utils/storage";
+import { useRouter } from "next/navigation";
 
 const navigationItems = [
   { label: "Pricing", href: "/pricing" },
@@ -110,6 +111,8 @@ const UserMenu = () => {
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
+  const router = useRouter();
+
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     WheelGesturesPlugin(),
   ]);
@@ -133,6 +136,11 @@ const UserMenu = () => {
   if (status === 'loading') {
     return null;
   }
+
+  const handleSignOut = async () => {
+    await signOut({ redirect: false });
+    router.push("/access");
+  };
 
   if (status === "unauthenticated" || !user) {
     return (
@@ -181,7 +189,7 @@ const UserMenu = () => {
                 size="sm"
                 // isIconOnly={isMobile}
                 className="rounded-full sm:hover:bg-slate-900"
-                onClick={() => signOut()}
+                onClick={handleSignOut}
               >
                 <ArrowRightStartOnRectangleIcon className="size-6 sm:size-4 text-danger-400 sm:text-white" />
                 <p className="hidden sm:flex">Logout</p>
