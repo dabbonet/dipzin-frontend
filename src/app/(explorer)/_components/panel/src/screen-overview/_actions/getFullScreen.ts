@@ -8,13 +8,13 @@ const cleanData = (data: any): Partial<ScreenData> => {
     id: data.id,
   };
 
-  if (data.attributes.app_full_page_screen.data) {
+  if (data.app_full_page_screen.data) {
     cleanedData.full_page = {
-      id: data.attributes.app_full_page_screen.data.id,
-      hash: data.attributes.app_full_page_screen.data.attributes.full_screen.data.attributes.hash,
-      ext: data.attributes.app_full_page_screen.data.attributes.full_screen.data.attributes.ext,
-      width: data.attributes.app_full_page_screen.data.attributes.full_screen.data.attributes.width,
-      height: data.attributes.app_full_page_screen.data.attributes.full_screen.data.attributes.height,
+      id: data.app_full_page_screen.data.id,
+      hash: data.app_full_page_screen.data.full_screen.data.hash,
+      ext: data.app_full_page_screen.data.full_screen.data.ext,
+      width: data.app_full_page_screen.data.full_screen.data.width,
+      height: data.app_full_page_screen.data.full_screen.data.height,
     };
   }
 

@@ -5,34 +5,34 @@ import type { ScreenData } from "@/types/screen-types";
 
 const cleanData = (data: any): ScreenData => ({
   id: data.id,
-  is_published: data.attributes.is_published,
-  is_showcase: data.attributes.is_showcase,
-  colors: data.attributes.colors,
+  is_published: data.is_published,
+  is_showcase: data.is_showcase,
+  colors: data.colors,
   screen: {
-    id: data.attributes.screen.data.id,
-    hash: data.attributes.screen.data.attributes.hash,
-    ext: data.attributes.screen.data.attributes.ext,
-    width: data.attributes.screen.data.attributes.width,
-    height: data.attributes.screen.data.attributes.height,
+    id: data.screen.data.id,
+    hash: data.screen.data.hash,
+    ext: data.screen.data.ext,
+    width: data.screen.data.width,
+    height: data.screen.data.height,
   },
   app: {
-    id: data.attributes.app.data.id,
-    name: data.attributes.app.data.attributes.name,
-    slug: data.attributes.app.data.attributes.slug,
-    tag_line: data.attributes.app.data.attributes.tag_line,
-    platform: data.attributes.app.data.attributes.platform,
+    id: data.app.data.id,
+    name: data.app.data.name,
+    slug: data.app.data.slug,
+    tag_line: data.app.data.tag_line,
+    platform: data.app.data.platform,
     icon: {
-      hash: data.attributes.app.data.attributes.icon.data.attributes.hash,
-      ext: data.attributes.app.data.attributes.icon.data.attributes.ext,
+      hash: data.app.data.icon.data.hash,
+      ext: data.app.data.icon.data.ext,
     },
   },
-  tags: data.attributes.tags.data.map((tag: any) => ({
+  tags: data.tags.data.map((tag: any) => ({
     id: tag.id,
-    name: tag.attributes.name,
+    name: tag.name,
   })),
-  components: data.attributes.components.data.map((component: any) => ({
+  components: data.components.data.map((component: any) => ({
     id: component.id,
-    name: component.attributes.name,
+    name: component.name,
   })),
 });
 

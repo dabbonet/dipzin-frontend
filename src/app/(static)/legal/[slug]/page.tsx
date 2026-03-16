@@ -6,9 +6,9 @@ import UserMenu from '@/components/Account/user-menu/src/user-menu';
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const data = await getData(params.slug);
-  if (!data.data || !data.data.attributes) return;
+  if (!data.data) return;
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  const content = data.data.attributes;
+  const content = data.data;
   const updatedAt = new Date(content.updatedAt).toLocaleDateString(undefined, options as any);
   // eslint-disable-next-line consistent-return
   return (

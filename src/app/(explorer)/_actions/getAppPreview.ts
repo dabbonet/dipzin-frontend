@@ -9,13 +9,13 @@ export async function getAppPreview(app: any) {
   // Simulate an API call
   const results = await get(`/apps?filters[slug][$eq]=${appName?.toLowerCase()}&populate[icon][fields][0]=hash&populate[icon][fields][1]=ext&fields[0]=id&fields[1]=name&fields[2]=slug&fields[3]=tag_line`);
   const sanitizeResults = results.data.map((result:any) => {
-    const iconHash = result?.attributes?.icon?.data?.attributes?.hash ?? ''; // Fallback to empty string if undefined
-    const iconExt = result?.attributes?.icon?.data?.attributes?.ext ?? ''; // Fallback to empty string if undefined
+    const iconHash = result?.icon?.data?.hash ?? ''; // Fallback to empty string if undefined
+    const iconExt = result?.icon?.data?.ext ?? ''; // Fallback to empty string if undefined
     return {
       id: result.id,
-      name: result?.attributes?.name,
-      tagLine: result?.attributes?.tag_line,
-      slug: result?.attributes?.slug,
+      name: result?.name,
+      tagLine: result?.tag_line,
+      slug: result?.slug,
       icon: iconHash + iconExt,
     };
   });

@@ -15,6 +15,6 @@ export const getNewsletters = async () => {
 
   return response.data.map((item: any) => ({
     id: item.id,
-    name: item.attributes.name,
+    name: item.name,
   }));
 };

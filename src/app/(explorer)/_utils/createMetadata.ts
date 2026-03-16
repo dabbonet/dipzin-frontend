@@ -16,7 +16,7 @@ async function fetchRandomKeywords(
     filters: filter,
   });
   const response = await get(`/${endpoint}?${query}`);
-  return response.data.map((item: any) => item.attributes[fieldName]);
+  return response.data.map((item: any) => item[fieldName]);
 }
 
 export async function createMetadata(

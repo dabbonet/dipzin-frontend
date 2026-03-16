@@ -3,46 +3,34 @@ import type { MetadataRoute } from "next";
 import QueryString from "qs";
 
 interface App {
-  attributes: {
-    slug: string;
-    platform: string;
-  };
+  slug: string;
+  platform: string;
 }
 
 interface Category {
   id: number;
-  attributes: {
-    name: string;
-  };
+  name: string;
 }
 
 interface Tag {
   id: number;
-  attributes: {
-    name: string;
-    types: {
-      data: {
-        id: number;
-        attributes: {
-          name: "mobile" | "web" | "marketing";
-        };
-      }[];
-    };
+  name: string;
+  types: {
+    data: {
+      id: number;
+      name: "mobile" | "web" | "marketing";
+    }[];
   };
 }
 
 interface Component {
   id: number;
-  attributes: {
-    name: string;
-  };
+  name: string;
 }
 
 interface FlowAction {
   id: number;
-  attributes: {
-    name: string;
-  };
+  name: string;
 }
 
 // Generic function to fetch paginated data from a given endpoint
@@ -203,8 +191,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Generate routes for apps
   const appRoutes = apps.map((app) => ({
-    url: `${baseUrl}/${app.attributes.platform}/apps/${encodeURIComponent(
-      app.attributes.slug
+    url: `${baseUrl}/${appplatform}/apps/${encodeURIComponent(
+      appslug
     )}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
@@ -218,7 +206,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const platforms = ["ios", "android", "web"];
     return platforms.map((platform) => ({
       url: `${baseUrl}/${platform}/apps?categories=${encodeURIComponent(
-        category.attributes.name
+        categoryname
       )}`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
@@ -235,13 +223,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Generate routes for tags based on their types
   const tagRoutes = tags.flatMap((tag) => {
     const routes: MetadataRoute.Sitemap = [];
-    const tagName = encodeURIComponent(tag.attributes.name);
+    const tagName = encodeURIComponent(tagname);
     const lastModified = new Date();
     const changeFrequency = "weekly" as const;
     const priority = 0.8;
 
-    tag.attributes.types.data.forEach((type) => {
-      switch (type.attributes.name) {
+    tagtypes.data.forEach((type) => {
+      switch (typename) {
         case "mobile":
           routes.push(
             {
@@ -276,7 +264,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           break;
         default:
           // Handle unexpected types
-          console.warn(`Unexpected type: ${type.attributes.name}`);
+          console.warn(`Unexpected type: ${typename}`);
           break;
       }
     });
@@ -292,7 +280,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const changeFrequency = "weekly" as const;
     return platforms.map((platform) => ({
       url: `${baseUrl}/${platform}/components/${encodeURIComponent(
-        component.attributes.name
+        componentname
       )}`,
       lastModified: new Date(),
       changeFrequency,
@@ -311,7 +299,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const changeFrequency = "weekly" as const;
     return platforms.map((platform) => ({
       url: `${baseUrl}/${platform}/flows?flows=${encodeURIComponent(
-        flowAction.attributes.name
+        flowAction.name
       )}`,
       lastModified: new Date(),
       changeFrequency,

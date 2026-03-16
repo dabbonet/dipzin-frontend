@@ -19,6 +19,6 @@ export const getInterests = async () => {
 
   return interestsReq.data.map((item: any) => ({
     id: item.id,
-    name: item.attributes.name,
+    name: item.name,
   }));
 };
