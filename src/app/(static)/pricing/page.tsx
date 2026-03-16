@@ -7,6 +7,8 @@ import CustomerLoveCorner from './_components/CustomerLoveCorner';
 import PricingFooter from './_components/PricingFooter';
 import { getPricing } from './_actions/getPricing';
 
+export const dynamic = 'force-dynamic';
+
 export default async function PricingPage() {
   const pricingData = await getPricing();
 

@@ -33,7 +33,9 @@ export async function POST(req: Request) {
 
   buffers.forEach((buffer, index) => {
     const fileName = `${zipName}_${index + 1}.png`;
-    archive.append(Buffer.from(buffer), { name: fileName });
+    archive.append(Buffer.from(buffer), {
+      name: fileName,
+    });
   });
 
   // Finalize the archive

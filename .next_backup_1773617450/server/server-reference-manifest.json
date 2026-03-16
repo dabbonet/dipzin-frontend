@@ -1,0 +1,30 @@
+{
+  "node": {
+    "a82a55678f0c78f5c27cd350f542b878157deefc": {
+      "workers": {
+        "app/(explorer)/[[...explorer]]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fapp%2Fsrc%2Fapp%2F(explorer)%2F_actions%2FfetchData.ts%22%2C%5B%22fetchDataAction%22%5D%5D%2C%5B%22%2Fapp%2Fsrc%2Fapp%2F(explorer)%2F_actions%2FsuggestedSearch.ts%22%2C%5B%22suggestSearch%22%5D%5D%2C%5B%22%2Fapp%2Fsrc%2Fapp%2F(explorer)%2F_actions%2FsearchByKeyword.ts%22%2C%5B%22searchByKeyword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(explorer)/[[...explorer]]/page": "action-browser"
+      }
+    },
+    "bf8d7126bee57006668af2762bf5ea7e1b61ccbf": {
+      "workers": {
+        "app/(explorer)/[[...explorer]]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fapp%2Fsrc%2Fapp%2F(explorer)%2F_actions%2FfetchData.ts%22%2C%5B%22fetchDataAction%22%5D%5D%2C%5B%22%2Fapp%2Fsrc%2Fapp%2F(explorer)%2F_actions%2FsuggestedSearch.ts%22%2C%5B%22suggestSearch%22%5D%5D%2C%5B%22%2Fapp%2Fsrc%2Fapp%2F(explorer)%2F_actions%2FsearchByKeyword.ts%22%2C%5B%22searchByKeyword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(explorer)/[[...explorer]]/page": "action-browser"
+      }
+    },
+    "ba5e2a98f9ae2c77991f52b59849bfe62840223f": {
+      "workers": {
+        "app/(explorer)/[[...explorer]]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fapp%2Fsrc%2Fapp%2F(explorer)%2F_actions%2FfetchData.ts%22%2C%5B%22fetchDataAction%22%5D%5D%2C%5B%22%2Fapp%2Fsrc%2Fapp%2F(explorer)%2F_actions%2FsuggestedSearch.ts%22%2C%5B%22suggestSearch%22%5D%5D%2C%5B%22%2Fapp%2Fsrc%2Fapp%2F(explorer)%2F_actions%2FsearchByKeyword.ts%22%2C%5B%22searchByKeyword%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(explorer)/[[...explorer]]/page": "action-browser"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "wLIJSQpulRNUE/7LbR26e9xWPfvuSJnhG9ivVnFxzPo="
+}

@@ -1,6 +1,7 @@
 import { get } from "@/utils/api";
 import type { MetadataRoute } from "next";
-import QueryString from "qs";
+
+export const revalidate = 86400;
 
 interface App {
   slug: string;
@@ -15,7 +16,7 @@ interface Category {
 interface Tag {
   id: number;
   name: string;
-  types: {
+  types?: {
     data: {
       id: number;
       name: "mobile" | "web" | "marketing";
@@ -33,31 +34,15 @@ interface FlowAction {
   name: string;
 }
 
-// Generic function to fetch paginated data from a given endpoint
-async function fetchPaginatedData<T>(
-  endpoint: string,
-  fields: string[],
-  populate?: any
-): Promise<T[]> {
+const MAX_PAGES = 50;
+
+async function fetchPaginatedData<T>(endpoint: string, maxPages = MAX_PAGES): Promise<T[]> {
+  let results: T[] = [];
   let page = 1;
   let hasMore = true;
-  let results: T[] = [];
 
-  while (hasMore) {
-    const query = QueryString.stringify(
-      {
-        fields,
-        populate,
-        pagination: {
-          page,
-          pageSize: 100,
-        },
-      },
-      {
-        encodeValuesOnly: true,
-      }
-    );
-
+  while (hasMore && page <= maxPages) {
+    const query = `pagination[page]=${page}&pagination[pageSize]=100`;
     // eslint-disable-next-line no-await-in-loop
     const response = await get(`/${endpoint}?${query}`);
     const data = response.data as T[];
@@ -73,242 +58,100 @@ async function fetchPaginatedData<T>(
   return results;
 }
 
+const platforms = ["ios", "android", "web"] as const;
+const changeFrequency = "weekly" as const;
+
+function platformRoutes(baseUrl: string, path: string, priority: number) {
+  return platforms.map(
+    (platform) => ({
+      url: `${baseUrl}/${platform}/${path}`,
+      lastModified: new Date(),
+      changeFrequency: "daily" as const,
+      priority,
+    }) as const,
+  );
+}
+
+function entityRoutes<T>(
+  items: T[],
+  baseUrl: string,
+  getPath: string,
+  getParam: (item: T) => string,
+  getItemPlatforms: (item: T) => readonly string[] = () => platforms,
+) {
+  return items.flatMap(
+    (item) => getItemPlatforms(item).map(
+      (platform) => ({
+        url: `${baseUrl}/${platform}/${getPath}?${getParam(item)}`,
+        lastModified: new Date(),
+        changeFrequency,
+        priority: 0.8,
+      }),
+    ),
+  );
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.BASE_URL;
+  const baseUrl = process.env.BASE_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "https://dipfe.fin.dabbo.net";
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}/`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
+      url: `${baseUrl}/`, lastModified: new Date(), changeFrequency: "daily" as const, priority: 1
     },
+    ...platformRoutes(baseUrl, "screens", 0.9),
+    ...platformRoutes(baseUrl, "apps", 0.9),
+    ...platformRoutes(baseUrl, "components", 0.9),
+    ...platformRoutes(baseUrl, "flows", 0.9),
     {
-      url: `${baseUrl}/ios/apps`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/android/apps`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/web/apps`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/ios/screens`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/android/screens`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/web/screens`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/ios/components`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/android/components`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/web/components`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/web/marketing`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/ios/flows`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/android/flows`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/web/flows`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/pricing`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/legal/terms`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/legal/terms-of-service`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/legal/privacy-policy`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
+      url: `${baseUrl}/pricing`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.5
     },
   ];
 
-  const apps = await fetchPaginatedData<App>("apps", ["slug", "platform"]);
+  const [apps, categories, tags, components, flowActions] = await Promise.all([
+    fetchPaginatedData<App>("apps"),
+    fetchPaginatedData<Category>("categories"),
+    fetchPaginatedData<Tag>("tags"),
+    fetchPaginatedData<Component>("components"),
+    fetchPaginatedData<FlowAction>("flow-actions"),
+  ]);
 
-  // Generate routes for apps
-  const appRoutes = apps.map((app) => ({
-    url: `${baseUrl}/${appplatform}/apps/${encodeURIComponent(
-      appslug
-    )}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-  }));
-
-  const categories = await fetchPaginatedData<Category>("categories", ["name"]);
-
-  // Generate routes for categories
-  const categoryRoutes = categories.flatMap((category) => {
-    const platforms = ["ios", "android", "web"];
-    return platforms.map((platform) => ({
-      url: `${baseUrl}/${platform}/apps?categories=${encodeURIComponent(
-        categoryname
-      )}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    }));
-  });
-
-  const tags = await fetchPaginatedData<Tag>("tags", ["name"], {
-    types: {
-      fields: ["name"],
-    },
-  });
-
-  // Generate routes for tags based on their types
-  const tagRoutes = tags.flatMap((tag) => {
-    const routes: MetadataRoute.Sitemap = [];
-    const tagName = encodeURIComponent(tagname);
-    const lastModified = new Date();
-    const changeFrequency = "weekly" as const;
-    const priority = 0.8;
-
-    tagtypes.data.forEach((type) => {
-      switch (typename) {
-        case "mobile":
-          routes.push(
-            {
-              url: `${baseUrl}/ios/screens?screens=${tagName}`,
-              lastModified,
-              changeFrequency,
-              priority,
-            },
-            {
-              url: `${baseUrl}/android/screens?screens=${tagName}`,
-              lastModified,
-              changeFrequency,
-              priority,
-            }
-          );
-          break;
-        case "web":
-          routes.push({
-            url: `${baseUrl}/web/screens?screens=${tagName}`,
-            lastModified,
-            changeFrequency,
-            priority,
-          });
-          break;
-        case "marketing":
-          routes.push({
-            url: `${baseUrl}/web/marketing/${tagName}`,
-            lastModified,
-            changeFrequency,
-            priority,
-          });
-          break;
-        default:
-          // Handle unexpected types
-          console.warn(`Unexpected type: ${typename}`);
-          break;
-      }
-    });
-
-    return routes;
-  });
-
-  const components = await fetchPaginatedData<Component>("components", ["name"]);
-
-  // Generate routes for components
-  const componentRoutes = components.flatMap((component) => {
-    const platforms = ["ios", "android", "web"];
-    const changeFrequency = "weekly" as const;
-    return platforms.map((platform) => ({
-      url: `${baseUrl}/${platform}/components/${encodeURIComponent(
-        componentname
-      )}`,
-      lastModified: new Date(),
-      changeFrequency,
-      priority: 0.8,
-    }));
-  });
-
-  const flowActions = await fetchPaginatedData<FlowAction>(
-    "flow-actions",
-    ["name"]
+  const appRoutes = entityRoutes(
+    apps,
+    baseUrl,
+    "screens",
+    (app) => `apps=${encodeURIComponent(app.slug)}`,
   );
 
-  // Generate routes for flow actions
-  const flowActionRoutes = flowActions.flatMap((flowAction) => {
-    const platforms = ["ios", "android", "web"];
-    const changeFrequency = "weekly" as const;
-    return platforms.map((platform) => ({
-      url: `${baseUrl}/${platform}/flows?flows=${encodeURIComponent(
-        flowAction.name
-      )}`,
-      lastModified: new Date(),
-      changeFrequency,
-      priority: 0.8,
-    }));
-  });
+  const categoryRoutes = entityRoutes(
+    categories,
+    baseUrl,
+    "screens",
+    (category) => `categories=${encodeURIComponent(category.name)}`,
+  );
 
-  // Combine all routes
-  const sitemapRoutes = [
+  const tagRoutes = entityRoutes(
+    tags,
+    baseUrl,
+    "screens",
+    (tag) => `tags=${encodeURIComponent(tag.name)}`,
+    (tag) => tag.types?.data?.map((t) => (t.name === "mobile" ? ["ios", "android"] : [t.name])).flat() ?? platforms,
+  );
+
+  const componentRoutes = entityRoutes(
+    components,
+    baseUrl,
+    "components",
+    (component) => `components=${encodeURIComponent(component.name)}`,
+  );
+
+  const flowActionRoutes = entityRoutes(
+    flowActions,
+    baseUrl,
+    "flows",
+    (flowAction) => `flows=${encodeURIComponent(flowAction.name)}`,
+  );
+
+  return [
     ...staticRoutes,
     ...appRoutes,
     ...categoryRoutes,
@@ -316,7 +159,4 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...componentRoutes,
     ...flowActionRoutes,
   ];
-
-  // Return the combined sitemap
-  return sitemapRoutes;
 }

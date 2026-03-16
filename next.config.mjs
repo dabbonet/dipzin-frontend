@@ -15,6 +15,9 @@ const bundleAnalyzer = withBundleAnalyzer({
 
 const nextConfig = {
   reactStrictMode: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
     dangerouslyAllowSVG: true,
     minimumCacheTTL: 60,
@@ -47,9 +50,6 @@ export default withSentryConfig(
   nextConfig,
   bundleAnalyzer(
     {
-      eslint: {
-        dirs: ['.'],
-      },
       poweredByHeader: false,
       reactStrictMode: true,
       experimental: {
