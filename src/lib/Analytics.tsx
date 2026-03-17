@@ -14,6 +14,9 @@ export default function Analytics() {
     }
   }, [pathname])
 
+  // Guard: don't render GTM scripts if GTM_ID is not configured
+  if (!GTM_ID) return null
+
   return (
     <>
       <noscript>

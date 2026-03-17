@@ -14,7 +14,7 @@ const bundleAnalyzer = withBundleAnalyzer({
 });
 
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -52,9 +52,7 @@ export default withSentryConfig(
     {
       poweredByHeader: false,
       reactStrictMode: true,
-      experimental: {
-        serverComponentsExternalPackages: ['@electric-sql/pglite'],
-      },
+      experimental: {},
     },
   ),
   {
