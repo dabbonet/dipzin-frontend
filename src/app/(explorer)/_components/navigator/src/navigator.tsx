@@ -15,7 +15,6 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   } = useQuery();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const router = useRouter();
   const isInitializedRef = useRef(false);
   const isInternalNavigationRef = useRef(false);
   const prevUrlRef = useRef<string>('');
