@@ -70,9 +70,10 @@ export function useFetchData() {
       // Update the suggestions
       setSuggestions(response.suggestions);
 
+      // IMPORTANT: Prioritize the response query over the override
+      // This ensures that backend corrections (e.g., platform auto-switch) are applied
       const updatedQuery = {
-        ...queryOverride,
-        ...response.query,
+        ...response.query, // Start with the corrected query from backend
         offset: response.pagination.pageSize * (response.pagination.page - 1),
         limit: response.pagination.pageSize,
         initialized: false,

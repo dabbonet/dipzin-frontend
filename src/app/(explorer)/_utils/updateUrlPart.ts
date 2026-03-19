@@ -90,6 +90,12 @@ export const createUpdateUrlPart = (
     ? `${updatedPath}?${searchParamsString}`
     : updatedPath;
 
+  // Mark this as an internal navigation to prevent race condition with URL sync
+  // The Navigator component will check this flag before syncing from URL
+  if (typeof window !== 'undefined' && (window as any).__dipzinMarkInternalNavigation) {
+    (window as any).__dipzinMarkInternalNavigation();
+  }
+
   // Update the router
   router.push(newUrl, undefined, { shallow: true });
 

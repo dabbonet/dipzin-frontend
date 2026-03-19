@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-import { useSearchParams, usePathname } from 'next/navigation';
+import React, { useEffect, useRef, useCallback } from 'react';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import { getInitialQueryWithSearchParams } from '@/app/(explorer)/_utils/initialQuery';
 import useIsMobile from '@/hooks/useIsMobile';
@@ -15,16 +15,27 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
   } = useQuery();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const router = useRouter();
   const isInitializedRef = useRef(false);
+  const isInternalNavigationRef = useRef(false);
   const prevUrlRef = useRef<string>('');
 
   // Sync URL changes to query state
   // This runs when URL changes (e.g., browser back/forward, direct navigation)
+  // IMPORTANT: Skip sync during internal navigation to prevent race conditions
   useEffect(() => {
     const currentUrl = pathname + '?' + searchParams.toString();
     
     // Skip if this is the first render (handled by the init effect below)
     if (!isInitializedRef.current) {
+      return;
+    }
+    
+    // Skip if this is an internal navigation (URL update from state change)
+    // This prevents the race condition where URL sync runs before router.push completes
+    if (isInternalNavigationRef.current) {
+      isInternalNavigationRef.current = false;
+      prevUrlRef.current = currentUrl;
       return;
     }
     
@@ -73,6 +84,20 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
       prevUrlRef.current = pathname + '?' + searchParams.toString();
     }
   }, []);
+
+  // Expose a method to mark internal navigation
+  // This is called when we're about to update the URL programmatically
+  const markInternalNavigation = useCallback(() => {
+    isInternalNavigationRef.current = true;
+  }, []);
+
+  // Store the callback in a ref so Panel can access it
+  useEffect(() => {
+    (window as any).__dipzinMarkInternalNavigation = markInternalNavigation;
+    return () => {
+      delete (window as any).__dipzinMarkInternalNavigation;
+    };
+  }, [markInternalNavigation]);
 
   if (isMobile === null) {
     return null
