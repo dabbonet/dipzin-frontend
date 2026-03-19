@@ -4,13 +4,24 @@ import { useCallback } from "react";
 import { fetchDataAction } from "../_actions/fetchData";
 import { useQuery } from "./useQuery";
 
+interface RedirectedInfo {
+  from: { pattern: string; platform: string };
+  to: { pattern: string; platform: string };
+  reason: string;
+}
+
+interface FetchDataResult {
+  query: any;
+  redirected?: RedirectedInfo;
+}
+
 export function useFetchData() {
   const {
     data, setData, pagination, setPagination, setSuggestions
   } = useQuery();
 
   const fetchData = useCallback(
-    async (queryOverride, isPagination = false) => {
+    async (queryOverride, isPagination = false): Promise<FetchDataResult> => {
       const correctedFilters = (queryOverride.filters || []).map((filter) => {
         if (filter.pattern && filter.pattern.toLowerCase() === "flows") {
           return { ...filter, pattern: "flowActions" };
@@ -68,7 +79,11 @@ export function useFetchData() {
         changed: false,
       };
 
-      return updatedQuery;
+      // Return both query and redirected info (if platform/pattern was auto-switched)
+      return {
+        query: updatedQuery,
+        redirected: response.redirected,
+      };
     },
     [pagination, setData, setPagination, setSuggestions],
   );

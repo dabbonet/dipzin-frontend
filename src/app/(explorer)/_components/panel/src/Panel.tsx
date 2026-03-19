@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import { useFetchData } from '@/app/(explorer)/_hooks/useFetchData';
 import { useUpdateUrlPart } from '@/app/(explorer)/_hooks/useUpdateUrlPart';
+import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import ScreensGrid from './ScreensGrid';
 import AppsGrid from './AppsGrid';
@@ -16,6 +17,10 @@ const Panel = () => {
   } = useQuery();
   const { fetchData } = useFetchData();
   const updateUrlPart = useUpdateUrlPart();
+  const { toast } = useToast();
+  
+  // Track previous platform/pattern to avoid duplicate toasts
+  const prevNotifiedRef = useRef<string>('');
 
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -30,19 +35,47 @@ const Panel = () => {
       setIsLoading(true);
 
       try {
-        const newQuery = await fetchData(updatedQuery, isPagination);
+        const result = await fetchData(updatedQuery, isPagination);
 
-        if (newQuery) {
-          setQuery(newQuery);
+        if (result && result.query) {
+          setQuery(result.query);
           if (!isPagination) {
-            updateUrlPart(newQuery);
+            updateUrlPart(result.query);
+          }
+          
+          // Show toast notification if platform/pattern was auto-switched
+          if (result.redirected) {
+            const notificationKey = `${result.redirected.from.platform}-${result.redirected.from.pattern}-${result.redirected.to.platform}-${result.redirected.to.pattern}`;
+            
+            // Only show toast once per unique redirect
+            if (prevNotifiedRef.current !== notificationKey) {
+              prevNotifiedRef.current = notificationKey;
+              
+              const platformChanged = result.redirected.from.platform !== result.redirected.to.platform;
+              const patternChanged = result.redirected.from.pattern !== result.redirected.to.pattern;
+              
+              let title = '';
+              if (platformChanged && patternChanged) {
+                title = `Switched to ${result.redirected.to.platform} ${result.redirected.to.pattern}`;
+              } else if (platformChanged) {
+                title = `Switched to ${result.redirected.to.platform} platform`;
+              } else if (patternChanged) {
+                title = `Switched to ${result.redirected.to.pattern}`;
+              }
+              
+              toast({
+                title,
+                description: result.redirected.reason,
+                variant: 'default',
+              });
+            }
           }
         }
 
         setHasError(false);
         setNoData(false);
 
-        return newQuery;
+        return result;
       } catch (error) {
         const err = error as Error;
 
@@ -57,7 +90,7 @@ const Panel = () => {
         setIsLoading(false);
       }
     },
-    [fetchData, updateUrlPart, setQuery, query]
+    [fetchData, updateUrlPart, setQuery, query, toast]
   );
 
   const loadMoreData = useCallback(() => {

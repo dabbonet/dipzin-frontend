@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Input } from '@/components/Shared/input';
 import { Switcher } from '@/components/Shared/switcher';
@@ -8,6 +8,7 @@ import { NavigatorMenu } from './navigator-menu';
 import { Suggestions } from '@/app/(explorer)/_components/navigator/suggestions';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
+import { useUpdateUrlPart } from '@/app/(explorer)/_hooks/useUpdateUrlPart';
 import { getPatternHandleForAPI } from '@/app/(explorer)/_utils/queryUtils';
 import { AppPill } from '../app-pill';
 import useAppPill from '../app-pill/_hooks/useAppPill';
@@ -35,6 +36,7 @@ const DesktopNavigatorView: React.FC = () => {
   const {
     query, setFilters, setApps, setPattern, suggestions, setPlatform
   } = useQuery();
+  const updateUrlPart = useUpdateUrlPart();
   const { filters, platform, pattern } = query || {};
 
   const {
@@ -43,6 +45,28 @@ const DesktopNavigatorView: React.FC = () => {
     query,
     setApps,
   });
+
+  // Handle platform change - update both state and URL immediately
+  const handlePlatformChange = useCallback((newPlatform: string) => {
+    setPlatform(newPlatform);
+    // Update URL immediately to reflect the change
+    updateUrlPart({
+      ...query,
+      platform: newPlatform,
+      change: 'platform',
+    });
+  }, [query, setPlatform, updateUrlPart]);
+
+  // Handle pattern change - update both state and URL immediately
+  const handlePatternChange = useCallback((newPattern: string) => {
+    setPattern(newPattern);
+    // Update URL immediately to reflect the change
+    updateUrlPart({
+      ...query,
+      pattern: newPattern,
+      change: 'pattern',
+    });
+  }, [query, setPattern, updateUrlPart]);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (navigatorRef.current && !navigatorRef.current.contains(event.target as Node)) {
@@ -65,8 +89,6 @@ const DesktopNavigatorView: React.FC = () => {
     pattern: correctedPattern,
   })) || [];
 
-  console.log('query: ', JSON.stringify(query, null, 2));
-
   return (
     <motion.div
       ref={navigatorRef}
@@ -81,7 +103,7 @@ const DesktopNavigatorView: React.FC = () => {
       <div className="w-full h-fit flex items-center gap-4">
         <Switcher
           value={pattern}
-          onChange={setPattern}
+          onChange={handlePatternChange}
           data={patterns}
           state={switcherState}
         />
@@ -97,7 +119,7 @@ const DesktopNavigatorView: React.FC = () => {
         />
         <Switcher
           value={platform}
-          onChange={setPlatform}
+          onChange={handlePlatformChange}
           data={platforms}
           state="open"
         />
