@@ -31,15 +31,15 @@ const useScreensOverview = (initialScreenId: number) => {
 
     try {
       const updatedQuery = { ...query, offset: newOffset };
-      const newQuery = await fetchData(updatedQuery, true);
+      const result = await fetchData(updatedQuery, true);
 
-      if (newQuery) {
-        setQuery(newQuery);
+      if (result && result.query) {
+        setQuery(result.query);
         setPagination({
           ...pagination,
           offset: newOffset,
         });
-        return newQuery;
+        return result.query;
       }
     } catch (error) {
       console.error('Error loading more data:', error);
