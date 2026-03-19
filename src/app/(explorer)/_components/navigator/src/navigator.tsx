@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useCallback } from 'react';
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
 import { getInitialQueryWithSearchParams } from '@/app/(explorer)/_utils/initialQuery';
 import useIsMobile from '@/hooks/useIsMobile';
