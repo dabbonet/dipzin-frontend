@@ -121,8 +121,20 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
     hasPrevScreen,
     loading,
     hasFullPage,
+    error,
   } = useScreensOverview(screenId);
   const isMobile = useIsMobile();
+
+  // Handle error state - show error message instead of crashing
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center size-full p-8 text-center">
+        <Icon.ImageOff className="size-16 text-slate-500 mb-4" />
+        <h2 className="text-xl font-semibold text-slate-300 mb-2">Screen Not Found</h2>
+        <p className="text-slate-500">{error}</p>
+      </div>
+    );
+  }
 
   if (!currentScreen) return null;
 

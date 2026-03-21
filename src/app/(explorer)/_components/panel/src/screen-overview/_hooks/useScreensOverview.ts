@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useQuery } from "@/app/(explorer)/_hooks/useQuery";
 import { useFetchData } from "@/app/(explorer)/_hooks/useFetchData";
 import type { ScreenData } from "@/types/screen-types";
-import { getScreen } from "../_actions/getScreen";
+import { getScreen, ScreenNotFoundError } from "../_actions/getScreen";
 import { getFullScreen } from "../_actions/getFullScreen";
 import useKeyboardNavigation from "@/hooks/useKeyboardNavigation";
 
@@ -20,6 +20,7 @@ const useScreensOverview = (initialScreenId: number) => {
   const [loading, setLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [nextScreenAfterLoad, setNextScreenAfterLoad] = useState<ScreenData | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const loadMoreData = useCallback(async () => {
     if (isLoadingMore) return null;
@@ -50,20 +51,31 @@ const useScreensOverview = (initialScreenId: number) => {
   }, [pagination, query, fetchData, isLoadingMore, setQuery, setPagination]);
 
   const loadScreenData = useCallback(async () => {
-    if (!screens || screens.length === 0) {
-      const fetchedScreen = await getScreen(initialScreenId);
-      setCurrentScreen(fetchedScreen);
-      return;
-    }
+    setError(null);
+    
+    try {
+      if (!screens || screens.length === 0) {
+        const fetchedScreen = await getScreen(initialScreenId);
+        setCurrentScreen(fetchedScreen);
+        return;
+      }
 
-    const foundScreen = screens.find(
-      (screen) => screen.id === Number(initialScreenId)
-    );
-    if (foundScreen) {
-      setCurrentScreen(foundScreen);
-    } else {
-      const fetchedScreen = await getScreen(initialScreenId);
-      setCurrentScreen(fetchedScreen);
+      const foundScreen = screens.find(
+        (screen) => screen.id === Number(initialScreenId)
+      );
+      if (foundScreen) {
+        setCurrentScreen(foundScreen);
+      } else {
+        const fetchedScreen = await getScreen(initialScreenId);
+        setCurrentScreen(fetchedScreen);
+      }
+    } catch (err) {
+      if (err instanceof ScreenNotFoundError) {
+        setError("Screen not found");
+      } else {
+        setError("Failed to load screen");
+      }
+      console.error('Error loading screen:', err);
     }
   }, [initialScreenId, screens]);
 
@@ -184,6 +196,7 @@ const useScreensOverview = (initialScreenId: number) => {
       && screens.findIndex((s) => s.id === currentScreen.id) > 0,
     loading: loading || isLoadingMore,
     hasFullPage,
+    error,
   };
 };
 

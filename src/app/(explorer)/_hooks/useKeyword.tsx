@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { suggestSearch } from '../_actions/suggestedSearch';
 import { searchByKeyword } from '../_actions/searchByKeyword';
 import type { KeywordResult } from '@/types/navigation-types';
@@ -41,6 +41,8 @@ const useKeywordStore = create<KeywordStoreState>()(
   )
 );
 
+const DEBOUNCE_DELAY = 300;
+
 const useKeyword = () => {
   const {
     keyword,
@@ -52,6 +54,8 @@ const useKeyword = () => {
     suggestedSearch,
     setSuggestedSearch,
   } = useKeywordStore();
+
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const fetchResults = useCallback(
     async (keywordInput: string) => {
@@ -70,10 +74,30 @@ const useKeyword = () => {
     [setResults, setSelectedResult]
   );
 
-  const memoizedSetKeyword = useCallback((newKeyword: string) => {
+  // Debounced keyword setter - updates keyword immediately but debounces the fetch
+  const setKeywordDebounced = useCallback((newKeyword: string) => {
+    // Update keyword state immediately for responsive input
     setKeyword(newKeyword);
-    fetchResults(newKeyword);
+
+    // Clear any existing timer
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    // Set new timer for debounced fetch
+    debounceTimerRef.current = setTimeout(() => {
+      fetchResults(newKeyword);
+    }, DEBOUNCE_DELAY);
   }, [setKeyword, fetchResults]);
+
+  // Cleanup debounce timer on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (!suggestedSearch) {
@@ -87,7 +111,7 @@ const useKeyword = () => {
 
   return {
     keyword,
-    setKeyword: memoizedSetKeyword,
+    setKeyword: setKeywordDebounced,
     results,
     selectedResult,
     setSelectedResult,

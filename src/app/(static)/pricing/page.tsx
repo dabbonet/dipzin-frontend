@@ -12,20 +12,20 @@ export const dynamic = 'force-dynamic';
 export default async function PricingPage() {
   const pricingData = await getPricing();
 
-  const mockData = {
-    unit_amount: 1000,
-    recurring: {
-      interval: 'month',
-      interval_count: 1,
-    },
-    id: '1',
-  }
+  // Get the personal plan (usually the second plan, or first available)
+  const personalPlan = pricingData.length > 0 
+    ? pricingData[pricingData.length > 1 ? 1 : 0] 
+    : {
+        unit_amount: 1500,
+        recurring: { interval: 'month', interval_count: 1 },
+        id: 'default',
+      };
 
   return (
     <>
       <PricingNav />
       <PricingHero checkoutPlans={pricingData} />
-      <PricingTable checkout={mockData as any} currentPlan="free" />
+      <PricingTable checkout={personalPlan as any} currentPlan="free" />
       <TopFeatures />
       <CustomerLoveCorner />
       <PricingFooter />

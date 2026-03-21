@@ -32,28 +32,19 @@ export const metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  // Note: appleWebApp.capable is deprecated in Next.js 15+ as apple-mobile-web-app-capable
+  // is no longer recommended by Apple. Using only title and statusBarStyle.
   appleWebApp: {
     title: "Dipzin",
     statusBarStyle: "black-translucent",
-    startupImage: ["/favicon.ico"],
   },
   authors: [
     {
       name: "Dabbo LLC",
       url: "https://dabbo.net",
-      // email: "info@dabbo.net"
     },
   ],
   creator: "Dabbo LLC",
-  // manifest: {
-  // name: "Dipzin",
-  // short_name: "Dipzin",
-  // icons: [{ src: "/favicon.ico", sizes: "192x192", type: "image/ico" }],
-  // start_url: ".",
-  // display: "standalone",
-  // theme_color: "#020617",
-  // background_color: "#020617",
-  // },
 };
 
 export default function RootLayout({

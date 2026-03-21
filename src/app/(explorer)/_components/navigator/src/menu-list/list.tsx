@@ -1,10 +1,12 @@
 import { useKeyword } from '@/app/(explorer)/_hooks/useKeyword';
 import { NavigatorMenuItem } from './list-item';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getItemDescription, getNavigatorListIcon } from '@/app/(explorer)/_utils/keywordUtils';
 import type { Category, Query } from '@/types/navigation-types';
 import { singularToPlural } from '@/app/(explorer)/_utils/queryUtils';
 import ListItemSkeleton from './list-item-skeleton';
+import useSearchHistory, { type SearchHistoryItem } from '@/hooks/useSearchHistory';
+import { Icon } from '@/components/UI/icon';
 
 const categories: Category[] = [
   {
@@ -33,8 +35,15 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
   const {
     results, keyword, selectedResult, setSelectedResult
   } = useKeyword();
+  const { searchHistory, addToHistory, removeFromHistory, clearHistory } = useSearchHistory();
   const searchResults = results?.hits || [];
   const hasKeyword = Boolean(keyword);
+  const [isClient, setIsClient] = useState(false);
+
+  // Track client-side mount to avoid hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Early return if no keyword and no categories available
   if (!hasKeyword && categories.length === 0) {
@@ -48,6 +57,9 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
   };
 
   const handleMouseClick = (result: any) => {
+    // Add to search history
+    addToHistory({ name: result.name, type: result.type });
+
     if (result.type === 'app') {
       handleUpdate((prev: any) => {
         const isAppSelected = prev.some((selectedApp: any) => selectedApp.name === result.name);
@@ -59,6 +71,22 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
     } else {
       const pattern = singularToPlural(result.type);
       handleUpdate((prev: any) => [...prev, { name: result.name, pattern }], 'filters');
+    }
+  };
+
+  const handleHistoryClick = (item: SearchHistoryItem) => {
+    // Re-search for the history item
+    if (item.type === 'app') {
+      handleUpdate((prev: any) => {
+        const isAppSelected = prev.some((selectedApp: any) => selectedApp.name === item.name);
+        if (!isAppSelected) {
+          return [...prev, { name: item.name, type: item.type }];
+        }
+        return prev;
+      }, 'apps');
+    } else {
+      const pattern = singularToPlural(item.type);
+      handleUpdate((prev: any) => [...prev, { name: item.name, pattern }], 'filters');
     }
   };
 
@@ -95,11 +123,63 @@ export const NavigatorMenuList: React.FC<NavigatorMenuListProps> = ({ handleUpda
     }
     // Show "No results found" message when there are no search results
     return (
-      <p className="text-slate-500 font-semibold text-lg">No results found</p>
+      <div className="flex flex-col items-center justify-center py-8 gap-4">
+        <Icon.Search className="size-12 text-slate-600" />
+        <p className="text-slate-500 font-semibold text-lg">No results found</p>
+        <p className="text-slate-600 text-sm">Try a different search term</p>
+      </div>
     );
   }
+
+  // Show search history if available (client-side only to avoid hydration mismatch)
+  const showHistory = isClient && searchHistory.length > 0;
+
   return (
     <>
+      {/* Search History Section */}
+      {showHistory && (
+        <div className="mb-2">
+          <div className="flex items-center justify-between px-2 py-1">
+            <span className="text-xs text-slate-500 font-medium">Recent Searches</span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                clearHistory();
+              }}
+              className="text-xs text-slate-600 hover:text-slate-400 transition-colors"
+            >
+              Clear
+            </button>
+          </div>
+          {searchHistory.slice(0, 5).map((item) => (
+            <button
+              key={`history-${item.name}-${item.type}`}
+              type="button"
+              className="w-full rounded-2xl flex items-center justify-between transition-colors bg-[#1A2333] md:bg-transparent hover:text-white/80 hover:bg-slate-700/60 p-4 gap-3"
+              onClick={() => handleHistoryClick(item)}
+            >
+              <div className="flex items-center gap-3">
+                <Icon.Clock className="size-4 text-slate-500" />
+                <span className="text-sm font-medium">{item.name}</span>
+                <span className="text-xs text-slate-500 capitalize">{item.type}</span>
+              </div>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeFromHistory(item.name, item.type);
+                }}
+                className="text-slate-600 hover:text-slate-400 transition-colors"
+              >
+                <Icon.Close className="size-4" />
+              </button>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Categories */}
       {categories.map((category: Category) => (
         <div key={category.name}>
           <NavigatorMenuItem

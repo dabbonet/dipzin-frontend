@@ -36,6 +36,13 @@ const cleanData = (data: any): ScreenData => ({
   })),
 });
 
+export class ScreenNotFoundError extends Error {
+  constructor(message: string = "Screen not found") {
+    super(message);
+    this.name = "ScreenNotFoundError";
+  }
+}
+
 export const getScreen = async (screenId: number): Promise<ScreenData> => {
   try {
     const screenQuery = QueryString.stringify({
@@ -72,15 +79,29 @@ export const getScreen = async (screenId: number): Promise<ScreenData> => {
       },
     );
 
+    if (screenResponse.status === 404) {
+      throw new ScreenNotFoundError("Screen not found");
+    }
+
     if (!screenResponse.ok) {
-      throw new Error("Failed to fetch screens");
+      console.error(`[Screen] Error ${screenResponse.status} fetching screen ${screenId}`);
+      throw new Error(`Failed to fetch screen: ${screenResponse.status}`);
     }
 
     const screenResult = await screenResponse.json();
+    
+    if (!screenResult.data) {
+      throw new ScreenNotFoundError("Screen not found");
+    }
+    
     const screen = cleanData(screenResult.data);
     return screen;
   } catch (err) {
+    if (err instanceof ScreenNotFoundError) {
+      throw err;
+    }
     const error = err instanceof Error ? err.message : "Unexpected error occurred";
+    console.error(`[Screen] Error fetching screen ${screenId}:`, error);
     throw new Error(error);
   }
 };

@@ -80,7 +80,7 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@commitlint/cz-commitlint": "^19.4.0",
     "@faker-js/faker": "^8.4.1",
-    "@next/bundle-analyzer": "^14.2.5",
+    "@next/bundle-analyzer": "^14.2.35",
     "@percy/cli": "1.29.0",
     "@percy/playwright": "^1.0.6",
     "@playwright/test": "^1.46.0",

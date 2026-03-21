@@ -30,7 +30,8 @@ const platforms = [
 const DesktopNavigatorView: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const navigatorRef = useRef<HTMLInputElement | null>(null);
+  const navigatorRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { keyword, setKeyword } = useKeyword();
   const {
@@ -67,6 +68,24 @@ const DesktopNavigatorView: React.FC = () => {
       change: 'pattern',
     });
   }, [query, setPattern, updateUrlPart]);
+
+  // Keyboard shortcut: Cmd+K / Ctrl+K to focus search
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+        event.preventDefault();
+        if (inputRef.current) {
+          inputRef.current.focus();
+          setIsMenuOpen(true);
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (navigatorRef.current && !navigatorRef.current.contains(event.target as Node)) {
@@ -108,11 +127,12 @@ const DesktopNavigatorView: React.FC = () => {
           state={switcherState}
         />
         <Input
+          ref={inputRef}
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           onFocus={() => setIsMenuOpen(true)}
           type="search"
-          placeholder={filters?.length > 0 ? 'Search' : 'Try Search'}
+          placeholder={filters?.length > 0 ? 'Search' : 'Try Search (⌘K)'}
           autoComplete="off"
           selectedFilters={filters}
           setSelectedFilters={(updateFn) => setFilters(updateFn)}
