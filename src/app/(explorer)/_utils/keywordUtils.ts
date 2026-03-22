@@ -1,11 +1,21 @@
 import { storage } from "@/utils/storage";
+import { mergeIconFromObject } from "@/utils/StringUtils";
 
 const getNavigatorListIcon = (item: any) => {
   let url = "";
   switch (item.type) {
-    case "app":
-      url = storage(item.icon);
+    case "app": {
+      // Handle icon being either an object {hash, ext} or a string
+      const iconValue = item.icon;
+      if (iconValue && typeof iconValue === 'object' && iconValue.hash && iconValue.ext) {
+        url = storage(mergeIconFromObject(iconValue));
+      } else if (typeof iconValue === 'string') {
+        url = storage(iconValue);
+      } else {
+        url = "/assets/icons/default-icon.svg";
+      }
       break;
+    }
     case "category":
       url = "/assets/icons/app-categories.svg";
       break;
