@@ -4,7 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useQuery } from "@/app/(explorer)/_hooks/useQuery";
 import { useFetchData } from "@/app/(explorer)/_hooks/useFetchData";
 import type { ScreenData } from "@/types/screen-types";
-import { getScreen, ScreenNotFoundError } from "../_actions/getScreen";
+import { getScreen } from "../_actions/getScreen";
+import { ScreenNotFoundError } from "../_actions/errors";
 import { getFullScreen } from "../_actions/getFullScreen";
 import useKeyboardNavigation from "@/hooks/useKeyboardNavigation";
 

@@ -186,8 +186,8 @@ const FlowOverview = ({ flowId }: FlowOverviewProps) => {
           <div className="flex gap-2 p-5">
             <DownloadButton
               variant="darkGray"
-              url={currentFlow?.flow_screens?.[currentScreen]?.screen
-                ? storage(currentFlow.flow_screens[currentScreen].screen.screen.hash + currentFlow.flow_screens[currentScreen].screen.screen.ext)
+              url={currentFlow?.flow_screens?.[currentScreen]?.screen?.screen
+                ? storage(currentFlow.flow_screens[currentScreen].screen?.screen?.hash + currentFlow.flow_screens[currentScreen].screen?.screen?.ext)
                 : ''}
               then={(
                 <>

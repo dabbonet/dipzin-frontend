@@ -2,6 +2,7 @@
 
 import QueryString from "qs";
 import type { ScreenData } from "@/types/screen-types";
+import { ScreenNotFoundError } from "./errors";
 
 const cleanData = (data: any): ScreenData => ({
   id: data.id,
@@ -35,13 +36,6 @@ const cleanData = (data: any): ScreenData => ({
     name: component.name,
   })),
 });
-
-export class ScreenNotFoundError extends Error {
-  constructor(message: string = "Screen not found") {
-    super(message);
-    this.name = "ScreenNotFoundError";
-  }
-}
 
 export const getScreen = async (screenId: number): Promise<ScreenData> => {
   try {

@@ -45,7 +45,7 @@ const MobileAppShowcase = ({ app }: { app: AppType }) => {
       <div className="h-fit w-full flex justify-between items-center px-4">
         <div className="flex items-center gap-3">
           <Avatar className="size-12">
-            <AvatarImage src={storage(app.icon.hash + app.icon.ext)} alt={app.name} />
+            <AvatarImage src={app.icon ? storage(app.icon.hash + app.icon.ext) : ''} alt={app.name} />
             <AvatarFallback>{extractInitials(app.name)}</AvatarFallback>
           </Avatar>
           <div>

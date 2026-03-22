@@ -45,7 +45,7 @@ async function fetchPaginatedData<T>(endpoint: string, maxPages = MAX_PAGES): Pr
     const query = `pagination[page]=${page}&pagination[pageSize]=100`;
     // eslint-disable-next-line no-await-in-loop
     const response = await get(`/${endpoint}?${query}`);
-    const data = response.data as T[];
+    const data = (response.data as T[]) ?? [];
 
     if (data.length > 0) {
       results = results.concat(data);

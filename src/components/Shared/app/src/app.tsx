@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Skeleton } from "@/components/UI/skeleton";
 import { storage } from '@/utils/storage';
-import { mergeIconFromObject } from '@/utils/StringUtils';
 import type { AppType } from '../../../../types/app-types';
 import { AppOverlay } from './app-overlay';
 import { cn } from '@/lib/utils';
@@ -19,11 +18,15 @@ const App = ({ app }: { app: AppType }) => {
 
   const { setApps } = useQuery();
 
-  const screens = app.screens ? app.screens.map(({ screen }) => ({
-    width: screen.width,
-    height: screen.height,
-    imageSrc: storage(mergeIconFromObject(screen))
-  })) : [];
+  const screens = app.screens
+    ? app.screens
+        .filter((s) => s.screen) // Filter out screens without screen data
+        .map((s) => ({
+          width: s.screen!.width,
+          height: s.screen!.height,
+          imageSrc: storage(s.screen!.hash + s.screen!.ext)
+        }))
+    : [];
 
   const stopImageRotation = () => {
     if (intervalRef.current) {

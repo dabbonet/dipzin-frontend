@@ -37,9 +37,9 @@ const AppInfo = ({ app }: { app: AppType }) => (
 
 // Top Overlay Component
 const TopOverlay = ({ app }: { app: AppType }) => {
-  const screensUrls = app?.screens?.map(
-    (screen) => storage(screen.screen.hash + screen.screen.ext)
-  );
+  const screensUrls = app?.screens
+    ?.filter((s) => s.screen)
+    .map((s) => storage(s.screen!.hash + s.screen!.ext));
 
   return (
     <div className={`absolute hidden sm:flex top-0 inset-x-0 ${app.platform === 'web' ? 'pt-4 pb-[30px]' : 'pt-6 pb-[93px]'} items-center justify-center gap-4 bg-screen-hover-gradient-to-bottom opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out`}>
