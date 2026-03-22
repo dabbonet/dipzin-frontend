@@ -17,6 +17,7 @@ import {
   EllipsisHorizontalIcon,
   Cog8ToothIcon,
   LinkIcon,
+  ClockIcon,
 } from "@heroicons/react/24/solid";
 import {
   ArrowsPointingInIcon,
@@ -232,6 +233,33 @@ const Rocket = memo((props: IconProps) => (
   </svg>
 ));
 
+const ImageOff = memo((props: IconProps) => (
+  <svg
+    {...props}
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M2 2L22 22"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4 4H6L8 6H4V18H16V16L18 18V18C18 19.1 17.1 20 16 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z"
+      fill="currentColor"
+    />
+    <path
+      d="M20 6V16.8L10.2 7H12L14 5H16L18 7H20C20 4.9 19.1 4 18 4H8L6 2H18C20.2 2 22 3.8 22 6V18C22 18.8 21.7 19.5 21.2 20L20 18.8V6Z"
+      fill="currentColor"
+    />
+  </svg>
+));
+
 const Icon = {
   Example,
   Search: MagnifyingGlassIcon,
@@ -240,6 +268,8 @@ const Icon = {
   Eye: EyeIcon,
   EyeSlash: EyeSlashIcon,
   Group: Squares2X2Icon,
+  Clock: ClockIcon,
+  ImageOff,
 
   ArrowRight: ArrowRightIcon,
   ArrowLeft: ArrowLeftIcon,
