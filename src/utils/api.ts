@@ -5,6 +5,10 @@ if (!process.env.NEXT_PUBLIC_API && process.env.NODE_ENV === 'development') {
   console.warn('[API] NEXT_PUBLIC_API not set, using fallback: dipbk.fin.dabbo.net');
 }
 
+// Simple in-memory cache for GET requests
+const cache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_TTL = 60000; // 1 minute TTL
+
 const getHeaders = (token?: string) => {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -16,11 +20,24 @@ const getHeaders = (token?: string) => {
 };
 
 const get = async (endpoint: string, token?: string) => {
+  const cacheKey = `${endpoint}:${token || 'public'}`;
+  
+  // Check cache
+  const cached = cache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return cached.data;
+  }
+  
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method: 'GET',
     headers: getHeaders(token),
   });
-  return response.json();
+  const data = response.json();
+  
+  // Cache the result
+  cache.set(cacheKey, { data, timestamp: Date.now() });
+  
+  return data;
 };
 
 // Use a generic type <T> for the post and put functions to specify the data type.
