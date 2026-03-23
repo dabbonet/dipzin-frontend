@@ -1,8 +1,8 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API || 'https://dipbk.fin.dabbo.net';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API || 'https://dipbk.fin.dabbo.net/api';
 
 // Log warning if using fallback (only in development)
 if (!process.env.NEXT_PUBLIC_API && process.env.NODE_ENV === 'development') {
-  console.warn('[API] NEXT_PUBLIC_API not set, using fallback: dipbk.fin.dabbo.net');
+  console.warn('[API] NEXT_PUBLIC_API not set, using fallback: dipbk.fin.dabbo.net/api');
 }
 
 // Simple in-memory cache for GET requests
