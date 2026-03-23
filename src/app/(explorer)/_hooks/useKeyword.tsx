@@ -56,15 +56,27 @@ const useKeyword = () => {
   } = useKeywordStore();
 
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  // Track the latest request to ignore stale responses
+  const latestRequestIdRef = useRef<number>(0);
 
   const fetchResults = useCallback(
     async (keywordInput: string) => {
       if (keywordInput) {
+        // Increment request ID for this new request
+        const currentRequestId = latestRequestIdRef.current + 1;
+        latestRequestIdRef.current = currentRequestId;
+        
         try {
           const data = await searchByKeyword(keywordInput);
-          setResults(data);
+          // Only update state if this is still the latest request
+          if (currentRequestId === latestRequestIdRef.current) {
+            setResults(data);
+          }
         } catch {
-          setResults(null);
+          // Only update state if this is still the latest request
+          if (currentRequestId === latestRequestIdRef.current) {
+            setResults(null);
+          }
         }
       } else {
         setResults(null);
