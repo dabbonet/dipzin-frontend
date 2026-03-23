@@ -1,6 +1,7 @@
 "use server";
 
-import { get } from "@/utils/api";
+// Use direct fetch with fallback URL to avoid module-level errors
+const API_BASE_URL = process.env.NEXT_PUBLIC_API || 'https://dipbk.fin.dabbo.net';
 
 interface PricingPlan {
   id: string;
@@ -21,7 +22,19 @@ interface PricingResponse {
 
 export const getPricing = async (): Promise<PricingPlan[]> => {
   try {
-    const pricingReq: PricingResponse = await get('/pricing');
+    // Use direct fetch instead of the shared get() to have more control
+    const response = await fetch(`${API_BASE_URL}/pricing`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      console.warn(`[Pricing] API returned ${response.status}, using defaults`);
+      return getDefaultPricing();
+    }
+
+    const pricingReq: PricingResponse = await response.json();
 
     if (!pricingReq || !pricingReq.data) {
       console.warn('[Pricing] No pricing data available, using defaults');
@@ -49,26 +62,26 @@ export const getPricing = async (): Promise<PricingPlan[]> => {
   }
 };
 
-// Default pricing fallback
+// Default pricing fallback (matches backend defaults)
 const getDefaultPricing = (): PricingPlan[] => [
   {
     id: 'price_default_6months',
     name: '6 Months',
-    unit_amount: 1500,
+    unit_amount: 4999, // $49.99
     recurring: { interval: 'month', interval_count: 6 },
     features: ['Download in bulk', 'Select and Copy', 'Unlimited Collections', 'Unlimited Search & Filters'],
   },
   {
     id: 'price_default_1year',
     name: '1 Year',
-    unit_amount: 2500,
+    unit_amount: 8999, // $89.99
     recurring: { interval: 'year', interval_count: 1 },
     features: ['Download in bulk', 'Select and Copy', 'Unlimited Collections', 'Unlimited Search & Filters'],
   },
   {
     id: 'price_default_3years',
     name: '3 Years',
-    unit_amount: 5000,
+    unit_amount: 19999, // $199.99
     recurring: { interval: 'year', interval_count: 3 },
     features: ['Download in bulk', 'Select and Copy', 'Unlimited Collections', 'Unlimited Search & Filters'],
   },

@@ -7,7 +7,7 @@ export interface AppType {
   slug: string
   tag_line: string
   platform: string
-  icon: Icon;
+  icon?: Icon;
   categories?: Category[]
   screens?: ScreenData[]
 }

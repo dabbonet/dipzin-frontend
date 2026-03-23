@@ -24,6 +24,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/UI/dialog";
 
@@ -59,6 +60,7 @@ const ScreenContent = ({
             </Button>
           </DialogTrigger>
           <DialogContent className="size-full fixed sm:max-h-[90vh] sm:max-w-[95vw]">
+            <DialogTitle className="sr-only">Full Screen View</DialogTitle>
             <DialogClose asChild>
               <Button
                 variant="darkGray"
@@ -145,7 +147,7 @@ const ScreenOverview = ({ screenId }: ScreenOverviewProps) => {
     >
       <div className="relative w-full h-fit flex items-center justify-between">
         <ScreenAppDetails app={currentScreen.app} />
-        {currentScreen.app.platform === "web" && (
+        {currentScreen.app?.platform === "web" && (
           <WebScreenTabs
             toggleFullScreen={toggleFullScreen}
             isFullScreen={showFullScreen}

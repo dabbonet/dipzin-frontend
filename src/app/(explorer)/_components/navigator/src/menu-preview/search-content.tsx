@@ -40,27 +40,43 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
 
   // Get the icon URL - handle both object format {hash, ext} and string format
   // Also handle missing icon (KeywordResult may not have icon property)
+  // Also handle icon nested under app object (search results have app.app_icon)
   const iconUrl = React.useMemo(() => {
-    if (!selectedResult?.icon) return null;
-    if (typeof selectedResult.icon === 'string') {
-      return storage(selectedResult.icon);
+    const iconValue = selectedResult?.icon || selectedResult?.app_icon || selectedResult?.app?.app_icon;
+    if (!iconValue) return null;
+    if (typeof iconValue === 'string') {
+      return storage(iconValue);
     }
-    if (selectedResult.icon?.hash && selectedResult.icon?.ext) {
-      return storage(mergeIconFromObject(selectedResult.icon));
+    if (iconValue?.hash && iconValue?.ext) {
+      return storage(mergeIconFromObject(iconValue));
     }
     return null;
-  }, [selectedResult?.icon]);
+  }, [selectedResult?.icon, selectedResult?.app_icon, selectedResult?.app?.app_icon]);
 
   // Safe name and tagline access
-  const appName = selectedResult?.name || 'Unknown App';
-  const tagLine = selectedResult?.tag_line || '';
+  // Search results may have app details nested under app object
+  const appName = selectedResult?.name || selectedResult?.app?.name || 'Unknown App';
+  const tagLine = selectedResult?.tag_line || selectedResult?.app?.tag_line || '';
 
   // Get screens array - handle different data structures
+  // Search results from API may have a single screen object or nested screen data
   const screens = React.useMemo(() => {
-    if (!selectedResult?.screens) return [];
+    if (!selectedResult?.screens) {
+      // Check if the result itself is a screen record with a screen property
+      if (selectedResult?.screen) {
+        return [selectedResult.screen];
+      }
+      return [];
+    }
 
-    // If screens is an object with platform keys (ios, android, web)
+    // If screens is an object with screen data (single screen from search result)
     if (typeof selectedResult.screens === 'object' && !Array.isArray(selectedResult.screens)) {
+      // Check if it has the screen properties directly (hash, ext, url)
+      if (selectedResult.screens.hash && selectedResult.screens.ext) {
+        return [selectedResult.screens];
+      }
+      
+      // Check for platform keys (ios, android, web)
       const platformScreens = selectedResult.screens[resultPlatform];
       if (Array.isArray(platformScreens)) {
         return platformScreens;
@@ -86,7 +102,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
     }
 
     return [];
-  }, [selectedResult?.screens, resultPlatform]);
+  }, [selectedResult?.screens, selectedResult?.screen, resultPlatform]);
 
   return (
     <div className="space-y-0 xl:space-y-4 h-full flex flex-col">

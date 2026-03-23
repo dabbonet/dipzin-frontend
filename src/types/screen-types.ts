@@ -4,14 +4,14 @@ export interface ScreenData {
   id: number;
   is_published: boolean;
   is_showcase: boolean;
-  screen: {
+  screen?: {
     id: string;
     hash: string;
     ext: string;
     width: number;
     height: number;
   };
-  app: AppType;
+  app?: AppType;
   colors: string;
   tags: {
     id: string;

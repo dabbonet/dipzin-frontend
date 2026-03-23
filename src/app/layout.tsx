@@ -32,12 +32,10 @@ export const metadata = {
   icons: {
     icon: "/favicon.ico",
   },
-  // Note: appleWebApp.capable is deprecated in Next.js 15+ as apple-mobile-web-app-capable
-  // is no longer recommended by Apple. Using only title and statusBarStyle.
-  appleWebApp: {
-    title: "Dipzin",
-    statusBarStyle: "black-translucent",
-  },
+  // Note: appleWebApp.capable is deprecated. Apple no longer recommends
+  // apple-mobile-web-app-capable. We avoid using appleWebApp to prevent
+  // the deprecated meta tag from being generated.
+  // For PWA capabilities, use a manifest.json file instead.
   authors: [
     {
       name: "Dabbo LLC",

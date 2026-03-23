@@ -32,6 +32,23 @@ import useIsTablet from "@/hooks/useIsTablet";
 
 export const ScreenAppDetails = ({ app }: { app: ScreenType["app"] }) => {
   const { setApps } = useQuery();
+  
+  // Handle undefined app
+  if (!app) {
+    return (
+      <div className="w-full sm:w-fit h-fit flex items-center gap-3 sm:gap-4">
+        <Avatar className="size-10 xl:size-12">
+          <AvatarFallback>?</AvatarFallback>
+        </Avatar>
+        <div>
+          <h3 className="text-base xl:text-2xl font-medium leading-6 text-white sm:text-xl">
+            Unknown App
+          </h3>
+        </div>
+      </div>
+    );
+  }
+
   const handleAppClick = () => {
     setApps((prevApps) => {
       const isAppSelected = prevApps.some((selectedApp: AppType) => selectedApp.id === app.id);
@@ -47,7 +64,7 @@ export const ScreenAppDetails = ({ app }: { app: ScreenType["app"] }) => {
       <DialogClose className="w-full sm:w-fit h-fit flex items-center gap-3 sm:gap-4 text-start" onClick={handleAppClick} aria-label="select app">
         <Avatar className="size-10 xl:size-12">
           <AvatarImage
-            src={storage(mergeIconFromObject(app.icon))}
+            src={app.icon ? storage(mergeIconFromObject(app.icon)) : undefined}
             alt={app.name}
           />
           <AvatarFallback>{extractInitials(app.name)}</AvatarFallback>
@@ -98,7 +115,7 @@ export const WebScreenTabs = ({
 export const ActionButtons = ({ screen }: { screen: ScreenType }) => {
   const isMobile = useIsMobile();
   const isTablet = useIsTablet()
-  const screenUrl = storage(screen.screen.hash + screen.screen.ext);
+  const screenUrl = screen.screen ? storage(screen.screen.hash + screen.screen.ext) : '';
 
   const handleCopyLink = () => {
     const link = `${window.location.origin}/screen/${screen.id}`;

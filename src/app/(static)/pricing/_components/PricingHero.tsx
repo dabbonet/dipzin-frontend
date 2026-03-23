@@ -41,7 +41,7 @@ interface PricingHeroProps {
 }
 
 const PricingHero: React.FC<PricingHeroProps> = ({ checkoutPlans }) => {
-  // Map API pricing to display format with fallback defaults
+  // Map API pricing to display format with fallback defaults (matching backend)
   const displayPlans = checkoutPlans.length > 0 
     ? checkoutPlans.map((plan) => ({
         id: plan.id,
@@ -50,9 +50,9 @@ const PricingHero: React.FC<PricingHeroProps> = ({ checkoutPlans }) => {
         features: plan.features || DEFAULT_FEATURES,
       }))
     : [
-        { id: 'default_1', duration: '6 Months', price: 15, features: DEFAULT_FEATURES },
-        { id: 'default_2', duration: '1 Year', price: 25, features: DEFAULT_FEATURES },
-        { id: 'default_3', duration: '3 Years', price: 50, features: DEFAULT_FEATURES },
+        { id: 'default_1', duration: '6 Months', price: 49.99, features: DEFAULT_FEATURES },
+        { id: 'default_2', duration: '1 Year', price: 89.99, features: DEFAULT_FEATURES },
+        { id: 'default_3', duration: '3 Years', price: 199.99, features: DEFAULT_FEATURES },
       ];
 
   return (

@@ -19,7 +19,7 @@ const GlobalTopOverlay = ({ screen }: { screen: ScreenData }) => {
     navigator.clipboard.writeText(link);
   }
 
-  const screenUrl = storage(screen.screen.hash + screen.screen.ext);
+  const screenUrl = screen.screen ? storage(screen.screen.hash + screen.screen.ext) : '';
 
   return (
     <div className="w-full h-fit flex justify-end px-5">
@@ -80,7 +80,7 @@ const TopOverlay = ({ screen }: { screen: ScreenData }) => (
 
 // Bottom Overlay Component
 const BottomOverlay = ({ screen }: { screen: ScreenData }) => {
-  const screenUrl = storage(screen.screen.hash + screen.screen.ext);
+  const screenUrl = screen.screen ? storage(screen.screen.hash + screen.screen.ext) : '';
 
   return (
     <div

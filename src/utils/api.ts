@@ -1,7 +1,8 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API || 'https://dipbk.fin.dabbo.net';
 
-if (!API_BASE_URL) {
-  throw new Error('NEXT_PUBLIC_API environment variable is not set');
+// Log warning if using fallback (only in development)
+if (!process.env.NEXT_PUBLIC_API && process.env.NODE_ENV === 'development') {
+  console.warn('[API] NEXT_PUBLIC_API not set, using fallback: dipbk.fin.dabbo.net');
 }
 
 const getHeaders = (token?: string) => {

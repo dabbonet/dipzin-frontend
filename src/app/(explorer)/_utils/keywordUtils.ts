@@ -31,9 +31,19 @@ const getNavigatorListIcon = (item: any) => {
     case "component":
       url = "/assets/icons/components.svg";
       break;
-    default:
-      url = "/assets/icons/default-icon.svg"; // Fallback to a default icon
+    default: {
+      // Handle search results that may have icon nested under app object
+      // or directly on the item (screens from search have app.app_icon)
+      const iconValue = item.icon || item.app_icon || item.app?.app_icon;
+      if (iconValue && typeof iconValue === 'object' && iconValue.hash && iconValue.ext) {
+        url = storage(mergeIconFromObject(iconValue));
+      } else if (typeof iconValue === 'string') {
+        url = storage(iconValue);
+      } else {
+        url = "/assets/icons/default-icon.svg";
+      }
       break;
+    }
   }
   return url;
 };

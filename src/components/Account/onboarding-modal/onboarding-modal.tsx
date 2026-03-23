@@ -5,7 +5,7 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/Shared/button";
-import { Dialog, DialogContent, DialogFooter } from "@/components/UI/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogTitle } from "@/components/UI/dialog";
 import { motion } from "framer-motion";
 import useIsMobile from "@/hooks/useIsMobile";
 import MobileOnboarding from "./mobile-onboarding";
@@ -54,6 +54,7 @@ export default function OnboardingModal() {
   return (
     <Dialog modal open={showModal}>
       <DialogContent className="bg-slate-900 border-2 border-slate-800 p-10 max-w-[730px]">
+        <DialogTitle className="sr-only">Welcome to Dipzin</DialogTitle>
         <div className="flex flex-col gap-4">
           {onboardingStep && (
             <>

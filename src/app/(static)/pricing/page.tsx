@@ -13,11 +13,12 @@ export default async function PricingPage() {
   const pricingData = await getPricing();
 
   // Get the personal plan (usually the second plan, or first available)
+  // Use API defaults that match backend ($89.99 for 1 year)
   const personalPlan = pricingData.length > 0 
     ? pricingData[pricingData.length > 1 ? 1 : 0] 
     : {
-        unit_amount: 1500,
-        recurring: { interval: 'month', interval_count: 1 },
+        unit_amount: 8999, // $89.99
+        recurring: { interval: 'year', interval_count: 1 },
         id: 'default',
       };
 

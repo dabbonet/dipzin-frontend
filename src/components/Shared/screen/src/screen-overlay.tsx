@@ -65,7 +65,7 @@ const GlobalTopOverlay = ({ screen, isSelected }: { screen: ScreenData, isSelect
     }
   };
 
-  const screenUrl = storage(screen.screen.hash + screen.screen.ext);
+  const screenUrl = screen.screen ? storage(screen.screen.hash + screen.screen.ext) : '';
 
   const handleCopyLink = () => {
     const link = `${window.location.origin}/screen/${screen.id}`;
@@ -150,7 +150,7 @@ export const ScreenOverlay = ({ screen }: { screen: ScreenData }) => {
   return (
     <>
       <TopOverlay screen={screen} isSelected={selected} />
-      <BottomOverlay app={screen.app} isSelected={selected} />
+      {screen.app && <BottomOverlay app={screen.app} isSelected={selected} />}
     </>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { Dialog, DialogContent } from "@/components/UI/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/UI/dialog";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
@@ -30,6 +30,12 @@ export default function Modal({
       <DialogContent
         className={cn("flex items-center justify-center", className)}
       >
+        {/* Visually hidden title for accessibility - screen readers will announce this */}
+        <DialogTitle className="sr-only">Screen Details</DialogTitle>
+        {/* Visually hidden description for accessibility */}
+        <DialogDescription className="sr-only">
+          View screen details and navigate through app screens
+        </DialogDescription>
         {children}
       </DialogContent>
     </Dialog>

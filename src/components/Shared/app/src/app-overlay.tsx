@@ -8,7 +8,9 @@ import { storage } from '@/utils/storage'
 import type { AppType } from '../../../../types/app-types'
 import { DownloadButton } from '../../button/DownloadButton'
 import { Button } from '../../button'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/UI/dialog'
+import {
+  Dialog, DialogContent, DialogTitle, DialogTrigger,
+} from '@/components/UI/dialog'
 import MobileAppShowcase from './mobile-app-showcase'
 
 // App Info Component
@@ -29,6 +31,7 @@ const AppInfo = ({ app }: { app: AppType }) => (
         </Button>
       </DialogTrigger>
       <DialogContent className="backdrop-blur-[45px]">
+        <DialogTitle className="sr-only">App Screens</DialogTitle>
         <MobileAppShowcase app={app} />
       </DialogContent>
     </Dialog>

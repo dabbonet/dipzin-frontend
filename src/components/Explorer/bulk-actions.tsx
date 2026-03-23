@@ -19,9 +19,9 @@ const BulkActions: React.FC = () => {
   //   );
   // };
 
-  const screensUrls = selectedScreensArray.map(
-    (screen) => storage(screen.screen.hash + screen.screen.ext)
-  );
+  const screensUrls = selectedScreensArray
+    .filter((screen) => screen.screen)
+    .map((screen) => storage(screen.screen!.hash + screen.screen!.ext));
 
   const hasSelectedScreens = selectedScreensArray.length > 0;
 

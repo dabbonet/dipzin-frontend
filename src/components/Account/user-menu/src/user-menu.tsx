@@ -35,7 +35,7 @@ import {
   ArrowRightEndOnRectangleIcon,
 } from "@heroicons/react/24/solid";
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/UI/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/UI/dialog";
 import { SettingsModal } from "../../settings-modal";
 import { storage } from "@/utils/storage";
 import { useRouter } from "next/navigation";
@@ -180,6 +180,7 @@ const UserMenu = () => {
                 <Icon.Settings className="size-6 ml-4 hidden sm:flex" />
               </DialogTrigger>
               <DialogContent className="w-full max-w-screen-lg">
+                <DialogTitle className="sr-only">Settings</DialogTitle>
                 <SettingsModal />
               </DialogContent>
             </Dialog>

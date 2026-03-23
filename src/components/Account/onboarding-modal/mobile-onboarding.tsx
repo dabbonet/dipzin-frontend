@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/Shared/button";
-import { Dialog, DialogContent } from "@/components/UI/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/UI/dialog";
 import {
   Drawer,
   DrawerContent,
@@ -77,6 +77,7 @@ const MobileOnboarding: React.FC = () => {
   return (
     <Dialog open={showModal}>
       <DialogContent className="size-full bg-slate-950 flex flex-col px-4 md:px-8 lg:px-10 xl:px-16 2xl:px-[100px]">
+        <DialogTitle className="sr-only">Welcome to Dipzin</DialogTitle>
         <div className="flex gap-2 mt-4">
           {progresses.map((progress, index) => (
             // eslint-disable-next-line react/no-array-index-key

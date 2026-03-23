@@ -3,18 +3,24 @@
 import QueryString from "qs";
 import type { ScreenData } from "@/types/screen-types";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API || 'https://dipbk.fin.dabbo.net';
+
 const cleanData = (data: any): Partial<ScreenData> => {
   const cleanedData: Partial<ScreenData> = {
     id: data.id,
   };
 
-  if (data.app_full_page_screen.data) {
+  // Safely check for nested data with null checks
+  const fullPageData = data.app_full_page_screen?.data;
+  const fullScreenData = fullPageData?.full_screen?.data;
+
+  if (fullPageData && fullScreenData) {
     cleanedData.full_page = {
-      id: data.app_full_page_screen.data.id,
-      hash: data.app_full_page_screen.data.full_screen.data.hash,
-      ext: data.app_full_page_screen.data.full_screen.data.ext,
-      width: data.app_full_page_screen.data.full_screen.data.width,
-      height: data.app_full_page_screen.data.full_screen.data.height,
+      id: fullPageData.id,
+      hash: fullScreenData.hash,
+      ext: fullScreenData.ext,
+      width: fullScreenData.width,
+      height: fullScreenData.height,
     };
   }
 
@@ -37,7 +43,7 @@ export const getFullScreen = async (screenId: number): Promise<Partial<ScreenDat
     });
 
     const screenResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API}/screens/${screenId}?${screenQuery}`,
+      `${API_BASE_URL}/screens/${screenId}?${screenQuery}`,
       {
         method: "GET",
         headers: {
@@ -48,14 +54,22 @@ export const getFullScreen = async (screenId: number): Promise<Partial<ScreenDat
     );
 
     if (!screenResponse.ok) {
+      console.error(`[FullScreen] Error ${screenResponse.status} fetching screen ${screenId}`);
       throw new Error("Failed to fetch screens");
     }
 
     const screenResult = await screenResponse.json();
+    
+    if (!screenResult.data) {
+      console.warn(`[FullScreen] No data for screen ${screenId}`);
+      return { id: screenId };
+    }
+    
     const screen = cleanData(screenResult.data);
     return screen;
   } catch (err) {
     const error = err instanceof Error ? err.message : "Unexpected error occurred";
+    console.error(`[FullScreen] Error fetching screen ${screenId}:`, error);
     throw new Error(error);
   }
 };

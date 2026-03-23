@@ -18,7 +18,6 @@ export async function middleware(request: NextRequest) {
         isValid = true;
       } else if (session.user.token) {
         isValid = await validateToken(session.user.token);
-        console.log('isValid: ', JSON.stringify(isValid, null, 2));
       }
 
       if (!isValid) {
