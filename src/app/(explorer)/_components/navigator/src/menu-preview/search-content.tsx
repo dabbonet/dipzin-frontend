@@ -130,7 +130,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
           {category && (
           <div className="flex flex-col">
             <p className="text-xs xl:text-base text-slate-400">Category:</p>
-            <p className="text-xs xl:text-base text-white font-semibold capitalize">{category}</p>
+            <p className="text-xs xl:text-base text-white font-semibold capitalize">{typeof category === 'object' ? category?.name : category}</p>
           </div>
           )}
         </div>
