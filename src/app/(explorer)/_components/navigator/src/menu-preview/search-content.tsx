@@ -60,6 +60,10 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
 
   // Get screens array - handle different data structures
   // Search results from API may have a single screen object or nested screen data
+  // LIMIT to 5 screens for preview to prevent performance issues and crashes
+  // (Backend should also limit, but frontend safeguard ensures stability)
+  const MAX_PREVIEW_SCREENS = 5;
+  
   const screens = React.useMemo(() => {
     if (!selectedResult?.screens) {
       // Check if the result itself is a screen record with a screen property
@@ -79,26 +83,26 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
       // Check for platform keys (ios, android, web)
       const platformScreens = selectedResult.screens[resultPlatform];
       if (Array.isArray(platformScreens)) {
-        return platformScreens;
+        return platformScreens.slice(0, MAX_PREVIEW_SCREENS);
       }
       // Try lowercase platform key
       const lowercaseKey = resultPlatform?.toLowerCase();
       if (selectedResult.screens[lowercaseKey] && Array.isArray(selectedResult.screens[lowercaseKey])) {
-        return selectedResult.screens[lowercaseKey];
+        return selectedResult.screens[lowercaseKey].slice(0, MAX_PREVIEW_SCREENS);
       }
       // Try to find any platform key with screens
       const platformKeys = ['ios', 'android', 'web', 'IOS', 'Android', 'Web'];
       for (const key of platformKeys) {
         if (selectedResult.screens[key] && Array.isArray(selectedResult.screens[key])) {
-          return selectedResult.screens[key];
+          return selectedResult.screens[key].slice(0, MAX_PREVIEW_SCREENS);
         }
       }
       return [];
     }
 
-    // If screens is already an array
+    // If screens is already an array - limit to prevent crash
     if (Array.isArray(selectedResult.screens)) {
-      return selectedResult.screens;
+      return selectedResult.screens.slice(0, MAX_PREVIEW_SCREENS);
     }
 
     return [];
@@ -133,23 +137,28 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
       </div>
       <div className="flex overflow-x-scroll justify-around min-h-0 p-2">
         {screens.length > 0 ? (
-          screens.map((screenshot: any, index: number) => {
+          screens.map((screenshot: any) => {
             // Handle screenshot being either a string or an object with screen data
-            const screenshotUrl = typeof screenshot === 'string'
-              ? storage(screenshot)
-              : screenshot?.screen?.hash && screenshot?.screen?.ext
-                ? storage(`${screenshot.screen.hash}${screenshot.screen.ext}`)
-                : screenshot?.hash && screenshot?.ext
-                  ? storage(`${screenshot.hash}${screenshot.ext}`)
-                  : null;
+            let screenshotUrl: string | null = null;
+            
+            if (typeof screenshot === 'string') {
+              screenshotUrl = storage(screenshot);
+            } else if (screenshot?.screen?.hash && screenshot?.screen?.ext) {
+              screenshotUrl = storage(`${screenshot.screen.hash}${screenshot.screen.ext}`);
+            } else if (screenshot?.hash && screenshot?.ext) {
+              screenshotUrl = storage(`${screenshot.hash}${screenshot.ext}`);
+            }
 
             if (!screenshotUrl) return null;
+            
+            // Use screen ID as key for stable rendering, fallback to URL hash
+            const screenKey = screenshot?.id || `screen-${screenshotUrl.slice(-10)}`;
 
             return (
               <Image
-                key={`screenshot-${index}`}
+                key={screenKey}
                 src={screenshotUrl}
-                alt={`${appName} screenshot ${index + 1}`}
+                alt={`${appName} screenshot`}
                 width={200}
                 height={430}
                 className="h-full w-fit rounded-xl xl:rounded-2xl mx-1 xl:mx-2"
