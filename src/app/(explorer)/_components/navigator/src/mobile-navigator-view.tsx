@@ -44,6 +44,7 @@ const MobileNavigatorView: React.FC = () => {
   } = useAppPill({
     query,
     setApps,
+    setPlatform,
   });
 
   return (

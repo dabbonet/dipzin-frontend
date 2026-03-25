@@ -45,6 +45,7 @@ const DesktopNavigatorView: React.FC = () => {
   } = useAppPill({
     query,
     setApps,
+    setPlatform,
   });
 
   // Handle platform change - update both state and URL immediately

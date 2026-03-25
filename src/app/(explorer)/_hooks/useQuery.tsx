@@ -34,6 +34,7 @@ interface QueryStoreState {
 
 const useQueryStore = create<QueryStoreState>()(
   devtools((set) => ({
+    // DevTools only enabled in development to avoid console noise in production
     query: {
       apps: [],
       pattern: '',
@@ -113,7 +114,7 @@ const useQueryStore = create<QueryStoreState>()(
 
     // Add setSuggestions function
     setSuggestions: (suggestions: string[]) => set({ suggestions }),
-  }))
+  }), { enabled: process.env.NODE_ENV === 'development' })
 );
 
 const useQuery = () => {

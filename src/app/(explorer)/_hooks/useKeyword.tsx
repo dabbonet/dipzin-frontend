@@ -37,7 +37,7 @@ const useKeywordStore = create<KeywordStoreState>()(
       setSelectedResult: (selectedResult: any) => set({ selectedResult }),
       setSuggestedSearch: (suggestedSearch: any) => set({ suggestedSearch }),
     }),
-    { enabled: true }
+    { enabled: process.env.NODE_ENV === 'development' }
   )
 );
 

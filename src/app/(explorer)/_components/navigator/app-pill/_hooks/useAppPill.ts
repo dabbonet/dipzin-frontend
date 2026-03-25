@@ -16,9 +16,10 @@ interface AppData {
 interface UseAppPillProps {
   query: any;
   setApps: (apps: AppData[]) => void;
+  setPlatform?: (platform: string) => void;
 }
 
-const useAppPill = ({ query, setApps }: UseAppPillProps) => {
+const useAppPill = ({ query, setApps, setPlatform }: UseAppPillProps) => {
   const [allApps, setAllApps] = useState<AppData[]>([]);
   const [hiddenAppSlugs, setHiddenAppSlugs] = useState<string[]>([]);
 
@@ -103,8 +104,32 @@ const useAppPill = ({ query, setApps }: UseAppPillProps) => {
 
   const handleRemoveApp = (appSlug: string) => {
     setAllApps((prev) => prev.filter((app) => app.slug !== appSlug));
-    setApps(query.apps.filter((app: AppData) => app.slug !== appSlug));
+    const remainingApps = query.apps.filter((app: AppData) => app.slug !== appSlug);
+    setApps(remainingApps);
     setHiddenAppSlugs((prev) => prev.filter((slug) => slug !== appSlug));
+    
+    // Update platform based on remaining apps
+    if (setPlatform && remainingApps.length > 0) {
+      // Check platforms of remaining apps
+      const allPlatforms = remainingApps.flatMap((app: AppData) => normalizePlatform(app.platform));
+      const hasIos = allPlatforms.includes('ios');
+      const hasAndroid = allPlatforms.includes('android');
+      const hasWeb = allPlatforms.includes('web');
+      
+      // Determine appropriate platform
+      let newPlatform = 'web';
+      if (hasIos || hasAndroid) {
+        // If any mobile apps remain, prefer ios
+        newPlatform = hasIos ? 'ios' : 'android';
+      } else if (hasWeb) {
+        newPlatform = 'web';
+      }
+      
+      // Only update if different from current
+      if (newPlatform !== query.platform) {
+        setPlatform(newPlatform);
+      }
+    }
   };
 
   return {

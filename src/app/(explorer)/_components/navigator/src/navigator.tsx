@@ -51,8 +51,21 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
       const platformChanged = newQueryFromUrl.platform !== query.platform;
       const patternChanged = newQueryFromUrl.pattern !== query.pattern;
       const filtersChanged = JSON.stringify(newQueryFromUrl.filters) !== JSON.stringify(query.filters);
+      const appsChanged = JSON.stringify(newQueryFromUrl.apps) !== JSON.stringify(query.apps);
       
-      if (platformChanged || patternChanged || filtersChanged) {
+      if (platformChanged || patternChanged || filtersChanged || appsChanged) {
+        // Determine the change type based on what changed
+        let changeType = 'pattern';
+        if (platformChanged) {
+          changeType = 'platform';
+        } else if (appsChanged) {
+          changeType = 'apps';
+        } else if (patternChanged) {
+          changeType = 'pattern';
+        } else if (filtersChanged) {
+          changeType = 'filters';
+        }
+        
         // Update query state to match URL
         setQuery({
           ...query,
@@ -60,7 +73,7 @@ const Navigator = ({ initialQuery }: { initialQuery: any }) => {
           pattern: newQueryFromUrl.pattern,
           filters: newQueryFromUrl.filters,
           apps: newQueryFromUrl.apps,
-          change: platformChanged ? 'platform' : (patternChanged ? 'pattern' : 'filters'),
+          change: changeType,
           changed: true,
           initialized: true,
         });

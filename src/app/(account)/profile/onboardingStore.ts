@@ -46,5 +46,6 @@ export const onboardingStore = create<OnboardingState>()(
         name: "onboarding-storage",
       },
     ),
+    { enabled: process.env.NODE_ENV === 'development' },
   ),
 );

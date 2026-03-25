@@ -11,6 +11,27 @@ const Footer = ({ context }: { context?: { loading: boolean } }) => (
   context?.loading ? <Spinner className="pt-8 pb-16 flex mx-auto" /> : null
 );
 
+/**
+ * Custom Item component for VirtuosoGrid
+ * Applies different aspect ratios based on platform:
+ * - Web screens: landscape aspect ratio (16:10)
+ * - Mobile screens: portrait aspect ratio (9:16)
+ */
+const GridItem = ({ children, ...props }: any) => {
+  const { query } = useQuery();
+  
+  // Web screens are landscape, mobile screens are portrait
+  const aspectClass = query.platform === 'web'
+    ? 'aspect-[16/10]'  // Landscape for web
+    : 'aspect-[9/16]';  // Portrait for mobile
+  
+  return (
+    <div className={`size-full ${aspectClass}`} {...props}>
+      {children}
+    </div>
+  );
+};
+
 const ScreensGrid = ({ data, isLoading, loadMoreData }: any) => {
   const { pagination, query } = useQuery();
 
@@ -39,7 +60,7 @@ const ScreensGrid = ({ data, isLoading, loadMoreData }: any) => {
       itemContent={itemContentWrapper}
       listClassName={listClassName}
       style={{ height: "100dvh", width: '100%' }}
-      components={{ Footer }}
+      components={{ Footer, Item: GridItem }}
     />
   );
 };
