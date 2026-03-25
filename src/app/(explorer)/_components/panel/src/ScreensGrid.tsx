@@ -14,15 +14,16 @@ const Footer = ({ context }: { context?: { loading: boolean } }) => (
 /**
  * Custom Item component for VirtuosoGrid
  * Applies different aspect ratios based on platform:
- * - Web screens: landscape aspect ratio (16:10)
+ * - Web screens: auto height to accommodate varying landscape ratios
  * - Mobile screens: portrait aspect ratio (9:16)
  */
 const GridItem = ({ children, ...props }: any) => {
   const { query } = useQuery();
   
-  // Web screens are landscape, mobile screens are portrait
+  // Web screens vary in aspect ratio (16:9, 4:3, 21:9, etc.)
+  // Use auto for web, portrait for mobile
   const aspectClass = query.platform === 'web'
-    ? 'aspect-[16/10]'  // Landscape for web
+    ? 'aspect-[3/2]'  // Landscape ratio that works for most web screens
     : 'aspect-[9/16]';  // Portrait for mobile
   
   return (
