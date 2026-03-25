@@ -81,10 +81,8 @@ export const getInitialQueryWithSearchParams = (query: any, initialQuery: any, s
   //  || (filters.length > 0 ? 'filters' : 'pattern')
   return {
     apps,
-    // IMPORTANT: Always use URL-derived platform/pattern, not stale query state
-    // This fixes the bug where change=platform URLs showed wrong platform data
-    platform: initialQuery.platform,
-    pattern: initialQuery.pattern,
+    platform: query?.platform || initialQuery.platform,
+    pattern: query?.pattern || initialQuery.pattern,
     change: correctedChange,
     filters,
     offset: query?.offset || 0,
