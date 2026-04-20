@@ -38,11 +38,7 @@ export function useFetchData() {
         change: queryOverride.change,
         filters: correctedFilters,
         offset: queryOverride.offset, // Use pagination offset
-        limit:
-          queryOverride.pattern
-          && queryOverride.pattern.toLowerCase() === "marketing"
-            ? pagination.limit * 2.5
-            : pagination.limit, // Adjust pagination limit for marketing pattern to fix the issue with the pagination; the data returns 8 items while the limit is 20 so multiply by 2.5 to make it 20 // this only happens for marketing pattern
+        limit: pagination.limit, // Removed marketing * 2.5 hack — backend dedup in interleaveArrays now handles this correctly (Story 2.8a)
       };
       const response = await fetchDataAction(dataQuery);
       if (response.status === 500) {
