@@ -43,8 +43,8 @@ const useScreensOverview = (initialScreenId: number) => {
         });
         return result.query;
       }
-    } catch (error) {
-      console.error('Error loading more data:', error);
+    } catch (loadMoreError) {
+      console.error('Error loading more data:', loadMoreError);
     } finally {
       setIsLoadingMore(false);
     }
@@ -102,7 +102,7 @@ const useScreensOverview = (initialScreenId: number) => {
           ...(currentScreen as any),
           screen: fullScreenData.full_page,
         }));
-      } catch (error) {
+      } catch {
         setHasFullPage(false);
         setShowFullScreen(false);
       } finally {
@@ -125,10 +125,9 @@ const useScreensOverview = (initialScreenId: number) => {
     setLoading(false);
   }, []);
 
-  // Modify the useEffect to run only once on mount
   useEffect(() => {
     loadScreenData();
-  }, []);
+  }, [loadScreenData]);
 
   // Update the useEffect for handling nextScreenAfterLoad
   useEffect(() => {
@@ -156,10 +155,8 @@ const useScreensOverview = (initialScreenId: number) => {
       setCurrentScreen(nextScreen);
       window.history.replaceState(null, "", `/screen/${nextScreen.id}`);
     } else if (currentIndex === screens.length - 1 && !isLoadingMore) {
-      const newQuery = await loadMoreData();
-      if (newQuery?.data?.[0]) {
-        setNextScreenAfterLoad(newQuery.data[0]);
-      }
+      await loadMoreData();
+      setNextScreenAfterLoad({ id: -1 } as ScreenData);
     }
   }, [screens, currentScreen, resetScreenStates, loadMoreData, isLoadingMore]);
 

@@ -23,7 +23,7 @@ const ItemContent = (_: number, app: AppType) => (
  * - Handles loading more data as the user scrolls.
  */
 const AppsGrid = ({ data, isLoading, loadMoreData }: any) => {
-  const { query } = useQuery();
+  const { query, pagination } = useQuery();
   const listClassName = query.platform !== 'web'
     ? 'size-full grid content-center gap-2 md:gap-6 pt-0 grid-cols-2 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3'
     : 'size-full grid content-center gap-2 md:gap-6 pt-0 grid-cols-1 2xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2';
@@ -35,7 +35,7 @@ const AppsGrid = ({ data, isLoading, loadMoreData }: any) => {
       endReached={loadMoreData} // Trigger loadMoreData when the end is reached
       overscan={50}
       context={{ loading: isLoading }}
-      totalCount={data.length}
+      totalCount={pagination.totalRecords || data.length}
       useWindowScroll
       itemContent={ItemContent}
       listClassName={listClassName}

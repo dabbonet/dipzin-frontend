@@ -56,7 +56,7 @@ const ScreensGrid = ({ data, isLoading, loadMoreData }: any) => {
       endReached={loadMoreData}
       overscan={50}
       context={{ loading: isLoading }}
-      totalCount={pagination.totalRecords || 100}
+      totalCount={pagination.totalRecords || data.length}
       useWindowScroll
       itemContent={itemContentWrapper}
       listClassName={listClassName}

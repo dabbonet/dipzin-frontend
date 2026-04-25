@@ -48,11 +48,22 @@ export function useFetchData() {
       if (response.status === 404) {
         throw new Error("No data found");
       }
+      const dedupeById = (items: any[] = []) => {
+        const seen = new Set<string | number>();
+        return items.filter((item: any) => {
+          const id = item?.id ?? item?.documentId;
+          if (id === undefined) return true;
+          if (seen.has(id)) return false;
+          seen.add(id);
+          return true;
+        });
+      };
+
       // Update the data in store
       if (isPagination) {
-        setData([...data, ...response.data]);
+        setData(dedupeById([...(data || []), ...(response.data || [])]));
       } else {
-        setData(response.data);
+        setData(dedupeById(response.data || []));
       }
 
       // Update the pagination separately
@@ -82,7 +93,7 @@ export function useFetchData() {
         redirected: response.redirected,
       };
     },
-    [pagination, setData, setPagination, setSuggestions],
+    [data, pagination, setData, setPagination, setSuggestions],
   );
 
   return { fetchData };
