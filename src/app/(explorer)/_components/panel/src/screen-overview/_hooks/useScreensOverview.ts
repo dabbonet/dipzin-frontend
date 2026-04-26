@@ -136,7 +136,8 @@ const useScreensOverview = (initialScreenId: number) => {
       if (screen) {
         resetScreenStates();
         setCurrentScreen(screen);
-        window.history.replaceState(null, "", `/screen/${screen.id}`);
+        const searchParams = window.location.search;
+        window.history.replaceState(null, "", `/screen/${screen.id}${searchParams}`);
         setNextScreenAfterLoad(null);
       }
     }
@@ -153,7 +154,8 @@ const useScreensOverview = (initialScreenId: number) => {
       resetScreenStates();
       const nextScreen = screens[currentIndex + 1];
       setCurrentScreen(nextScreen);
-      window.history.replaceState(null, "", `/screen/${nextScreen.id}`);
+      const searchParams = window.location.search;
+      window.history.replaceState(null, "", `/screen/${nextScreen.id}${searchParams}`);
     } else if (currentIndex === screens.length - 1 && !isLoadingMore) {
       await loadMoreData();
       setNextScreenAfterLoad({ id: -1 } as ScreenData);
@@ -170,7 +172,8 @@ const useScreensOverview = (initialScreenId: number) => {
       resetScreenStates();
       const prevScreen = screens[currentIndex - 1];
       setCurrentScreen(prevScreen);
-      window.history.replaceState(null, "", `/screen/${prevScreen.id}`);
+      const searchParams = window.location.search;
+      window.history.replaceState(null, "", `/screen/${prevScreen.id}${searchParams}`);
     }
   }, [screens, currentScreen, resetScreenStates]);
 
