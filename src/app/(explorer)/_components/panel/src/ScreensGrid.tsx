@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useSearchParams } from 'next/navigation';
 import { VirtuosoGrid } from 'react-virtuoso';
 import { Spinner } from '@/components/UI/spinner';
 import { useQuery } from '@/app/(explorer)/_hooks/useQuery';
@@ -35,6 +36,11 @@ const GridItem = ({ children, ...props }: any) => {
 
 const ScreensGrid = ({ data, isLoading, loadMoreData }: any) => {
   const { pagination, query } = useQuery();
+  const searchParams = useSearchParams();
+
+  // Build href preserving current query params so dialog navigation doesn't lose filters
+  const screenHref = (id: number) =>
+    `/screen/${id}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 
   if (!data || data.length === 0) return null;
 
@@ -44,7 +50,7 @@ const ScreensGrid = ({ data, isLoading, loadMoreData }: any) => {
 
   // eslint-disable-next-line react/no-unstable-nested-components
   const ItemContent = (_: number, screen: ScreenData) => (
-    <Screen size="medium" screen={screen} href={`/screen/${screen.id}`} overlay={query.apps.length ? "global" : "default"} />
+    <Screen size="medium" screen={screen} href={screenHref(screen.id)} overlay={query.apps.length ? "global" : "default"} />
   );
 
   // Modified to pass the full data array to ItemContent
