@@ -20,6 +20,34 @@ export function useFetchData() {
     data, setData, pagination, setPagination, setSuggestions
   } = useQuery();
 
+  // Strip v4 "attributes" wrapper from search results for v5-compatible frontend
+  const cleanSearchData = (items: any[]): any[] => {
+    if (!items || items.length === 0) return items;
+    // Check if items have v4 format (attributes wrapper)
+    if (items[0] && items[0].attributes) {
+      return items.map((item: any) => ({
+        ...item,
+        ...item.attributes,
+        // Flatten nested relations (v4 wraps in data.attributes)
+        ...(item.attributes.app && item.attributes.app.data
+          ? { app: { id: item.attributes.app.data.id, ...item.attributes.app.data.attributes } }
+          : {}),
+        ...(item.attributes.tags && item.attributes.tags.data
+          ? { tags: item.attributes.tags.data.map((t: any) => ({ id: t.id, ...t.attributes })) }
+          : {}),
+        ...(item.attributes.components && item.attributes.components.data
+          ? { components: item.attributes.components.data.map((c: any) => ({ id: c.id, ...c.attributes })) }
+          : {}),
+        ...(item.attributes.collections && item.attributes.collections.data
+          ? { collections: item.attributes.collections.data.map((c: any) => ({ id: c.id, ...c.attributes })) }
+          : {}),
+        // Remove duplicate attributes
+        attributes: undefined,
+      }));
+    }
+    return items;
+  };
+
   const fetchData = useCallback(
     async (queryOverride, isPagination = false): Promise<FetchDataResult> => {
       const correctedFilters = (queryOverride.filters || []).map((filter) => {
@@ -59,11 +87,13 @@ export function useFetchData() {
         });
       };
 
-      // Update the data in store
+      // Update the data in store (search-dipzin returns 'results', not 'data')
+      const rawResults = response.results || response.data || [];
+      const searchResults = cleanSearchData(rawResults);
       if (isPagination) {
-        setData(dedupeById([...(data || []), ...(response.data || [])]));
+        setData(dedupeById([...(data || []), ...searchResults]));
       } else {
-        setData(dedupeById(response.data || []));
+        setData(dedupeById(searchResults));
       }
 
       // Update the pagination separately
