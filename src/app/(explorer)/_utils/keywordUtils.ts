@@ -34,7 +34,7 @@ const getNavigatorListIcon = (item: any) => {
     default: {
       // Handle search results that may have icon nested under app object
       // or directly on the item (screens from search have app.app_icon)
-      const iconValue = item.icon || item.app_icon || item.app?.app_icon;
+      const iconValue = item.imgSrc || item.icon || item.app_icon || item.app?.app_icon;
       if (iconValue && typeof iconValue === 'object' && iconValue.hash && iconValue.ext) {
         url = storage(mergeIconFromObject(iconValue));
       } else if (typeof iconValue === 'string') {

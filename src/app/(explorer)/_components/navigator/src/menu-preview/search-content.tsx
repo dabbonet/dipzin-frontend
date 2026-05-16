@@ -42,7 +42,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
   // Also handle missing icon (KeywordResult may not have icon property)
   // Also handle icon nested under app object (search results have app.app_icon)
   const iconUrl = React.useMemo(() => {
-    const iconValue = selectedResult?.icon || selectedResult?.app_icon || selectedResult?.app?.app_icon;
+    const iconValue = selectedResult?.imgSrc || selectedResult?.icon || selectedResult?.app_icon || selectedResult?.app?.app_icon;
     if (!iconValue) return null;
     if (typeof iconValue === 'string') {
       return storage(iconValue);
@@ -135,7 +135,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
           )}
         </div>
       </div>
-      <div className="flex overflow-x-scroll justify-around min-h-0 p-2">
+      <div className="flex overflow-x-auto items-center flex-1 min-h-0 p-2 gap-2 xl:gap-4">
         {screens.length > 0 ? (
           screens.map((screenshot: any) => {
             // Handle screenshot being either a string or an object with screen data
@@ -161,7 +161,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
                 alt={`${appName} screenshot`}
                 width={200}
                 height={430}
-                className="h-full w-fit rounded-xl xl:rounded-2xl mx-1 xl:mx-2"
+                className="h-full max-h-full w-auto object-contain rounded-xl xl:rounded-2xl"
               />
             );
           })

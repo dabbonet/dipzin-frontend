@@ -41,7 +41,7 @@ const useKeywordStore = create<KeywordStoreState>()(
   )
 );
 
-const DEBOUNCE_DELAY = 300;
+const DEBOUNCE_DELAY = 150;
 
 const useKeyword = () => {
   const {
