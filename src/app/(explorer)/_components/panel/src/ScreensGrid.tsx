@@ -15,17 +15,16 @@ const Footer = ({ context }: { context?: { loading: boolean } }) => (
 /**
  * Custom Item component for VirtuosoGrid
  * Applies different aspect ratios based on platform:
- * - Web screens: auto height to accommodate varying landscape ratios
+ * - Web screens: landscape ratio with min-height to fill consistently
  * - Mobile screens: portrait aspect ratio (9:16)
  */
 const GridItem = ({ children, ...props }: any) => {
   const { query } = useQuery();
   
-  // Web screens vary in aspect ratio (16:9, 4:3, 21:9, etc.)
-  // Use auto for web, portrait for mobile
+  // Web screens: use aspect-[16/10] and ensure consistent card height
   const aspectClass = query.platform === 'web'
-    ? 'aspect-[3/2]'  // Landscape ratio that works for most web screens
-    : 'aspect-[9/16]';  // Portrait for mobile
+    ? 'aspect-[16/10]'
+    : 'aspect-[9/16]';
   
   return (
     <div className={`size-full ${aspectClass}`} {...props}>
@@ -45,8 +44,8 @@ const ScreensGrid = ({ data, isLoading, loadMoreData }: any) => {
   if (!data || data.length === 0) return null;
 
   const listClassName = query.platform !== 'web'
-    ? 'size-full grid content-center gap-2 md:gap-6 pt-0 grid-cols-2 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3'
-    : 'size-full grid content-center gap-2 md:gap-6 pt-0 grid-cols-1 2xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2';
+    ? 'size-full grid content-start gap-2 md:gap-6 pt-0 grid-cols-2 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3'
+    : 'size-full grid content-start gap-2 md:gap-6 pt-0 grid-cols-1 2xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2';
 
   // eslint-disable-next-line react/no-unstable-nested-components
   const ItemContent = (_: number, screen: ScreenData) => (
