@@ -16,9 +16,9 @@ export const NavigatorMenu: React.FC<NavigatorMenuProps> = ({ isMenuOpen, handle
     key="menu"
     transition={{ duration: 0.3, ease: "easeIn" }}
     className="contain-layout bg-transparent flex gap-4 text-white overflow-hidden"
-    style={{ height: isMenuOpen ? '80vh' : 0 }}
+    style={{ height: isMenuOpen ? '45vh' : 0 }}
     initial={{ height: 0 }}
-    animate={{ height: isMenuOpen ? '80vh' : 0 }}
+    animate={{ height: isMenuOpen ? '45vh' : 0 }}
     exit={{ height: 0 }}
   >
     <div className="w-2/5 2xl:w-[30%] rounded-2xl xl:rounded-[30px] p-1 xl:p-2 flex flex-col gap-4 bg-[#1A2333] overflow-y-scroll scrollbar-hide">

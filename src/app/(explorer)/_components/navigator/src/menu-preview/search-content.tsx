@@ -45,6 +45,8 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
     const iconValue = selectedResult?.imgSrc || selectedResult?.icon || selectedResult?.app_icon || selectedResult?.app?.app_icon;
     if (!iconValue) return null;
     if (typeof iconValue === 'string') {
+      // Don't prepend storage URL if it's already a full URL
+      if (iconValue.startsWith('http')) return iconValue;
       return storage(iconValue);
     }
     if (iconValue?.hash && iconValue?.ext) {
@@ -64,45 +66,56 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
   // (Backend should also limit, but frontend safeguard ensures stability)
   const MAX_PREVIEW_SCREENS = 5;
   
+  // Normalize previewScreens (from Typesense) into screens format
+  const normalizedResult = React.useMemo(() => {
+    if (!selectedResult) return null;
+    if (selectedResult.screens) return selectedResult;
+    if (!selectedResult.previewScreens) return selectedResult;
+    // Parse JSON strings from Typesense index
+    const parsed = Array.isArray(selectedResult.previewScreens)
+      ? selectedResult.previewScreens.map(s => typeof s === 'string' ? JSON.parse(s) : s)
+      : selectedResult.previewScreens;
+    return { ...selectedResult, screens: parsed };
+  }, [selectedResult]);
+
   const screens = React.useMemo(() => {
-    if (!selectedResult?.screens) {
+    if (!normalizedResult?.screens) {
       // Check if the result itself is a screen record with a screen property
-      if (selectedResult?.screen) {
-        return [selectedResult.screen];
+      if (normalizedResult?.screen) {
+        return [normalizedResult.screen];
       }
       return [];
     }
 
-    // If screens is an object with screen data (single screen from search result)
-    if (typeof selectedResult.screens === 'object' && !Array.isArray(selectedResult.screens)) {
+    if (typeof normalizedResult.screens === 'object' && !Array.isArray(normalizedResult.screens)) {
       // Check if it has the screen properties directly (hash, ext, url)
-      if (selectedResult.screens.hash && selectedResult.screens.ext) {
-        return [selectedResult.screens];
+      if (normalizedResult.screens.hash && normalizedResult.screens.ext) {
+        return [normalizedResult.screens];
       }
       
       // Check for platform keys (ios, android, web)
-      const platformScreens = selectedResult.screens[resultPlatform];
+      const platformScreens = normalizedResult.screens[resultPlatform];
       if (Array.isArray(platformScreens)) {
         return platformScreens.slice(0, MAX_PREVIEW_SCREENS);
       }
       // Try lowercase platform key
       const lowercaseKey = resultPlatform?.toLowerCase();
-      if (selectedResult.screens[lowercaseKey] && Array.isArray(selectedResult.screens[lowercaseKey])) {
-        return selectedResult.screens[lowercaseKey].slice(0, MAX_PREVIEW_SCREENS);
+      if (normalizedResult.screens[lowercaseKey] && Array.isArray(normalizedResult.screens[lowercaseKey])) {
+        return normalizedResult.screens[lowercaseKey].slice(0, MAX_PREVIEW_SCREENS);
       }
       // Try to find any platform key with screens
       const platformKeys = ['ios', 'android', 'web', 'IOS', 'Android', 'Web'];
       for (const key of platformKeys) {
-        if (selectedResult.screens[key] && Array.isArray(selectedResult.screens[key])) {
-          return selectedResult.screens[key].slice(0, MAX_PREVIEW_SCREENS);
+        if (normalizedResult.screens[key] && Array.isArray(normalizedResult.screens[key])) {
+          return normalizedResult.screens[key].slice(0, MAX_PREVIEW_SCREENS);
         }
       }
       return [];
     }
 
     // If screens is already an array - limit to prevent crash
-    if (Array.isArray(selectedResult.screens)) {
-      return selectedResult.screens.slice(0, MAX_PREVIEW_SCREENS);
+    if (Array.isArray(normalizedResult.screens)) {
+      return normalizedResult.screens.slice(0, MAX_PREVIEW_SCREENS);
     }
 
     return [];
