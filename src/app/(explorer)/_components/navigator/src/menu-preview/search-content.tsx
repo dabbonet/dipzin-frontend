@@ -119,7 +119,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
     }
 
     return [];
-  }, [selectedResult?.screens, selectedResult?.screen, resultPlatform]);
+  }, [normalizedResult, normalizedResult?.screens, normalizedResult?.screen, resultPlatform]);
 
   return (
     <div className="space-y-0 xl:space-y-4 h-full flex flex-col">
