@@ -116,11 +116,13 @@ const FlowItem = ({ name, onClick }: FlowItemType & { onClick: () => void }) => 
 
 type NavigatorMenuInitialContentProps = {
   data: {
-    apps: AppItemType[];
-    flows: FlowItemType[];
-    tags: { name: string }[];
-    components: { name: string }[];
-  };
+    apps?: AppItemType[];
+    flows?: FlowItemType[];
+    flowActions?: FlowItemType[];
+    tags?: { name: string }[];
+    components?: { name: string }[];
+    [key: string]: any;
+  } | null;
   handleUpdate: (pattern: string, value: string) => void;
 };
 
@@ -147,11 +149,11 @@ export const NavigatorMenuInitialContent = ({ data: initialData, handleUpdate }:
       <div className="space-y-3">
         <SectionTitle>Most Viewed Apps</SectionTitle>
         <div className="-mx-2 flex items-stretch gap-3 overflow-x-auto px-2 py-2 scrollbar-hide">
-          {initialData.apps?.map((app: any) => (
+          {(initialData.apps || []).map((app: any) => (
             <AppItem
               name={app.name}
               imgSrc={app.imgSrc}
-              icon={app.icon}
+              icon={app.icon || app.icon_url}
               key={app.name}
               onClick={() => handleAppClick(app.name)}
             />
@@ -161,7 +163,7 @@ export const NavigatorMenuInitialContent = ({ data: initialData, handleUpdate }:
       <div className="space-y-3">
         <SectionTitle>Suggested Flows</SectionTitle>
         <div className="-mx-2 flex items-stretch gap-3 overflow-x-auto px-2 py-2 scrollbar-hide">
-          {initialData.flows?.map((item) => (
+          {(initialData.flowActions || initialData.flows || []).map((item: any) => (
             <FlowItem
               name={item.name}
               key={item.name}
