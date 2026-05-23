@@ -38,22 +38,35 @@ const SearchContent: React.FC<SearchContentProps> = ({ selectedResult }) => {
     return platform;
   })();
 
+  // Icon mapping for non-app types
+  const typeIconMap: Record<string, string> = {
+    tag: '/assets/icons/screens.svg',
+    component: '/assets/icons/components.svg',
+    flowAction: '/assets/icons/flows.svg',
+    category: '/assets/icons/app-categories.svg',
+    marketing: '/assets/icons/marketing-pages.svg',
+  };
+
   // Get the icon URL - handle both object format {hash, ext} and string format
   // Also handle missing icon (KeywordResult may not have icon property)
   // Also handle icon nested under app object (search results have app.app_icon)
   const iconUrl = React.useMemo(() => {
-    const iconValue = selectedResult?.imgSrc || selectedResult?.icon || selectedResult?.app_icon || selectedResult?.app?.app_icon;
+    // For non-app types, use the static type icon
+    if (selectedResult?.type && selectedResult.type !== 'app') {
+      return typeIconMap[selectedResult.type] || null;
+    }
+    const iconValue = selectedResult?.icon || selectedResult?.icon_url || selectedResult?.app_icon || selectedResult?.app?.app_icon;
     if (!iconValue) return null;
     if (typeof iconValue === 'string') {
-      // Don't prepend storage URL if it's already a full URL
-      if (iconValue.startsWith('http')) return iconValue;
+      // Don't prepend storage URL if it's already a full URL or static asset
+      if (iconValue.startsWith('http') || iconValue.startsWith('/assets/')) return iconValue;
       return storage(iconValue);
     }
     if (iconValue?.hash && iconValue?.ext) {
       return storage(mergeIconFromObject(iconValue));
     }
     return null;
-  }, [selectedResult?.icon, selectedResult?.app_icon, selectedResult?.app?.app_icon]);
+  }, [selectedResult?.type, selectedResult?.icon, selectedResult?.icon_url, selectedResult?.app_icon, selectedResult?.app?.app_icon]);
 
   // Safe name and tagline access
   // Search results may have app details nested under app object

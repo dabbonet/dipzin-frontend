@@ -6,10 +6,11 @@ const getNavigatorListIcon = (item: any) => {
   switch (item.type) {
     case "app": {
       // Handle icon being either an object {hash, ext} or a string
-      const iconValue = item.icon;
+      // Typesense stores as app_icon, Strapi direct as icon
+      const iconValue = item.icon || item.app_icon || item.icon_url;
       if (iconValue && typeof iconValue === 'object' && iconValue.hash && iconValue.ext) {
         url = storage(mergeIconFromObject(iconValue));
-      } else if (typeof iconValue === 'string') {
+      } else if (typeof iconValue === 'string' && iconValue.length > 0) {
         url = storage(iconValue);
       } else {
         url = "/assets/icons/default-icon.svg";
