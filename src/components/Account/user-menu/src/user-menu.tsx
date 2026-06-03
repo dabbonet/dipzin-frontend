@@ -3,18 +3,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/Shared/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/Shared/avatar";
 import { Button } from "@/components/Shared/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/UI/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/UI/tooltip";
 
 import { Pill } from "@/components/Shared/pill";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -41,7 +32,6 @@ import { storage } from "@/utils/storage";
 import { useRouter } from "next/navigation";
 
 const navigationItems = [
-  { label: "Pricing", href: "/pricing" },
   { label: "Collections", href: "#", comingSoon: true },
   { label: "Blog", href: "#", comingSoon: true },
   { label: "Apps", href: "apps" },
@@ -106,16 +96,14 @@ const soonItems = [
 
 const UserMenu = () => {
   const { data, status } = useSession();
-  const user = data?.user
+  const user = data?.user;
   const isMobile = useIsMobile();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
   const router = useRouter();
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    WheelGesturesPlugin(),
-  ]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [WheelGesturesPlugin()]);
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -133,7 +121,7 @@ const UserMenu = () => {
     };
   }, [emblaApi, onSelect]);
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return null;
   }
 
@@ -160,22 +148,15 @@ const UserMenu = () => {
               <DialogTrigger className="flex items-center gap-2 rounded-full hover:bg-slate-900 py-2 px-2.5">
                 <Avatar>
                   <AvatarImage
-                    src={storage(
-                      (user.avatar?.hash ?? "") + (user.avatar?.ext ?? ""),
-                    )}
+                    src={storage((user.avatar?.hash ?? "") + (user.avatar?.ext ?? ""))}
                     alt={user.name || "Avatar"}
                   />
-                  <AvatarFallback>
-                    {extractInitials(user.name || "User")}
-                  </AvatarFallback>
+                  <AvatarFallback>{extractInitials(user.name || "User")}</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col items-start">
                   <p className="font-medium">{user.name}</p>
                   <p className="text-sm text-gray-500 hidden sm:flex">{user?.email}</p>
-                  <p className="text-sm text-slate-400 flex sm:hidden">
-                    @
-                    {user?.username}
-                  </p>
+                  <p className="text-sm text-slate-400 flex sm:hidden">@{user?.username}</p>
                 </div>
                 <Icon.Settings className="size-6 ml-4 hidden sm:flex" />
               </DialogTrigger>
@@ -203,7 +184,7 @@ const UserMenu = () => {
           <div
             className={`grid ${isMobile ? "grid-cols-1" : "grid-cols-2"} gap-2 p-2 max-w-max md:max-w-[70%]`}
           >
-            {navigationItems.map((item) => {
+            {navigationItems.map(item => {
               if (item.comingSoon) {
                 return (
                   <TooltipProvider delayDuration={200} key={item.label}>
@@ -235,10 +216,10 @@ const UserMenu = () => {
         <CommandGroup>
           <div className="hidden sm:flex max-w-fit md:max-w-sm" ref={emblaRef}>
             <div className="flex">
-              {[0, 1, 2].map((page) => (
+              {[0, 1, 2].map(page => (
                 <div key={page} className="mx-1 flex-[0_0_100%]">
                   <div className="grid grid-cols-2 gap-3">
-                    {soonItems.slice(page * 4, (page + 1) * 4).map((item) => (
+                    {soonItems.slice(page * 4, (page + 1) * 4).map(item => (
                       <div
                         key={item.heading}
                         className="w-full h-[135px] bg-slate-800 hover:bg-slate-900 rounded-2xl p-4 flex flex-col gap-1 items-start justify-between text-start"
@@ -319,15 +300,11 @@ const UserMenu = () => {
 
   return (
     <div className="flex items-center justify-center gap-4">
-      <Button href="/pricing" className="rounded-xl">
-        Join Us
-      </Button>
       <Dropdown
         classNames={{
           trigger:
-          "bg-[#1A2333] hover:bg-slate-900 border-[1px] border-slate-900 rounded-full flex items-center gap-x-2 p-1 pr-2",
-          content:
-          "w-fit h-fit bg-[#1A2333] border-[1px] border-slate-900 rounded-2xl p-0 sm:p-4",
+            "bg-[#1A2333] hover:bg-slate-900 border-[1px] border-slate-900 rounded-full flex items-center gap-x-2 p-1 pr-2",
+          content: "w-fit h-fit bg-[#1A2333] border-[1px] border-slate-900 rounded-2xl p-0 sm:p-4",
         }}
         trigger={triggerButton}
         content={menuContent}

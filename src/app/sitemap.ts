@@ -63,12 +63,13 @@ const changeFrequency = "weekly" as const;
 
 function platformRoutes(baseUrl: string, path: string, priority: number) {
   return platforms.map(
-    (platform) => ({
-      url: `${baseUrl}/${platform}/${path}`,
-      lastModified: new Date(),
-      changeFrequency: "daily" as const,
-      priority,
-    }) as const,
+    platform =>
+      ({
+        url: `${baseUrl}/${platform}/${path}`,
+        lastModified: new Date(),
+        changeFrequency: "daily" as const,
+        priority,
+      }) as const
   );
 }
 
@@ -77,34 +78,33 @@ function entityRoutes<T>(
   baseUrl: string,
   getPath: string,
   getParam: (item: T) => string,
-  getItemPlatforms: (item: T) => readonly string[] = () => platforms,
+  getItemPlatforms: (item: T) => readonly string[] = () => platforms
 ) {
-  return items.flatMap(
-    (item) => getItemPlatforms(item).map(
-      (platform) => ({
-        url: `${baseUrl}/${platform}/${getPath}?${getParam(item)}`,
-        lastModified: new Date(),
-        changeFrequency,
-        priority: 0.8,
-      }),
-    ),
+  return items.flatMap(item =>
+    getItemPlatforms(item).map(platform => ({
+      url: `${baseUrl}/${platform}/${getPath}?${getParam(item)}`,
+      lastModified: new Date(),
+      changeFrequency,
+      priority: 0.8,
+    }))
   );
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.BASE_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "https://dipfe.fin.dabbo.net";
+  const baseUrl =
+    process.env.BASE_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "https://dipfe.fin.dabbo.net";
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}/`, lastModified: new Date(), changeFrequency: "daily" as const, priority: 1
+      url: `${baseUrl}/`,
+      lastModified: new Date(),
+      changeFrequency: "daily" as const,
+      priority: 1,
     },
     ...platformRoutes(baseUrl, "screens", 0.9),
     ...platformRoutes(baseUrl, "apps", 0.9),
     ...platformRoutes(baseUrl, "components", 0.9),
     ...platformRoutes(baseUrl, "flows", 0.9),
-    {
-      url: `${baseUrl}/pricing`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.5
-    },
   ];
 
   const [apps, categories, tags, components, flowActions] = await Promise.all([
@@ -119,36 +119,38 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     apps,
     baseUrl,
     "screens",
-    (app) => `apps=${encodeURIComponent(app.slug)}`,
+    app => `apps=${encodeURIComponent(app.slug)}`
   );
 
   const categoryRoutes = entityRoutes(
     categories,
     baseUrl,
     "screens",
-    (category) => `categories=${encodeURIComponent(category.name)}`,
+    category => `categories=${encodeURIComponent(category.name)}`
   );
 
   const tagRoutes = entityRoutes(
     tags,
     baseUrl,
     "screens",
-    (tag) => `tags=${encodeURIComponent(tag.name)}`,
-    (tag) => tag.types?.data?.map((t) => (t.name === "mobile" ? ["ios", "android"] : [t.name])).flat() ?? platforms,
+    tag => `tags=${encodeURIComponent(tag.name)}`,
+    tag =>
+      tag.types?.data?.map(t => (t.name === "mobile" ? ["ios", "android"] : [t.name])).flat() ??
+      platforms
   );
 
   const componentRoutes = entityRoutes(
     components,
     baseUrl,
     "components",
-    (component) => `components=${encodeURIComponent(component.name)}`,
+    component => `components=${encodeURIComponent(component.name)}`
   );
 
   const flowActionRoutes = entityRoutes(
     flowActions,
     baseUrl,
     "flows",
-    (flowAction) => `flows=${encodeURIComponent(flowAction.name)}`,
+    flowAction => `flows=${encodeURIComponent(flowAction.name)}`
   );
 
   return [

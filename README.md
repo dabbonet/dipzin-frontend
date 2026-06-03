@@ -1,194 +1,221 @@
-# Dipzin V1.0.0
+<div align="center">
 
-🚀 Boilerplate and Starter for Next.js with App Router support, Tailwind CSS, and TypeScript ⚡️ Prioritizing developer experience first: Next.js, TypeScript, ESLint, Prettier, Husky, Lint-Staged, Jest (replaced by Vitest), Testing Library, Commitlint, VSCode, PostCSS, Tailwind CSS, Authentication with [Clerk](https://clerk.com?utm_source=github&utm_medium=sponsorship&utm_campaign=nextjs-boilerplate), Database with DrizzleORM (PostgreSQL, SQLite, and MySQL), Error Monitoring with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo), Logging with Pino.js and Log Management, Monitoring as Code, Storybook, Multi-language (i18n), and more. Ready for Next.js 15.
+# Dipzin
 
+**A curated collection of design works meant to inspire.**
 
+[dipzin.com](https://dipzin.com) · [Issues](https://github.com/dabbonet/dipzin-frontend/issues)
+
+</div>
+
+---
+
+Dipzin is a design inspiration platform for product designers and design teams. It collects and curates real-world app screenshots, UI components, marketing screens, and user flows from popular iOS, Android, and web applications so you can find visual references without manually digging through dozens of apps.
+
+Browse by platform (`iOS`, `Android`, `Web`) and by pattern (`Apps`, `Components`, `Marketing`, `Flows`, `Screens`), search the full library, save what you like to collections, and export everything you need in one click.
+
+---
+
+## ✨ Features
+
+- 🔎 **Curated library** — Screenshots and flows hand-picked from popular mobile and web apps.
+- 📱 **Platform-aware browsing** — Filter inspiration by `iOS`, `Android`, or `Web`.
+- 🧩 **Pattern filters** — Drill down into `Apps`, `Components`, `Marketing`, `Flows`, or `Screens`.
+- 🔍 **Search** — Full-text search across apps, components, marketing, flows, and screens.
+- 📚 **Collections** — Save references into personal collections to keep your boards organized.
+- 📦 **Bulk download** — Select multiple screens and download or copy them in one go.
+- 👤 **Account & profiles** — Personalize your library and access your collections from any device.
+- 🌍 **Internationalization** — Multi-language UI via `next-intl` and Crowdin.
+- 🎨 **Built on a modern Next.js stack** — App Router, Server Components, parallel routes, and intercepting routes for instant modals.
+
+---
+
+## 🧱 Tech Stack
+
+| Layer              | Tech                                                                                        |
+| ------------------ | ------------------------------------------------------------------------------------------- |
+| Framework          | [Next.js 14](https://nextjs.org/) (App Router)                                              |
+| Language           | TypeScript                                                                                  |
+| UI                 | [Tailwind CSS](https://tailwindcss.com/) + [Radix UI](https://www.radix-ui.com/) primitives |
+| Icons              | [Heroicons](https://heroicons.com/)                                                         |
+| Auth               | [NextAuth.js](https://authjs.dev/)                                                          |
+| Forms & Validation | React Hook Form + Zod                                                                       |
+| i18n               | [next-intl](https://next-intl-docs.vercel.app/) + [Crowdin](https://crowdin.com/)           |
+| Testing            | [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/)       |
+| E2E                | [Playwright](https://playwright.dev/)                                                       |
+| Linting            | ESLint · Prettier · Husky · lint-staged · Commitlint                                        |
+| CI / Quality       | GitHub Actions · Sentry · Codecov · Checkly                                                 |
+
+This project is built on top of the [Next.js Boilerplate](https://github.com/ixartz/Next-js-Boilerplate) starter by [@ixartz](https://github.com/ixartz), then significantly customized to power Dipzin.
+
+---
+
+## 🚀 Getting Started
 
 ### Requirements
 
-- Node.js 20+ and npm
+- **Node.js 20+**
+- **npm**, **pnpm**, or **yarn**
 
-### Getting started
+### Install
 
-Run the following command on your local environment:
-
-```shell
-git clone --depth=1 https://github.com/dabbonet/dipzin-frontend.git dipzin-frontend
+```bash
+git clone https://github.com/dabbonet/dipzin-frontend.git
 cd dipzin-frontend
 npm install
 ```
 
-### Install VSCode Plugins:
-------------------------------------------------
-Name: Code Spell Checker - https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
+### Configure environment
 
-Name: Prettier - Code formatter - https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+Create a `.env.local` file at the project root with the variables your local setup needs. The most important ones are:
 
-Then, you can run the project locally in development mode with live reload by executing:
+```env
+# Public API the frontend talks to
+NEXT_PUBLIC_API=https://your-api.example.com
 
-```shell
+# Auth (NextAuth)
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=***
+
+# Optional
+SENTRY_DSN=
+```
+
+> The full env schema lives in `.env.example` (if present) or in the deployment config used by your hosting provider.
+
+### Run the dev server
+
+```bash
 npm run dev
 ```
 
-Open http://localhost:3000/en with your favorite browser to see your project.
+Open <http://localhost:3000> in your browser.
 
+---
 
-### Translation (i18n) setup
+## 🗂️ Project Structure
 
-For translation, the project uses `next-intl` combined with [Crowdin](https://l.crowdin.com/next-js). As a developer, you only need to take care of the English (or another default language) version. Other languages are automatically generated and handled by Crowdin. You can use Crowdin to collaborate with your translation team or translate the messages yourself with the help of machine translation.
-
-To set up translation (i18n), create an account at [Crowdin.com](https://l.crowdin.com/next-js) and create a new project. In the newly created project, you will able to find the project ID. You'll also require to create a new Personal Access Tokens by going to Account Settings > API. Then, in your GitHub Actions, you need to define the following environment variables `CROWDIN_PROJECT_ID` and `CROWDIN_PERSONAL_TOKEN`.
-
-After defining the environment variables in your GitHub Actions, your localization files will be synchronized with Crowdin everytime you push a new commit to the `main` branch.
-
-
-
-### Project structure
-
-```shell
+```
 .
-├── README.md                       # README file
-├── .github                         # GitHub folder
-├── .husky                          # Husky configuration
-├── .storybook                      # Storybook folder
-├── .vscode                         # VSCode configuration
-├── migrations                      # Database migrations
-├── public                          # Public assets folder
-├── scripts                         # Scripts folder
-├── src
-│   ├── app                         # Next JS App (App Router)
-│   ├── components                  # React components
-│   ├── libs                        # 3rd party libraries configuration
-│   ├── locales                     # Locales folder (i18n messages)
-│   ├── models                      # Database models
-│   ├── styles                      # Styles folder
-│   ├── templates                   # Templates folder
-│   ├── types                       # Type definitions
-│   ├── utils                       # Utilities folder
-│   └── validations                 # Validation schemas
-├── tests
-│   ├── e2e                         # E2E tests, also includes Monitoring as Code
-│   └── integration                 # Integration tests
-├── tailwind.config.js              # Tailwind CSS configuration
-└── tsconfig.json                   # TypeScript configuration
+├── public/                  # Static assets (icons, illustrations, OG images)
+├── src/
+│   ├── app/                 # Next.js App Router
+│   │   ├── (explorer)/      # Browse / search / screen & flow detail routes
+│   │   ├── (account)/       # Profile, access, OTP login
+│   │   ├── (static)/        # Marketing pages (legal, etc.)
+│   │   ├── api/             # Route handlers
+│   │   ├── layout.tsx       # Root layout
+│   │   ├── sitemap.ts       # Dynamic sitemap
+│   │   └── robots.ts        # Robots policy
+│   ├── components/          # Shared & feature components
+│   │   ├── Account/
+│   │   ├── Collection/
+│   │   ├── Explorer/        # Browse, search, bulk actions
+│   │   ├── Shared/          # Generic UI primitives
+│   │   ├── Static/          # Marketing-page components
+│   │   └── UI/              # Tailwind/Radix-styled primitives
+│   ├── hooks/               # Reusable React hooks
+│   ├── stores/              # Zustand stores
+│   ├── styles/              # Global styles & Tailwind entry
+│   ├── utils/               # Helpers (API client, storage, search utils, …)
+│   ├── lib/                 # Third-party integrations (analytics, auth client, …)
+│   └── validations/         # Zod schemas
+├── tests/
+│   └── e2e/                 # Playwright E2E tests
+├── tailwind.config.ts
+├── next.config.mjs
+└── tsconfig.json
 ```
 
+---
 
-### Commit Message Format
+## 🧪 Available Scripts
 
-The project enforces [Conventional Commits](https://www.conventionalcommits.org/) specification. This means that all your commit messages must be formatted according to the specification. To help you write commit messages, the project uses [Commitizen](https://github.com/commitizen/cz-cli), an interactive CLI that guides you through the commit process. To use it, run the following command:
+| Command               | What it does                                            |
+| --------------------- | ------------------------------------------------------- |
+| `npm run dev`         | Run the app in development mode with live reload        |
+| `npm run build`       | Build the production bundle                             |
+| `npm run start`       | Start the production server                             |
+| `npm run lint`        | Lint the codebase                                       |
+| `npm run format`      | Auto-fix lint issues                                    |
+| `npm run check-types` | TypeScript type-check the project                       |
+| `npm run test`        | Run unit tests (Vitest)                                 |
+| `npm run test:e2e`    | Run end-to-end tests (Playwright)                       |
+| `npm run build-stats` | Build with the bundle analyzer enabled                  |
+| `npm run storybook`   | Launch Storybook for component development              |
+| `npm run commit`      | Interactive CLI to write a Conventional Commits message |
 
-```shell
-npm run commit
-```
+---
 
-One of the benefits of using Conventional Commits is that it allows us to automatically generate a `CHANGELOG` file. It also allows us to automatically determine the next version number based on the types of commits that are included in a release.
+## 🌍 Internationalization
 
-### Testing
+Localization is powered by [`next-intl`](https://next-intl-docs.vercel.app/) and synchronized through [Crowdin](https://crowdin.com/). As a developer you only need to keep the default-language messages up to date — translations are pushed and pulled automatically through Crowdin.
 
-All unit tests are located with the source code inside the same directory. So, it makes it easier to find them. The project uses Vitest and React Testing Library for unit testing. You can run the tests with:
+To enable the sync in CI, set the following secrets on your GitHub repository:
 
-```shell
-npm run test
-```
+- `CROWDIN_PROJECT_ID`
+- `CROWDIN_PERSONAL_TOKEN`
 
-### Integration & E2E Testing
+See [`crowdin.yml`](./crowdin.yml) for the file mapping.
 
-The project uses Playwright for Integration and E2E testing. You can run the tests with:
+---
 
-```shell
-npx playwright install # Only for the first time in a new environment
-npm run test:e2e
-```
+## 🧭 Code Style
 
-### Enable Edge runtime (optional)
+- **TypeScript** everywhere — keep `npm run check-types` green.
+- **ESLint + Prettier** — Husky and lint-staged run them automatically on commit.
+- **Conventional Commits** — enforced by Commitlint. Use `npm run commit` for an interactive prompt, or write messages like `feat: add bulk copy-to-clipboard`.
 
-The App Router folder is compatible with the Edge runtime. You can enable it by adding the following lines `src/app/layouts.tsx`:
+Commit messages drive the auto-generated [`CHANGELOG.md`](./CHANGELOG.md).
 
-```tsx
-export const runtime = 'edge';
-```
+---
 
-For your information, the database migration is not compatible with the Edge runtime. So, you need to disable the automatic migration in `src/libs/DB.ts`:
+## 🧱 Architecture Notes
 
-```tsx
-await migrate(db, { migrationsFolder: './migrations' });
-```
+A few choices worth knowing if you're hacking on this repo:
 
-After disabling it, you are required to run the migration manually with:
+- **Parallel + intercepting routes.** Screen and flow detail pages live under `app/(explorer)/@modal` and `app/(explorer)/@modal/(.)…`, so deep-linking a screen also renders it as a modal over the explorer.
+- **URL as state.** Filters, the active app, and the explorer context are all kept in sync with the URL (`useQuery`, `updateStateAndUrl`, `updateUrlPart`) — shareable links Just Work.
+- **Bulk actions.** The `useBulkActionStore` Zustand store holds the current multi-select so the action bar can appear on any panel.
+- **Strapi-backed data.** The frontend reads from a separate headless CMS API (`NEXT_PUBLIC_API`). Schema and content live in a sister repo, not here.
 
-```shell
-npm run db:migrate
-```
+---
 
-You also require to run the command each time you want to update the database schema.
+## 🚢 Deployment
 
-### Deploy to production
+Any Next.js-friendly host works. The reference setup is:
 
-During the build process, the database migration is automatically executed. So, you don't need to run the migration manually. But, in your environment variable, `DATABASE_URL` need to be defined.
+1. Set the env vars from [Configure environment](#configure-environment) in your hosting provider.
+2. Run `npm run build` (the platform does this for you on most hosts).
+3. Point the public domain at the generated build.
+4. Make sure `NEXTAUTH_URL` and `SENTRY_DSN` (if used) are set to the production values.
 
-Then, you can generate a production build with:
+Recommended platforms: Vercel, AWS Amplify, or any container host running `node` against the production build.
 
-```shell
-$ npm run build
-```
+---
 
-It generates an optimized production build of the boilerplate. For testing the generated build, you can run:
+## 🤝 Contributing
 
-```shell
-$ npm run start
-```
+Pull requests are welcome! A few guidelines:
 
-You also need to defined the environment variables `CLERK_SECRET_KEY` using your own key.
+1. Fork the repo and create a branch off `main`.
+2. Keep changes focused; one feature or fix per PR.
+3. Run `npm run lint`, `npm run check-types`, and `npm run test` before opening the PR.
+4. Add or update tests for any new behavior.
+5. Use Conventional Commits so `CHANGELOG.md` stays accurate.
 
-The command starts a local server with the production build. Then, you can now open http://localhost:3000 with your favorite browser to see the project.
+For larger changes, please open an issue first to discuss what you'd like to do.
 
-### Error Monitoring
+---
 
-The project uses [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo) to monitor errors. For development environment, you don't need to do anything: Next.js Boilerplate is already configured to use Sentry and Spotlight (Sentry for Development). All errors will be automatically sent to your local Spotlight instance. So, you can try the Sentry experience locally.
+## 📄 License
 
-For production environment, you need to create a Sentry account and create a new project. Then, in `next.config.mjs`, you need to update the `org` and `project` attribute in `withSentryConfig` function. You also need to add your Sentry DSN in `sentry.client.config.ts`, `sentry.edge.config.ts` and `sentry.server.config.ts`.
+This project is released under the [MIT License](./LICENSE). It builds on the MIT-licensed [Next.js Boilerplate](https://github.com/ixartz/Next-js-Boilerplate) — see that repo for upstream attribution.
 
-### Code coverage
+---
 
-Next.js Boilerplate relies on [Codecov](https://about.codecov.io/codecov-free-trial/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo) for code coverage reporting solution. To use Codecov, create a Codecov account and connect it to your GitHub account. On your Codecov dashboard, it should display a list of your repositories. Select the repository you want to enable Codecov for and copy the token. Then, in your GitHub Actions, you need to define the `CODECOV_TOKEN` environment variable and paste the token you copied.
+<div align="center">
 
-Be sure to create the `CODECOV_TOKEN` as a Github Actions secret, do not paste it directly into your source code.
+Made with care by the [Dipzin](https://dipzin.com) team.
 
-### Logging
-
-The project uses Pino.js for logging. By default, for development environment, the logs are displayed in the console.
-
-For production environment, the project is already integrated with [Better Stack](https://betterstack.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate) to manage and query your logs using SQL. To use Better Stack, you need to create a [Better Stack](https://betterstack.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate) account and create a new source: go to your Better Stack Logs Dashboard > Sources > Connect source. Then, you need to give a name to your source and select Node.js as the platform.
-
-After creating the source, you able to see your source token and copy it. Then, in your environment variabless, you can paste the token in `LOGTAIL_SOURCE_TOKEN` variable. Now, all your logs will be automatically sent and ingested by Better Stack.
-
-### Checkly monitoring
-
-The project uses [Checkly](https://www.checklyhq.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate) to ensure that your production environment is always up and running. At regular intervals, Checkly runs the tests ending with `*.check.spec.ts` extension and notifies you if any of the tests fail. Additionally, you have the flexibility to execute tests across multiple locations to ensure that your application is available worldwide.
-
-To use Checkly, you must first create an account on [their website](https://www.checklyhq.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate). Once you have an account, you can set the `CHECKLY_API_KEY` environment variable in GitHub Actions by generating a new API key in the Checkly Dashboard. Additionally, you will need to define the `CHECKLY_ACCOUNT_ID`, which can also be found in your Checkly Dashboard under User Settings > General.
-
-To complete the setup, make sure to update the `checkly.config.ts` file with your own email address and production URL.
-
-### Useful commands
-
-#### Bundle Analyzer
-
-Next.js Boilerplate comes with a built-in bundle analyzer. It can be used to analyze the size of your JavaScript bundles. To begin, run the following command:
-
-```shell
-npm run build-stats
-```
-
-By running the command, it'll automatically open a new browser window with the results.
-
-
-
-### VSCode information (optional)
-
-If you are VSCode users, you can have a better integration with VSCode by installing the suggested extension in `.vscode/extension.json`. The starter code comes up with Settings for a seamless integration with VSCode. The Debug configuration is also provided for frontend and backend debugging experience.
-
-With the plugins installed on your VSCode, ESLint and Prettier can automatically fix the code and show you the errors. Same goes for testing, you can install VSCode Vitest extension to automatically run your tests and it also show the code coverage in context.
-
-Pro tips: if you need a project wide type checking with TypeScript, you can run a build with <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> on Mac.
+</div>
